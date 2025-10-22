@@ -59,8 +59,5 @@ linter:
     - implementation_imports  # Don't import src/
     - package_api_docs  # Document public APIs
 
-    # Riverpod specific
-    - avoid_manual_providers_as_generated_provider_dependency  # Use code gen
-
     # JSON serialization enforcement
     # (Will catch manual JSON parsing in code review)

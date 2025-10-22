@@ -1,9 +1,6 @@
-import 'package:bus_kiosk_api/bus_kiosk_api.dart';
-import 'package:dio/dio.dart';
+import 'package:frontend_easy_api/api.dart';
 
-import 'package:frontend_easy/core/config/api_config.dart';
-
-/// API Service wrapper around generated bus_kiosk_api
+/// API Service wrapper around generated frontend_easy_api
 /// Provides configured Dio instance and API client
 /// Single responsibility: API client configuration
 class ApiService {
@@ -15,30 +12,14 @@ class ApiService {
   /// Get singleton instance
   factory ApiService() => _instance;
 
-  late final Dio _dio;
-  late final ApiApi _apiClient;
+  late final ApiApi _apiApi;
+  late final ApiClient _apiClient;
 
   /// Initialize API service
   /// Must be called before using any API clients
   void initialize() {
-    _dio = Dio(
-      BaseOptions(
-        baseUrl: ApiConfig.baseUrl,
-        connectTimeout: ApiConfig.timeout,
-        receiveTimeout: ApiConfig.timeout,
-      ),
-    );
-
-    // Add logging interceptor in debug mode
-    if (ApiConfig.enableLogging) {
-      _dio.interceptors.add(LogInterceptor(
-        requestBody: true,
-        responseBody: true,
-        error: true,
-      ));
-    }
-
-    _apiClient = ApiApi(_dio, basePathOverride: ApiConfig.baseUrl);
+    _apiClient = ApiClient(basePath: 'http://localhost:8000');
+    _apiApi = ApiApi(_apiClient);
   }
 
   /// Get the main API client
@@ -46,11 +27,11 @@ class ApiService {
   ///
   /// Example usage:
   /// ```dart
-  /// final routes = await apiService.api.apiV1RoutesGet();
-  /// final buses = await apiService.api.apiV1BusesGet();
+  /// final routes = await apiService.api.apiV1RoutesList();
+  /// final buses = await apiService.api.apiV1BusesList();
   /// ```
-  ApiApi get api => _apiClient;
+  ApiApi get api => _apiApi;
 
-  /// Direct access to Dio instance for custom requests if needed
-  Dio get dio => _dio;
+  /// Get the API client for setting authentication
+  ApiClient get client => _apiClient;
 }

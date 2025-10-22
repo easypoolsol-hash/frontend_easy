@@ -49,5 +49,8 @@ app.*.map.json
 *.freezed.dart
 *.mocks.dart
 
+# API Keys and Secrets (NEVER commit these!)
+lib/core/config/maps_config.dart
+
 # OpenAPI Schema (copied from backend via git hook)
 openapi-schema.yaml

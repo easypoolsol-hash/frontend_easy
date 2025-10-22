@@ -5,11 +5,22 @@ import 'package:frontend_easy/features/fleet/models/map_mode.dart';
 /// Filter and control panel for route visualization
 /// Context-aware controls based on current map mode
 class RouteFilterPanel extends StatefulWidget {
+  /// Current map viewing mode
   final MapMode currentMode;
+
+  /// Callback when panel is closed
   final VoidCallback onClose;
 
+  /// Callback when visibility options change
+  /// Parameters: (showRoutes, showStops, showBuses)
+  final void Function(bool, bool, bool) onVisibilityChanged;
+
+  /// Creates a route filter panel
   const RouteFilterPanel({
-    required this.currentMode, required this.onClose, super.key,
+    required this.currentMode,
+    required this.onClose,
+    required this.onVisibilityChanged,
+    super.key,
   });
 
   @override
@@ -113,6 +124,7 @@ class _RouteFilterPanelState extends State<RouteFilterPanel> {
                     setState(() {
                       _showRoutes = value;
                     });
+                    widget.onVisibilityChanged(_showRoutes, _showStops, _showBuses);
                   },
                 ),
                 SwitchListTile(
@@ -122,6 +134,7 @@ class _RouteFilterPanelState extends State<RouteFilterPanel> {
                     setState(() {
                       _showStops = value;
                     });
+                    widget.onVisibilityChanged(_showRoutes, _showStops, _showBuses);
                   },
                 ),
                 SwitchListTile(
@@ -131,6 +144,7 @@ class _RouteFilterPanelState extends State<RouteFilterPanel> {
                     setState(() {
                       _showBuses = value;
                     });
+                    widget.onVisibilityChanged(_showRoutes, _showStops, _showBuses);
                   },
                 ),
                 SwitchListTile(

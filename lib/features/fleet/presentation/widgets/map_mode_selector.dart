@@ -18,18 +18,47 @@ class MapModeSelector extends StatelessWidget {
       elevation: 4,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: SegmentedButton<MapMode>(
-          segments: MapMode.values.map((mode) {
-            return ButtonSegment<MapMode>(
-              value: mode,
-              label: Text(mode.displayName),
-              icon: Icon(_getIconForMode(mode)),
-            );
-          }).toList(),
-          selected: {selectedMode},
-          onSelectionChanged: (Set<MapMode> newSelection) {
-            if (newSelection.isNotEmpty) {
-              onModeChanged(newSelection.first);
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            // If width is too small, make it scrollable
+            if (constraints.maxWidth < 400) {
+              return SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: IntrinsicWidth(
+                  child: SegmentedButton<MapMode>(
+                    segments: MapMode.values.map((mode) {
+                      return ButtonSegment<MapMode>(
+                        value: mode,
+                        label: Text(mode.displayName),
+                        icon: Icon(_getIconForMode(mode)),
+                      );
+                    }).toList(),
+                    selected: {selectedMode},
+                    onSelectionChanged: (Set<MapMode> newSelection) {
+                      if (newSelection.isNotEmpty) {
+                        onModeChanged(newSelection.first);
+                      }
+                    },
+                  ),
+                ),
+              );
+            } else {
+              // Normal layout for wider screens
+              return SegmentedButton<MapMode>(
+                segments: MapMode.values.map((mode) {
+                  return ButtonSegment<MapMode>(
+                    value: mode,
+                    label: Text(mode.displayName),
+                    icon: Icon(_getIconForMode(mode)),
+                  );
+                }).toList(),
+                selected: {selectedMode},
+                onSelectionChanged: (Set<MapMode> newSelection) {
+                  if (newSelection.isNotEmpty) {
+                    onModeChanged(newSelection.first);
+                  }
+                },
+              );
             }
           },
         ),

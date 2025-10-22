@@ -6,7 +6,9 @@ class ApiConfig {
 
   /// Base URL for backend API
   /// TODO: Move to environment variables for production
-  static const String baseUrl = 'http://localhost:8000/api/v1';
+  // The generated API client already prefixes paths with '/api/v1',
+  // so keep base URL to the host only to avoid duplicated segments.
+  static const String baseUrl = 'http://localhost:8000';
 
   /// API timeout duration
   static const Duration timeout = Duration(seconds: 30);

@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:frontend_easy/features/fleet/models/map_mode.dart';
-import 'package:frontend_easy/features/fleet/presentation/widgets/map_mode_selector.dart';
 import 'package:frontend_easy/features/fleet/presentation/widgets/route_filter_panel.dart';
+import 'package:frontend_easy/features/fleet/providers/routes_provider.dart';
+import 'package:frontend_easy/features/fleet/providers/buses_provider.dart';
+import 'package:frontend_easy/features/map/widgets/route_map_widget.dart';
+import 'package:frontend_easy/shared/widgets/app_top_nav_bar.dart';
+import 'package:frontend_easy/shared/widgets/map_controls_widget.dart';
 
 /// Main screen for route and fleet visualization
 /// Displays interactive map with multiple view modes
 class RouteMapScreen extends ConsumerStatefulWidget {
+  /// Creates the route map screen
   const RouteMapScreen({super.key});
 
   @override
@@ -17,97 +22,209 @@ class RouteMapScreen extends ConsumerStatefulWidget {
 class _RouteMapScreenState extends ConsumerState<RouteMapScreen> {
   MapMode _selectedMode = MapMode.overview;
   bool _showFilterPanel = false;
+  bool _showRoutes = true;
+  bool _showStops = true;
+  bool _showBuses = true;
 
   @override
   Widget build(BuildContext context) {
+    // Watch routes and buses data
+    final routesAsync = ref.watch(routesProvider);
+    final busesAsync = ref.watch(busesProvider);
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Fleet Management'),
-        actions: [
-          // Search button
-          IconButton(
-            icon: const Icon(Icons.search),
-            tooltip: 'Search routes and stops',
-            onPressed: () {
-              // TODO: Implement search
-            },
-          ),
-          // Filter toggle
-          IconButton(
-            icon: Icon(_showFilterPanel ? Icons.filter_alt : Icons.filter_alt_outlined),
-            tooltip: 'Filter options',
-            onPressed: () {
-              setState(() {
-                _showFilterPanel = !_showFilterPanel;
-              });
-            },
-          ),
-        ],
-      ),
-      body: Stack(
+      body: Column(
         children: [
-          // Map view (placeholder for now)
-          Container(
-            color: Theme.of(context).colorScheme.surfaceContainerLowest,
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.map_outlined,
-                    size: 64,
-                    color: Theme.of(context).colorScheme.primary,
+          const AppTopNavBar(currentIndex: 0),
+          MapControlsWidget(
+            selectedMode: _selectedMode,
+            showRoutes: _showRoutes,
+            showStops: _showStops,
+            showBuses: _showBuses,
+            showFilterPanel: _showFilterPanel,
+            onModeChanged: (mode) => setState(() => _selectedMode = mode),
+            onRoutesVisibilityChanged: (value) => setState(() => _showRoutes = value),
+            onStopsVisibilityChanged: (value) => setState(() => _showStops = value),
+            onBusesVisibilityChanged: (value) => setState(() => _showBuses = value),
+            onFilterPanelToggle: (value) => setState(() => _showFilterPanel = value),
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Card(
+                elevation: 4,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Stack(
+                    children: [
+                      // Map view with data
+                      routesAsync.when(
+                        data: (routes) {
+                          return busesAsync.when(
+                            data: (buses) {
+                              return RouteMapWidget(
+                                routes: routes,
+                                buses: buses,
+                                mode: _selectedMode,
+                                showRoutes: _showRoutes,
+                                showStops: _showStops,
+                                showBuses: _showBuses,
+                              );
+                            },
+                            loading: () => _buildLoadingIndicator(),
+                            error: (error, stack) => _buildError('Failed to load buses: $error'),
+                          );
+                        },
+                        loading: () => _buildLoadingIndicator(),
+                        error: (error, stack) => _buildError('Failed to load routes: $error'),
+                      ),
+
+                      // Filter panel (right side) - unique to RouteMapScreen
+                      if (_showFilterPanel)
+                        Positioned(
+                          top: 0,
+                          right: 0,
+                          bottom: 0,
+                          width: 320,
+                          child: RouteFilterPanel(
+                            currentMode: _selectedMode,
+                            onClose: () {
+                              setState(() {
+                                _showFilterPanel = false;
+                              });
+                            },
+                            onVisibilityChanged: (showRoutes, showStops, showBuses) {
+                              setState(() {
+                                _showRoutes = showRoutes;
+                                _showStops = showStops;
+                                _showBuses = showBuses;
+                              });
+                            }),
+                        ),
+                    ],
                   ),
-                  const SizedBox(height: 16),
-                  Text(
-                    'Map will render here',
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Mode: ${_selectedMode.displayName}',
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                ],
+                ),
               ),
             ),
           ),
-
-          // Mode selector (top center)
-          Positioned(
-            top: 16,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: MapModeSelector(
-                selectedMode: _selectedMode,
-                onModeChanged: (mode) {
-                  setState(() {
-                    _selectedMode = mode;
-                  });
-                },
-              ),
-            ),
-          ),
-
-          // Filter panel (right side)
-          if (_showFilterPanel)
-            Positioned(
-              top: 0,
-              right: 0,
-              bottom: 0,
-              width: 320,
-              child: RouteFilterPanel(
-                currentMode: _selectedMode,
-                onClose: () {
-                  setState(() {
-                    _showFilterPanel = false;
-                  });
-                },
-              ),
-            ),
         ],
       ),
     );
+  }
+
+  Widget _buildLoadingIndicator() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const CircularProgressIndicator(),
+          const SizedBox(height: 16),
+          Text(
+            'Loading map data...',
+            style: Theme.of(context).textTheme.bodyLarge,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildError(String message) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.error_outline,
+            size: 64,
+            color: Theme.of(context).colorScheme.error,
+          ),
+          const SizedBox(height: 16),
+          Text(
+            message,
+            style: Theme.of(context).textTheme.bodyLarge,
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 16),
+          FilledButton.icon(
+            onPressed: () {
+              ref.invalidate(routesProvider);
+              ref.invalidate(busesProvider);
+            },
+            icon: const Icon(Icons.refresh),
+            label: const Text('Retry'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Logo widget that gracefully handles missing logo files
+class _LogoWidget extends StatefulWidget {
+  const _LogoWidget();
+
+  @override
+  State<_LogoWidget> createState() => _LogoWidgetState();
+}
+
+class _LogoWidgetState extends State<_LogoWidget> {
+  bool _logoExists = false;
+  bool _checked = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkLogoExists();
+  }
+
+  Future<void> _checkLogoExists() async {
+    try {
+      // Try to load the asset - if it fails, logo doesn't exist
+      await DefaultAssetBundle.of(context).load('assets/images/logo.png');
+      if (mounted) {
+        setState(() {
+          _logoExists = true;
+          _checked = true;
+        });
+      }
+    } catch (_) {
+      // Logo doesn't exist, use fallback
+      if (mounted) {
+        setState(() {
+          _logoExists = false;
+          _checked = true;
+        });
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (!_checked) {
+      // Still checking, show loading
+      return const SizedBox.shrink();
+    }
+
+    if (_logoExists) {
+      return Image.asset(
+        'assets/images/logo.png',
+        fit: BoxFit.contain,
+        errorBuilder: (context, error, stackTrace) => Icon(
+          Icons.directions_bus,
+          color: Theme.of(context).colorScheme.primary,
+          size: 18,
+        ),
+      );
+    } else {
+      // Logo doesn't exist, show fallback icon
+      return Icon(
+        Icons.directions_bus,
+        color: Theme.of(context).colorScheme.primary,
+        size: 18,
+      );
+    }
   }
 }
