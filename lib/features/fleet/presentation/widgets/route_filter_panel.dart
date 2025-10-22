@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../models/map_mode.dart';
+import 'package:frontend_easy/features/fleet/models/map_mode.dart';
 
 /// Filter and control panel for route visualization
 /// Context-aware controls based on current map mode
@@ -9,9 +9,7 @@ class RouteFilterPanel extends StatefulWidget {
   final VoidCallback onClose;
 
   const RouteFilterPanel({
-    super.key,
-    required this.currentMode,
-    required this.onClose,
+    required this.currentMode, required this.onClose, super.key,
   });
 
   @override

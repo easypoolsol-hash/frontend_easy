@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../models/map_mode.dart';
-import '../widgets/map_mode_selector.dart';
-import '../widgets/route_filter_panel.dart';
+import 'package:frontend_easy/features/fleet/models/map_mode.dart';
+import 'package:frontend_easy/features/fleet/presentation/widgets/map_mode_selector.dart';
+import 'package:frontend_easy/features/fleet/presentation/widgets/route_filter_panel.dart';
 
 /// Main screen for route and fleet visualization
 /// Displays interactive map with multiple view modes

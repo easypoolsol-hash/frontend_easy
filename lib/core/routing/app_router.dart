@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../features/fleet/presentation/screens/route_map_screen.dart';
+import 'package:frontend_easy/features/fleet/presentation/screens/route_map_screen.dart';
 
 /// Application routing configuration using go_router
 /// Single source of truth for navigation

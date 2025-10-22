@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../models/map_mode.dart';
+import 'package:frontend_easy/features/fleet/models/map_mode.dart';
 
 /// Mode selector widget for map visualization
 /// Displays available view modes as segmented buttons (MD3 style)
@@ -9,9 +9,7 @@ class MapModeSelector extends StatelessWidget {
   final ValueChanged<MapMode> onModeChanged;
 
   const MapModeSelector({
-    super.key,
-    required this.selectedMode,
-    required this.onModeChanged,
+    required this.selectedMode, required this.onModeChanged, super.key,
   });
 
   @override
