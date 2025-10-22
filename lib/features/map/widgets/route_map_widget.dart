@@ -3,14 +3,17 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
 
+import 'package:frontend_easy/core/config/maps_config.dart';
 import 'package:frontend_easy/core/theme/route_colors.dart';
 import 'package:frontend_easy/features/fleet/models/map_mode.dart';
+import 'package:frontend_easy/features/fleet/providers/bus_locations_provider.dart';
 
 /// Interactive map widget for route visualization
 /// Renders routes, stops, and buses based on mode
-class RouteMapWidget extends StatefulWidget {
+class RouteMapWidget extends ConsumerStatefulWidget {
   /// List of routes to display
   final List<api.Route> routes;
 
@@ -45,10 +48,10 @@ class RouteMapWidget extends StatefulWidget {
   });
 
   @override
-  State<RouteMapWidget> createState() => _RouteMapWidgetState();
+  ConsumerState<RouteMapWidget> createState() => _RouteMapWidgetState();
 }
 
-class _RouteMapWidgetState extends State<RouteMapWidget> {
+class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
   final MapController _mapController = MapController();
 
   // Helper: extract stops from the Route model in a backward/forward compatible way.
@@ -76,7 +79,7 @@ class _RouteMapWidgetState extends State<RouteMapWidget> {
     return <dynamic>[];
   }
 
-  // Helper: get color hex from route, falling back to default when not present.
+  // Helper: get color hex from route, defaulting to blue when not present.
   String _colorForRoute(api.Route route) {
     try {
       final c = (route as dynamic).colorCode;
@@ -91,20 +94,62 @@ class _RouteMapWidgetState extends State<RouteMapWidget> {
 
   @override
   Widget build(BuildContext context) {
+    // Watch bus locations data
+    final busLocationsAsync = ref.watch(busLocationsProvider);
+
+    // Show error if Google Maps API key is not configured
+    if (googleMapsApiKey.isEmpty) {
+      return Container(
+        color: Colors.grey[100],
+        child: const Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.map,
+                size: 64,
+                color: Colors.grey,
+              ),
+              SizedBox(height: 16),
+              Text(
+                'Google Maps API Key Required',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey,
+                ),
+              ),
+              SizedBox(height: 8),
+              Text(
+                'Set GOOGLE_MAPS_API_KEY environment variable',
+                style: TextStyle(
+                  color: Colors.grey,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
     return FlutterMap(
       mapController: _mapController,
       options: const MapOptions(
-        // Default center (will be adjusted based on routes)
-        initialCenter: LatLng(22.5726, 88.3639), // Kolkata
-        initialZoom: 12.0,
-        minZoom: 10.0,
-        maxZoom: 18.0,
+        // Default center (Kolkata - home location)
+        initialCenter: LatLng(HomeLocation.latitude, HomeLocation.longitude),
+        initialZoom: HomeLocation.defaultZoom,
+        minZoom: HomeLocation.minZoom,
+        maxZoom: HomeLocation.maxZoom,
       ),
       children: [
-        // Base map tiles - OpenStreetMap (fallback)
+        // Base map tiles - Google Maps (roadmap view)
         TileLayer(
-          urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+          urlTemplate: 'https://mt.google.com/vt/lyrs=m&x={x}&y={y}&z={z}&key=$googleMapsApiKey',
           userAgentPackageName: 'com.imperial.easypool.frontend',
+          additionalOptions: {
+            'key': googleMapsApiKey,
+          },
         ),
 
         // Route polylines layer
@@ -114,7 +159,11 @@ class _RouteMapWidgetState extends State<RouteMapWidget> {
         if (widget.showStops) _buildStopLayer(),
 
         // Bus position markers layer
-        if (widget.showBuses) _buildBusLayer(),
+        if (widget.showBuses) busLocationsAsync.when(
+          data: (busLocations) => _buildBusLayer(busLocations),
+          loading: () => const SizedBox.shrink(), // Don't show loading for buses
+          error: (error, stack) => const SizedBox.shrink(), // Don't show error for buses
+        ),
       ],
     );
   }
@@ -246,12 +295,51 @@ class _RouteMapWidgetState extends State<RouteMapWidget> {
   }
 
   /// Build bus position markers layer
-  Widget _buildBusLayer() {
+  Widget _buildBusLayer(List<Map<String, dynamic>> busLocations) {
     final markers = <Marker>[];
 
-    // TODO: Get actual bus positions from bus location API
-    // For now, return empty layer until we implement real-time tracking
-    // This would come from a separate bus locations provider
+    for (final busFeature in busLocations) {
+      final geometry = busFeature['geometry'] as Map<String, dynamic>;
+      final properties = busFeature['properties'] as Map<String, dynamic>;
+      final coordinates = geometry['coordinates'] as List<dynamic>;
+
+      final longitude = (coordinates[0] as num).toDouble();
+      final latitude = (coordinates[1] as num).toDouble();
+      final status = properties['status'] as String;
+
+      // Choose color based on bus status
+      Color markerColor;
+      switch (status.toLowerCase()) {
+        case 'active':
+          markerColor = Colors.green;
+          break;
+        case 'inactive':
+          markerColor = Colors.red;
+          break;
+        default:
+          markerColor = Colors.blue;
+      }
+
+      markers.add(
+        Marker(
+          point: LatLng(latitude, longitude),
+          width: 40,
+          height: 40,
+          child: Container(
+            decoration: BoxDecoration(
+              color: markerColor.withOpacity(0.8),
+              shape: BoxShape.circle,
+              border: Border.all(color: Colors.white, width: 2),
+            ),
+            child: const Icon(
+              Icons.directions_bus,
+              color: Colors.white,
+              size: 20,
+            ),
+          ),
+        ),
+      );
+    }
 
     return MarkerLayer(markers: markers);
   }

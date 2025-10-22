@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:frontend_easy/core/routing/app_router.dart';
@@ -8,6 +9,9 @@ import 'package:frontend_easy/shared/services/api_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Load environment variables from .env file in assets
+  await dotenv.load(fileName: "assets/.env");
 
   // Initialize API service before running app
   ApiService().initialize();
@@ -42,7 +46,7 @@ class FrontendEasyApp extends ConsumerWidget {
       // Material Design 3 themes (2025 UX best practices)
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      themeMode: ThemeMode.system, // Auto dark mode at sunset
+      themeMode: ThemeMode.light, // Light mode only
 
       // Routing (go_router)
       routerConfig: router,
