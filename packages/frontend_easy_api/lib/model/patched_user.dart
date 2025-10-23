@@ -245,4 +245,3 @@ class PatchedUser {
   static const requiredKeys = <String>{
   };
 }
-

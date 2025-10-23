@@ -299,4 +299,3 @@ class PatchedBoardingEvent {
   static const requiredKeys = <String>{
   };
 }
-

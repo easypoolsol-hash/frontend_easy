@@ -8,16 +8,14 @@ import 'package:openapi/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**userId** | **String** |  | [optional] [readonly] 
-**username** | **String** |  | [optional] 
-**email** | **String** |  | [optional] 
-**role** | **String** |  | [optional] 
-**roleName** | **String** |  | [optional] [readonly] 
-**isActive** | **bool** |  | [optional] 
-**lastLogin** | [**DateTime**](DateTime.md) |  | [optional] [readonly] 
-**createdAt** | [**DateTime**](DateTime.md) |  | [optional] [readonly] 
-**updatedAt** | [**DateTime**](DateTime.md) |  | [optional] [readonly] 
+**userId** | **String** |  | [optional] [readonly]
+**username** | **String** |  | [optional]
+**email** | **String** |  | [optional]
+**role** | **String** |  | [optional]
+**roleName** | **String** |  | [optional] [readonly]
+**isActive** | **bool** |  | [optional]
+**lastLogin** | [**DateTime**](DateTime.md) |  | [optional] [readonly]
+**createdAt** | [**DateTime**](DateTime.md) |  | [optional] [readonly]
+**updatedAt** | [**DateTime**](DateTime.md) |  | [optional] [readonly]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

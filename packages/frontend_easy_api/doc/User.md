@@ -8,16 +8,14 @@ import 'package:openapi/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**userId** | **String** |  | [readonly] 
-**username** | **String** |  | 
-**email** | **String** |  | 
-**role** | **String** |  | 
-**roleName** | **String** |  | [readonly] 
-**isActive** | **bool** |  | [optional] 
-**lastLogin** | [**DateTime**](DateTime.md) |  | [readonly] 
-**createdAt** | [**DateTime**](DateTime.md) |  | [readonly] 
-**updatedAt** | [**DateTime**](DateTime.md) |  | [readonly] 
+**userId** | **String** |  | [readonly]
+**username** | **String** |  |
+**email** | **String** |  |
+**role** | **String** |  |
+**roleName** | **String** |  | [readonly]
+**isActive** | **bool** |  | [optional]
+**lastLogin** | [**DateTime**](DateTime.md) |  | [readonly]
+**createdAt** | [**DateTime**](DateTime.md) |  | [readonly]
+**updatedAt** | [**DateTime**](DateTime.md) |  | [readonly]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

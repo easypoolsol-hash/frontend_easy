@@ -9,96 +9,96 @@ All URIs are relative to *http://localhost:8000*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**apiV1ApiKeysCreate**](ApiApi.md#apiv1apikeyscreate) | **POST** /api/v1/api-keys/ | 
-[**apiV1ApiKeysDestroy**](ApiApi.md#apiv1apikeysdestroy) | **DELETE** /api/v1/api-keys/{key_id}/ | 
-[**apiV1ApiKeysList**](ApiApi.md#apiv1apikeyslist) | **GET** /api/v1/api-keys/ | 
-[**apiV1ApiKeysPartialUpdate**](ApiApi.md#apiv1apikeyspartialupdate) | **PATCH** /api/v1/api-keys/{key_id}/ | 
-[**apiV1ApiKeysRetrieve**](ApiApi.md#apiv1apikeysretrieve) | **GET** /api/v1/api-keys/{key_id}/ | 
-[**apiV1ApiKeysRevokeCreate**](ApiApi.md#apiv1apikeysrevokecreate) | **POST** /api/v1/api-keys/{key_id}/revoke/ | 
-[**apiV1ApiKeysUpdate**](ApiApi.md#apiv1apikeysupdate) | **PUT** /api/v1/api-keys/{key_id}/ | 
-[**apiV1AttendanceList**](ApiApi.md#apiv1attendancelist) | **GET** /api/v1/attendance/ | 
-[**apiV1AttendanceRetrieve**](ApiApi.md#apiv1attendanceretrieve) | **GET** /api/v1/attendance/{record_id}/ | 
-[**apiV1AttendanceStudentRetrieve**](ApiApi.md#apiv1attendancestudentretrieve) | **GET** /api/v1/attendance/student/{student_id}/ | 
-[**apiV1AttendanceSummaryRetrieve**](ApiApi.md#apiv1attendancesummaryretrieve) | **GET** /api/v1/attendance/summary/ | 
-[**apiV1AuditLogsList**](ApiApi.md#apiv1auditlogslist) | **GET** /api/v1/audit-logs/ | 
-[**apiV1AuditLogsRetrieve**](ApiApi.md#apiv1auditlogsretrieve) | **GET** /api/v1/audit-logs/{log_id}/ | 
-[**apiV1AuthTokenCreate**](ApiApi.md#apiv1authtokencreate) | **POST** /api/v1/auth/token/ | 
-[**apiV1AuthTokenRefreshCreate**](ApiApi.md#apiv1authtokenrefreshcreate) | **POST** /api/v1/auth/token/refresh/ | 
-[**apiV1BoardingEventsBulkCreate**](ApiApi.md#apiv1boardingeventsbulkcreate) | **POST** /api/v1/boarding-events/bulk/ | 
-[**apiV1BoardingEventsCreate**](ApiApi.md#apiv1boardingeventscreate) | **POST** /api/v1/boarding-events/ | 
-[**apiV1BoardingEventsDestroy**](ApiApi.md#apiv1boardingeventsdestroy) | **DELETE** /api/v1/boarding-events/{event_id}/ | 
-[**apiV1BoardingEventsList**](ApiApi.md#apiv1boardingeventslist) | **GET** /api/v1/boarding-events/ | 
-[**apiV1BoardingEventsPartialUpdate**](ApiApi.md#apiv1boardingeventspartialupdate) | **PATCH** /api/v1/boarding-events/{event_id}/ | 
-[**apiV1BoardingEventsRecentRetrieve**](ApiApi.md#apiv1boardingeventsrecentretrieve) | **GET** /api/v1/boarding-events/recent/ | 
-[**apiV1BoardingEventsRetrieve**](ApiApi.md#apiv1boardingeventsretrieve) | **GET** /api/v1/boarding-events/{event_id}/ | 
-[**apiV1BoardingEventsUpdate**](ApiApi.md#apiv1boardingeventsupdate) | **PUT** /api/v1/boarding-events/{event_id}/ | 
-[**apiV1BusesAssignStudentsCreate**](ApiApi.md#apiv1busesassignstudentscreate) | **POST** /api/v1/buses/assign-students/ | 
-[**apiV1BusesCreate**](ApiApi.md#apiv1busescreate) | **POST** /api/v1/buses/ | 
-[**apiV1BusesDestroy**](ApiApi.md#apiv1busesdestroy) | **DELETE** /api/v1/buses/{bus_id}/ | 
-[**apiV1BusesList**](ApiApi.md#apiv1buseslist) | **GET** /api/v1/buses/ | 
-[**apiV1BusesPartialUpdate**](ApiApi.md#apiv1busespartialupdate) | **PATCH** /api/v1/buses/{bus_id}/ | 
-[**apiV1BusesRetrieve**](ApiApi.md#apiv1busesretrieve) | **GET** /api/v1/buses/{bus_id}/ | 
-[**apiV1BusesStudentsRetrieve**](ApiApi.md#apiv1busesstudentsretrieve) | **GET** /api/v1/buses/{bus_id}/students/ | 
-[**apiV1BusesUpdate**](ApiApi.md#apiv1busesupdate) | **PUT** /api/v1/buses/{bus_id}/ | 
-[**apiV1BusesUtilizationRetrieve**](ApiApi.md#apiv1busesutilizationretrieve) | **GET** /api/v1/buses/utilization/ | 
-[**apiV1KioskBoardingCreate**](ApiApi.md#apiv1kioskboardingcreate) | **POST** /api/v1/kiosk/boarding/ | 
-[**apiV1ParentsCreate**](ApiApi.md#apiv1parentscreate) | **POST** /api/v1/parents/ | 
-[**apiV1ParentsDestroy**](ApiApi.md#apiv1parentsdestroy) | **DELETE** /api/v1/parents/{parent_id}/ | 
-[**apiV1ParentsList**](ApiApi.md#apiv1parentslist) | **GET** /api/v1/parents/ | 
-[**apiV1ParentsPartialUpdate**](ApiApi.md#apiv1parentspartialupdate) | **PATCH** /api/v1/parents/{parent_id}/ | 
-[**apiV1ParentsRetrieve**](ApiApi.md#apiv1parentsretrieve) | **GET** /api/v1/parents/{parent_id}/ | 
-[**apiV1ParentsStudentsRetrieve**](ApiApi.md#apiv1parentsstudentsretrieve) | **GET** /api/v1/parents/{parent_id}/students/ | 
-[**apiV1ParentsUpdate**](ApiApi.md#apiv1parentsupdate) | **PUT** /api/v1/parents/{parent_id}/ | 
-[**apiV1RolesList**](ApiApi.md#apiv1roleslist) | **GET** /api/v1/roles/ | 
-[**apiV1RolesRetrieve**](ApiApi.md#apiv1rolesretrieve) | **GET** /api/v1/roles/{role_id}/ | 
-[**apiV1RoutesBusesRetrieve**](ApiApi.md#apiv1routesbusesretrieve) | **GET** /api/v1/routes/{route_id}/buses/ | 
-[**apiV1RoutesCreate**](ApiApi.md#apiv1routescreate) | **POST** /api/v1/routes/ | 
-[**apiV1RoutesDestroy**](ApiApi.md#apiv1routesdestroy) | **DELETE** /api/v1/routes/{route_id}/ | 
-[**apiV1RoutesList**](ApiApi.md#apiv1routeslist) | **GET** /api/v1/routes/ | 
-[**apiV1RoutesPartialUpdate**](ApiApi.md#apiv1routespartialupdate) | **PATCH** /api/v1/routes/{route_id}/ | 
-[**apiV1RoutesRetrieve**](ApiApi.md#apiv1routesretrieve) | **GET** /api/v1/routes/{route_id}/ | 
-[**apiV1RoutesStudentsRetrieve**](ApiApi.md#apiv1routesstudentsretrieve) | **GET** /api/v1/routes/{route_id}/students/ | 
-[**apiV1RoutesUpdate**](ApiApi.md#apiv1routesupdate) | **PUT** /api/v1/routes/{route_id}/ | 
-[**apiV1SchoolsCreate**](ApiApi.md#apiv1schoolscreate) | **POST** /api/v1/schools/ | 
-[**apiV1SchoolsDestroy**](ApiApi.md#apiv1schoolsdestroy) | **DELETE** /api/v1/schools/{school_id}/ | 
-[**apiV1SchoolsList**](ApiApi.md#apiv1schoolslist) | **GET** /api/v1/schools/ | 
-[**apiV1SchoolsPartialUpdate**](ApiApi.md#apiv1schoolspartialupdate) | **PATCH** /api/v1/schools/{school_id}/ | 
-[**apiV1SchoolsRetrieve**](ApiApi.md#apiv1schoolsretrieve) | **GET** /api/v1/schools/{school_id}/ | 
-[**apiV1SchoolsUpdate**](ApiApi.md#apiv1schoolsupdate) | **PUT** /api/v1/schools/{school_id}/ | 
-[**apiV1StudentParentsCreate**](ApiApi.md#apiv1studentparentscreate) | **POST** /api/v1/student-parents/ | 
-[**apiV1StudentParentsDestroy**](ApiApi.md#apiv1studentparentsdestroy) | **DELETE** /api/v1/student-parents/{id}/ | 
-[**apiV1StudentParentsList**](ApiApi.md#apiv1studentparentslist) | **GET** /api/v1/student-parents/ | 
-[**apiV1StudentParentsPartialUpdate**](ApiApi.md#apiv1studentparentspartialupdate) | **PATCH** /api/v1/student-parents/{id}/ | 
-[**apiV1StudentParentsRetrieve**](ApiApi.md#apiv1studentparentsretrieve) | **GET** /api/v1/student-parents/{id}/ | 
-[**apiV1StudentParentsUpdate**](ApiApi.md#apiv1studentparentsupdate) | **PUT** /api/v1/student-parents/{id}/ | 
-[**apiV1StudentPhotosCreate**](ApiApi.md#apiv1studentphotoscreate) | **POST** /api/v1/student-photos/ | 
-[**apiV1StudentPhotosDestroy**](ApiApi.md#apiv1studentphotosdestroy) | **DELETE** /api/v1/student-photos/{photo_id}/ | 
-[**apiV1StudentPhotosList**](ApiApi.md#apiv1studentphotoslist) | **GET** /api/v1/student-photos/ | 
-[**apiV1StudentPhotosPartialUpdate**](ApiApi.md#apiv1studentphotospartialupdate) | **PATCH** /api/v1/student-photos/{photo_id}/ | 
-[**apiV1StudentPhotosRetrieve**](ApiApi.md#apiv1studentphotosretrieve) | **GET** /api/v1/student-photos/{photo_id}/ | 
-[**apiV1StudentPhotosSetPrimaryCreate**](ApiApi.md#apiv1studentphotossetprimarycreate) | **POST** /api/v1/student-photos/{photo_id}/set_primary/ | 
-[**apiV1StudentPhotosUpdate**](ApiApi.md#apiv1studentphotosupdate) | **PUT** /api/v1/student-photos/{photo_id}/ | 
-[**apiV1StudentsAssignBusCreate**](ApiApi.md#apiv1studentsassignbuscreate) | **POST** /api/v1/students/{student_id}/assign_bus/ | 
-[**apiV1StudentsCreate**](ApiApi.md#apiv1studentscreate) | **POST** /api/v1/students/ | 
-[**apiV1StudentsDestroy**](ApiApi.md#apiv1studentsdestroy) | **DELETE** /api/v1/students/{student_id}/ | 
-[**apiV1StudentsList**](ApiApi.md#apiv1studentslist) | **GET** /api/v1/students/ | 
-[**apiV1StudentsParentsRetrieve**](ApiApi.md#apiv1studentsparentsretrieve) | **GET** /api/v1/students/{student_id}/parents/ | 
-[**apiV1StudentsPartialUpdate**](ApiApi.md#apiv1studentspartialupdate) | **PATCH** /api/v1/students/{student_id}/ | 
-[**apiV1StudentsRetrieve**](ApiApi.md#apiv1studentsretrieve) | **GET** /api/v1/students/{student_id}/ | 
-[**apiV1StudentsUpdate**](ApiApi.md#apiv1studentsupdate) | **PUT** /api/v1/students/{student_id}/ | 
-[**apiV1UsersCreate**](ApiApi.md#apiv1userscreate) | **POST** /api/v1/users/ | 
-[**apiV1UsersDestroy**](ApiApi.md#apiv1usersdestroy) | **DELETE** /api/v1/users/{user_id}/ | 
-[**apiV1UsersList**](ApiApi.md#apiv1userslist) | **GET** /api/v1/users/ | 
-[**apiV1UsersLoginCreate**](ApiApi.md#apiv1userslogincreate) | **POST** /api/v1/users/login/ | 
-[**apiV1UsersMeRetrieve**](ApiApi.md#apiv1usersmeretrieve) | **GET** /api/v1/users/me/ | 
-[**apiV1UsersPartialUpdate**](ApiApi.md#apiv1userspartialupdate) | **PATCH** /api/v1/users/{user_id}/ | 
-[**apiV1UsersRetrieve**](ApiApi.md#apiv1usersretrieve) | **GET** /api/v1/users/{user_id}/ | 
-[**apiV1UsersUpdate**](ApiApi.md#apiv1usersupdate) | **PUT** /api/v1/users/{user_id}/ | 
-[**kioskCheckUpdates**](ApiApi.md#kioskcheckupdates) | **GET** /api/v1/kiosks/{kiosk_id}/check-updates/ | 
-[**kioskDownloadSnapshot**](ApiApi.md#kioskdownloadsnapshot) | **GET** /api/v1/kiosks/{kiosk_id}/snapshot/ | 
-[**kioskHeartbeat**](ApiApi.md#kioskheartbeat) | **POST** /api/v1/kiosks/{kiosk_id}/heartbeat/ | 
-[**kioskLog**](ApiApi.md#kiosklog) | **POST** /api/v1/kiosks/logs/ | 
-[**kioskUpdateLocation**](ApiApi.md#kioskupdatelocation) | **POST** /api/v1/kiosks/{kiosk_id}/location/ | 
+[**apiV1ApiKeysCreate**](ApiApi.md#apiv1apikeyscreate) | **POST** /api/v1/api-keys/ |
+[**apiV1ApiKeysDestroy**](ApiApi.md#apiv1apikeysdestroy) | **DELETE** /api/v1/api-keys/{key_id}/ |
+[**apiV1ApiKeysList**](ApiApi.md#apiv1apikeyslist) | **GET** /api/v1/api-keys/ |
+[**apiV1ApiKeysPartialUpdate**](ApiApi.md#apiv1apikeyspartialupdate) | **PATCH** /api/v1/api-keys/{key_id}/ |
+[**apiV1ApiKeysRetrieve**](ApiApi.md#apiv1apikeysretrieve) | **GET** /api/v1/api-keys/{key_id}/ |
+[**apiV1ApiKeysRevokeCreate**](ApiApi.md#apiv1apikeysrevokecreate) | **POST** /api/v1/api-keys/{key_id}/revoke/ |
+[**apiV1ApiKeysUpdate**](ApiApi.md#apiv1apikeysupdate) | **PUT** /api/v1/api-keys/{key_id}/ |
+[**apiV1AttendanceList**](ApiApi.md#apiv1attendancelist) | **GET** /api/v1/attendance/ |
+[**apiV1AttendanceRetrieve**](ApiApi.md#apiv1attendanceretrieve) | **GET** /api/v1/attendance/{record_id}/ |
+[**apiV1AttendanceStudentRetrieve**](ApiApi.md#apiv1attendancestudentretrieve) | **GET** /api/v1/attendance/student/{student_id}/ |
+[**apiV1AttendanceSummaryRetrieve**](ApiApi.md#apiv1attendancesummaryretrieve) | **GET** /api/v1/attendance/summary/ |
+[**apiV1AuditLogsList**](ApiApi.md#apiv1auditlogslist) | **GET** /api/v1/audit-logs/ |
+[**apiV1AuditLogsRetrieve**](ApiApi.md#apiv1auditlogsretrieve) | **GET** /api/v1/audit-logs/{log_id}/ |
+[**apiV1AuthTokenCreate**](ApiApi.md#apiv1authtokencreate) | **POST** /api/v1/auth/token/ |
+[**apiV1AuthTokenRefreshCreate**](ApiApi.md#apiv1authtokenrefreshcreate) | **POST** /api/v1/auth/token/refresh/ |
+[**apiV1BoardingEventsBulkCreate**](ApiApi.md#apiv1boardingeventsbulkcreate) | **POST** /api/v1/boarding-events/bulk/ |
+[**apiV1BoardingEventsCreate**](ApiApi.md#apiv1boardingeventscreate) | **POST** /api/v1/boarding-events/ |
+[**apiV1BoardingEventsDestroy**](ApiApi.md#apiv1boardingeventsdestroy) | **DELETE** /api/v1/boarding-events/{event_id}/ |
+[**apiV1BoardingEventsList**](ApiApi.md#apiv1boardingeventslist) | **GET** /api/v1/boarding-events/ |
+[**apiV1BoardingEventsPartialUpdate**](ApiApi.md#apiv1boardingeventspartialupdate) | **PATCH** /api/v1/boarding-events/{event_id}/ |
+[**apiV1BoardingEventsRecentRetrieve**](ApiApi.md#apiv1boardingeventsrecentretrieve) | **GET** /api/v1/boarding-events/recent/ |
+[**apiV1BoardingEventsRetrieve**](ApiApi.md#apiv1boardingeventsretrieve) | **GET** /api/v1/boarding-events/{event_id}/ |
+[**apiV1BoardingEventsUpdate**](ApiApi.md#apiv1boardingeventsupdate) | **PUT** /api/v1/boarding-events/{event_id}/ |
+[**apiV1BusesAssignStudentsCreate**](ApiApi.md#apiv1busesassignstudentscreate) | **POST** /api/v1/buses/assign-students/ |
+[**apiV1BusesCreate**](ApiApi.md#apiv1busescreate) | **POST** /api/v1/buses/ |
+[**apiV1BusesDestroy**](ApiApi.md#apiv1busesdestroy) | **DELETE** /api/v1/buses/{bus_id}/ |
+[**apiV1BusesList**](ApiApi.md#apiv1buseslist) | **GET** /api/v1/buses/ |
+[**apiV1BusesPartialUpdate**](ApiApi.md#apiv1busespartialupdate) | **PATCH** /api/v1/buses/{bus_id}/ |
+[**apiV1BusesRetrieve**](ApiApi.md#apiv1busesretrieve) | **GET** /api/v1/buses/{bus_id}/ |
+[**apiV1BusesStudentsRetrieve**](ApiApi.md#apiv1busesstudentsretrieve) | **GET** /api/v1/buses/{bus_id}/students/ |
+[**apiV1BusesUpdate**](ApiApi.md#apiv1busesupdate) | **PUT** /api/v1/buses/{bus_id}/ |
+[**apiV1BusesUtilizationRetrieve**](ApiApi.md#apiv1busesutilizationretrieve) | **GET** /api/v1/buses/utilization/ |
+[**apiV1KioskBoardingCreate**](ApiApi.md#apiv1kioskboardingcreate) | **POST** /api/v1/kiosk/boarding/ |
+[**apiV1ParentsCreate**](ApiApi.md#apiv1parentscreate) | **POST** /api/v1/parents/ |
+[**apiV1ParentsDestroy**](ApiApi.md#apiv1parentsdestroy) | **DELETE** /api/v1/parents/{parent_id}/ |
+[**apiV1ParentsList**](ApiApi.md#apiv1parentslist) | **GET** /api/v1/parents/ |
+[**apiV1ParentsPartialUpdate**](ApiApi.md#apiv1parentspartialupdate) | **PATCH** /api/v1/parents/{parent_id}/ |
+[**apiV1ParentsRetrieve**](ApiApi.md#apiv1parentsretrieve) | **GET** /api/v1/parents/{parent_id}/ |
+[**apiV1ParentsStudentsRetrieve**](ApiApi.md#apiv1parentsstudentsretrieve) | **GET** /api/v1/parents/{parent_id}/students/ |
+[**apiV1ParentsUpdate**](ApiApi.md#apiv1parentsupdate) | **PUT** /api/v1/parents/{parent_id}/ |
+[**apiV1RolesList**](ApiApi.md#apiv1roleslist) | **GET** /api/v1/roles/ |
+[**apiV1RolesRetrieve**](ApiApi.md#apiv1rolesretrieve) | **GET** /api/v1/roles/{role_id}/ |
+[**apiV1RoutesBusesRetrieve**](ApiApi.md#apiv1routesbusesretrieve) | **GET** /api/v1/routes/{route_id}/buses/ |
+[**apiV1RoutesCreate**](ApiApi.md#apiv1routescreate) | **POST** /api/v1/routes/ |
+[**apiV1RoutesDestroy**](ApiApi.md#apiv1routesdestroy) | **DELETE** /api/v1/routes/{route_id}/ |
+[**apiV1RoutesList**](ApiApi.md#apiv1routeslist) | **GET** /api/v1/routes/ |
+[**apiV1RoutesPartialUpdate**](ApiApi.md#apiv1routespartialupdate) | **PATCH** /api/v1/routes/{route_id}/ |
+[**apiV1RoutesRetrieve**](ApiApi.md#apiv1routesretrieve) | **GET** /api/v1/routes/{route_id}/ |
+[**apiV1RoutesStudentsRetrieve**](ApiApi.md#apiv1routesstudentsretrieve) | **GET** /api/v1/routes/{route_id}/students/ |
+[**apiV1RoutesUpdate**](ApiApi.md#apiv1routesupdate) | **PUT** /api/v1/routes/{route_id}/ |
+[**apiV1SchoolsCreate**](ApiApi.md#apiv1schoolscreate) | **POST** /api/v1/schools/ |
+[**apiV1SchoolsDestroy**](ApiApi.md#apiv1schoolsdestroy) | **DELETE** /api/v1/schools/{school_id}/ |
+[**apiV1SchoolsList**](ApiApi.md#apiv1schoolslist) | **GET** /api/v1/schools/ |
+[**apiV1SchoolsPartialUpdate**](ApiApi.md#apiv1schoolspartialupdate) | **PATCH** /api/v1/schools/{school_id}/ |
+[**apiV1SchoolsRetrieve**](ApiApi.md#apiv1schoolsretrieve) | **GET** /api/v1/schools/{school_id}/ |
+[**apiV1SchoolsUpdate**](ApiApi.md#apiv1schoolsupdate) | **PUT** /api/v1/schools/{school_id}/ |
+[**apiV1StudentParentsCreate**](ApiApi.md#apiv1studentparentscreate) | **POST** /api/v1/student-parents/ |
+[**apiV1StudentParentsDestroy**](ApiApi.md#apiv1studentparentsdestroy) | **DELETE** /api/v1/student-parents/{id}/ |
+[**apiV1StudentParentsList**](ApiApi.md#apiv1studentparentslist) | **GET** /api/v1/student-parents/ |
+[**apiV1StudentParentsPartialUpdate**](ApiApi.md#apiv1studentparentspartialupdate) | **PATCH** /api/v1/student-parents/{id}/ |
+[**apiV1StudentParentsRetrieve**](ApiApi.md#apiv1studentparentsretrieve) | **GET** /api/v1/student-parents/{id}/ |
+[**apiV1StudentParentsUpdate**](ApiApi.md#apiv1studentparentsupdate) | **PUT** /api/v1/student-parents/{id}/ |
+[**apiV1StudentPhotosCreate**](ApiApi.md#apiv1studentphotoscreate) | **POST** /api/v1/student-photos/ |
+[**apiV1StudentPhotosDestroy**](ApiApi.md#apiv1studentphotosdestroy) | **DELETE** /api/v1/student-photos/{photo_id}/ |
+[**apiV1StudentPhotosList**](ApiApi.md#apiv1studentphotoslist) | **GET** /api/v1/student-photos/ |
+[**apiV1StudentPhotosPartialUpdate**](ApiApi.md#apiv1studentphotospartialupdate) | **PATCH** /api/v1/student-photos/{photo_id}/ |
+[**apiV1StudentPhotosRetrieve**](ApiApi.md#apiv1studentphotosretrieve) | **GET** /api/v1/student-photos/{photo_id}/ |
+[**apiV1StudentPhotosSetPrimaryCreate**](ApiApi.md#apiv1studentphotossetprimarycreate) | **POST** /api/v1/student-photos/{photo_id}/set_primary/ |
+[**apiV1StudentPhotosUpdate**](ApiApi.md#apiv1studentphotosupdate) | **PUT** /api/v1/student-photos/{photo_id}/ |
+[**apiV1StudentsAssignBusCreate**](ApiApi.md#apiv1studentsassignbuscreate) | **POST** /api/v1/students/{student_id}/assign_bus/ |
+[**apiV1StudentsCreate**](ApiApi.md#apiv1studentscreate) | **POST** /api/v1/students/ |
+[**apiV1StudentsDestroy**](ApiApi.md#apiv1studentsdestroy) | **DELETE** /api/v1/students/{student_id}/ |
+[**apiV1StudentsList**](ApiApi.md#apiv1studentslist) | **GET** /api/v1/students/ |
+[**apiV1StudentsParentsRetrieve**](ApiApi.md#apiv1studentsparentsretrieve) | **GET** /api/v1/students/{student_id}/parents/ |
+[**apiV1StudentsPartialUpdate**](ApiApi.md#apiv1studentspartialupdate) | **PATCH** /api/v1/students/{student_id}/ |
+[**apiV1StudentsRetrieve**](ApiApi.md#apiv1studentsretrieve) | **GET** /api/v1/students/{student_id}/ |
+[**apiV1StudentsUpdate**](ApiApi.md#apiv1studentsupdate) | **PUT** /api/v1/students/{student_id}/ |
+[**apiV1UsersCreate**](ApiApi.md#apiv1userscreate) | **POST** /api/v1/users/ |
+[**apiV1UsersDestroy**](ApiApi.md#apiv1usersdestroy) | **DELETE** /api/v1/users/{user_id}/ |
+[**apiV1UsersList**](ApiApi.md#apiv1userslist) | **GET** /api/v1/users/ |
+[**apiV1UsersLoginCreate**](ApiApi.md#apiv1userslogincreate) | **POST** /api/v1/users/login/ |
+[**apiV1UsersMeRetrieve**](ApiApi.md#apiv1usersmeretrieve) | **GET** /api/v1/users/me/ |
+[**apiV1UsersPartialUpdate**](ApiApi.md#apiv1userspartialupdate) | **PATCH** /api/v1/users/{user_id}/ |
+[**apiV1UsersRetrieve**](ApiApi.md#apiv1usersretrieve) | **GET** /api/v1/users/{user_id}/ |
+[**apiV1UsersUpdate**](ApiApi.md#apiv1usersupdate) | **PUT** /api/v1/users/{user_id}/ |
+[**kioskCheckUpdates**](ApiApi.md#kioskcheckupdates) | **GET** /api/v1/kiosks/{kiosk_id}/check-updates/ |
+[**kioskDownloadSnapshot**](ApiApi.md#kioskdownloadsnapshot) | **GET** /api/v1/kiosks/{kiosk_id}/snapshot/ |
+[**kioskHeartbeat**](ApiApi.md#kioskheartbeat) | **POST** /api/v1/kiosks/{kiosk_id}/heartbeat/ |
+[**kioskLog**](ApiApi.md#kiosklog) | **POST** /api/v1/kiosks/logs/ |
+[**kioskUpdateLocation**](ApiApi.md#kioskupdatelocation) | **POST** /api/v1/kiosks/{kiosk_id}/location/ |
 
 
 # **apiV1ApiKeysCreate**
@@ -127,7 +127,7 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ApiApi();
-final aPIKeyCreate = APIKeyCreate(); // APIKeyCreate | 
+final aPIKeyCreate = APIKeyCreate(); // APIKeyCreate |
 
 try {
     final result = api_instance.apiV1ApiKeysCreate(aPIKeyCreate);
@@ -141,7 +141,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **aPIKeyCreate** | [**APIKeyCreate**](APIKeyCreate.md)|  | 
+ **aPIKeyCreate** | [**APIKeyCreate**](APIKeyCreate.md)|  |
 
 ### Return type
 
@@ -197,7 +197,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **keyId** | **String**| A UUID string identifying this api key. | 
+ **keyId** | **String**| A UUID string identifying this api key. |
 
 ### Return type
 
@@ -256,9 +256,9 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **ordering** | **String**| Which field to use when ordering the results. | [optional] 
- **page** | **int**| A page number within the paginated result set. | [optional] 
- **search** | **String**| A search term. | [optional] 
+ **ordering** | **String**| Which field to use when ordering the results. | [optional]
+ **page** | **int**| A page number within the paginated result set. | [optional]
+ **search** | **String**| A search term. | [optional]
 
 ### Return type
 
@@ -302,7 +302,7 @@ import 'package:openapi/api.dart';
 
 final api_instance = ApiApi();
 final keyId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this api key.
-final patchedAPIKey = PatchedAPIKey(); // PatchedAPIKey | 
+final patchedAPIKey = PatchedAPIKey(); // PatchedAPIKey |
 
 try {
     final result = api_instance.apiV1ApiKeysPartialUpdate(keyId, patchedAPIKey);
@@ -316,8 +316,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **keyId** | **String**| A UUID string identifying this api key. | 
- **patchedAPIKey** | [**PatchedAPIKey**](PatchedAPIKey.md)|  | [optional] 
+ **keyId** | **String**| A UUID string identifying this api key. |
+ **patchedAPIKey** | [**PatchedAPIKey**](PatchedAPIKey.md)|  | [optional]
 
 ### Return type
 
@@ -374,7 +374,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **keyId** | **String**| A UUID string identifying this api key. | 
+ **keyId** | **String**| A UUID string identifying this api key. |
 
 ### Return type
 
@@ -418,7 +418,7 @@ import 'package:openapi/api.dart';
 
 final api_instance = ApiApi();
 final keyId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this api key.
-final aPIKey = APIKey(); // APIKey | 
+final aPIKey = APIKey(); // APIKey |
 
 try {
     final result = api_instance.apiV1ApiKeysRevokeCreate(keyId, aPIKey);
@@ -432,8 +432,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **keyId** | **String**| A UUID string identifying this api key. | 
- **aPIKey** | [**APIKey**](APIKey.md)|  | 
+ **keyId** | **String**| A UUID string identifying this api key. |
+ **aPIKey** | [**APIKey**](APIKey.md)|  |
 
 ### Return type
 
@@ -477,7 +477,7 @@ import 'package:openapi/api.dart';
 
 final api_instance = ApiApi();
 final keyId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this api key.
-final aPIKey = APIKey(); // APIKey | 
+final aPIKey = APIKey(); // APIKey |
 
 try {
     final result = api_instance.apiV1ApiKeysUpdate(keyId, aPIKey);
@@ -491,8 +491,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **keyId** | **String**| A UUID string identifying this api key. | 
- **aPIKey** | [**APIKey**](APIKey.md)|  | 
+ **keyId** | **String**| A UUID string identifying this api key. |
+ **aPIKey** | [**APIKey**](APIKey.md)|  |
 
 ### Return type
 
@@ -537,10 +537,10 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ApiApi();
-final date = 2013-10-20; // DateTime | 
+final date = 2013-10-20; // DateTime |
 final page = 56; // int | A page number within the paginated result set.
 final status = status_example; // String | Overall attendance status  * `present` - Present * `absent` - Absent * `partial` - Partial
-final student = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final student = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String |
 
 try {
     final result = api_instance.apiV1AttendanceList(date, page, status, student);
@@ -554,10 +554,10 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **date** | **DateTime**|  | [optional] 
- **page** | **int**| A page number within the paginated result set. | [optional] 
- **status** | **String**| Overall attendance status  * `present` - Present * `absent` - Absent * `partial` - Partial | [optional] 
- **student** | **String**|  | [optional] 
+ **date** | **DateTime**|  | [optional]
+ **page** | **int**| A page number within the paginated result set. | [optional]
+ **status** | **String**| Overall attendance status  * `present` - Present * `absent` - Absent * `partial` - Partial | [optional]
+ **student** | **String**|  | [optional]
 
 ### Return type
 
@@ -602,7 +602,7 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ApiApi();
-final recordId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final recordId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String |
 
 try {
     final result = api_instance.apiV1AttendanceRetrieve(recordId);
@@ -616,7 +616,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **recordId** | **String**|  | 
+ **recordId** | **String**|  |
 
 ### Return type
 
@@ -661,7 +661,7 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ApiApi();
-final studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String |
 
 try {
     final result = api_instance.apiV1AttendanceStudentRetrieve(studentId);
@@ -675,7 +675,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **studentId** | **String**|  | 
+ **studentId** | **String**|  |
 
 ### Return type
 
@@ -789,9 +789,9 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **ordering** | **String**| Which field to use when ordering the results. | [optional] 
- **page** | **int**| A page number within the paginated result set. | [optional] 
- **search** | **String**| A search term. | [optional] 
+ **ordering** | **String**| Which field to use when ordering the results. | [optional]
+ **page** | **int**| A page number within the paginated result set. | [optional]
+ **search** | **String**| A search term. | [optional]
 
 ### Return type
 
@@ -848,7 +848,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **logId** | **int**| A unique integer value identifying this audit log. | 
+ **logId** | **int**| A unique integer value identifying this audit log. |
 
 ### Return type
 
@@ -877,7 +877,7 @@ Takes a set of user credentials and returns an access and refresh JSON web token
 import 'package:openapi/api.dart';
 
 final api_instance = ApiApi();
-final tokenObtainPair = TokenObtainPair(); // TokenObtainPair | 
+final tokenObtainPair = TokenObtainPair(); // TokenObtainPair |
 
 try {
     final result = api_instance.apiV1AuthTokenCreate(tokenObtainPair);
@@ -891,7 +891,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tokenObtainPair** | [**TokenObtainPair**](TokenObtainPair.md)|  | 
+ **tokenObtainPair** | [**TokenObtainPair**](TokenObtainPair.md)|  |
 
 ### Return type
 
@@ -913,14 +913,14 @@ No authorization required
 
 
 
-     Custom TokenRefreshView that supports both regular JWT and kiosk JWT tokens.      **Token Rotation Security:**     - Accepts: refresh token only     - Returns: NEW access token (15 min) + NEW refresh token (60 days)     - Old refresh token is immediately blacklisted (cannot be reused)     
+     Custom TokenRefreshView that supports both regular JWT and kiosk JWT tokens.      **Token Rotation Security:**     - Accepts: refresh token only     - Returns: NEW access token (15 min) + NEW refresh token (60 days)     - Old refresh token is immediately blacklisted (cannot be reused)
 
 ### Example
 ```dart
 import 'package:openapi/api.dart';
 
 final api_instance = ApiApi();
-final tokenRefreshRequest = TokenRefreshRequest(); // TokenRefreshRequest | 
+final tokenRefreshRequest = TokenRefreshRequest(); // TokenRefreshRequest |
 
 try {
     final result = api_instance.apiV1AuthTokenRefreshCreate(tokenRefreshRequest);
@@ -934,7 +934,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tokenRefreshRequest** | [**TokenRefreshRequest**](TokenRefreshRequest.md)|  | 
+ **tokenRefreshRequest** | [**TokenRefreshRequest**](TokenRefreshRequest.md)|  |
 
 ### Return type
 
@@ -969,7 +969,7 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ApiApi();
-final boardingEvent = BoardingEvent(); // BoardingEvent | 
+final boardingEvent = BoardingEvent(); // BoardingEvent |
 
 try {
     final result = api_instance.apiV1BoardingEventsBulkCreate(boardingEvent);
@@ -983,7 +983,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **boardingEvent** | [**BoardingEvent**](BoardingEvent.md)|  | 
+ **boardingEvent** | [**BoardingEvent**](BoardingEvent.md)|  |
 
 ### Return type
 
@@ -1018,7 +1018,7 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ApiApi();
-final boardingEventCreate = BoardingEventCreate(); // BoardingEventCreate | 
+final boardingEventCreate = BoardingEventCreate(); // BoardingEventCreate |
 
 try {
     final result = api_instance.apiV1BoardingEventsCreate(boardingEventCreate);
@@ -1032,7 +1032,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **boardingEventCreate** | [**BoardingEventCreate**](BoardingEventCreate.md)|  | 
+ **boardingEventCreate** | [**BoardingEventCreate**](BoardingEventCreate.md)|  |
 
 ### Return type
 
@@ -1067,7 +1067,7 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ApiApi();
-final eventId = eventId_example; // String | 
+final eventId = eventId_example; // String |
 
 try {
     api_instance.apiV1BoardingEventsDestroy(eventId);
@@ -1080,7 +1080,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **eventId** | **String**|  | 
+ **eventId** | **String**|  |
 
 ### Return type
 
@@ -1115,11 +1115,11 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ApiApi();
-final busRoute = busRoute_example; // String | 
-final kioskId = kioskId_example; // String | 
+final busRoute = busRoute_example; // String |
+final kioskId = kioskId_example; // String |
 final page = 56; // int | A page number within the paginated result set.
-final student = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
-final timestamp = 2013-10-20T19:20:30+01:00; // DateTime | 
+final student = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String |
+final timestamp = 2013-10-20T19:20:30+01:00; // DateTime |
 
 try {
     final result = api_instance.apiV1BoardingEventsList(busRoute, kioskId, page, student, timestamp);
@@ -1133,11 +1133,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **busRoute** | **String**|  | [optional] 
- **kioskId** | **String**|  | [optional] 
- **page** | **int**| A page number within the paginated result set. | [optional] 
- **student** | **String**|  | [optional] 
- **timestamp** | **DateTime**|  | [optional] 
+ **busRoute** | **String**|  | [optional]
+ **kioskId** | **String**|  | [optional]
+ **page** | **int**| A page number within the paginated result set. | [optional]
+ **student** | **String**|  | [optional]
+ **timestamp** | **DateTime**|  | [optional]
 
 ### Return type
 
@@ -1172,8 +1172,8 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ApiApi();
-final eventId = eventId_example; // String | 
-final patchedBoardingEvent = PatchedBoardingEvent(); // PatchedBoardingEvent | 
+final eventId = eventId_example; // String |
+final patchedBoardingEvent = PatchedBoardingEvent(); // PatchedBoardingEvent |
 
 try {
     final result = api_instance.apiV1BoardingEventsPartialUpdate(eventId, patchedBoardingEvent);
@@ -1187,8 +1187,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **eventId** | **String**|  | 
- **patchedBoardingEvent** | [**PatchedBoardingEvent**](PatchedBoardingEvent.md)|  | [optional] 
+ **eventId** | **String**|  |
+ **patchedBoardingEvent** | [**PatchedBoardingEvent**](PatchedBoardingEvent.md)|  | [optional]
 
 ### Return type
 
@@ -1268,7 +1268,7 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ApiApi();
-final eventId = eventId_example; // String | 
+final eventId = eventId_example; // String |
 
 try {
     final result = api_instance.apiV1BoardingEventsRetrieve(eventId);
@@ -1282,7 +1282,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **eventId** | **String**|  | 
+ **eventId** | **String**|  |
 
 ### Return type
 
@@ -1317,8 +1317,8 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ApiApi();
-final eventId = eventId_example; // String | 
-final boardingEvent = BoardingEvent(); // BoardingEvent | 
+final eventId = eventId_example; // String |
+final boardingEvent = BoardingEvent(); // BoardingEvent |
 
 try {
     final result = api_instance.apiV1BoardingEventsUpdate(eventId, boardingEvent);
@@ -1332,8 +1332,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **eventId** | **String**|  | 
- **boardingEvent** | [**BoardingEvent**](BoardingEvent.md)|  | 
+ **eventId** | **String**|  |
+ **boardingEvent** | [**BoardingEvent**](BoardingEvent.md)|  |
 
 ### Return type
 
@@ -1378,7 +1378,7 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ApiApi();
-final bus = Bus(); // Bus | 
+final bus = Bus(); // Bus |
 
 try {
     final result = api_instance.apiV1BusesAssignStudentsCreate(bus);
@@ -1392,7 +1392,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **bus** | [**Bus**](Bus.md)|  | 
+ **bus** | [**Bus**](Bus.md)|  |
 
 ### Return type
 
@@ -1437,7 +1437,7 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ApiApi();
-final bus = Bus(); // Bus | 
+final bus = Bus(); // Bus |
 
 try {
     final result = api_instance.apiV1BusesCreate(bus);
@@ -1451,7 +1451,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **bus** | [**Bus**](Bus.md)|  | 
+ **bus** | [**Bus**](Bus.md)|  |
 
 ### Return type
 
@@ -1496,7 +1496,7 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ApiApi();
-final busId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final busId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String |
 
 try {
     api_instance.apiV1BusesDestroy(busId);
@@ -1509,7 +1509,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **busId** | **String**|  | 
+ **busId** | **String**|  |
 
 ### Return type
 
@@ -1554,7 +1554,7 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ApiApi();
-final deviceId = deviceId_example; // String | 
+final deviceId = deviceId_example; // String |
 final page = 56; // int | A page number within the paginated result set.
 final route = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | UUID primary key
 final status = status_example; // String | Current operational status  * `active` - Active * `maintenance` - Under Maintenance * `retired` - Retired
@@ -1571,10 +1571,10 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **deviceId** | **String**|  | [optional] 
- **page** | **int**| A page number within the paginated result set. | [optional] 
- **route** | **String**| UUID primary key | [optional] 
- **status** | **String**| Current operational status  * `active` - Active * `maintenance` - Under Maintenance * `retired` - Retired | [optional] 
+ **deviceId** | **String**|  | [optional]
+ **page** | **int**| A page number within the paginated result set. | [optional]
+ **route** | **String**| UUID primary key | [optional]
+ **status** | **String**| Current operational status  * `active` - Active * `maintenance` - Under Maintenance * `retired` - Retired | [optional]
 
 ### Return type
 
@@ -1619,8 +1619,8 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ApiApi();
-final busId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
-final patchedBus = PatchedBus(); // PatchedBus | 
+final busId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String |
+final patchedBus = PatchedBus(); // PatchedBus |
 
 try {
     final result = api_instance.apiV1BusesPartialUpdate(busId, patchedBus);
@@ -1634,8 +1634,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **busId** | **String**|  | 
- **patchedBus** | [**PatchedBus**](PatchedBus.md)|  | [optional] 
+ **busId** | **String**|  |
+ **patchedBus** | [**PatchedBus**](PatchedBus.md)|  | [optional]
 
 ### Return type
 
@@ -1680,7 +1680,7 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ApiApi();
-final busId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final busId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String |
 
 try {
     final result = api_instance.apiV1BusesRetrieve(busId);
@@ -1694,7 +1694,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **busId** | **String**|  | 
+ **busId** | **String**|  |
 
 ### Return type
 
@@ -1739,7 +1739,7 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ApiApi();
-final busId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final busId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String |
 
 try {
     final result = api_instance.apiV1BusesStudentsRetrieve(busId);
@@ -1753,7 +1753,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **busId** | **String**|  | 
+ **busId** | **String**|  |
 
 ### Return type
 
@@ -1798,8 +1798,8 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ApiApi();
-final busId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
-final bus = Bus(); // Bus | 
+final busId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String |
+final bus = Bus(); // Bus |
 
 try {
     final result = api_instance.apiV1BusesUpdate(busId, bus);
@@ -1813,8 +1813,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **busId** | **String**|  | 
- **bus** | [**Bus**](Bus.md)|  | 
+ **busId** | **String**|  |
+ **bus** | [**Bus**](Bus.md)|  |
 
 ### Return type
 
@@ -1914,7 +1914,7 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ApiApi();
-final requestBody = Map<String, Object>(); // Map<String, Object> | 
+final requestBody = Map<String, Object>(); // Map<String, Object> |
 
 try {
     final result = api_instance.apiV1KioskBoardingCreate(requestBody);
@@ -1928,7 +1928,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **requestBody** | [**Map<String, Object>**](Object.md)|  | [optional] 
+ **requestBody** | [**Map<String, Object>**](Object.md)|  | [optional]
 
 ### Return type
 
@@ -1971,7 +1971,7 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ApiApi();
-final parent = Parent(); // Parent | 
+final parent = Parent(); // Parent |
 
 try {
     final result = api_instance.apiV1ParentsCreate(parent);
@@ -1985,7 +1985,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **parent** | [**Parent**](Parent.md)|  | 
+ **parent** | [**Parent**](Parent.md)|  |
 
 ### Return type
 
@@ -2041,7 +2041,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **parentId** | **String**| A UUID string identifying this parent. | 
+ **parentId** | **String**| A UUID string identifying this parent. |
 
 ### Return type
 
@@ -2100,9 +2100,9 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **ordering** | **String**| Which field to use when ordering the results. | [optional] 
- **page** | **int**| A page number within the paginated result set. | [optional] 
- **search** | **String**| A search term. | [optional] 
+ **ordering** | **String**| Which field to use when ordering the results. | [optional]
+ **page** | **int**| A page number within the paginated result set. | [optional]
+ **search** | **String**| A search term. | [optional]
 
 ### Return type
 
@@ -2146,7 +2146,7 @@ import 'package:openapi/api.dart';
 
 final api_instance = ApiApi();
 final parentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this parent.
-final patchedParent = PatchedParent(); // PatchedParent | 
+final patchedParent = PatchedParent(); // PatchedParent |
 
 try {
     final result = api_instance.apiV1ParentsPartialUpdate(parentId, patchedParent);
@@ -2160,8 +2160,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **parentId** | **String**| A UUID string identifying this parent. | 
- **patchedParent** | [**PatchedParent**](PatchedParent.md)|  | [optional] 
+ **parentId** | **String**| A UUID string identifying this parent. |
+ **patchedParent** | [**PatchedParent**](PatchedParent.md)|  | [optional]
 
 ### Return type
 
@@ -2218,7 +2218,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **parentId** | **String**| A UUID string identifying this parent. | 
+ **parentId** | **String**| A UUID string identifying this parent. |
 
 ### Return type
 
@@ -2275,7 +2275,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **parentId** | **String**| A UUID string identifying this parent. | 
+ **parentId** | **String**| A UUID string identifying this parent. |
 
 ### Return type
 
@@ -2319,7 +2319,7 @@ import 'package:openapi/api.dart';
 
 final api_instance = ApiApi();
 final parentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this parent.
-final parent = Parent(); // Parent | 
+final parent = Parent(); // Parent |
 
 try {
     final result = api_instance.apiV1ParentsUpdate(parentId, parent);
@@ -2333,8 +2333,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **parentId** | **String**| A UUID string identifying this parent. | 
- **parent** | [**Parent**](Parent.md)|  | 
+ **parentId** | **String**| A UUID string identifying this parent. |
+ **parent** | [**Parent**](Parent.md)|  |
 
 ### Return type
 
@@ -2393,9 +2393,9 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **ordering** | **String**| Which field to use when ordering the results. | [optional] 
- **page** | **int**| A page number within the paginated result set. | [optional] 
- **search** | **String**| A search term. | [optional] 
+ **ordering** | **String**| Which field to use when ordering the results. | [optional]
+ **page** | **int**| A page number within the paginated result set. | [optional]
+ **search** | **String**| A search term. | [optional]
 
 ### Return type
 
@@ -2452,7 +2452,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **roleId** | **String**| A UUID string identifying this role. | 
+ **roleId** | **String**| A UUID string identifying this role. |
 
 ### Return type
 
@@ -2497,7 +2497,7 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ApiApi();
-final routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String |
 
 try {
     final result = api_instance.apiV1RoutesBusesRetrieve(routeId);
@@ -2511,7 +2511,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **routeId** | **String**|  | 
+ **routeId** | **String**|  |
 
 ### Return type
 
@@ -2556,7 +2556,7 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ApiApi();
-final route = Route(); // Route | 
+final route = Route(); // Route |
 
 try {
     final result = api_instance.apiV1RoutesCreate(route);
@@ -2570,7 +2570,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **route** | [**Route**](Route.md)|  | 
+ **route** | [**Route**](Route.md)|  |
 
 ### Return type
 
@@ -2615,7 +2615,7 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ApiApi();
-final routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String |
 
 try {
     api_instance.apiV1RoutesDestroy(routeId);
@@ -2628,7 +2628,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **routeId** | **String**|  | 
+ **routeId** | **String**|  |
 
 ### Return type
 
@@ -2673,7 +2673,7 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ApiApi();
-final isActive = true; // bool | 
+final isActive = true; // bool |
 final page = 56; // int | A page number within the paginated result set.
 
 try {
@@ -2688,8 +2688,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **isActive** | **bool**|  | [optional] 
- **page** | **int**| A page number within the paginated result set. | [optional] 
+ **isActive** | **bool**|  | [optional]
+ **page** | **int**| A page number within the paginated result set. | [optional]
 
 ### Return type
 
@@ -2734,8 +2734,8 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ApiApi();
-final routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
-final patchedRoute = PatchedRoute(); // PatchedRoute | 
+final routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String |
+final patchedRoute = PatchedRoute(); // PatchedRoute |
 
 try {
     final result = api_instance.apiV1RoutesPartialUpdate(routeId, patchedRoute);
@@ -2749,8 +2749,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **routeId** | **String**|  | 
- **patchedRoute** | [**PatchedRoute**](PatchedRoute.md)|  | [optional] 
+ **routeId** | **String**|  |
+ **patchedRoute** | [**PatchedRoute**](PatchedRoute.md)|  | [optional]
 
 ### Return type
 
@@ -2795,7 +2795,7 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ApiApi();
-final routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String |
 
 try {
     final result = api_instance.apiV1RoutesRetrieve(routeId);
@@ -2809,7 +2809,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **routeId** | **String**|  | 
+ **routeId** | **String**|  |
 
 ### Return type
 
@@ -2854,7 +2854,7 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ApiApi();
-final routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String |
 
 try {
     final result = api_instance.apiV1RoutesStudentsRetrieve(routeId);
@@ -2868,7 +2868,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **routeId** | **String**|  | 
+ **routeId** | **String**|  |
 
 ### Return type
 
@@ -2913,8 +2913,8 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ApiApi();
-final routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
-final route = Route(); // Route | 
+final routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String |
+final route = Route(); // Route |
 
 try {
     final result = api_instance.apiV1RoutesUpdate(routeId, route);
@@ -2928,8 +2928,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **routeId** | **String**|  | 
- **route** | [**Route**](Route.md)|  | 
+ **routeId** | **String**|  |
+ **route** | [**Route**](Route.md)|  |
 
 ### Return type
 
@@ -2972,7 +2972,7 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ApiApi();
-final school = School(); // School | 
+final school = School(); // School |
 
 try {
     final result = api_instance.apiV1SchoolsCreate(school);
@@ -2986,7 +2986,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **school** | [**School**](School.md)|  | 
+ **school** | [**School**](School.md)|  |
 
 ### Return type
 
@@ -3042,7 +3042,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **schoolId** | **String**| A UUID string identifying this school. | 
+ **schoolId** | **String**| A UUID string identifying this school. |
 
 ### Return type
 
@@ -3101,9 +3101,9 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **ordering** | **String**| Which field to use when ordering the results. | [optional] 
- **page** | **int**| A page number within the paginated result set. | [optional] 
- **search** | **String**| A search term. | [optional] 
+ **ordering** | **String**| Which field to use when ordering the results. | [optional]
+ **page** | **int**| A page number within the paginated result set. | [optional]
+ **search** | **String**| A search term. | [optional]
 
 ### Return type
 
@@ -3147,7 +3147,7 @@ import 'package:openapi/api.dart';
 
 final api_instance = ApiApi();
 final schoolId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this school.
-final patchedSchool = PatchedSchool(); // PatchedSchool | 
+final patchedSchool = PatchedSchool(); // PatchedSchool |
 
 try {
     final result = api_instance.apiV1SchoolsPartialUpdate(schoolId, patchedSchool);
@@ -3161,8 +3161,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **schoolId** | **String**| A UUID string identifying this school. | 
- **patchedSchool** | [**PatchedSchool**](PatchedSchool.md)|  | [optional] 
+ **schoolId** | **String**| A UUID string identifying this school. |
+ **patchedSchool** | [**PatchedSchool**](PatchedSchool.md)|  | [optional]
 
 ### Return type
 
@@ -3219,7 +3219,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **schoolId** | **String**| A UUID string identifying this school. | 
+ **schoolId** | **String**| A UUID string identifying this school. |
 
 ### Return type
 
@@ -3263,7 +3263,7 @@ import 'package:openapi/api.dart';
 
 final api_instance = ApiApi();
 final schoolId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this school.
-final school = School(); // School | 
+final school = School(); // School |
 
 try {
     final result = api_instance.apiV1SchoolsUpdate(schoolId, school);
@@ -3277,8 +3277,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **schoolId** | **String**| A UUID string identifying this school. | 
- **school** | [**School**](School.md)|  | 
+ **schoolId** | **String**| A UUID string identifying this school. |
+ **school** | [**School**](School.md)|  |
 
 ### Return type
 
@@ -3321,7 +3321,7 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ApiApi();
-final studentParent = StudentParent(); // StudentParent | 
+final studentParent = StudentParent(); // StudentParent |
 
 try {
     final result = api_instance.apiV1StudentParentsCreate(studentParent);
@@ -3335,7 +3335,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **studentParent** | [**StudentParent**](StudentParent.md)|  | 
+ **studentParent** | [**StudentParent**](StudentParent.md)|  |
 
 ### Return type
 
@@ -3391,7 +3391,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **int**| A unique integer value identifying this student parent. | 
+ **id** | **int**| A unique integer value identifying this student parent. |
 
 ### Return type
 
@@ -3450,9 +3450,9 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **ordering** | **String**| Which field to use when ordering the results. | [optional] 
- **page** | **int**| A page number within the paginated result set. | [optional] 
- **search** | **String**| A search term. | [optional] 
+ **ordering** | **String**| Which field to use when ordering the results. | [optional]
+ **page** | **int**| A page number within the paginated result set. | [optional]
+ **search** | **String**| A search term. | [optional]
 
 ### Return type
 
@@ -3496,7 +3496,7 @@ import 'package:openapi/api.dart';
 
 final api_instance = ApiApi();
 final id = 56; // int | A unique integer value identifying this student parent.
-final patchedStudentParent = PatchedStudentParent(); // PatchedStudentParent | 
+final patchedStudentParent = PatchedStudentParent(); // PatchedStudentParent |
 
 try {
     final result = api_instance.apiV1StudentParentsPartialUpdate(id, patchedStudentParent);
@@ -3510,8 +3510,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **int**| A unique integer value identifying this student parent. | 
- **patchedStudentParent** | [**PatchedStudentParent**](PatchedStudentParent.md)|  | [optional] 
+ **id** | **int**| A unique integer value identifying this student parent. |
+ **patchedStudentParent** | [**PatchedStudentParent**](PatchedStudentParent.md)|  | [optional]
 
 ### Return type
 
@@ -3568,7 +3568,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **int**| A unique integer value identifying this student parent. | 
+ **id** | **int**| A unique integer value identifying this student parent. |
 
 ### Return type
 
@@ -3612,7 +3612,7 @@ import 'package:openapi/api.dart';
 
 final api_instance = ApiApi();
 final id = 56; // int | A unique integer value identifying this student parent.
-final studentParent = StudentParent(); // StudentParent | 
+final studentParent = StudentParent(); // StudentParent |
 
 try {
     final result = api_instance.apiV1StudentParentsUpdate(id, studentParent);
@@ -3626,8 +3626,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **int**| A unique integer value identifying this student parent. | 
- **studentParent** | [**StudentParent**](StudentParent.md)|  | 
+ **id** | **int**| A unique integer value identifying this student parent. |
+ **studentParent** | [**StudentParent**](StudentParent.md)|  |
 
 ### Return type
 
@@ -3670,7 +3670,7 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ApiApi();
-final studentPhoto = StudentPhoto(); // StudentPhoto | 
+final studentPhoto = StudentPhoto(); // StudentPhoto |
 
 try {
     final result = api_instance.apiV1StudentPhotosCreate(studentPhoto);
@@ -3684,7 +3684,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **studentPhoto** | [**StudentPhoto**](StudentPhoto.md)|  | 
+ **studentPhoto** | [**StudentPhoto**](StudentPhoto.md)|  |
 
 ### Return type
 
@@ -3740,7 +3740,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **photoId** | **String**| A UUID string identifying this student photo. | 
+ **photoId** | **String**| A UUID string identifying this student photo. |
 
 ### Return type
 
@@ -3799,9 +3799,9 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **ordering** | **String**| Which field to use when ordering the results. | [optional] 
- **page** | **int**| A page number within the paginated result set. | [optional] 
- **search** | **String**| A search term. | [optional] 
+ **ordering** | **String**| Which field to use when ordering the results. | [optional]
+ **page** | **int**| A page number within the paginated result set. | [optional]
+ **search** | **String**| A search term. | [optional]
 
 ### Return type
 
@@ -3845,7 +3845,7 @@ import 'package:openapi/api.dart';
 
 final api_instance = ApiApi();
 final photoId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student photo.
-final patchedStudentPhoto = PatchedStudentPhoto(); // PatchedStudentPhoto | 
+final patchedStudentPhoto = PatchedStudentPhoto(); // PatchedStudentPhoto |
 
 try {
     final result = api_instance.apiV1StudentPhotosPartialUpdate(photoId, patchedStudentPhoto);
@@ -3859,8 +3859,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **photoId** | **String**| A UUID string identifying this student photo. | 
- **patchedStudentPhoto** | [**PatchedStudentPhoto**](PatchedStudentPhoto.md)|  | [optional] 
+ **photoId** | **String**| A UUID string identifying this student photo. |
+ **patchedStudentPhoto** | [**PatchedStudentPhoto**](PatchedStudentPhoto.md)|  | [optional]
 
 ### Return type
 
@@ -3917,7 +3917,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **photoId** | **String**| A UUID string identifying this student photo. | 
+ **photoId** | **String**| A UUID string identifying this student photo. |
 
 ### Return type
 
@@ -3961,7 +3961,7 @@ import 'package:openapi/api.dart';
 
 final api_instance = ApiApi();
 final photoId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student photo.
-final studentPhoto = StudentPhoto(); // StudentPhoto | 
+final studentPhoto = StudentPhoto(); // StudentPhoto |
 
 try {
     final result = api_instance.apiV1StudentPhotosSetPrimaryCreate(photoId, studentPhoto);
@@ -3975,8 +3975,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **photoId** | **String**| A UUID string identifying this student photo. | 
- **studentPhoto** | [**StudentPhoto**](StudentPhoto.md)|  | 
+ **photoId** | **String**| A UUID string identifying this student photo. |
+ **studentPhoto** | [**StudentPhoto**](StudentPhoto.md)|  |
 
 ### Return type
 
@@ -4020,7 +4020,7 @@ import 'package:openapi/api.dart';
 
 final api_instance = ApiApi();
 final photoId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student photo.
-final studentPhoto = StudentPhoto(); // StudentPhoto | 
+final studentPhoto = StudentPhoto(); // StudentPhoto |
 
 try {
     final result = api_instance.apiV1StudentPhotosUpdate(photoId, studentPhoto);
@@ -4034,8 +4034,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **photoId** | **String**| A UUID string identifying this student photo. | 
- **studentPhoto** | [**StudentPhoto**](StudentPhoto.md)|  | 
+ **photoId** | **String**| A UUID string identifying this student photo. |
+ **studentPhoto** | [**StudentPhoto**](StudentPhoto.md)|  |
 
 ### Return type
 
@@ -4079,7 +4079,7 @@ import 'package:openapi/api.dart';
 
 final api_instance = ApiApi();
 final studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student.
-final student = Student(); // Student | 
+final student = Student(); // Student |
 
 try {
     final result = api_instance.apiV1StudentsAssignBusCreate(studentId, student);
@@ -4093,8 +4093,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **studentId** | **String**| A UUID string identifying this student. | 
- **student** | [**Student**](Student.md)|  | 
+ **studentId** | **String**| A UUID string identifying this student. |
+ **student** | [**Student**](Student.md)|  |
 
 ### Return type
 
@@ -4137,7 +4137,7 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ApiApi();
-final student = Student(); // Student | 
+final student = Student(); // Student |
 
 try {
     final result = api_instance.apiV1StudentsCreate(student);
@@ -4151,7 +4151,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **student** | [**Student**](Student.md)|  | 
+ **student** | [**Student**](Student.md)|  |
 
 ### Return type
 
@@ -4207,7 +4207,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **studentId** | **String**| A UUID string identifying this student. | 
+ **studentId** | **String**| A UUID string identifying this student. |
 
 ### Return type
 
@@ -4266,9 +4266,9 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **ordering** | **String**| Which field to use when ordering the results. | [optional] 
- **page** | **int**| A page number within the paginated result set. | [optional] 
- **search** | **String**| A search term. | [optional] 
+ **ordering** | **String**| Which field to use when ordering the results. | [optional]
+ **page** | **int**| A page number within the paginated result set. | [optional]
+ **search** | **String**| A search term. | [optional]
 
 ### Return type
 
@@ -4325,7 +4325,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **studentId** | **String**| A UUID string identifying this student. | 
+ **studentId** | **String**| A UUID string identifying this student. |
 
 ### Return type
 
@@ -4369,7 +4369,7 @@ import 'package:openapi/api.dart';
 
 final api_instance = ApiApi();
 final studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student.
-final patchedStudent = PatchedStudent(); // PatchedStudent | 
+final patchedStudent = PatchedStudent(); // PatchedStudent |
 
 try {
     final result = api_instance.apiV1StudentsPartialUpdate(studentId, patchedStudent);
@@ -4383,8 +4383,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **studentId** | **String**| A UUID string identifying this student. | 
- **patchedStudent** | [**PatchedStudent**](PatchedStudent.md)|  | [optional] 
+ **studentId** | **String**| A UUID string identifying this student. |
+ **patchedStudent** | [**PatchedStudent**](PatchedStudent.md)|  | [optional]
 
 ### Return type
 
@@ -4441,7 +4441,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **studentId** | **String**| A UUID string identifying this student. | 
+ **studentId** | **String**| A UUID string identifying this student. |
 
 ### Return type
 
@@ -4485,7 +4485,7 @@ import 'package:openapi/api.dart';
 
 final api_instance = ApiApi();
 final studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student.
-final student = Student(); // Student | 
+final student = Student(); // Student |
 
 try {
     final result = api_instance.apiV1StudentsUpdate(studentId, student);
@@ -4499,8 +4499,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **studentId** | **String**| A UUID string identifying this student. | 
- **student** | [**Student**](Student.md)|  | 
+ **studentId** | **String**| A UUID string identifying this student. |
+ **student** | [**Student**](Student.md)|  |
 
 ### Return type
 
@@ -4543,7 +4543,7 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ApiApi();
-final userCreate = UserCreate(); // UserCreate | 
+final userCreate = UserCreate(); // UserCreate |
 
 try {
     final result = api_instance.apiV1UsersCreate(userCreate);
@@ -4557,7 +4557,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **userCreate** | [**UserCreate**](UserCreate.md)|  | 
+ **userCreate** | [**UserCreate**](UserCreate.md)|  |
 
 ### Return type
 
@@ -4613,7 +4613,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **userId** | **String**| A UUID string identifying this user. | 
+ **userId** | **String**| A UUID string identifying this user. |
 
 ### Return type
 
@@ -4672,9 +4672,9 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **ordering** | **String**| Which field to use when ordering the results. | [optional] 
- **page** | **int**| A page number within the paginated result set. | [optional] 
- **search** | **String**| A search term. | [optional] 
+ **ordering** | **String**| Which field to use when ordering the results. | [optional]
+ **page** | **int**| A page number within the paginated result set. | [optional]
+ **search** | **String**| A search term. | [optional]
 
 ### Return type
 
@@ -4717,7 +4717,7 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ApiApi();
-final user = User(); // User | 
+final user = User(); // User |
 
 try {
     final result = api_instance.apiV1UsersLoginCreate(user);
@@ -4731,7 +4731,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**User**](User.md)|  | 
+ **user** | [**User**](User.md)|  |
 
 ### Return type
 
@@ -4830,7 +4830,7 @@ import 'package:openapi/api.dart';
 
 final api_instance = ApiApi();
 final userId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this user.
-final patchedUser = PatchedUser(); // PatchedUser | 
+final patchedUser = PatchedUser(); // PatchedUser |
 
 try {
     final result = api_instance.apiV1UsersPartialUpdate(userId, patchedUser);
@@ -4844,8 +4844,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **userId** | **String**| A UUID string identifying this user. | 
- **patchedUser** | [**PatchedUser**](PatchedUser.md)|  | [optional] 
+ **userId** | **String**| A UUID string identifying this user. |
+ **patchedUser** | [**PatchedUser**](PatchedUser.md)|  | [optional]
 
 ### Return type
 
@@ -4902,7 +4902,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **userId** | **String**| A UUID string identifying this user. | 
+ **userId** | **String**| A UUID string identifying this user. |
 
 ### Return type
 
@@ -4946,7 +4946,7 @@ import 'package:openapi/api.dart';
 
 final api_instance = ApiApi();
 final userId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this user.
-final user = User(); // User | 
+final user = User(); // User |
 
 try {
     final result = api_instance.apiV1UsersUpdate(userId, user);
@@ -4960,8 +4960,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **userId** | **String**| A UUID string identifying this user. | 
- **user** | [**User**](User.md)|  | 
+ **userId** | **String**| A UUID string identifying this user. |
+ **user** | [**User**](User.md)|  |
 
 ### Return type
 
@@ -4996,7 +4996,7 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ApiApi();
-final kioskId = kioskId_example; // String | 
+final kioskId = kioskId_example; // String |
 final lastSyncHash = lastSyncHash_example; // String | Last content hash from kiosk
 
 try {
@@ -5011,8 +5011,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **kioskId** | **String**|  | 
- **lastSyncHash** | **String**| Last content hash from kiosk | [optional] 
+ **kioskId** | **String**|  |
+ **lastSyncHash** | **String**| Last content hash from kiosk | [optional]
 
 ### Return type
 
@@ -5047,7 +5047,7 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ApiApi();
-final kioskId = kioskId_example; // String | 
+final kioskId = kioskId_example; // String |
 
 try {
     final result = api_instance.kioskDownloadSnapshot(kioskId);
@@ -5061,7 +5061,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **kioskId** | **String**|  | 
+ **kioskId** | **String**|  |
 
 ### Return type
 
@@ -5096,8 +5096,8 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ApiApi();
-final kioskId = kioskId_example; // String | 
-final heartbeat = Heartbeat(); // Heartbeat | 
+final kioskId = kioskId_example; // String |
+final heartbeat = Heartbeat(); // Heartbeat |
 
 try {
     api_instance.kioskHeartbeat(kioskId, heartbeat);
@@ -5110,8 +5110,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **kioskId** | **String**|  | 
- **heartbeat** | [**Heartbeat**](Heartbeat.md)|  | 
+ **kioskId** | **String**|  |
+ **heartbeat** | [**Heartbeat**](Heartbeat.md)|  |
 
 ### Return type
 
@@ -5146,7 +5146,7 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ApiApi();
-final deviceLog = DeviceLog(); // DeviceLog | 
+final deviceLog = DeviceLog(); // DeviceLog |
 
 try {
     final result = api_instance.kioskLog(deviceLog);
@@ -5160,7 +5160,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **deviceLog** | [**DeviceLog**](DeviceLog.md)|  | 
+ **deviceLog** | [**DeviceLog**](DeviceLog.md)|  |
 
 ### Return type
 
@@ -5195,8 +5195,8 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ApiApi();
-final kioskId = kioskId_example; // String | 
-final busLocation = BusLocation(); // BusLocation | 
+final kioskId = kioskId_example; // String |
+final busLocation = BusLocation(); // BusLocation |
 
 try {
     final result = api_instance.kioskUpdateLocation(kioskId, busLocation);
@@ -5210,8 +5210,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **kioskId** | **String**|  | 
- **busLocation** | [**BusLocation**](BusLocation.md)|  | 
+ **kioskId** | **String**|  |
+ **busLocation** | [**BusLocation**](BusLocation.md)|  |
 
 ### Return type
 
@@ -5227,4 +5227,3 @@ Name | Type | Description  | Notes
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-

@@ -434,5 +434,3 @@ class PatchedBusStatusEnumTypeTransformer {
   /// Singleton [PatchedBusStatusEnumTypeTransformer] instance.
   static PatchedBusStatusEnumTypeTransformer? _instance;
 }
-
-

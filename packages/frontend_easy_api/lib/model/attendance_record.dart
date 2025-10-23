@@ -295,5 +295,3 @@ class AttendanceRecordStatusEnumTypeTransformer {
   /// Singleton [AttendanceRecordStatusEnumTypeTransformer] instance.
   static AttendanceRecordStatusEnumTypeTransformer? _instance;
 }
-
-

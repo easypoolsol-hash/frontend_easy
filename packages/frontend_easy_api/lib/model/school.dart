@@ -122,4 +122,3 @@ class School {
     'created_at',
   };
 }
-

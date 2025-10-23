@@ -178,4 +178,3 @@ class StudentPhoto {
     'created_at',
   };
 }
-

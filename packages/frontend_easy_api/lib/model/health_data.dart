@@ -187,4 +187,3 @@ class HealthData {
   static const requiredKeys = <String>{
   };
 }
-

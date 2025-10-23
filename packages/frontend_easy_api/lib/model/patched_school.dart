@@ -149,4 +149,3 @@ class PatchedSchool {
   static const requiredKeys = <String>{
   };
 }
-

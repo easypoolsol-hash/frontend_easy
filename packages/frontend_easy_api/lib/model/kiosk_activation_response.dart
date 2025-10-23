@@ -155,4 +155,3 @@ class KioskActivationResponse {
     'activation_token_destroyed',
   };
 }
-

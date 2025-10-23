@@ -277,5 +277,3 @@ class PatchedStudentParentRelationshipEnumTypeTransformer {
   /// Singleton [PatchedStudentParentRelationshipEnumTypeTransformer] instance.
   static PatchedStudentParentRelationshipEnumTypeTransformer? _instance;
 }
-
-

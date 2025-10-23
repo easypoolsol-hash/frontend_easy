@@ -173,4 +173,3 @@ class Heartbeat {
     'embedding_count',
   };
 }
-

@@ -387,5 +387,3 @@ class AuditLogResourceTypeEnumTypeTransformer {
   /// Singleton [AuditLogResourceTypeEnumTypeTransformer] instance.
   static AuditLogResourceTypeEnumTypeTransformer? _instance;
 }
-
-

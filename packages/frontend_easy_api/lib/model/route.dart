@@ -210,4 +210,3 @@ class Route {
     'updated_at',
   };
 }
-

@@ -23,12 +23,18 @@ jobs:
           channel: 'stable'
           cache: true
 
+      - name: Regenerate API client
+        run: npx @openapitools/openapi-generator-cli generate -i openapi-schema.yaml -g dart-dio -o packages/frontend_easy_api --additional-properties=pubName=frontend_easy_api,useEnumExtension=true,serializationLibrary=json_serializable
+
       - name: Install dependencies
         run: flutter pub get
 
       - name: Install dependencies for local package
         run: flutter pub get
         working-directory: packages/frontend_easy_api
+
+      - name: Run build_runner
+        run: dart run build_runner build --delete-conflicting-outputs
 
       - name: Analyze project
         run: flutter analyze

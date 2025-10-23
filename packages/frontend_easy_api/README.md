@@ -58,7 +58,7 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ApiApi();
-final aPIKeyCreate = APIKeyCreate(); // APIKeyCreate | 
+final aPIKeyCreate = APIKeyCreate(); // APIKeyCreate |
 
 try {
     final result = api_instance.apiV1ApiKeysCreate(aPIKeyCreate);
@@ -75,97 +75,97 @@ All URIs are relative to *http://localhost:8000*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*ApiApi* | [**apiV1ApiKeysCreate**](doc//ApiApi.md#apiv1apikeyscreate) | **POST** /api/v1/api-keys/ | 
-*ApiApi* | [**apiV1ApiKeysDestroy**](doc//ApiApi.md#apiv1apikeysdestroy) | **DELETE** /api/v1/api-keys/{key_id}/ | 
-*ApiApi* | [**apiV1ApiKeysList**](doc//ApiApi.md#apiv1apikeyslist) | **GET** /api/v1/api-keys/ | 
-*ApiApi* | [**apiV1ApiKeysPartialUpdate**](doc//ApiApi.md#apiv1apikeyspartialupdate) | **PATCH** /api/v1/api-keys/{key_id}/ | 
-*ApiApi* | [**apiV1ApiKeysRetrieve**](doc//ApiApi.md#apiv1apikeysretrieve) | **GET** /api/v1/api-keys/{key_id}/ | 
-*ApiApi* | [**apiV1ApiKeysRevokeCreate**](doc//ApiApi.md#apiv1apikeysrevokecreate) | **POST** /api/v1/api-keys/{key_id}/revoke/ | 
-*ApiApi* | [**apiV1ApiKeysUpdate**](doc//ApiApi.md#apiv1apikeysupdate) | **PUT** /api/v1/api-keys/{key_id}/ | 
-*ApiApi* | [**apiV1AttendanceList**](doc//ApiApi.md#apiv1attendancelist) | **GET** /api/v1/attendance/ | 
-*ApiApi* | [**apiV1AttendanceRetrieve**](doc//ApiApi.md#apiv1attendanceretrieve) | **GET** /api/v1/attendance/{record_id}/ | 
-*ApiApi* | [**apiV1AttendanceStudentRetrieve**](doc//ApiApi.md#apiv1attendancestudentretrieve) | **GET** /api/v1/attendance/student/{student_id}/ | 
-*ApiApi* | [**apiV1AttendanceSummaryRetrieve**](doc//ApiApi.md#apiv1attendancesummaryretrieve) | **GET** /api/v1/attendance/summary/ | 
-*ApiApi* | [**apiV1AuditLogsList**](doc//ApiApi.md#apiv1auditlogslist) | **GET** /api/v1/audit-logs/ | 
-*ApiApi* | [**apiV1AuditLogsRetrieve**](doc//ApiApi.md#apiv1auditlogsretrieve) | **GET** /api/v1/audit-logs/{log_id}/ | 
-*ApiApi* | [**apiV1AuthTokenCreate**](doc//ApiApi.md#apiv1authtokencreate) | **POST** /api/v1/auth/token/ | 
-*ApiApi* | [**apiV1AuthTokenRefreshCreate**](doc//ApiApi.md#apiv1authtokenrefreshcreate) | **POST** /api/v1/auth/token/refresh/ | 
-*ApiApi* | [**apiV1BoardingEventsBulkCreate**](doc//ApiApi.md#apiv1boardingeventsbulkcreate) | **POST** /api/v1/boarding-events/bulk/ | 
-*ApiApi* | [**apiV1BoardingEventsCreate**](doc//ApiApi.md#apiv1boardingeventscreate) | **POST** /api/v1/boarding-events/ | 
-*ApiApi* | [**apiV1BoardingEventsDestroy**](doc//ApiApi.md#apiv1boardingeventsdestroy) | **DELETE** /api/v1/boarding-events/{event_id}/ | 
-*ApiApi* | [**apiV1BoardingEventsList**](doc//ApiApi.md#apiv1boardingeventslist) | **GET** /api/v1/boarding-events/ | 
-*ApiApi* | [**apiV1BoardingEventsPartialUpdate**](doc//ApiApi.md#apiv1boardingeventspartialupdate) | **PATCH** /api/v1/boarding-events/{event_id}/ | 
-*ApiApi* | [**apiV1BoardingEventsRecentRetrieve**](doc//ApiApi.md#apiv1boardingeventsrecentretrieve) | **GET** /api/v1/boarding-events/recent/ | 
-*ApiApi* | [**apiV1BoardingEventsRetrieve**](doc//ApiApi.md#apiv1boardingeventsretrieve) | **GET** /api/v1/boarding-events/{event_id}/ | 
-*ApiApi* | [**apiV1BoardingEventsUpdate**](doc//ApiApi.md#apiv1boardingeventsupdate) | **PUT** /api/v1/boarding-events/{event_id}/ | 
-*ApiApi* | [**apiV1BusesAssignStudentsCreate**](doc//ApiApi.md#apiv1busesassignstudentscreate) | **POST** /api/v1/buses/assign-students/ | 
-*ApiApi* | [**apiV1BusesCreate**](doc//ApiApi.md#apiv1busescreate) | **POST** /api/v1/buses/ | 
-*ApiApi* | [**apiV1BusesDestroy**](doc//ApiApi.md#apiv1busesdestroy) | **DELETE** /api/v1/buses/{bus_id}/ | 
-*ApiApi* | [**apiV1BusesList**](doc//ApiApi.md#apiv1buseslist) | **GET** /api/v1/buses/ | 
-*ApiApi* | [**apiV1BusesPartialUpdate**](doc//ApiApi.md#apiv1busespartialupdate) | **PATCH** /api/v1/buses/{bus_id}/ | 
-*ApiApi* | [**apiV1BusesRetrieve**](doc//ApiApi.md#apiv1busesretrieve) | **GET** /api/v1/buses/{bus_id}/ | 
-*ApiApi* | [**apiV1BusesStudentsRetrieve**](doc//ApiApi.md#apiv1busesstudentsretrieve) | **GET** /api/v1/buses/{bus_id}/students/ | 
-*ApiApi* | [**apiV1BusesUpdate**](doc//ApiApi.md#apiv1busesupdate) | **PUT** /api/v1/buses/{bus_id}/ | 
-*ApiApi* | [**apiV1BusesUtilizationRetrieve**](doc//ApiApi.md#apiv1busesutilizationretrieve) | **GET** /api/v1/buses/utilization/ | 
-*ApiApi* | [**apiV1KioskBoardingCreate**](doc//ApiApi.md#apiv1kioskboardingcreate) | **POST** /api/v1/kiosk/boarding/ | 
-*ApiApi* | [**apiV1ParentsCreate**](doc//ApiApi.md#apiv1parentscreate) | **POST** /api/v1/parents/ | 
-*ApiApi* | [**apiV1ParentsDestroy**](doc//ApiApi.md#apiv1parentsdestroy) | **DELETE** /api/v1/parents/{parent_id}/ | 
-*ApiApi* | [**apiV1ParentsList**](doc//ApiApi.md#apiv1parentslist) | **GET** /api/v1/parents/ | 
-*ApiApi* | [**apiV1ParentsPartialUpdate**](doc//ApiApi.md#apiv1parentspartialupdate) | **PATCH** /api/v1/parents/{parent_id}/ | 
-*ApiApi* | [**apiV1ParentsRetrieve**](doc//ApiApi.md#apiv1parentsretrieve) | **GET** /api/v1/parents/{parent_id}/ | 
-*ApiApi* | [**apiV1ParentsStudentsRetrieve**](doc//ApiApi.md#apiv1parentsstudentsretrieve) | **GET** /api/v1/parents/{parent_id}/students/ | 
-*ApiApi* | [**apiV1ParentsUpdate**](doc//ApiApi.md#apiv1parentsupdate) | **PUT** /api/v1/parents/{parent_id}/ | 
-*ApiApi* | [**apiV1RolesList**](doc//ApiApi.md#apiv1roleslist) | **GET** /api/v1/roles/ | 
-*ApiApi* | [**apiV1RolesRetrieve**](doc//ApiApi.md#apiv1rolesretrieve) | **GET** /api/v1/roles/{role_id}/ | 
-*ApiApi* | [**apiV1RoutesBusesRetrieve**](doc//ApiApi.md#apiv1routesbusesretrieve) | **GET** /api/v1/routes/{route_id}/buses/ | 
-*ApiApi* | [**apiV1RoutesCreate**](doc//ApiApi.md#apiv1routescreate) | **POST** /api/v1/routes/ | 
-*ApiApi* | [**apiV1RoutesDestroy**](doc//ApiApi.md#apiv1routesdestroy) | **DELETE** /api/v1/routes/{route_id}/ | 
-*ApiApi* | [**apiV1RoutesList**](doc//ApiApi.md#apiv1routeslist) | **GET** /api/v1/routes/ | 
-*ApiApi* | [**apiV1RoutesPartialUpdate**](doc//ApiApi.md#apiv1routespartialupdate) | **PATCH** /api/v1/routes/{route_id}/ | 
-*ApiApi* | [**apiV1RoutesRetrieve**](doc//ApiApi.md#apiv1routesretrieve) | **GET** /api/v1/routes/{route_id}/ | 
-*ApiApi* | [**apiV1RoutesStudentsRetrieve**](doc//ApiApi.md#apiv1routesstudentsretrieve) | **GET** /api/v1/routes/{route_id}/students/ | 
-*ApiApi* | [**apiV1RoutesUpdate**](doc//ApiApi.md#apiv1routesupdate) | **PUT** /api/v1/routes/{route_id}/ | 
-*ApiApi* | [**apiV1SchoolsCreate**](doc//ApiApi.md#apiv1schoolscreate) | **POST** /api/v1/schools/ | 
-*ApiApi* | [**apiV1SchoolsDestroy**](doc//ApiApi.md#apiv1schoolsdestroy) | **DELETE** /api/v1/schools/{school_id}/ | 
-*ApiApi* | [**apiV1SchoolsList**](doc//ApiApi.md#apiv1schoolslist) | **GET** /api/v1/schools/ | 
-*ApiApi* | [**apiV1SchoolsPartialUpdate**](doc//ApiApi.md#apiv1schoolspartialupdate) | **PATCH** /api/v1/schools/{school_id}/ | 
-*ApiApi* | [**apiV1SchoolsRetrieve**](doc//ApiApi.md#apiv1schoolsretrieve) | **GET** /api/v1/schools/{school_id}/ | 
-*ApiApi* | [**apiV1SchoolsUpdate**](doc//ApiApi.md#apiv1schoolsupdate) | **PUT** /api/v1/schools/{school_id}/ | 
-*ApiApi* | [**apiV1StudentParentsCreate**](doc//ApiApi.md#apiv1studentparentscreate) | **POST** /api/v1/student-parents/ | 
-*ApiApi* | [**apiV1StudentParentsDestroy**](doc//ApiApi.md#apiv1studentparentsdestroy) | **DELETE** /api/v1/student-parents/{id}/ | 
-*ApiApi* | [**apiV1StudentParentsList**](doc//ApiApi.md#apiv1studentparentslist) | **GET** /api/v1/student-parents/ | 
-*ApiApi* | [**apiV1StudentParentsPartialUpdate**](doc//ApiApi.md#apiv1studentparentspartialupdate) | **PATCH** /api/v1/student-parents/{id}/ | 
-*ApiApi* | [**apiV1StudentParentsRetrieve**](doc//ApiApi.md#apiv1studentparentsretrieve) | **GET** /api/v1/student-parents/{id}/ | 
-*ApiApi* | [**apiV1StudentParentsUpdate**](doc//ApiApi.md#apiv1studentparentsupdate) | **PUT** /api/v1/student-parents/{id}/ | 
-*ApiApi* | [**apiV1StudentPhotosCreate**](doc//ApiApi.md#apiv1studentphotoscreate) | **POST** /api/v1/student-photos/ | 
-*ApiApi* | [**apiV1StudentPhotosDestroy**](doc//ApiApi.md#apiv1studentphotosdestroy) | **DELETE** /api/v1/student-photos/{photo_id}/ | 
-*ApiApi* | [**apiV1StudentPhotosList**](doc//ApiApi.md#apiv1studentphotoslist) | **GET** /api/v1/student-photos/ | 
-*ApiApi* | [**apiV1StudentPhotosPartialUpdate**](doc//ApiApi.md#apiv1studentphotospartialupdate) | **PATCH** /api/v1/student-photos/{photo_id}/ | 
-*ApiApi* | [**apiV1StudentPhotosRetrieve**](doc//ApiApi.md#apiv1studentphotosretrieve) | **GET** /api/v1/student-photos/{photo_id}/ | 
-*ApiApi* | [**apiV1StudentPhotosSetPrimaryCreate**](doc//ApiApi.md#apiv1studentphotossetprimarycreate) | **POST** /api/v1/student-photos/{photo_id}/set_primary/ | 
-*ApiApi* | [**apiV1StudentPhotosUpdate**](doc//ApiApi.md#apiv1studentphotosupdate) | **PUT** /api/v1/student-photos/{photo_id}/ | 
-*ApiApi* | [**apiV1StudentsAssignBusCreate**](doc//ApiApi.md#apiv1studentsassignbuscreate) | **POST** /api/v1/students/{student_id}/assign_bus/ | 
-*ApiApi* | [**apiV1StudentsCreate**](doc//ApiApi.md#apiv1studentscreate) | **POST** /api/v1/students/ | 
-*ApiApi* | [**apiV1StudentsDestroy**](doc//ApiApi.md#apiv1studentsdestroy) | **DELETE** /api/v1/students/{student_id}/ | 
-*ApiApi* | [**apiV1StudentsList**](doc//ApiApi.md#apiv1studentslist) | **GET** /api/v1/students/ | 
-*ApiApi* | [**apiV1StudentsParentsRetrieve**](doc//ApiApi.md#apiv1studentsparentsretrieve) | **GET** /api/v1/students/{student_id}/parents/ | 
-*ApiApi* | [**apiV1StudentsPartialUpdate**](doc//ApiApi.md#apiv1studentspartialupdate) | **PATCH** /api/v1/students/{student_id}/ | 
-*ApiApi* | [**apiV1StudentsRetrieve**](doc//ApiApi.md#apiv1studentsretrieve) | **GET** /api/v1/students/{student_id}/ | 
-*ApiApi* | [**apiV1StudentsUpdate**](doc//ApiApi.md#apiv1studentsupdate) | **PUT** /api/v1/students/{student_id}/ | 
-*ApiApi* | [**apiV1UsersCreate**](doc//ApiApi.md#apiv1userscreate) | **POST** /api/v1/users/ | 
-*ApiApi* | [**apiV1UsersDestroy**](doc//ApiApi.md#apiv1usersdestroy) | **DELETE** /api/v1/users/{user_id}/ | 
-*ApiApi* | [**apiV1UsersList**](doc//ApiApi.md#apiv1userslist) | **GET** /api/v1/users/ | 
-*ApiApi* | [**apiV1UsersLoginCreate**](doc//ApiApi.md#apiv1userslogincreate) | **POST** /api/v1/users/login/ | 
-*ApiApi* | [**apiV1UsersMeRetrieve**](doc//ApiApi.md#apiv1usersmeretrieve) | **GET** /api/v1/users/me/ | 
-*ApiApi* | [**apiV1UsersPartialUpdate**](doc//ApiApi.md#apiv1userspartialupdate) | **PATCH** /api/v1/users/{user_id}/ | 
-*ApiApi* | [**apiV1UsersRetrieve**](doc//ApiApi.md#apiv1usersretrieve) | **GET** /api/v1/users/{user_id}/ | 
-*ApiApi* | [**apiV1UsersUpdate**](doc//ApiApi.md#apiv1usersupdate) | **PUT** /api/v1/users/{user_id}/ | 
-*ApiApi* | [**kioskCheckUpdates**](doc//ApiApi.md#kioskcheckupdates) | **GET** /api/v1/kiosks/{kiosk_id}/check-updates/ | 
-*ApiApi* | [**kioskDownloadSnapshot**](doc//ApiApi.md#kioskdownloadsnapshot) | **GET** /api/v1/kiosks/{kiosk_id}/snapshot/ | 
-*ApiApi* | [**kioskHeartbeat**](doc//ApiApi.md#kioskheartbeat) | **POST** /api/v1/kiosks/{kiosk_id}/heartbeat/ | 
-*ApiApi* | [**kioskLog**](doc//ApiApi.md#kiosklog) | **POST** /api/v1/kiosks/logs/ | 
-*ApiApi* | [**kioskUpdateLocation**](doc//ApiApi.md#kioskupdatelocation) | **POST** /api/v1/kiosks/{kiosk_id}/location/ | 
-*KioskActivationApi* | [**kioskActivate**](doc//KioskActivationApi.md#kioskactivate) | **POST** /api/v1/kiosks/activate/ | 
+*ApiApi* | [**apiV1ApiKeysCreate**](doc//ApiApi.md#apiv1apikeyscreate) | **POST** /api/v1/api-keys/ |
+*ApiApi* | [**apiV1ApiKeysDestroy**](doc//ApiApi.md#apiv1apikeysdestroy) | **DELETE** /api/v1/api-keys/{key_id}/ |
+*ApiApi* | [**apiV1ApiKeysList**](doc//ApiApi.md#apiv1apikeyslist) | **GET** /api/v1/api-keys/ |
+*ApiApi* | [**apiV1ApiKeysPartialUpdate**](doc//ApiApi.md#apiv1apikeyspartialupdate) | **PATCH** /api/v1/api-keys/{key_id}/ |
+*ApiApi* | [**apiV1ApiKeysRetrieve**](doc//ApiApi.md#apiv1apikeysretrieve) | **GET** /api/v1/api-keys/{key_id}/ |
+*ApiApi* | [**apiV1ApiKeysRevokeCreate**](doc//ApiApi.md#apiv1apikeysrevokecreate) | **POST** /api/v1/api-keys/{key_id}/revoke/ |
+*ApiApi* | [**apiV1ApiKeysUpdate**](doc//ApiApi.md#apiv1apikeysupdate) | **PUT** /api/v1/api-keys/{key_id}/ |
+*ApiApi* | [**apiV1AttendanceList**](doc//ApiApi.md#apiv1attendancelist) | **GET** /api/v1/attendance/ |
+*ApiApi* | [**apiV1AttendanceRetrieve**](doc//ApiApi.md#apiv1attendanceretrieve) | **GET** /api/v1/attendance/{record_id}/ |
+*ApiApi* | [**apiV1AttendanceStudentRetrieve**](doc//ApiApi.md#apiv1attendancestudentretrieve) | **GET** /api/v1/attendance/student/{student_id}/ |
+*ApiApi* | [**apiV1AttendanceSummaryRetrieve**](doc//ApiApi.md#apiv1attendancesummaryretrieve) | **GET** /api/v1/attendance/summary/ |
+*ApiApi* | [**apiV1AuditLogsList**](doc//ApiApi.md#apiv1auditlogslist) | **GET** /api/v1/audit-logs/ |
+*ApiApi* | [**apiV1AuditLogsRetrieve**](doc//ApiApi.md#apiv1auditlogsretrieve) | **GET** /api/v1/audit-logs/{log_id}/ |
+*ApiApi* | [**apiV1AuthTokenCreate**](doc//ApiApi.md#apiv1authtokencreate) | **POST** /api/v1/auth/token/ |
+*ApiApi* | [**apiV1AuthTokenRefreshCreate**](doc//ApiApi.md#apiv1authtokenrefreshcreate) | **POST** /api/v1/auth/token/refresh/ |
+*ApiApi* | [**apiV1BoardingEventsBulkCreate**](doc//ApiApi.md#apiv1boardingeventsbulkcreate) | **POST** /api/v1/boarding-events/bulk/ |
+*ApiApi* | [**apiV1BoardingEventsCreate**](doc//ApiApi.md#apiv1boardingeventscreate) | **POST** /api/v1/boarding-events/ |
+*ApiApi* | [**apiV1BoardingEventsDestroy**](doc//ApiApi.md#apiv1boardingeventsdestroy) | **DELETE** /api/v1/boarding-events/{event_id}/ |
+*ApiApi* | [**apiV1BoardingEventsList**](doc//ApiApi.md#apiv1boardingeventslist) | **GET** /api/v1/boarding-events/ |
+*ApiApi* | [**apiV1BoardingEventsPartialUpdate**](doc//ApiApi.md#apiv1boardingeventspartialupdate) | **PATCH** /api/v1/boarding-events/{event_id}/ |
+*ApiApi* | [**apiV1BoardingEventsRecentRetrieve**](doc//ApiApi.md#apiv1boardingeventsrecentretrieve) | **GET** /api/v1/boarding-events/recent/ |
+*ApiApi* | [**apiV1BoardingEventsRetrieve**](doc//ApiApi.md#apiv1boardingeventsretrieve) | **GET** /api/v1/boarding-events/{event_id}/ |
+*ApiApi* | [**apiV1BoardingEventsUpdate**](doc//ApiApi.md#apiv1boardingeventsupdate) | **PUT** /api/v1/boarding-events/{event_id}/ |
+*ApiApi* | [**apiV1BusesAssignStudentsCreate**](doc//ApiApi.md#apiv1busesassignstudentscreate) | **POST** /api/v1/buses/assign-students/ |
+*ApiApi* | [**apiV1BusesCreate**](doc//ApiApi.md#apiv1busescreate) | **POST** /api/v1/buses/ |
+*ApiApi* | [**apiV1BusesDestroy**](doc//ApiApi.md#apiv1busesdestroy) | **DELETE** /api/v1/buses/{bus_id}/ |
+*ApiApi* | [**apiV1BusesList**](doc//ApiApi.md#apiv1buseslist) | **GET** /api/v1/buses/ |
+*ApiApi* | [**apiV1BusesPartialUpdate**](doc//ApiApi.md#apiv1busespartialupdate) | **PATCH** /api/v1/buses/{bus_id}/ |
+*ApiApi* | [**apiV1BusesRetrieve**](doc//ApiApi.md#apiv1busesretrieve) | **GET** /api/v1/buses/{bus_id}/ |
+*ApiApi* | [**apiV1BusesStudentsRetrieve**](doc//ApiApi.md#apiv1busesstudentsretrieve) | **GET** /api/v1/buses/{bus_id}/students/ |
+*ApiApi* | [**apiV1BusesUpdate**](doc//ApiApi.md#apiv1busesupdate) | **PUT** /api/v1/buses/{bus_id}/ |
+*ApiApi* | [**apiV1BusesUtilizationRetrieve**](doc//ApiApi.md#apiv1busesutilizationretrieve) | **GET** /api/v1/buses/utilization/ |
+*ApiApi* | [**apiV1KioskBoardingCreate**](doc//ApiApi.md#apiv1kioskboardingcreate) | **POST** /api/v1/kiosk/boarding/ |
+*ApiApi* | [**apiV1ParentsCreate**](doc//ApiApi.md#apiv1parentscreate) | **POST** /api/v1/parents/ |
+*ApiApi* | [**apiV1ParentsDestroy**](doc//ApiApi.md#apiv1parentsdestroy) | **DELETE** /api/v1/parents/{parent_id}/ |
+*ApiApi* | [**apiV1ParentsList**](doc//ApiApi.md#apiv1parentslist) | **GET** /api/v1/parents/ |
+*ApiApi* | [**apiV1ParentsPartialUpdate**](doc//ApiApi.md#apiv1parentspartialupdate) | **PATCH** /api/v1/parents/{parent_id}/ |
+*ApiApi* | [**apiV1ParentsRetrieve**](doc//ApiApi.md#apiv1parentsretrieve) | **GET** /api/v1/parents/{parent_id}/ |
+*ApiApi* | [**apiV1ParentsStudentsRetrieve**](doc//ApiApi.md#apiv1parentsstudentsretrieve) | **GET** /api/v1/parents/{parent_id}/students/ |
+*ApiApi* | [**apiV1ParentsUpdate**](doc//ApiApi.md#apiv1parentsupdate) | **PUT** /api/v1/parents/{parent_id}/ |
+*ApiApi* | [**apiV1RolesList**](doc//ApiApi.md#apiv1roleslist) | **GET** /api/v1/roles/ |
+*ApiApi* | [**apiV1RolesRetrieve**](doc//ApiApi.md#apiv1rolesretrieve) | **GET** /api/v1/roles/{role_id}/ |
+*ApiApi* | [**apiV1RoutesBusesRetrieve**](doc//ApiApi.md#apiv1routesbusesretrieve) | **GET** /api/v1/routes/{route_id}/buses/ |
+*ApiApi* | [**apiV1RoutesCreate**](doc//ApiApi.md#apiv1routescreate) | **POST** /api/v1/routes/ |
+*ApiApi* | [**apiV1RoutesDestroy**](doc//ApiApi.md#apiv1routesdestroy) | **DELETE** /api/v1/routes/{route_id}/ |
+*ApiApi* | [**apiV1RoutesList**](doc//ApiApi.md#apiv1routeslist) | **GET** /api/v1/routes/ |
+*ApiApi* | [**apiV1RoutesPartialUpdate**](doc//ApiApi.md#apiv1routespartialupdate) | **PATCH** /api/v1/routes/{route_id}/ |
+*ApiApi* | [**apiV1RoutesRetrieve**](doc//ApiApi.md#apiv1routesretrieve) | **GET** /api/v1/routes/{route_id}/ |
+*ApiApi* | [**apiV1RoutesStudentsRetrieve**](doc//ApiApi.md#apiv1routesstudentsretrieve) | **GET** /api/v1/routes/{route_id}/students/ |
+*ApiApi* | [**apiV1RoutesUpdate**](doc//ApiApi.md#apiv1routesupdate) | **PUT** /api/v1/routes/{route_id}/ |
+*ApiApi* | [**apiV1SchoolsCreate**](doc//ApiApi.md#apiv1schoolscreate) | **POST** /api/v1/schools/ |
+*ApiApi* | [**apiV1SchoolsDestroy**](doc//ApiApi.md#apiv1schoolsdestroy) | **DELETE** /api/v1/schools/{school_id}/ |
+*ApiApi* | [**apiV1SchoolsList**](doc//ApiApi.md#apiv1schoolslist) | **GET** /api/v1/schools/ |
+*ApiApi* | [**apiV1SchoolsPartialUpdate**](doc//ApiApi.md#apiv1schoolspartialupdate) | **PATCH** /api/v1/schools/{school_id}/ |
+*ApiApi* | [**apiV1SchoolsRetrieve**](doc//ApiApi.md#apiv1schoolsretrieve) | **GET** /api/v1/schools/{school_id}/ |
+*ApiApi* | [**apiV1SchoolsUpdate**](doc//ApiApi.md#apiv1schoolsupdate) | **PUT** /api/v1/schools/{school_id}/ |
+*ApiApi* | [**apiV1StudentParentsCreate**](doc//ApiApi.md#apiv1studentparentscreate) | **POST** /api/v1/student-parents/ |
+*ApiApi* | [**apiV1StudentParentsDestroy**](doc//ApiApi.md#apiv1studentparentsdestroy) | **DELETE** /api/v1/student-parents/{id}/ |
+*ApiApi* | [**apiV1StudentParentsList**](doc//ApiApi.md#apiv1studentparentslist) | **GET** /api/v1/student-parents/ |
+*ApiApi* | [**apiV1StudentParentsPartialUpdate**](doc//ApiApi.md#apiv1studentparentspartialupdate) | **PATCH** /api/v1/student-parents/{id}/ |
+*ApiApi* | [**apiV1StudentParentsRetrieve**](doc//ApiApi.md#apiv1studentparentsretrieve) | **GET** /api/v1/student-parents/{id}/ |
+*ApiApi* | [**apiV1StudentParentsUpdate**](doc//ApiApi.md#apiv1studentparentsupdate) | **PUT** /api/v1/student-parents/{id}/ |
+*ApiApi* | [**apiV1StudentPhotosCreate**](doc//ApiApi.md#apiv1studentphotoscreate) | **POST** /api/v1/student-photos/ |
+*ApiApi* | [**apiV1StudentPhotosDestroy**](doc//ApiApi.md#apiv1studentphotosdestroy) | **DELETE** /api/v1/student-photos/{photo_id}/ |
+*ApiApi* | [**apiV1StudentPhotosList**](doc//ApiApi.md#apiv1studentphotoslist) | **GET** /api/v1/student-photos/ |
+*ApiApi* | [**apiV1StudentPhotosPartialUpdate**](doc//ApiApi.md#apiv1studentphotospartialupdate) | **PATCH** /api/v1/student-photos/{photo_id}/ |
+*ApiApi* | [**apiV1StudentPhotosRetrieve**](doc//ApiApi.md#apiv1studentphotosretrieve) | **GET** /api/v1/student-photos/{photo_id}/ |
+*ApiApi* | [**apiV1StudentPhotosSetPrimaryCreate**](doc//ApiApi.md#apiv1studentphotossetprimarycreate) | **POST** /api/v1/student-photos/{photo_id}/set_primary/ |
+*ApiApi* | [**apiV1StudentPhotosUpdate**](doc//ApiApi.md#apiv1studentphotosupdate) | **PUT** /api/v1/student-photos/{photo_id}/ |
+*ApiApi* | [**apiV1StudentsAssignBusCreate**](doc//ApiApi.md#apiv1studentsassignbuscreate) | **POST** /api/v1/students/{student_id}/assign_bus/ |
+*ApiApi* | [**apiV1StudentsCreate**](doc//ApiApi.md#apiv1studentscreate) | **POST** /api/v1/students/ |
+*ApiApi* | [**apiV1StudentsDestroy**](doc//ApiApi.md#apiv1studentsdestroy) | **DELETE** /api/v1/students/{student_id}/ |
+*ApiApi* | [**apiV1StudentsList**](doc//ApiApi.md#apiv1studentslist) | **GET** /api/v1/students/ |
+*ApiApi* | [**apiV1StudentsParentsRetrieve**](doc//ApiApi.md#apiv1studentsparentsretrieve) | **GET** /api/v1/students/{student_id}/parents/ |
+*ApiApi* | [**apiV1StudentsPartialUpdate**](doc//ApiApi.md#apiv1studentspartialupdate) | **PATCH** /api/v1/students/{student_id}/ |
+*ApiApi* | [**apiV1StudentsRetrieve**](doc//ApiApi.md#apiv1studentsretrieve) | **GET** /api/v1/students/{student_id}/ |
+*ApiApi* | [**apiV1StudentsUpdate**](doc//ApiApi.md#apiv1studentsupdate) | **PUT** /api/v1/students/{student_id}/ |
+*ApiApi* | [**apiV1UsersCreate**](doc//ApiApi.md#apiv1userscreate) | **POST** /api/v1/users/ |
+*ApiApi* | [**apiV1UsersDestroy**](doc//ApiApi.md#apiv1usersdestroy) | **DELETE** /api/v1/users/{user_id}/ |
+*ApiApi* | [**apiV1UsersList**](doc//ApiApi.md#apiv1userslist) | **GET** /api/v1/users/ |
+*ApiApi* | [**apiV1UsersLoginCreate**](doc//ApiApi.md#apiv1userslogincreate) | **POST** /api/v1/users/login/ |
+*ApiApi* | [**apiV1UsersMeRetrieve**](doc//ApiApi.md#apiv1usersmeretrieve) | **GET** /api/v1/users/me/ |
+*ApiApi* | [**apiV1UsersPartialUpdate**](doc//ApiApi.md#apiv1userspartialupdate) | **PATCH** /api/v1/users/{user_id}/ |
+*ApiApi* | [**apiV1UsersRetrieve**](doc//ApiApi.md#apiv1usersretrieve) | **GET** /api/v1/users/{user_id}/ |
+*ApiApi* | [**apiV1UsersUpdate**](doc//ApiApi.md#apiv1usersupdate) | **PUT** /api/v1/users/{user_id}/ |
+*ApiApi* | [**kioskCheckUpdates**](doc//ApiApi.md#kioskcheckupdates) | **GET** /api/v1/kiosks/{kiosk_id}/check-updates/ |
+*ApiApi* | [**kioskDownloadSnapshot**](doc//ApiApi.md#kioskdownloadsnapshot) | **GET** /api/v1/kiosks/{kiosk_id}/snapshot/ |
+*ApiApi* | [**kioskHeartbeat**](doc//ApiApi.md#kioskheartbeat) | **POST** /api/v1/kiosks/{kiosk_id}/heartbeat/ |
+*ApiApi* | [**kioskLog**](doc//ApiApi.md#kiosklog) | **POST** /api/v1/kiosks/logs/ |
+*ApiApi* | [**kioskUpdateLocation**](doc//ApiApi.md#kioskupdatelocation) | **POST** /api/v1/kiosks/{kiosk_id}/location/ |
+*KioskActivationApi* | [**kioskActivate**](doc//KioskActivationApi.md#kioskactivate) | **POST** /api/v1/kiosks/activate/ |
 
 
 ## Documentation For Models
@@ -236,7 +236,7 @@ Authentication schemes defined for the API:
 
 - **Type**: API key
 - **API key parameter name**: sessionid
-- **Location**: 
+- **Location**:
 
 ### jwtAuth
 
@@ -244,6 +244,3 @@ Authentication schemes defined for the API:
 
 
 ## Author
-
-
-

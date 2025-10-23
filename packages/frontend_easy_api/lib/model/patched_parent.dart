@@ -237,4 +237,3 @@ class PatchedParent {
   static const requiredKeys = <String>{
   };
 }
-

@@ -8,8 +8,6 @@ import 'package:openapi/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**refresh** | **String** | The refresh token obtained from activation or previous refresh | 
+**refresh** | **String** | The refresh token obtained from activation or previous refresh |
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

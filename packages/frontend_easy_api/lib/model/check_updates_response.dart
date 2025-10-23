@@ -143,4 +143,3 @@ class CheckUpdatesResponse {
     'content_hash',
   };
 }
-

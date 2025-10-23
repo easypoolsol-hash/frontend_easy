@@ -312,5 +312,3 @@ class StudentStatusEnumTypeTransformer {
   /// Singleton [StudentStatusEnumTypeTransformer] instance.
   static StudentStatusEnumTypeTransformer? _instance;
 }
-
-

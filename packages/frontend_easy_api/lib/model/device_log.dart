@@ -245,5 +245,3 @@ class DeviceLogLogLevelEnumTypeTransformer {
   /// Singleton [DeviceLogLogLevelEnumTypeTransformer] instance.
   static DeviceLogLogLevelEnumTypeTransformer? _instance;
 }
-
-

@@ -58,7 +58,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'APIKeyCreate',) as APIKeyCreate;
-    
+
     }
     return null;
   }
@@ -171,7 +171,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'PaginatedAPIKeyList',) as PaginatedAPIKeyList;
-    
+
     }
     return null;
   }
@@ -225,7 +225,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'APIKey',) as APIKey;
-    
+
     }
     return null;
   }
@@ -275,7 +275,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'APIKey',) as APIKey;
-    
+
     }
     return null;
   }
@@ -329,7 +329,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'APIKey',) as APIKey;
-    
+
     }
     return null;
   }
@@ -383,7 +383,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'APIKey',) as APIKey;
-    
+
     }
     return null;
   }
@@ -464,7 +464,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'PaginatedAttendanceRecordList',) as PaginatedAttendanceRecordList;
-    
+
     }
     return null;
   }
@@ -517,7 +517,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'AttendanceRecord',) as AttendanceRecord;
-    
+
     }
     return null;
   }
@@ -570,7 +570,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'AttendanceRecord',) as AttendanceRecord;
-    
+
     }
     return null;
   }
@@ -614,7 +614,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'AttendanceRecord',) as AttendanceRecord;
-    
+
     }
     return null;
   }
@@ -685,7 +685,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'PaginatedAuditLogList',) as PaginatedAuditLogList;
-    
+
     }
     return null;
   }
@@ -735,7 +735,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'AuditLog',) as AuditLog;
-    
+
     }
     return null;
   }
@@ -787,12 +787,12 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'TokenObtainPair',) as TokenObtainPair;
-    
+
     }
     return null;
   }
 
-  ///      Custom TokenRefreshView that supports both regular JWT and kiosk JWT tokens.      **Token Rotation Security:**     - Accepts: refresh token only     - Returns: NEW access token (15 min) + NEW refresh token (60 days)     - Old refresh token is immediately blacklisted (cannot be reused)     
+  ///      Custom TokenRefreshView that supports both regular JWT and kiosk JWT tokens.      **Token Rotation Security:**     - Accepts: refresh token only     - Returns: NEW access token (15 min) + NEW refresh token (60 days)     - Old refresh token is immediately blacklisted (cannot be reused)
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -824,7 +824,7 @@ class ApiApi {
     );
   }
 
-  ///      Custom TokenRefreshView that supports both regular JWT and kiosk JWT tokens.      **Token Rotation Security:**     - Accepts: refresh token only     - Returns: NEW access token (15 min) + NEW refresh token (60 days)     - Old refresh token is immediately blacklisted (cannot be reused)     
+  ///      Custom TokenRefreshView that supports both regular JWT and kiosk JWT tokens.      **Token Rotation Security:**     - Accepts: refresh token only     - Returns: NEW access token (15 min) + NEW refresh token (60 days)     - Old refresh token is immediately blacklisted (cannot be reused)
   ///
   /// Parameters:
   ///
@@ -839,7 +839,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'TokenRefreshResponse',) as TokenRefreshResponse;
-    
+
     }
     return null;
   }
@@ -891,7 +891,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'BoardingEvent',) as BoardingEvent;
-    
+
     }
     return null;
   }
@@ -943,7 +943,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'BoardingEventCreate',) as BoardingEventCreate;
-    
+
     }
     return null;
   }
@@ -1074,7 +1074,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'PaginatedBoardingEventList',) as PaginatedBoardingEventList;
-    
+
     }
     return null;
   }
@@ -1131,7 +1131,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'BoardingEvent',) as BoardingEvent;
-    
+
     }
     return null;
   }
@@ -1175,7 +1175,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'BoardingEvent',) as BoardingEvent;
-    
+
     }
     return null;
   }
@@ -1228,7 +1228,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'BoardingEvent',) as BoardingEvent;
-    
+
     }
     return null;
   }
@@ -1285,7 +1285,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'BoardingEvent',) as BoardingEvent;
-    
+
     }
     return null;
   }
@@ -1337,7 +1337,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Bus',) as Bus;
-    
+
     }
     return null;
   }
@@ -1389,7 +1389,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Bus',) as Bus;
-    
+
     }
     return null;
   }
@@ -1517,7 +1517,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'PaginatedBusList',) as PaginatedBusList;
-    
+
     }
     return null;
   }
@@ -1574,7 +1574,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Bus',) as Bus;
-    
+
     }
     return null;
   }
@@ -1627,7 +1627,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Bus',) as Bus;
-    
+
     }
     return null;
   }
@@ -1680,7 +1680,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Bus',) as Bus;
-    
+
     }
     return null;
   }
@@ -1737,7 +1737,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Bus',) as Bus;
-    
+
     }
     return null;
   }
@@ -1781,7 +1781,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Bus',) as Bus;
-    
+
     }
     return null;
   }
@@ -1833,7 +1833,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ApiV1KioskBoardingCreate200Response',) as ApiV1KioskBoardingCreate200Response;
-    
+
     }
     return null;
   }
@@ -1880,7 +1880,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Parent',) as Parent;
-    
+
     }
     return null;
   }
@@ -1993,7 +1993,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'PaginatedParentList',) as PaginatedParentList;
-    
+
     }
     return null;
   }
@@ -2047,7 +2047,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Parent',) as Parent;
-    
+
     }
     return null;
   }
@@ -2097,7 +2097,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Parent',) as Parent;
-    
+
     }
     return null;
   }
@@ -2147,7 +2147,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Parent',) as Parent;
-    
+
     }
     return null;
   }
@@ -2201,7 +2201,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Parent',) as Parent;
-    
+
     }
     return null;
   }
@@ -2272,7 +2272,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'PaginatedRoleList',) as PaginatedRoleList;
-    
+
     }
     return null;
   }
@@ -2322,7 +2322,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Role',) as Role;
-    
+
     }
     return null;
   }
@@ -2375,7 +2375,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Route',) as Route;
-    
+
     }
     return null;
   }
@@ -2427,7 +2427,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Route',) as Route;
-    
+
     }
     return null;
   }
@@ -2537,7 +2537,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'PaginatedRouteList',) as PaginatedRouteList;
-    
+
     }
     return null;
   }
@@ -2594,7 +2594,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Route',) as Route;
-    
+
     }
     return null;
   }
@@ -2647,7 +2647,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Route',) as Route;
-    
+
     }
     return null;
   }
@@ -2700,7 +2700,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Route',) as Route;
-    
+
     }
     return null;
   }
@@ -2757,7 +2757,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Route',) as Route;
-    
+
     }
     return null;
   }
@@ -2804,7 +2804,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'School',) as School;
-    
+
     }
     return null;
   }
@@ -2917,7 +2917,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'PaginatedSchoolList',) as PaginatedSchoolList;
-    
+
     }
     return null;
   }
@@ -2971,7 +2971,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'School',) as School;
-    
+
     }
     return null;
   }
@@ -3021,7 +3021,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'School',) as School;
-    
+
     }
     return null;
   }
@@ -3075,7 +3075,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'School',) as School;
-    
+
     }
     return null;
   }
@@ -3122,7 +3122,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'StudentParent',) as StudentParent;
-    
+
     }
     return null;
   }
@@ -3235,7 +3235,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'PaginatedStudentParentList',) as PaginatedStudentParentList;
-    
+
     }
     return null;
   }
@@ -3289,7 +3289,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'StudentParent',) as StudentParent;
-    
+
     }
     return null;
   }
@@ -3339,7 +3339,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'StudentParent',) as StudentParent;
-    
+
     }
     return null;
   }
@@ -3393,7 +3393,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'StudentParent',) as StudentParent;
-    
+
     }
     return null;
   }
@@ -3440,7 +3440,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'StudentPhoto',) as StudentPhoto;
-    
+
     }
     return null;
   }
@@ -3553,7 +3553,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'PaginatedStudentPhotoList',) as PaginatedStudentPhotoList;
-    
+
     }
     return null;
   }
@@ -3607,7 +3607,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'StudentPhoto',) as StudentPhoto;
-    
+
     }
     return null;
   }
@@ -3657,7 +3657,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'StudentPhoto',) as StudentPhoto;
-    
+
     }
     return null;
   }
@@ -3711,7 +3711,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'StudentPhoto',) as StudentPhoto;
-    
+
     }
     return null;
   }
@@ -3765,7 +3765,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'StudentPhoto',) as StudentPhoto;
-    
+
     }
     return null;
   }
@@ -3819,7 +3819,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Student',) as Student;
-    
+
     }
     return null;
   }
@@ -3866,7 +3866,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Student',) as Student;
-    
+
     }
     return null;
   }
@@ -3979,7 +3979,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'PaginatedStudentList',) as PaginatedStudentList;
-    
+
     }
     return null;
   }
@@ -4029,7 +4029,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Student',) as Student;
-    
+
     }
     return null;
   }
@@ -4083,7 +4083,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Student',) as Student;
-    
+
     }
     return null;
   }
@@ -4133,7 +4133,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Student',) as Student;
-    
+
     }
     return null;
   }
@@ -4187,7 +4187,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Student',) as Student;
-    
+
     }
     return null;
   }
@@ -4234,7 +4234,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'UserCreate',) as UserCreate;
-    
+
     }
     return null;
   }
@@ -4347,7 +4347,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'PaginatedUserList',) as PaginatedUserList;
-    
+
     }
     return null;
   }
@@ -4394,7 +4394,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'User',) as User;
-    
+
     }
     return null;
   }
@@ -4438,7 +4438,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'User',) as User;
-    
+
     }
     return null;
   }
@@ -4492,7 +4492,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'User',) as User;
-    
+
     }
     return null;
   }
@@ -4542,7 +4542,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'User',) as User;
-    
+
     }
     return null;
   }
@@ -4596,7 +4596,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'User',) as User;
-    
+
     }
     return null;
   }
@@ -4659,7 +4659,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'CheckUpdatesResponse',) as CheckUpdatesResponse;
-    
+
     }
     return null;
   }
@@ -4712,7 +4712,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'MultipartFile',) as MultipartFile;
-    
+
     }
     return null;
   }
@@ -4813,7 +4813,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'KioskLog200Response',) as KioskLog200Response;
-    
+
     }
     return null;
   }
@@ -4870,7 +4870,7 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'BusLocation',) as BusLocation;
-    
+
     }
     return null;
   }

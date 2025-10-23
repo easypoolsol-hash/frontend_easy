@@ -132,4 +132,3 @@ class ApiV1KioskBoardingCreate200Response {
   static const requiredKeys = <String>{
   };
 }
-

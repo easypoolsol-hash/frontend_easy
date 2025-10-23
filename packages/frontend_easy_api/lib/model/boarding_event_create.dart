@@ -218,4 +218,3 @@ class BoardingEventCreate {
     'model_version',
   };
 }
-

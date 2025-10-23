@@ -214,4 +214,3 @@ class PatchedStudentPhoto {
   static const requiredKeys = <String>{
   };
 }
-

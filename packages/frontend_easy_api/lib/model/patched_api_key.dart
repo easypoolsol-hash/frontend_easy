@@ -219,4 +219,3 @@ class PatchedAPIKey {
   static const requiredKeys = <String>{
   };
 }
-

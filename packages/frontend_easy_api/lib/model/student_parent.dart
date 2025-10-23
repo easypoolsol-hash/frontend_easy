@@ -238,5 +238,3 @@ class StudentParentRelationshipEnumTypeTransformer {
   /// Singleton [StudentParentRelationshipEnumTypeTransformer] instance.
   static StudentParentRelationshipEnumTypeTransformer? _instance;
 }
-
-

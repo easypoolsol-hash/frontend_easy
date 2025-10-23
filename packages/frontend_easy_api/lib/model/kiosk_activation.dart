@@ -116,4 +116,3 @@ class KioskActivation {
     'activation_token',
   };
 }
-

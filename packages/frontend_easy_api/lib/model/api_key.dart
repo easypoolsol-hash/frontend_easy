@@ -193,4 +193,3 @@ class APIKey {
     'created_at',
   };
 }
-

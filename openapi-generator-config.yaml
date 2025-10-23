@@ -15,4 +15,3 @@ additional-properties:
   legacyDiscriminatorBehavior: false
   serializationLibrary: json_serializable
   wrapper: dio
-

@@ -115,4 +115,3 @@ class KioskLog200Response {
   static const requiredKeys = <String>{
   };
 }
-

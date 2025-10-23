@@ -165,4 +165,3 @@ class Parent {
     'created_at',
   };
 }
-

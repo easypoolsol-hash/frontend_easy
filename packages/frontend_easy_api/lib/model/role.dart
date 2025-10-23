@@ -256,5 +256,3 @@ class RoleNameEnumTypeTransformer {
   /// Singleton [RoleNameEnumTypeTransformer] instance.
   static RoleNameEnumTypeTransformer? _instance;
 }
-
-

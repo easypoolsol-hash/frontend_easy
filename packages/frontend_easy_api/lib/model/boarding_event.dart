@@ -236,4 +236,3 @@ class BoardingEvent {
     'created_at',
   };
 }
-

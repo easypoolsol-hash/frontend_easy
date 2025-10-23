@@ -156,4 +156,3 @@ class APIKeyCreate {
     'raw_key',
   };
 }
-

@@ -63,6 +63,8 @@ dependencies:
   # Environment variables
   flutter_dotenv: ^5.1.0
 
+  import_sorter: ^4.6.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

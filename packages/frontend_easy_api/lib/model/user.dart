@@ -183,4 +183,3 @@ class User {
     'updated_at',
   };
 }
-

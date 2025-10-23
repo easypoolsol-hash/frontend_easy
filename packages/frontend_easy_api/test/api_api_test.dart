@@ -97,7 +97,7 @@ void main() {
       // TODO
     });
 
-    //      Custom TokenRefreshView that supports both regular JWT and kiosk JWT tokens.      **Token Rotation Security:**     - Accepts: refresh token only     - Returns: NEW access token (15 min) + NEW refresh token (60 days)     - Old refresh token is immediately blacklisted (cannot be reused)     
+    //      Custom TokenRefreshView that supports both regular JWT and kiosk JWT tokens.      **Token Rotation Security:**     - Accepts: refresh token only     - Returns: NEW access token (15 min) + NEW refresh token (60 days)     - Old refresh token is immediately blacklisted (cannot be reused)
     //
     //Future<TokenRefreshResponse> apiV1AuthTokenRefreshCreate(TokenRefreshRequest tokenRefreshRequest) async
     test('test apiV1AuthTokenRefreshCreate', () async {
