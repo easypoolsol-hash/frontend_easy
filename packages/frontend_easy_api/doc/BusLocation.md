@@ -1,14 +1,14 @@
-# openapi.model.BusLocation
+# frontend_easy_api.model.BusLocation
 
 ## Load the model package
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 ```
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**locationId** | **int** | Auto-incrementing location entry ID | [readonly]
+**locationId** | **int** | Auto-incrementing location entry ID |
 **latitude** | **double** | GPS latitude coordinate |
 **longitude** | **double** | GPS longitude coordinate |
 **accuracy** | **double** | GPS accuracy in meters | [optional]

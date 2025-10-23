@@ -1,15 +1,15 @@
-# openapi.model.School
+# frontend_easy_api.model.School
 
 ## Load the model package
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 ```
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**schoolId** | **String** |  | [readonly]
+**schoolId** | **String** |  |
 **name** | **String** |  |
-**createdAt** | [**DateTime**](DateTime.md) |  | [readonly]
+**createdAt** | [**DateTime**](DateTime.md) |  |
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

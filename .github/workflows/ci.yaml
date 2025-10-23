@@ -26,6 +26,10 @@ jobs:
       - name: Regenerate API client
         run: npx @openapitools/openapi-generator-cli generate -i openapi-schema.yaml -g dart-dio -o packages/frontend_easy_api --additional-properties=pubName=frontend_easy_api,useEnumExtension=true,serializationLibrary=json_serializable
 
+      - name: Fix SDK constraint in generated package
+        run: bash scripts/fix_sdk_constraint.sh
+
+
       - name: Install dependencies
         run: flutter pub get
 

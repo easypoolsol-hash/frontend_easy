@@ -1,21 +1,12 @@
-//
-// AUTO-GENERATED FILE, DO NOT MODIFY!
-//
-// @dart=2.18
-
-// ignore_for_file: unused_element, unused_import
-// ignore_for_file: always_put_required_named_parameters_first
-// ignore_for_file: constant_identifier_names
-// ignore_for_file: lines_longer_than_80_chars
-
-import 'package:frontend_easy_api/api.dart';
 import 'package:test/test.dart';
+import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for KioskActivation
 void main() {
-  // final instance = KioskActivation();
+  final KioskActivation? instance = /* KioskActivation(...) */ null;
+  // TODO add properties to the entity
 
-  group('test KioskActivation', () {
+  group(KioskActivation, () {
     // Kiosk identifier (e.g., KIOSK-SCHOOL-001)
     // String kioskId
     test('to test the property `kioskId`', () async {
@@ -28,7 +19,5 @@ void main() {
       // TODO
     });
 
-
   });
-
 }

@@ -20,14 +20,13 @@ void main() async {
   final prefs = await SharedPreferences.getInstance();
   final accessToken = prefs.getString('access_token');
   if (accessToken != null && accessToken.isNotEmpty) {
-    ApiService().client.addDefaultHeader('Authorization', 'Bearer $accessToken');
+    ApiService().client.addDefaultHeader(
+      'Authorization',
+      'Bearer $accessToken',
+    );
   }
 
-  runApp(
-    const ProviderScope(
-      child: FrontendEasyApp(),
-    ),
-  );
+  runApp(const ProviderScope(child: FrontendEasyApp()));
 }
 
 /// Root application widget for Imperial EasyPool Frontend
@@ -47,7 +46,6 @@ class FrontendEasyApp extends ConsumerWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.light, // Light mode only
-
       // Routing (go_router)
       routerConfig: router,
     );

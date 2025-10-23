@@ -18,26 +18,14 @@ class BoardingEventsScreen extends ConsumerWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    Icons.event,
-                    size: 64,
-                    color: Colors.grey,
-                  ),
+                  Icon(Icons.event, size: 64, color: Colors.grey),
                   SizedBox(height: 16),
                   Text(
                     'Boarding Events',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 8),
-                  Text(
-                    'Coming soon...',
-                    style: TextStyle(
-                      color: Colors.grey,
-                    ),
-                  ),
+                  Text('Coming soon...', style: TextStyle(color: Colors.grey)),
                 ],
               ),
             ),

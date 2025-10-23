@@ -59,7 +59,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         refresh: '',
       );
 
-      final response = await apiService.api.apiV1AuthTokenCreateWithHttpInfo(tokenRequest);
+      final response = await apiService.api.apiV1AuthTokenCreateWithHttpInfo(
+        tokenRequest,
+      );
 
       if (response.statusCode == 200) {
         // Parse the response body as JSON
@@ -74,7 +76,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           await prefs.setString('refresh_token', refreshToken);
 
           // Set auth on client
-          ApiService().client.addDefaultHeader('Authorization', 'Bearer $accessToken');
+          ApiService().client.addDefaultHeader(
+            'Authorization',
+            'Bearer $accessToken',
+          );
 
           // Navigate to home
           if (mounted) {
@@ -104,9 +109,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login'),
-      ),
+      appBar: AppBar(title: const Text('Login')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -130,10 +133,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             ),
             const SizedBox(height: 16),
             if (_errorMessage != null)
-              Text(
-                _errorMessage!,
-                style: const TextStyle(color: Colors.red),
-              ),
+              Text(_errorMessage!, style: const TextStyle(color: Colors.red)),
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: _isLoading ? null : _login,

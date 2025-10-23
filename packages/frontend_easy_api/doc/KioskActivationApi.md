@@ -1,8 +1,8 @@
-# openapi.api.KioskActivationApi
+# frontend_easy_api.api.KioskActivationApi
 
 ## Load the API package
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 ```
 
 All URIs are relative to *http://localhost:8000*
@@ -21,15 +21,15 @@ Method | HTTP request | Description
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 
-final api_instance = KioskActivationApi();
-final kioskActivation = KioskActivation(); // KioskActivation |
+final api = FrontendEasyApi().getKioskActivationApi();
+final KioskActivation kioskActivation = ; // KioskActivation |
 
 try {
-    final result = api_instance.kioskActivate(kioskActivation);
-    print(result);
-} catch (e) {
+    final response = api.kioskActivate(kioskActivation);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling KioskActivationApi->kioskActivate: $e\n');
 }
 ```

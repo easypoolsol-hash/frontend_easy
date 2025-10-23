@@ -13,19 +13,18 @@ repos:
     hooks:
       - id: flutter-format
         name: Format Flutter code
-        entry: flutter format
+        entry: powershell scripts/run_flutter_command.ps1 "format"
         language: system
-        args: [lib, test]
         types: [dart]
 
       - id: flutter-analyze
         name: Analyze Flutter code
-        entry: flutter analyze
+        entry: powershell scripts/run_flutter_command.ps1 "analyze"
         language: system
         types: [dart]
 
       - id: import-sorter
         name: Sort Dart imports
-        entry: dart run import_sorter:main
+        entry: flutter pub run import_sorter:main
         language: system
         types: [dart]

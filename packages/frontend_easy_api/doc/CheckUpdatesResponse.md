@@ -1,8 +1,8 @@
-# openapi.model.CheckUpdatesResponse
+# frontend_easy_api.model.CheckUpdatesResponse
 
 ## Load the model package
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 ```
 
 ## Properties

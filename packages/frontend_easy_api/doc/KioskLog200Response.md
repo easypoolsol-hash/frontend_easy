@@ -1,8 +1,8 @@
-# openapi.model.KioskLog200Response
+# frontend_easy_api.model.KioskLog200Response
 
 ## Load the model package
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 ```
 
 ## Properties

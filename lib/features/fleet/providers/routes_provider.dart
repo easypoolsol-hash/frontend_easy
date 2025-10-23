@@ -19,14 +19,20 @@ final routesProvider = FutureProvider<List<api.Route>>((ref) async {
 });
 
 /// Provider for a single route by ID
-final routeProvider = FutureProvider.family<api.Route?, String>((ref, routeId) async {
+final routeProvider = FutureProvider.family<api.Route?, String>((
+  ref,
+  routeId,
+) async {
   final apiService = ApiService().api;
   final response = await apiService.apiV1RoutesRetrieve(routeId);
   return response;
 });
 
 /// Provider for route stops (from route's route_stops field)
-final routeStopsProvider = Provider.family<List<dynamic>, api.Route>((ref, route) {
+final routeStopsProvider = Provider.family<List<dynamic>, api.Route>((
+  ref,
+  route,
+) {
   // Try dynamic access to routeStops, fall back to generated `stops` field.
   dynamic raw;
   try {
