@@ -26,6 +26,10 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
+      - name: Install dependencies for local package
+        run: flutter pub get
+        working-directory: packages/frontend_easy_api
+
       - name: Analyze project
         run: flutter analyze
 
