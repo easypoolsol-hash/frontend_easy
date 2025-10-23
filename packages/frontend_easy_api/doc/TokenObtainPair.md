@@ -1,8 +1,8 @@
-# frontend_easy_api.model.TokenObtainPair
+# openapi.model.TokenObtainPair
 
 ## Load the model package
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 ```
 
 ## Properties
@@ -10,8 +10,8 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **username** | **String** |  | 
 **password** | **String** |  | 
-**access** | **String** |  | 
-**refresh** | **String** |  | 
+**access** | **String** |  | [readonly] 
+**refresh** | **String** |  | [readonly] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -40,7 +40,7 @@ final routeStopsProvider = Provider.family<List<dynamic>, api.Route>((
   } catch (_) {
     raw = null;
   }
-  raw ??= route.stops;
+  raw ??= route.routeStops;
 
   if (raw == null) return <dynamic>[];
   if (raw is List && raw.isEmpty) return <dynamic>[];

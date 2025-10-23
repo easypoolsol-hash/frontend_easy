@@ -63,16 +63,13 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
     } catch (_) {}
 
     // Try `stops` field (generated client uses this)
-    final s = route.stops;
+    final s = route.routeStops;
     if (s == null) return <dynamic>[];
     if (s is List) return s;
 
-    // If stops was encoded as JSON string, try to decode
-    if (s is String) {
-      try {
-        final decoded = jsonDecode(s);
-        if (decoded is List) return decoded;
-      } catch (_) {}
+    // If `s` is already a list, return it directly.
+    if (s is List) {
+      return s;
     }
 
     // Unknown shape -> empty
@@ -138,9 +135,10 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
       options: const MapOptions(
         // Default center (Kolkata - home location)
         initialCenter: LatLng(HomeLocation.latitude, HomeLocation.longitude),
-        initialZoom: HomeLocation.defaultZoom,
-        minZoom: HomeLocation.minZoom,
-        maxZoom: HomeLocation.maxZoom,
+        // TODO: Replace with a configurable location provider
+        initialZoom: 12.0,
+        minZoom: 5.0,
+        maxZoom: 18.0,
       ),
       children: [
         // Base map tiles - Google Maps (roadmap view)

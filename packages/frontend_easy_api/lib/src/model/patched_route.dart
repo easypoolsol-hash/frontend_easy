@@ -25,6 +25,10 @@ class PatchedRoute {
 
      this.description,
 
+     this.colorCode,
+
+     this.linePattern,
+
      this.isActive,
 
      this.stopCount,
@@ -74,6 +78,32 @@ class PatchedRoute {
 
 
   final String? description;
+
+
+
+      /// Hex color for map display (e.g., #FF5733)
+  @JsonKey(
+    
+    name: r'color_code',
+    required: false,
+    includeIfNull: false,
+  )
+
+
+  final String? colorCode;
+
+
+
+      /// Line pattern for map visualization  * `solid` - Solid Line * `dashed` - Dashed Line
+  @JsonKey(
+    
+    name: r'line_pattern',
+    required: false,
+    includeIfNull: false,
+  )
+
+
+  final PatchedRouteLinePatternEnum? linePattern;
 
 
 
@@ -159,6 +189,8 @@ class PatchedRoute {
       other.routeId == routeId &&
       other.name == name &&
       other.description == description &&
+      other.colorCode == colorCode &&
+      other.linePattern == linePattern &&
       other.isActive == isActive &&
       other.stopCount == stopCount &&
       other.totalStudents == totalStudents &&
@@ -171,6 +203,8 @@ class PatchedRoute {
         routeId.hashCode +
         name.hashCode +
         description.hashCode +
+        colorCode.hashCode +
+        linePattern.hashCode +
         isActive.hashCode +
         stopCount.hashCode +
         totalStudents.hashCode +
@@ -188,4 +222,22 @@ class PatchedRoute {
   }
 
 }
+
+/// Line pattern for map visualization  * `solid` - Solid Line * `dashed` - Dashed Line
+enum PatchedRouteLinePatternEnum {
+    /// Line pattern for map visualization  * `solid` - Solid Line * `dashed` - Dashed Line
+@JsonValue(r'solid')
+solid(r'solid'),
+    /// Line pattern for map visualization  * `solid` - Solid Line * `dashed` - Dashed Line
+@JsonValue(r'dashed')
+dashed(r'dashed');
+
+const PatchedRouteLinePatternEnum(this.value);
+
+final String value;
+
+@override
+String toString() => value;
+}
+
 

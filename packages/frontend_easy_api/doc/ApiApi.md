@@ -1,8 +1,8 @@
-# frontend_easy_api.api.ApiApi
+# openapi.api.ApiApi
 
 ## Load the API package
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 ```
 
 All URIs are relative to *http://localhost:8000*
@@ -108,19 +108,31 @@ Method | HTTP request | Description
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final APIKeyCreate aPIKeyCreate = ; // APIKeyCreate | 
+final api_instance = ApiApi();
+final aPIKeyCreate = APIKeyCreate(); // APIKeyCreate | 
 
 try {
-    final response = api.apiV1ApiKeysCreate(aPIKeyCreate);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1ApiKeysCreate(aPIKeyCreate);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1ApiKeysCreate: $e\n');
 }
 ```
@@ -153,18 +165,30 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String keyId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this api key.
+final api_instance = ApiApi();
+final keyId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this api key.
 
 try {
-    api.apiV1ApiKeysDestroy(keyId);
-} catch on DioException (e) {
+    api_instance.apiV1ApiKeysDestroy(keyId);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1ApiKeysDestroy: $e\n');
 }
 ```
@@ -197,21 +221,33 @@ void (empty response body)
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String ordering = ordering_example; // String | Which field to use when ordering the results.
-final int page = 56; // int | A page number within the paginated result set.
-final String search = search_example; // String | A search term.
+final api_instance = ApiApi();
+final ordering = ordering_example; // String | Which field to use when ordering the results.
+final page = 56; // int | A page number within the paginated result set.
+final search = search_example; // String | A search term.
 
 try {
-    final response = api.apiV1ApiKeysList(ordering, page, search);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1ApiKeysList(ordering, page, search);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1ApiKeysList: $e\n');
 }
 ```
@@ -246,20 +282,32 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String keyId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this api key.
-final PatchedAPIKey patchedAPIKey = ; // PatchedAPIKey | 
+final api_instance = ApiApi();
+final keyId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this api key.
+final patchedAPIKey = PatchedAPIKey(); // PatchedAPIKey | 
 
 try {
-    final response = api.apiV1ApiKeysPartialUpdate(keyId, patchedAPIKey);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1ApiKeysPartialUpdate(keyId, patchedAPIKey);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1ApiKeysPartialUpdate: $e\n');
 }
 ```
@@ -293,19 +341,31 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String keyId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this api key.
+final api_instance = ApiApi();
+final keyId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this api key.
 
 try {
-    final response = api.apiV1ApiKeysRetrieve(keyId);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1ApiKeysRetrieve(keyId);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1ApiKeysRetrieve: $e\n');
 }
 ```
@@ -338,20 +398,32 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String keyId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this api key.
-final APIKey aPIKey = ; // APIKey | 
+final api_instance = ApiApi();
+final keyId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this api key.
+final aPIKey = APIKey(); // APIKey | 
 
 try {
-    final response = api.apiV1ApiKeysRevokeCreate(keyId, aPIKey);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1ApiKeysRevokeCreate(keyId, aPIKey);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1ApiKeysRevokeCreate: $e\n');
 }
 ```
@@ -385,20 +457,32 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String keyId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this api key.
-final APIKey aPIKey = ; // APIKey | 
+final api_instance = ApiApi();
+final keyId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this api key.
+final aPIKey = APIKey(); // APIKey | 
 
 try {
-    final response = api.apiV1ApiKeysUpdate(keyId, aPIKey);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1ApiKeysUpdate(keyId, aPIKey);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1ApiKeysUpdate: $e\n');
 }
 ```
@@ -434,22 +518,34 @@ Read-only ViewSet for attendance records
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final DateTime date = 2013-10-20; // DateTime | 
-final int page = 56; // int | A page number within the paginated result set.
-final String status = status_example; // String | Overall attendance status  * `present` - Present * `absent` - Absent * `partial` - Partial
-final String student = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final api_instance = ApiApi();
+final date = 2013-10-20; // DateTime | 
+final page = 56; // int | A page number within the paginated result set.
+final status = status_example; // String | Overall attendance status  * `present` - Present * `absent` - Absent * `partial` - Partial
+final student = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
 
 try {
-    final response = api.apiV1AttendanceList(date, page, status, student);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1AttendanceList(date, page, status, student);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1AttendanceList: $e\n');
 }
 ```
@@ -487,19 +583,31 @@ Read-only ViewSet for attendance records
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String recordId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final api_instance = ApiApi();
+final recordId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
 
 try {
-    final response = api.apiV1AttendanceRetrieve(recordId);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1AttendanceRetrieve(recordId);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1AttendanceRetrieve: $e\n');
 }
 ```
@@ -534,19 +642,31 @@ Get attendance history for a specific student
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final api_instance = ApiApi();
+final studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
 
 try {
-    final response = api.apiV1AttendanceStudentRetrieve(studentId);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1AttendanceStudentRetrieve(studentId);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1AttendanceStudentRetrieve: $e\n');
 }
 ```
@@ -581,18 +701,30 @@ Get attendance summary for date range
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
+final api_instance = ApiApi();
 
 try {
-    final response = api.apiV1AttendanceSummaryRetrieve();
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1AttendanceSummaryRetrieve();
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1AttendanceSummaryRetrieve: $e\n');
 }
 ```
@@ -622,21 +754,33 @@ This endpoint does not need any parameter.
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String ordering = ordering_example; // String | Which field to use when ordering the results.
-final int page = 56; // int | A page number within the paginated result set.
-final String search = search_example; // String | A search term.
+final api_instance = ApiApi();
+final ordering = ordering_example; // String | Which field to use when ordering the results.
+final page = 56; // int | A page number within the paginated result set.
+final search = search_example; // String | A search term.
 
 try {
-    final response = api.apiV1AuditLogsList(ordering, page, search);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1AuditLogsList(ordering, page, search);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1AuditLogsList: $e\n');
 }
 ```
@@ -671,19 +815,31 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final int logId = 56; // int | A unique integer value identifying this audit log.
+final api_instance = ApiApi();
+final logId = 56; // int | A unique integer value identifying this audit log.
 
 try {
-    final response = api.apiV1AuditLogsRetrieve(logId);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1AuditLogsRetrieve(logId);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1AuditLogsRetrieve: $e\n');
 }
 ```
@@ -718,15 +874,15 @@ Takes a set of user credentials and returns an access and refresh JSON web token
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 
-final api = FrontendEasyApi().getApiApi();
-final TokenObtainPair tokenObtainPair = ; // TokenObtainPair | 
+final api_instance = ApiApi();
+final tokenObtainPair = TokenObtainPair(); // TokenObtainPair | 
 
 try {
-    final response = api.apiV1AuthTokenCreate(tokenObtainPair);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1AuthTokenCreate(tokenObtainPair);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1AuthTokenCreate: $e\n');
 }
 ```
@@ -761,15 +917,15 @@ No authorization required
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 
-final api = FrontendEasyApi().getApiApi();
-final TokenRefreshRequest tokenRefreshRequest = {"refresh":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."}; // TokenRefreshRequest | 
+final api_instance = ApiApi();
+final tokenRefreshRequest = TokenRefreshRequest(); // TokenRefreshRequest | 
 
 try {
-    final response = api.apiV1AuthTokenRefreshCreate(tokenRefreshRequest);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1AuthTokenRefreshCreate(tokenRefreshRequest);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1AuthTokenRefreshCreate: $e\n');
 }
 ```
@@ -804,15 +960,21 @@ Bulk create boarding events (for high-throughput kiosk operations)
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final BoardingEvent boardingEvent = ; // BoardingEvent | 
+final api_instance = ApiApi();
+final boardingEvent = BoardingEvent(); // BoardingEvent | 
 
 try {
-    final response = api.apiV1BoardingEventsBulkCreate(boardingEvent);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1BoardingEventsBulkCreate(boardingEvent);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1BoardingEventsBulkCreate: $e\n');
 }
 ```
@@ -847,15 +1009,21 @@ ViewSet for boarding events
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final BoardingEventCreate boardingEventCreate = ; // BoardingEventCreate | 
+final api_instance = ApiApi();
+final boardingEventCreate = BoardingEventCreate(); // BoardingEventCreate | 
 
 try {
-    final response = api.apiV1BoardingEventsCreate(boardingEventCreate);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1BoardingEventsCreate(boardingEventCreate);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1BoardingEventsCreate: $e\n');
 }
 ```
@@ -890,14 +1058,20 @@ ViewSet for boarding events
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String eventId = eventId_example; // String | 
+final api_instance = ApiApi();
+final eventId = eventId_example; // String | 
 
 try {
-    api.apiV1BoardingEventsDestroy(eventId);
-} catch on DioException (e) {
+    api_instance.apiV1BoardingEventsDestroy(eventId);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1BoardingEventsDestroy: $e\n');
 }
 ```
@@ -932,19 +1106,25 @@ ViewSet for boarding events
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String busRoute = busRoute_example; // String | 
-final String kioskId = kioskId_example; // String | 
-final int page = 56; // int | A page number within the paginated result set.
-final String student = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
-final DateTime timestamp = 2013-10-20T19:20:30+01:00; // DateTime | 
+final api_instance = ApiApi();
+final busRoute = busRoute_example; // String | 
+final kioskId = kioskId_example; // String | 
+final page = 56; // int | A page number within the paginated result set.
+final student = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final timestamp = 2013-10-20T19:20:30+01:00; // DateTime | 
 
 try {
-    final response = api.apiV1BoardingEventsList(busRoute, kioskId, page, student, timestamp);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1BoardingEventsList(busRoute, kioskId, page, student, timestamp);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1BoardingEventsList: $e\n');
 }
 ```
@@ -983,16 +1163,22 @@ ViewSet for boarding events
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String eventId = eventId_example; // String | 
-final PatchedBoardingEvent patchedBoardingEvent = ; // PatchedBoardingEvent | 
+final api_instance = ApiApi();
+final eventId = eventId_example; // String | 
+final patchedBoardingEvent = PatchedBoardingEvent(); // PatchedBoardingEvent | 
 
 try {
-    final response = api.apiV1BoardingEventsPartialUpdate(eventId, patchedBoardingEvent);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1BoardingEventsPartialUpdate(eventId, patchedBoardingEvent);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1BoardingEventsPartialUpdate: $e\n');
 }
 ```
@@ -1028,14 +1214,20 @@ Get recent boarding events for dashboard
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
+final api_instance = ApiApi();
 
 try {
-    final response = api.apiV1BoardingEventsRecentRetrieve();
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1BoardingEventsRecentRetrieve();
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1BoardingEventsRecentRetrieve: $e\n');
 }
 ```
@@ -1067,15 +1259,21 @@ ViewSet for boarding events
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String eventId = eventId_example; // String | 
+final api_instance = ApiApi();
+final eventId = eventId_example; // String | 
 
 try {
-    final response = api.apiV1BoardingEventsRetrieve(eventId);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1BoardingEventsRetrieve(eventId);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1BoardingEventsRetrieve: $e\n');
 }
 ```
@@ -1110,16 +1308,22 @@ ViewSet for boarding events
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String eventId = eventId_example; // String | 
-final BoardingEvent boardingEvent = ; // BoardingEvent | 
+final api_instance = ApiApi();
+final eventId = eventId_example; // String | 
+final boardingEvent = BoardingEvent(); // BoardingEvent | 
 
 try {
-    final response = api.apiV1BoardingEventsUpdate(eventId, boardingEvent);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1BoardingEventsUpdate(eventId, boardingEvent);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1BoardingEventsUpdate: $e\n');
 }
 ```
@@ -1155,19 +1359,31 @@ Bulk assign students to buses
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final Bus bus = ; // Bus | 
+final api_instance = ApiApi();
+final bus = Bus(); // Bus | 
 
 try {
-    final response = api.apiV1BusesAssignStudentsCreate(bus);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1BusesAssignStudentsCreate(bus);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1BusesAssignStudentsCreate: $e\n');
 }
 ```
@@ -1202,19 +1418,31 @@ ViewSet for buses
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final Bus bus = ; // Bus | 
+final api_instance = ApiApi();
+final bus = Bus(); // Bus | 
 
 try {
-    final response = api.apiV1BusesCreate(bus);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1BusesCreate(bus);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1BusesCreate: $e\n');
 }
 ```
@@ -1249,18 +1477,30 @@ ViewSet for buses
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String busId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final api_instance = ApiApi();
+final busId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
 
 try {
-    api.apiV1BusesDestroy(busId);
-} catch on DioException (e) {
+    api_instance.apiV1BusesDestroy(busId);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1BusesDestroy: $e\n');
 }
 ```
@@ -1295,22 +1535,34 @@ ViewSet for buses
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String deviceId = deviceId_example; // String | 
-final int page = 56; // int | A page number within the paginated result set.
-final String route = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | UUID primary key
-final String status = status_example; // String | Current operational status  * `active` - Active * `maintenance` - Under Maintenance * `retired` - Retired
+final api_instance = ApiApi();
+final deviceId = deviceId_example; // String | 
+final page = 56; // int | A page number within the paginated result set.
+final route = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | UUID primary key
+final status = status_example; // String | Current operational status  * `active` - Active * `maintenance` - Under Maintenance * `retired` - Retired
 
 try {
-    final response = api.apiV1BusesList(deviceId, page, route, status);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1BusesList(deviceId, page, route, status);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1BusesList: $e\n');
 }
 ```
@@ -1348,20 +1600,32 @@ ViewSet for buses
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String busId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
-final PatchedBus patchedBus = ; // PatchedBus | 
+final api_instance = ApiApi();
+final busId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final patchedBus = PatchedBus(); // PatchedBus | 
 
 try {
-    final response = api.apiV1BusesPartialUpdate(busId, patchedBus);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1BusesPartialUpdate(busId, patchedBus);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1BusesPartialUpdate: $e\n');
 }
 ```
@@ -1397,19 +1661,31 @@ ViewSet for buses
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String busId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final api_instance = ApiApi();
+final busId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
 
 try {
-    final response = api.apiV1BusesRetrieve(busId);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1BusesRetrieve(busId);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1BusesRetrieve: $e\n');
 }
 ```
@@ -1444,19 +1720,31 @@ Get all students assigned to this bus
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String busId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final api_instance = ApiApi();
+final busId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
 
 try {
-    final response = api.apiV1BusesStudentsRetrieve(busId);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1BusesStudentsRetrieve(busId);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1BusesStudentsRetrieve: $e\n');
 }
 ```
@@ -1491,20 +1779,32 @@ ViewSet for buses
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String busId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
-final Bus bus = ; // Bus | 
+final api_instance = ApiApi();
+final busId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final bus = Bus(); // Bus | 
 
 try {
-    final response = api.apiV1BusesUpdate(busId, bus);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1BusesUpdate(busId, bus);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1BusesUpdate: $e\n');
 }
 ```
@@ -1540,18 +1840,30 @@ Get fleet utilization report
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
+final api_instance = ApiApi();
 
 try {
-    final response = api.apiV1BusesUtilizationRetrieve();
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1BusesUtilizationRetrieve();
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1BusesUtilizationRetrieve: $e\n');
 }
 ```
@@ -1583,19 +1895,31 @@ Student boarding endpoint - returns immediate approval and schedules background 
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final Map<String, Object> requestBody = Object; // Map<String, Object> | 
+final api_instance = ApiApi();
+final requestBody = Map<String, Object>(); // Map<String, Object> | 
 
 try {
-    final response = api.apiV1KioskBoardingCreate(requestBody);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1KioskBoardingCreate(requestBody);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1KioskBoardingCreate: $e\n');
 }
 ```
@@ -1604,7 +1928,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **requestBody** | [**Map&lt;String, Object&gt;**](Object.md)|  | [optional] 
+ **requestBody** | [**Map<String, Object>**](Object.md)|  | [optional] 
 
 ### Return type
 
@@ -1628,19 +1952,31 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final Parent parent = ; // Parent | 
+final api_instance = ApiApi();
+final parent = Parent(); // Parent | 
 
 try {
-    final response = api.apiV1ParentsCreate(parent);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1ParentsCreate(parent);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1ParentsCreate: $e\n');
 }
 ```
@@ -1673,18 +2009,30 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String parentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this parent.
+final api_instance = ApiApi();
+final parentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this parent.
 
 try {
-    api.apiV1ParentsDestroy(parentId);
-} catch on DioException (e) {
+    api_instance.apiV1ParentsDestroy(parentId);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1ParentsDestroy: $e\n');
 }
 ```
@@ -1717,21 +2065,33 @@ void (empty response body)
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String ordering = ordering_example; // String | Which field to use when ordering the results.
-final int page = 56; // int | A page number within the paginated result set.
-final String search = search_example; // String | A search term.
+final api_instance = ApiApi();
+final ordering = ordering_example; // String | Which field to use when ordering the results.
+final page = 56; // int | A page number within the paginated result set.
+final search = search_example; // String | A search term.
 
 try {
-    final response = api.apiV1ParentsList(ordering, page, search);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1ParentsList(ordering, page, search);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1ParentsList: $e\n');
 }
 ```
@@ -1766,20 +2126,32 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String parentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this parent.
-final PatchedParent patchedParent = ; // PatchedParent | 
+final api_instance = ApiApi();
+final parentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this parent.
+final patchedParent = PatchedParent(); // PatchedParent | 
 
 try {
-    final response = api.apiV1ParentsPartialUpdate(parentId, patchedParent);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1ParentsPartialUpdate(parentId, patchedParent);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1ParentsPartialUpdate: $e\n');
 }
 ```
@@ -1813,19 +2185,31 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String parentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this parent.
+final api_instance = ApiApi();
+final parentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this parent.
 
 try {
-    final response = api.apiV1ParentsRetrieve(parentId);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1ParentsRetrieve(parentId);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1ParentsRetrieve: $e\n');
 }
 ```
@@ -1858,19 +2242,31 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String parentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this parent.
+final api_instance = ApiApi();
+final parentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this parent.
 
 try {
-    final response = api.apiV1ParentsStudentsRetrieve(parentId);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1ParentsStudentsRetrieve(parentId);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1ParentsStudentsRetrieve: $e\n');
 }
 ```
@@ -1903,20 +2299,32 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String parentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this parent.
-final Parent parent = ; // Parent | 
+final api_instance = ApiApi();
+final parentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this parent.
+final parent = Parent(); // Parent | 
 
 try {
-    final response = api.apiV1ParentsUpdate(parentId, parent);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1ParentsUpdate(parentId, parent);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1ParentsUpdate: $e\n');
 }
 ```
@@ -1950,21 +2358,33 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String ordering = ordering_example; // String | Which field to use when ordering the results.
-final int page = 56; // int | A page number within the paginated result set.
-final String search = search_example; // String | A search term.
+final api_instance = ApiApi();
+final ordering = ordering_example; // String | Which field to use when ordering the results.
+final page = 56; // int | A page number within the paginated result set.
+final search = search_example; // String | A search term.
 
 try {
-    final response = api.apiV1RolesList(ordering, page, search);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1RolesList(ordering, page, search);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1RolesList: $e\n');
 }
 ```
@@ -1999,19 +2419,31 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String roleId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this role.
+final api_instance = ApiApi();
+final roleId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this role.
 
 try {
-    final response = api.apiV1RolesRetrieve(roleId);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1RolesRetrieve(roleId);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1RolesRetrieve: $e\n');
 }
 ```
@@ -2046,19 +2478,31 @@ Get all buses assigned to this route
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final api_instance = ApiApi();
+final routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
 
 try {
-    final response = api.apiV1RoutesBusesRetrieve(routeId);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1RoutesBusesRetrieve(routeId);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1RoutesBusesRetrieve: $e\n');
 }
 ```
@@ -2093,19 +2537,31 @@ ViewSet for bus routes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final Route route = ; // Route | 
+final api_instance = ApiApi();
+final route = Route(); // Route | 
 
 try {
-    final response = api.apiV1RoutesCreate(route);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1RoutesCreate(route);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1RoutesCreate: $e\n');
 }
 ```
@@ -2140,18 +2596,30 @@ ViewSet for bus routes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final api_instance = ApiApi();
+final routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
 
 try {
-    api.apiV1RoutesDestroy(routeId);
-} catch on DioException (e) {
+    api_instance.apiV1RoutesDestroy(routeId);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1RoutesDestroy: $e\n');
 }
 ```
@@ -2186,20 +2654,32 @@ ViewSet for bus routes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final bool isActive = true; // bool | 
-final int page = 56; // int | A page number within the paginated result set.
+final api_instance = ApiApi();
+final isActive = true; // bool | 
+final page = 56; // int | A page number within the paginated result set.
 
 try {
-    final response = api.apiV1RoutesList(isActive, page);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1RoutesList(isActive, page);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1RoutesList: $e\n');
 }
 ```
@@ -2235,20 +2715,32 @@ ViewSet for bus routes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
-final PatchedRoute patchedRoute = ; // PatchedRoute | 
+final api_instance = ApiApi();
+final routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final patchedRoute = PatchedRoute(); // PatchedRoute | 
 
 try {
-    final response = api.apiV1RoutesPartialUpdate(routeId, patchedRoute);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1RoutesPartialUpdate(routeId, patchedRoute);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1RoutesPartialUpdate: $e\n');
 }
 ```
@@ -2284,19 +2776,31 @@ ViewSet for bus routes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final api_instance = ApiApi();
+final routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
 
 try {
-    final response = api.apiV1RoutesRetrieve(routeId);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1RoutesRetrieve(routeId);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1RoutesRetrieve: $e\n');
 }
 ```
@@ -2331,19 +2835,31 @@ Get all students assigned to buses on this route
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final api_instance = ApiApi();
+final routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
 
 try {
-    final response = api.apiV1RoutesStudentsRetrieve(routeId);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1RoutesStudentsRetrieve(routeId);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1RoutesStudentsRetrieve: $e\n');
 }
 ```
@@ -2378,20 +2894,32 @@ ViewSet for bus routes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
-final Route route = ; // Route | 
+final api_instance = ApiApi();
+final routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final route = Route(); // Route | 
 
 try {
-    final response = api.apiV1RoutesUpdate(routeId, route);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1RoutesUpdate(routeId, route);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1RoutesUpdate: $e\n');
 }
 ```
@@ -2425,19 +2953,31 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final School school = ; // School | 
+final api_instance = ApiApi();
+final school = School(); // School | 
 
 try {
-    final response = api.apiV1SchoolsCreate(school);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1SchoolsCreate(school);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1SchoolsCreate: $e\n');
 }
 ```
@@ -2470,18 +3010,30 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String schoolId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this school.
+final api_instance = ApiApi();
+final schoolId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this school.
 
 try {
-    api.apiV1SchoolsDestroy(schoolId);
-} catch on DioException (e) {
+    api_instance.apiV1SchoolsDestroy(schoolId);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1SchoolsDestroy: $e\n');
 }
 ```
@@ -2514,21 +3066,33 @@ void (empty response body)
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String ordering = ordering_example; // String | Which field to use when ordering the results.
-final int page = 56; // int | A page number within the paginated result set.
-final String search = search_example; // String | A search term.
+final api_instance = ApiApi();
+final ordering = ordering_example; // String | Which field to use when ordering the results.
+final page = 56; // int | A page number within the paginated result set.
+final search = search_example; // String | A search term.
 
 try {
-    final response = api.apiV1SchoolsList(ordering, page, search);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1SchoolsList(ordering, page, search);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1SchoolsList: $e\n');
 }
 ```
@@ -2563,20 +3127,32 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String schoolId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this school.
-final PatchedSchool patchedSchool = ; // PatchedSchool | 
+final api_instance = ApiApi();
+final schoolId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this school.
+final patchedSchool = PatchedSchool(); // PatchedSchool | 
 
 try {
-    final response = api.apiV1SchoolsPartialUpdate(schoolId, patchedSchool);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1SchoolsPartialUpdate(schoolId, patchedSchool);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1SchoolsPartialUpdate: $e\n');
 }
 ```
@@ -2610,19 +3186,31 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String schoolId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this school.
+final api_instance = ApiApi();
+final schoolId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this school.
 
 try {
-    final response = api.apiV1SchoolsRetrieve(schoolId);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1SchoolsRetrieve(schoolId);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1SchoolsRetrieve: $e\n');
 }
 ```
@@ -2655,20 +3243,32 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String schoolId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this school.
-final School school = ; // School | 
+final api_instance = ApiApi();
+final schoolId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this school.
+final school = School(); // School | 
 
 try {
-    final response = api.apiV1SchoolsUpdate(schoolId, school);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1SchoolsUpdate(schoolId, school);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1SchoolsUpdate: $e\n');
 }
 ```
@@ -2702,19 +3302,31 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final StudentParent studentParent = ; // StudentParent | 
+final api_instance = ApiApi();
+final studentParent = StudentParent(); // StudentParent | 
 
 try {
-    final response = api.apiV1StudentParentsCreate(studentParent);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1StudentParentsCreate(studentParent);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1StudentParentsCreate: $e\n');
 }
 ```
@@ -2747,18 +3359,30 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final int id = 56; // int | A unique integer value identifying this student parent.
+final api_instance = ApiApi();
+final id = 56; // int | A unique integer value identifying this student parent.
 
 try {
-    api.apiV1StudentParentsDestroy(id);
-} catch on DioException (e) {
+    api_instance.apiV1StudentParentsDestroy(id);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1StudentParentsDestroy: $e\n');
 }
 ```
@@ -2791,21 +3415,33 @@ void (empty response body)
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String ordering = ordering_example; // String | Which field to use when ordering the results.
-final int page = 56; // int | A page number within the paginated result set.
-final String search = search_example; // String | A search term.
+final api_instance = ApiApi();
+final ordering = ordering_example; // String | Which field to use when ordering the results.
+final page = 56; // int | A page number within the paginated result set.
+final search = search_example; // String | A search term.
 
 try {
-    final response = api.apiV1StudentParentsList(ordering, page, search);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1StudentParentsList(ordering, page, search);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1StudentParentsList: $e\n');
 }
 ```
@@ -2840,20 +3476,32 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final int id = 56; // int | A unique integer value identifying this student parent.
-final PatchedStudentParent patchedStudentParent = ; // PatchedStudentParent | 
+final api_instance = ApiApi();
+final id = 56; // int | A unique integer value identifying this student parent.
+final patchedStudentParent = PatchedStudentParent(); // PatchedStudentParent | 
 
 try {
-    final response = api.apiV1StudentParentsPartialUpdate(id, patchedStudentParent);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1StudentParentsPartialUpdate(id, patchedStudentParent);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1StudentParentsPartialUpdate: $e\n');
 }
 ```
@@ -2887,19 +3535,31 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final int id = 56; // int | A unique integer value identifying this student parent.
+final api_instance = ApiApi();
+final id = 56; // int | A unique integer value identifying this student parent.
 
 try {
-    final response = api.apiV1StudentParentsRetrieve(id);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1StudentParentsRetrieve(id);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1StudentParentsRetrieve: $e\n');
 }
 ```
@@ -2932,20 +3592,32 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final int id = 56; // int | A unique integer value identifying this student parent.
-final StudentParent studentParent = ; // StudentParent | 
+final api_instance = ApiApi();
+final id = 56; // int | A unique integer value identifying this student parent.
+final studentParent = StudentParent(); // StudentParent | 
 
 try {
-    final response = api.apiV1StudentParentsUpdate(id, studentParent);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1StudentParentsUpdate(id, studentParent);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1StudentParentsUpdate: $e\n');
 }
 ```
@@ -2979,19 +3651,31 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final StudentPhoto studentPhoto = ; // StudentPhoto | 
+final api_instance = ApiApi();
+final studentPhoto = StudentPhoto(); // StudentPhoto | 
 
 try {
-    final response = api.apiV1StudentPhotosCreate(studentPhoto);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1StudentPhotosCreate(studentPhoto);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1StudentPhotosCreate: $e\n');
 }
 ```
@@ -3024,18 +3708,30 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String photoId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student photo.
+final api_instance = ApiApi();
+final photoId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student photo.
 
 try {
-    api.apiV1StudentPhotosDestroy(photoId);
-} catch on DioException (e) {
+    api_instance.apiV1StudentPhotosDestroy(photoId);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1StudentPhotosDestroy: $e\n');
 }
 ```
@@ -3068,21 +3764,33 @@ void (empty response body)
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String ordering = ordering_example; // String | Which field to use when ordering the results.
-final int page = 56; // int | A page number within the paginated result set.
-final String search = search_example; // String | A search term.
+final api_instance = ApiApi();
+final ordering = ordering_example; // String | Which field to use when ordering the results.
+final page = 56; // int | A page number within the paginated result set.
+final search = search_example; // String | A search term.
 
 try {
-    final response = api.apiV1StudentPhotosList(ordering, page, search);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1StudentPhotosList(ordering, page, search);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1StudentPhotosList: $e\n');
 }
 ```
@@ -3117,20 +3825,32 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String photoId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student photo.
-final PatchedStudentPhoto patchedStudentPhoto = ; // PatchedStudentPhoto | 
+final api_instance = ApiApi();
+final photoId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student photo.
+final patchedStudentPhoto = PatchedStudentPhoto(); // PatchedStudentPhoto | 
 
 try {
-    final response = api.apiV1StudentPhotosPartialUpdate(photoId, patchedStudentPhoto);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1StudentPhotosPartialUpdate(photoId, patchedStudentPhoto);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1StudentPhotosPartialUpdate: $e\n');
 }
 ```
@@ -3164,19 +3884,31 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String photoId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student photo.
+final api_instance = ApiApi();
+final photoId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student photo.
 
 try {
-    final response = api.apiV1StudentPhotosRetrieve(photoId);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1StudentPhotosRetrieve(photoId);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1StudentPhotosRetrieve: $e\n');
 }
 ```
@@ -3209,20 +3941,32 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String photoId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student photo.
-final StudentPhoto studentPhoto = ; // StudentPhoto | 
+final api_instance = ApiApi();
+final photoId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student photo.
+final studentPhoto = StudentPhoto(); // StudentPhoto | 
 
 try {
-    final response = api.apiV1StudentPhotosSetPrimaryCreate(photoId, studentPhoto);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1StudentPhotosSetPrimaryCreate(photoId, studentPhoto);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1StudentPhotosSetPrimaryCreate: $e\n');
 }
 ```
@@ -3256,20 +4000,32 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String photoId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student photo.
-final StudentPhoto studentPhoto = ; // StudentPhoto | 
+final api_instance = ApiApi();
+final photoId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student photo.
+final studentPhoto = StudentPhoto(); // StudentPhoto | 
 
 try {
-    final response = api.apiV1StudentPhotosUpdate(photoId, studentPhoto);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1StudentPhotosUpdate(photoId, studentPhoto);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1StudentPhotosUpdate: $e\n');
 }
 ```
@@ -3303,20 +4059,32 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student.
-final Student student = ; // Student | 
+final api_instance = ApiApi();
+final studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student.
+final student = Student(); // Student | 
 
 try {
-    final response = api.apiV1StudentsAssignBusCreate(studentId, student);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1StudentsAssignBusCreate(studentId, student);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1StudentsAssignBusCreate: $e\n');
 }
 ```
@@ -3350,19 +4118,31 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final Student student = ; // Student | 
+final api_instance = ApiApi();
+final student = Student(); // Student | 
 
 try {
-    final response = api.apiV1StudentsCreate(student);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1StudentsCreate(student);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1StudentsCreate: $e\n');
 }
 ```
@@ -3395,18 +4175,30 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student.
+final api_instance = ApiApi();
+final studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student.
 
 try {
-    api.apiV1StudentsDestroy(studentId);
-} catch on DioException (e) {
+    api_instance.apiV1StudentsDestroy(studentId);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1StudentsDestroy: $e\n');
 }
 ```
@@ -3439,21 +4231,33 @@ void (empty response body)
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String ordering = ordering_example; // String | Which field to use when ordering the results.
-final int page = 56; // int | A page number within the paginated result set.
-final String search = search_example; // String | A search term.
+final api_instance = ApiApi();
+final ordering = ordering_example; // String | Which field to use when ordering the results.
+final page = 56; // int | A page number within the paginated result set.
+final search = search_example; // String | A search term.
 
 try {
-    final response = api.apiV1StudentsList(ordering, page, search);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1StudentsList(ordering, page, search);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1StudentsList: $e\n');
 }
 ```
@@ -3488,19 +4292,31 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student.
+final api_instance = ApiApi();
+final studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student.
 
 try {
-    final response = api.apiV1StudentsParentsRetrieve(studentId);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1StudentsParentsRetrieve(studentId);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1StudentsParentsRetrieve: $e\n');
 }
 ```
@@ -3533,20 +4349,32 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student.
-final PatchedStudent patchedStudent = ; // PatchedStudent | 
+final api_instance = ApiApi();
+final studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student.
+final patchedStudent = PatchedStudent(); // PatchedStudent | 
 
 try {
-    final response = api.apiV1StudentsPartialUpdate(studentId, patchedStudent);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1StudentsPartialUpdate(studentId, patchedStudent);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1StudentsPartialUpdate: $e\n');
 }
 ```
@@ -3580,19 +4408,31 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student.
+final api_instance = ApiApi();
+final studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student.
 
 try {
-    final response = api.apiV1StudentsRetrieve(studentId);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1StudentsRetrieve(studentId);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1StudentsRetrieve: $e\n');
 }
 ```
@@ -3625,20 +4465,32 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student.
-final Student student = ; // Student | 
+final api_instance = ApiApi();
+final studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student.
+final student = Student(); // Student | 
 
 try {
-    final response = api.apiV1StudentsUpdate(studentId, student);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1StudentsUpdate(studentId, student);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1StudentsUpdate: $e\n');
 }
 ```
@@ -3672,19 +4524,31 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final UserCreate userCreate = ; // UserCreate | 
+final api_instance = ApiApi();
+final userCreate = UserCreate(); // UserCreate | 
 
 try {
-    final response = api.apiV1UsersCreate(userCreate);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1UsersCreate(userCreate);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1UsersCreate: $e\n');
 }
 ```
@@ -3717,18 +4581,30 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String userId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this user.
+final api_instance = ApiApi();
+final userId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this user.
 
 try {
-    api.apiV1UsersDestroy(userId);
-} catch on DioException (e) {
+    api_instance.apiV1UsersDestroy(userId);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1UsersDestroy: $e\n');
 }
 ```
@@ -3761,21 +4637,33 @@ void (empty response body)
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String ordering = ordering_example; // String | Which field to use when ordering the results.
-final int page = 56; // int | A page number within the paginated result set.
-final String search = search_example; // String | A search term.
+final api_instance = ApiApi();
+final ordering = ordering_example; // String | Which field to use when ordering the results.
+final page = 56; // int | A page number within the paginated result set.
+final search = search_example; // String | A search term.
 
 try {
-    final response = api.apiV1UsersList(ordering, page, search);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1UsersList(ordering, page, search);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1UsersList: $e\n');
 }
 ```
@@ -3810,19 +4698,31 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final User user = ; // User | 
+final api_instance = ApiApi();
+final user = User(); // User | 
 
 try {
-    final response = api.apiV1UsersLoginCreate(user);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1UsersLoginCreate(user);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1UsersLoginCreate: $e\n');
 }
 ```
@@ -3857,18 +4757,30 @@ Get current authenticated user information
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
+final api_instance = ApiApi();
 
 try {
-    final response = api.apiV1UsersMeRetrieve();
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1UsersMeRetrieve();
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1UsersMeRetrieve: $e\n');
 }
 ```
@@ -3898,20 +4810,32 @@ This endpoint does not need any parameter.
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String userId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this user.
-final PatchedUser patchedUser = ; // PatchedUser | 
+final api_instance = ApiApi();
+final userId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this user.
+final patchedUser = PatchedUser(); // PatchedUser | 
 
 try {
-    final response = api.apiV1UsersPartialUpdate(userId, patchedUser);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1UsersPartialUpdate(userId, patchedUser);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1UsersPartialUpdate: $e\n');
 }
 ```
@@ -3945,19 +4869,31 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String userId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this user.
+final api_instance = ApiApi();
+final userId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this user.
 
 try {
-    final response = api.apiV1UsersRetrieve(userId);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1UsersRetrieve(userId);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1UsersRetrieve: $e\n');
 }
 ```
@@ -3990,20 +4926,32 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: jwtAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('jwtAuth').setAccessToken(yourTokenGeneratorFunction);
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String userId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this user.
-final User user = ; // User | 
+final api_instance = ApiApi();
+final userId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this user.
+final user = User(); // User | 
 
 try {
-    final response = api.apiV1UsersUpdate(userId, user);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1UsersUpdate(userId, user);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1UsersUpdate: $e\n');
 }
 ```
@@ -4039,16 +4987,22 @@ Check if kiosk needs database update
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String kioskId = kioskId_example; // String | 
-final String lastSyncHash = lastSyncHash_example; // String | Last content hash from kiosk
+final api_instance = ApiApi();
+final kioskId = kioskId_example; // String | 
+final lastSyncHash = lastSyncHash_example; // String | Last content hash from kiosk
 
 try {
-    final response = api.kioskCheckUpdates(kioskId, lastSyncHash);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.kioskCheckUpdates(kioskId, lastSyncHash);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->kioskCheckUpdates: $e\n');
 }
 ```
@@ -4084,15 +5038,21 @@ Download kiosk database snapshot (binary SQLite file). Returns raw binary data w
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String kioskId = kioskId_example; // String | 
+final api_instance = ApiApi();
+final kioskId = kioskId_example; // String | 
 
 try {
-    final response = api.kioskDownloadSnapshot(kioskId);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.kioskDownloadSnapshot(kioskId);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->kioskDownloadSnapshot: $e\n');
 }
 ```
@@ -4127,15 +5087,21 @@ Report kiosk health and sync status
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String kioskId = kioskId_example; // String | 
-final Heartbeat heartbeat = ; // Heartbeat | 
+final api_instance = ApiApi();
+final kioskId = kioskId_example; // String | 
+final heartbeat = Heartbeat(); // Heartbeat | 
 
 try {
-    api.kioskHeartbeat(kioskId, heartbeat);
-} catch on DioException (e) {
+    api_instance.kioskHeartbeat(kioskId, heartbeat);
+} catch (e) {
     print('Exception when calling ApiApi->kioskHeartbeat: $e\n');
 }
 ```
@@ -4171,15 +5137,21 @@ Kiosk logging endpoint for device log submission
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final DeviceLog deviceLog = ; // DeviceLog | 
+final api_instance = ApiApi();
+final deviceLog = DeviceLog(); // DeviceLog | 
 
 try {
-    final response = api.kioskLog(deviceLog);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.kioskLog(deviceLog);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->kioskLog: $e\n');
 }
 ```
@@ -4214,16 +5186,22 @@ Update bus GPS location. Kiosk sends location when bus moves significantly or ev
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
+// TODO Configure HTTP Bearer authorization: KioskJWTAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('KioskJWTAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api = FrontendEasyApi().getApiApi();
-final String kioskId = kioskId_example; // String | 
-final BusLocation busLocation = ; // BusLocation | 
+final api_instance = ApiApi();
+final kioskId = kioskId_example; // String | 
+final busLocation = BusLocation(); // BusLocation | 
 
 try {
-    final response = api.kioskUpdateLocation(kioskId, busLocation);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.kioskUpdateLocation(kioskId, busLocation);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->kioskUpdateLocation: $e\n');
 }
 ```
