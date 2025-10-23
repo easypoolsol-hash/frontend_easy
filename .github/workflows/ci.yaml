@@ -1,4 +1,4 @@
-name: CI Pipeline
+name: CI Pipeline (Improved)
 
 on:
   push:
@@ -9,48 +9,260 @@ on:
 
 env:
   IMAGE_NAME: ghcr.io/manishasaraf57-dot/frontend_easy
+  FLUTTER_VERSION: '3.35.6'
 
 jobs:
-  build-and-test:
-    name: Build & Test
+  # ============================================================================
+  # STAGE 1: QUALITY CHECKS (Fast - No Dependencies)
+  # ============================================================================
+  quality:
+    name: Quality (Lint + Analyze)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.35.6'
+          flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: 'stable'
           cache: true
 
-      - name: Regenerate API client
-        run: npx @openapitools/openapi-generator-cli generate -i openapi-schema.yaml -g dart-dio -o packages/frontend_easy_api --additional-properties=pubName=frontend_easy_api,useEnumExtension=true,serializationLibrary=json_serializable
+      # Imperial Governance dependencies
+      - name: Install governance dependencies
+        working-directory: imperial_governance
+        run: dart pub get
 
-      - name: Fix SDK constraint in generated package
-        run: bash scripts/fix_sdk_constraint.sh
+      # Main app dependencies (NOT generated API)
+      - name: Install app dependencies
+        run: flutter pub get
 
+      # Constitutional Enforcement FIRST
+      - name: Run Constitutional Enforcement
+        run: dart run imperial_governance/enforcement/constitutional_enforcement.dart
+
+      # Flutter analyze (catches syntax errors, unused imports, etc.)
+      - name: Analyze Dart code
+        run: flutter analyze --fatal-infos
+
+  # ============================================================================
+  # STAGE 2: UNIT TESTS (Fast - Generated API NOT needed)
+  # ============================================================================
+  unit-tests:
+    name: Unit Tests (Fast)
+    runs-on: ubuntu-latest
+    needs: quality
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'stable'
+          cache: true
 
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Install dependencies for local package
-        run: flutter pub get
-        working-directory: packages/frontend_easy_api
+      # Run ONLY unit tests (no API calls, fast)
+      - name: Run unit tests
+        run: flutter test test/unit/ --coverage
 
-      - name: Run build_runner
-        run: dart run build_runner build --delete-conflicting-outputs
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage/lcov.info
+          flags: unit-tests
 
-      - name: Analyze project
-        run: flutter analyze
+  # ============================================================================
+  # STAGE 3: BUILD IMAGE (Dependencies INSIDE Docker)
+  # ============================================================================
+  build-image:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+    needs: unit-tests
+    steps:
+      - uses: actions/checkout@v4
 
-      - name: Run tests
-        run: flutter test
+      # CRITICAL FIX: Get OpenAPI schema from backend artifact or repo
+      # Option 1: If backend committed it (our current setup)
+      - name: Verify OpenAPI schema exists
+        run: |
+          if [ ! -f openapi-schema.yaml ]; then
+            echo "ERROR: openapi-schema.yaml not found!"
+            echo "This file should be committed by backend_easy pre-commit hook"
+            exit 1
+          fi
+          echo "✅ OpenAPI schema found"
 
-      - name: Build web app
-        run: flutter build web
-
+      # Build image with dependencies INSIDE
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+
+      - name: Build and export image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false
+          tags: ${{ env.IMAGE_NAME }}:test
+          outputs: type=docker,dest=/tmp/image.tar
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Upload image artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-image
+          path: /tmp/image.tar
+
+  # ============================================================================
+  # STAGE 4: TEST IMAGE (Smoke Test)
+  # ============================================================================
+  test-image:
+    name: Test Image (Smoke)
+    runs-on: ubuntu-latest
+    needs: build-image
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download image artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: docker-image
+          path: /tmp
+
+      - name: Load image
+        run: docker load --input /tmp/image.tar
+
+      - name: Run smoke test
+        run: |
+          # Start container
+          docker run -d --name smoke-test -p 8080:80 \
+            ${{ env.IMAGE_NAME }}:test
+
+          # Wait for health (nginx should respond)
+          echo "Waiting for container to be healthy..."
+          for i in {1..30}; do
+            if curl -fsS http://localhost:8080/ >/dev/null 2>&1; then
+              echo "✅ Container is serving content"
+              break
+            fi
+            if [ $i -eq 30 ]; then
+              echo "❌ Container failed health check"
+              docker logs smoke-test
+              exit 1
+            fi
+            sleep 2
+          done
+
+          # Test that it's actually the Flutter app
+          response=$(curl -fsS http://localhost:8080/)
+          if echo "$response" | grep -q "flutter"; then
+            echo "✅ Flutter app detected in response"
+          else
+            echo "⚠️  Warning: Flutter app not detected (might be loading screen)"
+          fi
+
+          # Cleanup
+          docker logs smoke-test
+          docker stop smoke-test
+          docker rm smoke-test
+
+  # ============================================================================
+  # STAGE 5: INTEGRATION TESTS (Against Real Backend - Optional)
+  # ============================================================================
+  integration-tests:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    needs: test-image
+    # Only run if backend is available (optional)
+    if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'stable'
+          cache: true
+
+      # Need generated API for integration tests
+      - name: Get OpenAPI schema
+        run: |
+          if [ ! -f openapi-schema.yaml ]; then
+            echo "ERROR: openapi-schema.yaml missing for integration tests"
+            exit 1
+          fi
+
+      - name: Generate API client
+        run: |
+          npx @openapitools/openapi-generator-cli generate \
+            -i openapi-schema.yaml \
+            -g dart-dio \
+            -o packages/frontend_easy_api \
+            --additional-properties=pubName=frontend_easy_api,useEnumExtension=true,serializationLibrary=json_serializable
+
+      - name: Fix SDK version in generated package
+        run: |
+          sed -i 's/sdk: .*/sdk: ">=3.9.0 <4.0.0"/' packages/frontend_easy_api/pubspec.yaml
+
+      - name: Install dependencies
+        run: |
+          flutter pub get
+          cd packages/frontend_easy_api
+          flutter pub get
+          dart run build_runner build --delete-conflicting-outputs
+
+      # Run integration tests (need backend running or mocked)
+      - name: Run integration tests
+        run: flutter test test/integration/
+        env:
+          API_BASE_URL: ${{ secrets.TEST_API_URL || 'http://localhost:8000' }}
+
+  # ============================================================================
+  # STAGE 6: SECURITY SCAN
+  # ============================================================================
+  security:
+    name: Security Scan (Trivy)
+    runs-on: ubuntu-latest
+    needs: test-image
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download image artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: docker-image
+          path: /tmp
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          input: /tmp/image.tar
+          severity: 'CRITICAL,HIGH'
+          exit-code: '1'  # Fail on critical/high
+
+  # ============================================================================
+  # STAGE 7: PUSH TO REGISTRY (Production)
+  # ============================================================================
+  push:
+    name: Push to Registry
+    runs-on: ubuntu-latest
+    needs: [test-image, security]
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download image artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: docker-image
+          path: /tmp
+
+      - name: Load image
+        run: docker load --input /tmp/image.tar
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
@@ -59,11 +271,9 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          tags: ${{ env.IMAGE_NAME }}:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+      - name: Tag and push
+        run: |
+          docker tag ${{ env.IMAGE_NAME }}:test ${{ env.IMAGE_NAME }}:latest
+          docker tag ${{ env.IMAGE_NAME }}:test ${{ env.IMAGE_NAME }}:${{ github.sha }}
+          docker push ${{ env.IMAGE_NAME }}:latest
+          docker push ${{ env.IMAGE_NAME }}:${{ env.IMAGE_NAME }}:${{ github.sha }}

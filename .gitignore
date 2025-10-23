@@ -55,4 +55,4 @@ assets/.env
 lib/core/config/maps_config.dart
 
 # OpenAPI Schema (copied from backend via git hook)
-openapi-schema.yaml
+# openapi-schema.yaml  # MUST BE COMMITTED - Required for CI to generate API client
