@@ -55,6 +55,7 @@ export 'package:frontend_easy_api/src/model/patched_student_photo.dart';
 export 'package:frontend_easy_api/src/model/patched_user.dart';
 export 'package:frontend_easy_api/src/model/role.dart';
 export 'package:frontend_easy_api/src/model/route.dart';
+export 'package:frontend_easy_api/src/model/route_stop.dart';
 export 'package:frontend_easy_api/src/model/school.dart';
 export 'package:frontend_easy_api/src/model/student.dart';
 export 'package:frontend_easy_api/src/model/student_parent.dart';

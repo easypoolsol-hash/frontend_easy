@@ -3,8 +3,8 @@ import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for PatchedRoute
 void main() {
-  final PatchedRoute? instance = /* PatchedRoute(...) */ null;
-  // TODO add properties to the entity
+  final instance = PatchedRouteBuilder();
+  // TODO add properties to the builder and call build()
 
   group(PatchedRoute, () {
     // UUID primary key
@@ -25,15 +25,15 @@ void main() {
       // TODO
     });
 
-    // Array of stop objects: [{name, lat, lon, sequence, estimated_time}]
-    // Object stops
-    test('to test the property `stops`', () async {
+    // Hex color for map display (e.g., #FF5733)
+    // String colorCode
+    test('to test the property `colorCode`', () async {
       // TODO
     });
 
-    // Schedule data: {morning: {start, end}, afternoon: {start, end}}
-    // Object schedule
-    test('to test the property `schedule`', () async {
+    // Line pattern for map visualization  * `solid` - Solid Line * `dashed` - Dashed Line
+    // String linePattern
+    test('to test the property `linePattern`', () async {
       // TODO
     });
 
@@ -50,6 +50,11 @@ void main() {
 
     // String totalStudents
     test('to test the property `totalStudents`', () async {
+      // TODO
+    });
+
+    // BuiltList<RouteStop> routeStops
+    test('to test the property `routeStops`', () async {
       // TODO
     });
 

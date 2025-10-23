@@ -47,6 +47,7 @@ doc/PatchedStudentPhoto.md
 doc/PatchedUser.md
 doc/Role.md
 doc/Route.md
+doc/RouteStop.md
 doc/School.md
 doc/Student.md
 doc/StudentParent.md
@@ -109,6 +110,7 @@ lib/src/model/patched_student_photo.dart
 lib/src/model/patched_user.dart
 lib/src/model/role.dart
 lib/src/model/route.dart
+lib/src/model/route_stop.dart
 lib/src/model/school.dart
 lib/src/model/student.dart
 lib/src/model/student_parent.dart

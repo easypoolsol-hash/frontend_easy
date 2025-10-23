@@ -3,8 +3,8 @@ import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for PaginatedAuditLogList
 void main() {
-  final PaginatedAuditLogList? instance = /* PaginatedAuditLogList(...) */ null;
-  // TODO add properties to the entity
+  final instance = PaginatedAuditLogListBuilder();
+  // TODO add properties to the builder and call build()
 
   group(PaginatedAuditLogList, () {
     // int count
@@ -22,7 +22,7 @@ void main() {
       // TODO
     });
 
-    // List<AuditLog> results
+    // BuiltList<AuditLog> results
     test('to test the property `results`', () async {
       // TODO
     });

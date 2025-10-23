@@ -41,6 +41,7 @@ import 'package:frontend_easy_api/src/model/patched_student_photo.dart';
 import 'package:frontend_easy_api/src/model/patched_user.dart';
 import 'package:frontend_easy_api/src/model/role.dart';
 import 'package:frontend_easy_api/src/model/route.dart';
+import 'package:frontend_easy_api/src/model/route_stop.dart';
 import 'package:frontend_easy_api/src/model/school.dart';
 import 'package:frontend_easy_api/src/model/student.dart';
 import 'package:frontend_easy_api/src/model/student_parent.dart';
@@ -155,6 +156,8 @@ final _regMap = RegExp(r'^Map<String,(.*)>$');
           return Role.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'Route':
           return Route.fromJson(value as Map<String, dynamic>) as ReturnType;
+        case 'RouteStop':
+          return RouteStop.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'School':
           return School.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'Student':

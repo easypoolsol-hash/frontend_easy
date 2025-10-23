@@ -3,9 +3,8 @@ import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for KioskActivationResponse
 void main() {
-  final KioskActivationResponse? instance = /* KioskActivationResponse(...) */
-      null;
-  // TODO add properties to the entity
+  final instance = KioskActivationResponseBuilder();
+  // TODO add properties to the builder and call build()
 
   group(KioskActivationResponse, () {
     // Success message
@@ -43,5 +42,6 @@ void main() {
     test('to test the property `activationTokenDestroyed`', () async {
       // TODO
     });
+
   });
 }

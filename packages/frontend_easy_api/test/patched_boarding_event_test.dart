@@ -3,8 +3,8 @@ import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for PatchedBoardingEvent
 void main() {
-  final PatchedBoardingEvent? instance = /* PatchedBoardingEvent(...) */ null;
-  // TODO add properties to the entity
+  final instance = PatchedBoardingEventBuilder();
+  // TODO add properties to the builder and call build()
 
   group(PatchedBoardingEvent, () {
     // ULID primary key for global uniqueness and time sorting
@@ -68,7 +68,7 @@ void main() {
     });
 
     // Additional metadata as JSON
-    // Object metadata
+    // JsonObject metadata
     test('to test the property `metadata`', () async {
       // TODO
     });

@@ -3,8 +3,8 @@ import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for DeviceLog
 void main() {
-  final DeviceLog? instance = /* DeviceLog(...) */ null;
-  // TODO add properties to the entity
+  final instance = DeviceLogBuilder();
+  // TODO add properties to the builder and call build()
 
   group(DeviceLog, () {
     // Auto-incrementing log entry ID
@@ -37,7 +37,7 @@ void main() {
     });
 
     // Additional structured data as JSON
-    // Object metadata
+    // JsonObject metadata
     test('to test the property `metadata`', () async {
       // TODO
     });

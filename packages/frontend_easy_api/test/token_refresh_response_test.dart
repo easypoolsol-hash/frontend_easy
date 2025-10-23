@@ -3,8 +3,8 @@ import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for TokenRefreshResponse
 void main() {
-  final TokenRefreshResponse? instance = /* TokenRefreshResponse(...) */ null;
-  // TODO add properties to the entity
+  final instance = TokenRefreshResponseBuilder();
+  // TODO add properties to the builder and call build()
 
   group(TokenRefreshResponse, () {
     // New access token (valid for 15 minutes)

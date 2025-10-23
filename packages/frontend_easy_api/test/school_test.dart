@@ -3,8 +3,8 @@ import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for School
 void main() {
-  final School? instance = /* School(...) */ null;
-  // TODO add properties to the entity
+  final instance = SchoolBuilder();
+  // TODO add properties to the builder and call build()
 
   group(School, () {
     // String schoolId

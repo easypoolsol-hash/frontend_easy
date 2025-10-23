@@ -3,8 +3,8 @@ import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for BusLocation
 void main() {
-  final BusLocation? instance = /* BusLocation(...) */ null;
-  // TODO add properties to the entity
+  final instance = BusLocationBuilder();
+  // TODO add properties to the builder and call build()
 
   group(BusLocation, () {
     // Auto-incrementing location entry ID

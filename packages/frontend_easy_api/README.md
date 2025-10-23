@@ -204,6 +204,7 @@ Class | Method | HTTP request | Description
  - [PatchedUser](doc/PatchedUser.md)
  - [Role](doc/Role.md)
  - [Route](doc/Route.md)
+ - [RouteStop](doc/RouteStop.md)
  - [School](doc/School.md)
  - [Student](doc/Student.md)
  - [StudentParent](doc/StudentParent.md)

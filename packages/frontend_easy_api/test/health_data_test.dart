@@ -3,8 +3,8 @@ import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for HealthData
 void main() {
-  final HealthData? instance = /* HealthData(...) */ null;
-  // TODO add properties to the entity
+  final instance = HealthDataBuilder();
+  // TODO add properties to the builder and call build()
 
   group(HealthData, () {
     // int batteryLevel

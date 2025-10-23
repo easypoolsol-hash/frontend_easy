@@ -11,11 +11,10 @@ Name | Type | Description | Notes
 **routeId** | **String** | UUID primary key | 
 **name** | **String** | Route name (e.g., 'Route A', 'North Loop') | 
 **description** | **String** | Detailed description of the route | [optional] 
-**stops** | **Object** | Array of stop objects: [{name, lat, lon, sequence, estimated_time}] | [optional] 
-**schedule** | **Object** | Schedule data: {morning: {start, end}, afternoon: {start, end}} | [optional] 
 **isActive** | **bool** | Whether this route is currently active | [optional] 
 **stopCount** | **String** |  | 
 **totalStudents** | **String** |  | 
+**routeStops** | [**List&lt;RouteStop&gt;**](RouteStop.md) |  | 
 **createdAt** | [**DateTime**](DateTime.md) | When this route was created | 
 **updatedAt** | [**DateTime**](DateTime.md) | When this route was last updated | 
 

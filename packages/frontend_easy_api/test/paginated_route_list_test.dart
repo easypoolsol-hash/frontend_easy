@@ -3,8 +3,8 @@ import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for PaginatedRouteList
 void main() {
-  final PaginatedRouteList? instance = /* PaginatedRouteList(...) */ null;
-  // TODO add properties to the entity
+  final instance = PaginatedRouteListBuilder();
+  // TODO add properties to the builder and call build()
 
   group(PaginatedRouteList, () {
     // int count
@@ -22,7 +22,7 @@ void main() {
       // TODO
     });
 
-    // List<Route> results
+    // BuiltList<Route> results
     test('to test the property `results`', () async {
       // TODO
     });

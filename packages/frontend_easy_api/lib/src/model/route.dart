@@ -3,6 +3,7 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:frontend_easy_api/src/model/route_stop.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'route.g.dart';
@@ -24,15 +25,13 @@ class Route {
 
      this.description,
 
-     this.stops,
-
-     this.schedule,
-
      this.isActive,
 
     required  this.stopCount,
 
     required  this.totalStudents,
+
+    required  this.routeStops,
 
     required  this.createdAt,
 
@@ -78,32 +77,6 @@ class Route {
 
 
 
-      /// Array of stop objects: [{name, lat, lon, sequence, estimated_time}]
-  @JsonKey(
-    
-    name: r'stops',
-    required: false,
-    includeIfNull: false,
-  )
-
-
-  final Object? stops;
-
-
-
-      /// Schedule data: {morning: {start, end}, afternoon: {start, end}}
-  @JsonKey(
-    
-    name: r'schedule',
-    required: false,
-    includeIfNull: false,
-  )
-
-
-  final Object? schedule;
-
-
-
       /// Whether this route is currently active
   @JsonKey(
     
@@ -141,6 +114,18 @@ class Route {
 
 
 
+  @JsonKey(
+    
+    name: r'route_stops',
+    required: true,
+    includeIfNull: false,
+  )
+
+
+  final List<RouteStop> routeStops;
+
+
+
       /// When this route was created
   @JsonKey(
     
@@ -174,11 +159,10 @@ class Route {
       other.routeId == routeId &&
       other.name == name &&
       other.description == description &&
-      other.stops == stops &&
-      other.schedule == schedule &&
       other.isActive == isActive &&
       other.stopCount == stopCount &&
       other.totalStudents == totalStudents &&
+      other.routeStops == routeStops &&
       other.createdAt == createdAt &&
       other.updatedAt == updatedAt;
 
@@ -187,11 +171,10 @@ class Route {
         routeId.hashCode +
         name.hashCode +
         description.hashCode +
-        (stops == null ? 0 : stops.hashCode) +
-        (schedule == null ? 0 : schedule.hashCode) +
         isActive.hashCode +
         stopCount.hashCode +
         totalStudents.hashCode +
+        routeStops.hashCode +
         createdAt.hashCode +
         updatedAt.hashCode;
 

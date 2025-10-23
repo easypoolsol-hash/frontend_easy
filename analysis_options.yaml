@@ -29,6 +29,7 @@ analyzer:
 dart:
   language:
     version: 3.5
+    null-aware-elements: true
 
 linter:
   rules:

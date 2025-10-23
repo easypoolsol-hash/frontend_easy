@@ -3,8 +3,8 @@ import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for UserCreate
 void main() {
-  final UserCreate? instance = /* UserCreate(...) */ null;
-  // TODO add properties to the entity
+  final instance = UserCreateBuilder();
+  // TODO add properties to the builder and call build()
 
   group(UserCreate, () {
     // String username

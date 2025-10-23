@@ -3,8 +3,8 @@ import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for PaginatedBoardingEventList
 void main() {
-  final PaginatedBoardingEventList? instance = /* PaginatedBoardingEventList(...) */ null;
-  // TODO add properties to the entity
+  final instance = PaginatedBoardingEventListBuilder();
+  // TODO add properties to the builder and call build()
 
   group(PaginatedBoardingEventList, () {
     // int count
@@ -22,7 +22,7 @@ void main() {
       // TODO
     });
 
-    // List<BoardingEvent> results
+    // BuiltList<BoardingEvent> results
     test('to test the property `results`', () async {
       // TODO
     });

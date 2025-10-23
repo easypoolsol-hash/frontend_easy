@@ -3,8 +3,8 @@ import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for AuditLog
 void main() {
-  final AuditLog? instance = /* AuditLog(...) */ null;
-  // TODO add properties to the entity
+  final instance = AuditLogBuilder();
+  // TODO add properties to the builder and call build()
 
   group(AuditLog, () {
     // int logId
@@ -45,7 +45,7 @@ void main() {
     });
 
     // JSON object of changes made
-    // Object changes
+    // JsonObject changes
     test('to test the property `changes`', () async {
       // TODO
     });
@@ -64,5 +64,6 @@ void main() {
     test('to test the property `timestamp`', () async {
       // TODO
     });
+
   });
 }

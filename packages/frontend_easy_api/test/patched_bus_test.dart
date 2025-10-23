@@ -3,8 +3,8 @@ import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for PatchedBus
 void main() {
-  final PatchedBus? instance = /* PatchedBus(...) */ null;
-  // TODO add properties to the entity
+  final instance = PatchedBusBuilder();
+  // TODO add properties to the builder and call build()
 
   group(PatchedBus, () {
     // UUID primary key
@@ -67,7 +67,7 @@ void main() {
     });
 
     // Date of last maintenance
-    // DateTime lastMaintenance
+    // Date lastMaintenance
     test('to test the property `lastMaintenance`', () async {
       // TODO
     });
@@ -98,5 +98,6 @@ void main() {
     test('to test the property `updatedAt`', () async {
       // TODO
     });
+
   });
 }

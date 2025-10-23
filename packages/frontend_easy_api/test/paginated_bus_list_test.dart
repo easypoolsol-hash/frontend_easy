@@ -3,8 +3,8 @@ import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for PaginatedBusList
 void main() {
-  final PaginatedBusList? instance = /* PaginatedBusList(...) */ null;
-  // TODO add properties to the entity
+  final instance = PaginatedBusListBuilder();
+  // TODO add properties to the builder and call build()
 
   group(PaginatedBusList, () {
     // int count
@@ -22,7 +22,7 @@ void main() {
       // TODO
     });
 
-    // List<Bus> results
+    // BuiltList<Bus> results
     test('to test the property `results`', () async {
       // TODO
     });
