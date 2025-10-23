@@ -24,7 +24,8 @@ RUN npx @openapitools/openapi-generator-cli generate \
     --additional-properties=pubName=frontend_easy_api,useEnumExtension=true,serializationLibrary=json_serializable
 
 # Fix SDK version for Dart 3.9+ (null-aware-elements support)
-RUN sed -i 's/sdk: .*/sdk: ">=3.9.0 <4.0.0"/' output/pubspec.yaml
+# SSOT: This fixes the generator's output to match our project requirements
+RUN sed -i "s/sdk: '[^']*'/sdk: '>=3.9.0 <4.0.0'/" output/pubspec.yaml
 
 # ----------------------------------------------------------------------------
 # STAGE 2: FLUTTER BUILD
