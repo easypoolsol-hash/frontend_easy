@@ -33,7 +33,7 @@ class PatchedStudentParent {
   });
 
   @JsonKey(
-
+    
     name: r'student',
     required: false,
     includeIfNull: false,
@@ -45,7 +45,7 @@ class PatchedStudentParent {
 
 
   @JsonKey(
-
+    
     name: r'parent',
     required: false,
     includeIfNull: false,
@@ -58,7 +58,7 @@ class PatchedStudentParent {
 
       /// * `mother` - Mother * `father` - Father * `guardian` - Guardian * `grandparent` - Grandparent * `other` - Other
   @JsonKey(
-
+    
     name: r'relationship',
     required: false,
     includeIfNull: false,
@@ -70,7 +70,7 @@ class PatchedStudentParent {
 
 
   @JsonKey(
-
+    
     name: r'is_primary',
     required: false,
     includeIfNull: false,
@@ -82,7 +82,7 @@ class PatchedStudentParent {
 
 
   @JsonKey(
-
+    
     name: r'parent_details',
     required: false,
     includeIfNull: false,
@@ -94,7 +94,7 @@ class PatchedStudentParent {
 
 
   @JsonKey(
-
+    
     name: r'student_details',
     required: false,
     includeIfNull: false,
@@ -161,3 +161,5 @@ final String value;
 @override
 String toString() => value;
 }
+
+

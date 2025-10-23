@@ -30,7 +30,7 @@ class UserCreate {
   });
 
   @JsonKey(
-
+    
     name: r'username',
     required: true,
     includeIfNull: false,
@@ -42,7 +42,7 @@ class UserCreate {
 
 
   @JsonKey(
-
+    
     name: r'email',
     required: true,
     includeIfNull: false,
@@ -54,7 +54,7 @@ class UserCreate {
 
 
   @JsonKey(
-
+    
     name: r'password',
     required: true,
     includeIfNull: false,
@@ -66,7 +66,7 @@ class UserCreate {
 
 
   @JsonKey(
-
+    
     name: r'password_confirm',
     required: true,
     includeIfNull: false,
@@ -78,7 +78,7 @@ class UserCreate {
 
 
   @JsonKey(
-
+    
     name: r'role',
     required: true,
     includeIfNull: false,
@@ -117,3 +117,4 @@ class UserCreate {
   }
 
 }
+

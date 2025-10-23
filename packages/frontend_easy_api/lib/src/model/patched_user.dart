@@ -38,7 +38,7 @@ class PatchedUser {
   });
 
   @JsonKey(
-
+    
     name: r'user_id',
     required: false,
     includeIfNull: false,
@@ -50,7 +50,7 @@ class PatchedUser {
 
 
   @JsonKey(
-
+    
     name: r'username',
     required: false,
     includeIfNull: false,
@@ -62,7 +62,7 @@ class PatchedUser {
 
 
   @JsonKey(
-
+    
     name: r'email',
     required: false,
     includeIfNull: false,
@@ -74,7 +74,7 @@ class PatchedUser {
 
 
   @JsonKey(
-
+    
     name: r'role',
     required: false,
     includeIfNull: false,
@@ -86,7 +86,7 @@ class PatchedUser {
 
 
   @JsonKey(
-
+    
     name: r'role_name',
     required: false,
     includeIfNull: false,
@@ -98,7 +98,7 @@ class PatchedUser {
 
 
   @JsonKey(
-
+    
     name: r'is_active',
     required: false,
     includeIfNull: false,
@@ -110,7 +110,7 @@ class PatchedUser {
 
 
   @JsonKey(
-
+    
     name: r'last_login',
     required: false,
     includeIfNull: false,
@@ -122,7 +122,7 @@ class PatchedUser {
 
 
   @JsonKey(
-
+    
     name: r'created_at',
     required: false,
     includeIfNull: false,
@@ -134,7 +134,7 @@ class PatchedUser {
 
 
   @JsonKey(
-
+    
     name: r'updated_at',
     required: false,
     includeIfNull: false,
@@ -181,3 +181,4 @@ class PatchedUser {
   }
 
 }
+

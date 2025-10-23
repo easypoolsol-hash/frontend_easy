@@ -26,7 +26,7 @@ class PatchedSchool {
   });
 
   @JsonKey(
-
+    
     name: r'school_id',
     required: false,
     includeIfNull: false,
@@ -38,7 +38,7 @@ class PatchedSchool {
 
 
   @JsonKey(
-
+    
     name: r'name',
     required: false,
     includeIfNull: false,
@@ -50,7 +50,7 @@ class PatchedSchool {
 
 
   @JsonKey(
-
+    
     name: r'created_at',
     required: false,
     includeIfNull: false,
@@ -85,3 +85,4 @@ class PatchedSchool {
   }
 
 }
+

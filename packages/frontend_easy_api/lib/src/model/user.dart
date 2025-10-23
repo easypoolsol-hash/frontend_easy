@@ -38,7 +38,7 @@ class User {
   });
 
   @JsonKey(
-
+    
     name: r'user_id',
     required: true,
     includeIfNull: false,
@@ -50,7 +50,7 @@ class User {
 
 
   @JsonKey(
-
+    
     name: r'username',
     required: true,
     includeIfNull: false,
@@ -62,7 +62,7 @@ class User {
 
 
   @JsonKey(
-
+    
     name: r'email',
     required: true,
     includeIfNull: false,
@@ -74,7 +74,7 @@ class User {
 
 
   @JsonKey(
-
+    
     name: r'role',
     required: true,
     includeIfNull: false,
@@ -86,7 +86,7 @@ class User {
 
 
   @JsonKey(
-
+    
     name: r'role_name',
     required: true,
     includeIfNull: false,
@@ -98,7 +98,7 @@ class User {
 
 
   @JsonKey(
-
+    
     name: r'is_active',
     required: false,
     includeIfNull: false,
@@ -110,7 +110,7 @@ class User {
 
 
   @JsonKey(
-
+    
     name: r'last_login',
     required: true,
     includeIfNull: true,
@@ -122,7 +122,7 @@ class User {
 
 
   @JsonKey(
-
+    
     name: r'created_at',
     required: true,
     includeIfNull: false,
@@ -134,7 +134,7 @@ class User {
 
 
   @JsonKey(
-
+    
     name: r'updated_at',
     required: true,
     includeIfNull: false,
@@ -181,3 +181,4 @@ class User {
   }
 
 }
+

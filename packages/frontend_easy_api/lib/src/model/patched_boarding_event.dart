@@ -45,7 +45,7 @@ class PatchedBoardingEvent {
 
       /// ULID primary key for global uniqueness and time sorting
   @JsonKey(
-
+    
     name: r'event_id',
     required: false,
     includeIfNull: false,
@@ -58,7 +58,7 @@ class PatchedBoardingEvent {
 
       /// Student who boarded the bus
   @JsonKey(
-
+    
     name: r'student',
     required: false,
     includeIfNull: false,
@@ -71,7 +71,7 @@ class PatchedBoardingEvent {
 
       /// Kiosk device identifier
   @JsonKey(
-
+    
     name: r'kiosk_id',
     required: false,
     includeIfNull: false,
@@ -86,7 +86,7 @@ class PatchedBoardingEvent {
           // minimum: 0.0
           // maximum: 1.0
   @JsonKey(
-
+    
     name: r'confidence_score',
     required: false,
     includeIfNull: false,
@@ -99,7 +99,7 @@ class PatchedBoardingEvent {
 
       /// When the boarding event occurred
   @JsonKey(
-
+    
     name: r'timestamp',
     required: false,
     includeIfNull: false,
@@ -112,7 +112,7 @@ class PatchedBoardingEvent {
 
       /// GPS latitude coordinate
   @JsonKey(
-
+    
     name: r'latitude',
     required: false,
     includeIfNull: false,
@@ -125,7 +125,7 @@ class PatchedBoardingEvent {
 
       /// GPS longitude coordinate
   @JsonKey(
-
+    
     name: r'longitude',
     required: false,
     includeIfNull: false,
@@ -138,7 +138,7 @@ class PatchedBoardingEvent {
 
       /// Bus route identifier
   @JsonKey(
-
+    
     name: r'bus_route',
     required: false,
     includeIfNull: false,
@@ -151,7 +151,7 @@ class PatchedBoardingEvent {
 
       /// S3 URL to face image for verification (optional)
   @JsonKey(
-
+    
     name: r'face_image_url',
     required: false,
     includeIfNull: false,
@@ -164,7 +164,7 @@ class PatchedBoardingEvent {
 
       /// Face recognition model version used
   @JsonKey(
-
+    
     name: r'model_version',
     required: false,
     includeIfNull: false,
@@ -177,7 +177,7 @@ class PatchedBoardingEvent {
 
       /// Additional metadata as JSON
   @JsonKey(
-
+    
     name: r'metadata',
     required: false,
     includeIfNull: false,
@@ -190,7 +190,7 @@ class PatchedBoardingEvent {
 
       /// When this record was created in database
   @JsonKey(
-
+    
     name: r'created_at',
     required: false,
     includeIfNull: false,
@@ -243,3 +243,4 @@ class PatchedBoardingEvent {
   }
 
 }
+

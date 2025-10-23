@@ -8,14 +8,16 @@ import 'package:frontend_easy_api/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**userId** | **String** |  | [optional]
-**username** | **String** |  | [optional]
-**email** | **String** |  | [optional]
-**role** | **String** |  | [optional]
-**roleName** | **String** |  | [optional]
-**isActive** | **bool** |  | [optional]
-**lastLogin** | [**DateTime**](DateTime.md) |  | [optional]
-**createdAt** | [**DateTime**](DateTime.md) |  | [optional]
-**updatedAt** | [**DateTime**](DateTime.md) |  | [optional]
+**userId** | **String** |  | [optional] 
+**username** | **String** |  | [optional] 
+**email** | **String** |  | [optional] 
+**role** | **String** |  | [optional] 
+**roleName** | **String** |  | [optional] 
+**isActive** | **bool** |  | [optional] 
+**lastLogin** | [**DateTime**](DateTime.md) |  | [optional] 
+**createdAt** | [**DateTime**](DateTime.md) |  | [optional] 
+**updatedAt** | [**DateTime**](DateTime.md) |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+

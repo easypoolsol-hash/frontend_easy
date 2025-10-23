@@ -52,7 +52,7 @@ class PatchedStudent {
   });
 
   @JsonKey(
-
+    
     name: r'student_id',
     required: false,
     includeIfNull: false,
@@ -64,7 +64,7 @@ class PatchedStudent {
 
 
   @JsonKey(
-
+    
     name: r'school',
     required: false,
     includeIfNull: false,
@@ -76,7 +76,7 @@ class PatchedStudent {
 
 
   @JsonKey(
-
+    
     name: r'decrypted_name',
     required: false,
     includeIfNull: false,
@@ -89,7 +89,7 @@ class PatchedStudent {
 
       /// Encrypted at application layer
   @JsonKey(
-
+    
     name: r'name',
     required: false,
     includeIfNull: false,
@@ -101,7 +101,7 @@ class PatchedStudent {
 
 
   @JsonKey(
-
+    
     name: r'grade',
     required: false,
     includeIfNull: false,
@@ -113,7 +113,7 @@ class PatchedStudent {
 
 
   @JsonKey(
-
+    
     name: r'section',
     required: false,
     includeIfNull: false,
@@ -126,7 +126,7 @@ class PatchedStudent {
 
       /// UUID primary key
   @JsonKey(
-
+    
     name: r'assigned_bus',
     required: false,
     includeIfNull: false,
@@ -139,7 +139,7 @@ class PatchedStudent {
 
       /// * `active` - Active * `inactive` - Inactive * `suspended` - Suspended
   @JsonKey(
-
+    
     name: r'status',
     required: false,
     includeIfNull: false,
@@ -151,7 +151,7 @@ class PatchedStudent {
 
 
   @JsonKey(
-
+    
     name: r'enrollment_date',
     required: false,
     includeIfNull: false,
@@ -163,7 +163,7 @@ class PatchedStudent {
 
 
   @JsonKey(
-
+    
     name: r'school_details',
     required: false,
     includeIfNull: false,
@@ -175,7 +175,7 @@ class PatchedStudent {
 
 
   @JsonKey(
-
+    
     name: r'bus_details',
     required: false,
     includeIfNull: false,
@@ -187,7 +187,7 @@ class PatchedStudent {
 
 
   @JsonKey(
-
+    
     name: r'parents',
     required: false,
     includeIfNull: false,
@@ -199,7 +199,7 @@ class PatchedStudent {
 
 
   @JsonKey(
-
+    
     name: r'photos',
     required: false,
     includeIfNull: false,
@@ -211,7 +211,7 @@ class PatchedStudent {
 
 
   @JsonKey(
-
+    
     name: r'created_at',
     required: false,
     includeIfNull: false,
@@ -223,7 +223,7 @@ class PatchedStudent {
 
 
   @JsonKey(
-
+    
     name: r'updated_at',
     required: false,
     includeIfNull: false,
@@ -302,3 +302,5 @@ final String value;
 @override
 String toString() => value;
 }
+
+

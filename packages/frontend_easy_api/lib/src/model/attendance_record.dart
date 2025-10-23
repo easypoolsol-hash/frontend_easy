@@ -43,7 +43,7 @@ class AttendanceRecord {
 
       /// UUID primary key
   @JsonKey(
-
+    
     name: r'record_id',
     required: true,
     includeIfNull: false,
@@ -56,7 +56,7 @@ class AttendanceRecord {
 
       /// Student attendance record
   @JsonKey(
-
+    
     name: r'student',
     required: true,
     includeIfNull: false,
@@ -68,7 +68,7 @@ class AttendanceRecord {
 
 
   @JsonKey(
-
+    
     name: r'student_name',
     required: true,
     includeIfNull: false,
@@ -80,7 +80,7 @@ class AttendanceRecord {
 
 
   @JsonKey(
-
+    
     name: r'student_grade',
     required: true,
     includeIfNull: false,
@@ -93,7 +93,7 @@ class AttendanceRecord {
 
       /// Date of attendance record
   @JsonKey(
-
+    
     name: r'date',
     required: true,
     includeIfNull: false,
@@ -106,7 +106,7 @@ class AttendanceRecord {
 
       /// Whether student boarded in the morning
   @JsonKey(
-
+    
     name: r'morning_boarded',
     required: false,
     includeIfNull: false,
@@ -119,7 +119,7 @@ class AttendanceRecord {
 
       /// Time of morning boarding
   @JsonKey(
-
+    
     name: r'morning_time',
     required: false,
     includeIfNull: false,
@@ -132,7 +132,7 @@ class AttendanceRecord {
 
       /// Whether student boarded in the afternoon
   @JsonKey(
-
+    
     name: r'afternoon_boarded',
     required: false,
     includeIfNull: false,
@@ -145,7 +145,7 @@ class AttendanceRecord {
 
       /// Time of afternoon boarding
   @JsonKey(
-
+    
     name: r'afternoon_time',
     required: false,
     includeIfNull: false,
@@ -158,7 +158,7 @@ class AttendanceRecord {
 
       /// Overall attendance status  * `present` - Present * `absent` - Absent * `partial` - Partial
   @JsonKey(
-
+    
     name: r'status',
     required: true,
     includeIfNull: false,
@@ -171,7 +171,7 @@ class AttendanceRecord {
 
       /// When this record was created
   @JsonKey(
-
+    
     name: r'created_at',
     required: true,
     includeIfNull: false,
@@ -242,3 +242,5 @@ final String value;
 @override
 String toString() => value;
 }
+
+

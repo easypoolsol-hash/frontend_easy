@@ -34,7 +34,7 @@ class Heartbeat {
 
       /// Heartbeat timestamp
   @JsonKey(
-
+    
     name: r'timestamp',
     required: true,
     includeIfNull: false,
@@ -47,7 +47,7 @@ class Heartbeat {
 
       /// Current database version on kiosk
   @JsonKey(
-
+    
     name: r'database_version',
     required: true,
     includeIfNull: false,
@@ -60,7 +60,7 @@ class Heartbeat {
 
       /// Database content hash
   @JsonKey(
-
+    
     name: r'database_hash',
     required: false,
     includeIfNull: false,
@@ -74,7 +74,7 @@ class Heartbeat {
       /// Students in DB
           // minimum: 0
   @JsonKey(
-
+    
     name: r'student_count',
     required: true,
     includeIfNull: false,
@@ -88,7 +88,7 @@ class Heartbeat {
       /// Embeddings in DB
           // minimum: 0
   @JsonKey(
-
+    
     name: r'embedding_count',
     required: true,
     includeIfNull: false,
@@ -100,7 +100,7 @@ class Heartbeat {
 
 
   @JsonKey(
-
+    
     name: r'health',
     required: false,
     includeIfNull: false,
@@ -141,3 +141,4 @@ class Heartbeat {
   }
 
 }
+

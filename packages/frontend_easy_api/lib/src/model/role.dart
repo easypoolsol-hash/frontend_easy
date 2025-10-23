@@ -34,7 +34,7 @@ class Role {
   });
 
   @JsonKey(
-
+    
     name: r'role_id',
     required: true,
     includeIfNull: false,
@@ -47,7 +47,7 @@ class Role {
 
       /// * `super_admin` - Super Administrator * `backend_engineer` - Backend Engineer * `school_admin` - School Administrator * `parent` - Parent
   @JsonKey(
-
+    
     name: r'name',
     required: true,
     includeIfNull: false,
@@ -59,7 +59,7 @@ class Role {
 
 
   @JsonKey(
-
+    
     name: r'description',
     required: false,
     includeIfNull: false,
@@ -72,7 +72,7 @@ class Role {
 
       /// JSON object defining role permissions
   @JsonKey(
-
+    
     name: r'permissions',
     required: false,
     includeIfNull: false,
@@ -84,7 +84,7 @@ class Role {
 
 
   @JsonKey(
-
+    
     name: r'is_active',
     required: false,
     includeIfNull: false,
@@ -96,7 +96,7 @@ class Role {
 
 
   @JsonKey(
-
+    
     name: r'created_at',
     required: true,
     includeIfNull: false,
@@ -108,7 +108,7 @@ class Role {
 
 
   @JsonKey(
-
+    
     name: r'updated_at',
     required: true,
     includeIfNull: false,
@@ -174,3 +174,5 @@ final String value;
 @override
 String toString() => value;
 }
+
+

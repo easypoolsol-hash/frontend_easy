@@ -25,7 +25,7 @@ class TokenRefreshResponse {
 
       /// New access token (valid for 15 minutes)
   @JsonKey(
-
+    
     name: r'access',
     required: true,
     includeIfNull: false,
@@ -38,7 +38,7 @@ class TokenRefreshResponse {
 
       /// New refresh token (valid for 60 days). Old refresh token is now blacklisted.
   @JsonKey(
-
+    
     name: r'refresh',
     required: true,
     includeIfNull: false,
@@ -71,3 +71,4 @@ class TokenRefreshResponse {
   }
 
 }
+

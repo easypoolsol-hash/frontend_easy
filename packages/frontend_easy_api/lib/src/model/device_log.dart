@@ -35,7 +35,7 @@ class DeviceLog {
 
       /// Auto-incrementing log entry ID
   @JsonKey(
-
+    
     name: r'log_id',
     required: true,
     includeIfNull: false,
@@ -48,7 +48,7 @@ class DeviceLog {
 
       /// Kiosk that generated this log entry
   @JsonKey(
-
+    
     name: r'kiosk',
     required: true,
     includeIfNull: false,
@@ -60,7 +60,7 @@ class DeviceLog {
 
 
   @JsonKey(
-
+    
     name: r'kiosk_id',
     required: true,
     includeIfNull: false,
@@ -73,7 +73,7 @@ class DeviceLog {
 
       /// Log level severity  * `DEBUG` - Debug * `INFO` - Info * `WARN` - Warning * `ERROR` - Error * `CRITICAL` - Critical
   @JsonKey(
-
+    
     name: r'log_level',
     required: true,
     includeIfNull: false,
@@ -86,7 +86,7 @@ class DeviceLog {
 
       /// Log message content
   @JsonKey(
-
+    
     name: r'message',
     required: true,
     includeIfNull: false,
@@ -99,7 +99,7 @@ class DeviceLog {
 
       /// Additional structured data as JSON
   @JsonKey(
-
+    
     name: r'metadata',
     required: false,
     includeIfNull: false,
@@ -112,7 +112,7 @@ class DeviceLog {
 
       /// When this log entry was created
   @JsonKey(
-
+    
     name: r'timestamp',
     required: true,
     includeIfNull: false,
@@ -181,3 +181,5 @@ final String value;
 @override
 String toString() => value;
 }
+
+

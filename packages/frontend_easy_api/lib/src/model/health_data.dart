@@ -40,7 +40,7 @@ class HealthData {
           // minimum: 0
           // maximum: 100
   @JsonKey(
-
+    
     name: r'battery_level',
     required: false,
     includeIfNull: false,
@@ -65,7 +65,7 @@ class HealthData {
 
           // minimum: 0
   @JsonKey(
-
+    
     name: r'storage_available_mb',
     required: false,
     includeIfNull: false,
@@ -89,7 +89,7 @@ class HealthData {
 
 
   @JsonKey(
-
+    
     name: r'network_type',
     required: false,
     includeIfNull: false,
@@ -101,7 +101,7 @@ class HealthData {
 
 
   @JsonKey(
-
+    
     name: r'app_version',
     required: false,
     includeIfNull: false,
@@ -114,7 +114,7 @@ class HealthData {
 
           // minimum: 0
   @JsonKey(
-
+    
     name: r'last_face_detected_ago_min',
     required: false,
     includeIfNull: false,
@@ -187,3 +187,4 @@ class HealthData {
   }
 
 }
+

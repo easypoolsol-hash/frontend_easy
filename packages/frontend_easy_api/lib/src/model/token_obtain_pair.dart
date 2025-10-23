@@ -28,7 +28,7 @@ class TokenObtainPair {
   });
 
   @JsonKey(
-
+    
     name: r'username',
     required: true,
     includeIfNull: false,
@@ -40,7 +40,7 @@ class TokenObtainPair {
 
 
   @JsonKey(
-
+    
     name: r'password',
     required: true,
     includeIfNull: false,
@@ -52,7 +52,7 @@ class TokenObtainPair {
 
 
   @JsonKey(
-
+    
     name: r'access',
     required: true,
     includeIfNull: false,
@@ -64,7 +64,7 @@ class TokenObtainPair {
 
 
   @JsonKey(
-
+    
     name: r'refresh',
     required: true,
     includeIfNull: false,
@@ -101,3 +101,4 @@ class TokenObtainPair {
   }
 
 }
+

@@ -36,7 +36,7 @@ class APIKey {
   });
 
   @JsonKey(
-
+    
     name: r'key_id',
     required: true,
     includeIfNull: false,
@@ -49,7 +49,7 @@ class APIKey {
 
       /// Reference to kiosk device
   @JsonKey(
-
+    
     name: r'kiosk_id',
     required: true,
     includeIfNull: false,
@@ -62,7 +62,7 @@ class APIKey {
 
       /// Human-readable name for the key
   @JsonKey(
-
+    
     name: r'name',
     required: false,
     includeIfNull: false,
@@ -75,7 +75,7 @@ class APIKey {
 
       /// JSON object defining scoped permissions
   @JsonKey(
-
+    
     name: r'permissions',
     required: false,
     includeIfNull: false,
@@ -87,7 +87,7 @@ class APIKey {
 
 
   @JsonKey(
-
+    
     name: r'is_active',
     required: false,
     includeIfNull: false,
@@ -99,7 +99,7 @@ class APIKey {
 
 
   @JsonKey(
-
+    
     name: r'expires_at',
     required: false,
     includeIfNull: false,
@@ -111,7 +111,7 @@ class APIKey {
 
 
   @JsonKey(
-
+    
     name: r'last_used',
     required: true,
     includeIfNull: true,
@@ -123,7 +123,7 @@ class APIKey {
 
 
   @JsonKey(
-
+    
     name: r'created_at',
     required: true,
     includeIfNull: false,
@@ -168,3 +168,4 @@ class APIKey {
   }
 
 }
+

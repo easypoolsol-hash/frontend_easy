@@ -24,7 +24,7 @@ class ApiV1KioskBoardingCreate200Response {
   });
 
   @JsonKey(
-
+    
     name: r'status',
     required: false,
     includeIfNull: false,
@@ -36,7 +36,7 @@ class ApiV1KioskBoardingCreate200Response {
 
 
   @JsonKey(
-
+    
     name: r'message',
     required: false,
     includeIfNull: false,
@@ -69,3 +69,4 @@ class ApiV1KioskBoardingCreate200Response {
   }
 
 }
+

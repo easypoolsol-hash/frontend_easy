@@ -18,7 +18,7 @@ class FrontendEasyApi {
     Dio? dio,
     String? basePathOverride,
     List<Interceptor>? interceptors,
-  })  :
+  })  : 
         this.dio = dio ??
             Dio(BaseOptions(
               baseUrl: basePathOverride ?? basePath,

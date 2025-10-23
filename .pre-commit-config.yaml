@@ -28,3 +28,13 @@ repos:
         entry: flutter pub run import_sorter:main
         language: system
         types: [dart]
+
+      # Regenerate Flutter API client when schema changes (Zero-Drift Policy)
+      - id: regenerate-api-client
+        name: Regenerate Flutter API Client from OpenAPI Schema
+        entry: powershell
+        args: ["-Command", "npx @openapitools/openapi-generator-cli generate -i openapi-schema.yaml -g dart-dio -o packages/frontend_easy_api --additional-properties=pubName=frontend_easy_api,useEnumExtension=true,serializationLibrary=json_serializable; cd packages/frontend_easy_api; flutter pub get"]
+        language: system
+        pass_filenames: false
+        files: openapi-schema\.yaml$
+        verbose: true

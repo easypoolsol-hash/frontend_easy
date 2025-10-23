@@ -33,7 +33,7 @@ class KioskActivationResponse {
 
       /// Success message
   @JsonKey(
-
+    
     name: r'message',
     required: true,
     includeIfNull: false,
@@ -46,7 +46,7 @@ class KioskActivationResponse {
 
       /// JWT access token (15 minutes)
   @JsonKey(
-
+    
     name: r'access',
     required: true,
     includeIfNull: false,
@@ -59,7 +59,7 @@ class KioskActivationResponse {
 
       /// JWT refresh token (60 days)
   @JsonKey(
-
+    
     name: r'refresh',
     required: true,
     includeIfNull: false,
@@ -72,7 +72,7 @@ class KioskActivationResponse {
 
       /// Activated kiosk ID
   @JsonKey(
-
+    
     name: r'kiosk_id',
     required: true,
     includeIfNull: false,
@@ -85,7 +85,7 @@ class KioskActivationResponse {
 
       /// Assigned bus ID
   @JsonKey(
-
+    
     name: r'bus_id',
     required: false,
     includeIfNull: false,
@@ -98,7 +98,7 @@ class KioskActivationResponse {
 
       /// Confirms token is now garbage
   @JsonKey(
-
+    
     name: r'activation_token_destroyed',
     required: true,
     includeIfNull: false,
@@ -139,3 +139,4 @@ class KioskActivationResponse {
   }
 
 }
+

@@ -25,6 +25,11 @@ analyzer:
     unnecessary_null_checks: error
     unnecessary_nullable_for_final_variable_declarations: error
 
+# Enable null-aware elements for Dart 3.5+
+dart:
+  language:
+    version: 3.5
+
 linter:
   rules:
     # Style

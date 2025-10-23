@@ -19,10 +19,10 @@ class KioskActivationApi {
   const KioskActivationApi(this._dio);
 
   /// kioskActivate
-  ///      **Fortune 500 Standard: One-time Device Activation**      Used by: Google Nest, Amazon Alexa, Netflix devices      Activates a kiosk using a disposable activation token.     After activation, the token becomes garbage and cannot be reused.      **Security Features:**     - One-time use activation tokens (WhatsApp leak protection)     - Tokens destroyed after first use     - 60-day rotating refresh tokens     - 15-minute access tokens      **Example Request:**     &#x60;&#x60;&#x60;json     {         \&quot;kiosk_id\&quot;: \&quot;KIOSK-SCHOOL-001\&quot;,         \&quot;activation_token\&quot;: \&quot;8Jz4Y-x9K2mQ_r5WvLp3NcTg7HfB6DsA1eU0oI9j8Xw\&quot;     }     &#x60;&#x60;&#x60;
+  ///      **Fortune 500 Standard: One-time Device Activation**      Used by: Google Nest, Amazon Alexa, Netflix devices      Activates a kiosk using a disposable activation token.     After activation, the token becomes garbage and cannot be reused.      **Security Features:**     - One-time use activation tokens (WhatsApp leak protection)     - Tokens destroyed after first use     - 60-day rotating refresh tokens     - 15-minute access tokens      **Example Request:**     &#x60;&#x60;&#x60;json     {         \&quot;kiosk_id\&quot;: \&quot;KIOSK-SCHOOL-001\&quot;,         \&quot;activation_token\&quot;: \&quot;8Jz4Y-x9K2mQ_r5WvLp3NcTg7HfB6DsA1eU0oI9j8Xw\&quot;     }     &#x60;&#x60;&#x60;     
   ///
   /// Parameters:
-  /// * [kioskActivation]
+  /// * [kioskActivation] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -32,7 +32,7 @@ class KioskActivationApi {
   ///
   /// Returns a [Future] containing a [Response] with a [KioskActivationResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<KioskActivationResponse>> kioskActivate({
+  Future<Response<KioskActivationResponse>> kioskActivate({ 
     required KioskActivation kioskActivation,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,

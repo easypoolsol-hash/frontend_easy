@@ -8,3 +8,8 @@ analyzer:
     - lib/src/model/*.g.dart
   errors:
     deprecated_member_use_from_same_package: ignore
+
+# Enable null-aware elements for Dart 3.5+
+dart:
+  language:
+    version: 3.5

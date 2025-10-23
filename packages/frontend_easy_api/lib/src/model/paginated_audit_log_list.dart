@@ -29,7 +29,7 @@ class PaginatedAuditLogList {
   });
 
   @JsonKey(
-
+    
     name: r'count',
     required: true,
     includeIfNull: false,
@@ -41,7 +41,7 @@ class PaginatedAuditLogList {
 
 
   @JsonKey(
-
+    
     name: r'next',
     required: false,
     includeIfNull: false,
@@ -53,7 +53,7 @@ class PaginatedAuditLogList {
 
 
   @JsonKey(
-
+    
     name: r'previous',
     required: false,
     includeIfNull: false,
@@ -65,7 +65,7 @@ class PaginatedAuditLogList {
 
 
   @JsonKey(
-
+    
     name: r'results',
     required: true,
     includeIfNull: false,
@@ -102,3 +102,4 @@ class PaginatedAuditLogList {
   }
 
 }
+

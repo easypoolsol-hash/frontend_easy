@@ -42,7 +42,7 @@ class AuditLog {
   });
 
   @JsonKey(
-
+    
     name: r'log_id',
     required: true,
     includeIfNull: false,
@@ -54,7 +54,7 @@ class AuditLog {
 
 
   @JsonKey(
-
+    
     name: r'user',
     required: false,
     includeIfNull: false,
@@ -66,7 +66,7 @@ class AuditLog {
 
 
   @JsonKey(
-
+    
     name: r'user_username',
     required: true,
     includeIfNull: false,
@@ -78,7 +78,7 @@ class AuditLog {
 
 
   @JsonKey(
-
+    
     name: r'user_email',
     required: true,
     includeIfNull: false,
@@ -91,7 +91,7 @@ class AuditLog {
 
       /// * `CREATE` - Create * `UPDATE` - Update * `DELETE` - Delete * `LOGIN` - Login * `LOGOUT` - Logout * `API_ACCESS` - API Access
   @JsonKey(
-
+    
     name: r'action',
     required: true,
     includeIfNull: false,
@@ -104,7 +104,7 @@ class AuditLog {
 
       /// * `user` - User * `student` - Student * `bus` - Bus * `kiosk` - Kiosk * `event` - Boarding Event * `notification` - Notification
   @JsonKey(
-
+    
     name: r'resource_type',
     required: true,
     includeIfNull: false,
@@ -116,7 +116,7 @@ class AuditLog {
 
 
   @JsonKey(
-
+    
     name: r'resource_id',
     required: false,
     includeIfNull: false,
@@ -129,7 +129,7 @@ class AuditLog {
 
       /// JSON object of changes made
   @JsonKey(
-
+    
     name: r'changes',
     required: false,
     includeIfNull: false,
@@ -141,7 +141,7 @@ class AuditLog {
 
 
   @JsonKey(
-
+    
     name: r'ip_address',
     required: false,
     includeIfNull: false,
@@ -153,7 +153,7 @@ class AuditLog {
 
 
   @JsonKey(
-
+    
     name: r'user_agent',
     required: false,
     includeIfNull: false,
@@ -165,7 +165,7 @@ class AuditLog {
 
 
   @JsonKey(
-
+    
     name: r'timestamp',
     required: true,
     includeIfNull: false,
@@ -275,3 +275,5 @@ final String value;
 @override
 String toString() => value;
 }
+
+

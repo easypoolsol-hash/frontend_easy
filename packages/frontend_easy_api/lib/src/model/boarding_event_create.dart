@@ -41,7 +41,7 @@ class BoardingEventCreate {
 
       /// ULID primary key for global uniqueness and time sorting
   @JsonKey(
-
+    
     name: r'event_id',
     required: true,
     includeIfNull: false,
@@ -54,7 +54,7 @@ class BoardingEventCreate {
 
       /// Student who boarded the bus
   @JsonKey(
-
+    
     name: r'student',
     required: true,
     includeIfNull: false,
@@ -67,7 +67,7 @@ class BoardingEventCreate {
 
       /// Kiosk device identifier
   @JsonKey(
-
+    
     name: r'kiosk_id',
     required: true,
     includeIfNull: false,
@@ -82,7 +82,7 @@ class BoardingEventCreate {
           // minimum: 0.0
           // maximum: 1.0
   @JsonKey(
-
+    
     name: r'confidence_score',
     required: true,
     includeIfNull: false,
@@ -95,7 +95,7 @@ class BoardingEventCreate {
 
       /// When the boarding event occurred
   @JsonKey(
-
+    
     name: r'timestamp',
     required: true,
     includeIfNull: false,
@@ -108,7 +108,7 @@ class BoardingEventCreate {
 
       /// Return GPS coordinates as a tuple for compatibility
   @JsonKey(
-
+    
     name: r'gps_coords',
     required: true,
     includeIfNull: true,
@@ -121,7 +121,7 @@ class BoardingEventCreate {
 
       /// Bus route identifier
   @JsonKey(
-
+    
     name: r'bus_route',
     required: false,
     includeIfNull: false,
@@ -134,7 +134,7 @@ class BoardingEventCreate {
 
       /// S3 URL to face image for verification (optional)
   @JsonKey(
-
+    
     name: r'face_image_url',
     required: false,
     includeIfNull: false,
@@ -147,7 +147,7 @@ class BoardingEventCreate {
 
       /// Face recognition model version used
   @JsonKey(
-
+    
     name: r'model_version',
     required: true,
     includeIfNull: false,
@@ -160,7 +160,7 @@ class BoardingEventCreate {
 
       /// Additional metadata as JSON
   @JsonKey(
-
+    
     name: r'metadata',
     required: false,
     includeIfNull: false,
@@ -209,3 +209,4 @@ class BoardingEventCreate {
   }
 
 }
+

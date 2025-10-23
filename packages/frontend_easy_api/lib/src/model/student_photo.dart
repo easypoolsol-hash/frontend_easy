@@ -34,7 +34,7 @@ class StudentPhoto {
   });
 
   @JsonKey(
-
+    
     name: r'photo_id',
     required: true,
     includeIfNull: false,
@@ -46,7 +46,7 @@ class StudentPhoto {
 
 
   @JsonKey(
-
+    
     name: r'student',
     required: true,
     includeIfNull: false,
@@ -59,7 +59,7 @@ class StudentPhoto {
 
       /// Student photo file
   @JsonKey(
-
+    
     name: r'photo',
     required: false,
     includeIfNull: false,
@@ -72,7 +72,7 @@ class StudentPhoto {
 
       /// Primary photo for student
   @JsonKey(
-
+    
     name: r'is_primary',
     required: false,
     includeIfNull: false,
@@ -85,7 +85,7 @@ class StudentPhoto {
 
       /// When photo was taken
   @JsonKey(
-
+    
     name: r'captured_at',
     required: false,
     includeIfNull: false,
@@ -97,7 +97,7 @@ class StudentPhoto {
 
 
   @JsonKey(
-
+    
     name: r'student_details',
     required: true,
     includeIfNull: false,
@@ -109,7 +109,7 @@ class StudentPhoto {
 
 
   @JsonKey(
-
+    
     name: r'created_at',
     required: true,
     includeIfNull: false,
@@ -152,3 +152,4 @@ class StudentPhoto {
   }
 
 }
+

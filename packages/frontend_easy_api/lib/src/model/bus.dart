@@ -53,7 +53,7 @@ class Bus {
 
       /// UUID primary key
   @JsonKey(
-
+    
     name: r'bus_id',
     required: true,
     includeIfNull: false,
@@ -66,7 +66,7 @@ class Bus {
 
       /// Vehicle license plate number
   @JsonKey(
-
+    
     name: r'license_plate',
     required: true,
     includeIfNull: false,
@@ -79,7 +79,7 @@ class Bus {
 
       /// Route this bus is assigned to
   @JsonKey(
-
+    
     name: r'route',
     required: false,
     includeIfNull: false,
@@ -91,7 +91,7 @@ class Bus {
 
 
   @JsonKey(
-
+    
     name: r'route_name',
     required: true,
     includeIfNull: false,
@@ -106,7 +106,7 @@ class Bus {
           // minimum: 1
           // maximum: 9223372036854775807
   @JsonKey(
-
+    
     name: r'capacity',
     required: true,
     includeIfNull: false,
@@ -119,7 +119,7 @@ class Bus {
 
       /// Kiosk device identifier installed on this bus
   @JsonKey(
-
+    
     name: r'device_id',
     required: false,
     includeIfNull: false,
@@ -132,7 +132,7 @@ class Bus {
 
       /// Current operational status  * `active` - Active * `maintenance` - Under Maintenance * `retired` - Retired
   @JsonKey(
-
+    
     name: r'status',
     required: false,
     includeIfNull: false,
@@ -145,7 +145,7 @@ class Bus {
 
       /// Bus manufacturer
   @JsonKey(
-
+    
     name: r'manufacturer',
     required: false,
     includeIfNull: false,
@@ -158,7 +158,7 @@ class Bus {
 
       /// Bus model
   @JsonKey(
-
+    
     name: r'model',
     required: false,
     includeIfNull: false,
@@ -173,7 +173,7 @@ class Bus {
           // minimum: 0
           // maximum: 9223372036854775807
   @JsonKey(
-
+    
     name: r'year',
     required: false,
     includeIfNull: false,
@@ -186,7 +186,7 @@ class Bus {
 
       /// Date of last maintenance
   @JsonKey(
-
+    
     name: r'last_maintenance',
     required: false,
     includeIfNull: false,
@@ -198,7 +198,7 @@ class Bus {
 
 
   @JsonKey(
-
+    
     name: r'assigned_students_count',
     required: true,
     includeIfNull: false,
@@ -210,7 +210,7 @@ class Bus {
 
 
   @JsonKey(
-
+    
     name: r'utilization_percentage',
     required: true,
     includeIfNull: false,
@@ -222,7 +222,7 @@ class Bus {
 
 
   @JsonKey(
-
+    
     name: r'is_available',
     required: true,
     includeIfNull: false,
@@ -235,7 +235,7 @@ class Bus {
 
       /// When this bus was added to the system
   @JsonKey(
-
+    
     name: r'created_at',
     required: true,
     includeIfNull: false,
@@ -248,7 +248,7 @@ class Bus {
 
       /// When this bus record was last updated
   @JsonKey(
-
+    
     name: r'updated_at',
     required: true,
     includeIfNull: false,
@@ -329,3 +329,5 @@ final String value;
 @override
 String toString() => value;
 }
+
+

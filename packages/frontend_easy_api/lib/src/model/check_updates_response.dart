@@ -31,7 +31,7 @@ class CheckUpdatesResponse {
 
       /// Whether kiosk needs to download new snapshot
   @JsonKey(
-
+    
     name: r'needs_update',
     required: true,
     includeIfNull: false,
@@ -44,7 +44,7 @@ class CheckUpdatesResponse {
 
       /// Current database version timestamp
   @JsonKey(
-
+    
     name: r'current_version',
     required: true,
     includeIfNull: false,
@@ -57,7 +57,7 @@ class CheckUpdatesResponse {
 
       /// Number of students for this bus
   @JsonKey(
-
+    
     name: r'student_count',
     required: true,
     includeIfNull: false,
@@ -70,7 +70,7 @@ class CheckUpdatesResponse {
 
       /// Number of embeddings for this bus
   @JsonKey(
-
+    
     name: r'embedding_count',
     required: true,
     includeIfNull: false,
@@ -83,7 +83,7 @@ class CheckUpdatesResponse {
 
       /// Content hash for integrity verification
   @JsonKey(
-
+    
     name: r'content_hash',
     required: true,
     includeIfNull: false,
@@ -122,3 +122,4 @@ class CheckUpdatesResponse {
   }
 
 }
+

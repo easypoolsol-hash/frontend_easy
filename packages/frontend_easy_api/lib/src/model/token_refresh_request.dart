@@ -23,7 +23,7 @@ class TokenRefreshRequest {
 
       /// The refresh token obtained from activation or previous refresh
   @JsonKey(
-
+    
     name: r'refresh',
     required: true,
     includeIfNull: false,
@@ -54,3 +54,4 @@ class TokenRefreshRequest {
   }
 
 }
+

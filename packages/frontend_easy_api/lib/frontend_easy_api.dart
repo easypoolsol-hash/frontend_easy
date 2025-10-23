@@ -64,3 +64,4 @@ export 'package:frontend_easy_api/src/model/token_refresh_request.dart';
 export 'package:frontend_easy_api/src/model/token_refresh_response.dart';
 export 'package:frontend_easy_api/src/model/user.dart';
 export 'package:frontend_easy_api/src/model/user_create.dart';
+

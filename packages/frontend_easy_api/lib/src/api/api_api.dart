@@ -3,7 +3,6 @@
 //
 
 import 'dart:async';
-import 'dart:io'; // For HttpStatus
 
 // ignore: unused_import
 import 'dart:convert';
@@ -66,10 +65,10 @@ class ApiApi {
   const ApiApi(this._dio);
 
   /// apiV1ApiKeysCreate
-  ///
+  /// 
   ///
   /// Parameters:
-  /// * [aPIKeyCreate]
+  /// * [aPIKeyCreate] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -79,7 +78,7 @@ class ApiApi {
   ///
   /// Returns a [Future] containing a [Response] with a [APIKeyCreate] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<APIKeyCreate>> apiV1ApiKeysCreate({
+  Future<Response<APIKeyCreate>> apiV1ApiKeysCreate({ 
     required APIKeyCreate aPIKeyCreate,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -170,7 +169,7 @@ _responseData = rawData == null ? null : deserialize<APIKeyCreate, APIKeyCreate>
   }
 
   /// apiV1ApiKeysDestroy
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [keyId] - A UUID string identifying this api key.
@@ -183,7 +182,7 @@ _responseData = rawData == null ? null : deserialize<APIKeyCreate, APIKeyCreate>
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> apiV1ApiKeysDestroy({
+  Future<Response<void>> apiV1ApiKeysDestroy({ 
     required String keyId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -232,7 +231,7 @@ _responseData = rawData == null ? null : deserialize<APIKeyCreate, APIKeyCreate>
   }
 
   /// apiV1ApiKeysList
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [ordering] - Which field to use when ordering the results.
@@ -247,7 +246,7 @@ _responseData = rawData == null ? null : deserialize<APIKeyCreate, APIKeyCreate>
   ///
   /// Returns a [Future] containing a [Response] with a [PaginatedAPIKeyList] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<PaginatedAPIKeyList>> apiV1ApiKeysList({
+  Future<Response<PaginatedAPIKeyList>> apiV1ApiKeysList({ 
     String? ordering,
     int? page,
     String? search,
@@ -329,11 +328,11 @@ _responseData = rawData == null ? null : deserialize<PaginatedAPIKeyList, Pagina
   }
 
   /// apiV1ApiKeysPartialUpdate
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [keyId] - A UUID string identifying this api key.
-  /// * [patchedAPIKey]
+  /// * [patchedAPIKey] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -343,7 +342,7 @@ _responseData = rawData == null ? null : deserialize<PaginatedAPIKeyList, Pagina
   ///
   /// Returns a [Future] containing a [Response] with a [APIKey] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<APIKey>> apiV1ApiKeysPartialUpdate({
+  Future<Response<APIKey>> apiV1ApiKeysPartialUpdate({ 
     required String keyId,
     PatchedAPIKey? patchedAPIKey,
     CancelToken? cancelToken,
@@ -435,7 +434,7 @@ _responseData = rawData == null ? null : deserialize<APIKey, APIKey>(rawData, 'A
   }
 
   /// apiV1ApiKeysRetrieve
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [keyId] - A UUID string identifying this api key.
@@ -448,7 +447,7 @@ _responseData = rawData == null ? null : deserialize<APIKey, APIKey>(rawData, 'A
   ///
   /// Returns a [Future] containing a [Response] with a [APIKey] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<APIKey>> apiV1ApiKeysRetrieve({
+  Future<Response<APIKey>> apiV1ApiKeysRetrieve({ 
     required String keyId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -521,11 +520,11 @@ _responseData = rawData == null ? null : deserialize<APIKey, APIKey>(rawData, 'A
   }
 
   /// apiV1ApiKeysRevokeCreate
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [keyId] - A UUID string identifying this api key.
-  /// * [aPIKey]
+  /// * [aPIKey] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -535,7 +534,7 @@ _responseData = rawData == null ? null : deserialize<APIKey, APIKey>(rawData, 'A
   ///
   /// Returns a [Future] containing a [Response] with a [APIKey] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<APIKey>> apiV1ApiKeysRevokeCreate({
+  Future<Response<APIKey>> apiV1ApiKeysRevokeCreate({ 
     required String keyId,
     required APIKey aPIKey,
     CancelToken? cancelToken,
@@ -627,11 +626,11 @@ _responseData = rawData == null ? null : deserialize<APIKey, APIKey>(rawData, 'A
   }
 
   /// apiV1ApiKeysUpdate
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [keyId] - A UUID string identifying this api key.
-  /// * [aPIKey]
+  /// * [aPIKey] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -641,7 +640,7 @@ _responseData = rawData == null ? null : deserialize<APIKey, APIKey>(rawData, 'A
   ///
   /// Returns a [Future] containing a [Response] with a [APIKey] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<APIKey>> apiV1ApiKeysUpdate({
+  Future<Response<APIKey>> apiV1ApiKeysUpdate({ 
     required String keyId,
     required APIKey aPIKey,
     CancelToken? cancelToken,
@@ -736,10 +735,10 @@ _responseData = rawData == null ? null : deserialize<APIKey, APIKey>(rawData, 'A
   /// Read-only ViewSet for attendance records
   ///
   /// Parameters:
-  /// * [date]
+  /// * [date] 
   /// * [page] - A page number within the paginated result set.
   /// * [status] - Overall attendance status  * `present` - Present * `absent` - Absent * `partial` - Partial
-  /// * [student]
+  /// * [student] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -749,7 +748,7 @@ _responseData = rawData == null ? null : deserialize<APIKey, APIKey>(rawData, 'A
   ///
   /// Returns a [Future] containing a [Response] with a [PaginatedAttendanceRecordList] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<PaginatedAttendanceRecordList>> apiV1AttendanceList({
+  Future<Response<PaginatedAttendanceRecordList>> apiV1AttendanceList({ 
     DateTime? date,
     int? page,
     String? status,
@@ -836,7 +835,7 @@ _responseData = rawData == null ? null : deserialize<PaginatedAttendanceRecordLi
   /// Read-only ViewSet for attendance records
   ///
   /// Parameters:
-  /// * [recordId]
+  /// * [recordId] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -846,7 +845,7 @@ _responseData = rawData == null ? null : deserialize<PaginatedAttendanceRecordLi
   ///
   /// Returns a [Future] containing a [Response] with a [AttendanceRecord] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<AttendanceRecord>> apiV1AttendanceRetrieve({
+  Future<Response<AttendanceRecord>> apiV1AttendanceRetrieve({ 
     required String recordId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -922,7 +921,7 @@ _responseData = rawData == null ? null : deserialize<AttendanceRecord, Attendanc
   /// Get attendance history for a specific student
   ///
   /// Parameters:
-  /// * [studentId]
+  /// * [studentId] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -932,7 +931,7 @@ _responseData = rawData == null ? null : deserialize<AttendanceRecord, Attendanc
   ///
   /// Returns a [Future] containing a [Response] with a [AttendanceRecord] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<AttendanceRecord>> apiV1AttendanceStudentRetrieve({
+  Future<Response<AttendanceRecord>> apiV1AttendanceStudentRetrieve({ 
     required String studentId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -1017,7 +1016,7 @@ _responseData = rawData == null ? null : deserialize<AttendanceRecord, Attendanc
   ///
   /// Returns a [Future] containing a [Response] with a [AttendanceRecord] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<AttendanceRecord>> apiV1AttendanceSummaryRetrieve({
+  Future<Response<AttendanceRecord>> apiV1AttendanceSummaryRetrieve({ 
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -1089,7 +1088,7 @@ _responseData = rawData == null ? null : deserialize<AttendanceRecord, Attendanc
   }
 
   /// apiV1AuditLogsList
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [ordering] - Which field to use when ordering the results.
@@ -1104,7 +1103,7 @@ _responseData = rawData == null ? null : deserialize<AttendanceRecord, Attendanc
   ///
   /// Returns a [Future] containing a [Response] with a [PaginatedAuditLogList] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<PaginatedAuditLogList>> apiV1AuditLogsList({
+  Future<Response<PaginatedAuditLogList>> apiV1AuditLogsList({ 
     String? ordering,
     int? page,
     String? search,
@@ -1186,7 +1185,7 @@ _responseData = rawData == null ? null : deserialize<PaginatedAuditLogList, Pagi
   }
 
   /// apiV1AuditLogsRetrieve
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [logId] - A unique integer value identifying this audit log.
@@ -1199,7 +1198,7 @@ _responseData = rawData == null ? null : deserialize<PaginatedAuditLogList, Pagi
   ///
   /// Returns a [Future] containing a [Response] with a [AuditLog] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<AuditLog>> apiV1AuditLogsRetrieve({
+  Future<Response<AuditLog>> apiV1AuditLogsRetrieve({ 
     required int logId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -1275,7 +1274,7 @@ _responseData = rawData == null ? null : deserialize<AuditLog, AuditLog>(rawData
   /// Takes a set of user credentials and returns an access and refresh JSON web token pair to prove the authentication of those credentials.
   ///
   /// Parameters:
-  /// * [tokenObtainPair]
+  /// * [tokenObtainPair] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -1285,7 +1284,7 @@ _responseData = rawData == null ? null : deserialize<AuditLog, AuditLog>(rawData
   ///
   /// Returns a [Future] containing a [Response] with a [TokenObtainPair] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<TokenObtainPair>> apiV1AuthTokenCreate({
+  Future<Response<TokenObtainPair>> apiV1AuthTokenCreate({ 
     required TokenObtainPair tokenObtainPair,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -1361,10 +1360,10 @@ _responseData = rawData == null ? null : deserialize<TokenObtainPair, TokenObtai
   }
 
   /// apiV1AuthTokenRefreshCreate
-  ///      Custom TokenRefreshView that supports both regular JWT and kiosk JWT tokens.      **Token Rotation Security:**     - Accepts: refresh token only     - Returns: NEW access token (15 min) + NEW refresh token (60 days)     - Old refresh token is immediately blacklisted (cannot be reused)
+  ///      Custom TokenRefreshView that supports both regular JWT and kiosk JWT tokens.      **Token Rotation Security:**     - Accepts: refresh token only     - Returns: NEW access token (15 min) + NEW refresh token (60 days)     - Old refresh token is immediately blacklisted (cannot be reused)     
   ///
   /// Parameters:
-  /// * [tokenRefreshRequest]
+  /// * [tokenRefreshRequest] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -1374,7 +1373,7 @@ _responseData = rawData == null ? null : deserialize<TokenObtainPair, TokenObtai
   ///
   /// Returns a [Future] containing a [Response] with a [TokenRefreshResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<TokenRefreshResponse>> apiV1AuthTokenRefreshCreate({
+  Future<Response<TokenRefreshResponse>> apiV1AuthTokenRefreshCreate({ 
     required TokenRefreshRequest tokenRefreshRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -1453,7 +1452,7 @@ _responseData = rawData == null ? null : deserialize<TokenRefreshResponse, Token
   /// Bulk create boarding events (for high-throughput kiosk operations)
   ///
   /// Parameters:
-  /// * [boardingEvent]
+  /// * [boardingEvent] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -1463,7 +1462,7 @@ _responseData = rawData == null ? null : deserialize<TokenRefreshResponse, Token
   ///
   /// Returns a [Future] containing a [Response] with a [BoardingEvent] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<BoardingEvent>> apiV1BoardingEventsBulkCreate({
+  Future<Response<BoardingEvent>> apiV1BoardingEventsBulkCreate({ 
     required BoardingEvent boardingEvent,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -1548,7 +1547,7 @@ _responseData = rawData == null ? null : deserialize<BoardingEvent, BoardingEven
   /// ViewSet for boarding events
   ///
   /// Parameters:
-  /// * [boardingEventCreate]
+  /// * [boardingEventCreate] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -1558,7 +1557,7 @@ _responseData = rawData == null ? null : deserialize<BoardingEvent, BoardingEven
   ///
   /// Returns a [Future] containing a [Response] with a [BoardingEventCreate] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<BoardingEventCreate>> apiV1BoardingEventsCreate({
+  Future<Response<BoardingEventCreate>> apiV1BoardingEventsCreate({ 
     required BoardingEventCreate boardingEventCreate,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -1643,7 +1642,7 @@ _responseData = rawData == null ? null : deserialize<BoardingEventCreate, Boardi
   /// ViewSet for boarding events
   ///
   /// Parameters:
-  /// * [eventId]
+  /// * [eventId] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -1653,7 +1652,7 @@ _responseData = rawData == null ? null : deserialize<BoardingEventCreate, Boardi
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> apiV1BoardingEventsDestroy({
+  Future<Response<void>> apiV1BoardingEventsDestroy({ 
     required String eventId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -1696,11 +1695,11 @@ _responseData = rawData == null ? null : deserialize<BoardingEventCreate, Boardi
   /// ViewSet for boarding events
   ///
   /// Parameters:
-  /// * [busRoute]
-  /// * [kioskId]
+  /// * [busRoute] 
+  /// * [kioskId] 
   /// * [page] - A page number within the paginated result set.
-  /// * [student]
-  /// * [timestamp]
+  /// * [student] 
+  /// * [timestamp] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -1710,7 +1709,7 @@ _responseData = rawData == null ? null : deserialize<BoardingEventCreate, Boardi
   ///
   /// Returns a [Future] containing a [Response] with a [PaginatedBoardingEventList] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<PaginatedBoardingEventList>> apiV1BoardingEventsList({
+  Future<Response<PaginatedBoardingEventList>> apiV1BoardingEventsList({ 
     String? busRoute,
     String? kioskId,
     int? page,
@@ -1790,8 +1789,8 @@ _responseData = rawData == null ? null : deserialize<PaginatedBoardingEventList,
   /// ViewSet for boarding events
   ///
   /// Parameters:
-  /// * [eventId]
-  /// * [patchedBoardingEvent]
+  /// * [eventId] 
+  /// * [patchedBoardingEvent] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -1801,7 +1800,7 @@ _responseData = rawData == null ? null : deserialize<PaginatedBoardingEventList,
   ///
   /// Returns a [Future] containing a [Response] with a [BoardingEvent] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<BoardingEvent>> apiV1BoardingEventsPartialUpdate({
+  Future<Response<BoardingEvent>> apiV1BoardingEventsPartialUpdate({ 
     required String eventId,
     PatchedBoardingEvent? patchedBoardingEvent,
     CancelToken? cancelToken,
@@ -1896,7 +1895,7 @@ _responseData = rawData == null ? null : deserialize<BoardingEvent, BoardingEven
   ///
   /// Returns a [Future] containing a [Response] with a [BoardingEvent] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<BoardingEvent>> apiV1BoardingEventsRecentRetrieve({
+  Future<Response<BoardingEvent>> apiV1BoardingEventsRecentRetrieve({ 
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -1962,7 +1961,7 @@ _responseData = rawData == null ? null : deserialize<BoardingEvent, BoardingEven
   /// ViewSet for boarding events
   ///
   /// Parameters:
-  /// * [eventId]
+  /// * [eventId] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -1972,7 +1971,7 @@ _responseData = rawData == null ? null : deserialize<BoardingEvent, BoardingEven
   ///
   /// Returns a [Future] containing a [Response] with a [BoardingEvent] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<BoardingEvent>> apiV1BoardingEventsRetrieve({
+  Future<Response<BoardingEvent>> apiV1BoardingEventsRetrieve({ 
     required String eventId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -2039,8 +2038,8 @@ _responseData = rawData == null ? null : deserialize<BoardingEvent, BoardingEven
   /// ViewSet for boarding events
   ///
   /// Parameters:
-  /// * [eventId]
-  /// * [boardingEvent]
+  /// * [eventId] 
+  /// * [boardingEvent] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -2050,7 +2049,7 @@ _responseData = rawData == null ? null : deserialize<BoardingEvent, BoardingEven
   ///
   /// Returns a [Future] containing a [Response] with a [BoardingEvent] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<BoardingEvent>> apiV1BoardingEventsUpdate({
+  Future<Response<BoardingEvent>> apiV1BoardingEventsUpdate({ 
     required String eventId,
     required BoardingEvent boardingEvent,
     CancelToken? cancelToken,
@@ -2136,7 +2135,7 @@ _responseData = rawData == null ? null : deserialize<BoardingEvent, BoardingEven
   /// Bulk assign students to buses
   ///
   /// Parameters:
-  /// * [bus]
+  /// * [bus] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -2146,7 +2145,7 @@ _responseData = rawData == null ? null : deserialize<BoardingEvent, BoardingEven
   ///
   /// Returns a [Future] containing a [Response] with a [Bus] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Bus>> apiV1BusesAssignStudentsCreate({
+  Future<Response<Bus>> apiV1BusesAssignStudentsCreate({ 
     required Bus bus,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -2240,7 +2239,7 @@ _responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', g
   /// ViewSet for buses
   ///
   /// Parameters:
-  /// * [bus]
+  /// * [bus] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -2250,7 +2249,7 @@ _responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', g
   ///
   /// Returns a [Future] containing a [Response] with a [Bus] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Bus>> apiV1BusesCreate({
+  Future<Response<Bus>> apiV1BusesCreate({ 
     required Bus bus,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -2344,7 +2343,7 @@ _responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', g
   /// ViewSet for buses
   ///
   /// Parameters:
-  /// * [busId]
+  /// * [busId] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -2354,7 +2353,7 @@ _responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', g
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> apiV1BusesDestroy({
+  Future<Response<void>> apiV1BusesDestroy({ 
     required String busId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -2406,7 +2405,7 @@ _responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', g
   /// ViewSet for buses
   ///
   /// Parameters:
-  /// * [deviceId]
+  /// * [deviceId] 
   /// * [page] - A page number within the paginated result set.
   /// * [route] - UUID primary key
   /// * [status] - Current operational status  * `active` - Active * `maintenance` - Under Maintenance * `retired` - Retired
@@ -2419,7 +2418,7 @@ _responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', g
   ///
   /// Returns a [Future] containing a [Response] with a [PaginatedBusList] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<PaginatedBusList>> apiV1BusesList({
+  Future<Response<PaginatedBusList>> apiV1BusesList({ 
     String? deviceId,
     int? page,
     String? route,
@@ -2506,8 +2505,8 @@ _responseData = rawData == null ? null : deserialize<PaginatedBusList, Paginated
   /// ViewSet for buses
   ///
   /// Parameters:
-  /// * [busId]
-  /// * [patchedBus]
+  /// * [busId] 
+  /// * [patchedBus] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -2517,7 +2516,7 @@ _responseData = rawData == null ? null : deserialize<PaginatedBusList, Paginated
   ///
   /// Returns a [Future] containing a [Response] with a [Bus] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Bus>> apiV1BusesPartialUpdate({
+  Future<Response<Bus>> apiV1BusesPartialUpdate({ 
     required String busId,
     PatchedBus? patchedBus,
     CancelToken? cancelToken,
@@ -2612,7 +2611,7 @@ _responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', g
   /// ViewSet for buses
   ///
   /// Parameters:
-  /// * [busId]
+  /// * [busId] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -2622,7 +2621,7 @@ _responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', g
   ///
   /// Returns a [Future] containing a [Response] with a [Bus] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Bus>> apiV1BusesRetrieve({
+  Future<Response<Bus>> apiV1BusesRetrieve({ 
     required String busId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -2698,7 +2697,7 @@ _responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', g
   /// Get all students assigned to this bus
   ///
   /// Parameters:
-  /// * [busId]
+  /// * [busId] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -2708,7 +2707,7 @@ _responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', g
   ///
   /// Returns a [Future] containing a [Response] with a [Bus] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Bus>> apiV1BusesStudentsRetrieve({
+  Future<Response<Bus>> apiV1BusesStudentsRetrieve({ 
     required String busId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -2784,8 +2783,8 @@ _responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', g
   /// ViewSet for buses
   ///
   /// Parameters:
-  /// * [busId]
-  /// * [bus]
+  /// * [busId] 
+  /// * [bus] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -2795,7 +2794,7 @@ _responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', g
   ///
   /// Returns a [Future] containing a [Response] with a [Bus] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Bus>> apiV1BusesUpdate({
+  Future<Response<Bus>> apiV1BusesUpdate({ 
     required String busId,
     required Bus bus,
     CancelToken? cancelToken,
@@ -2899,7 +2898,7 @@ _responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', g
   ///
   /// Returns a [Future] containing a [Response] with a [Bus] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Bus>> apiV1BusesUtilizationRetrieve({
+  Future<Response<Bus>> apiV1BusesUtilizationRetrieve({ 
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -2974,7 +2973,7 @@ _responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', g
   /// Student boarding endpoint - returns immediate approval and schedules background processing
   ///
   /// Parameters:
-  /// * [requestBody]
+  /// * [requestBody] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -2984,7 +2983,7 @@ _responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', g
   ///
   /// Returns a [Future] containing a [Response] with a [ApiV1KioskBoardingCreate200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<ApiV1KioskBoardingCreate200Response>> apiV1KioskBoardingCreate({
+  Future<Response<ApiV1KioskBoardingCreate200Response>> apiV1KioskBoardingCreate({ 
     Map<String, Object>? requestBody,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -3075,10 +3074,10 @@ _responseData = rawData == null ? null : deserialize<ApiV1KioskBoardingCreate200
   }
 
   /// apiV1ParentsCreate
-  ///
+  /// 
   ///
   /// Parameters:
-  /// * [parent]
+  /// * [parent] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -3088,7 +3087,7 @@ _responseData = rawData == null ? null : deserialize<ApiV1KioskBoardingCreate200
   ///
   /// Returns a [Future] containing a [Response] with a [Parent] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Parent>> apiV1ParentsCreate({
+  Future<Response<Parent>> apiV1ParentsCreate({ 
     required Parent parent,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -3179,7 +3178,7 @@ _responseData = rawData == null ? null : deserialize<Parent, Parent>(rawData, 'P
   }
 
   /// apiV1ParentsDestroy
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [parentId] - A UUID string identifying this parent.
@@ -3192,7 +3191,7 @@ _responseData = rawData == null ? null : deserialize<Parent, Parent>(rawData, 'P
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> apiV1ParentsDestroy({
+  Future<Response<void>> apiV1ParentsDestroy({ 
     required String parentId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -3241,7 +3240,7 @@ _responseData = rawData == null ? null : deserialize<Parent, Parent>(rawData, 'P
   }
 
   /// apiV1ParentsList
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [ordering] - Which field to use when ordering the results.
@@ -3256,7 +3255,7 @@ _responseData = rawData == null ? null : deserialize<Parent, Parent>(rawData, 'P
   ///
   /// Returns a [Future] containing a [Response] with a [PaginatedParentList] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<PaginatedParentList>> apiV1ParentsList({
+  Future<Response<PaginatedParentList>> apiV1ParentsList({ 
     String? ordering,
     int? page,
     String? search,
@@ -3338,11 +3337,11 @@ _responseData = rawData == null ? null : deserialize<PaginatedParentList, Pagina
   }
 
   /// apiV1ParentsPartialUpdate
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [parentId] - A UUID string identifying this parent.
-  /// * [patchedParent]
+  /// * [patchedParent] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -3352,7 +3351,7 @@ _responseData = rawData == null ? null : deserialize<PaginatedParentList, Pagina
   ///
   /// Returns a [Future] containing a [Response] with a [Parent] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Parent>> apiV1ParentsPartialUpdate({
+  Future<Response<Parent>> apiV1ParentsPartialUpdate({ 
     required String parentId,
     PatchedParent? patchedParent,
     CancelToken? cancelToken,
@@ -3444,7 +3443,7 @@ _responseData = rawData == null ? null : deserialize<Parent, Parent>(rawData, 'P
   }
 
   /// apiV1ParentsRetrieve
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [parentId] - A UUID string identifying this parent.
@@ -3457,7 +3456,7 @@ _responseData = rawData == null ? null : deserialize<Parent, Parent>(rawData, 'P
   ///
   /// Returns a [Future] containing a [Response] with a [Parent] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Parent>> apiV1ParentsRetrieve({
+  Future<Response<Parent>> apiV1ParentsRetrieve({ 
     required String parentId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -3530,7 +3529,7 @@ _responseData = rawData == null ? null : deserialize<Parent, Parent>(rawData, 'P
   }
 
   /// apiV1ParentsStudentsRetrieve
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [parentId] - A UUID string identifying this parent.
@@ -3543,7 +3542,7 @@ _responseData = rawData == null ? null : deserialize<Parent, Parent>(rawData, 'P
   ///
   /// Returns a [Future] containing a [Response] with a [Parent] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Parent>> apiV1ParentsStudentsRetrieve({
+  Future<Response<Parent>> apiV1ParentsStudentsRetrieve({ 
     required String parentId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -3616,11 +3615,11 @@ _responseData = rawData == null ? null : deserialize<Parent, Parent>(rawData, 'P
   }
 
   /// apiV1ParentsUpdate
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [parentId] - A UUID string identifying this parent.
-  /// * [parent]
+  /// * [parent] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -3630,7 +3629,7 @@ _responseData = rawData == null ? null : deserialize<Parent, Parent>(rawData, 'P
   ///
   /// Returns a [Future] containing a [Response] with a [Parent] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Parent>> apiV1ParentsUpdate({
+  Future<Response<Parent>> apiV1ParentsUpdate({ 
     required String parentId,
     required Parent parent,
     CancelToken? cancelToken,
@@ -3722,7 +3721,7 @@ _responseData = rawData == null ? null : deserialize<Parent, Parent>(rawData, 'P
   }
 
   /// apiV1RolesList
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [ordering] - Which field to use when ordering the results.
@@ -3737,7 +3736,7 @@ _responseData = rawData == null ? null : deserialize<Parent, Parent>(rawData, 'P
   ///
   /// Returns a [Future] containing a [Response] with a [PaginatedRoleList] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<PaginatedRoleList>> apiV1RolesList({
+  Future<Response<PaginatedRoleList>> apiV1RolesList({ 
     String? ordering,
     int? page,
     String? search,
@@ -3819,7 +3818,7 @@ _responseData = rawData == null ? null : deserialize<PaginatedRoleList, Paginate
   }
 
   /// apiV1RolesRetrieve
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [roleId] - A UUID string identifying this role.
@@ -3832,7 +3831,7 @@ _responseData = rawData == null ? null : deserialize<PaginatedRoleList, Paginate
   ///
   /// Returns a [Future] containing a [Response] with a [Role] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Role>> apiV1RolesRetrieve({
+  Future<Response<Role>> apiV1RolesRetrieve({ 
     required String roleId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -3908,7 +3907,7 @@ _responseData = rawData == null ? null : deserialize<Role, Role>(rawData, 'Role'
   /// Get all buses assigned to this route
   ///
   /// Parameters:
-  /// * [routeId]
+  /// * [routeId] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -3918,7 +3917,7 @@ _responseData = rawData == null ? null : deserialize<Role, Role>(rawData, 'Role'
   ///
   /// Returns a [Future] containing a [Response] with a [Route] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Route>> apiV1RoutesBusesRetrieve({
+  Future<Response<Route>> apiV1RoutesBusesRetrieve({ 
     required String routeId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -3994,7 +3993,7 @@ _responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Rou
   /// ViewSet for bus routes
   ///
   /// Parameters:
-  /// * [route]
+  /// * [route] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -4004,7 +4003,7 @@ _responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Rou
   ///
   /// Returns a [Future] containing a [Response] with a [Route] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Route>> apiV1RoutesCreate({
+  Future<Response<Route>> apiV1RoutesCreate({ 
     required Route route,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -4098,7 +4097,7 @@ _responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Rou
   /// ViewSet for bus routes
   ///
   /// Parameters:
-  /// * [routeId]
+  /// * [routeId] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -4108,7 +4107,7 @@ _responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Rou
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> apiV1RoutesDestroy({
+  Future<Response<void>> apiV1RoutesDestroy({ 
     required String routeId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -4160,7 +4159,7 @@ _responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Rou
   /// ViewSet for bus routes
   ///
   /// Parameters:
-  /// * [isActive]
+  /// * [isActive] 
   /// * [page] - A page number within the paginated result set.
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
@@ -4171,7 +4170,7 @@ _responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Rou
   ///
   /// Returns a [Future] containing a [Response] with a [PaginatedRouteList] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<PaginatedRouteList>> apiV1RoutesList({
+  Future<Response<PaginatedRouteList>> apiV1RoutesList({ 
     bool? isActive,
     int? page,
     CancelToken? cancelToken,
@@ -4254,8 +4253,8 @@ _responseData = rawData == null ? null : deserialize<PaginatedRouteList, Paginat
   /// ViewSet for bus routes
   ///
   /// Parameters:
-  /// * [routeId]
-  /// * [patchedRoute]
+  /// * [routeId] 
+  /// * [patchedRoute] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -4265,7 +4264,7 @@ _responseData = rawData == null ? null : deserialize<PaginatedRouteList, Paginat
   ///
   /// Returns a [Future] containing a [Response] with a [Route] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Route>> apiV1RoutesPartialUpdate({
+  Future<Response<Route>> apiV1RoutesPartialUpdate({ 
     required String routeId,
     PatchedRoute? patchedRoute,
     CancelToken? cancelToken,
@@ -4360,7 +4359,7 @@ _responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Rou
   /// ViewSet for bus routes
   ///
   /// Parameters:
-  /// * [routeId]
+  /// * [routeId] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -4370,7 +4369,7 @@ _responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Rou
   ///
   /// Returns a [Future] containing a [Response] with a [Route] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Route>> apiV1RoutesRetrieve({
+  Future<Response<Route>> apiV1RoutesRetrieve({ 
     required String routeId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -4446,7 +4445,7 @@ _responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Rou
   /// Get all students assigned to buses on this route
   ///
   /// Parameters:
-  /// * [routeId]
+  /// * [routeId] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -4456,7 +4455,7 @@ _responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Rou
   ///
   /// Returns a [Future] containing a [Response] with a [Route] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Route>> apiV1RoutesStudentsRetrieve({
+  Future<Response<Route>> apiV1RoutesStudentsRetrieve({ 
     required String routeId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -4532,8 +4531,8 @@ _responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Rou
   /// ViewSet for bus routes
   ///
   /// Parameters:
-  /// * [routeId]
-  /// * [route]
+  /// * [routeId] 
+  /// * [route] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -4543,7 +4542,7 @@ _responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Rou
   ///
   /// Returns a [Future] containing a [Response] with a [Route] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Route>> apiV1RoutesUpdate({
+  Future<Response<Route>> apiV1RoutesUpdate({ 
     required String routeId,
     required Route route,
     CancelToken? cancelToken,
@@ -4635,10 +4634,10 @@ _responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Rou
   }
 
   /// apiV1SchoolsCreate
-  ///
+  /// 
   ///
   /// Parameters:
-  /// * [school]
+  /// * [school] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -4648,7 +4647,7 @@ _responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Rou
   ///
   /// Returns a [Future] containing a [Response] with a [School] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<School>> apiV1SchoolsCreate({
+  Future<Response<School>> apiV1SchoolsCreate({ 
     required School school,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -4739,7 +4738,7 @@ _responseData = rawData == null ? null : deserialize<School, School>(rawData, 'S
   }
 
   /// apiV1SchoolsDestroy
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [schoolId] - A UUID string identifying this school.
@@ -4752,7 +4751,7 @@ _responseData = rawData == null ? null : deserialize<School, School>(rawData, 'S
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> apiV1SchoolsDestroy({
+  Future<Response<void>> apiV1SchoolsDestroy({ 
     required String schoolId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -4801,7 +4800,7 @@ _responseData = rawData == null ? null : deserialize<School, School>(rawData, 'S
   }
 
   /// apiV1SchoolsList
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [ordering] - Which field to use when ordering the results.
@@ -4816,7 +4815,7 @@ _responseData = rawData == null ? null : deserialize<School, School>(rawData, 'S
   ///
   /// Returns a [Future] containing a [Response] with a [PaginatedSchoolList] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<PaginatedSchoolList>> apiV1SchoolsList({
+  Future<Response<PaginatedSchoolList>> apiV1SchoolsList({ 
     String? ordering,
     int? page,
     String? search,
@@ -4898,11 +4897,11 @@ _responseData = rawData == null ? null : deserialize<PaginatedSchoolList, Pagina
   }
 
   /// apiV1SchoolsPartialUpdate
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [schoolId] - A UUID string identifying this school.
-  /// * [patchedSchool]
+  /// * [patchedSchool] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -4912,7 +4911,7 @@ _responseData = rawData == null ? null : deserialize<PaginatedSchoolList, Pagina
   ///
   /// Returns a [Future] containing a [Response] with a [School] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<School>> apiV1SchoolsPartialUpdate({
+  Future<Response<School>> apiV1SchoolsPartialUpdate({ 
     required String schoolId,
     PatchedSchool? patchedSchool,
     CancelToken? cancelToken,
@@ -5004,7 +5003,7 @@ _responseData = rawData == null ? null : deserialize<School, School>(rawData, 'S
   }
 
   /// apiV1SchoolsRetrieve
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [schoolId] - A UUID string identifying this school.
@@ -5017,7 +5016,7 @@ _responseData = rawData == null ? null : deserialize<School, School>(rawData, 'S
   ///
   /// Returns a [Future] containing a [Response] with a [School] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<School>> apiV1SchoolsRetrieve({
+  Future<Response<School>> apiV1SchoolsRetrieve({ 
     required String schoolId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -5090,11 +5089,11 @@ _responseData = rawData == null ? null : deserialize<School, School>(rawData, 'S
   }
 
   /// apiV1SchoolsUpdate
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [schoolId] - A UUID string identifying this school.
-  /// * [school]
+  /// * [school] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -5104,7 +5103,7 @@ _responseData = rawData == null ? null : deserialize<School, School>(rawData, 'S
   ///
   /// Returns a [Future] containing a [Response] with a [School] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<School>> apiV1SchoolsUpdate({
+  Future<Response<School>> apiV1SchoolsUpdate({ 
     required String schoolId,
     required School school,
     CancelToken? cancelToken,
@@ -5196,10 +5195,10 @@ _responseData = rawData == null ? null : deserialize<School, School>(rawData, 'S
   }
 
   /// apiV1StudentParentsCreate
-  ///
+  /// 
   ///
   /// Parameters:
-  /// * [studentParent]
+  /// * [studentParent] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -5209,7 +5208,7 @@ _responseData = rawData == null ? null : deserialize<School, School>(rawData, 'S
   ///
   /// Returns a [Future] containing a [Response] with a [StudentParent] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<StudentParent>> apiV1StudentParentsCreate({
+  Future<Response<StudentParent>> apiV1StudentParentsCreate({ 
     required StudentParent studentParent,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -5300,7 +5299,7 @@ _responseData = rawData == null ? null : deserialize<StudentParent, StudentParen
   }
 
   /// apiV1StudentParentsDestroy
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [id] - A unique integer value identifying this student parent.
@@ -5313,7 +5312,7 @@ _responseData = rawData == null ? null : deserialize<StudentParent, StudentParen
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> apiV1StudentParentsDestroy({
+  Future<Response<void>> apiV1StudentParentsDestroy({ 
     required int id,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -5362,7 +5361,7 @@ _responseData = rawData == null ? null : deserialize<StudentParent, StudentParen
   }
 
   /// apiV1StudentParentsList
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [ordering] - Which field to use when ordering the results.
@@ -5377,7 +5376,7 @@ _responseData = rawData == null ? null : deserialize<StudentParent, StudentParen
   ///
   /// Returns a [Future] containing a [Response] with a [PaginatedStudentParentList] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<PaginatedStudentParentList>> apiV1StudentParentsList({
+  Future<Response<PaginatedStudentParentList>> apiV1StudentParentsList({ 
     String? ordering,
     int? page,
     String? search,
@@ -5459,11 +5458,11 @@ _responseData = rawData == null ? null : deserialize<PaginatedStudentParentList,
   }
 
   /// apiV1StudentParentsPartialUpdate
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [id] - A unique integer value identifying this student parent.
-  /// * [patchedStudentParent]
+  /// * [patchedStudentParent] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -5473,7 +5472,7 @@ _responseData = rawData == null ? null : deserialize<PaginatedStudentParentList,
   ///
   /// Returns a [Future] containing a [Response] with a [StudentParent] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<StudentParent>> apiV1StudentParentsPartialUpdate({
+  Future<Response<StudentParent>> apiV1StudentParentsPartialUpdate({ 
     required int id,
     PatchedStudentParent? patchedStudentParent,
     CancelToken? cancelToken,
@@ -5565,7 +5564,7 @@ _responseData = rawData == null ? null : deserialize<StudentParent, StudentParen
   }
 
   /// apiV1StudentParentsRetrieve
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [id] - A unique integer value identifying this student parent.
@@ -5578,7 +5577,7 @@ _responseData = rawData == null ? null : deserialize<StudentParent, StudentParen
   ///
   /// Returns a [Future] containing a [Response] with a [StudentParent] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<StudentParent>> apiV1StudentParentsRetrieve({
+  Future<Response<StudentParent>> apiV1StudentParentsRetrieve({ 
     required int id,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -5651,11 +5650,11 @@ _responseData = rawData == null ? null : deserialize<StudentParent, StudentParen
   }
 
   /// apiV1StudentParentsUpdate
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [id] - A unique integer value identifying this student parent.
-  /// * [studentParent]
+  /// * [studentParent] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -5665,7 +5664,7 @@ _responseData = rawData == null ? null : deserialize<StudentParent, StudentParen
   ///
   /// Returns a [Future] containing a [Response] with a [StudentParent] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<StudentParent>> apiV1StudentParentsUpdate({
+  Future<Response<StudentParent>> apiV1StudentParentsUpdate({ 
     required int id,
     required StudentParent studentParent,
     CancelToken? cancelToken,
@@ -5757,10 +5756,10 @@ _responseData = rawData == null ? null : deserialize<StudentParent, StudentParen
   }
 
   /// apiV1StudentPhotosCreate
-  ///
+  /// 
   ///
   /// Parameters:
-  /// * [studentPhoto]
+  /// * [studentPhoto] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -5770,7 +5769,7 @@ _responseData = rawData == null ? null : deserialize<StudentParent, StudentParen
   ///
   /// Returns a [Future] containing a [Response] with a [StudentPhoto] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<StudentPhoto>> apiV1StudentPhotosCreate({
+  Future<Response<StudentPhoto>> apiV1StudentPhotosCreate({ 
     required StudentPhoto studentPhoto,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -5861,7 +5860,7 @@ _responseData = rawData == null ? null : deserialize<StudentPhoto, StudentPhoto>
   }
 
   /// apiV1StudentPhotosDestroy
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [photoId] - A UUID string identifying this student photo.
@@ -5874,7 +5873,7 @@ _responseData = rawData == null ? null : deserialize<StudentPhoto, StudentPhoto>
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> apiV1StudentPhotosDestroy({
+  Future<Response<void>> apiV1StudentPhotosDestroy({ 
     required String photoId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -5923,7 +5922,7 @@ _responseData = rawData == null ? null : deserialize<StudentPhoto, StudentPhoto>
   }
 
   /// apiV1StudentPhotosList
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [ordering] - Which field to use when ordering the results.
@@ -5938,7 +5937,7 @@ _responseData = rawData == null ? null : deserialize<StudentPhoto, StudentPhoto>
   ///
   /// Returns a [Future] containing a [Response] with a [PaginatedStudentPhotoList] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<PaginatedStudentPhotoList>> apiV1StudentPhotosList({
+  Future<Response<PaginatedStudentPhotoList>> apiV1StudentPhotosList({ 
     String? ordering,
     int? page,
     String? search,
@@ -6020,11 +6019,11 @@ _responseData = rawData == null ? null : deserialize<PaginatedStudentPhotoList, 
   }
 
   /// apiV1StudentPhotosPartialUpdate
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [photoId] - A UUID string identifying this student photo.
-  /// * [patchedStudentPhoto]
+  /// * [patchedStudentPhoto] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -6034,7 +6033,7 @@ _responseData = rawData == null ? null : deserialize<PaginatedStudentPhotoList, 
   ///
   /// Returns a [Future] containing a [Response] with a [StudentPhoto] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<StudentPhoto>> apiV1StudentPhotosPartialUpdate({
+  Future<Response<StudentPhoto>> apiV1StudentPhotosPartialUpdate({ 
     required String photoId,
     PatchedStudentPhoto? patchedStudentPhoto,
     CancelToken? cancelToken,
@@ -6126,7 +6125,7 @@ _responseData = rawData == null ? null : deserialize<StudentPhoto, StudentPhoto>
   }
 
   /// apiV1StudentPhotosRetrieve
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [photoId] - A UUID string identifying this student photo.
@@ -6139,7 +6138,7 @@ _responseData = rawData == null ? null : deserialize<StudentPhoto, StudentPhoto>
   ///
   /// Returns a [Future] containing a [Response] with a [StudentPhoto] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<StudentPhoto>> apiV1StudentPhotosRetrieve({
+  Future<Response<StudentPhoto>> apiV1StudentPhotosRetrieve({ 
     required String photoId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -6212,11 +6211,11 @@ _responseData = rawData == null ? null : deserialize<StudentPhoto, StudentPhoto>
   }
 
   /// apiV1StudentPhotosSetPrimaryCreate
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [photoId] - A UUID string identifying this student photo.
-  /// * [studentPhoto]
+  /// * [studentPhoto] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -6226,7 +6225,7 @@ _responseData = rawData == null ? null : deserialize<StudentPhoto, StudentPhoto>
   ///
   /// Returns a [Future] containing a [Response] with a [StudentPhoto] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<StudentPhoto>> apiV1StudentPhotosSetPrimaryCreate({
+  Future<Response<StudentPhoto>> apiV1StudentPhotosSetPrimaryCreate({ 
     required String photoId,
     required StudentPhoto studentPhoto,
     CancelToken? cancelToken,
@@ -6318,11 +6317,11 @@ _responseData = rawData == null ? null : deserialize<StudentPhoto, StudentPhoto>
   }
 
   /// apiV1StudentPhotosUpdate
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [photoId] - A UUID string identifying this student photo.
-  /// * [studentPhoto]
+  /// * [studentPhoto] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -6332,7 +6331,7 @@ _responseData = rawData == null ? null : deserialize<StudentPhoto, StudentPhoto>
   ///
   /// Returns a [Future] containing a [Response] with a [StudentPhoto] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<StudentPhoto>> apiV1StudentPhotosUpdate({
+  Future<Response<StudentPhoto>> apiV1StudentPhotosUpdate({ 
     required String photoId,
     required StudentPhoto studentPhoto,
     CancelToken? cancelToken,
@@ -6424,11 +6423,11 @@ _responseData = rawData == null ? null : deserialize<StudentPhoto, StudentPhoto>
   }
 
   /// apiV1StudentsAssignBusCreate
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [studentId] - A UUID string identifying this student.
-  /// * [student]
+  /// * [student] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -6438,7 +6437,7 @@ _responseData = rawData == null ? null : deserialize<StudentPhoto, StudentPhoto>
   ///
   /// Returns a [Future] containing a [Response] with a [Student] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Student>> apiV1StudentsAssignBusCreate({
+  Future<Response<Student>> apiV1StudentsAssignBusCreate({ 
     required String studentId,
     required Student student,
     CancelToken? cancelToken,
@@ -6530,10 +6529,10 @@ _responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 
   }
 
   /// apiV1StudentsCreate
-  ///
+  /// 
   ///
   /// Parameters:
-  /// * [student]
+  /// * [student] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -6543,7 +6542,7 @@ _responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 
   ///
   /// Returns a [Future] containing a [Response] with a [Student] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Student>> apiV1StudentsCreate({
+  Future<Response<Student>> apiV1StudentsCreate({ 
     required Student student,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -6634,7 +6633,7 @@ _responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 
   }
 
   /// apiV1StudentsDestroy
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [studentId] - A UUID string identifying this student.
@@ -6647,7 +6646,7 @@ _responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> apiV1StudentsDestroy({
+  Future<Response<void>> apiV1StudentsDestroy({ 
     required String studentId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -6696,7 +6695,7 @@ _responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 
   }
 
   /// apiV1StudentsList
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [ordering] - Which field to use when ordering the results.
@@ -6711,7 +6710,7 @@ _responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 
   ///
   /// Returns a [Future] containing a [Response] with a [PaginatedStudentList] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<PaginatedStudentList>> apiV1StudentsList({
+  Future<Response<PaginatedStudentList>> apiV1StudentsList({ 
     String? ordering,
     int? page,
     String? search,
@@ -6793,7 +6792,7 @@ _responseData = rawData == null ? null : deserialize<PaginatedStudentList, Pagin
   }
 
   /// apiV1StudentsParentsRetrieve
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [studentId] - A UUID string identifying this student.
@@ -6806,7 +6805,7 @@ _responseData = rawData == null ? null : deserialize<PaginatedStudentList, Pagin
   ///
   /// Returns a [Future] containing a [Response] with a [Student] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Student>> apiV1StudentsParentsRetrieve({
+  Future<Response<Student>> apiV1StudentsParentsRetrieve({ 
     required String studentId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -6879,11 +6878,11 @@ _responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 
   }
 
   /// apiV1StudentsPartialUpdate
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [studentId] - A UUID string identifying this student.
-  /// * [patchedStudent]
+  /// * [patchedStudent] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -6893,7 +6892,7 @@ _responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 
   ///
   /// Returns a [Future] containing a [Response] with a [Student] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Student>> apiV1StudentsPartialUpdate({
+  Future<Response<Student>> apiV1StudentsPartialUpdate({ 
     required String studentId,
     PatchedStudent? patchedStudent,
     CancelToken? cancelToken,
@@ -6985,7 +6984,7 @@ _responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 
   }
 
   /// apiV1StudentsRetrieve
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [studentId] - A UUID string identifying this student.
@@ -6998,7 +6997,7 @@ _responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 
   ///
   /// Returns a [Future] containing a [Response] with a [Student] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Student>> apiV1StudentsRetrieve({
+  Future<Response<Student>> apiV1StudentsRetrieve({ 
     required String studentId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -7071,11 +7070,11 @@ _responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 
   }
 
   /// apiV1StudentsUpdate
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [studentId] - A UUID string identifying this student.
-  /// * [student]
+  /// * [student] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -7085,7 +7084,7 @@ _responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 
   ///
   /// Returns a [Future] containing a [Response] with a [Student] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Student>> apiV1StudentsUpdate({
+  Future<Response<Student>> apiV1StudentsUpdate({ 
     required String studentId,
     required Student student,
     CancelToken? cancelToken,
@@ -7177,10 +7176,10 @@ _responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 
   }
 
   /// apiV1UsersCreate
-  ///
+  /// 
   ///
   /// Parameters:
-  /// * [userCreate]
+  /// * [userCreate] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -7190,7 +7189,7 @@ _responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 
   ///
   /// Returns a [Future] containing a [Response] with a [UserCreate] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<UserCreate>> apiV1UsersCreate({
+  Future<Response<UserCreate>> apiV1UsersCreate({ 
     required UserCreate userCreate,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -7281,7 +7280,7 @@ _responseData = rawData == null ? null : deserialize<UserCreate, UserCreate>(raw
   }
 
   /// apiV1UsersDestroy
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [userId] - A UUID string identifying this user.
@@ -7294,7 +7293,7 @@ _responseData = rawData == null ? null : deserialize<UserCreate, UserCreate>(raw
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> apiV1UsersDestroy({
+  Future<Response<void>> apiV1UsersDestroy({ 
     required String userId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -7343,7 +7342,7 @@ _responseData = rawData == null ? null : deserialize<UserCreate, UserCreate>(raw
   }
 
   /// apiV1UsersList
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [ordering] - Which field to use when ordering the results.
@@ -7358,7 +7357,7 @@ _responseData = rawData == null ? null : deserialize<UserCreate, UserCreate>(raw
   ///
   /// Returns a [Future] containing a [Response] with a [PaginatedUserList] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<PaginatedUserList>> apiV1UsersList({
+  Future<Response<PaginatedUserList>> apiV1UsersList({ 
     String? ordering,
     int? page,
     String? search,
@@ -7440,10 +7439,10 @@ _responseData = rawData == null ? null : deserialize<PaginatedUserList, Paginate
   }
 
   /// apiV1UsersLoginCreate
-  ///
+  /// 
   ///
   /// Parameters:
-  /// * [user]
+  /// * [user] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -7453,7 +7452,7 @@ _responseData = rawData == null ? null : deserialize<PaginatedUserList, Paginate
   ///
   /// Returns a [Future] containing a [Response] with a [User] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<User>> apiV1UsersLoginCreate({
+  Future<Response<User>> apiV1UsersLoginCreate({ 
     required User user,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -7556,7 +7555,7 @@ _responseData = rawData == null ? null : deserialize<User, User>(rawData, 'User'
   ///
   /// Returns a [Future] containing a [Response] with a [User] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<User>> apiV1UsersMeRetrieve({
+  Future<Response<User>> apiV1UsersMeRetrieve({ 
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -7628,11 +7627,11 @@ _responseData = rawData == null ? null : deserialize<User, User>(rawData, 'User'
   }
 
   /// apiV1UsersPartialUpdate
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [userId] - A UUID string identifying this user.
-  /// * [patchedUser]
+  /// * [patchedUser] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -7642,7 +7641,7 @@ _responseData = rawData == null ? null : deserialize<User, User>(rawData, 'User'
   ///
   /// Returns a [Future] containing a [Response] with a [User] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<User>> apiV1UsersPartialUpdate({
+  Future<Response<User>> apiV1UsersPartialUpdate({ 
     required String userId,
     PatchedUser? patchedUser,
     CancelToken? cancelToken,
@@ -7734,7 +7733,7 @@ _responseData = rawData == null ? null : deserialize<User, User>(rawData, 'User'
   }
 
   /// apiV1UsersRetrieve
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [userId] - A UUID string identifying this user.
@@ -7747,7 +7746,7 @@ _responseData = rawData == null ? null : deserialize<User, User>(rawData, 'User'
   ///
   /// Returns a [Future] containing a [Response] with a [User] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<User>> apiV1UsersRetrieve({
+  Future<Response<User>> apiV1UsersRetrieve({ 
     required String userId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -7820,11 +7819,11 @@ _responseData = rawData == null ? null : deserialize<User, User>(rawData, 'User'
   }
 
   /// apiV1UsersUpdate
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [userId] - A UUID string identifying this user.
-  /// * [user]
+  /// * [user] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -7834,7 +7833,7 @@ _responseData = rawData == null ? null : deserialize<User, User>(rawData, 'User'
   ///
   /// Returns a [Future] containing a [Response] with a [User] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<User>> apiV1UsersUpdate({
+  Future<Response<User>> apiV1UsersUpdate({ 
     required String userId,
     required User user,
     CancelToken? cancelToken,
@@ -7929,7 +7928,7 @@ _responseData = rawData == null ? null : deserialize<User, User>(rawData, 'User'
   /// Check if kiosk needs database update
   ///
   /// Parameters:
-  /// * [kioskId]
+  /// * [kioskId] 
   /// * [lastSyncHash] - Last content hash from kiosk
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
@@ -7940,7 +7939,7 @@ _responseData = rawData == null ? null : deserialize<User, User>(rawData, 'User'
   ///
   /// Returns a [Future] containing a [Response] with a [CheckUpdatesResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<CheckUpdatesResponse>> kioskCheckUpdates({
+  Future<Response<CheckUpdatesResponse>> kioskCheckUpdates({ 
     required String kioskId,
     String? lastSyncHash,
     CancelToken? cancelToken,
@@ -8013,7 +8012,7 @@ _responseData = rawData == null ? null : deserialize<CheckUpdatesResponse, Check
   /// Download kiosk database snapshot (binary SQLite file). Returns raw binary data with x-snapshot-checksum header for verification.
   ///
   /// Parameters:
-  /// * [kioskId]
+  /// * [kioskId] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -8023,7 +8022,7 @@ _responseData = rawData == null ? null : deserialize<CheckUpdatesResponse, Check
   ///
   /// Returns a [Future] containing a [Response] with a [MultipartFile] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<MultipartFile>> kioskDownloadSnapshot({
+  Future<Response<MultipartFile>> kioskDownloadSnapshot({ 
     required String kioskId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -8091,8 +8090,8 @@ _responseData = rawData == null ? null : deserialize<MultipartFile, MultipartFil
   /// Report kiosk health and sync status
   ///
   /// Parameters:
-  /// * [kioskId]
-  /// * [heartbeat]
+  /// * [kioskId] 
+  /// * [heartbeat] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -8102,7 +8101,7 @@ _responseData = rawData == null ? null : deserialize<MultipartFile, MultipartFil
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> kioskHeartbeat({
+  Future<Response<void>> kioskHeartbeat({ 
     required String kioskId,
     required Heartbeat heartbeat,
     CancelToken? cancelToken,
@@ -8164,7 +8163,7 @@ _bodyData=jsonEncode(heartbeat);
   /// Kiosk logging endpoint for device log submission
   ///
   /// Parameters:
-  /// * [deviceLog]
+  /// * [deviceLog] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -8174,7 +8173,7 @@ _bodyData=jsonEncode(heartbeat);
   ///
   /// Returns a [Future] containing a [Response] with a [KioskLog200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<KioskLog200Response>> kioskLog({
+  Future<Response<KioskLog200Response>> kioskLog({ 
     required DeviceLog deviceLog,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -8259,8 +8258,8 @@ _responseData = rawData == null ? null : deserialize<KioskLog200Response, KioskL
   /// Update bus GPS location. Kiosk sends location when bus moves significantly or every 2 minutes.
   ///
   /// Parameters:
-  /// * [kioskId]
-  /// * [busLocation]
+  /// * [kioskId] 
+  /// * [busLocation] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -8270,7 +8269,7 @@ _responseData = rawData == null ? null : deserialize<KioskLog200Response, KioskL
   ///
   /// Returns a [Future] containing a [Response] with a [BusLocation] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<BusLocation>> kioskUpdateLocation({
+  Future<Response<BusLocation>> kioskUpdateLocation({ 
     required String kioskId,
     required BusLocation busLocation,
     CancelToken? cancelToken,

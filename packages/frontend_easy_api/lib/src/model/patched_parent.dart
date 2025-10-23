@@ -36,7 +36,7 @@ class PatchedParent {
   });
 
   @JsonKey(
-
+    
     name: r'parent_id',
     required: false,
     includeIfNull: false,
@@ -48,7 +48,7 @@ class PatchedParent {
 
 
   @JsonKey(
-
+    
     name: r'decrypted_name',
     required: false,
     includeIfNull: false,
@@ -60,7 +60,7 @@ class PatchedParent {
 
 
   @JsonKey(
-
+    
     name: r'decrypted_phone',
     required: false,
     includeIfNull: false,
@@ -72,7 +72,7 @@ class PatchedParent {
 
 
   @JsonKey(
-
+    
     name: r'decrypted_email',
     required: false,
     includeIfNull: false,
@@ -85,7 +85,7 @@ class PatchedParent {
 
       /// Encrypted name (plaintext validated max 100 chars)
   @JsonKey(
-
+    
     name: r'name',
     required: false,
     includeIfNull: false,
@@ -98,7 +98,7 @@ class PatchedParent {
 
       /// Encrypted phone number (plaintext validated as +91XXXXXXXXXX)
   @JsonKey(
-
+    
     name: r'phone',
     required: false,
     includeIfNull: false,
@@ -111,7 +111,7 @@ class PatchedParent {
 
       /// Encrypted email address (plaintext validated per RFC 5321)
   @JsonKey(
-
+    
     name: r'email',
     required: false,
     includeIfNull: false,
@@ -123,7 +123,7 @@ class PatchedParent {
 
 
   @JsonKey(
-
+    
     name: r'created_at',
     required: false,
     includeIfNull: false,
@@ -168,3 +168,4 @@ class PatchedParent {
   }
 
 }
+

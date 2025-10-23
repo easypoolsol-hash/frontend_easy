@@ -7,6 +7,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'kiosk_log200_response.g.dart';
 
+
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -16,26 +17,33 @@ part 'kiosk_log200_response.g.dart';
 class KioskLog200Response {
   /// Returns a new [KioskLog200Response] instance.
   KioskLog200Response({
-    this.status,
+
+     this.status,
   });
 
   @JsonKey(
+    
     name: r'status',
     required: false,
     includeIfNull: false,
   )
+
+
   final String? status;
 
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is KioskLog200Response && other.status == status;
 
-  @override
-  int get hashCode => status.hashCode;
 
-  factory KioskLog200Response.fromJson(Map<String, dynamic> json) =>
-      _$KioskLog200ResponseFromJson(json);
+
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is KioskLog200Response &&
+      other.status == status;
+
+    @override
+    int get hashCode =>
+        status.hashCode;
+
+  factory KioskLog200Response.fromJson(Map<String, dynamic> json) => _$KioskLog200ResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$KioskLog200ResponseToJson(this);
 
@@ -43,4 +51,6 @@ class KioskLog200Response {
   String toString() {
     return toJson().toString();
   }
+
 }
+

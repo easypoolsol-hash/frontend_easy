@@ -26,7 +26,7 @@ class School {
   });
 
   @JsonKey(
-
+    
     name: r'school_id',
     required: true,
     includeIfNull: false,
@@ -38,7 +38,7 @@ class School {
 
 
   @JsonKey(
-
+    
     name: r'name',
     required: true,
     includeIfNull: false,
@@ -50,7 +50,7 @@ class School {
 
 
   @JsonKey(
-
+    
     name: r'created_at',
     required: true,
     includeIfNull: false,
@@ -85,3 +85,4 @@ class School {
   }
 
 }
+

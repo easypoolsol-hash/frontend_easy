@@ -25,7 +25,7 @@ class KioskActivation {
 
       /// Kiosk identifier (e.g., KIOSK-SCHOOL-001)
   @JsonKey(
-
+    
     name: r'kiosk_id',
     required: true,
     includeIfNull: false,
@@ -38,7 +38,7 @@ class KioskActivation {
 
       /// One-time activation token (destroyed after use)
   @JsonKey(
-
+    
     name: r'activation_token',
     required: true,
     includeIfNull: false,
@@ -71,3 +71,4 @@ class KioskActivation {
   }
 
 }
+
