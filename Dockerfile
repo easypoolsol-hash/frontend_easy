@@ -49,10 +49,13 @@ RUN flutter pub get
 
 # Install generated API package dependencies
 WORKDIR /app/packages/frontend_easy_api
+
+# Ensure build_runner and json_serializable are in dev_dependencies
 RUN flutter pub get
 
-# Run build_runner for JSON serialization
-RUN dart run build_runner build --delete-conflicting-outputs
+# Run build_runner for JSON serialization (generates .g.dart files)
+RUN dart run build_runner build --delete-conflicting-outputs || \
+    (echo "ERROR: build_runner failed. Check that json_serializable is in dev_dependencies" && exit 1)
 
 # Back to app root
 WORKDIR /app
