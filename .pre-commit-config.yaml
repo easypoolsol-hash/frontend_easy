@@ -1,0 +1,31 @@
+repos:
+  # Standard pre-commit hooks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+
+  # Flutter-specific hooks
+  - repo: local
+    hooks:
+      - id: flutter-format
+        name: Format Flutter code
+        entry: flutter format
+        language: system
+        args: [lib, test]
+        types: [dart]
+
+      - id: flutter-analyze
+        name: Analyze Flutter code
+        entry: flutter analyze
+        language: system
+        types: [dart]
+
+      - id: import-sorter
+        name: Sort Dart imports
+        entry: dart run import_sorter:main
+        language: system
+        types: [dart]
