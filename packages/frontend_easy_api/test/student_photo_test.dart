@@ -3,8 +3,8 @@ import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for StudentPhoto
 void main() {
-  final instance = StudentPhotoBuilder();
-  // TODO add properties to the builder and call build()
+  final StudentPhoto? instance = /* StudentPhoto(...) */ null;
+  // TODO add properties to the entity
 
   group(StudentPhoto, () {
     // String photoId

@@ -3,8 +3,8 @@ import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for StudentParent
 void main() {
-  final instance = StudentParentBuilder();
-  // TODO add properties to the builder and call build()
+  final StudentParent? instance = /* StudentParent(...) */ null;
+  // TODO add properties to the entity
 
   group(StudentParent, () {
     // String student

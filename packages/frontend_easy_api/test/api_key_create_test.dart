@@ -3,8 +3,8 @@ import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for APIKeyCreate
 void main() {
-  final instance = APIKeyCreateBuilder();
-  // TODO add properties to the builder and call build()
+  final APIKeyCreate? instance = /* APIKeyCreate(...) */ null;
+  // TODO add properties to the entity
 
   group(APIKeyCreate, () {
     // Reference to kiosk device
@@ -20,7 +20,7 @@ void main() {
     });
 
     // JSON object defining scoped permissions
-    // JsonObject permissions
+    // Object permissions
     test('to test the property `permissions`', () async {
       // TODO
     });

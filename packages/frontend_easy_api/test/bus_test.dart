@@ -3,8 +3,8 @@ import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for Bus
 void main() {
-  final instance = BusBuilder();
-  // TODO add properties to the builder and call build()
+  final Bus? instance = /* Bus(...) */ null;
+  // TODO add properties to the entity
 
   group(Bus, () {
     // UUID primary key
@@ -67,7 +67,7 @@ void main() {
     });
 
     // Date of last maintenance
-    // Date lastMaintenance
+    // DateTime lastMaintenance
     test('to test the property `lastMaintenance`', () async {
       // TODO
     });

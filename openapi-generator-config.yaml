@@ -1,12 +1,12 @@
-# OpenAPI Generator Configuration for Bus Kiosk Django Backend
-# 2025 BEST PRACTICE: Using 'dart' generator with json_serializable
-# Provides Dio support with json_serializable serialization (modern approach)
+# OpenAPI Generator Configuration for Frontend Easy
+# 2025 BEST PRACTICE: 'dart' generator with json_serializable
+# MATCHES bus_kiosk_easy pattern exactly for consistency
 generatorName: dart
 inputSpec: openapi-schema.yaml
 outputDir: packages/frontend_easy_api
 additional-properties:
   pubName: frontend_easy_api
-  pubAuthor: Bus Kiosk Team
+  pubAuthor: Imperial EasyPool Team
   pubVersion: 1.0.0
   useEnumExtension: true
   enumUnknownDefaultCase: true

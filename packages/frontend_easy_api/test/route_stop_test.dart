@@ -3,8 +3,8 @@ import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for RouteStop
 void main() {
-  final instance = RouteStopBuilder();
-  // TODO add properties to the builder and call build()
+  final RouteStop? instance = /* RouteStop(...) */ null;
+  // TODO add properties to the entity
 
   group(RouteStop, () {
     // Bus stop on this route
@@ -35,7 +35,7 @@ void main() {
     });
 
     // Path coordinates to NEXT stop: [{lat, lon}, ...]
-    // JsonObject waypoints
+    // Object waypoints
     test('to test the property `waypoints`', () async {
       // TODO
     });

@@ -3,8 +3,8 @@ import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for AttendanceRecord
 void main() {
-  final instance = AttendanceRecordBuilder();
-  // TODO add properties to the builder and call build()
+  final AttendanceRecord? instance = /* AttendanceRecord(...) */ null;
+  // TODO add properties to the entity
 
   group(AttendanceRecord, () {
     // UUID primary key
@@ -30,7 +30,7 @@ void main() {
     });
 
     // Date of attendance record
-    // Date date
+    // DateTime date
     test('to test the property `date`', () async {
       // TODO
     });

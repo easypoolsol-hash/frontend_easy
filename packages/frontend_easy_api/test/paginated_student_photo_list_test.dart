@@ -3,8 +3,8 @@ import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for PaginatedStudentPhotoList
 void main() {
-  final instance = PaginatedStudentPhotoListBuilder();
-  // TODO add properties to the builder and call build()
+  final PaginatedStudentPhotoList? instance = /* PaginatedStudentPhotoList(...) */ null;
+  // TODO add properties to the entity
 
   group(PaginatedStudentPhotoList, () {
     // int count
@@ -22,7 +22,7 @@ void main() {
       // TODO
     });
 
-    // BuiltList<StudentPhoto> results
+    // List<StudentPhoto> results
     test('to test the property `results`', () async {
       // TODO
     });

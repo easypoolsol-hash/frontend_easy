@@ -3,8 +3,8 @@ import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for Student
 void main() {
-  final instance = StudentBuilder();
-  // TODO add properties to the builder and call build()
+  final Student? instance = /* Student(...) */ null;
+  // TODO add properties to the entity
 
   group(Student, () {
     // String studentId
@@ -50,7 +50,7 @@ void main() {
       // TODO
     });
 
-    // Date enrollmentDate
+    // DateTime enrollmentDate
     test('to test the property `enrollmentDate`', () async {
       // TODO
     });

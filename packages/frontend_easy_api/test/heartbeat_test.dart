@@ -3,8 +3,8 @@ import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for Heartbeat
 void main() {
-  final instance = HeartbeatBuilder();
-  // TODO add properties to the builder and call build()
+  final Heartbeat? instance = /* Heartbeat(...) */ null;
+  // TODO add properties to the entity
 
   group(Heartbeat, () {
     // Heartbeat timestamp

@@ -44,7 +44,7 @@ void main() {
 
     // Read-only ViewSet for attendance records
     //
-    //Future<PaginatedAttendanceRecordList> apiV1AttendanceList({ Date date, int page, String status, String student }) async
+    //Future<PaginatedAttendanceRecordList> apiV1AttendanceList({ DateTime date, int page, String status, String student }) async
     test('test apiV1AttendanceList', () async {
       // TODO
     });
@@ -215,7 +215,7 @@ void main() {
 
     // Student boarding endpoint - returns immediate approval and schedules background processing
     //
-    //Future<ApiV1KioskBoardingCreate200Response> apiV1KioskBoardingCreate({ BuiltMap<String, JsonObject> requestBody }) async
+    //Future<ApiV1KioskBoardingCreate200Response> apiV1KioskBoardingCreate({ Map<String, Object> requestBody }) async
     test('test apiV1KioskBoardingCreate', () async {
       // TODO
     });
@@ -507,7 +507,7 @@ void main() {
 
     // Download kiosk database snapshot (binary SQLite file). Returns raw binary data with x-snapshot-checksum header for verification.
     //
-    //Future<Uint8List> kioskDownloadSnapshot(String kioskId) async
+    //Future<MultipartFile> kioskDownloadSnapshot(String kioskId) async
     test('test kioskDownloadSnapshot', () async {
       // TODO
     });

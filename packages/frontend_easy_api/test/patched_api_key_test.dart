@@ -3,8 +3,8 @@ import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for PatchedAPIKey
 void main() {
-  final instance = PatchedAPIKeyBuilder();
-  // TODO add properties to the builder and call build()
+  final PatchedAPIKey? instance = /* PatchedAPIKey(...) */ null;
+  // TODO add properties to the entity
 
   group(PatchedAPIKey, () {
     // String keyId
@@ -25,7 +25,7 @@ void main() {
     });
 
     // JSON object defining scoped permissions
-    // JsonObject permissions
+    // Object permissions
     test('to test the property `permissions`', () async {
       // TODO
     });

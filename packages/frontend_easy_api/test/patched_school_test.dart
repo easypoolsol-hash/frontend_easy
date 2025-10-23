@@ -3,8 +3,8 @@ import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for PatchedSchool
 void main() {
-  final instance = PatchedSchoolBuilder();
-  // TODO add properties to the builder and call build()
+  final PatchedSchool? instance = /* PatchedSchool(...) */ null;
+  // TODO add properties to the entity
 
   group(PatchedSchool, () {
     // String schoolId

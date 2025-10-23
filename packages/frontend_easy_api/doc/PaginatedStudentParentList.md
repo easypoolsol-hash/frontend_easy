@@ -1,8 +1,8 @@
-# openapi.model.PaginatedStudentParentList
+# frontend_easy_api.model.PaginatedStudentParentList
 
 ## Load the model package
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 ```
 
 ## Properties
@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **count** | **int** |  | 
 **next** | **String** |  | [optional] 
 **previous** | **String** |  | [optional] 
-**results** | [**List<StudentParent>**](StudentParent.md) |  | [default to const []]
+**results** | [**List&lt;StudentParent&gt;**](StudentParent.md) |  | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

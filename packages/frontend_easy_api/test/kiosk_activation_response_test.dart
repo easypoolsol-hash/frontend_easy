@@ -3,8 +3,8 @@ import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for KioskActivationResponse
 void main() {
-  final instance = KioskActivationResponseBuilder();
-  // TODO add properties to the builder and call build()
+  final KioskActivationResponse? instance = /* KioskActivationResponse(...) */ null;
+  // TODO add properties to the entity
 
   group(KioskActivationResponse, () {
     // Success message

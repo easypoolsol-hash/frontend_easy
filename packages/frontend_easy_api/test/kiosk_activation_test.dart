@@ -3,8 +3,8 @@ import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for KioskActivation
 void main() {
-  final instance = KioskActivationBuilder();
-  // TODO add properties to the builder and call build()
+  final KioskActivation? instance = /* KioskActivation(...) */ null;
+  // TODO add properties to the entity
 
   group(KioskActivation, () {
     // Kiosk identifier (e.g., KIOSK-SCHOOL-001)

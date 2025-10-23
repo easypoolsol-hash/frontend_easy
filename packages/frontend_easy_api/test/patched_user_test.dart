@@ -3,8 +3,8 @@ import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for PatchedUser
 void main() {
-  final instance = PatchedUserBuilder();
-  // TODO add properties to the builder and call build()
+  final PatchedUser? instance = /* PatchedUser(...) */ null;
+  // TODO add properties to the entity
 
   group(PatchedUser, () {
     // String userId

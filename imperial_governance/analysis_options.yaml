@@ -1,0 +1,20 @@
+include: package:lints/recommended.yaml
+
+linter:
+  rules:
+    # This is a build-time enforcement tool, not production app code
+    # Print statements are appropriate for CLI tools
+    avoid_print: false
+
+    # Prefer relative imports for better code organization
+    prefer_relative_imports: true
+
+    # Require trailing commas for better diffs
+    require_trailing_commas: true
+
+    # Prefer final for immutability
+    prefer_final_locals: true
+    prefer_final_fields: true
+
+    # Use modern string interpolation
+    unnecessary_brace_in_string_interps: true

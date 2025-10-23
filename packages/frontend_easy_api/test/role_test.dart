@@ -3,8 +3,8 @@ import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for Role
 void main() {
-  final instance = RoleBuilder();
-  // TODO add properties to the builder and call build()
+  final Role? instance = /* Role(...) */ null;
+  // TODO add properties to the entity
 
   group(Role, () {
     // String roleId
@@ -24,7 +24,7 @@ void main() {
     });
 
     // JSON object defining role permissions
-    // JsonObject permissions
+    // Object permissions
     test('to test the property `permissions`', () async {
       // TODO
     });

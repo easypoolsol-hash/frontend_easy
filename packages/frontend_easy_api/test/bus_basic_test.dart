@@ -3,8 +3,8 @@ import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for BusBasic
 void main() {
-  final instance = BusBasicBuilder();
-  // TODO add properties to the builder and call build()
+  final BusBasic? instance = /* BusBasic(...) */ null;
+  // TODO add properties to the entity
 
   group(BusBasic, () {
     // UUID primary key

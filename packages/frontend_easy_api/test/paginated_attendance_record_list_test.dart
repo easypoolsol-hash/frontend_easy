@@ -3,8 +3,8 @@ import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for PaginatedAttendanceRecordList
 void main() {
-  final instance = PaginatedAttendanceRecordListBuilder();
-  // TODO add properties to the builder and call build()
+  final PaginatedAttendanceRecordList? instance = /* PaginatedAttendanceRecordList(...) */ null;
+  // TODO add properties to the entity
 
   group(PaginatedAttendanceRecordList, () {
     // int count
@@ -22,7 +22,7 @@ void main() {
       // TODO
     });
 
-    // BuiltList<AttendanceRecord> results
+    // List<AttendanceRecord> results
     test('to test the property `results`', () async {
       // TODO
     });

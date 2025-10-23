@@ -3,8 +3,8 @@ import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for ApiV1KioskBoardingCreate200Response
 void main() {
-  final instance = ApiV1KioskBoardingCreate200ResponseBuilder();
-  // TODO add properties to the builder and call build()
+  final ApiV1KioskBoardingCreate200Response? instance = /* ApiV1KioskBoardingCreate200Response(...) */ null;
+  // TODO add properties to the entity
 
   group(ApiV1KioskBoardingCreate200Response, () {
     // String status

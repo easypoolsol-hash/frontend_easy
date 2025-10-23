@@ -3,8 +3,8 @@ import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for PatchedRoute
 void main() {
-  final instance = PatchedRouteBuilder();
-  // TODO add properties to the builder and call build()
+  final PatchedRoute? instance = /* PatchedRoute(...) */ null;
+  // TODO add properties to the entity
 
   group(PatchedRoute, () {
     // UUID primary key
@@ -25,18 +25,6 @@ void main() {
       // TODO
     });
 
-    // Hex color for map display (e.g., #FF5733)
-    // String colorCode
-    test('to test the property `colorCode`', () async {
-      // TODO
-    });
-
-    // Line pattern for map visualization  * `solid` - Solid Line * `dashed` - Dashed Line
-    // String linePattern
-    test('to test the property `linePattern`', () async {
-      // TODO
-    });
-
     // Whether this route is currently active
     // bool isActive
     test('to test the property `isActive`', () async {
@@ -53,7 +41,7 @@ void main() {
       // TODO
     });
 
-    // BuiltList<RouteStop> routeStops
+    // List<RouteStop> routeStops
     test('to test the property `routeStops`', () async {
       // TODO
     });

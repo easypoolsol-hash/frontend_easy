@@ -3,8 +3,8 @@ import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for PaginatedRoleList
 void main() {
-  final instance = PaginatedRoleListBuilder();
-  // TODO add properties to the builder and call build()
+  final PaginatedRoleList? instance = /* PaginatedRoleList(...) */ null;
+  // TODO add properties to the entity
 
   group(PaginatedRoleList, () {
     // int count
@@ -22,7 +22,7 @@ void main() {
       // TODO
     });
 
-    // BuiltList<Role> results
+    // List<Role> results
     test('to test the property `results`', () async {
       // TODO
     });
