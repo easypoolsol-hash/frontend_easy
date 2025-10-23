@@ -76,7 +76,7 @@ jobs:
           flags: unit-tests
 
   # ============================================================================
-  # STAGE 3: BUILD IMAGE (Dependencies INSIDE Docker)
+  # STAGE 3: BUILD IMAGE (Uses Pre-Generated API Client)
   # ============================================================================
   build-image:
     name: Build Docker Image
@@ -85,18 +85,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # CRITICAL FIX: Get OpenAPI schema from backend artifact or repo
-      # Option 1: If backend committed it (our current setup)
-      - name: Verify OpenAPI schema exists
+      # Verify pre-generated API client exists (created by backend hook)
+      - name: Verify pre-generated API client
         run: |
-          if [ ! -f openapi-schema.yaml ]; then
-            echo "ERROR: openapi-schema.yaml not found!"
-            echo "This file should be committed by backend_easy pre-commit hook"
+          if [ ! -d packages/frontend_easy_api ]; then
+            echo "ERROR: packages/frontend_easy_api not found!"
+            echo "Run backend pre-commit hook to regenerate: git commit in backend_easy"
             exit 1
           fi
-          echo "✅ OpenAPI schema found"
+          if [ ! -f packages/frontend_easy_api/lib/src/serializers.g.dart ]; then
+            echo "ERROR: .g.dart files not found in API package!"
+            echo "Run backend pre-commit hook to regenerate with build_runner"
+            exit 1
+          fi
+          echo "✅ Pre-generated API client found with .g.dart files"
 
-      # Build image with dependencies INSIDE
+      # Build image (copies pre-generated files)
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -188,32 +192,12 @@ jobs:
           channel: 'stable'
           cache: true
 
-      # Need generated API for integration tests
-      - name: Get OpenAPI schema
-        run: |
-          if [ ! -f openapi-schema.yaml ]; then
-            echo "ERROR: openapi-schema.yaml missing for integration tests"
-            exit 1
-          fi
-
-      - name: Generate API client
-        run: |
-          npx @openapitools/openapi-generator-cli generate \
-            -i openapi-schema.yaml \
-            -g dart-dio \
-            -o packages/frontend_easy_api \
-            --additional-properties=pubName=frontend_easy_api,useEnumExtension=true,serializationLibrary=json_serializable
-
-      - name: Fix SDK version in generated package
-        run: |
-          sed -i 's/sdk: .*/sdk: ">=3.9.0 <4.0.0"/' packages/frontend_easy_api/pubspec.yaml
-
+      # Use pre-generated API client (same as Docker build)
       - name: Install dependencies
         run: |
           flutter pub get
           cd packages/frontend_easy_api
           flutter pub get
-          dart run build_runner build --delete-conflicting-outputs
 
       # Run integration tests (need backend running or mocked)
       - name: Run integration tests
