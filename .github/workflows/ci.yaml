@@ -7,6 +7,10 @@ on:
     branches: [ master, main, develop ]
   workflow_dispatch:
 
+permissions:
+  contents: read
+  packages: write  # Required to push to GitHub Container Registry (GHCR)
+
 env:
   IMAGE_NAME: ghcr.io/manishasaraf57-dot/frontend_easy
   FLUTTER_VERSION: '3.35.6'
