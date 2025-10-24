@@ -11,7 +11,7 @@ final routesProvider = FutureProvider<List<api.Route>>((ref) async {
   try {
     final apiService = ApiService().api;
     final response = await apiService.apiV1RoutesList(isActive: true);
-    return response?.results ?? [];
+    return response?.data?.results ?? [];
   } catch (e) {
     // Return empty list on error to keep app functional
     return [];
@@ -24,7 +24,7 @@ final routeProvider = FutureProvider.family<api.Route?, String>((
   routeId,
 ) async {
   final apiService = ApiService().api;
-  final response = await apiService.apiV1RoutesRetrieve(routeId);
+  final response = await apiService.api.apiV1RoutesRetrieve(routeId: routeId);
   return response;
 });
 

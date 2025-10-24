@@ -13,4 +13,5 @@ class ApiService {
 
   ApiApi get api => _api.getApiApi();
   KioskActivationApi get kioskApi => _api.getKioskActivationApi();
+  FrontendEasyApi get client => _api;
 }
