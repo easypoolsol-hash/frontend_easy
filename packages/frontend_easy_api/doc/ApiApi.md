@@ -90,6 +90,7 @@ Method | HTTP request | Description
 [**apiV1UsersDestroy**](ApiApi.md#apiv1usersdestroy) | **DELETE** /api/v1/users/{user_id}/ | 
 [**apiV1UsersList**](ApiApi.md#apiv1userslist) | **GET** /api/v1/users/ | 
 [**apiV1UsersLoginCreate**](ApiApi.md#apiv1userslogincreate) | **POST** /api/v1/users/login/ | 
+[**apiV1UsersLogoutCreate**](ApiApi.md#apiv1userslogoutcreate) | **POST** /api/v1/users/logout/ | 
 [**apiV1UsersMeRetrieve**](ApiApi.md#apiv1usersmeretrieve) | **GET** /api/v1/users/me/ | 
 [**apiV1UsersPartialUpdate**](ApiApi.md#apiv1userspartialupdate) | **PATCH** /api/v1/users/{user_id}/ | 
 [**apiV1UsersRetrieve**](ApiApi.md#apiv1usersretrieve) | **GET** /api/v1/users/{user_id}/ | 
@@ -3824,6 +3825,53 @@ try {
     print(response);
 } catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1UsersLoginCreate: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **user** | [**User**](User.md)|  | 
+
+### Return type
+
+[**User**](User.md)
+
+### Authorization
+
+[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json, application/x-www-form-urlencoded, multipart/form-data
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiV1UsersLogoutCreate**
+> User apiV1UsersLogoutCreate(user)
+
+
+
+Logout endpoint - Blacklists refresh token (Fortune 500 standard)  Security: Prevents token reuse even if stolen  Request Body: { \"refresh\": \"...\" } Returns: 200 { \"message\": \"Logout successful\" }
+
+### Example
+```dart
+import 'package:frontend_easy_api/api.dart';
+// TODO Configure API key authorization: cookieAuth
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+
+final api = FrontendEasyApi().getApiApi();
+final User user = ; // User | 
+
+try {
+    final response = api.apiV1UsersLogoutCreate(user);
+    print(response);
+} catch on DioException (e) {
+    print('Exception when calling ApiApi->apiV1UsersLogoutCreate: $e\n');
 }
 ```
 

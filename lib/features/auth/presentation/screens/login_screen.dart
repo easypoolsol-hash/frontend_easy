@@ -1,11 +1,10 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:go_router/go_router.dart';
+import 'package:dio/dio.dart';
 
 import 'package:frontend_easy/shared/services/api_service.dart';
-import 'package:frontend_easy_api/frontend_easy_api.dart';
+import 'package:frontend_easy/shared/services/auth_service.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -27,9 +26,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   Future<void> _checkIfLoggedIn() async {
-    final prefs = await SharedPreferences.getInstance();
-    final accessToken = prefs.getString('access_token');
-    if (accessToken != null && accessToken.isNotEmpty) {
+    final isAuth = await AuthService().isAuthenticated();
+    if (isAuth) {
       // Already logged in, go to home
       if (mounted) {
         context.go('/');
@@ -52,27 +50,28 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
     try {
       final apiService = ApiService();
-      final tokenRequest = TokenObtainPair(
-        username: _usernameController.text,
-        password: _passwordController.text,
-        access: '',
-        refresh: '',
+
+      // Workaround: Send raw JSON to avoid including readOnly fields
+      // TODO: Regenerate API client with proper optional handling
+      final response = await apiService.client.dio.post<Map<String, dynamic>>(
+        '/api/v1/auth/token/',
+        data: {
+          'username': _usernameController.text,
+          'password': _passwordController.text,
+          // Don't send access/refresh - they're readOnly response fields
+        },
       );
 
-      final response = await apiService.api.apiV1AuthTokenCreate(
-        tokenObtainPair: tokenRequest,
-      );
-
-      if (response.statusCode == 200) {
-        final accessToken = response.data?.access;
-        final refreshToken = response.data?.refresh;
+      if (response.statusCode == 200 && response.data != null) {
+        final accessToken = response.data!['access'];
+        final refreshToken = response.data!['refresh'];
 
         if (accessToken != null && refreshToken != null) {
-          final prefs = await SharedPreferences.getInstance();
-          await prefs.setString('access_token', accessToken);
-          await prefs.setString('refresh_token', refreshToken);
-
-          ApiService().client.dio.options.headers['Authorization'] = 'Bearer $accessToken';
+          // Use AuthService to store tokens
+          await AuthService().storeTokens(
+            accessToken: accessToken,
+            refreshToken: refreshToken,
+          );
 
           if (mounted) {
             context.go('/');

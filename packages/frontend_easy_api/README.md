@@ -147,6 +147,7 @@ Class | Method | HTTP request | Description
 [*ApiApi*](doc/ApiApi.md) | [**apiV1UsersDestroy**](doc/ApiApi.md#apiv1usersdestroy) | **DELETE** /api/v1/users/{user_id}/ | 
 [*ApiApi*](doc/ApiApi.md) | [**apiV1UsersList**](doc/ApiApi.md#apiv1userslist) | **GET** /api/v1/users/ | 
 [*ApiApi*](doc/ApiApi.md) | [**apiV1UsersLoginCreate**](doc/ApiApi.md#apiv1userslogincreate) | **POST** /api/v1/users/login/ | 
+[*ApiApi*](doc/ApiApi.md) | [**apiV1UsersLogoutCreate**](doc/ApiApi.md#apiv1userslogoutcreate) | **POST** /api/v1/users/logout/ | 
 [*ApiApi*](doc/ApiApi.md) | [**apiV1UsersMeRetrieve**](doc/ApiApi.md#apiv1usersmeretrieve) | **GET** /api/v1/users/me/ | 
 [*ApiApi*](doc/ApiApi.md) | [**apiV1UsersPartialUpdate**](doc/ApiApi.md#apiv1userspartialupdate) | **PATCH** /api/v1/users/{user_id}/ | 
 [*ApiApi*](doc/ApiApi.md) | [**apiV1UsersRetrieve**](doc/ApiApi.md#apiv1usersretrieve) | **GET** /api/v1/users/{user_id}/ | 

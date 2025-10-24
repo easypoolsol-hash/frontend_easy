@@ -51,6 +51,7 @@ dependencies:
 
   # Storage
   shared_preferences: ^2.3.3
+  flutter_secure_storage: ^9.2.2  # Encrypted storage for tokens (KeyChain/KeyStore)
 
   # JSON Serialization - 2025 BEST PRACTICE: freezed + json_serializable
   # Replaces built_value (older approach) with modern freezed pattern

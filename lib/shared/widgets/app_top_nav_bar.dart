@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:frontend_easy/shared/services/auth_service.dart';
 
 /// Reusable top navigation bar
 class AppTopNavBar extends StatelessWidget {
@@ -131,9 +132,13 @@ class AppTopNavBar extends StatelessWidget {
     );
 
     if (shouldLogout == true && context.mounted) {
-      // Clear stored tokens
-      // Note: This would need SharedPreferences access, but for now just navigate
-      context.go('/login');
+      // Use AuthService to handle logout logic
+      await AuthService().logout();
+
+      // Navigate to login
+      if (context.mounted) {
+        context.go('/login');
+      }
     }
   }
 }
