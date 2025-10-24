@@ -39,6 +39,9 @@ RUN flutter build web --release
 # ----------------------------------------------------------------------------
 FROM nginx:alpine AS production
 
+# Fix CVE-2025-58050: Update pcre2 to patched version
+RUN apk upgrade --no-cache pcre2
+
 # Remove default nginx content
 RUN rm -rf /usr/share/nginx/html/*
 
