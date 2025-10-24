@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:frontend_easy/shared/services/api_service.dart';
-import 'package:frontend_easy_api/api.dart';
+import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});

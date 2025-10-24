@@ -1,4 +1,4 @@
-import 'package:frontend_easy_api/api.dart' as api;
+import 'package:frontend_easy_api/frontend_easy_api.dart' as api;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:frontend_easy/shared/services/api_service.dart';
