@@ -190,4 +190,4 @@ jobs:
           docker tag ${{ env.IMAGE_NAME }}:test ${{ env.IMAGE_NAME }}:latest
           docker tag ${{ env.IMAGE_NAME }}:test ${{ env.IMAGE_NAME }}:${{ github.sha }}
           docker push ${{ env.IMAGE_NAME }}:latest
-          docker push ${{ env.IMAGE_NAME }}:${{ env.IMAGE_NAME }}:${{ github.sha }}
+          docker push ${{ env.IMAGE_NAME }}:${{ github.sha }}
