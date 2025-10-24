@@ -1,7 +1,10 @@
 /// Unit tests for API Service
 /// Critical: Ensures API calls use operation IDs (not hardcoded URLs)
+///
+/// Uses Mocktail (2025 best practice - no codegen, null-safe)
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:frontend_easy/shared/services/api_service.dart';
 
 void main() {

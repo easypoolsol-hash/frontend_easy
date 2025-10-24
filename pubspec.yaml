@@ -70,6 +70,9 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+  # Testing - 2025 BEST PRACTICE: Mocktail (no codegen, null-safe)
+  mocktail: ^1.0.4  # Modern mocking (replaces Mockito for new projects)
+
   # Linting
   flutter_lints: ^5.0.0
 

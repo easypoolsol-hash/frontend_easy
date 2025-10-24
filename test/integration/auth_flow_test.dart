@@ -2,10 +2,17 @@
 ///
 /// Mirrors backend pattern: tests/integration/test_authentication_flow.py
 /// Tests complete auth lifecycle to catch integration bugs
+///
+/// Uses Mocktail (2025 best practice - no codegen, null-safe)
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:frontend_easy/shared/services/auth_service.dart';
 import 'package:frontend_easy/shared/services/api_service.dart';
+
+// Mock classes using Mocktail (no codegen needed!)
+class MockAuthService extends Mock implements AuthService {}
+class MockApiService extends Mock implements ApiService {}
 
 void main() {
   group('Authentication Lifecycle Tests', () {

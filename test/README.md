@@ -65,8 +65,26 @@ Follow backend pattern:
 - Use fixtures/providers like backend uses pytest fixtures
 - Test operation IDs, not URLs
 
-## Dependencies
+## Dependencies (2025 Best Practices)
 
-- `flutter_test` (SDK) - Basic testing
-- `flutter_riverpod` - For provider tests
-- Mock server setup: TODO (backend uses pytest-django)
+### Testing Libraries
+- `flutter_test` (SDK) - Basic testing framework
+- **`mocktail: ^1.0.4`** - Modern mocking (2025 standard)
+  - ✅ No codegen needed (unlike Mockito)
+  - ✅ Null-safe first
+  - ✅ Simple: just `class MockX extends Mock implements X {}`
+- `flutter_riverpod` - For provider/state tests
+
+### Why Mocktail over Mockito?
+**Mockito** (old approach):
+- Requires `build_runner` codegen
+- Needs `@GenerateMocks` annotations
+- Complex setup
+
+**Mocktail** (2025 best practice):
+- No codegen - instant mocking
+- Simpler syntax
+- Null-safety native
+- Industry standard for new Flutter projects
+
+Backend equivalent: pytest fixtures vs pytest-mock

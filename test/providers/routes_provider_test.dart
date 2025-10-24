@@ -1,7 +1,11 @@
-// Critical test: Routes provider uses OpenAPI operation IDs
+/// Critical test: Routes provider uses OpenAPI operation IDs
+///
+/// Uses Mocktail (2025 best practice - no codegen, null-safe)
+/// Riverpod testing pattern for provider isolation
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:frontend_easy/features/fleet/providers/routes_provider.dart';
 
 void main() {
