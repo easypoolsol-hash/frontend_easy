@@ -60,28 +60,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       );
 
       final response = await apiService.api.apiV1AuthTokenCreate(
-        tokenRequest,
+        tokenObtainPair: tokenRequest,
       );
 
       if (response.statusCode == 200) {
-        // Parse the response body as JSON
-        final data = json.decode(response.body) as Map<String, dynamic>;
-        final accessToken = data['access'] as String?;
-        final refreshToken = data['refresh'] as String?;
+        final accessToken = response.data?.access;
+        final refreshToken = response.data?.refresh;
 
         if (accessToken != null && refreshToken != null) {
-          // Store tokens
           final prefs = await SharedPreferences.getInstance();
           await prefs.setString('access_token', accessToken);
           await prefs.setString('refresh_token', refreshToken);
 
-          // Set auth on client
-          ApiService().client.addDefaultHeader(
-            'Authorization',
-            'Bearer $accessToken',
-          );
+          ApiService().client.dio.options.headers['Authorization'] = 'Bearer $accessToken';
 
-          // Navigate to home
           if (mounted) {
             context.go('/');
           }
