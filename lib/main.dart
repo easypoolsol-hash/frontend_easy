@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:frontend_easy/core/routing/app_router.dart';
 import 'package:frontend_easy/core/theme/app_theme.dart';
@@ -8,7 +7,6 @@ import 'package:frontend_easy/shared/services/api_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: "assets/.env");
   ApiService().initialize();
 
   final prefs = await SharedPreferences.getInstance();
