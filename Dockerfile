@@ -30,11 +30,8 @@ RUN flutter pub get
 # Back to app root
 WORKDIR /app
 
-# Run constitutional enforcement (MUST PASS)
-RUN cd imperial_governance && dart pub get && cd .. && \
-    dart run imperial_governance/enforcement/constitutional_enforcement.dart
-
 # Build optimized web app
+# NOTE: Constitutional enforcement runs in backend pre-commit hook
 RUN flutter build web --release --web-renderer canvaskit
 
 # ----------------------------------------------------------------------------
