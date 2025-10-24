@@ -59,7 +59,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         refresh: '',
       );
 
-      final response = await apiService.api.apiV1AuthTokenCreateWithHttpInfo(
+      final response = await apiService.api.apiV1AuthTokenCreate(
         tokenRequest,
       );
 

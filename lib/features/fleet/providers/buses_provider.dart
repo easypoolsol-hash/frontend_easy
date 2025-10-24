@@ -26,6 +26,6 @@ final busesByRouteProvider = FutureProvider.family<List<api.Bus>, String>((ref, 
 /// Provider for a single bus by ID
 final busProvider = FutureProvider.family<api.Bus?, String>((ref, busId) async {
   final apiService = ApiService().api;
-  final response = await apiService.api.apiV1BusesRetrieve(busId: busId);
+  final response = await apiService.apiV1BusesRetrieve(busId: busId);
   return response;
 });

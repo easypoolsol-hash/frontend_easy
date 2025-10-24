@@ -24,7 +24,7 @@ final routeProvider = FutureProvider.family<api.Route?, String>((
   routeId,
 ) async {
   final apiService = ApiService().api;
-  final response = await apiService.api.apiV1RoutesRetrieve(routeId: routeId);
+  final response = await apiService.apiV1RoutesRetrieve(routeId: routeId);
   return response;
 });
 

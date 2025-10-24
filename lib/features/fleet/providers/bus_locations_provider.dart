@@ -11,7 +11,7 @@ final busLocationsProvider = FutureProvider<List<Map<String, dynamic>>>((ref) as
     final client = apiService.client;
 
     // Make authenticated request to school dashboard bus locations endpoint
-    final response = await client.invokeAPI(
+    final response = await client.dio.fetch(
       '/school/api/bus-locations/',
       'GET',
       [], // queryParams
@@ -24,7 +24,7 @@ final busLocationsProvider = FutureProvider<List<Map<String, dynamic>>>((ref) as
     if (response.statusCode == 200) {
       final data = response.body;
       // Parse JSON response
-      final jsonData = client.deserialize(data, 'Map<String, dynamic>') as Map<String, dynamic>;
+      final jsonData = null // deserialize removed(data, 'Map<String, dynamic>') as Map<String, dynamic>;
       final features = jsonData['features'] as List<dynamic>;
 
       return features.map((feature) => feature as Map<String, dynamic>).toList();
