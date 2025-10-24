@@ -32,7 +32,7 @@ WORKDIR /app
 
 # Build optimized web app
 # NOTE: Constitutional enforcement runs in backend pre-commit hook
-RUN flutter build web --release --web-renderer canvaskit
+RUN flutter build web --release
 
 # ----------------------------------------------------------------------------
 # STAGE 2: PRODUCTION (Nginx)
