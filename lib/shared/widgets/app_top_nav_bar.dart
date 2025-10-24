@@ -46,13 +46,14 @@ class AppTopNavBar extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 12),
-            Text(
-              'EasyPool',
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.bold,
+            Expanded(
+              child: Text(
+                'EasyPool',
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-            const Spacer(),
             // Navigation buttons
             _buildNavButton(context, 'Map', Icons.map, 0),
             const SizedBox(width: 8),

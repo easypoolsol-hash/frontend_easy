@@ -12,8 +12,8 @@ Name | Type | Description | Notes
 **name** | **String** | Route name (e.g., 'Route A', 'North Loop') | 
 **description** | **String** | Detailed description of the route | [optional] 
 **isActive** | **bool** | Whether this route is currently active | [optional] 
-**stopCount** | **String** |  | 
-**totalStudents** | **String** |  | 
+**stopCount** | **int** |  | 
+**totalStudents** | **int** |  | 
 **routeStops** | [**List&lt;RouteStop&gt;**](RouteStop.md) |  | 
 **createdAt** | [**DateTime**](DateTime.md) | When this route was created | 
 **updatedAt** | [**DateTime**](DateTime.md) | When this route was last updated | 

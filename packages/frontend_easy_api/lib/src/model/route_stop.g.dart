@@ -23,8 +23,8 @@ RouteStop _$RouteStopFromJson(Map<String, dynamic> json) => $checkedCreate(
     final val = RouteStop(
       busStop: $checkedConvert('bus_stop', (v) => v as String),
       busStopName: $checkedConvert('bus_stop_name', (v) => v as String),
-      latitude: $checkedConvert('latitude', (v) => (v as num).toDouble()),
-      longitude: $checkedConvert('longitude', (v) => (v as num).toDouble()),
+      latitude: $checkedConvert('latitude', (v) => v is String ? double.parse(v) : (v as num).toDouble()),
+      longitude: $checkedConvert('longitude', (v) => v is String ? double.parse(v) : (v as num).toDouble()),
       sequence: $checkedConvert('sequence', (v) => (v as num).toInt()),
       waypoints: $checkedConvert('waypoints', (v) => v),
     );

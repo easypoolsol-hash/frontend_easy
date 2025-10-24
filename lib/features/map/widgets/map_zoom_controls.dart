@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong2/latlong.dart';
 
-import 'package:frontend_easy/features/map/widgets/maps_config.dart';
+// maps_config is not required here; callbacks are used instead
 
-/// Basic map controls (zoom in/out, center on home)
-/// Positioned on the map for easy access
+/// Basic map controls (zoom in/out, center on home) for GoogleMap
+/// Accepts callbacks so it can be reused without depending on a
+/// specific map controller type.
 class MapZoomControls extends StatelessWidget {
-  /// Map controller for zoom and pan operations
-  final MapController mapController;
+  /// Called when the user requests a zoom-in
+  final Future<void> Function() onZoomIn;
+
+  /// Called when the user requests a zoom-out
+  final Future<void> Function() onZoomOut;
+
+  /// Called when the user requests centering on home
+  final Future<void> Function() onCenterHome;
 
   /// Creates map zoom controls
   const MapZoomControls({
-    required this.mapController,
+    required this.onZoomIn,
+    required this.onZoomOut,
+    required this.onCenterHome,
     super.key,
   });
 
@@ -30,41 +37,21 @@ class MapZoomControls extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.add),
               tooltip: 'Zoom In',
-              onPressed: () {
-                final zoom = mapController.camera.zoom + 1;
-                mapController.move(
-                  mapController.camera.center,
-                  zoom.clamp(5.0, 18.0),
-                );
-              },
+              onPressed: () async => await onZoomIn(),
             ),
             const Divider(height: 1),
             // Zoom Out button
             IconButton(
               icon: const Icon(Icons.remove),
               tooltip: 'Zoom Out',
-              onPressed: () {
-                final zoom = mapController.camera.zoom - 1;
-                mapController.move(
-                  mapController.camera.center,
-                  zoom.clamp(5.0, 18.0),
-                );
-              },
+              onPressed: () async => await onZoomOut(),
             ),
             const Divider(height: 1),
             // Center on Kolkata button
             IconButton(
               icon: const Icon(Icons.my_location),
               tooltip: 'Center on Kolkata',
-              onPressed: () {
-                mapController.move(
-                  const LatLng(
-                    HomeLocation.latitude,
-                    HomeLocation.longitude,
-                  ),
-                  12.0,
-                );
-              },
+              onPressed: () async => await onCenterHome(),
             ),
           ],
         ),

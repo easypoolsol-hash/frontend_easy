@@ -11,6 +11,16 @@ class AuthInterceptor extends Interceptor {
   AuthInterceptor(this._dio);
 
   @override
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+    // Add authorization header if we have a token
+    final token = await _authService.getAccessToken();
+    if (token != null && token.isNotEmpty) {
+      options.headers['Authorization'] = 'Bearer $token';
+    }
+    return handler.next(options);
+  }
+
+  @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
     // Check if error is 401 Unauthorized
     if (err.response?.statusCode == 401) {

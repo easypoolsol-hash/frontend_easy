@@ -9,11 +9,19 @@ import 'package:frontend_easy/shared/services/api_service.dart';
 /// Auto-caches and updates on refresh
 final routesProvider = FutureProvider<List<api.Route>>((ref) async {
   try {
+    print('🚌 [Routes] Fetching from API...');
     final apiService = ApiService().api;
     final response = await apiService.apiV1RoutesList(isActive: true);
-    return response?.data?.results ?? [];
-  } catch (e) {
-    // Return empty list on error to keep app functional
+    final routes = response?.data?.results ?? [];
+    print('🚌 [Routes] Received ${routes.length} routes');
+    if (routes.isNotEmpty) {
+      final first = routes.first;
+      print('🚌 [Routes] First: ${first.name}, stops: ${first.routeStops?.length}');
+    }
+    return routes;
+  } catch (e, stack) {
+    print('❌ [Routes] Error: $e');
+    print('❌ [Routes] Stack: $stack');
     return [];
   }
 });

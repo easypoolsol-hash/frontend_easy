@@ -27,8 +27,11 @@ Route _$RouteFromJson(Map<String, dynamic> json) => $checkedCreate(
       name: $checkedConvert('name', (v) => v as String),
       description: $checkedConvert('description', (v) => v as String?),
       isActive: $checkedConvert('is_active', (v) => v as bool?),
-      stopCount: $checkedConvert('stop_count', (v) => v as String),
-      totalStudents: $checkedConvert('total_students', (v) => v as String),
+      stopCount: $checkedConvert('stop_count', (v) => (v as num).toInt()),
+      totalStudents: $checkedConvert(
+        'total_students',
+        (v) => (v as num).toInt(),
+      ),
       routeStops: $checkedConvert(
         'route_stops',
         (v) => (v as List<dynamic>)

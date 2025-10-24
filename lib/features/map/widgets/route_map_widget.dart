@@ -2,9 +2,8 @@ import 'dart:math' as math;
 
 import 'package:frontend_easy_api/frontend_easy_api.dart' as api;
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:latlong2/latlong.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:frontend_easy/features/map/widgets/maps_config.dart';
 import 'package:frontend_easy/features/map/widgets/map_zoom_controls.dart';
@@ -53,7 +52,14 @@ class RouteMapWidget extends ConsumerStatefulWidget {
 }
 
 class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
-  final MapController _mapController = MapController();
+  GoogleMapController? _mapController;
+  CameraPosition _initialCamera() => CameraPosition(
+        target: LatLng(HomeLocation.latitude, HomeLocation.longitude),
+        zoom: 12.0,
+      );
+
+  double _currentZoom = 12.0;
+  LatLng _currentCenter = LatLng(HomeLocation.latitude, HomeLocation.longitude);
 
   // Helper: extract stops from the Route model in a backward/forward compatible way.
   List<dynamic> _stopsForRoute(api.Route route) {
@@ -131,52 +137,67 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
       );
     }
 
+    // Build marker and polyline sets
+    final routePolylines = <Polyline>{};
+    final stopMarkers = <Marker>{};
+    final busMarkers = <Marker>{};
+
+    if (widget.showRoutes) {
+      final polylines = _buildRoutePolylines();
+      routePolylines.addAll(polylines);
+    }
+
+    if (widget.showStops) {
+      stopMarkers.addAll(_buildStopMarkers());
+    }
+
+    if (widget.showBuses) {
+      busMarkers.addAll(
+        busLocationsAsync.when(
+          data: (busLocations) => _buildBusMarkers(busLocations),
+          loading: () => <Marker>{},
+          error: (error, stack) => <Marker>{},
+        ),
+      );
+    }
+
     return Stack(
       children: [
-        // Main map
-        FlutterMap(
-          mapController: _mapController,
-          options: const MapOptions(
-            // Default center (Kolkata - home location)
-            initialCenter: LatLng(HomeLocation.latitude, HomeLocation.longitude),
-            initialZoom: 12.0,
-            minZoom: 5.0,
-            maxZoom: 18.0,
-          ),
-          children: [
-            // Base map tiles - Google Maps (roadmap view)
-            TileLayer(
-              urlTemplate: 'https://mt.google.com/vt/lyrs=m&x={x}&y={y}&z={z}&key=$googleMapsApiKey',
-              userAgentPackageName: 'com.imperial.easypool.frontend',
-              additionalOptions: const {
-                'key': googleMapsApiKey,
-              },
-            ),
-
-            // Route polylines layer
-            if (widget.showRoutes) _buildRouteLayer(),
-
-            // Bus stop markers layer
-            if (widget.showStops) _buildStopLayer(),
-
-            // Bus position markers layer
-            if (widget.showBuses) busLocationsAsync.when(
-              data: (busLocations) => _buildBusLayer(busLocations),
-              loading: () => const SizedBox.shrink(), // Don't show loading for buses
-              error: (error, stack) => const SizedBox.shrink(), // Don't show error for buses
-            ),
-          ],
+        GoogleMap(
+          initialCameraPosition: _initialCamera(),
+          onMapCreated: (controller) => _mapController = controller,
+          onCameraMove: (position) {
+            _currentZoom = position.zoom;
+            _currentCenter = position.target;
+          },
+          markers: {...stopMarkers, ...busMarkers},
+          polylines: routePolylines,
+          myLocationEnabled: true,
+          myLocationButtonEnabled: true,
+          mapType: MapType.normal,
+          zoomControlsEnabled: false,
         ),
 
-        // Zoom controls (positioned on map)
-        MapZoomControls(mapController: _mapController),
+        MapZoomControls(
+          onZoomIn: () async {
+            final zoom = (_currentZoom + 1).clamp(5.0, 18.0);
+            await _mapController?.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: _currentCenter, zoom: zoom)));
+          },
+          onZoomOut: () async {
+            final zoom = (_currentZoom - 1).clamp(5.0, 18.0);
+            await _mapController?.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: _currentCenter, zoom: zoom)));
+          },
+          onCenterHome: () async {
+            await _mapController?.animateCamera(CameraUpdate.newCameraPosition(_initialCamera()));
+          },
+        ),
       ],
     );
   }
 
   /// Build route polylines layer
-  Widget _buildRouteLayer() {
-    final polylines = <Polyline>[];
+  Set<Polyline> _buildRoutePolylines() {
+    final polylines = <Polyline>{};
 
   for (final route in widget.routes) {
       // Skip if in focus mode and not selected
@@ -228,27 +249,24 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
           ? 1.0
           : 0.4;
 
-      polylines.add(
-        Polyline(
-          points: points,
-          color: Color.fromRGBO(
-            (color.r * 255.0).round(),
-            (color.g * 255.0).round(),
-            (color.b * 255.0).round(),
-            opacity,
-          ),
-          strokeWidth: route.routeId == widget.selectedRouteId ? 6.0 : 4.0,
-          // TODO: Handle dashed pattern from route.linePattern
+      polylines.add(Polyline(
+        polylineId: PolylineId(route.routeId ?? math.Random().nextInt(1 << 30).toString()),
+        points: points.map((p) => LatLng(p.latitude, p.longitude)).toList(),
+        color: Color.fromRGBO(
+          (color.r * 255.0).round(),
+          (color.g * 255.0).round(),
+          (color.b * 255.0).round(),
+          opacity,
         ),
-      );
+        width: route.routeId == widget.selectedRouteId ? 6 : 4,
+      ));
     }
-
-    return PolylineLayer(polylines: polylines);
+    return polylines;
   }
 
   /// Build bus stop markers layer
-  Widget _buildStopLayer() {
-    final markers = <Marker>[];
+  Set<Marker> _buildStopMarkers() {
+    final markers = <Marker>{};
 
     for (final route in widget.routes) {
       final stops = _stopsForRoute(route);
@@ -282,27 +300,20 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
           continue;
         }
 
-        markers.add(
-          Marker(
-            point: LatLng(lat, lon),
-            width: 30,
-            height: 30,
-            child: Icon(
-              Icons.location_on,
-              color: RouteColors.fromHex('#0072B2'),
-              size: 24,
-            ),
-          ),
-        );
+        markers.add(Marker(
+    markerId: MarkerId('stop_${lat}_${lon}_${markers.length}'),
+          position: LatLng(lat, lon),
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
+          infoWindow: InfoWindow(title: 'Stop'),
+        ));
       }
     }
-
-    return MarkerLayer(markers: markers);
+    return markers;
   }
 
   /// Build bus position markers layer
-  Widget _buildBusLayer(List<Map<String, dynamic>> busLocations) {
-    final markers = <Marker>[];
+  Set<Marker> _buildBusMarkers(List<Map<String, dynamic>> busLocations) {
+    final markers = <Marker>{};
 
     for (final busFeature in busLocations) {
       final geometry = busFeature['geometry'] as Map<String, dynamic>;
@@ -326,27 +337,15 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
           markerColor = Colors.blue;
       }
 
-      markers.add(
-        Marker(
-          point: LatLng(latitude, longitude),
-          width: 40,
-          height: 40,
-          child: Container(
-            decoration: BoxDecoration(
-              color: markerColor.withOpacity(0.8),
-              shape: BoxShape.circle,
-              border: Border.all(color: Colors.white, width: 2),
-            ),
-            child: const Icon(
-              Icons.directions_bus,
-              color: Colors.white,
-              size: 20,
-            ),
-          ),
+      markers.add(Marker(
+        markerId: MarkerId('bus_${properties['id'] ?? markers.length}'),
+        position: LatLng(latitude, longitude),
+        icon: BitmapDescriptor.defaultMarkerWithHue(
+          status.toLowerCase() == 'active' ? BitmapDescriptor.hueGreen : BitmapDescriptor.hueRed,
         ),
-      );
+        infoWindow: InfoWindow(title: properties['name']?.toString() ?? 'Bus'),
+      ));
     }
-
-    return MarkerLayer(markers: markers);
+    return markers;
   }
 }

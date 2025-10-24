@@ -98,7 +98,7 @@ class PatchedRoute {
   )
 
 
-  final String? stopCount;
+  final int? stopCount;
 
 
 
@@ -110,7 +110,7 @@ class PatchedRoute {
   )
 
 
-  final String? totalStudents;
+  final int? totalStudents;
 
 
 
