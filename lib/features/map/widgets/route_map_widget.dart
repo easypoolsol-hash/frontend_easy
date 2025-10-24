@@ -1,12 +1,13 @@
-import 'package:frontend_easy_api/frontend_easy_api.dart' as api;
-import 'dart:convert';
+import 'dart:math' as math;
 
+import 'package:frontend_easy_api/frontend_easy_api.dart' as api;
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
 
-import 'maps_config.dart';
+import 'package:frontend_easy/features/map/widgets/maps_config.dart';
+import 'package:frontend_easy/features/map/widgets/map_zoom_controls.dart';
 import 'package:frontend_easy/core/theme/route_colors.dart';
 import 'package:frontend_easy/features/fleet/models/map_mode.dart';
 import 'package:frontend_easy/features/fleet/providers/bus_locations_provider.dart';
@@ -130,38 +131,45 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
       );
     }
 
-    return FlutterMap(
-      mapController: _mapController,
-      options: const MapOptions(
-        // Default center (Kolkata - home location)
-        initialCenter: LatLng(HomeLocation.latitude, HomeLocation.longitude),
-        // TODO: Replace with a configurable location provider
-        initialZoom: 12.0,
-        minZoom: 5.0,
-        maxZoom: 18.0,
-      ),
+    return Stack(
       children: [
-        // Base map tiles - Google Maps (roadmap view)
-        TileLayer(
-          urlTemplate: 'https://mt.google.com/vt/lyrs=m&x={x}&y={y}&z={z}&key=$googleMapsApiKey',
-          userAgentPackageName: 'com.imperial.easypool.frontend',
-          additionalOptions: {
-            'key': googleMapsApiKey,
-          },
+        // Main map
+        FlutterMap(
+          mapController: _mapController,
+          options: const MapOptions(
+            // Default center (Kolkata - home location)
+            initialCenter: LatLng(HomeLocation.latitude, HomeLocation.longitude),
+            initialZoom: 12.0,
+            minZoom: 5.0,
+            maxZoom: 18.0,
+          ),
+          children: [
+            // Base map tiles - Google Maps (roadmap view)
+            TileLayer(
+              urlTemplate: 'https://mt.google.com/vt/lyrs=m&x={x}&y={y}&z={z}&key=$googleMapsApiKey',
+              userAgentPackageName: 'com.imperial.easypool.frontend',
+              additionalOptions: const {
+                'key': googleMapsApiKey,
+              },
+            ),
+
+            // Route polylines layer
+            if (widget.showRoutes) _buildRouteLayer(),
+
+            // Bus stop markers layer
+            if (widget.showStops) _buildStopLayer(),
+
+            // Bus position markers layer
+            if (widget.showBuses) busLocationsAsync.when(
+              data: (busLocations) => _buildBusLayer(busLocations),
+              loading: () => const SizedBox.shrink(), // Don't show loading for buses
+              error: (error, stack) => const SizedBox.shrink(), // Don't show error for buses
+            ),
+          ],
         ),
 
-        // Route polylines layer
-        if (widget.showRoutes) _buildRouteLayer(),
-
-        // Bus stop markers layer
-        if (widget.showStops) _buildStopLayer(),
-
-        // Bus position markers layer
-        if (widget.showBuses) busLocationsAsync.when(
-          data: (busLocations) => _buildBusLayer(busLocations),
-          loading: () => const SizedBox.shrink(), // Don't show loading for buses
-          error: (error, stack) => const SizedBox.shrink(), // Don't show error for buses
-        ),
+        // Zoom controls (positioned on map)
+        MapZoomControls(mapController: _mapController),
       ],
     );
   }
