@@ -44,36 +44,23 @@ class LoginNotifier extends StateNotifier<AsyncValue<LoginState>> {
     try {
       final apiService = ApiService();
 
-      // Workaround: Send raw JSON to avoid including readOnly fields
-      // TODO: Regenerate API client with proper optional handling
+      // Session-based login for web dashboard
+      // No JWT tokens - uses session cookie instead
       final response = await apiService.client.dio.post<Map<String, dynamic>>(
-        '/api/v1/auth/token/',
+        '/api/v1/users/session_login/',
         data: {
           'username': username,
           'password': password,
-          // Don't send access/refresh - they're readOnly response fields
         },
       );
 
       if (response.statusCode == 200 && response.data != null) {
-        final accessToken = response.data!['access'];
-        final refreshToken = response.data!['refresh'];
+        // Session cookie is automatically set by browser
+        // No need to store tokens manually
 
-        if (accessToken != null && refreshToken != null) {
-          // Use AuthService to store tokens
-          await AuthService().storeTokens(
-            accessToken: accessToken,
-            refreshToken: refreshToken,
-          );
-
-          state = const AsyncValue.data(LoginState(isSuccess: true));
-          if (context.mounted) {
-            context.go('/');
-          }
-        } else {
-          state = const AsyncValue.data(LoginState(
-            errorMessage: 'Invalid response: missing tokens',
-          ));
+        state = const AsyncValue.data(LoginState(isSuccess: true));
+        if (context.mounted) {
+          context.go('/');
         }
       } else {
         state = AsyncValue.data(LoginState(

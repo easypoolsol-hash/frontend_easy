@@ -96,6 +96,8 @@ Method | HTTP request | Description
 [**apiV1UsersMeRetrieve**](ApiApi.md#apiv1usersmeretrieve) | **GET** /api/v1/users/me/ | 
 [**apiV1UsersPartialUpdate**](ApiApi.md#apiv1userspartialupdate) | **PATCH** /api/v1/users/{user_id}/ | 
 [**apiV1UsersRetrieve**](ApiApi.md#apiv1usersretrieve) | **GET** /api/v1/users/{user_id}/ | 
+[**apiV1UsersSessionLoginCreate**](ApiApi.md#apiv1userssessionlogincreate) | **POST** /api/v1/users/session_login/ | 
+[**apiV1UsersSessionLogoutCreate**](ApiApi.md#apiv1userssessionlogoutcreate) | **POST** /api/v1/users/session_logout/ | 
 [**apiV1UsersUpdate**](ApiApi.md#apiv1usersupdate) | **PUT** /api/v1/users/{user_id}/ | 
 [**kioskCheckUpdates**](ApiApi.md#kioskcheckupdates) | **GET** /api/v1/kiosks/{kiosk_id}/check-updates/ | 
 [**kioskDownloadSnapshot**](ApiApi.md#kioskdownloadsnapshot) | **GET** /api/v1/kiosks/{kiosk_id}/snapshot/ | 
@@ -3903,6 +3905,8 @@ Name | Type | Description  | Notes
 
 
 
+JWT-based login for MOBILE APPS and FUTURE USE ONLY  IMPORTANT: frontend_easy (web dashboard) uses session_login instead!  This endpoint returns JWT tokens for stateless authentication. Use cases: Future mobile apps, third-party integrations  For web dashboard: Use session_login endpoint For kiosks: Use /api/v1/kiosk/activate/ endpoint
+
 ### Example
 ```dart
 import 'package:frontend_easy_api/api.dart';
@@ -4121,6 +4125,100 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiV1UsersSessionLoginCreate**
+> User apiV1UsersSessionLoginCreate(user)
+
+
+
+Session-based login for web dashboard (frontend_easy)  This endpoint creates a Django session instead of returning JWT tokens. Session cookie is automatically sent by browser with subsequent requests.  Endpoint: POST /api/v1/users/session_login/ Auth Method: Username + Password Response: Session cookie (automatically set by Django)  Use this for web-only applications (frontend_easy dashboard) Use JWT login for mobile apps and kiosk devices
+
+### Example
+```dart
+import 'package:frontend_easy_api/api.dart';
+// TODO Configure API key authorization: cookieAuth
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+
+final api = FrontendEasyApi().getApiApi();
+final User user = ; // User | 
+
+try {
+    final response = api.apiV1UsersSessionLoginCreate(user);
+    print(response);
+} catch on DioException (e) {
+    print('Exception when calling ApiApi->apiV1UsersSessionLoginCreate: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **user** | [**User**](User.md)|  | 
+
+### Return type
+
+[**User**](User.md)
+
+### Authorization
+
+[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json, application/x-www-form-urlencoded, multipart/form-data
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiV1UsersSessionLogoutCreate**
+> User apiV1UsersSessionLogoutCreate(user)
+
+
+
+Session-based logout for web dashboard (frontend_easy)  Destroys Django session and clears session cookie. No request body needed - session authentication automatic.
+
+### Example
+```dart
+import 'package:frontend_easy_api/api.dart';
+// TODO Configure API key authorization: cookieAuth
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+
+final api = FrontendEasyApi().getApiApi();
+final User user = ; // User | 
+
+try {
+    final response = api.apiV1UsersSessionLogoutCreate(user);
+    print(response);
+} catch on DioException (e) {
+    print('Exception when calling ApiApi->apiV1UsersSessionLogoutCreate: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **user** | [**User**](User.md)|  | 
+
+### Return type
+
+[**User**](User.md)
+
+### Authorization
+
+[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json, application/x-www-form-urlencoded, multipart/form-data
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

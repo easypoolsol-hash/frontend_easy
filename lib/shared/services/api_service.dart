@@ -3,7 +3,7 @@ import 'package:frontend_easy/core/config/api_config.dart';
 import 'package:frontend_easy/shared/services/auth_interceptor.dart';
 
 /// API Service - Centralized HTTP client with security features
-/// - Automatic token refresh on 401
+/// - Session-based authentication (cookies)
 /// - Secure token storage
 /// - Environment-based configuration
 class ApiService {
@@ -19,6 +19,9 @@ class ApiService {
   void initialize() {
     // Use environment-configured base URL
     _api = FrontendEasyApi(basePathOverride: ApiConfig.baseUrl);
+
+    // Enable cookie support for session authentication
+    _api.dio.options.extra['withCredentials'] = true;
 
     // Add automatic token refresh interceptor (Fortune 500 standard)
     _api.dio.interceptors.add(AuthInterceptor(_api.dio));

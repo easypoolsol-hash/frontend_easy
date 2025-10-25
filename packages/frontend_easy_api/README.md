@@ -153,6 +153,8 @@ Class | Method | HTTP request | Description
 [*ApiApi*](doc/ApiApi.md) | [**apiV1UsersMeRetrieve**](doc/ApiApi.md#apiv1usersmeretrieve) | **GET** /api/v1/users/me/ | 
 [*ApiApi*](doc/ApiApi.md) | [**apiV1UsersPartialUpdate**](doc/ApiApi.md#apiv1userspartialupdate) | **PATCH** /api/v1/users/{user_id}/ | 
 [*ApiApi*](doc/ApiApi.md) | [**apiV1UsersRetrieve**](doc/ApiApi.md#apiv1usersretrieve) | **GET** /api/v1/users/{user_id}/ | 
+[*ApiApi*](doc/ApiApi.md) | [**apiV1UsersSessionLoginCreate**](doc/ApiApi.md#apiv1userssessionlogincreate) | **POST** /api/v1/users/session_login/ | 
+[*ApiApi*](doc/ApiApi.md) | [**apiV1UsersSessionLogoutCreate**](doc/ApiApi.md#apiv1userssessionlogoutcreate) | **POST** /api/v1/users/session_logout/ | 
 [*ApiApi*](doc/ApiApi.md) | [**apiV1UsersUpdate**](doc/ApiApi.md#apiv1usersupdate) | **PUT** /api/v1/users/{user_id}/ | 
 [*ApiApi*](doc/ApiApi.md) | [**kioskCheckUpdates**](doc/ApiApi.md#kioskcheckupdates) | **GET** /api/v1/kiosks/{kiosk_id}/check-updates/ | 
 [*ApiApi*](doc/ApiApi.md) | [**kioskDownloadSnapshot**](doc/ApiApi.md#kioskdownloadsnapshot) | **GET** /api/v1/kiosks/{kiosk_id}/snapshot/ | 
