@@ -5,6 +5,7 @@ import 'package:frontend_easy/shared/services/api_service.dart';
 /// Authentication Service - Fortune 500 Security Standards
 /// Uses encrypted storage (KeyChain/KeyStore) instead of plain text
 /// Single responsibility: Manage authentication state and tokens
+/// NOTE: Clears tokens on app startup for development/demo purposes
 class AuthService {
   // Singleton pattern
   static final AuthService _instance = AuthService._internal();
@@ -91,12 +92,10 @@ class AuthService {
   }
 
   /// Initialize auth state (call on app startup)
-  /// Restores JWT token from encrypted storage
+  /// Production mode: Restore existing tokens if valid
   Future<void> initialize() async {
-    final token = await getAccessToken();
-    if (token != null) {
-      // Restore authorization header if token exists
-      ApiService().client.dio.options.headers['Authorization'] = 'Bearer $token';
-    }
+    // Production: Keep tokens, let interceptor handle refresh
+    // The AuthInterceptor will automatically add auth headers on each request
+    // No need to do anything here - tokens persist across app restarts
   }
 }

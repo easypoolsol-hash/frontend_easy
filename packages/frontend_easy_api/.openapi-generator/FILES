@@ -14,6 +14,7 @@ doc/BoardingEventNested.md
 doc/Bus.md
 doc/BusBasic.md
 doc/BusLocation.md
+doc/BusLocationsGeoJSONResponse.md
 doc/CheckUpdatesResponse.md
 doc/DashboardStats.md
 doc/DashboardStudentsResponse.md
@@ -38,6 +39,8 @@ doc/PaginatedStudentParentList.md
 doc/PaginatedStudentPhotoList.md
 doc/PaginatedUserList.md
 doc/Parent.md
+doc/ParentBusLocationsResponse.md
+doc/ParentsApi.md
 doc/PatchedAPIKey.md
 doc/PatchedBoardingEvent.md
 doc/PatchedBus.md
@@ -52,6 +55,7 @@ doc/Role.md
 doc/Route.md
 doc/RouteStop.md
 doc/School.md
+doc/SchoolDashboardApi.md
 doc/Student.md
 doc/StudentActivity.md
 doc/StudentParent.md
@@ -65,6 +69,8 @@ lib/frontend_easy_api.dart
 lib/src/api.dart
 lib/src/api/api_api.dart
 lib/src/api/kiosk_activation_api.dart
+lib/src/api/parents_api.dart
+lib/src/api/school_dashboard_api.dart
 lib/src/auth/api_key_auth.dart
 lib/src/auth/auth.dart
 lib/src/auth/basic_auth.dart
@@ -82,6 +88,7 @@ lib/src/model/boarding_event_nested.dart
 lib/src/model/bus.dart
 lib/src/model/bus_basic.dart
 lib/src/model/bus_location.dart
+lib/src/model/bus_locations_geo_json_response.dart
 lib/src/model/check_updates_response.dart
 lib/src/model/dashboard_stats.dart
 lib/src/model/dashboard_students_response.dart
@@ -105,6 +112,7 @@ lib/src/model/paginated_student_parent_list.dart
 lib/src/model/paginated_student_photo_list.dart
 lib/src/model/paginated_user_list.dart
 lib/src/model/parent.dart
+lib/src/model/parent_bus_locations_response.dart
 lib/src/model/patched_api_key.dart
 lib/src/model/patched_boarding_event.dart
 lib/src/model/patched_bus.dart

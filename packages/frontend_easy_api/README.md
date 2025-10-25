@@ -160,6 +160,8 @@ Class | Method | HTTP request | Description
 [*ApiApi*](doc/ApiApi.md) | [**kioskLog**](doc/ApiApi.md#kiosklog) | **POST** /api/v1/kiosks/logs/ | 
 [*ApiApi*](doc/ApiApi.md) | [**kioskUpdateLocation**](doc/ApiApi.md#kioskupdatelocation) | **POST** /api/v1/kiosks/{kiosk_id}/location/ | 
 [*KioskActivationApi*](doc/KioskActivationApi.md) | [**kioskActivate**](doc/KioskActivationApi.md#kioskactivate) | **POST** /api/v1/kiosks/activate/ | 
+[*ParentsApi*](doc/ParentsApi.md) | [**parentBusLocations**](doc/ParentsApi.md#parentbuslocations) | **GET** /api/v1/parent/my-buses/ | 
+[*SchoolDashboardApi*](doc/SchoolDashboardApi.md) | [**schoolBusLocationsList**](doc/SchoolDashboardApi.md#schoolbuslocationslist) | **GET** /api/v1/school/api/bus-locations/ | 
 
 
 ## Documentation For Models
@@ -175,6 +177,7 @@ Class | Method | HTTP request | Description
  - [Bus](doc/Bus.md)
  - [BusBasic](doc/BusBasic.md)
  - [BusLocation](doc/BusLocation.md)
+ - [BusLocationsGeoJSONResponse](doc/BusLocationsGeoJSONResponse.md)
  - [CheckUpdatesResponse](doc/CheckUpdatesResponse.md)
  - [DashboardStats](doc/DashboardStats.md)
  - [DashboardStudentsResponse](doc/DashboardStudentsResponse.md)
@@ -198,6 +201,7 @@ Class | Method | HTTP request | Description
  - [PaginatedStudentPhotoList](doc/PaginatedStudentPhotoList.md)
  - [PaginatedUserList](doc/PaginatedUserList.md)
  - [Parent](doc/Parent.md)
+ - [ParentBusLocationsResponse](doc/ParentBusLocationsResponse.md)
  - [PatchedAPIKey](doc/PatchedAPIKey.md)
  - [PatchedBoardingEvent](doc/PatchedBoardingEvent.md)
  - [PatchedBus](doc/PatchedBus.md)

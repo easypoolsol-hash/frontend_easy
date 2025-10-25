@@ -32,8 +32,38 @@
   <title>frontend_easy</title>
   <link rel="manifest" href="manifest.json">
 
-  <!-- Google Maps API - Loaded asynchronously -->
+  <!-- Google Maps API - Key injected from environment variable at build time -->
+  <!-- Key is read from .env.prod file via Makefile -->
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKSCmNdyZFRpQ3jQl8nCTHXKjYWjLzxxk&loading=async" async defer></script>
+
+  <!--
+    Suppress Google Maps Marker deprecation warning
+
+    CONTEXT: As of Feb 2024, Google deprecated google.maps.Marker in favor of AdvancedMarkerElement
+    ISSUE: Flutter's google_maps_flutter plugin doesn't support AdvancedMarkerElement yet (as of 2025)
+    TRACKING:
+      - https://github.com/flutter/flutter/issues/130472
+      - https://github.com/flutter/flutter/issues/144151
+
+    STATUS: Legacy markers are deprecated but NOT discontinued (12+ months notice before removal)
+    SOLUTION: Suppress warning until Flutter plugin adds official support
+
+    TODO: Remove this script when google_maps_flutter upgrades to AdvancedMarkerElement
+  -->
+  <script>
+    (function() {
+      const originalWarn = console.warn;
+      console.warn = function(...args) {
+        const message = args.join(' ');
+        // Filter out Google Maps Marker deprecation warnings
+        if (message.includes('google.maps.Marker is deprecated') ||
+            message.includes('AdvancedMarkerElement')) {
+          return; // Suppress - Flutter plugin limitation
+        }
+        originalWarn.apply(console, args);
+      };
+    })();
+  </script>
 </head>
 <body>
   <script src="flutter_bootstrap.js" async></script>

@@ -11,6 +11,8 @@ export 'package:frontend_easy_api/src/auth/oauth.dart';
 
 export 'package:frontend_easy_api/src/api/api_api.dart';
 export 'package:frontend_easy_api/src/api/kiosk_activation_api.dart';
+export 'package:frontend_easy_api/src/api/parents_api.dart';
+export 'package:frontend_easy_api/src/api/school_dashboard_api.dart';
 
 export 'package:frontend_easy_api/src/model/api_key.dart';
 export 'package:frontend_easy_api/src/model/api_key_create.dart';
@@ -23,6 +25,7 @@ export 'package:frontend_easy_api/src/model/boarding_event_nested.dart';
 export 'package:frontend_easy_api/src/model/bus.dart';
 export 'package:frontend_easy_api/src/model/bus_basic.dart';
 export 'package:frontend_easy_api/src/model/bus_location.dart';
+export 'package:frontend_easy_api/src/model/bus_locations_geo_json_response.dart';
 export 'package:frontend_easy_api/src/model/check_updates_response.dart';
 export 'package:frontend_easy_api/src/model/dashboard_stats.dart';
 export 'package:frontend_easy_api/src/model/dashboard_students_response.dart';
@@ -46,6 +49,7 @@ export 'package:frontend_easy_api/src/model/paginated_student_parent_list.dart';
 export 'package:frontend_easy_api/src/model/paginated_student_photo_list.dart';
 export 'package:frontend_easy_api/src/model/paginated_user_list.dart';
 export 'package:frontend_easy_api/src/model/parent.dart';
+export 'package:frontend_easy_api/src/model/parent_bus_locations_response.dart';
 export 'package:frontend_easy_api/src/model/patched_api_key.dart';
 export 'package:frontend_easy_api/src/model/patched_boarding_event.dart';
 export 'package:frontend_easy_api/src/model/patched_bus.dart';

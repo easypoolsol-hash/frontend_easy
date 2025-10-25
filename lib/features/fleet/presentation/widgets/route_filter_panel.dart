@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:frontend_easy/features/fleet/models/map_mode.dart';
+import 'package:frontend_easy/features/fleet/presentation/widgets/bus_selector_widget.dart';
 
 /// Filter and control panel for route visualization
 /// Context-aware controls based on current map mode
@@ -15,11 +16,23 @@ class RouteFilterPanel extends StatefulWidget {
   /// Parameters: (showRoutes, showStops, showBuses)
   final void Function(bool, bool, bool) onVisibilityChanged;
 
+  /// Callback when bus selection changes
+  final void Function(String? busId)? onBusSelected;
+
+  /// Callback when focus on bus is requested
+  final VoidCallback? onFocusBusRequested;
+
+  /// Currently selected bus ID
+  final String? selectedBusId;
+
   /// Creates a route filter panel
   const RouteFilterPanel({
     required this.currentMode,
     required this.onClose,
     required this.onVisibilityChanged,
+    this.onBusSelected,
+    this.onFocusBusRequested,
+    this.selectedBusId,
     super.key,
   });
 
@@ -160,27 +173,13 @@ class _RouteFilterPanelState extends State<RouteFilterPanel> {
 
                 const Divider(height: 32),
 
-                // Quick actions
-                Text(
-                  'Quick Actions',
-                  style: Theme.of(context).textTheme.titleSmall,
-                ),
-                const SizedBox(height: 8),
-                OutlinedButton.icon(
-                  onPressed: () {
-                    // TODO: Show all active routes
-                  },
-                  icon: const Icon(Icons.visibility),
-                  label: const Text('Show All Active'),
-                ),
-                const SizedBox(height: 8),
-                OutlinedButton.icon(
-                  onPressed: () {
-                    // TODO: Hide all
-                  },
-                  icon: const Icon(Icons.visibility_off),
-                  label: const Text('Hide All'),
-                ),
+                // Bus Selection
+                if (widget.onBusSelected != null)
+                  BusSelectorWidget(
+                    selectedBusId: widget.selectedBusId,
+                    onBusSelected: widget.onBusSelected!,
+                    onFocusRequested: widget.onFocusBusRequested,
+                  ),
               ],
             ),
           ),

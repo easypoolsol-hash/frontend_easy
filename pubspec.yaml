@@ -43,7 +43,7 @@ dependencies:
   go_router: ^14.6.2
 
   # Map Visualization
-  google_maps_flutter: ^2.3.0
+  google_maps_flutter: ^2.13.1  # Latest compatible version (2.15+ not yet on pub.dev)
 
   # Networking
   dio: ^5.7.0

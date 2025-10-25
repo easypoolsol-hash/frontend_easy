@@ -1305,6 +1305,35 @@ paths:
                   status:
                     type: string
           description: ''
+  /api/v1/parent/my-buses/:
+    get:
+      operationId: parent_bus_locations
+      description: "\n    **Fortune 500 IAM-style Parent Bus Locations**\n\n    Returns\
+        \ bus locations ONLY for buses assigned to the parent's children.\n\n    **Authorization:**\n\
+        \    - Requires authentication (JWT token)\n    - Requires role: parent\n\
+        \    - Filters results by parent-child-bus assignments\n    - Zero-trust:\
+        \ Parents can ONLY see their own children's buses\n\n    **Response:**\n \
+        \   GeoJSON FeatureCollection with bus location points\n    "
+      tags:
+      - Parents
+      security:
+      - jwtAuth: []
+      - KioskJWTAuth: []
+      - cookieAuth: []
+      - Bearer: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParentBusLocationsResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                description: Access denied - not a parent or not authenticated
+          description: ''
   /api/v1/parents/:
     get:
       operationId: api_v1_parents_list
@@ -1800,6 +1829,38 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Route'
+          description: ''
+  /api/v1/school/api/bus-locations/:
+    get:
+      operationId: school_bus_locations_list
+      description: "\n    **Fortune 500 IAM-style School Bus Locations (Admin Only)**\n\
+        \n    Returns real-time bus locations for ALL buses in the fleet.\n\n    **Authorization:**\n\
+        \    - Requires authentication (JWT token)\n    - Requires role: school_admin\
+        \ OR super_admin\n    - Returns ALL bus locations (full visibility for admins)\n\
+        \n    **For Parents:**\n    Parents should use `/api/v1/users/parent/my-buses/`\
+        \ instead (filtered by child assignment)\n\n    **Response:**\n    GeoJSON\
+        \ FeatureCollection with bus location points including:\n    - Real-time GPS\
+        \ coordinates\n    - Bus status, speed, heading\n    - Last update timestamp\n\
+        \    "
+      tags:
+      - School Dashboard
+      security:
+      - jwtAuth: []
+      - KioskJWTAuth: []
+      - cookieAuth: []
+      - Bearer: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BusLocationsGeoJSONResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                description: Access denied - not school_admin or super_admin
           description: ''
   /api/v1/schools/:
     get:
@@ -3403,6 +3464,20 @@ components:
       - location_id
       - longitude
       - timestamp
+    BusLocationsGeoJSONResponse:
+      type: object
+      properties:
+        type:
+          type: string
+          default: FeatureCollection
+        features:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+          description: GeoJSON features array
+      required:
+      - features
     CheckUpdatesResponse:
       type: object
       description: Serializer for check updates response
@@ -3990,6 +4065,20 @@ components:
       - name
       - parent_id
       - phone
+    ParentBusLocationsResponse:
+      type: object
+      properties:
+        type:
+          type: string
+          default: FeatureCollection
+        features:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+          description: GeoJSON features array
+      required:
+      - features
     PatchedAPIKey:
       type: object
       properties:

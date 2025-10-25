@@ -35,15 +35,23 @@ class RouteMapWidget extends ConsumerStatefulWidget {
   /// Whether to show buses layer
   final bool showBuses;
 
+  /// Selected bus ID to focus on (null = show all buses)
+  final String? selectedBusId;
+
+  /// Callback when bus marker is tapped
+  final void Function(String busId, double lat, double lon)? onBusTapped;
+
   /// Creates a route map widget
   const RouteMapWidget({
     required this.routes,
     required this.buses,
     required this.mode,
     this.selectedRouteId,
+    this.selectedBusId,
     this.showRoutes = true,
     this.showStops = true,
     this.showBuses = true,
+    this.onBusTapped,
     super.key,
   });
 
@@ -306,30 +314,47 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
 
       final longitude = (coordinates[0] as num).toDouble();
       final latitude = (coordinates[1] as num).toDouble();
+      final busId = properties['id']?.toString() ?? 'bus_${markers.length}';
       final status = properties['status'] as String;
+      final busName = properties['name']?.toString() ?? 'Bus';
 
-      // Choose color based on bus status
-      Color markerColor;
-      switch (status.toLowerCase()) {
-        case 'active':
-          markerColor = Colors.green;
-          break;
-        case 'inactive':
-          markerColor = Colors.red;
-          break;
-        default:
-          markerColor = Colors.blue;
+      // Filter: Only show this bus if no filter is active or this bus is selected
+      if (widget.selectedBusId != null && busId != widget.selectedBusId) {
+        continue; // Skip this bus
       }
 
+      // Determine marker color and alpha based on selection
+      final isSelected = widget.selectedBusId == busId;
+      final markerHue = status.toLowerCase() == 'active'
+          ? BitmapDescriptor.hueGreen
+          : BitmapDescriptor.hueRed;
+
       markers.add(Marker(
-        markerId: MarkerId('bus_${properties['id'] ?? markers.length}'),
+        markerId: MarkerId('bus_$busId'),
         position: LatLng(latitude, longitude),
-        icon: BitmapDescriptor.defaultMarkerWithHue(
-          status.toLowerCase() == 'active' ? BitmapDescriptor.hueGreen : BitmapDescriptor.hueRed,
+        icon: BitmapDescriptor.defaultMarkerWithHue(markerHue),
+        infoWindow: InfoWindow(
+          title: busName,
+          snippet: isSelected ? 'Selected • $status' : status,
         ),
-        infoWindow: InfoWindow(title: properties['name']?.toString() ?? 'Bus'),
+        onTap: () {
+          // Notify parent when bus is tapped
+          widget.onBusTapped?.call(busId, latitude, longitude);
+        },
       ));
     }
     return markers;
+  }
+
+  /// Focus camera on specific coordinates
+  Future<void> focusOnLocation(double latitude, double longitude, {double zoom = 15.0}) async {
+    await _mapController?.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: LatLng(latitude, longitude),
+          zoom: zoom,
+        ),
+      ),
+    );
   }
 }

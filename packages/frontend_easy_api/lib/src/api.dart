@@ -9,6 +9,8 @@ import 'package:frontend_easy_api/src/auth/bearer_auth.dart';
 import 'package:frontend_easy_api/src/auth/oauth.dart';
 import 'package:frontend_easy_api/src/api/api_api.dart';
 import 'package:frontend_easy_api/src/api/kiosk_activation_api.dart';
+import 'package:frontend_easy_api/src/api/parents_api.dart';
+import 'package:frontend_easy_api/src/api/school_dashboard_api.dart';
 
 class FrontendEasyApi {
   static const String basePath = r'http://localhost:8000';
@@ -71,5 +73,17 @@ class FrontendEasyApi {
   /// by doing that all interceptors will not be executed
   KioskActivationApi getKioskActivationApi() {
     return KioskActivationApi(dio);
+  }
+
+  /// Get ParentsApi instance, base route and serializer can be overridden by a given but be careful,
+  /// by doing that all interceptors will not be executed
+  ParentsApi getParentsApi() {
+    return ParentsApi(dio);
+  }
+
+  /// Get SchoolDashboardApi instance, base route and serializer can be overridden by a given but be careful,
+  /// by doing that all interceptors will not be executed
+  SchoolDashboardApi getSchoolDashboardApi() {
+    return SchoolDashboardApi(dio);
   }
 }

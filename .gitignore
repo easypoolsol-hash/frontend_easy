@@ -51,7 +51,6 @@ app.*.map.json
 
 # API Keys and Secrets (NEVER commit these!)
 .env
-assets/.env
 lib/core/config/maps_config.dart
 
 # OpenAPI Schema (copied from backend via git hook)

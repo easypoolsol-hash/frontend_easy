@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:frontend_easy/features/auth/presentation/screens/login_screen.dart';
 import 'package:frontend_easy/features/home/presentation/screens/home_screen.dart';
 import 'package:frontend_easy/features/home/presentation/screens/boarding_events_screen.dart';
+import 'package:frontend_easy/features/map/presentation/screens/map_screen.dart';
 import 'package:frontend_easy/features/fleet/presentation/screens/route_map_screen.dart';
 import 'package:frontend_easy/features/school/presentation/screens/dashboard_screen.dart';
 import 'package:frontend_easy/shared/services/auth_service.dart';
@@ -45,6 +46,13 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         name: 'home',
         pageBuilder: (context, state) => const MaterialPage(
           child: HomeScreen(),
+        ),
+      ),
+      GoRoute(
+        path: '/map',
+        name: 'map',
+        pageBuilder: (context, state) => const MaterialPage(
+          child: MapScreen(),
         ),
       ),
       GoRoute(

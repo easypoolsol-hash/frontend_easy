@@ -6,10 +6,10 @@ class AppTheme {
   // Private constructor to prevent instantiation
   AppTheme._();
 
-  /// Primary color palette (Blue - colorblind safe)
-  static const Color primaryColor = Color(0xFF0072B2);
-  static const Color primaryLight = Color(0xFF56B4E9);
-  static const Color primaryDark = Color(0xFF004A73);
+  /// Primary color palette (Bus Yellow - warm, professional)
+  static const Color primaryColor = Color(0xFFE6A800);
+  static const Color primaryLight = Color(0xFFF5C842);
+  static const Color primaryDark = Color(0xFFB88600);
 
   /// Surface colors for dark mode (using dark gray, not pure black)
   static const Color surfaceDark = Color(0xFF121212);

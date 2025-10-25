@@ -35,15 +35,7 @@ class AppTopNavBar extends StatelessWidget {
                 color: Theme.of(context).colorScheme.primaryContainer,
                 borderRadius: BorderRadius.circular(6),
               ),
-              child: Image.asset(
-                'assets/images/logo.png',
-                fit: BoxFit.contain,
-                errorBuilder: (context, error, stackTrace) => const Icon(
-                  Icons.school,
-                  color: Colors.blue,
-                  size: 18,
-                ),
-              ),
+              child: const _LogoWidget(),
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -151,5 +143,23 @@ class AppTopNavBar extends StatelessWidget {
         context.go('/login');
       }
     }
+  }
+}
+
+/// Logo widget that gracefully handles missing logo files
+class _LogoWidget extends StatelessWidget {
+  const _LogoWidget();
+
+  @override
+  Widget build(BuildContext context) {
+    return Image.asset(
+      'assets/images/logo.png',
+      fit: BoxFit.contain,
+      errorBuilder: (context, error, stackTrace) => const Icon(
+        Icons.school,
+        color: Colors.blue,
+        size: 18,
+      ),
+    );
   }
 }

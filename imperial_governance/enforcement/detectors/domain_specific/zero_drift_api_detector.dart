@@ -48,11 +48,14 @@ class ZeroDriftApiDetector extends RecursiveAstVisitor<void> {
     print('📂 Scanning service files for hardcoded API calls...\n');
 
     // Scan main service directories for frontend_easy
+    // Include providers, services, repositories, data layers
     final serviceDirs = [
       'lib/services',
       'lib/repositories',
       'lib/data',
       'lib/api',
+      'lib/features',  // Scan all feature modules for providers/services
+      'lib/shared',    // Scan shared services
     ];
 
     var filesScanned = 0;

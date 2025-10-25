@@ -9,8 +9,8 @@ import 'dart:io';
 void main() async {
   _printHeader();
 
-  // Find all detector files
-  final detectorsDir = Directory('frontend_easy/imperial_governance/enforcement/detectors');
+  // Find all detector files (relative to current working directory)
+  final detectorsDir = Directory('imperial_governance/enforcement/detectors');
   final detectorFiles = await _findAllDetectors(detectorsDir);
 
   if (detectorFiles.isEmpty) {

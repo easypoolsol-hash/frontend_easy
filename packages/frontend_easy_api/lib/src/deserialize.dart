@@ -9,6 +9,7 @@ import 'package:frontend_easy_api/src/model/boarding_event_nested.dart';
 import 'package:frontend_easy_api/src/model/bus.dart';
 import 'package:frontend_easy_api/src/model/bus_basic.dart';
 import 'package:frontend_easy_api/src/model/bus_location.dart';
+import 'package:frontend_easy_api/src/model/bus_locations_geo_json_response.dart';
 import 'package:frontend_easy_api/src/model/check_updates_response.dart';
 import 'package:frontend_easy_api/src/model/dashboard_stats.dart';
 import 'package:frontend_easy_api/src/model/dashboard_students_response.dart';
@@ -32,6 +33,7 @@ import 'package:frontend_easy_api/src/model/paginated_student_parent_list.dart';
 import 'package:frontend_easy_api/src/model/paginated_student_photo_list.dart';
 import 'package:frontend_easy_api/src/model/paginated_user_list.dart';
 import 'package:frontend_easy_api/src/model/parent.dart';
+import 'package:frontend_easy_api/src/model/parent_bus_locations_response.dart';
 import 'package:frontend_easy_api/src/model/patched_api_key.dart';
 import 'package:frontend_easy_api/src/model/patched_boarding_event.dart';
 import 'package:frontend_easy_api/src/model/patched_bus.dart';
@@ -96,6 +98,8 @@ final _regMap = RegExp(r'^Map<String,(.*)>$');
           return BusBasic.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'BusLocation':
           return BusLocation.fromJson(value as Map<String, dynamic>) as ReturnType;
+        case 'BusLocationsGeoJSONResponse':
+          return BusLocationsGeoJSONResponse.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'CheckUpdatesResponse':
           return CheckUpdatesResponse.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'DashboardStats':
@@ -142,6 +146,8 @@ final _regMap = RegExp(r'^Map<String,(.*)>$');
           return PaginatedUserList.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'Parent':
           return Parent.fromJson(value as Map<String, dynamic>) as ReturnType;
+        case 'ParentBusLocationsResponse':
+          return ParentBusLocationsResponse.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'PatchedAPIKey':
           return PatchedAPIKey.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'PatchedBoardingEvent':

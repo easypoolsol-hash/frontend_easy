@@ -1,30 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:frontend_easy/features/fleet/models/map_mode.dart';
-import 'package:frontend_easy/features/fleet/presentation/widgets/route_filter_panel.dart';
 import 'package:frontend_easy/features/fleet/providers/routes_provider.dart';
 import 'package:frontend_easy/features/fleet/providers/buses_provider.dart';
 import 'package:frontend_easy/features/map/widgets/route_map_widget.dart';
+import 'package:frontend_easy/features/fleet/models/map_mode.dart';
+import 'package:frontend_easy/features/fleet/presentation/widgets/route_filter_panel.dart';
 import 'package:frontend_easy/shared/widgets/app_top_nav_bar.dart';
 import 'package:frontend_easy/shared/widgets/map_controls_widget.dart';
 
-/// Main screen for route and fleet visualization
-/// Displays interactive map with multiple view modes
-class RouteMapScreen extends ConsumerStatefulWidget {
-  /// Creates the route map screen
-  const RouteMapScreen({super.key});
+/// Home screen - displays the map with controls
+/// Follows Single Responsibility: Only orchestrates map display
+class HomeScreen extends ConsumerStatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  ConsumerState<RouteMapScreen> createState() => _RouteMapScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _RouteMapScreenState extends ConsumerState<RouteMapScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   MapMode _selectedMode = MapMode.overview;
-  bool _showFilterPanel = false;
   bool _showRoutes = true;
   bool _showStops = true;
   bool _showBuses = true;
+  bool _showFilterPanel = false;
   String? _selectedBusId;
   double? _selectedBusLat;
   double? _selectedBusLon;
@@ -63,37 +62,32 @@ class _RouteMapScreenState extends ConsumerState<RouteMapScreen> {
                   borderRadius: BorderRadius.circular(12),
                   child: Stack(
                     children: [
-                      // Map view with data
                       routesAsync.when(
-                        data: (routes) {
-                          return busesAsync.when(
-                            data: (buses) {
-                              return RouteMapWidget(
-                                routes: routes,
-                                buses: buses,
-                                mode: _selectedMode,
-                                showRoutes: _showRoutes,
-                                showStops: _showStops,
-                                showBuses: _showBuses,
-                                selectedBusId: _selectedBusId,
-                                onBusTapped: (busId, lat, lon) {
-                                  setState(() {
-                                    _selectedBusId = busId;
-                                    _selectedBusLat = lat;
-                                    _selectedBusLon = lon;
-                                  });
-                                },
-                              );
+                        data: (routes) => busesAsync.when(
+                          data: (buses) => RouteMapWidget(
+                            routes: routes,
+                            buses: buses,
+                            mode: _selectedMode,
+                            showRoutes: _showRoutes,
+                            showStops: _showStops,
+                            showBuses: _showBuses,
+                            selectedBusId: _selectedBusId,
+                            onBusTapped: (busId, lat, lon) {
+                              setState(() {
+                                _selectedBusId = busId;
+                                _selectedBusLat = lat;
+                                _selectedBusLon = lon;
+                              });
                             },
-                            loading: () => _buildLoadingIndicator(),
-                            error: (error, stack) => _buildError('Failed to load buses: $error'),
-                          );
-                        },
+                          ),
+                          loading: () => _buildLoadingIndicator(),
+                          error: (error, stack) => _buildError('Failed to load buses: $error'),
+                        ),
                         loading: () => _buildLoadingIndicator(),
                         error: (error, stack) => _buildError('Failed to load routes: $error'),
                       ),
 
-                      // Filter panel (right side) - unique to RouteMapScreen
+                      // Filter panel (right side)
                       if (_showFilterPanel)
                         Positioned(
                           top: 0,
@@ -121,10 +115,7 @@ class _RouteMapScreenState extends ConsumerState<RouteMapScreen> {
                               });
                             },
                             onFocusBusRequested: () {
-                              // Focus on selected bus if we have coordinates
-                              if (_selectedBusLat != null && _selectedBusLon != null) {
-                                // The RouteMapWidget will auto-focus since selectedBusId changed
-                              }
+                              // Bus will be focused automatically when selectedBusId changes
                             },
                           ),
                         ),
@@ -140,16 +131,13 @@ class _RouteMapScreenState extends ConsumerState<RouteMapScreen> {
   }
 
   Widget _buildLoadingIndicator() {
-    return Center(
+    return const Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const CircularProgressIndicator(),
-          const SizedBox(height: 16),
-          Text(
-            'Loading map data...',
-            style: Theme.of(context).textTheme.bodyLarge,
-          ),
+          CircularProgressIndicator(),
+          SizedBox(height: 16),
+          Text('Loading map data...'),
         ],
       ),
     );
@@ -160,15 +148,14 @@ class _RouteMapScreenState extends ConsumerState<RouteMapScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
+          const Icon(
             Icons.error_outline,
             size: 64,
-            color: Theme.of(context).colorScheme.error,
+            color: Colors.grey,
           ),
           const SizedBox(height: 16),
           Text(
             message,
-            style: Theme.of(context).textTheme.bodyLarge,
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 16),
@@ -185,5 +172,3 @@ class _RouteMapScreenState extends ConsumerState<RouteMapScreen> {
     );
   }
 }
-
-
