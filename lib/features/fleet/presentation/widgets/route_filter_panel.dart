@@ -48,15 +48,18 @@ class _RouteFilterPanelState extends State<RouteFilterPanel> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.zero,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(16),
-          bottomLeft: Radius.circular(16),
+    // Absorb pointer events to prevent clicks from passing through to map
+    return GestureDetector(
+      onTap: () {}, // Absorb all tap events
+      child: Card(
+        margin: EdgeInsets.zero,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(16),
+            bottomLeft: Radius.circular(16),
+          ),
         ),
-      ),
-      child: Column(
+        child: Column(
         children: [
           // Header
           Container(
@@ -184,6 +187,7 @@ class _RouteFilterPanelState extends State<RouteFilterPanel> {
             ),
           ),
         ],
+      ),
       ),
     );
   }
