@@ -38,6 +38,9 @@ class RouteMapWidget extends ConsumerStatefulWidget {
   /// Selected bus ID to focus on (null = show all buses)
   final String? selectedBusId;
 
+  /// Trigger to focus on selected bus (increment to trigger focus)
+  final int? focusTrigger;
+
   /// Callback when bus marker is tapped
   final void Function(String busId, double lat, double lon)? onBusTapped;
 
@@ -48,6 +51,7 @@ class RouteMapWidget extends ConsumerStatefulWidget {
     required this.mode,
     this.selectedRouteId,
     this.selectedBusId,
+    this.focusTrigger,
     this.showRoutes = true,
     this.showStops = true,
     this.showBuses = true,
@@ -61,13 +65,62 @@ class RouteMapWidget extends ConsumerStatefulWidget {
 
 class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
   GoogleMapController? _mapController;
-  CameraPosition _initialCamera() => CameraPosition(
+  CameraPosition _initialCamera() => const CameraPosition(
         target: LatLng(HomeLocation.latitude, HomeLocation.longitude),
         zoom: 12.0,
       );
 
   double _currentZoom = 12.0;
-  LatLng _currentCenter = LatLng(HomeLocation.latitude, HomeLocation.longitude);
+  LatLng _currentCenter = const LatLng(HomeLocation.latitude, HomeLocation.longitude);
+
+  @override
+  void didUpdateWidget(RouteMapWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    // Check if focus trigger changed
+    if (widget.focusTrigger != null &&
+        widget.focusTrigger != oldWidget.focusTrigger &&
+        widget.selectedBusId != null) {
+      _focusOnSelectedBus();
+    }
+  }
+
+  /// Focus camera on the selected bus
+  Future<void> _focusOnSelectedBus() async {
+    if (_mapController == null || widget.selectedBusId == null) return;
+
+    // Get bus locations and find the selected bus
+    final busLocationsAsync = ref.read(busLocationsProvider);
+
+    await busLocationsAsync.when(
+      data: (busLocations) async {
+        for (final busFeature in busLocations) {
+          final properties = busFeature['properties'] as Map<String, dynamic>;
+          final busId = properties['id']?.toString();
+
+          if (busId == widget.selectedBusId) {
+            final geometry = busFeature['geometry'] as Map<String, dynamic>;
+            final coordinates = geometry['coordinates'] as List<dynamic>;
+            final lon = (coordinates[0] as num).toDouble();
+            final lat = (coordinates[1] as num).toDouble();
+
+            // Animate camera to bus location
+            await _mapController?.animateCamera(
+              CameraUpdate.newCameraPosition(
+                CameraPosition(
+                  target: LatLng(lat, lon),
+                  zoom: 15.0, // Zoom in closer for focused view
+                ),
+              ),
+            );
+            break;
+          }
+        }
+      },
+      loading: () async {},
+      error: (_, __) async {},
+    );
+  }
 
   // Helper: extract stops from the Route model (converts BuiltList to List)
   List<dynamic> _stopsForRoute(api.Route route) {
@@ -296,7 +349,7 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
     markerId: MarkerId('stop_${lat}_${lon}_${markers.length}'),
           position: LatLng(lat, lon),
           icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
-          infoWindow: InfoWindow(title: 'Stop'),
+          infoWindow: const InfoWindow(title: 'Stop'),
         ));
       }
     }

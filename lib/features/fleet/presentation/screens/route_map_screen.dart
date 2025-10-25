@@ -26,8 +26,7 @@ class _RouteMapScreenState extends ConsumerState<RouteMapScreen> {
   bool _showStops = true;
   bool _showBuses = true;
   String? _selectedBusId;
-  double? _selectedBusLat;
-  double? _selectedBusLon;
+  int _focusTrigger = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -76,11 +75,10 @@ class _RouteMapScreenState extends ConsumerState<RouteMapScreen> {
                                 showStops: _showStops,
                                 showBuses: _showBuses,
                                 selectedBusId: _selectedBusId,
+                                focusTrigger: _focusTrigger,
                                 onBusTapped: (busId, lat, lon) {
                                   setState(() {
                                     _selectedBusId = busId;
-                                    _selectedBusLat = lat;
-                                    _selectedBusLon = lon;
                                   });
                                 },
                               );
@@ -121,10 +119,10 @@ class _RouteMapScreenState extends ConsumerState<RouteMapScreen> {
                               });
                             },
                             onFocusBusRequested: () {
-                              // Focus on selected bus if we have coordinates
-                              if (_selectedBusLat != null && _selectedBusLon != null) {
-                                // The RouteMapWidget will auto-focus since selectedBusId changed
-                              }
+                              // Trigger focus by incrementing the counter
+                              setState(() {
+                                _focusTrigger++;
+                              });
                             },
                           ),
                         ),
