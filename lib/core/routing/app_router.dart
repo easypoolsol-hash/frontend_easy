@@ -6,6 +6,8 @@ import 'package:frontend_easy/features/auth/presentation/screens/login_screen.da
 import 'package:frontend_easy/features/home/presentation/screens/home_screen.dart';
 import 'package:frontend_easy/features/home/presentation/screens/boarding_events_screen.dart';
 import 'package:frontend_easy/features/fleet/presentation/screens/route_map_screen.dart';
+import 'package:frontend_easy/features/school/presentation/screens/school_dashboard_redesigned_screen.dart';
+import 'package:frontend_easy/features/school/presentation/screens/fleet_status_screen.dart';
 import 'package:frontend_easy/shared/services/auth_service.dart';
 
 /// Application routing configuration using go_router
@@ -58,6 +60,20 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         name: 'boarding',
         pageBuilder: (context, state) => const MaterialPage(
           child: BoardingEventsScreen(),
+        ),
+      ),
+      GoRoute(
+        path: '/school',
+        name: 'school',
+        pageBuilder: (context, state) => const MaterialPage(
+          child: SchoolDashboardRedesignedScreen(),
+        ),
+      ),
+      GoRoute(
+        path: '/fleet-status',
+        name: 'fleet-status',
+        pageBuilder: (context, state) => const MaterialPage(
+          child: FleetStatusScreen(),
         ),
       ),
       // Future routes:

@@ -1,12 +1,21 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.18
+
+// ignore_for_file: unused_element, unused_import
+// ignore_for_file: always_put_required_named_parameters_first
+// ignore_for_file: constant_identifier_names
+// ignore_for_file: lines_longer_than_80_chars
+
+import 'package:openapi/api.dart';
 import 'package:test/test.dart';
-import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for PatchedRoute
 void main() {
-  final PatchedRoute? instance = /* PatchedRoute(...) */ null;
-  // TODO add properties to the entity
+  // final instance = PatchedRoute();
 
-  group(PatchedRoute, () {
+  group('test PatchedRoute', () {
     // UUID primary key
     // String routeId
     test('to test the property `routeId`', () async {
@@ -31,17 +40,17 @@ void main() {
       // TODO
     });
 
-    // String stopCount
+    // int stopCount
     test('to test the property `stopCount`', () async {
       // TODO
     });
 
-    // String totalStudents
+    // int totalStudents
     test('to test the property `totalStudents`', () async {
       // TODO
     });
 
-    // List<RouteStop> routeStops
+    // List<RouteStop> routeStops (default value: const [])
     test('to test the property `routeStops`', () async {
       // TODO
     });
@@ -58,5 +67,7 @@ void main() {
       // TODO
     });
 
+
   });
+
 }

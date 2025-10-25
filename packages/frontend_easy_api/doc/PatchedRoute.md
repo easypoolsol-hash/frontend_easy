@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 **isActive** | **bool** | Whether this route is currently active | [optional] 
 **stopCount** | **int** |  | [optional] 
 **totalStudents** | **int** |  | [optional] 
-**routeStops** | [**List&lt;RouteStop&gt;**](RouteStop.md) |  | [optional] 
+**routeStops** | [**BuiltList&lt;RouteStop&gt;**](RouteStop.md) |  | [optional] 
 **createdAt** | [**DateTime**](DateTime.md) | When this route was created | [optional] 
 **updatedAt** | [**DateTime**](DateTime.md) | When this route was last updated | [optional] 
 

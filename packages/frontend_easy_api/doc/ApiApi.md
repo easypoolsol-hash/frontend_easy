@@ -41,6 +41,8 @@ Method | HTTP request | Description
 [**apiV1BusesStudentsRetrieve**](ApiApi.md#apiv1busesstudentsretrieve) | **GET** /api/v1/buses/{bus_id}/students/ | 
 [**apiV1BusesUpdate**](ApiApi.md#apiv1busesupdate) | **PUT** /api/v1/buses/{bus_id}/ | 
 [**apiV1BusesUtilizationRetrieve**](ApiApi.md#apiv1busesutilizationretrieve) | **GET** /api/v1/buses/utilization/ | 
+[**apiV1DashboardStatsRetrieve**](ApiApi.md#apiv1dashboardstatsretrieve) | **GET** /api/v1/dashboard/stats/ | Get dashboard summary statistics
+[**apiV1DashboardStudentsRetrieve**](ApiApi.md#apiv1dashboardstudentsretrieve) | **GET** /api/v1/dashboard/students/ | Get students with boarding events
 [**apiV1KioskBoardingCreate**](ApiApi.md#apiv1kioskboardingcreate) | **POST** /api/v1/kiosk/boarding/ | 
 [**apiV1ParentsCreate**](ApiApi.md#apiv1parentscreate) | **POST** /api/v1/parents/ | 
 [**apiV1ParentsDestroy**](ApiApi.md#apiv1parentsdestroy) | **DELETE** /api/v1/parents/{parent_id}/ | 
@@ -431,7 +433,7 @@ Name | Type | Description  | Notes
 
 
 
-Read-only ViewSet for attendance records
+Read-only ViewSet for attendance records  PERMISSION: IsSchoolAdmin (school administrators only)  NOTE: Old permission was IsAuthenticated (too permissive!) Now using AWS-style deny-by-default with explicit permissions.
 
 ### Example
 ```dart
@@ -442,7 +444,7 @@ import 'package:frontend_easy_api/api.dart';
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
 final api = FrontendEasyApi().getApiApi();
-final DateTime date = 2013-10-20; // DateTime | 
+final Date date = 2013-10-20; // Date | 
 final int page = 56; // int | A page number within the paginated result set.
 final String status = status_example; // String | Overall attendance status  * `present` - Present * `absent` - Absent * `partial` - Partial
 final String student = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
@@ -459,7 +461,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **date** | **DateTime**|  | [optional] 
+ **date** | **Date**|  | [optional] 
  **page** | **int**| A page number within the paginated result set. | [optional] 
  **status** | **String**| Overall attendance status  * `present` - Present * `absent` - Absent * `partial` - Partial | [optional] 
  **student** | **String**|  | [optional] 
@@ -484,7 +486,7 @@ Name | Type | Description  | Notes
 
 
 
-Read-only ViewSet for attendance records
+Read-only ViewSet for attendance records  PERMISSION: IsSchoolAdmin (school administrators only)  NOTE: Old permission was IsAuthenticated (too permissive!) Now using AWS-style deny-by-default with explicit permissions.
 
 ### Example
 ```dart
@@ -844,7 +846,7 @@ Name | Type | Description  | Notes
 
 
 
-ViewSet for boarding events
+ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices only) - LIST/RETRIEVE/UPDATE/DELETE: IsSchoolAdmin (school admins only) - RECENT: IsSchoolAdmin (school admins only)  NOTE: Old permission was IsAuthenticated (too permissive!) Now using AWS-style deny-by-default with explicit permissions.
 
 ### Example
 ```dart
@@ -887,7 +889,7 @@ Name | Type | Description  | Notes
 
 
 
-ViewSet for boarding events
+ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices only) - LIST/RETRIEVE/UPDATE/DELETE: IsSchoolAdmin (school admins only) - RECENT: IsSchoolAdmin (school admins only)  NOTE: Old permission was IsAuthenticated (too permissive!) Now using AWS-style deny-by-default with explicit permissions.
 
 ### Example
 ```dart
@@ -929,7 +931,7 @@ void (empty response body)
 
 
 
-ViewSet for boarding events
+ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices only) - LIST/RETRIEVE/UPDATE/DELETE: IsSchoolAdmin (school admins only) - RECENT: IsSchoolAdmin (school admins only)  NOTE: Old permission was IsAuthenticated (too permissive!) Now using AWS-style deny-by-default with explicit permissions.
 
 ### Example
 ```dart
@@ -980,7 +982,7 @@ Name | Type | Description  | Notes
 
 
 
-ViewSet for boarding events
+ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices only) - LIST/RETRIEVE/UPDATE/DELETE: IsSchoolAdmin (school admins only) - RECENT: IsSchoolAdmin (school admins only)  NOTE: Old permission was IsAuthenticated (too permissive!) Now using AWS-style deny-by-default with explicit permissions.
 
 ### Example
 ```dart
@@ -1064,7 +1066,7 @@ This endpoint does not need any parameter.
 
 
 
-ViewSet for boarding events
+ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices only) - LIST/RETRIEVE/UPDATE/DELETE: IsSchoolAdmin (school admins only) - RECENT: IsSchoolAdmin (school admins only)  NOTE: Old permission was IsAuthenticated (too permissive!) Now using AWS-style deny-by-default with explicit permissions.
 
 ### Example
 ```dart
@@ -1107,7 +1109,7 @@ Name | Type | Description  | Notes
 
 
 
-ViewSet for boarding events
+ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices only) - LIST/RETRIEVE/UPDATE/DELETE: IsSchoolAdmin (school admins only) - RECENT: IsSchoolAdmin (school admins only)  NOTE: Old permission was IsAuthenticated (too permissive!) Now using AWS-style deny-by-default with explicit permissions.
 
 ### Example
 ```dart
@@ -1575,6 +1577,104 @@ This endpoint does not need any parameter.
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **apiV1DashboardStatsRetrieve**
+> DashboardStats apiV1DashboardStatsRetrieve(date)
+
+Get dashboard summary statistics
+
+Returns summary statistics for school dashboard (buses, students boarded). Cached for 10 seconds.
+
+### Example
+```dart
+import 'package:frontend_easy_api/api.dart';
+// TODO Configure API key authorization: cookieAuth
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+
+final api = FrontendEasyApi().getApiApi();
+final Date date = 2013-10-20; // Date | Date for stats (YYYY-MM-DD, default=today)
+
+try {
+    final response = api.apiV1DashboardStatsRetrieve(date);
+    print(response);
+} catch on DioException (e) {
+    print('Exception when calling ApiApi->apiV1DashboardStatsRetrieve: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **date** | **Date**| Date for stats (YYYY-MM-DD, default=today) | [optional] 
+
+### Return type
+
+[**DashboardStats**](DashboardStats.md)
+
+### Authorization
+
+[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiV1DashboardStudentsRetrieve**
+> DashboardStudentsResponse apiV1DashboardStudentsRetrieve(date, limit, offset)
+
+Get students with boarding events
+
+Returns paginated list of students who boarded on a specific date with all their events
+
+### Example
+```dart
+import 'package:frontend_easy_api/api.dart';
+// TODO Configure API key authorization: cookieAuth
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+
+final api = FrontendEasyApi().getApiApi();
+final Date date = 2013-10-20; // Date | Date filter (YYYY-MM-DD, default=today)
+final int limit = 56; // int | Number of students per page (default=50)
+final int offset = 56; // int | Offset for pagination (default=0)
+
+try {
+    final response = api.apiV1DashboardStudentsRetrieve(date, limit, offset);
+    print(response);
+} catch on DioException (e) {
+    print('Exception when calling ApiApi->apiV1DashboardStudentsRetrieve: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **date** | **Date**| Date filter (YYYY-MM-DD, default=today) | [optional] 
+ **limit** | **int**| Number of students per page (default=50) | [optional] 
+ **offset** | **int**| Offset for pagination (default=0) | [optional] 
+
+### Return type
+
+[**DashboardStudentsResponse**](DashboardStudentsResponse.md)
+
+### Authorization
+
+[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **apiV1KioskBoardingCreate**
 > ApiV1KioskBoardingCreate200Response apiV1KioskBoardingCreate(requestBody)
 
@@ -1591,7 +1691,7 @@ import 'package:frontend_easy_api/api.dart';
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
 final api = FrontendEasyApi().getApiApi();
-final Map<String, Object> requestBody = Object; // Map<String, Object> | 
+final BuiltMap<String, JsonObject> requestBody = Object; // BuiltMap<String, JsonObject> | 
 
 try {
     final response = api.apiV1KioskBoardingCreate(requestBody);
@@ -1605,7 +1705,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **requestBody** | [**Map&lt;String, Object&gt;**](Object.md)|  | [optional] 
+ **requestBody** | [**BuiltMap&lt;String, JsonObject&gt;**](JsonObject.md)|  | [optional] 
 
 ### Return type
 
@@ -4124,7 +4224,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **kioskDownloadSnapshot**
-> MultipartFile kioskDownloadSnapshot(kioskId)
+> Uint8List kioskDownloadSnapshot(kioskId)
 
 
 
@@ -4153,7 +4253,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**MultipartFile**](MultipartFile.md)
+[**Uint8List**](Uint8List.md)
 
 ### Authorization
 

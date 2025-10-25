@@ -47,7 +47,7 @@ class EnvironmentConfig {
 
   /// Imperial Governance directory
   static String get architecturePath {
-    final relativePath = Platform.environment['ARCH_RELATIVE_PATH'] ?? 'imperial_governance';
+    final relativePath = Platform.environment['ARCH_RELATIVE_PATH'] ?? 'frontend_easy/imperial_governance';
     // If we're already in imperial_governance directory or subdirectory, find it
     final currentDir = Directory.current.path;
     if (path.basename(currentDir) == 'imperial_governance') {
@@ -66,7 +66,7 @@ class EnvironmentConfig {
 
   /// Bus kiosk Flutter app directory
   static String get appPath {
-    final relativePath = Platform.environment['FLUTTER_APP_PATH'] ?? 'bus_kiok';
+    final relativePath = Platform.environment['FLUTTER_APP_PATH'] ?? 'bus_kiosk_easy';
     // If we're in imperial_governance, go up one level first
     final currentDir = Directory.current.path;
     if (currentDir.contains('imperial_governance')) {
@@ -166,10 +166,10 @@ class EnvironmentConfig {
 
     // Constitutional markers (in priority order)
     final markers = [
-      'bus_kiok/pubspec.yaml', // Flutter app marker (highest priority)
+      'bus_kiosk_easy/pubspec.yaml', // Flutter app marker (highest priority)
       'imperial_governance/constitutional_core/ssot.yaml', // SSOT file
       'DEVELOPMENT_PRINCIPLES.adoc', // Constitutional framework
-      'bus_kiok', // Flutter app directory
+      'bus_kiosk_easy', // Flutter app directory
       '.git', // Git repository
       'imperial_governance', // Architecture directory
       'pubspec.yaml', // Flutter project (lowest priority)

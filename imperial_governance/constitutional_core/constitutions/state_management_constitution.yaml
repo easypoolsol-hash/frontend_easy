@@ -1,0 +1,186 @@
+# ===========================================
+# CONSTITUTIONAL STATE MANAGEMENT
+# ===========================================
+# Constitutional Authority for State Management Patterns
+# This constitution defines approved state management approaches
+# Changes here require constitutional review
+
+# ===================
+# PRIMARY STATE MANAGEMENT FRAMEWORK (Constitutional)
+# ===================
+primary_framework:
+  name: flutter_riverpod
+  version: "2.4.9"
+  constitutional_approval: "Modern, type-safe reactive state management"
+  rationale: "Provides compile-time safety, testability, and separation of concerns"
+
+# ===================
+# APPROVED PROVIDER PATTERNS (Constitutional)
+# ===================
+provider_patterns:
+  StateNotifierProvider:
+    purpose: "Complex state management with AsyncValue"
+    use_case: "Authentication, form submissions, complex business logic"
+    signature: "StateNotifierProvider<NotifierT, StateT>"
+    example: |
+      final loginProvider = StateNotifierProvider<LoginNotifier, AsyncValue<LoginState>>((ref) {
+        return LoginNotifier(ref.read(authRepositoryProvider));
+      });
+
+  FutureProvider:
+    purpose: "One-time async data loading"
+    use_case: "API calls that don't need to be refreshed, initial data loading"
+    signature: "FutureProvider<T>"
+    example: |
+      final userProfileProvider = FutureProvider<UserProfile>((ref) async {
+        return ref.read(userRepositoryProvider).getProfile();
+      });
+
+  StreamProvider:
+    purpose: "Real-time data streams"
+    use_case: "WebSocket connections, real-time updates, live data feeds"
+    signature: "StreamProvider<T>"
+    example: |
+      final busLocationProvider = StreamProvider<BusLocation>((ref) {
+        return ref.read(busRepositoryProvider).watchLocation();
+      });
+
+  StateProvider:
+    purpose: "Simple local state"
+    use_case: "UI state, form inputs, simple toggles"
+    signature: "StateProvider<T>"
+    example: |
+      final selectedTabProvider = StateProvider<int>((ref) => 0);
+
+# ===================
+# ASYNCVALUE PATTERNS (Constitutional)
+# ===================
+asyncvalue_patterns:
+  required_usage:
+    - "All async operations must return AsyncValue<T>"
+    - "UI must handle all three states: data, loading, error"
+    - "Error states must be user-friendly and actionable"
+
+  ui_patterns:
+    when_pattern:
+      description: "Handle all AsyncValue states exhaustively"
+      example: |
+        return loginState.when(
+          data: (user) => HomeScreen(user: user),
+          loading: () => LoadingSpinner(),
+          error: (error, stack) => ErrorView(
+            message: 'Login failed: ${error.message}',
+            onRetry: () => ref.read(loginProvider.notifier).login(),
+          ),
+        );
+
+    maybeWhen_pattern:
+      description: "Handle optional async states with defaults"
+      example: |
+        return loginState.maybeWhen(
+          data: (user) => UserProfile(user: user),
+          orElse: () => LoginPrompt(),
+        );
+
+  state_notifier_patterns:
+    async_guard:
+      description: "Safely wrap async operations"
+      example: |
+        Future<void> login(String email, String password) async {
+          state = const AsyncValue.loading();
+          state = await AsyncValue.guard(() async {
+            final user = await ref.read(authRepositoryProvider).login(email, password);
+            return LoginState.loggedIn(user);
+          });
+        }
+
+# ===================
+# STATE CLASS PATTERNS (Constitutional)
+# ===================
+state_class_patterns:
+  freezed_requirement:
+    - "All state classes must use @freezed annotation"
+    - "Factory constructors must be const"
+    - "CopyWith, equality, and toString must be generated"
+
+  naming_conventions:
+    state_class: "{Feature}State"
+    notifier_class: "{Feature}Notifier"
+    provider_name: "{feature}Provider"
+
+  examples:
+    login_state: |
+      @freezed
+      class LoginState with _$LoginState {
+        const factory LoginState.initial() = _Initial;
+        const factory LoginState.loggedIn(User user) = _LoggedIn;
+        const factory LoginState.error(String message) = _Error;
+      }
+
+    login_notifier: |
+      class LoginNotifier extends StateNotifier<AsyncValue<LoginState>> {
+        LoginNotifier(this._authRepository) : super(const AsyncValue.data(LoginState.initial()));
+
+        final AuthRepository _authRepository;
+
+        Future<void> login(String email, String password) async {
+          state = const AsyncValue.loading();
+          state = await AsyncValue.guard(() async {
+            final user = await _authRepository.login(email, password);
+            return LoginState.loggedIn(user);
+          });
+        }
+      }
+
+# ===================
+# DEPENDENCY INJECTION RULES (Constitutional)
+# ===================
+dependency_injection:
+  repository_pattern:
+    - "Business logic must be in repositories"
+    - "Repositories must be provided via Riverpod"
+    - "UI must not access repositories directly"
+
+  service_layer:
+    - "Services must be stateless"
+    - "Services must be provided via Riverpod"
+    - "Complex operations must be in services"
+
+  provider_hierarchy:
+    - "Repository providers at the bottom"
+    - "Service providers in the middle"
+    - "UI state providers at the top"
+    - "Dependencies must flow downward"
+
+# ===================
+# TESTING PATTERNS (Constitutional)
+# ===================
+testing_patterns:
+  provider_overrides:
+    - "Use provider overrides for dependency injection in tests"
+    - "Mock repositories, not providers"
+    - "Test state changes, not implementation details"
+
+  widget_testing:
+    - "Use ProviderScope to provide test dependencies"
+    - "Test UI state changes through providers"
+    - "Verify error states are handled properly"
+
+# ===================
+# PERFORMANCE PATTERNS (Constitutional)
+# ===================
+performance_patterns:
+  provider_scoping:
+    - "Keep providers as close to usage as possible"
+    - "Use autoDispose for providers that should clean up"
+    - "Avoid global providers when possible"
+
+  state_updates:
+    - "Minimize state object size"
+    - "Use fine-grained providers for performance"
+    - "Avoid unnecessary rebuilds with select()"
+
+  memory_management:
+    - "Use WeakReference for circular dependencies"
+    - "Clean up subscriptions in dispose()"
+    - "Use family providers for parameterized dependencies"

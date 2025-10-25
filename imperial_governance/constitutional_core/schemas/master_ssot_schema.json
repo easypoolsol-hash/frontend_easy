@@ -1,0 +1,185 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://frontend-easy.constitutional.gov/schemas/master-ssot",
+  "title": "Frontend Easy Constitutional SSOT Schema",
+  "description": "Industrial-grade schema for Frontend Easy constitutional architecture",
+  "type": "object",
+  "required": ["system", "model_definitions", "services", "governance"],
+
+  "properties": {
+    "system": {
+      "type": "object",
+      "required": ["name", "version", "architecture"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "version": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"},
+        "architecture": {"enum": ["reactive_ui", "micro_frontends", "monolith"]},
+        "implementation_strategy": {"enum": ["incremental_by_feature", "big_bang", "strangler_fig"]}
+      },
+      "additionalProperties": false
+    },
+
+    "architectural_patterns": {
+      "type": "object",
+      "properties": {
+        "ui_patterns": {
+          "type": "object",
+          "required": ["pattern", "rules"],
+          "properties": {
+            "pattern": {"type": "string"},
+            "description": {"type": "string"},
+            "rules": {"type": "array", "items": {"type": "string"}},
+            "example": {"type": "string"},
+            "violations": {"type": "array", "items": {"type": "string"}}
+          }
+        },
+        "state_management": {
+          "type": "object",
+          "required": ["framework", "patterns"],
+          "properties": {
+            "framework": {"type": "string"},
+            "patterns": {"type": "array", "items": {"type": "string"}},
+            "forbidden": {"type": "array", "items": {"type": "string"}}
+          }
+        }
+      }
+    },
+
+    "enforcement_rules": {
+      "type": "object",
+      "properties": {
+        "allowed_class_patterns": {"type": "array", "items": {"type": "string"}},
+        "allowed_line_patterns": {"type": "array", "items": {"type": "string"}},
+        "forbidden_patterns": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+
+    "constitutions": {
+      "type": "object",
+      "patternProperties": {
+        "^[a-z_]+$": {"type": "string", "pattern": "^constitutional_core/constitutions/.*\\.yaml$"}
+      },
+      "additionalProperties": false
+    },
+
+    "model_definitions": {
+      "type": "object",
+      "patternProperties": {
+        "^[A-Z][a-zA-Z0-9]*$": {
+          "$ref": "#/$defs/ModelDefinition"
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "services": {
+      "type": "object",
+      "patternProperties": {
+        "^[a-z][a-z0-9_]*_service$": {
+          "$ref": "#/$defs/ServiceDefinition"
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "governance": {
+      "type": "object",
+      "required": ["error_handling", "development_modes"],
+      "properties": {
+        "error_handling": {"type": "array", "items": {"type": "string"}},
+        "development_modes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "description"],
+            "properties": {
+              "name": {"enum": ["local", "ci", "staging", "production"]},
+              "description": {"type": "string"}
+            }
+          }
+        }
+      }
+    },
+
+    "code_generation": {
+      "type": "object",
+      "required": ["target_language", "generate_always"],
+      "properties": {
+        "target_language": {"enum": ["dart", "typescript", "java", "python"]},
+        "generate_always": {"type": "array", "items": {"type": "string"}},
+        "output_structure": {
+          "type": "object",
+          "properties": {
+            "models": {"type": "string"},
+            "providers": {"type": "string"},
+            "interfaces": {"type": "string"}
+          }
+        }
+      }
+    }
+  },
+
+  "additionalProperties": false,
+
+  "$defs": {
+    "ModelDefinition": {
+      "type": "object",
+      "required": ["category"],
+      "oneOf": [
+        {
+          "properties": {
+            "category": {"enum": ["enum"]},
+            "values": {"type": "array", "items": {"type": "string"}}
+          }
+        },
+        {
+          "properties": {
+            "category": {"enum": ["dashboard", "fleet", "student", "auth", "ui", "config", "priority", "status"]},
+            "fields": {
+              "type": "object",
+              "patternProperties": {
+                "^[a-zA-Z][a-zA-Z0-9]*$": {
+                  "type": "string",
+                  "pattern": "^(String|int|double|bool|DateTime|List<[^>]+>|Map<String,\\s*[^>]+>)[!?]?$"
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        }
+      ],
+      "additionalProperties": false
+    },
+
+    "ServiceDefinition": {
+      "type": "object",
+      "required": ["provides"],
+      "properties": {
+        "provides": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "required": ["provider_name", "type"],
+                "properties": {
+                  "provider_name": {"type": "string", "pattern": "^[a-z][a-zA-Z0-9]*Provider$"},
+                  "type": {"type": "string", "pattern": "^(FutureProvider|StreamProvider|StateProvider|StateNotifierProvider)<.*>$"},
+                  "description": {"type": "string"}
+                },
+                "additionalProperties": false
+              }
+            ]
+          }
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "interface": {"type": "string"},
+        "implementation_pattern": {"type": "string"}
+      },
+      "additionalProperties": false
+    }
+  }
+}

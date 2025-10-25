@@ -3,153 +3,210 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:json_annotation/json_annotation.dart';
+import 'package:built_value/built_value.dart';
+import 'package:built_value/serializer.dart';
 
 part 'student_photo.g.dart';
 
+/// StudentPhoto
+///
+/// Properties:
+/// * [photoId] 
+/// * [student] 
+/// * [photo] - Student photo file
+/// * [isPrimary] - Primary photo for student
+/// * [capturedAt] - When photo was taken
+/// * [studentDetails] 
+/// * [createdAt] 
+@BuiltValue()
+abstract class StudentPhoto implements Built<StudentPhoto, StudentPhotoBuilder> {
+  @BuiltValueField(wireName: r'photo_id')
+  String get photoId;
 
-@JsonSerializable(
-  checked: true,
-  createToJson: true,
-  disallowUnrecognizedKeys: false,
-  explicitToJson: true,
-)
-class StudentPhoto {
-  /// Returns a new [StudentPhoto] instance.
-  StudentPhoto({
+  @BuiltValueField(wireName: r'student')
+  String get student;
 
-    required  this.photoId,
+  /// Student photo file
+  @BuiltValueField(wireName: r'photo')
+  String? get photo;
 
-    required  this.student,
+  /// Primary photo for student
+  @BuiltValueField(wireName: r'is_primary')
+  bool? get isPrimary;
 
-     this.photo,
+  /// When photo was taken
+  @BuiltValueField(wireName: r'captured_at')
+  DateTime? get capturedAt;
 
-     this.isPrimary,
+  @BuiltValueField(wireName: r'student_details')
+  String get studentDetails;
 
-     this.capturedAt,
+  @BuiltValueField(wireName: r'created_at')
+  DateTime get createdAt;
 
-    required  this.studentDetails,
+  StudentPhoto._();
 
-    required  this.createdAt,
-  });
+  factory StudentPhoto([void updates(StudentPhotoBuilder b)]) = _$StudentPhoto;
 
-  @JsonKey(
-    
-    name: r'photo_id',
-    required: true,
-    includeIfNull: false,
-  )
+  @BuiltValueHook(initializeBuilder: true)
+  static void _defaults(StudentPhotoBuilder b) => b;
 
+  @BuiltValueSerializer(custom: true)
+  static Serializer<StudentPhoto> get serializer => _$StudentPhotoSerializer();
+}
 
-  final String photoId;
-
-
-
-  @JsonKey(
-    
-    name: r'student',
-    required: true,
-    includeIfNull: false,
-  )
-
-
-  final String student;
-
-
-
-      /// Student photo file
-  @JsonKey(
-    
-    name: r'photo',
-    required: false,
-    includeIfNull: false,
-  )
-
-
-  final String? photo;
-
-
-
-      /// Primary photo for student
-  @JsonKey(
-    
-    name: r'is_primary',
-    required: false,
-    includeIfNull: false,
-  )
-
-
-  final bool? isPrimary;
-
-
-
-      /// When photo was taken
-  @JsonKey(
-    
-    name: r'captured_at',
-    required: false,
-    includeIfNull: false,
-  )
-
-
-  final DateTime? capturedAt;
-
-
-
-  @JsonKey(
-    
-    name: r'student_details',
-    required: true,
-    includeIfNull: false,
-  )
-
-
-  final String studentDetails;
-
-
-
-  @JsonKey(
-    
-    name: r'created_at',
-    required: true,
-    includeIfNull: false,
-  )
-
-
-  final DateTime createdAt;
-
-
-
-
-
-    @override
-    bool operator ==(Object other) => identical(this, other) || other is StudentPhoto &&
-      other.photoId == photoId &&
-      other.student == student &&
-      other.photo == photo &&
-      other.isPrimary == isPrimary &&
-      other.capturedAt == capturedAt &&
-      other.studentDetails == studentDetails &&
-      other.createdAt == createdAt;
-
-    @override
-    int get hashCode =>
-        photoId.hashCode +
-        student.hashCode +
-        (photo == null ? 0 : photo.hashCode) +
-        isPrimary.hashCode +
-        capturedAt.hashCode +
-        studentDetails.hashCode +
-        createdAt.hashCode;
-
-  factory StudentPhoto.fromJson(Map<String, dynamic> json) => _$StudentPhotoFromJson(json);
-
-  Map<String, dynamic> toJson() => _$StudentPhotoToJson(this);
+class _$StudentPhotoSerializer implements PrimitiveSerializer<StudentPhoto> {
+  @override
+  final Iterable<Type> types = const [StudentPhoto, _$StudentPhoto];
 
   @override
-  String toString() {
-    return toJson().toString();
+  final String wireName = r'StudentPhoto';
+
+  Iterable<Object?> _serializeProperties(
+    Serializers serializers,
+    StudentPhoto object, {
+    FullType specifiedType = FullType.unspecified,
+  }) sync* {
+    yield r'photo_id';
+    yield serializers.serialize(
+      object.photoId,
+      specifiedType: const FullType(String),
+    );
+    yield r'student';
+    yield serializers.serialize(
+      object.student,
+      specifiedType: const FullType(String),
+    );
+    if (object.photo != null) {
+      yield r'photo';
+      yield serializers.serialize(
+        object.photo,
+        specifiedType: const FullType.nullable(String),
+      );
+    }
+    if (object.isPrimary != null) {
+      yield r'is_primary';
+      yield serializers.serialize(
+        object.isPrimary,
+        specifiedType: const FullType(bool),
+      );
+    }
+    if (object.capturedAt != null) {
+      yield r'captured_at';
+      yield serializers.serialize(
+        object.capturedAt,
+        specifiedType: const FullType(DateTime),
+      );
+    }
+    yield r'student_details';
+    yield serializers.serialize(
+      object.studentDetails,
+      specifiedType: const FullType(String),
+    );
+    yield r'created_at';
+    yield serializers.serialize(
+      object.createdAt,
+      specifiedType: const FullType(DateTime),
+    );
   }
 
+  @override
+  Object serialize(
+    Serializers serializers,
+    StudentPhoto object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+  }
+
+  void _deserializeProperties(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+    required List<Object?> serializedList,
+    required StudentPhotoBuilder result,
+    required List<Object?> unhandled,
+  }) {
+    for (var i = 0; i < serializedList.length; i += 2) {
+      final key = serializedList[i] as String;
+      final value = serializedList[i + 1];
+      switch (key) {
+        case r'photo_id':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.photoId = valueDes;
+          break;
+        case r'student':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.student = valueDes;
+          break;
+        case r'photo':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
+          result.photo = valueDes;
+          break;
+        case r'is_primary':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(bool),
+          ) as bool;
+          result.isPrimary = valueDes;
+          break;
+        case r'captured_at':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(DateTime),
+          ) as DateTime;
+          result.capturedAt = valueDes;
+          break;
+        case r'student_details':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.studentDetails = valueDes;
+          break;
+        case r'created_at':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(DateTime),
+          ) as DateTime;
+          result.createdAt = valueDes;
+          break;
+        default:
+          unhandled.add(key);
+          unhandled.add(value);
+          break;
+      }
+    }
+  }
+
+  @override
+  StudentPhoto deserialize(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = StudentPhotoBuilder();
+    final serializedList = (serialized as Iterable<Object?>).toList();
+    final unhandled = <Object?>[];
+    _deserializeProperties(
+      serializers,
+      serialized,
+      specifiedType: specifiedType,
+      serializedList: serializedList,
+      unhandled: unhandled,
+      result: result,
+    );
+    return result.build();
+  }
 }
 

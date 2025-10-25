@@ -8,6 +8,7 @@ additional-properties:
   pubName: frontend_easy_api
   pubAuthor: Imperial EasyPool Team
   pubVersion: 1.0.0
+  pubDescription: Auto-generated API client for Frontend Easy
   useEnumExtension: true
   enumUnknownDefaultCase: true
   nullableFields: true
@@ -15,3 +16,5 @@ additional-properties:
   legacyDiscriminatorBehavior: false
   serializationLibrary: json_serializable
   wrapper: dio
+  supportDart3: true
+  minSdkVersion: "3.9.0"

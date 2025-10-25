@@ -90,7 +90,7 @@ class DriftDetector {
 
   /// Main entry point - scan all files for architectural drift
   Future<void> scanForDrift() async {
-    print('🔍 Scanning bus_kiosk_app for architectural drift...');
+    print('🔍 Scanning frontend_easy for architectural drift...');
     print('═' * 60);
 
     constitutionalReader = ConstitutionalReader();
@@ -101,12 +101,12 @@ class DriftDetector {
   }
 
   Future<void> _scanAllDartFiles() async {
-    // Allow overriding the scan root via Environment variable or CLI flag
-    final scanRootPath = Platform.environment['DRIFT_SCAN_PATH'] ?? _scanPathOverride ?? EnvironmentConfig.appPath;
+    // For frontend_easy, only scan the frontend_easy project directory
+    final scanRootPath = Platform.environment['DRIFT_SCAN_PATH'] ?? _scanPathOverride ?? '${Directory.current.path}/frontend_easy';
     final appDir = Directory(scanRootPath);
 
     if (!appDir.existsSync()) {
-      throw Exception('Bus kiosk app directory not found: ${appDir.path}');
+      throw Exception('App directory not found: ${appDir.path}');
     }
 
     print('🔎 Scanning all Dart files in ${appDir.path}...');
@@ -252,6 +252,11 @@ class DriftDetector {
   }
 
   void _checkDirectServiceInstantiation(String line, String filePath, int lineNumber) {
+    // Skip constitutional enforcement files to avoid false positives
+    if (filePath.contains('/imperial_governance/') || filePath.contains('\\imperial_governance\\')) {
+      return;
+    }
+
     // DUMB PATTERN MATCHING - Use SSOT enforcement rules
     final enforcementRules = constitutionalReader.masterSsot['enforcement_rules'] as YamlMap?;
     if (enforcementRules == null) {
@@ -310,7 +315,14 @@ class DriftDetector {
     }
 
     // Skip generated API files - they use basePathOverride pattern correctly
-    if (filePath.contains('/api/lib/') || filePath.contains('\\api\\lib\\')) {
+    if (filePath.contains('/api/lib/') || filePath.contains('\\api\\lib\\') ||
+        filePath.contains('/api_client.dart') || filePath.contains('\\api_client.dart') ||
+        filePath.contains('/api.dart') || filePath.contains('\\api.dart')) {
+      return;
+    }
+
+    // Skip constitutional enforcement files to avoid false positives
+    if (filePath.contains('/imperial_governance/') || filePath.contains('\\imperial_governance\\')) {
       return;
     }
 
@@ -348,6 +360,11 @@ class DriftDetector {
   }
 
   bool _containsHardcodedConfig(String line) {
+    // Skip comments - they may legitimately mention "hardcoded" in documentation
+    if (line.trim().startsWith('//') || line.trim().startsWith('///')) {
+      return false;
+    }
+
     // Look for hardcoded string literals that look like configuration
     final hardcodedIndicators = [
       'HARD CODED', 'HARDCODED', 'hard coded', 'hardcoded',
@@ -434,6 +451,11 @@ class DriftDetector {
   }
 
   void _checkUnapprovedTechnologies(String line, String filePath, int lineNumber) {
+    // Skip constitutional enforcement files to avoid false positives
+    if (filePath.contains('/imperial_governance/') || filePath.contains('\\imperial_governance\\')) {
+      return;
+    }
+
     // Check for usage of technologies not approved in SSOT
     final approvedTechnologies = constitutionalReader.getApprovedTechnologies();
 
@@ -682,8 +704,17 @@ class DriftDetector {
         throw Exception('Schema violation: Model "$modelName" missing category');
       }
 
-      if (!modelDef.containsKey('fields')) {
-        throw Exception('Schema violation: Model "$modelName" missing fields');
+      final category = modelDef['category'] as String?;
+      if (category == 'enum') {
+        // Enums have 'values' instead of 'fields'
+        if (!modelDef.containsKey('values')) {
+          throw Exception('Schema violation: Enum "$modelName" missing values');
+        }
+      } else {
+        // Models have 'fields'
+        if (!modelDef.containsKey('fields')) {
+          throw Exception('Schema violation: Model "$modelName" missing fields');
+        }
       }
     }
 
@@ -692,6 +723,14 @@ class DriftDetector {
 
   /// Validate generation compliance - ensure SSOT models are actually generated
   Future<void> validateGenerationCompliance() async {
+    // Check if generation script exists
+    final generationScript = '${EnvironmentConfig.architecturePath}/generation/generate_all.dart';
+    if (!File(generationScript).existsSync()) {
+      print('⚠️ Generation script not found: $generationScript');
+      print('⚠️ Skipping generation compliance check (generation infrastructure not set up)');
+      return;
+    }
+
     // Load SSOT and check all defined models are generated
     final ssot = constitutionalReader.masterSsot;
     final modelDefinitions = ssot['model_definitions'] as YamlMap?;

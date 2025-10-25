@@ -13,11 +13,11 @@ Name | Type | Description | Notes
 **kioskId** | **String** | Kiosk device identifier | 
 **confidenceScore** | **double** | Face recognition confidence score (0.0-1.0) | 
 **timestamp** | [**DateTime**](DateTime.md) | When the boarding event occurred | 
-**gpsCoords** | **List&lt;double&gt;** | Return GPS coordinates as a tuple for compatibility | 
+**gpsCoords** | **BuiltList&lt;double&gt;** | Return GPS coordinates as a tuple for compatibility | 
 **busRoute** | **String** | Bus route identifier | [optional] 
 **faceImageUrl** | **String** | S3 URL to face image for verification (optional) | [optional] 
 **modelVersion** | **String** | Face recognition model version used | 
-**metadata** | **Object** | Additional metadata as JSON | [optional] 
+**metadata** | [**JsonObject**](.md) | Additional metadata as JSON | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -105,8 +105,8 @@ class SdkVersionDetector {
   Future<List<String>> _findPubspecFiles() async {
     final files = <String>[];
 
-    // Scan current directory and packages/
-    final dirsToScan = ['.', 'packages', 'imperial_governance'];
+    // For frontend_easy, only scan frontend_easy related directories
+    final dirsToScan = ['.', 'packages'];
 
     for (final dir in dirsToScan) {
       final directory = Directory(dir);
@@ -116,8 +116,12 @@ class SdkVersionDetector {
         if (entity is File && entity.path.endsWith('pubspec.yaml')) {
           // Skip test fixtures and build artifacts
           if (!entity.path.contains('test_fixtures') &&
-              !entity.path.contains('.dart_tool')) {
-            files.add(entity.path);
+              !entity.path.contains('.dart_tool') &&
+              !entity.path.contains('ephemeral')) {
+            // Only include files that are within frontend_easy scope
+            if (entity.path.contains('frontend_easy') || entity.path.startsWith('./') || entity.path.startsWith('packages/')) {
+              files.add(entity.path);
+            }
           }
         }
       }

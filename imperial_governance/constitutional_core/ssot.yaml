@@ -1,1 +1,347 @@
-# SSOT placeholder
+# ===========================================
+# CONSTITUTIONAL ARCHITECTURE SSOT - FRONTEND
+# ===========================================
+# Single Source of Truth for Frontend System Architecture
+# This is the SACRED CONSTITUTION - rarely changes
+# References other constitutions for complete governance
+
+system:
+  name: Imperial EasyPool Frontend
+  version: 1.0.0
+  architecture: riverpod_state_management
+  implementation_strategy: feature_driven_development
+
+# ===================
+# CONSTITUTIONAL IMPLEMENTATION PATTERNS
+# ===================
+# Defines approved architectural patterns for frontend implementations
+architectural_patterns:
+  state_management:
+    pattern: "riverpod_asyncvalue"
+    description: "All async operations must use AsyncValue for state management"
+    rules:
+      - "Use AsyncValue<T> for all async state"
+      - "Use .when() or .map() for rendering different states"
+      - "Never manually manage loading/error states"
+      - "Use Riverpod providers for state management"
+    example: |
+      // Constitutional pattern:
+      final myDataProvider = FutureProvider<SomeData>((ref) async {
+        return await someService.getData();
+      });
+
+      // In widget:
+      ref.watch(myDataProvider).when(
+        data: (data) => Text(data.name),
+        loading: () => CircularProgressIndicator(),
+        error: (err, stack) => Text('Error: $err'),
+      );
+    violations:
+      - "Manual bool isLoading state management"
+      - "Direct setState() for async operations"
+      - "Not using AsyncValue for async state"
+
+  model_serialization:
+    pattern: "freezed_json_serializable"
+    description: "All data models must use Freezed with JSON serialization"
+    rules:
+      - "All models must have @freezed annotation"
+      - "All models must have @JsonSerializable annotation"
+      - "Use freezed union types for complex state"
+      - "Generate serialization code with build_runner"
+    example: |
+      // Constitutional pattern:
+      @freezed
+      @JsonSerializable()
+      class MyModel with _$MyModel {
+        const factory MyModel({
+          required String id,
+          required String name,
+        }) = _MyModel;
+
+        factory MyModel.fromJson(Map<String, dynamic> json) =>
+            _$MyModelFromJson(json);
+      }
+    violations:
+      - "Models without @freezed annotation"
+      - "Models without @JsonSerializable annotation"
+      - "Manual JSON serialization methods"
+
+# ===================
+# MACHINE-READABLE ENFORCEMENT RULES
+# ===================
+# Exact patterns for dumb detector - no intelligence required
+enforcement_rules:
+  # ALLOWED PATTERNS - detector IGNORES these
+  allowed_class_patterns:
+    - "@freezed"                                    # Freezed models
+    - "@JsonSerializable"                          # JSON serializable models
+    - "class.*extends.*ConsumerWidget"             # Riverpod consumer widgets
+    - "class.*extends.*ConsumerState"              # Riverpod consumer state
+    - "class.*extends.*StateNotifier"              # Riverpod state notifiers
+    - "class.*extends.*ChangeNotifier"             # Change notifiers (legacy)
+    - "class.*extends.*Mock"                       # Test mocks
+    - "class Fake.*"                               # Fake implementations
+    - "class _LogoWidget extends StatefulWidget"   # Logo existence checker (simple async)
+    - "class RouteFilterPanel extends StatefulWidget" # Local filter state (UI-only)
+    - "class MapControlsWidget extends StatefulWidget" # Stateless widget (code smell, but working)
+
+  allowed_line_patterns:
+    - "AsyncValue<.*>\\.when\\("                    # AsyncValue.when usage
+    - "AsyncValue<.*>\\.map\\("                     # AsyncValue.map usage
+    - "ref\\.watch\\(.*Provider.*\\)"              # Riverpod provider watching
+    - "ref\\.read\\(.*Provider.*\\)"               # Riverpod provider reading
+    - "ref\\.listen\\(.*Provider.*\\)"             # Riverpod provider listening
+    - "@freezed"                                    # Freezed annotation
+    - "@JsonSerializable\\(\\)"                     # JSON serializable annotation
+    - "\\.fromJson\\("                              # JSON deserialization
+    - "\\.toJson\\(\\)"                             # JSON serialization
+    - "final.*Provider.*=.*Provider.*"              # Provider declarations
+    - "FutureProvider<.*>"                          # Future providers
+    - "StreamProvider<.*>"                          # Stream providers
+    - "StateNotifierProvider<.*>"                   # State notifier providers
+    - "//\\s*(?:TODO|FIXME).*"                      # Allow TODO/FIXME comments
+
+  # FORBIDDEN PATTERNS - detector FLAGS these
+  forbidden_patterns:
+    - "bool.*isLoading.*=.*true"                    # Manual loading state
+    - "bool.*isLoading.*=.*false"                   # Manual loading state
+    - "bool.*hasError.*=.*true"                     # Manual error state
+    - "bool.*hasError.*=.*false"                    # Manual error state
+    - "setState\\(\\(\\).*async.*\\}"              # setState with async
+    - "Future\\.delayed\\(.*\\).*setState"         # Delayed setState
+    - "class.*extends.*StatefulWidget.*{"          # Stateful widgets (prefer Riverpod)
+    - "StatefulWidget"                              # Stateful widgets
+    - "extends.*State<.*StatefulWidget"             # Stateful widget state
+
+# ===================
+# CONSTITUTIONAL REFERENCES
+# ===================
+constitutions:
+  technology: constitutional_core/constitutions/technology_constitution.yaml
+  configuration: constitutional_core/constitutions/config_constitution.yaml
+  ui: constitutional_core/constitutions/ui_constitution.yaml
+  state_management: constitutional_core/constitutions/state_management_constitution.yaml
+
+# ===================
+# CORE MODELS (Architecture Only)
+# ===================
+model_definitions:
+  # School Dashboard Models
+  SchoolDashboardSummary:
+    category: dashboard
+    fields:
+      alertCount: int!
+      alerts: AlertBreakdown!
+      buses: BusStats!
+      students: StudentStats!
+      gradeStats: Map<String, GradeStats>!
+      lastUpdated: DateTime!
+
+  AlertBreakdown:
+    category: dashboard
+    fields:
+      high: int!
+      medium: int!
+
+  BusStats:
+    category: dashboard
+    fields:
+      total: int!
+      arrived: int!
+      enRoute: int!
+      delayed: int!
+      inactive: int!
+
+  StudentStats:
+    category: dashboard
+    fields:
+      total: int!
+      departed: int!
+      onCampus: int!
+      attention: int!
+      absent: int!
+      inTransit: int!
+
+  GradeStats:
+    category: dashboard
+    fields:
+      gradeName: String!
+      total: int!
+      arrived: int!
+
+  # Bus Fleet Models
+  BusFleetStatus:
+    category: fleet
+    fields:
+      busId: String!
+      busNumber: String!
+      routeName: String!
+      status: BusOperationalStatus!
+      studentsBoarded: int!
+      studentsExpected: int!
+      eta: DateTime?
+      lastLocationUpdate: DateTime?
+      currentLocation: String?
+      driverName: String?
+
+  # Student Models
+  StudentMovementEvent:
+    category: student
+    fields:
+      eventId: String!
+      studentId: String!
+      studentName: String!
+      grade: String!
+      eventType: StudentEventType!
+      timestamp: DateTime!
+      location: String?
+      confidence: double?
+
+  StudentMovementRow:
+    category: student
+    fields:
+      studentId: String!
+      studentName: String!
+      grade: String!
+      status: StudentStatus!
+      lastEvent: StudentMovementEvent?
+      priority: PriorityLevel!
+
+  StudentMovementSummary:
+    category: student
+    fields:
+      totalStudents: int!
+      departed: int!
+      onCampus: int!
+      attentionRequired: int!
+      absent: int!
+      inTransit: int!
+
+  StudentBoardingTimeline:
+    category: student
+    fields:
+      studentId: String!
+      events: List<StudentMovementEvent>!
+
+  # Priority and Status Models
+  PriorityLevel:
+    category: priority
+    fields:
+      level: String!
+      color: String!
+      description: String!
+
+  StudentStatus:
+    category: status
+    fields:
+      status: String!
+      displayName: String!
+      color: String!
+      icon: String!
+
+  # Enums
+  BusOperationalStatus:
+    category: enum
+    values: [active, arrived, enRoute, delayed, inactive, unknown]
+
+  StudentEventType:
+    category: enum
+    values: [boarding, departure, arrival, attention_required, absent]
+
+# ===================
+# SERVICES (Riverpod State Management)
+# ===================
+services:
+  # Data Services
+  school_dashboard_service:
+    provides:
+      - provider_name: schoolDashboardProvider
+        type: FutureProvider<SchoolDashboardSummary>
+        description: Provides school dashboard summary data
+      - provider_name: busFleetProvider
+        type: StreamProvider<List<BusFleetStatus>>
+        description: Provides real-time bus fleet status
+    dependencies: []
+    interface: ISchoolDashboardService
+    implementation_pattern: riverpod_provider
+
+  student_movement_service:
+    provides:
+      - provider_name: studentMovementsProvider
+        type: StreamProvider<List<StudentMovementEvent>>
+        description: Provides student movement events
+      - provider_name: studentTimelineProvider
+        type: FutureProvider<StudentBoardingTimeline>
+        description: Provides student boarding timeline
+    dependencies: []
+    interface: IStudentMovementService
+    implementation_pattern: riverpod_provider
+
+  # UI State Services
+  navigation_service:
+    provides:
+      - provider_name: currentRouteProvider
+        type: StateProvider<String>
+        description: Current navigation route
+      - provider_name: navigationHistoryProvider
+        type: StateNotifierProvider<NavigationHistoryNotifier, List<String>>
+        description: Navigation history state
+    dependencies: []
+    interface: INavigationService
+    implementation_pattern: riverpod_state_notifier
+
+  theme_service:
+    provides:
+      - provider_name: themeModeProvider
+        type: StateProvider<ThemeMode>
+        description: App theme mode (light/dark)
+      - provider_name: accentColorProvider
+        type: StateProvider<Color>
+        description: App accent color
+    dependencies: []
+    interface: IThemeService
+    implementation_pattern: riverpod_provider
+
+  # Configuration Services
+  app_config_service:
+    provides:
+      - provider_name: appConfigProvider
+        type: FutureProvider<AppConfig>
+        description: App configuration data
+      - provider_name: featureFlagsProvider
+        type: StateProvider<Map<String, bool>>
+        description: Feature flags
+    dependencies: []
+    interface: IAppConfigService
+    implementation_pattern: riverpod_provider
+
+# ===================
+# GOVERNANCE & RUNTIME MODES
+# ===================
+governance:
+  error_handling:
+    - "All async operations should use AsyncValue for consistent error handling."
+    - "UI should gracefully handle loading and error states."
+    - "Network errors should be user-friendly and actionable."
+  development_modes:
+    - name: local
+      description: "Local development with mock data and verbose logging"
+    - name: ci
+      description: "CI mode: run detectors, analyzers and tests; fail on violations"
+    - name: staging
+      description: "Staging mode: production-like environment with test data"
+
+# ===================
+# CODE GENERATION
+# ===================
+code_generation:
+  target_language: dart
+  generate_always:
+    - freezed_models
+    - json_serializable
+    - riverpod_providers
+  output_structure:
+    models: lib/generated/models/
+    providers: lib/generated/providers/
+    interfaces: lib/generated/interfaces/

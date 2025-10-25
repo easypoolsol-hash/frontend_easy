@@ -1,7 +1,6 @@
 .gitignore
 README.md
 analysis_options.yaml
-build.yaml
 doc/APIKey.md
 doc/APIKeyCreate.md
 doc/ApiApi.md
@@ -10,10 +9,13 @@ doc/AttendanceRecord.md
 doc/AuditLog.md
 doc/BoardingEvent.md
 doc/BoardingEventCreate.md
+doc/BoardingEventNested.md
 doc/Bus.md
 doc/BusBasic.md
 doc/BusLocation.md
 doc/CheckUpdatesResponse.md
+doc/DashboardStats.md
+doc/DashboardStudentsResponse.md
 doc/DeviceLog.md
 doc/HealthData.md
 doc/Heartbeat.md
@@ -50,6 +52,7 @@ doc/Route.md
 doc/RouteStop.md
 doc/School.md
 doc/Student.md
+doc/StudentActivity.md
 doc/StudentParent.md
 doc/StudentPhoto.md
 doc/TokenObtainPair.md
@@ -61,12 +64,13 @@ lib/frontend_easy_api.dart
 lib/src/api.dart
 lib/src/api/api_api.dart
 lib/src/api/kiosk_activation_api.dart
+lib/src/api_util.dart
 lib/src/auth/api_key_auth.dart
 lib/src/auth/auth.dart
 lib/src/auth/basic_auth.dart
 lib/src/auth/bearer_auth.dart
 lib/src/auth/oauth.dart
-lib/src/deserialize.dart
+lib/src/date_serializer.dart
 lib/src/model/api_key.dart
 lib/src/model/api_key_create.dart
 lib/src/model/api_v1_kiosk_boarding_create200_response.dart
@@ -74,10 +78,14 @@ lib/src/model/attendance_record.dart
 lib/src/model/audit_log.dart
 lib/src/model/boarding_event.dart
 lib/src/model/boarding_event_create.dart
+lib/src/model/boarding_event_nested.dart
 lib/src/model/bus.dart
 lib/src/model/bus_basic.dart
 lib/src/model/bus_location.dart
 lib/src/model/check_updates_response.dart
+lib/src/model/dashboard_stats.dart
+lib/src/model/dashboard_students_response.dart
+lib/src/model/date.dart
 lib/src/model/device_log.dart
 lib/src/model/health_data.dart
 lib/src/model/heartbeat.dart
@@ -113,6 +121,7 @@ lib/src/model/route.dart
 lib/src/model/route_stop.dart
 lib/src/model/school.dart
 lib/src/model/student.dart
+lib/src/model/student_activity.dart
 lib/src/model/student_parent.dart
 lib/src/model/student_photo.dart
 lib/src/model/token_obtain_pair.dart
@@ -120,4 +129,5 @@ lib/src/model/token_refresh_request.dart
 lib/src/model/token_refresh_response.dart
 lib/src/model/user.dart
 lib/src/model/user_create.dart
+lib/src/serializers.dart
 pubspec.yaml

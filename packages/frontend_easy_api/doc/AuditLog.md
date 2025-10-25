@@ -15,7 +15,7 @@ Name | Type | Description | Notes
 **action** | **String** | * `CREATE` - Create * `UPDATE` - Update * `DELETE` - Delete * `LOGIN` - Login * `LOGOUT` - Logout * `API_ACCESS` - API Access | 
 **resourceType** | **String** | * `user` - User * `student` - Student * `bus` - Bus * `kiosk` - Kiosk * `event` - Boarding Event * `notification` - Notification | 
 **resourceId** | **String** |  | [optional] 
-**changes** | **Object** | JSON object of changes made | [optional] 
+**changes** | [**JsonObject**](.md) | JSON object of changes made | [optional] 
 **ipAddress** | **String** |  | [optional] 
 **userAgent** | **String** |  | [optional] 
 **timestamp** | [**DateTime**](DateTime.md) |  | 

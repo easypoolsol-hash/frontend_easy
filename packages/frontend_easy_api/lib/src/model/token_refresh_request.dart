@@ -3,55 +3,105 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:json_annotation/json_annotation.dart';
+import 'package:built_value/built_value.dart';
+import 'package:built_value/serializer.dart';
 
 part 'token_refresh_request.g.dart';
 
+/// TokenRefreshRequest
+///
+/// Properties:
+/// * [refresh] - The refresh token obtained from activation or previous refresh
+@BuiltValue()
+abstract class TokenRefreshRequest implements Built<TokenRefreshRequest, TokenRefreshRequestBuilder> {
+  /// The refresh token obtained from activation or previous refresh
+  @BuiltValueField(wireName: r'refresh')
+  String get refresh;
 
-@JsonSerializable(
-  checked: true,
-  createToJson: true,
-  disallowUnrecognizedKeys: false,
-  explicitToJson: true,
-)
-class TokenRefreshRequest {
-  /// Returns a new [TokenRefreshRequest] instance.
-  TokenRefreshRequest({
+  TokenRefreshRequest._();
 
-    required  this.refresh,
-  });
+  factory TokenRefreshRequest([void updates(TokenRefreshRequestBuilder b)]) = _$TokenRefreshRequest;
 
-      /// The refresh token obtained from activation or previous refresh
-  @JsonKey(
-    
-    name: r'refresh',
-    required: true,
-    includeIfNull: false,
-  )
+  @BuiltValueHook(initializeBuilder: true)
+  static void _defaults(TokenRefreshRequestBuilder b) => b;
 
+  @BuiltValueSerializer(custom: true)
+  static Serializer<TokenRefreshRequest> get serializer => _$TokenRefreshRequestSerializer();
+}
 
-  final String refresh;
-
-
-
-
-
-    @override
-    bool operator ==(Object other) => identical(this, other) || other is TokenRefreshRequest &&
-      other.refresh == refresh;
-
-    @override
-    int get hashCode =>
-        refresh.hashCode;
-
-  factory TokenRefreshRequest.fromJson(Map<String, dynamic> json) => _$TokenRefreshRequestFromJson(json);
-
-  Map<String, dynamic> toJson() => _$TokenRefreshRequestToJson(this);
+class _$TokenRefreshRequestSerializer implements PrimitiveSerializer<TokenRefreshRequest> {
+  @override
+  final Iterable<Type> types = const [TokenRefreshRequest, _$TokenRefreshRequest];
 
   @override
-  String toString() {
-    return toJson().toString();
+  final String wireName = r'TokenRefreshRequest';
+
+  Iterable<Object?> _serializeProperties(
+    Serializers serializers,
+    TokenRefreshRequest object, {
+    FullType specifiedType = FullType.unspecified,
+  }) sync* {
+    yield r'refresh';
+    yield serializers.serialize(
+      object.refresh,
+      specifiedType: const FullType(String),
+    );
   }
 
+  @override
+  Object serialize(
+    Serializers serializers,
+    TokenRefreshRequest object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+  }
+
+  void _deserializeProperties(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+    required List<Object?> serializedList,
+    required TokenRefreshRequestBuilder result,
+    required List<Object?> unhandled,
+  }) {
+    for (var i = 0; i < serializedList.length; i += 2) {
+      final key = serializedList[i] as String;
+      final value = serializedList[i + 1];
+      switch (key) {
+        case r'refresh':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.refresh = valueDes;
+          break;
+        default:
+          unhandled.add(key);
+          unhandled.add(value);
+          break;
+      }
+    }
+  }
+
+  @override
+  TokenRefreshRequest deserialize(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = TokenRefreshRequestBuilder();
+    final serializedList = (serialized as Iterable<Object?>).toList();
+    final unhandled = <Object?>[];
+    _deserializeProperties(
+      serializers,
+      serialized,
+      specifiedType: specifiedType,
+      serializedList: serializedList,
+      unhandled: unhandled,
+      result: result,
+    );
+    return result.build();
+  }
 }
 

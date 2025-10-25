@@ -21,10 +21,13 @@ import 'package:frontend_easy_api/src/model/attendance_record.dart';
 import 'package:frontend_easy_api/src/model/audit_log.dart';
 import 'package:frontend_easy_api/src/model/boarding_event.dart';
 import 'package:frontend_easy_api/src/model/boarding_event_create.dart';
+import 'package:frontend_easy_api/src/model/boarding_event_nested.dart';
 import 'package:frontend_easy_api/src/model/bus.dart';
 import 'package:frontend_easy_api/src/model/bus_basic.dart';
 import 'package:frontend_easy_api/src/model/bus_location.dart';
 import 'package:frontend_easy_api/src/model/check_updates_response.dart';
+import 'package:frontend_easy_api/src/model/dashboard_stats.dart';
+import 'package:frontend_easy_api/src/model/dashboard_students_response.dart';
 import 'package:frontend_easy_api/src/model/device_log.dart';
 import 'package:frontend_easy_api/src/model/health_data.dart';
 import 'package:frontend_easy_api/src/model/heartbeat.dart';
@@ -60,6 +63,7 @@ import 'package:frontend_easy_api/src/model/route.dart';
 import 'package:frontend_easy_api/src/model/route_stop.dart';
 import 'package:frontend_easy_api/src/model/school.dart';
 import 'package:frontend_easy_api/src/model/student.dart';
+import 'package:frontend_easy_api/src/model/student_activity.dart';
 import 'package:frontend_easy_api/src/model/student_parent.dart';
 import 'package:frontend_easy_api/src/model/student_photo.dart';
 import 'package:frontend_easy_api/src/model/token_obtain_pair.dart';
@@ -78,10 +82,13 @@ part 'serializers.g.dart';
   AuditLog,
   BoardingEvent,
   BoardingEventCreate,
+  BoardingEventNested,
   Bus,
   BusBasic,
   BusLocation,
   CheckUpdatesResponse,
+  DashboardStats,
+  DashboardStudentsResponse,
   DeviceLog,
   HealthData,
   Heartbeat,
@@ -117,6 +124,7 @@ part 'serializers.g.dart';
   RouteStop,
   School,
   Student,
+  StudentActivity,
   StudentParent,
   StudentPhoto,
   TokenObtainPair,

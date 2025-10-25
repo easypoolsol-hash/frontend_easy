@@ -1,0 +1,119 @@
+# ===========================================
+# CONSTITUTIONAL CONFIGURATION
+# ===========================================
+# Constitutional Authority for Runtime Configuration
+# This constitution defines all runtime settings
+# Changes here affect application behavior
+
+# ===================
+# RUNTIME CONFIGURATION (Constitutional)
+# ===================
+configuration:
+  # API Configuration
+  api:
+    base_url: "https://easypool.in"
+    timeout_seconds: 30
+    retry_attempts: 3
+    connect_timeout_seconds: 10
+    receive_timeout_seconds: 30
+
+  # Authentication Settings
+  auth:
+    token_refresh_threshold_minutes: 5
+    max_login_attempts: 3
+    session_timeout_hours: 24
+    biometric_enabled: true
+
+  # UI Settings
+  ui:
+    app_title: "Imperial EasyPool"
+    theme_mode: "system"
+    language: "en"
+    date_format: "dd/MM/yyyy"
+    time_format: "HH:mm"
+
+  # Map Settings
+  maps:
+    google_maps_api_key: "${GOOGLE_MAPS_API_KEY}"
+    default_zoom: 15
+    min_zoom: 10
+    max_zoom: 20
+    enable_traffic: true
+    enable_my_location: true
+
+  # School Dashboard Settings
+  dashboard:
+    refresh_interval_seconds: 30
+    max_alerts_displayed: 10
+    alert_auto_dismiss_minutes: 5
+    student_tracking_enabled: true
+
+  # Fleet Management Settings
+  fleet:
+    bus_update_interval_seconds: 10
+    location_accuracy_meters: 10
+    max_bus_age_minutes: 5
+    enable_real_time_tracking: true
+
+  # Student Management Settings
+  student:
+    boarding_timeout_minutes: 30
+    departure_grace_period_minutes: 5
+    attendance_check_enabled: true
+    emergency_contact_required: true
+
+  # Notification Settings
+  notifications:
+    enable_push_notifications: true
+    enable_sound_alerts: true
+    vibration_enabled: true
+    quiet_hours_start: "22:00"
+    quiet_hours_end: "07:00"
+
+  # Performance Settings
+  performance:
+    image_cache_size_mb: 50
+    max_concurrent_requests: 5
+    offline_cache_days: 7
+    background_refresh_enabled: true
+
+# ===================
+# ENVIRONMENT OVERRIDES (Constitutional)
+# ===================
+environments:
+  development:
+    api:
+      base_url: "http://localhost:8000"
+      timeout_seconds: 60  # Longer timeouts for debugging
+    ui:
+      app_title: "Imperial EasyPool DEV"
+    dashboard:
+      refresh_interval_seconds: 60  # Less frequent in dev
+    notifications:
+      enable_sound_alerts: false  # Quieter in dev
+    performance:
+      max_concurrent_requests: 2  # Conservative in dev
+
+  staging:
+    api:
+      base_url: "https://staging.easypool.in"
+    ui:
+      app_title: "Imperial EasyPool STAGING"
+    dashboard:
+      refresh_interval_seconds: 45
+    notifications:
+      enable_push_notifications: true
+    performance:
+      offline_cache_days: 3  # Shorter cache in staging
+
+  production:
+    api:
+      base_url: "https://easypool.in"
+      timeout_seconds: 25  # Stricter in prod
+    dashboard:
+      refresh_interval_seconds: 30
+    notifications:
+      enable_push_notifications: true
+    performance:
+      max_concurrent_requests: 8  # Higher concurrency in prod
+      offline_cache_days: 14  # Longer cache in prod

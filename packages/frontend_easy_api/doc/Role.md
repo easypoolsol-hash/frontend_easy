@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **roleId** | **String** |  | 
 **name** | **String** | * `super_admin` - Super Administrator * `backend_engineer` - Backend Engineer * `school_admin` - School Administrator * `parent` - Parent | 
 **description** | **String** |  | [optional] 
-**permissions** | **Object** | JSON object defining role permissions | [optional] 
+**permissions** | [**JsonObject**](.md) | JSON object defining role permissions | [optional] 
 **isActive** | **bool** |  | [optional] 
 **createdAt** | [**DateTime**](DateTime.md) |  | 
 **updatedAt** | [**DateTime**](DateTime.md) |  | 

@@ -1,12 +1,21 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.18
+
+// ignore_for_file: unused_element, unused_import
+// ignore_for_file: always_put_required_named_parameters_first
+// ignore_for_file: constant_identifier_names
+// ignore_for_file: lines_longer_than_80_chars
+
+import 'package:openapi/api.dart';
 import 'package:test/test.dart';
-import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for PatchedBus
 void main() {
-  final PatchedBus? instance = /* PatchedBus(...) */ null;
-  // TODO add properties to the entity
+  // final instance = PatchedBus();
 
-  group(PatchedBus, () {
+  group('test PatchedBus', () {
     // UUID primary key
     // String busId
     test('to test the property `busId`', () async {
@@ -72,17 +81,17 @@ void main() {
       // TODO
     });
 
-    // String assignedStudentsCount
+    // int assignedStudentsCount
     test('to test the property `assignedStudentsCount`', () async {
       // TODO
     });
 
-    // String utilizationPercentage
+    // double utilizationPercentage
     test('to test the property `utilizationPercentage`', () async {
       // TODO
     });
 
-    // String isAvailable
+    // bool isAvailable
     test('to test the property `isAvailable`', () async {
       // TODO
     });
@@ -99,5 +108,7 @@ void main() {
       // TODO
     });
 
+
   });
+
 }

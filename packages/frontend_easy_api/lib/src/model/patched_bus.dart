@@ -3,331 +3,415 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:json_annotation/json_annotation.dart';
+import 'package:built_collection/built_collection.dart';
+import 'package:frontend_easy_api/src/model/date.dart';
+import 'package:built_value/built_value.dart';
+import 'package:built_value/serializer.dart';
 
 part 'patched_bus.g.dart';
 
-
-@JsonSerializable(
-  checked: true,
-  createToJson: true,
-  disallowUnrecognizedKeys: false,
-  explicitToJson: true,
-)
-class PatchedBus {
-  /// Returns a new [PatchedBus] instance.
-  PatchedBus({
-
-     this.busId,
-
-     this.licensePlate,
-
-     this.route,
-
-     this.routeName,
-
-     this.capacity,
-
-     this.deviceId,
-
-     this.status,
-
-     this.manufacturer,
-
-     this.model,
-
-     this.year,
-
-     this.lastMaintenance,
-
-     this.assignedStudentsCount,
-
-     this.utilizationPercentage,
-
-     this.isAvailable,
-
-     this.createdAt,
-
-     this.updatedAt,
-  });
-
-      /// UUID primary key
-  @JsonKey(
-    
-    name: r'bus_id',
-    required: false,
-    includeIfNull: false,
-  )
-
-
-  final String? busId;
-
-
-
-      /// Vehicle license plate number
-  @JsonKey(
-    
-    name: r'license_plate',
-    required: false,
-    includeIfNull: false,
-  )
-
-
-  final String? licensePlate;
-
-
-
-      /// Route this bus is assigned to
-  @JsonKey(
-    
-    name: r'route',
-    required: false,
-    includeIfNull: false,
-  )
-
-
-  final String? route;
-
-
-
-  @JsonKey(
-    
-    name: r'route_name',
-    required: false,
-    includeIfNull: false,
-  )
-
-
-  final String? routeName;
-
-
-
-      /// Maximum number of passengers
-          // minimum: 1
-          // maximum: 9223372036854775807
-  @JsonKey(
-    
-    name: r'capacity',
-    required: false,
-    includeIfNull: false,
-  )
-
-
-  final int? capacity;
-
-
-
-      /// Kiosk device identifier installed on this bus
-  @JsonKey(
-    
-    name: r'device_id',
-    required: false,
-    includeIfNull: false,
-  )
-
-
-  final String? deviceId;
-
-
-
-      /// Current operational status  * `active` - Active * `maintenance` - Under Maintenance * `retired` - Retired
-  @JsonKey(
-    
-    name: r'status',
-    required: false,
-    includeIfNull: false,
-  )
-
-
-  final PatchedBusStatusEnum? status;
-
-
-
-      /// Bus manufacturer
-  @JsonKey(
-    
-    name: r'manufacturer',
-    required: false,
-    includeIfNull: false,
-  )
-
-
-  final String? manufacturer;
-
-
-
-      /// Bus model
-  @JsonKey(
-    
-    name: r'model',
-    required: false,
-    includeIfNull: false,
-  )
-
-
-  final String? model;
-
-
-
-      /// Manufacturing year
-          // minimum: 0
-          // maximum: 9223372036854775807
-  @JsonKey(
-    
-    name: r'year',
-    required: false,
-    includeIfNull: false,
-  )
-
-
-  final int? year;
-
-
-
-      /// Date of last maintenance
-  @JsonKey(
-    
-    name: r'last_maintenance',
-    required: false,
-    includeIfNull: false,
-  )
-
-
-  final DateTime? lastMaintenance;
-
-
-
-  @JsonKey(
-    
-    name: r'assigned_students_count',
-    required: false,
-    includeIfNull: false,
-  )
-
-
-  final String? assignedStudentsCount;
-
-
-
-  @JsonKey(
-    
-    name: r'utilization_percentage',
-    required: false,
-    includeIfNull: false,
-  )
-
-
-  final String? utilizationPercentage;
-
-
-
-  @JsonKey(
-    
-    name: r'is_available',
-    required: false,
-    includeIfNull: false,
-  )
-
-
-  final String? isAvailable;
-
-
-
-      /// When this bus was added to the system
-  @JsonKey(
-    
-    name: r'created_at',
-    required: false,
-    includeIfNull: false,
-  )
-
-
-  final DateTime? createdAt;
-
-
-
-      /// When this bus record was last updated
-  @JsonKey(
-    
-    name: r'updated_at',
-    required: false,
-    includeIfNull: false,
-  )
-
-
-  final DateTime? updatedAt;
-
-
-
-
-
-    @override
-    bool operator ==(Object other) => identical(this, other) || other is PatchedBus &&
-      other.busId == busId &&
-      other.licensePlate == licensePlate &&
-      other.route == route &&
-      other.routeName == routeName &&
-      other.capacity == capacity &&
-      other.deviceId == deviceId &&
-      other.status == status &&
-      other.manufacturer == manufacturer &&
-      other.model == model &&
-      other.year == year &&
-      other.lastMaintenance == lastMaintenance &&
-      other.assignedStudentsCount == assignedStudentsCount &&
-      other.utilizationPercentage == utilizationPercentage &&
-      other.isAvailable == isAvailable &&
-      other.createdAt == createdAt &&
-      other.updatedAt == updatedAt;
-
-    @override
-    int get hashCode =>
-        busId.hashCode +
-        licensePlate.hashCode +
-        (route == null ? 0 : route.hashCode) +
-        routeName.hashCode +
-        capacity.hashCode +
-        (deviceId == null ? 0 : deviceId.hashCode) +
-        status.hashCode +
-        manufacturer.hashCode +
-        model.hashCode +
-        (year == null ? 0 : year.hashCode) +
-        (lastMaintenance == null ? 0 : lastMaintenance.hashCode) +
-        assignedStudentsCount.hashCode +
-        utilizationPercentage.hashCode +
-        isAvailable.hashCode +
-        createdAt.hashCode +
-        updatedAt.hashCode;
-
-  factory PatchedBus.fromJson(Map<String, dynamic> json) => _$PatchedBusFromJson(json);
-
-  Map<String, dynamic> toJson() => _$PatchedBusToJson(this);
+/// Serializer for buses
+///
+/// Properties:
+/// * [busId] - UUID primary key
+/// * [licensePlate] - Vehicle license plate number
+/// * [route] - Route this bus is assigned to
+/// * [routeName] 
+/// * [capacity] - Maximum number of passengers
+/// * [deviceId] - Kiosk device identifier installed on this bus
+/// * [status] - Current operational status  * `active` - Active * `maintenance` - Under Maintenance * `retired` - Retired
+/// * [manufacturer] - Bus manufacturer
+/// * [model] - Bus model
+/// * [year] - Manufacturing year
+/// * [lastMaintenance] - Date of last maintenance
+/// * [assignedStudentsCount] 
+/// * [utilizationPercentage] 
+/// * [isAvailable] 
+/// * [createdAt] - When this bus was added to the system
+/// * [updatedAt] - When this bus record was last updated
+@BuiltValue()
+abstract class PatchedBus implements Built<PatchedBus, PatchedBusBuilder> {
+  /// UUID primary key
+  @BuiltValueField(wireName: r'bus_id')
+  String? get busId;
+
+  /// Vehicle license plate number
+  @BuiltValueField(wireName: r'license_plate')
+  String? get licensePlate;
+
+  /// Route this bus is assigned to
+  @BuiltValueField(wireName: r'route')
+  String? get route;
+
+  @BuiltValueField(wireName: r'route_name')
+  String? get routeName;
+
+  /// Maximum number of passengers
+  @BuiltValueField(wireName: r'capacity')
+  int? get capacity;
+
+  /// Kiosk device identifier installed on this bus
+  @BuiltValueField(wireName: r'device_id')
+  String? get deviceId;
+
+  /// Current operational status  * `active` - Active * `maintenance` - Under Maintenance * `retired` - Retired
+  @BuiltValueField(wireName: r'status')
+  PatchedBusStatusEnum? get status;
+  // enum statusEnum {  active,  maintenance,  retired,  };
+
+  /// Bus manufacturer
+  @BuiltValueField(wireName: r'manufacturer')
+  String? get manufacturer;
+
+  /// Bus model
+  @BuiltValueField(wireName: r'model')
+  String? get model;
+
+  /// Manufacturing year
+  @BuiltValueField(wireName: r'year')
+  int? get year;
+
+  /// Date of last maintenance
+  @BuiltValueField(wireName: r'last_maintenance')
+  Date? get lastMaintenance;
+
+  @BuiltValueField(wireName: r'assigned_students_count')
+  int? get assignedStudentsCount;
+
+  @BuiltValueField(wireName: r'utilization_percentage')
+  double? get utilizationPercentage;
+
+  @BuiltValueField(wireName: r'is_available')
+  bool? get isAvailable;
+
+  /// When this bus was added to the system
+  @BuiltValueField(wireName: r'created_at')
+  DateTime? get createdAt;
+
+  /// When this bus record was last updated
+  @BuiltValueField(wireName: r'updated_at')
+  DateTime? get updatedAt;
+
+  PatchedBus._();
+
+  factory PatchedBus([void updates(PatchedBusBuilder b)]) = _$PatchedBus;
+
+  @BuiltValueHook(initializeBuilder: true)
+  static void _defaults(PatchedBusBuilder b) => b;
+
+  @BuiltValueSerializer(custom: true)
+  static Serializer<PatchedBus> get serializer => _$PatchedBusSerializer();
+}
+
+class _$PatchedBusSerializer implements PrimitiveSerializer<PatchedBus> {
+  @override
+  final Iterable<Type> types = const [PatchedBus, _$PatchedBus];
 
   @override
-  String toString() {
-    return toJson().toString();
+  final String wireName = r'PatchedBus';
+
+  Iterable<Object?> _serializeProperties(
+    Serializers serializers,
+    PatchedBus object, {
+    FullType specifiedType = FullType.unspecified,
+  }) sync* {
+    if (object.busId != null) {
+      yield r'bus_id';
+      yield serializers.serialize(
+        object.busId,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.licensePlate != null) {
+      yield r'license_plate';
+      yield serializers.serialize(
+        object.licensePlate,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.route != null) {
+      yield r'route';
+      yield serializers.serialize(
+        object.route,
+        specifiedType: const FullType.nullable(String),
+      );
+    }
+    if (object.routeName != null) {
+      yield r'route_name';
+      yield serializers.serialize(
+        object.routeName,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.capacity != null) {
+      yield r'capacity';
+      yield serializers.serialize(
+        object.capacity,
+        specifiedType: const FullType(int),
+      );
+    }
+    if (object.deviceId != null) {
+      yield r'device_id';
+      yield serializers.serialize(
+        object.deviceId,
+        specifiedType: const FullType.nullable(String),
+      );
+    }
+    if (object.status != null) {
+      yield r'status';
+      yield serializers.serialize(
+        object.status,
+        specifiedType: const FullType(PatchedBusStatusEnum),
+      );
+    }
+    if (object.manufacturer != null) {
+      yield r'manufacturer';
+      yield serializers.serialize(
+        object.manufacturer,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.model != null) {
+      yield r'model';
+      yield serializers.serialize(
+        object.model,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.year != null) {
+      yield r'year';
+      yield serializers.serialize(
+        object.year,
+        specifiedType: const FullType.nullable(int),
+      );
+    }
+    if (object.lastMaintenance != null) {
+      yield r'last_maintenance';
+      yield serializers.serialize(
+        object.lastMaintenance,
+        specifiedType: const FullType.nullable(Date),
+      );
+    }
+    if (object.assignedStudentsCount != null) {
+      yield r'assigned_students_count';
+      yield serializers.serialize(
+        object.assignedStudentsCount,
+        specifiedType: const FullType(int),
+      );
+    }
+    if (object.utilizationPercentage != null) {
+      yield r'utilization_percentage';
+      yield serializers.serialize(
+        object.utilizationPercentage,
+        specifiedType: const FullType(double),
+      );
+    }
+    if (object.isAvailable != null) {
+      yield r'is_available';
+      yield serializers.serialize(
+        object.isAvailable,
+        specifiedType: const FullType(bool),
+      );
+    }
+    if (object.createdAt != null) {
+      yield r'created_at';
+      yield serializers.serialize(
+        object.createdAt,
+        specifiedType: const FullType(DateTime),
+      );
+    }
+    if (object.updatedAt != null) {
+      yield r'updated_at';
+      yield serializers.serialize(
+        object.updatedAt,
+        specifiedType: const FullType(DateTime),
+      );
+    }
   }
 
+  @override
+  Object serialize(
+    Serializers serializers,
+    PatchedBus object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+  }
+
+  void _deserializeProperties(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+    required List<Object?> serializedList,
+    required PatchedBusBuilder result,
+    required List<Object?> unhandled,
+  }) {
+    for (var i = 0; i < serializedList.length; i += 2) {
+      final key = serializedList[i] as String;
+      final value = serializedList[i + 1];
+      switch (key) {
+        case r'bus_id':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.busId = valueDes;
+          break;
+        case r'license_plate':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.licensePlate = valueDes;
+          break;
+        case r'route':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
+          result.route = valueDes;
+          break;
+        case r'route_name':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.routeName = valueDes;
+          break;
+        case r'capacity':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(int),
+          ) as int;
+          result.capacity = valueDes;
+          break;
+        case r'device_id':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
+          result.deviceId = valueDes;
+          break;
+        case r'status':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(PatchedBusStatusEnum),
+          ) as PatchedBusStatusEnum;
+          result.status = valueDes;
+          break;
+        case r'manufacturer':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.manufacturer = valueDes;
+          break;
+        case r'model':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.model = valueDes;
+          break;
+        case r'year':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(int),
+          ) as int?;
+          if (valueDes == null) continue;
+          result.year = valueDes;
+          break;
+        case r'last_maintenance':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(Date),
+          ) as Date?;
+          if (valueDes == null) continue;
+          result.lastMaintenance = valueDes;
+          break;
+        case r'assigned_students_count':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(int),
+          ) as int;
+          result.assignedStudentsCount = valueDes;
+          break;
+        case r'utilization_percentage':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(double),
+          ) as double;
+          result.utilizationPercentage = valueDes;
+          break;
+        case r'is_available':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(bool),
+          ) as bool;
+          result.isAvailable = valueDes;
+          break;
+        case r'created_at':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(DateTime),
+          ) as DateTime;
+          result.createdAt = valueDes;
+          break;
+        case r'updated_at':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(DateTime),
+          ) as DateTime;
+          result.updatedAt = valueDes;
+          break;
+        default:
+          unhandled.add(key);
+          unhandled.add(value);
+          break;
+      }
+    }
+  }
+
+  @override
+  PatchedBus deserialize(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = PatchedBusBuilder();
+    final serializedList = (serialized as Iterable<Object?>).toList();
+    final unhandled = <Object?>[];
+    _deserializeProperties(
+      serializers,
+      serialized,
+      specifiedType: specifiedType,
+      serializedList: serializedList,
+      unhandled: unhandled,
+      result: result,
+    );
+    return result.build();
+  }
 }
 
-/// Current operational status  * `active` - Active * `maintenance` - Under Maintenance * `retired` - Retired
-enum PatchedBusStatusEnum {
-    /// Current operational status  * `active` - Active * `maintenance` - Under Maintenance * `retired` - Retired
-@JsonValue(r'active')
-active(r'active'),
-    /// Current operational status  * `active` - Active * `maintenance` - Under Maintenance * `retired` - Retired
-@JsonValue(r'maintenance')
-maintenance(r'maintenance'),
-    /// Current operational status  * `active` - Active * `maintenance` - Under Maintenance * `retired` - Retired
-@JsonValue(r'retired')
-retired(r'retired');
+class PatchedBusStatusEnum extends EnumClass {
 
-const PatchedBusStatusEnum(this.value);
+  /// Current operational status  * `active` - Active * `maintenance` - Under Maintenance * `retired` - Retired
+  @BuiltValueEnumConst(wireName: r'active')
+  static const PatchedBusStatusEnum active = _$patchedBusStatusEnum_active;
+  /// Current operational status  * `active` - Active * `maintenance` - Under Maintenance * `retired` - Retired
+  @BuiltValueEnumConst(wireName: r'maintenance')
+  static const PatchedBusStatusEnum maintenance = _$patchedBusStatusEnum_maintenance;
+  /// Current operational status  * `active` - Active * `maintenance` - Under Maintenance * `retired` - Retired
+  @BuiltValueEnumConst(wireName: r'retired')
+  static const PatchedBusStatusEnum retired = _$patchedBusStatusEnum_retired;
 
-final String value;
+  static Serializer<PatchedBusStatusEnum> get serializer => _$patchedBusStatusEnumSerializer;
 
-@override
-String toString() => value;
+  const PatchedBusStatusEnum._(String name): super(name);
+
+  static BuiltSet<PatchedBusStatusEnum> get values => _$patchedBusStatusEnumValues;
+  static PatchedBusStatusEnum valueOf(String name) => _$patchedBusStatusEnumValueOf(name);
 }
-
 

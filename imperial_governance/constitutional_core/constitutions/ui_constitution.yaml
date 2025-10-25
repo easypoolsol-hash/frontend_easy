@@ -1,0 +1,162 @@
+# ===========================================
+# CONSTITUTIONAL UI GOVERNANCE
+# ===========================================
+# Constitutional Authority for UI Patterns and State Management
+# This constitution defines approved UI patterns and state management
+# Changes here require constitutional review
+
+# ===================
+# APPROVED UI PATTERNS (Constitutional)
+# ===================
+ui_patterns:
+  state_management:
+    primary_framework: flutter_riverpod
+    approved_patterns:
+      - StateNotifierProvider: "For complex state with AsyncValue"
+      - FutureProvider: "For one-time async data loading"
+      - StreamProvider: "For real-time data streams"
+      - StateProvider: "For simple state (boolean, string, etc.)"
+    forbidden_patterns:
+      - StatefulWidget: "Use Riverpod providers instead"
+      - setState: "Use Riverpod state management"
+      - Provider: "Use modern Riverpod patterns"
+
+  async_state_handling:
+    primary_pattern: AsyncValue
+    required_patterns:
+      - AsyncValue.when(): "Handle loading/error/data states"
+      - AsyncValue.maybeWhen(): "Handle optional async states"
+      - AsyncValue.guard(): "Wrap async operations safely"
+    error_handling:
+      - "All async operations must handle error states"
+      - "Loading states must be user-friendly"
+      - "Network errors must be actionable"
+
+  navigation:
+    primary_router: go_router
+    required_patterns:
+      - "Declarative route definitions"
+      - "Named routes only (no string literals)"
+      - "Route guards for authentication"
+      - "Deep linking support"
+
+# ===================
+# APPROVED WIDGET PATTERNS (Constitutional)
+# ===================
+widget_patterns:
+  screen_structure:
+    required_widgets:
+      - Scaffold: "App structure foundation"
+      - SafeArea: "Safe area handling"
+      - CustomScrollView: "Scrollable content"
+    recommended_widgets:
+      - SliverAppBar: "Collapsible app bars"
+      - SliverList: "Efficient list rendering"
+      - Consumer: "Riverpod state consumption"
+
+  form_handling:
+    validation_pattern: "Real-time validation with error display"
+    submission_pattern: "AsyncValue-based submission with loading states"
+    required_fields:
+      - "Email validation"
+      - "Password strength requirements"
+      - "Required field indicators"
+
+  list_rendering:
+    primary_pattern: "ListView.builder with efficient keys"
+    virtualization: "Automatic with Flutter's ListView"
+    infinite_scroll: "Stream-based pagination with Riverpod"
+
+# ===================
+# STATE MANAGEMENT RULES (Constitutional)
+# ===================
+state_management_rules:
+  provider_naming:
+    pattern: "{feature}Provider"
+    examples:
+      - loginProvider
+      - dashboardProvider
+      - fleetProvider
+    forbidden:
+      - "Provider suffix without feature name"
+      - "Generic names like dataProvider"
+
+  state_class_naming:
+    pattern: "{Feature}State"
+    examples:
+      - LoginState
+      - DashboardState
+      - FleetState
+
+  notifier_naming:
+    pattern: "{Feature}Notifier"
+    examples:
+      - LoginNotifier
+      - DashboardNotifier
+      - FleetNotifier
+
+  async_operation_rules:
+    - "All async operations must return AsyncValue<T>"
+    - "StateNotifier must handle loading/error states"
+    - "UI must handle all AsyncValue states (data/loading/error)"
+    - "Error states must be user-friendly and actionable"
+
+# ===================
+# UI CONSTANTS (Constitutional)
+# ===================
+ui_constants:
+  spacing:
+    xs: 4.0
+    sm: 8.0
+    md: 16.0
+    lg: 24.0
+    xl: 32.0
+    xxl: 48.0
+
+  border_radius:
+    sm: 4.0
+    md: 8.0
+    lg: 12.0
+    xl: 16.0
+    full: 999.0
+
+  typography:
+    font_family: "Inter"
+    scale:
+      caption: 12.0
+      body: 14.0
+      subtitle: 16.0
+      title: 18.0
+      headline: 20.0
+      display: 24.0
+
+  colors:
+    primary: "#1976D2"
+    secondary: "#DCEDC8"
+    error: "#D32F2F"
+    warning: "#F57C00"
+    success: "#388E3C"
+    background: "#FAFAFA"
+    surface: "#FFFFFF"
+
+# ===================
+# RESPONSIVE DESIGN RULES (Constitutional)
+# ===================
+responsive_design:
+  breakpoints:
+    mobile: 320
+    tablet: 768
+    desktop: 1024
+
+  layout_patterns:
+    - "Mobile-first responsive design"
+    - "Flexible layouts with Expanded/Flexible"
+    - "Orientation-aware layouts"
+    - "Accessible touch targets (44pt minimum)"
+
+  accessibility:
+    - "Minimum contrast ratios (4.5:1 for text)"
+    - "Screen reader support"
+    - "Keyboard navigation"
+    - "Focus indicators"
+    - "Semantic widget usage"

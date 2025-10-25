@@ -3,176 +3,235 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:json_annotation/json_annotation.dart';
+import 'package:built_collection/built_collection.dart';
+import 'package:built_value/json_object.dart';
+import 'package:built_value/built_value.dart';
+import 'package:built_value/serializer.dart';
 
 part 'role.g.dart';
 
+/// Role
+///
+/// Properties:
+/// * [roleId] 
+/// * [name] - * `super_admin` - Super Administrator * `backend_engineer` - Backend Engineer * `school_admin` - School Administrator * `parent` - Parent
+/// * [description] 
+/// * [permissions] - JSON object defining role permissions
+/// * [isActive] 
+/// * [createdAt] 
+/// * [updatedAt] 
+@BuiltValue()
+abstract class Role implements Built<Role, RoleBuilder> {
+  @BuiltValueField(wireName: r'role_id')
+  String get roleId;
 
-@JsonSerializable(
-  checked: true,
-  createToJson: true,
-  disallowUnrecognizedKeys: false,
-  explicitToJson: true,
-)
-class Role {
-  /// Returns a new [Role] instance.
-  Role({
+  /// * `super_admin` - Super Administrator * `backend_engineer` - Backend Engineer * `school_admin` - School Administrator * `parent` - Parent
+  @BuiltValueField(wireName: r'name')
+  RoleNameEnum get name;
+  // enum nameEnum {  super_admin,  backend_engineer,  school_admin,  parent,  };
 
-    required  this.roleId,
+  @BuiltValueField(wireName: r'description')
+  String? get description;
 
-    required  this.name,
+  /// JSON object defining role permissions
+  @BuiltValueField(wireName: r'permissions')
+  JsonObject? get permissions;
 
-     this.description,
+  @BuiltValueField(wireName: r'is_active')
+  bool? get isActive;
 
-     this.permissions,
+  @BuiltValueField(wireName: r'created_at')
+  DateTime get createdAt;
 
-     this.isActive,
+  @BuiltValueField(wireName: r'updated_at')
+  DateTime get updatedAt;
 
-    required  this.createdAt,
+  Role._();
 
-    required  this.updatedAt,
-  });
+  factory Role([void updates(RoleBuilder b)]) = _$Role;
 
-  @JsonKey(
-    
-    name: r'role_id',
-    required: true,
-    includeIfNull: false,
-  )
+  @BuiltValueHook(initializeBuilder: true)
+  static void _defaults(RoleBuilder b) => b;
 
+  @BuiltValueSerializer(custom: true)
+  static Serializer<Role> get serializer => _$RoleSerializer();
+}
 
-  final String roleId;
-
-
-
-      /// * `super_admin` - Super Administrator * `backend_engineer` - Backend Engineer * `school_admin` - School Administrator * `parent` - Parent
-  @JsonKey(
-    
-    name: r'name',
-    required: true,
-    includeIfNull: false,
-  )
-
-
-  final RoleNameEnum name;
-
-
-
-  @JsonKey(
-    
-    name: r'description',
-    required: false,
-    includeIfNull: false,
-  )
-
-
-  final String? description;
-
-
-
-      /// JSON object defining role permissions
-  @JsonKey(
-    
-    name: r'permissions',
-    required: false,
-    includeIfNull: false,
-  )
-
-
-  final Object? permissions;
-
-
-
-  @JsonKey(
-    
-    name: r'is_active',
-    required: false,
-    includeIfNull: false,
-  )
-
-
-  final bool? isActive;
-
-
-
-  @JsonKey(
-    
-    name: r'created_at',
-    required: true,
-    includeIfNull: false,
-  )
-
-
-  final DateTime createdAt;
-
-
-
-  @JsonKey(
-    
-    name: r'updated_at',
-    required: true,
-    includeIfNull: false,
-  )
-
-
-  final DateTime updatedAt;
-
-
-
-
-
-    @override
-    bool operator ==(Object other) => identical(this, other) || other is Role &&
-      other.roleId == roleId &&
-      other.name == name &&
-      other.description == description &&
-      other.permissions == permissions &&
-      other.isActive == isActive &&
-      other.createdAt == createdAt &&
-      other.updatedAt == updatedAt;
-
-    @override
-    int get hashCode =>
-        roleId.hashCode +
-        name.hashCode +
-        description.hashCode +
-        (permissions == null ? 0 : permissions.hashCode) +
-        isActive.hashCode +
-        createdAt.hashCode +
-        updatedAt.hashCode;
-
-  factory Role.fromJson(Map<String, dynamic> json) => _$RoleFromJson(json);
-
-  Map<String, dynamic> toJson() => _$RoleToJson(this);
+class _$RoleSerializer implements PrimitiveSerializer<Role> {
+  @override
+  final Iterable<Type> types = const [Role, _$Role];
 
   @override
-  String toString() {
-    return toJson().toString();
+  final String wireName = r'Role';
+
+  Iterable<Object?> _serializeProperties(
+    Serializers serializers,
+    Role object, {
+    FullType specifiedType = FullType.unspecified,
+  }) sync* {
+    yield r'role_id';
+    yield serializers.serialize(
+      object.roleId,
+      specifiedType: const FullType(String),
+    );
+    yield r'name';
+    yield serializers.serialize(
+      object.name,
+      specifiedType: const FullType(RoleNameEnum),
+    );
+    if (object.description != null) {
+      yield r'description';
+      yield serializers.serialize(
+        object.description,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.permissions != null) {
+      yield r'permissions';
+      yield serializers.serialize(
+        object.permissions,
+        specifiedType: const FullType.nullable(JsonObject),
+      );
+    }
+    if (object.isActive != null) {
+      yield r'is_active';
+      yield serializers.serialize(
+        object.isActive,
+        specifiedType: const FullType(bool),
+      );
+    }
+    yield r'created_at';
+    yield serializers.serialize(
+      object.createdAt,
+      specifiedType: const FullType(DateTime),
+    );
+    yield r'updated_at';
+    yield serializers.serialize(
+      object.updatedAt,
+      specifiedType: const FullType(DateTime),
+    );
   }
 
+  @override
+  Object serialize(
+    Serializers serializers,
+    Role object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+  }
+
+  void _deserializeProperties(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+    required List<Object?> serializedList,
+    required RoleBuilder result,
+    required List<Object?> unhandled,
+  }) {
+    for (var i = 0; i < serializedList.length; i += 2) {
+      final key = serializedList[i] as String;
+      final value = serializedList[i + 1];
+      switch (key) {
+        case r'role_id':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.roleId = valueDes;
+          break;
+        case r'name':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(RoleNameEnum),
+          ) as RoleNameEnum;
+          result.name = valueDes;
+          break;
+        case r'description':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.description = valueDes;
+          break;
+        case r'permissions':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(JsonObject),
+          ) as JsonObject?;
+          if (valueDes == null) continue;
+          result.permissions = valueDes;
+          break;
+        case r'is_active':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(bool),
+          ) as bool;
+          result.isActive = valueDes;
+          break;
+        case r'created_at':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(DateTime),
+          ) as DateTime;
+          result.createdAt = valueDes;
+          break;
+        case r'updated_at':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(DateTime),
+          ) as DateTime;
+          result.updatedAt = valueDes;
+          break;
+        default:
+          unhandled.add(key);
+          unhandled.add(value);
+          break;
+      }
+    }
+  }
+
+  @override
+  Role deserialize(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = RoleBuilder();
+    final serializedList = (serialized as Iterable<Object?>).toList();
+    final unhandled = <Object?>[];
+    _deserializeProperties(
+      serializers,
+      serialized,
+      specifiedType: specifiedType,
+      serializedList: serializedList,
+      unhandled: unhandled,
+      result: result,
+    );
+    return result.build();
+  }
 }
 
-/// * `super_admin` - Super Administrator * `backend_engineer` - Backend Engineer * `school_admin` - School Administrator * `parent` - Parent
-enum RoleNameEnum {
-    /// * `super_admin` - Super Administrator * `backend_engineer` - Backend Engineer * `school_admin` - School Administrator * `parent` - Parent
-@JsonValue(r'super_admin')
-superAdmin(r'super_admin'),
-    /// * `super_admin` - Super Administrator * `backend_engineer` - Backend Engineer * `school_admin` - School Administrator * `parent` - Parent
-@JsonValue(r'backend_engineer')
-backendEngineer(r'backend_engineer'),
-    /// * `super_admin` - Super Administrator * `backend_engineer` - Backend Engineer * `school_admin` - School Administrator * `parent` - Parent
-@JsonValue(r'school_admin')
-schoolAdmin(r'school_admin'),
-    /// * `super_admin` - Super Administrator * `backend_engineer` - Backend Engineer * `school_admin` - School Administrator * `parent` - Parent
-@JsonValue(r'parent')
-parent(r'parent');
+class RoleNameEnum extends EnumClass {
 
-const RoleNameEnum(this.value);
+  /// * `super_admin` - Super Administrator * `backend_engineer` - Backend Engineer * `school_admin` - School Administrator * `parent` - Parent
+  @BuiltValueEnumConst(wireName: r'super_admin')
+  static const RoleNameEnum superAdmin = _$roleNameEnum_superAdmin;
+  /// * `super_admin` - Super Administrator * `backend_engineer` - Backend Engineer * `school_admin` - School Administrator * `parent` - Parent
+  @BuiltValueEnumConst(wireName: r'backend_engineer')
+  static const RoleNameEnum backendEngineer = _$roleNameEnum_backendEngineer;
+  /// * `super_admin` - Super Administrator * `backend_engineer` - Backend Engineer * `school_admin` - School Administrator * `parent` - Parent
+  @BuiltValueEnumConst(wireName: r'school_admin')
+  static const RoleNameEnum schoolAdmin = _$roleNameEnum_schoolAdmin;
+  /// * `super_admin` - Super Administrator * `backend_engineer` - Backend Engineer * `school_admin` - School Administrator * `parent` - Parent
+  @BuiltValueEnumConst(wireName: r'parent')
+  static const RoleNameEnum parent = _$roleNameEnum_parent;
 
-final String value;
+  static Serializer<RoleNameEnum> get serializer => _$roleNameEnumSerializer;
 
-@override
-String toString() => value;
+  const RoleNameEnum._(String name): super(name);
+
+  static BuiltSet<RoleNameEnum> get values => _$roleNameEnumValues;
+  static RoleNameEnum valueOf(String name) => _$roleNameEnumValueOf(name);
 }
-
 

@@ -10,7 +10,7 @@ void main() async {
   _printHeader();
 
   // Find all detector files
-  final detectorsDir = Directory('imperial_governance/enforcement/detectors');
+  final detectorsDir = Directory('frontend_easy/imperial_governance/enforcement/detectors');
   final detectorFiles = await _findAllDetectors(detectorsDir);
 
   if (detectorFiles.isEmpty) {

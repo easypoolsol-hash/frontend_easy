@@ -3,139 +3,191 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:json_annotation/json_annotation.dart';
+import 'package:built_value/json_object.dart';
+import 'package:built_value/built_value.dart';
+import 'package:built_value/serializer.dart';
 
 part 'route_stop.g.dart';
 
+/// Serializer for route stops with nested bus stop info
+///
+/// Properties:
+/// * [busStop] - Bus stop on this route
+/// * [busStopName] 
+/// * [latitude] 
+/// * [longitude] 
+/// * [sequence] - Order of this stop in the route (1-based)
+/// * [waypoints] - Path coordinates to NEXT stop: [{lat, lon}, ...]
+@BuiltValue()
+abstract class RouteStop implements Built<RouteStop, RouteStopBuilder> {
+  /// Bus stop on this route
+  @BuiltValueField(wireName: r'bus_stop')
+  String get busStop;
 
-@JsonSerializable(
-  checked: true,
-  createToJson: true,
-  disallowUnrecognizedKeys: false,
-  explicitToJson: true,
-)
-class RouteStop {
-  /// Returns a new [RouteStop] instance.
-  RouteStop({
+  @BuiltValueField(wireName: r'bus_stop_name')
+  String get busStopName;
 
-    required  this.busStop,
+  @BuiltValueField(wireName: r'latitude')
+  double get latitude;
 
-    required  this.busStopName,
+  @BuiltValueField(wireName: r'longitude')
+  double get longitude;
 
-    required  this.latitude,
+  /// Order of this stop in the route (1-based)
+  @BuiltValueField(wireName: r'sequence')
+  int get sequence;
 
-    required  this.longitude,
+  /// Path coordinates to NEXT stop: [{lat, lon}, ...]
+  @BuiltValueField(wireName: r'waypoints')
+  JsonObject? get waypoints;
 
-    required  this.sequence,
+  RouteStop._();
 
-     this.waypoints,
-  });
+  factory RouteStop([void updates(RouteStopBuilder b)]) = _$RouteStop;
 
-      /// Bus stop on this route
-  @JsonKey(
-    
-    name: r'bus_stop',
-    required: true,
-    includeIfNull: false,
-  )
+  @BuiltValueHook(initializeBuilder: true)
+  static void _defaults(RouteStopBuilder b) => b;
 
+  @BuiltValueSerializer(custom: true)
+  static Serializer<RouteStop> get serializer => _$RouteStopSerializer();
+}
 
-  final String busStop;
-
-
-
-  @JsonKey(
-    
-    name: r'bus_stop_name',
-    required: true,
-    includeIfNull: false,
-  )
-
-
-  final String busStopName;
-
-
-
-  @JsonKey(
-    
-    name: r'latitude',
-    required: true,
-    includeIfNull: false,
-  )
-
-
-  final double latitude;
-
-
-
-  @JsonKey(
-    
-    name: r'longitude',
-    required: true,
-    includeIfNull: false,
-  )
-
-
-  final double longitude;
-
-
-
-      /// Order of this stop in the route (1-based)
-          // minimum: 0
-          // maximum: 9223372036854775807
-  @JsonKey(
-    
-    name: r'sequence',
-    required: true,
-    includeIfNull: false,
-  )
-
-
-  final int sequence;
-
-
-
-      /// Path coordinates to NEXT stop: [{lat, lon}, ...]
-  @JsonKey(
-    
-    name: r'waypoints',
-    required: false,
-    includeIfNull: false,
-  )
-
-
-  final Object? waypoints;
-
-
-
-
-
-    @override
-    bool operator ==(Object other) => identical(this, other) || other is RouteStop &&
-      other.busStop == busStop &&
-      other.busStopName == busStopName &&
-      other.latitude == latitude &&
-      other.longitude == longitude &&
-      other.sequence == sequence &&
-      other.waypoints == waypoints;
-
-    @override
-    int get hashCode =>
-        busStop.hashCode +
-        busStopName.hashCode +
-        latitude.hashCode +
-        longitude.hashCode +
-        sequence.hashCode +
-        (waypoints == null ? 0 : waypoints.hashCode);
-
-  factory RouteStop.fromJson(Map<String, dynamic> json) => _$RouteStopFromJson(json);
-
-  Map<String, dynamic> toJson() => _$RouteStopToJson(this);
+class _$RouteStopSerializer implements PrimitiveSerializer<RouteStop> {
+  @override
+  final Iterable<Type> types = const [RouteStop, _$RouteStop];
 
   @override
-  String toString() {
-    return toJson().toString();
+  final String wireName = r'RouteStop';
+
+  Iterable<Object?> _serializeProperties(
+    Serializers serializers,
+    RouteStop object, {
+    FullType specifiedType = FullType.unspecified,
+  }) sync* {
+    yield r'bus_stop';
+    yield serializers.serialize(
+      object.busStop,
+      specifiedType: const FullType(String),
+    );
+    yield r'bus_stop_name';
+    yield serializers.serialize(
+      object.busStopName,
+      specifiedType: const FullType(String),
+    );
+    yield r'latitude';
+    yield serializers.serialize(
+      object.latitude,
+      specifiedType: const FullType(double),
+    );
+    yield r'longitude';
+    yield serializers.serialize(
+      object.longitude,
+      specifiedType: const FullType(double),
+    );
+    yield r'sequence';
+    yield serializers.serialize(
+      object.sequence,
+      specifiedType: const FullType(int),
+    );
+    if (object.waypoints != null) {
+      yield r'waypoints';
+      yield serializers.serialize(
+        object.waypoints,
+        specifiedType: const FullType.nullable(JsonObject),
+      );
+    }
   }
 
+  @override
+  Object serialize(
+    Serializers serializers,
+    RouteStop object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+  }
+
+  void _deserializeProperties(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+    required List<Object?> serializedList,
+    required RouteStopBuilder result,
+    required List<Object?> unhandled,
+  }) {
+    for (var i = 0; i < serializedList.length; i += 2) {
+      final key = serializedList[i] as String;
+      final value = serializedList[i + 1];
+      switch (key) {
+        case r'bus_stop':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.busStop = valueDes;
+          break;
+        case r'bus_stop_name':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.busStopName = valueDes;
+          break;
+        case r'latitude':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(double),
+          ) as double;
+          result.latitude = valueDes;
+          break;
+        case r'longitude':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(double),
+          ) as double;
+          result.longitude = valueDes;
+          break;
+        case r'sequence':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(int),
+          ) as int;
+          result.sequence = valueDes;
+          break;
+        case r'waypoints':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(JsonObject),
+          ) as JsonObject?;
+          if (valueDes == null) continue;
+          result.waypoints = valueDes;
+          break;
+        default:
+          unhandled.add(key);
+          unhandled.add(value);
+          break;
+      }
+    }
+  }
+
+  @override
+  RouteStop deserialize(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = RouteStopBuilder();
+    final serializedList = (serialized as Iterable<Object?>).toList();
+    final unhandled = <Object?>[];
+    _deserializeProperties(
+      serializers,
+      serialized,
+      specifiedType: specifiedType,
+      serializedList: serializedList,
+      unhandled: unhandled,
+      result: result,
+    );
+    return result.build();
+  }
 }
 

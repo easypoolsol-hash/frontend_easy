@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
-import 'package:frontend_easy/shared/services/api_service.dart';
-import 'package:frontend_easy/shared/services/auth_service.dart';
+import 'package:frontend_easy/features/auth/providers/login_provider.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -15,23 +13,16 @@ class LoginScreen extends ConsumerStatefulWidget {
 class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
-  bool _isLoading = false;
-  String? _errorMessage;
 
   @override
   void initState() {
     super.initState();
-    _checkIfLoggedIn();
+    // Delay the check until after the widget tree is built
+    Future(() => _checkIfLoggedIn());
   }
 
   Future<void> _checkIfLoggedIn() async {
-    final isAuth = await AuthService().isAuthenticated();
-    if (isAuth) {
-      // Already logged in, go to home
-      if (mounted) {
-        context.go('/');
-      }
-    }
+    await ref.read(loginProvider.notifier).checkIfLoggedIn(context);
   }
 
   @override
@@ -42,96 +33,67 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   Future<void> _login() async {
-    setState(() {
-      _isLoading = true;
-      _errorMessage = null;
-    });
-
-    try {
-      final apiService = ApiService();
-
-      // Workaround: Send raw JSON to avoid including readOnly fields
-      // TODO: Regenerate API client with proper optional handling
-      final response = await apiService.client.dio.post<Map<String, dynamic>>(
-        '/api/v1/auth/token/',
-        data: {
-          'username': _usernameController.text,
-          'password': _passwordController.text,
-          // Don't send access/refresh - they're readOnly response fields
-        },
-      );
-
-      if (response.statusCode == 200 && response.data != null) {
-        final accessToken = response.data!['access'];
-        final refreshToken = response.data!['refresh'];
-
-        if (accessToken != null && refreshToken != null) {
-          // Use AuthService to store tokens
-          await AuthService().storeTokens(
-            accessToken: accessToken,
-            refreshToken: refreshToken,
-          );
-
-          if (mounted) {
-            context.go('/');
-          }
-        } else {
-          setState(() {
-            _errorMessage = 'Invalid response: missing tokens';
-          });
-        }
-      } else {
-        setState(() {
-          _errorMessage = 'Login failed: HTTP ${response.statusCode}';
-        });
-      }
-    } catch (e) {
-      setState(() {
-        _errorMessage = 'Login error: $e';
-      });
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
-    }
+    await ref.read(loginProvider.notifier).login(
+      username: _usernameController.text,
+      password: _passwordController.text,
+      context: context,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    final loginState = ref.watch(loginProvider);
+
     return Scaffold(
       appBar: AppBar(title: const Text('Login')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              controller: _usernameController,
-              decoration: const InputDecoration(
-                labelText: 'Username',
-                border: OutlineInputBorder(),
+        child: loginState.when(
+          data: (state) => Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextField(
+                controller: _usernameController,
+                decoration: const InputDecoration(
+                  labelText: 'Username',
+                  border: OutlineInputBorder(),
+                ),
               ),
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: _passwordController,
-              decoration: const InputDecoration(
-                labelText: 'Password',
-                border: OutlineInputBorder(),
+              const SizedBox(height: 16),
+              TextField(
+                controller: _passwordController,
+                decoration: const InputDecoration(
+                  labelText: 'Password',
+                  border: OutlineInputBorder(),
+                ),
+                obscureText: true,
               ),
-              obscureText: true,
+              const SizedBox(height: 16),
+              if (state.errorMessage != null)
+                Text(state.errorMessage!, style: const TextStyle(color: Colors.red)),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: state.isSubmitting ? null : _login,
+                child: state.isSubmitting
+                    ? const CircularProgressIndicator()
+                    : const Text('Login'),
+              ),
+            ],
+          ),
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (error, stack) => Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Error: $error', style: const TextStyle(color: Colors.red)),
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: _login,
+                  child: const Text('Retry'),
+                ),
+              ],
             ),
-            const SizedBox(height: 16),
-            if (_errorMessage != null)
-              Text(_errorMessage!, style: const TextStyle(color: Colors.red)),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: _isLoading ? null : _login,
-              child: _isLoading
-                  ? const CircularProgressIndicator()
-                  : const Text('Login'),
-            ),
-          ],
+          ),
         ),
       ),
     );

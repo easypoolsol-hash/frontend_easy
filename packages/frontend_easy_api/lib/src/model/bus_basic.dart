@@ -3,163 +3,214 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:json_annotation/json_annotation.dart';
+import 'package:built_collection/built_collection.dart';
+import 'package:built_value/built_value.dart';
+import 'package:built_value/serializer.dart';
 
 part 'bus_basic.g.dart';
 
+/// Basic bus serializer for nested use in student views
+///
+/// Properties:
+/// * [busId] - UUID primary key
+/// * [licensePlate] - Vehicle license plate number
+/// * [capacity] - Maximum number of passengers
+/// * [status] - Current operational status  * `active` - Active * `maintenance` - Under Maintenance * `retired` - Retired
+/// * [createdAt] - When this bus was added to the system
+/// * [updatedAt] - When this bus record was last updated
+@BuiltValue()
+abstract class BusBasic implements Built<BusBasic, BusBasicBuilder> {
+  /// UUID primary key
+  @BuiltValueField(wireName: r'bus_id')
+  String get busId;
 
-@JsonSerializable(
-  checked: true,
-  createToJson: true,
-  disallowUnrecognizedKeys: false,
-  explicitToJson: true,
-)
-class BusBasic {
-  /// Returns a new [BusBasic] instance.
-  BusBasic({
+  /// Vehicle license plate number
+  @BuiltValueField(wireName: r'license_plate')
+  String get licensePlate;
 
-    required  this.busId,
+  /// Maximum number of passengers
+  @BuiltValueField(wireName: r'capacity')
+  int get capacity;
 
-    required  this.licensePlate,
+  /// Current operational status  * `active` - Active * `maintenance` - Under Maintenance * `retired` - Retired
+  @BuiltValueField(wireName: r'status')
+  BusBasicStatusEnum? get status;
+  // enum statusEnum {  active,  maintenance,  retired,  };
 
-    required  this.capacity,
+  /// When this bus was added to the system
+  @BuiltValueField(wireName: r'created_at')
+  DateTime get createdAt;
 
-     this.status,
+  /// When this bus record was last updated
+  @BuiltValueField(wireName: r'updated_at')
+  DateTime get updatedAt;
 
-    required  this.createdAt,
+  BusBasic._();
 
-    required  this.updatedAt,
-  });
+  factory BusBasic([void updates(BusBasicBuilder b)]) = _$BusBasic;
 
-      /// UUID primary key
-  @JsonKey(
-    
-    name: r'bus_id',
-    required: true,
-    includeIfNull: false,
-  )
+  @BuiltValueHook(initializeBuilder: true)
+  static void _defaults(BusBasicBuilder b) => b;
 
+  @BuiltValueSerializer(custom: true)
+  static Serializer<BusBasic> get serializer => _$BusBasicSerializer();
+}
 
-  final String busId;
-
-
-
-      /// Vehicle license plate number
-  @JsonKey(
-    
-    name: r'license_plate',
-    required: true,
-    includeIfNull: false,
-  )
-
-
-  final String licensePlate;
-
-
-
-      /// Maximum number of passengers
-          // minimum: 1
-          // maximum: 9223372036854775807
-  @JsonKey(
-    
-    name: r'capacity',
-    required: true,
-    includeIfNull: false,
-  )
-
-
-  final int capacity;
-
-
-
-      /// Current operational status  * `active` - Active * `maintenance` - Under Maintenance * `retired` - Retired
-  @JsonKey(
-    
-    name: r'status',
-    required: false,
-    includeIfNull: false,
-  )
-
-
-  final BusBasicStatusEnum? status;
-
-
-
-      /// When this bus was added to the system
-  @JsonKey(
-    
-    name: r'created_at',
-    required: true,
-    includeIfNull: false,
-  )
-
-
-  final DateTime createdAt;
-
-
-
-      /// When this bus record was last updated
-  @JsonKey(
-    
-    name: r'updated_at',
-    required: true,
-    includeIfNull: false,
-  )
-
-
-  final DateTime updatedAt;
-
-
-
-
-
-    @override
-    bool operator ==(Object other) => identical(this, other) || other is BusBasic &&
-      other.busId == busId &&
-      other.licensePlate == licensePlate &&
-      other.capacity == capacity &&
-      other.status == status &&
-      other.createdAt == createdAt &&
-      other.updatedAt == updatedAt;
-
-    @override
-    int get hashCode =>
-        busId.hashCode +
-        licensePlate.hashCode +
-        capacity.hashCode +
-        status.hashCode +
-        createdAt.hashCode +
-        updatedAt.hashCode;
-
-  factory BusBasic.fromJson(Map<String, dynamic> json) => _$BusBasicFromJson(json);
-
-  Map<String, dynamic> toJson() => _$BusBasicToJson(this);
+class _$BusBasicSerializer implements PrimitiveSerializer<BusBasic> {
+  @override
+  final Iterable<Type> types = const [BusBasic, _$BusBasic];
 
   @override
-  String toString() {
-    return toJson().toString();
+  final String wireName = r'BusBasic';
+
+  Iterable<Object?> _serializeProperties(
+    Serializers serializers,
+    BusBasic object, {
+    FullType specifiedType = FullType.unspecified,
+  }) sync* {
+    yield r'bus_id';
+    yield serializers.serialize(
+      object.busId,
+      specifiedType: const FullType(String),
+    );
+    yield r'license_plate';
+    yield serializers.serialize(
+      object.licensePlate,
+      specifiedType: const FullType(String),
+    );
+    yield r'capacity';
+    yield serializers.serialize(
+      object.capacity,
+      specifiedType: const FullType(int),
+    );
+    if (object.status != null) {
+      yield r'status';
+      yield serializers.serialize(
+        object.status,
+        specifiedType: const FullType(BusBasicStatusEnum),
+      );
+    }
+    yield r'created_at';
+    yield serializers.serialize(
+      object.createdAt,
+      specifiedType: const FullType(DateTime),
+    );
+    yield r'updated_at';
+    yield serializers.serialize(
+      object.updatedAt,
+      specifiedType: const FullType(DateTime),
+    );
   }
 
+  @override
+  Object serialize(
+    Serializers serializers,
+    BusBasic object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+  }
+
+  void _deserializeProperties(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+    required List<Object?> serializedList,
+    required BusBasicBuilder result,
+    required List<Object?> unhandled,
+  }) {
+    for (var i = 0; i < serializedList.length; i += 2) {
+      final key = serializedList[i] as String;
+      final value = serializedList[i + 1];
+      switch (key) {
+        case r'bus_id':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.busId = valueDes;
+          break;
+        case r'license_plate':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.licensePlate = valueDes;
+          break;
+        case r'capacity':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(int),
+          ) as int;
+          result.capacity = valueDes;
+          break;
+        case r'status':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(BusBasicStatusEnum),
+          ) as BusBasicStatusEnum;
+          result.status = valueDes;
+          break;
+        case r'created_at':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(DateTime),
+          ) as DateTime;
+          result.createdAt = valueDes;
+          break;
+        case r'updated_at':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(DateTime),
+          ) as DateTime;
+          result.updatedAt = valueDes;
+          break;
+        default:
+          unhandled.add(key);
+          unhandled.add(value);
+          break;
+      }
+    }
+  }
+
+  @override
+  BusBasic deserialize(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = BusBasicBuilder();
+    final serializedList = (serialized as Iterable<Object?>).toList();
+    final unhandled = <Object?>[];
+    _deserializeProperties(
+      serializers,
+      serialized,
+      specifiedType: specifiedType,
+      serializedList: serializedList,
+      unhandled: unhandled,
+      result: result,
+    );
+    return result.build();
+  }
 }
 
-/// Current operational status  * `active` - Active * `maintenance` - Under Maintenance * `retired` - Retired
-enum BusBasicStatusEnum {
-    /// Current operational status  * `active` - Active * `maintenance` - Under Maintenance * `retired` - Retired
-@JsonValue(r'active')
-active(r'active'),
-    /// Current operational status  * `active` - Active * `maintenance` - Under Maintenance * `retired` - Retired
-@JsonValue(r'maintenance')
-maintenance(r'maintenance'),
-    /// Current operational status  * `active` - Active * `maintenance` - Under Maintenance * `retired` - Retired
-@JsonValue(r'retired')
-retired(r'retired');
+class BusBasicStatusEnum extends EnumClass {
 
-const BusBasicStatusEnum(this.value);
+  /// Current operational status  * `active` - Active * `maintenance` - Under Maintenance * `retired` - Retired
+  @BuiltValueEnumConst(wireName: r'active')
+  static const BusBasicStatusEnum active = _$busBasicStatusEnum_active;
+  /// Current operational status  * `active` - Active * `maintenance` - Under Maintenance * `retired` - Retired
+  @BuiltValueEnumConst(wireName: r'maintenance')
+  static const BusBasicStatusEnum maintenance = _$busBasicStatusEnum_maintenance;
+  /// Current operational status  * `active` - Active * `maintenance` - Under Maintenance * `retired` - Retired
+  @BuiltValueEnumConst(wireName: r'retired')
+  static const BusBasicStatusEnum retired = _$busBasicStatusEnum_retired;
 
-final String value;
+  static Serializer<BusBasicStatusEnum> get serializer => _$busBasicStatusEnumSerializer;
 
-@override
-String toString() => value;
+  const BusBasicStatusEnum._(String name): super(name);
+
+  static BuiltSet<BusBasicStatusEnum> get values => _$busBasicStatusEnumValues;
+  static BusBasicStatusEnum valueOf(String name) => _$busBasicStatusEnumValueOf(name);
 }
-
 

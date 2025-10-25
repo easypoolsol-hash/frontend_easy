@@ -18,10 +18,10 @@ Name | Type | Description | Notes
 **manufacturer** | **String** | Bus manufacturer | [optional] 
 **model** | **String** | Bus model | [optional] 
 **year** | **int** | Manufacturing year | [optional] 
-**lastMaintenance** | [**DateTime**](DateTime.md) | Date of last maintenance | [optional] 
-**assignedStudentsCount** | **String** |  | 
-**utilizationPercentage** | **String** |  | 
-**isAvailable** | **String** |  | 
+**lastMaintenance** | [**Date**](Date.md) | Date of last maintenance | [optional] 
+**assignedStudentsCount** | **int** |  | 
+**utilizationPercentage** | **double** |  | 
+**isAvailable** | **bool** |  | 
 **createdAt** | [**DateTime**](DateTime.md) | When this bus was added to the system | 
 **updatedAt** | [**DateTime**](DateTime.md) | When this bus record was last updated | 
 

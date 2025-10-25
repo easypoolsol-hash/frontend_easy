@@ -1,0 +1,313 @@
+# ===========================================
+# CONSTITUTIONAL TECHNOLOGY GOVERNANCE
+# ===========================================
+# Constitutional Authority for Technology Approvals
+# This constitution defines approved technologies and packages
+# Changes here require constitutional review
+
+# ===================
+# APPROVED SDK VERSIONS (Constitutional)
+# ===================
+approved_sdk_versions:
+  dart_sdk: ">=3.9.0 <4.0.0"
+
+# ===================
+# APPROVED TECHNOLOGIES (Constitutional)
+# ===================
+# High-level approved technology definitions and platform approvals
+approved_technologies:
+  flutter_riverpod:
+    category: state_management
+    purpose: reactive_state_management
+    platforms:
+      - android
+      - ios
+      - web
+    version: 2.4.9
+    package: flutter_riverpod
+    approved_for:
+      - state_management
+      - dependency_injection
+    constitutional_approval: "Modern reactive state management for Flutter applications"
+
+  freezed:
+    category: code_generation
+    purpose: immutable_models
+    platforms:
+      - android
+      - ios
+      - web
+    version: 2.4.6
+    package: freezed_annotation
+    approved_for:
+      - data_models
+      - state_classes
+    constitutional_approval: "Code generation for immutable data classes with pattern matching"
+
+  json_serializable:
+    category: code_generation
+    purpose: json_serialization
+    platforms:
+      - android
+      - ios
+      - web
+    version: 6.7.1
+    package: json_annotation
+    approved_for:
+      - api_models
+      - data_serialization
+    constitutional_approval: "Type-safe JSON serialization for API communication"
+
+  go_router:
+    category: navigation
+    purpose: routing
+    platforms:
+      - android
+      - ios
+      - web
+    version: 12.1.3
+    package: go_router
+    approved_for:
+      - navigation
+      - deep_linking
+    constitutional_approval: "Declarative routing with deep linking support"
+
+  google_maps_flutter:
+    category: maps
+    purpose: map_display
+    platforms:
+      - android
+      - ios
+    version: 2.5.3
+    package: google_maps_flutter
+    approved_for:
+      - map_visualization
+      - location_display
+    constitutional_approval: "Google Maps integration for location-based features"
+
+  dio:
+    category: http_client
+    purpose: network_requests
+    platforms:
+      - android
+      - ios
+      - web
+    version: 5.4.0
+    package: dio
+    approved_for:
+      - api_communication
+      - file_uploads
+    constitutional_approval: "Modern HTTP client with interceptors and error handling"
+
+  flutter_secure_storage:
+    category: security
+    purpose: secure_storage
+    platforms:
+      - android
+      - ios
+    version: 9.0.0
+    package: flutter_secure_storage
+    approved_for:
+      - token_storage
+      - sensitive_data
+    constitutional_approval: "Secure key-value storage for sensitive application data"
+
+  shared_preferences:
+    category: storage
+    purpose: local_storage
+    platforms:
+      - android
+      - ios
+      - web
+    version: 2.2.2
+    package: shared_preferences
+    approved_for:
+      - user_preferences
+      - cache_storage
+    constitutional_approval: "Simple key-value storage for user preferences and cache"
+
+  sdk_version_consistency_detector:
+    category: constitutional_enforcement
+    purpose: sdk_version_consistency
+    platforms:
+      - any
+    version: 1.0.0
+    package: null
+    approved_for:
+      - constitutional_enforcement
+    constitutional_approval: "Ensures all local packages use the same Dart SDK version, preventing build failures."
+
+# ===================
+# APPROVED PACKAGES (Constitutional)
+# ===================
+approved_packages:
+  # Core Flutter
+  - package:flutter/
+  - package:flutter_test/
+  - package:flutter_localizations/
+
+  # State Management
+  - package:flutter_riverpod/
+  - package:riverpod_annotation/
+
+  # Code Generation
+  - package:freezed_annotation/
+  - package:json_annotation/
+  - package:build_runner/
+
+  # Navigation
+  - package:go_router/
+
+  # Maps
+  - package:google_maps_flutter/
+  - package:google_maps_flutter_platform_interface/
+
+  # HTTP Client
+  - package:dio/
+
+  # Storage
+  - package:flutter_secure_storage/
+  - package:shared_preferences/
+
+  # Testing
+  - package:mocktail/
+  - package:golden_toolkit/
+  - package:alchemist/
+
+  # Development Tools
+  - package:yaml/
+  - package:path/
+  - package:logging/
+  - package:analyzer/
+  - package:analyzer/dart/analysis/
+  - package:analyzer/dart/ast/
+
+  # API Client Generated Code
+  - package:frontend_easy_api/
+  - package:built_value/
+  - package:built_collection/
+  - package:one_of_serializer/
+
+  # UI Components
+  - package:intl/
+  - package:url_launcher/
+  - package:encrypt/
+  - package:http/
+  - package:collection/
+  - package:meta/
+  - package:test/
+
+  # Internal Package Imports (Constitutionally Approved)
+  - package:frontend_easy/features/auth/presentation/screens/
+  - package:frontend_easy/features/home/presentation/screens/
+  - package:frontend_easy/features/home/presentation/screens/boarding_events_screen.dart
+  - package:frontend_easy/features/fleet/presentation/screens/
+  - package:frontend_easy/features/fleet/presentation/screens/route_map_screen.dart
+  - package:frontend_easy/features/school/presentation/screens/
+  - package:frontend_easy/features/school/presentation/screens/school_dashboard_redesigned_screen.dart
+  - package:frontend_easy/features/school/presentation/screens/fleet_status_screen.dart
+  - package:frontend_easy/shared/services/
+  - package:frontend_easy/shared/services/auth_service.dart
+  - package:frontend_easy/shared/services/api_service.dart
+  - package:frontend_easy/shared/services/auth_interceptor.dart
+  - package:frontend_easy/features/auth/providers/
+  - package:frontend_easy/features/auth/providers/login_provider.dart
+  - package:frontend_easy/shared/services/pii_encryption_service.dart
+  - package:frontend_easy/features/fleet/models/
+  - package:frontend_easy/features/fleet/models/map_mode.dart
+  - package:frontend_easy/features/fleet/presentation/widgets/
+  - package:frontend_easy/features/fleet/presentation/widgets/route_filter_panel.dart
+  - package:frontend_easy/features/fleet/providers/
+  - package:frontend_easy/features/fleet/providers/routes_provider.dart
+  - package:frontend_easy/features/fleet/providers/buses_provider.dart
+  - package:frontend_easy/features/map/widgets/
+  - package:frontend_easy/features/map/widgets/route_map_widget.dart
+  - package:frontend_easy/features/map/widgets/maps_config.dart
+  - package:frontend_easy/features/map/widgets/map_zoom_controls.dart
+  - package:frontend_easy/core/theme/
+  - package:frontend_easy/core/theme/route_colors.dart
+  - package:frontend_easy/features/fleet/models/map_mode.dart
+  - package:frontend_easy/features/fleet/providers/bus_locations_provider.dart
+  - package:frontend_easy/features/school/models/
+  - package:frontend_easy/features/school/models/school_dashboard_summary.dart
+  - package:frontend_easy/features/school/models/student_status.dart
+  - package:frontend_easy/features/school/models/student_movement_event.dart
+  - package:frontend_easy/features/school/models/student_movement_row.dart
+  - package:frontend_easy/features/school/models/priority_level.dart
+  - package:frontend_easy/features/school/models/student_movement_summary.dart
+  - package:frontend_easy/features/school/models/student_boarding_timeline.dart
+  - package:frontend_easy/features/school/presentation/widgets/
+  - package:frontend_easy/features/school/presentation/widgets/bus_fleet_panel.dart
+  - package:frontend_easy/features/school/presentation/widgets/md3_stat_card.dart
+  - package:frontend_easy/features/school/presentation/widgets/dashboard_overview_cards.dart
+  - package:frontend_easy/features/school/presentation/widgets/student_movement_table.dart
+  - package:frontend_easy/features/school/providers/
+  - package:frontend_easy/features/school/providers/school_dashboard_provider.dart
+  - package:frontend_easy/features/school/providers/student_movement_mock_provider.dart
+  - package:frontend_easy/features/school/presentation/widgets/status_summary_cards.dart
+  - package:frontend_easy/features/school/presentation/widgets/summary_panel.dart
+  - package:frontend_easy/features/school/presentation/widgets/student_priority_list.dart
+  - package:frontend_easy/features/school/presentation/widgets/action_panel.dart
+  - package:frontend_easy/features/school/presentation/widgets/student_event_card.dart
+  - package:frontend_easy/features/school/presentation/widgets/student_event_card_redesigned.dart
+  - package:frontend_easy/features/school/presentation/widgets/student_timeline_card.dart
+  - package:frontend_easy/features/school/models/bus_fleet_status.dart
+  - package:frontend_easy/features/school/models/student_movement_row.dart
+  - package:frontend_easy/features/school/models/student_movement_event.dart
+  - package:frontend_easy/features/school/models/priority_level.dart
+  - package:frontend_easy/features/school/models/school_dashboard_summary.dart
+  - package:frontend_easy/features/school/models/student_boarding_timeline.dart
+  - package:frontend_easy/features/school/models/student_movement_summary.dart
+  - package:frontend_easy/features/school/models/student_status.dart
+  - package:frontend_easy/features/school/services/
+  - package:frontend_easy/features/school/services/school_dashboard_api_service.dart
+  - package:frontend_easy/features/school/services/school_dashboard_service.dart
+  - package:frontend_easy/core/config/
+  - package:frontend_easy/core/config/api_config.dart
+  - package:frontend_easy/core/routing/
+  - package:frontend_easy/core/routing/app_router.dart
+  - package:frontend_easy/core/theme/app_theme.dart
+  - package:frontend_easy/shared/widgets/
+  - package:frontend_easy/shared/widgets/app_top_nav_bar.dart
+  - package:frontend_easy/shared/widgets/map_controls_widget.dart
+  - package:frontend_easy/shared/widgets/app_top_nav_bar.dart
+  - package:frontend_easy/shared/widgets/map_controls_widget.dart
+  - package:frontend_easy/features/fleet/models/map_mode.dart
+  - package:frontend_easy/features/fleet/presentation/widgets/map_mode_selector.dart
+  - package:frontend_easy/packages/frontend_easy_api/lib/
+  - package:frontend_easy/packages/frontend_easy_api/lib/api.dart
+  - package:frontend_easy/packages/frontend_easy_api/lib/src/model/
+  - package:frontend_easy/packages/frontend_easy_api/test/
+  - package:frontend_easy/test/integration/
+  - package:frontend_easy/test/integration/auth_flow_test.dart
+  - package:frontend_easy/test/providers/
+  - package:frontend_easy/test/providers/routes_provider_test.dart
+  - package:frontend_easy/test/widget_test.dart
+  - package:frontend_easy/main.dart
+  - package:frontend_easy/core/services/pii_encryption_service.dart
+
+# ===================
+# FREEZED IMPLEMENTATION REQUIREMENTS
+# ===================
+# Constitutional reference to Freezed best practices
+freezed_implementation:
+  constitutional_reference: "freezed_best_practices.yaml"
+  mandatory_compliance: true
+
+  critical_rules:
+    - rule: "FREEZED-001: All data models must use @freezed annotation"
+      severity: "CRITICAL"
+      rationale: "Ensures immutable data classes with proper equality and copyWith"
+
+    - rule: "FREEZED-002: Factory constructors must use const keyword"
+      severity: "HIGH"
+      rationale: "Compile-time constant construction for performance"
+
+    - rule: "FREEZED-003: JSON serialization must use @JsonSerializable"
+      severity: "HIGH"
+      rationale: "Type-safe API communication and data persistence"
+
+  validation:
+    - "All model files must follow freezed + json_serializable pattern"
+    - "Code generation must be run after model changes"
+    - "Generated files must not be manually edited"

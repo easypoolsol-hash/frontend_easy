@@ -1,12 +1,21 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.18
+
+// ignore_for_file: unused_element, unused_import
+// ignore_for_file: always_put_required_named_parameters_first
+// ignore_for_file: constant_identifier_names
+// ignore_for_file: lines_longer_than_80_chars
+
+import 'package:openapi/api.dart';
 import 'package:test/test.dart';
-import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for CheckUpdatesResponse
 void main() {
-  final CheckUpdatesResponse? instance = /* CheckUpdatesResponse(...) */ null;
-  // TODO add properties to the entity
+  // final instance = CheckUpdatesResponse();
 
-  group(CheckUpdatesResponse, () {
+  group('test CheckUpdatesResponse', () {
     // Whether kiosk needs to download new snapshot
     // bool needsUpdate
     test('to test the property `needsUpdate`', () async {
@@ -37,5 +46,7 @@ void main() {
       // TODO
     });
 
+
   });
+
 }
