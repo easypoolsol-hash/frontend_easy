@@ -3,15 +3,14 @@ import 'package:frontend_easy_api/frontend_easy_api.dart';
 import 'package:frontend_easy/features/school/providers/auto_refresh_provider.dart';
 import 'package:frontend_easy/features/school/providers/dashboard_stats_provider.dart';
 
-/// Provider for student activity (boarding events)
+/// Provider for student activity (boarding events) - manual refresh only
 /// Uses the optimized /api/v1/dashboard/students/ endpoint (paginated)
 ///
-/// CACHING: Keeps data alive for navigation, invalidates every 30s via autoRefresh
-/// Backend also caches (10s) so double-caching is efficient
+/// CACHING: Keeps data alive for navigation, refresh manually via refresh button
 final studentActivityProvider =
     FutureProvider<DashboardStudentsResponse>((ref) async {
-  // Auto-refresh every 30 seconds
-  ref.watch(autoRefreshProvider);
+  // No auto-refresh - manual only (avoid wasteful polling for 4000 students)
+  // Use refresh button for updates
 
   // Keep alive so data persists during navigation
   ref.keepAlive();

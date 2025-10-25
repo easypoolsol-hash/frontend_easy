@@ -10,14 +10,13 @@ final dashboardApiServiceProvider = Provider<SchoolDashboardApiService>((ref) {
   return SchoolDashboardApiService(apiClient);
 });
 
-/// Provider for dashboard statistics
-/// Auto-caches and refreshes on demand
+/// Provider for dashboard statistics (manual refresh only)
 /// Uses the optimized /api/v1/dashboard/stats/ endpoint (cached 10s on backend)
 ///
-/// CACHING: Keeps data alive for navigation, invalidates every 30s via autoRefresh
+/// CACHING: Keeps data alive for navigation, refresh manually via refresh button
 final dashboardStatsProvider = FutureProvider<DashboardStats>((ref) async {
-  // Auto-refresh every 30 seconds
-  ref.watch(autoRefreshProvider);
+  // No auto-refresh - manual only (avoid wasteful polling for 4000 students)
+  // Use refresh button for updates
 
   // Keep alive so data persists during navigation
   ref.keepAlive();
