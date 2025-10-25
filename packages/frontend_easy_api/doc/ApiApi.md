@@ -444,7 +444,7 @@ import 'package:frontend_easy_api/api.dart';
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
 final api = FrontendEasyApi().getApiApi();
-final Date date = 2013-10-20; // Date | 
+final DateTime date = 2013-10-20; // DateTime | 
 final int page = 56; // int | A page number within the paginated result set.
 final String status = status_example; // String | Overall attendance status  * `present` - Present * `absent` - Absent * `partial` - Partial
 final String student = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
@@ -461,7 +461,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **date** | **Date**|  | [optional] 
+ **date** | **DateTime**|  | [optional] 
  **page** | **int**| A page number within the paginated result set. | [optional] 
  **status** | **String**| Overall attendance status  * `present` - Present * `absent` - Absent * `partial` - Partial | [optional] 
  **student** | **String**|  | [optional] 
@@ -1593,7 +1593,7 @@ import 'package:frontend_easy_api/api.dart';
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
 final api = FrontendEasyApi().getApiApi();
-final Date date = 2013-10-20; // Date | Date for stats (YYYY-MM-DD, default=today)
+final DateTime date = 2013-10-20; // DateTime | Date for stats (YYYY-MM-DD, default=today)
 
 try {
     final response = api.apiV1DashboardStatsRetrieve(date);
@@ -1607,7 +1607,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **date** | **Date**| Date for stats (YYYY-MM-DD, default=today) | [optional] 
+ **date** | **DateTime**| Date for stats (YYYY-MM-DD, default=today) | [optional] 
 
 ### Return type
 
@@ -1640,7 +1640,7 @@ import 'package:frontend_easy_api/api.dart';
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
 final api = FrontendEasyApi().getApiApi();
-final Date date = 2013-10-20; // Date | Date filter (YYYY-MM-DD, default=today)
+final DateTime date = 2013-10-20; // DateTime | Date filter (YYYY-MM-DD, default=today)
 final int limit = 56; // int | Number of students per page (default=50)
 final int offset = 56; // int | Offset for pagination (default=0)
 
@@ -1656,7 +1656,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **date** | **Date**| Date filter (YYYY-MM-DD, default=today) | [optional] 
+ **date** | **DateTime**| Date filter (YYYY-MM-DD, default=today) | [optional] 
  **limit** | **int**| Number of students per page (default=50) | [optional] 
  **offset** | **int**| Offset for pagination (default=0) | [optional] 
 
@@ -1691,7 +1691,7 @@ import 'package:frontend_easy_api/api.dart';
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
 final api = FrontendEasyApi().getApiApi();
-final BuiltMap<String, JsonObject> requestBody = Object; // BuiltMap<String, JsonObject> | 
+final Map<String, Object> requestBody = Object; // Map<String, Object> | 
 
 try {
     final response = api.apiV1KioskBoardingCreate(requestBody);
@@ -1705,7 +1705,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **requestBody** | [**BuiltMap&lt;String, JsonObject&gt;**](JsonObject.md)|  | [optional] 
+ **requestBody** | [**Map&lt;String, Object&gt;**](Object.md)|  | [optional] 
 
 ### Return type
 
@@ -4224,7 +4224,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **kioskDownloadSnapshot**
-> Uint8List kioskDownloadSnapshot(kioskId)
+> MultipartFile kioskDownloadSnapshot(kioskId)
 
 
 
@@ -4253,7 +4253,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Uint8List**](Uint8List.md)
+[**MultipartFile**](MultipartFile.md)
 
 ### Authorization
 

@@ -18,7 +18,7 @@ Name | Type | Description | Notes
 **busRoute** | **String** | Bus route identifier | [optional] 
 **faceImageUrl** | **String** | S3 URL to face image for verification (optional) | [optional] 
 **modelVersion** | **String** | Face recognition model version used | 
-**metadata** | [**JsonObject**](.md) | Additional metadata as JSON | [optional] 
+**metadata** | **Object** | Additional metadata as JSON | [optional] 
 **createdAt** | [**DateTime**](DateTime.md) | When this record was created in database | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

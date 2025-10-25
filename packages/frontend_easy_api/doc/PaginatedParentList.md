@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **count** | **int** |  | 
 **next** | **String** |  | [optional] 
 **previous** | **String** |  | [optional] 
-**results** | [**BuiltList&lt;Parent&gt;**](Parent.md) |  | 
+**results** | [**List&lt;Parent&gt;**](Parent.md) |  | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

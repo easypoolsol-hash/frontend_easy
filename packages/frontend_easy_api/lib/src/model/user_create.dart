@@ -3,168 +3,118 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:built_value/built_value.dart';
-import 'package:built_value/serializer.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'user_create.g.dart';
 
-/// UserCreate
-///
-/// Properties:
-/// * [username] 
-/// * [email] 
-/// * [password] 
-/// * [passwordConfirm] 
-/// * [role] 
-@BuiltValue()
-abstract class UserCreate implements Built<UserCreate, UserCreateBuilder> {
-  @BuiltValueField(wireName: r'username')
-  String get username;
 
-  @BuiltValueField(wireName: r'email')
-  String get email;
+@JsonSerializable(
+  checked: true,
+  createToJson: true,
+  disallowUnrecognizedKeys: false,
+  explicitToJson: true,
+)
+class UserCreate {
+  /// Returns a new [UserCreate] instance.
+  UserCreate({
 
-  @BuiltValueField(wireName: r'password')
-  String get password;
+    required  this.username,
 
-  @BuiltValueField(wireName: r'password_confirm')
-  String get passwordConfirm;
+    required  this.email,
 
-  @BuiltValueField(wireName: r'role')
-  String get role;
+    required  this.password,
 
-  UserCreate._();
+    required  this.passwordConfirm,
 
-  factory UserCreate([void updates(UserCreateBuilder b)]) = _$UserCreate;
+    required  this.role,
+  });
 
-  @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(UserCreateBuilder b) => b;
+  @JsonKey(
+    
+    name: r'username',
+    required: true,
+    includeIfNull: false,
+  )
 
-  @BuiltValueSerializer(custom: true)
-  static Serializer<UserCreate> get serializer => _$UserCreateSerializer();
-}
 
-class _$UserCreateSerializer implements PrimitiveSerializer<UserCreate> {
-  @override
-  final Iterable<Type> types = const [UserCreate, _$UserCreate];
+  final String username;
 
-  @override
-  final String wireName = r'UserCreate';
 
-  Iterable<Object?> _serializeProperties(
-    Serializers serializers,
-    UserCreate object, {
-    FullType specifiedType = FullType.unspecified,
-  }) sync* {
-    yield r'username';
-    yield serializers.serialize(
-      object.username,
-      specifiedType: const FullType(String),
-    );
-    yield r'email';
-    yield serializers.serialize(
-      object.email,
-      specifiedType: const FullType(String),
-    );
-    yield r'password';
-    yield serializers.serialize(
-      object.password,
-      specifiedType: const FullType(String),
-    );
-    yield r'password_confirm';
-    yield serializers.serialize(
-      object.passwordConfirm,
-      specifiedType: const FullType(String),
-    );
-    yield r'role';
-    yield serializers.serialize(
-      object.role,
-      specifiedType: const FullType(String),
-    );
-  }
 
-  @override
-  Object serialize(
-    Serializers serializers,
-    UserCreate object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
-  }
+  @JsonKey(
+    
+    name: r'email',
+    required: true,
+    includeIfNull: false,
+  )
 
-  void _deserializeProperties(
-    Serializers serializers,
-    Object serialized, {
-    FullType specifiedType = FullType.unspecified,
-    required List<Object?> serializedList,
-    required UserCreateBuilder result,
-    required List<Object?> unhandled,
-  }) {
-    for (var i = 0; i < serializedList.length; i += 2) {
-      final key = serializedList[i] as String;
-      final value = serializedList[i + 1];
-      switch (key) {
-        case r'username':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.username = valueDes;
-          break;
-        case r'email':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.email = valueDes;
-          break;
-        case r'password':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.password = valueDes;
-          break;
-        case r'password_confirm':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.passwordConfirm = valueDes;
-          break;
-        case r'role':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.role = valueDes;
-          break;
-        default:
-          unhandled.add(key);
-          unhandled.add(value);
-          break;
-      }
-    }
-  }
+
+  final String email;
+
+
+
+  @JsonKey(
+    
+    name: r'password',
+    required: true,
+    includeIfNull: false,
+  )
+
+
+  final String password;
+
+
+
+  @JsonKey(
+    
+    name: r'password_confirm',
+    required: true,
+    includeIfNull: false,
+  )
+
+
+  final String passwordConfirm;
+
+
+
+  @JsonKey(
+    
+    name: r'role',
+    required: true,
+    includeIfNull: false,
+  )
+
+
+  final String role;
+
+
+
+
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is UserCreate &&
+      other.username == username &&
+      other.email == email &&
+      other.password == password &&
+      other.passwordConfirm == passwordConfirm &&
+      other.role == role;
+
+    @override
+    int get hashCode =>
+        username.hashCode +
+        email.hashCode +
+        password.hashCode +
+        passwordConfirm.hashCode +
+        role.hashCode;
+
+  factory UserCreate.fromJson(Map<String, dynamic> json) => _$UserCreateFromJson(json);
+
+  Map<String, dynamic> toJson() => _$UserCreateToJson(this);
 
   @override
-  UserCreate deserialize(
-    Serializers serializers,
-    Object serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
-    final result = UserCreateBuilder();
-    final serializedList = (serialized as Iterable<Object?>).toList();
-    final unhandled = <Object?>[];
-    _deserializeProperties(
-      serializers,
-      serialized,
-      specifiedType: specifiedType,
-      serializedList: serializedList,
-      unhandled: unhandled,
-      result: result,
-    );
-    return result.build();
+  String toString() {
+    return toJson().toString();
   }
+
 }
 

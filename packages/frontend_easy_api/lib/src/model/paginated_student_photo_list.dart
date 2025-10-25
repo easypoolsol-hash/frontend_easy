@@ -3,160 +3,103 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:built_collection/built_collection.dart';
 import 'package:frontend_easy_api/src/model/student_photo.dart';
-import 'package:built_value/built_value.dart';
-import 'package:built_value/serializer.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'paginated_student_photo_list.g.dart';
 
-/// PaginatedStudentPhotoList
-///
-/// Properties:
-/// * [count] 
-/// * [next] 
-/// * [previous] 
-/// * [results] 
-@BuiltValue()
-abstract class PaginatedStudentPhotoList implements Built<PaginatedStudentPhotoList, PaginatedStudentPhotoListBuilder> {
-  @BuiltValueField(wireName: r'count')
-  int get count;
 
-  @BuiltValueField(wireName: r'next')
-  String? get next;
+@JsonSerializable(
+  checked: true,
+  createToJson: true,
+  disallowUnrecognizedKeys: false,
+  explicitToJson: true,
+)
+class PaginatedStudentPhotoList {
+  /// Returns a new [PaginatedStudentPhotoList] instance.
+  PaginatedStudentPhotoList({
 
-  @BuiltValueField(wireName: r'previous')
-  String? get previous;
+    required  this.count,
 
-  @BuiltValueField(wireName: r'results')
-  BuiltList<StudentPhoto> get results;
+     this.next,
 
-  PaginatedStudentPhotoList._();
+     this.previous,
 
-  factory PaginatedStudentPhotoList([void updates(PaginatedStudentPhotoListBuilder b)]) = _$PaginatedStudentPhotoList;
+    required  this.results,
+  });
 
-  @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(PaginatedStudentPhotoListBuilder b) => b;
+  @JsonKey(
+    
+    name: r'count',
+    required: true,
+    includeIfNull: false,
+  )
 
-  @BuiltValueSerializer(custom: true)
-  static Serializer<PaginatedStudentPhotoList> get serializer => _$PaginatedStudentPhotoListSerializer();
-}
 
-class _$PaginatedStudentPhotoListSerializer implements PrimitiveSerializer<PaginatedStudentPhotoList> {
-  @override
-  final Iterable<Type> types = const [PaginatedStudentPhotoList, _$PaginatedStudentPhotoList];
+  final int count;
 
-  @override
-  final String wireName = r'PaginatedStudentPhotoList';
 
-  Iterable<Object?> _serializeProperties(
-    Serializers serializers,
-    PaginatedStudentPhotoList object, {
-    FullType specifiedType = FullType.unspecified,
-  }) sync* {
-    yield r'count';
-    yield serializers.serialize(
-      object.count,
-      specifiedType: const FullType(int),
-    );
-    if (object.next != null) {
-      yield r'next';
-      yield serializers.serialize(
-        object.next,
-        specifiedType: const FullType.nullable(String),
-      );
-    }
-    if (object.previous != null) {
-      yield r'previous';
-      yield serializers.serialize(
-        object.previous,
-        specifiedType: const FullType.nullable(String),
-      );
-    }
-    yield r'results';
-    yield serializers.serialize(
-      object.results,
-      specifiedType: const FullType(BuiltList, [FullType(StudentPhoto)]),
-    );
-  }
 
-  @override
-  Object serialize(
-    Serializers serializers,
-    PaginatedStudentPhotoList object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
-  }
+  @JsonKey(
+    
+    name: r'next',
+    required: false,
+    includeIfNull: false,
+  )
 
-  void _deserializeProperties(
-    Serializers serializers,
-    Object serialized, {
-    FullType specifiedType = FullType.unspecified,
-    required List<Object?> serializedList,
-    required PaginatedStudentPhotoListBuilder result,
-    required List<Object?> unhandled,
-  }) {
-    for (var i = 0; i < serializedList.length; i += 2) {
-      final key = serializedList[i] as String;
-      final value = serializedList[i + 1];
-      switch (key) {
-        case r'count':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(int),
-          ) as int;
-          result.count = valueDes;
-          break;
-        case r'next':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType.nullable(String),
-          ) as String?;
-          if (valueDes == null) continue;
-          result.next = valueDes;
-          break;
-        case r'previous':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType.nullable(String),
-          ) as String?;
-          if (valueDes == null) continue;
-          result.previous = valueDes;
-          break;
-        case r'results':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(BuiltList, [FullType(StudentPhoto)]),
-          ) as BuiltList<StudentPhoto>;
-          result.results.replace(valueDes);
-          break;
-        default:
-          unhandled.add(key);
-          unhandled.add(value);
-          break;
-      }
-    }
-  }
+
+  final String? next;
+
+
+
+  @JsonKey(
+    
+    name: r'previous',
+    required: false,
+    includeIfNull: false,
+  )
+
+
+  final String? previous;
+
+
+
+  @JsonKey(
+    
+    name: r'results',
+    required: true,
+    includeIfNull: false,
+  )
+
+
+  final List<StudentPhoto> results;
+
+
+
+
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is PaginatedStudentPhotoList &&
+      other.count == count &&
+      other.next == next &&
+      other.previous == previous &&
+      other.results == results;
+
+    @override
+    int get hashCode =>
+        count.hashCode +
+        (next == null ? 0 : next.hashCode) +
+        (previous == null ? 0 : previous.hashCode) +
+        results.hashCode;
+
+  factory PaginatedStudentPhotoList.fromJson(Map<String, dynamic> json) => _$PaginatedStudentPhotoListFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PaginatedStudentPhotoListToJson(this);
 
   @override
-  PaginatedStudentPhotoList deserialize(
-    Serializers serializers,
-    Object serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
-    final result = PaginatedStudentPhotoListBuilder();
-    final serializedList = (serialized as Iterable<Object?>).toList();
-    final unhandled = <Object?>[];
-    _deserializeProperties(
-      serializers,
-      serialized,
-      specifiedType: specifiedType,
-      serializedList: serializedList,
-      unhandled: unhandled,
-      result: result,
-    );
-    return result.build();
+  String toString() {
+    return toJson().toString();
   }
+
 }
 

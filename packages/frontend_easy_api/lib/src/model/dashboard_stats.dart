@@ -3,191 +3,140 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:frontend_easy_api/src/model/date.dart';
-import 'package:built_value/built_value.dart';
-import 'package:built_value/serializer.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'dashboard_stats.g.dart';
 
-/// Serializer for dashboard statistics response.
-///
-/// Properties:
-/// * [date] - Date for stats (YYYY-MM-DD)
-/// * [activeBuses] - Number of active buses
-/// * [totalBuses] - Total buses in fleet
-/// * [studentsBoardedToday] - Unique students who boarded today
-/// * [totalEventsToday] - Total boarding events today
-/// * [lastUpdated] - When this data was last calculated
-@BuiltValue()
-abstract class DashboardStats implements Built<DashboardStats, DashboardStatsBuilder> {
-  /// Date for stats (YYYY-MM-DD)
-  @BuiltValueField(wireName: r'date')
-  Date get date;
 
-  /// Number of active buses
-  @BuiltValueField(wireName: r'active_buses')
-  int get activeBuses;
+@JsonSerializable(
+  checked: true,
+  createToJson: true,
+  disallowUnrecognizedKeys: false,
+  explicitToJson: true,
+)
+class DashboardStats {
+  /// Returns a new [DashboardStats] instance.
+  DashboardStats({
 
-  /// Total buses in fleet
-  @BuiltValueField(wireName: r'total_buses')
-  int get totalBuses;
+    required  this.date,
 
-  /// Unique students who boarded today
-  @BuiltValueField(wireName: r'students_boarded_today')
-  int get studentsBoardedToday;
+    required  this.activeBuses,
 
-  /// Total boarding events today
-  @BuiltValueField(wireName: r'total_events_today')
-  int get totalEventsToday;
+    required  this.totalBuses,
 
-  /// When this data was last calculated
-  @BuiltValueField(wireName: r'last_updated')
-  DateTime get lastUpdated;
+    required  this.studentsBoardedToday,
 
-  DashboardStats._();
+    required  this.totalEventsToday,
 
-  factory DashboardStats([void updates(DashboardStatsBuilder b)]) = _$DashboardStats;
+    required  this.lastUpdated,
+  });
 
-  @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(DashboardStatsBuilder b) => b;
+      /// Date for stats (YYYY-MM-DD)
+  @JsonKey(
+    
+    name: r'date',
+    required: true,
+    includeIfNull: false,
+  )
 
-  @BuiltValueSerializer(custom: true)
-  static Serializer<DashboardStats> get serializer => _$DashboardStatsSerializer();
-}
 
-class _$DashboardStatsSerializer implements PrimitiveSerializer<DashboardStats> {
-  @override
-  final Iterable<Type> types = const [DashboardStats, _$DashboardStats];
+  final DateTime date;
 
-  @override
-  final String wireName = r'DashboardStats';
 
-  Iterable<Object?> _serializeProperties(
-    Serializers serializers,
-    DashboardStats object, {
-    FullType specifiedType = FullType.unspecified,
-  }) sync* {
-    yield r'date';
-    yield serializers.serialize(
-      object.date,
-      specifiedType: const FullType(Date),
-    );
-    yield r'active_buses';
-    yield serializers.serialize(
-      object.activeBuses,
-      specifiedType: const FullType(int),
-    );
-    yield r'total_buses';
-    yield serializers.serialize(
-      object.totalBuses,
-      specifiedType: const FullType(int),
-    );
-    yield r'students_boarded_today';
-    yield serializers.serialize(
-      object.studentsBoardedToday,
-      specifiedType: const FullType(int),
-    );
-    yield r'total_events_today';
-    yield serializers.serialize(
-      object.totalEventsToday,
-      specifiedType: const FullType(int),
-    );
-    yield r'last_updated';
-    yield serializers.serialize(
-      object.lastUpdated,
-      specifiedType: const FullType(DateTime),
-    );
-  }
 
-  @override
-  Object serialize(
-    Serializers serializers,
-    DashboardStats object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
-  }
+      /// Number of active buses
+  @JsonKey(
+    
+    name: r'active_buses',
+    required: true,
+    includeIfNull: false,
+  )
 
-  void _deserializeProperties(
-    Serializers serializers,
-    Object serialized, {
-    FullType specifiedType = FullType.unspecified,
-    required List<Object?> serializedList,
-    required DashboardStatsBuilder result,
-    required List<Object?> unhandled,
-  }) {
-    for (var i = 0; i < serializedList.length; i += 2) {
-      final key = serializedList[i] as String;
-      final value = serializedList[i + 1];
-      switch (key) {
-        case r'date':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(Date),
-          ) as Date;
-          result.date = valueDes;
-          break;
-        case r'active_buses':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(int),
-          ) as int;
-          result.activeBuses = valueDes;
-          break;
-        case r'total_buses':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(int),
-          ) as int;
-          result.totalBuses = valueDes;
-          break;
-        case r'students_boarded_today':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(int),
-          ) as int;
-          result.studentsBoardedToday = valueDes;
-          break;
-        case r'total_events_today':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(int),
-          ) as int;
-          result.totalEventsToday = valueDes;
-          break;
-        case r'last_updated':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(DateTime),
-          ) as DateTime;
-          result.lastUpdated = valueDes;
-          break;
-        default:
-          unhandled.add(key);
-          unhandled.add(value);
-          break;
-      }
-    }
-  }
+
+  final int activeBuses;
+
+
+
+      /// Total buses in fleet
+  @JsonKey(
+    
+    name: r'total_buses',
+    required: true,
+    includeIfNull: false,
+  )
+
+
+  final int totalBuses;
+
+
+
+      /// Unique students who boarded today
+  @JsonKey(
+    
+    name: r'students_boarded_today',
+    required: true,
+    includeIfNull: false,
+  )
+
+
+  final int studentsBoardedToday;
+
+
+
+      /// Total boarding events today
+  @JsonKey(
+    
+    name: r'total_events_today',
+    required: true,
+    includeIfNull: false,
+  )
+
+
+  final int totalEventsToday;
+
+
+
+      /// When this data was last calculated
+  @JsonKey(
+    
+    name: r'last_updated',
+    required: true,
+    includeIfNull: false,
+  )
+
+
+  final DateTime lastUpdated;
+
+
+
+
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is DashboardStats &&
+      other.date == date &&
+      other.activeBuses == activeBuses &&
+      other.totalBuses == totalBuses &&
+      other.studentsBoardedToday == studentsBoardedToday &&
+      other.totalEventsToday == totalEventsToday &&
+      other.lastUpdated == lastUpdated;
+
+    @override
+    int get hashCode =>
+        date.hashCode +
+        activeBuses.hashCode +
+        totalBuses.hashCode +
+        studentsBoardedToday.hashCode +
+        totalEventsToday.hashCode +
+        lastUpdated.hashCode;
+
+  factory DashboardStats.fromJson(Map<String, dynamic> json) => _$DashboardStatsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DashboardStatsToJson(this);
 
   @override
-  DashboardStats deserialize(
-    Serializers serializers,
-    Object serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
-    final result = DashboardStatsBuilder();
-    final serializedList = (serialized as Iterable<Object?>).toList();
-    final unhandled = <Object?>[];
-    _deserializeProperties(
-      serializers,
-      serialized,
-      specifiedType: specifiedType,
-      serializedList: serializedList,
-      unhandled: unhandled,
-      result: result,
-    );
-    return result.build();
+  String toString() {
+    return toJson().toString();
   }
+
 }
 

@@ -18,7 +18,7 @@ Name | Type | Description | Notes
 **manufacturer** | **String** | Bus manufacturer | [optional] 
 **model** | **String** | Bus model | [optional] 
 **year** | **int** | Manufacturing year | [optional] 
-**lastMaintenance** | [**Date**](Date.md) | Date of last maintenance | [optional] 
+**lastMaintenance** | [**DateTime**](DateTime.md) | Date of last maintenance | [optional] 
 **assignedStudentsCount** | **int** |  | 
 **utilizationPercentage** | **double** |  | 
 **isAvailable** | **bool** |  | 

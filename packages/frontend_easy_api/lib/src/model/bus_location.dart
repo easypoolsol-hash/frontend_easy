@@ -3,216 +3,157 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:built_value/built_value.dart';
-import 'package:built_value/serializer.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'bus_location.g.dart';
 
-/// Serializer for GPS location updates from kiosk
-///
-/// Properties:
-/// * [locationId] - Auto-incrementing location entry ID
-/// * [latitude] - GPS latitude coordinate
-/// * [longitude] - GPS longitude coordinate
-/// * [accuracy] - GPS accuracy in meters
-/// * [speed] - Speed in km/h
-/// * [heading] - Heading/bearing in degrees (0-360)
-/// * [timestamp] - When this location was recorded by the kiosk
-@BuiltValue()
-abstract class BusLocation implements Built<BusLocation, BusLocationBuilder> {
-  /// Auto-incrementing location entry ID
-  @BuiltValueField(wireName: r'location_id')
-  int get locationId;
 
-  /// GPS latitude coordinate
-  @BuiltValueField(wireName: r'latitude')
-  double get latitude;
+@JsonSerializable(
+  checked: true,
+  createToJson: true,
+  disallowUnrecognizedKeys: false,
+  explicitToJson: true,
+)
+class BusLocation {
+  /// Returns a new [BusLocation] instance.
+  BusLocation({
 
-  /// GPS longitude coordinate
-  @BuiltValueField(wireName: r'longitude')
-  double get longitude;
+    required  this.locationId,
 
-  /// GPS accuracy in meters
-  @BuiltValueField(wireName: r'accuracy')
-  double? get accuracy;
+    required  this.latitude,
 
-  /// Speed in km/h
-  @BuiltValueField(wireName: r'speed')
-  double? get speed;
+    required  this.longitude,
 
-  /// Heading/bearing in degrees (0-360)
-  @BuiltValueField(wireName: r'heading')
-  double? get heading;
+     this.accuracy,
 
-  /// When this location was recorded by the kiosk
-  @BuiltValueField(wireName: r'timestamp')
-  DateTime get timestamp;
+     this.speed,
 
-  BusLocation._();
+     this.heading,
 
-  factory BusLocation([void updates(BusLocationBuilder b)]) = _$BusLocation;
+    required  this.timestamp,
+  });
 
-  @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(BusLocationBuilder b) => b;
+      /// Auto-incrementing location entry ID
+  @JsonKey(
+    
+    name: r'location_id',
+    required: true,
+    includeIfNull: false,
+  )
 
-  @BuiltValueSerializer(custom: true)
-  static Serializer<BusLocation> get serializer => _$BusLocationSerializer();
-}
 
-class _$BusLocationSerializer implements PrimitiveSerializer<BusLocation> {
-  @override
-  final Iterable<Type> types = const [BusLocation, _$BusLocation];
+  final int locationId;
 
-  @override
-  final String wireName = r'BusLocation';
 
-  Iterable<Object?> _serializeProperties(
-    Serializers serializers,
-    BusLocation object, {
-    FullType specifiedType = FullType.unspecified,
-  }) sync* {
-    yield r'location_id';
-    yield serializers.serialize(
-      object.locationId,
-      specifiedType: const FullType(int),
-    );
-    yield r'latitude';
-    yield serializers.serialize(
-      object.latitude,
-      specifiedType: const FullType(double),
-    );
-    yield r'longitude';
-    yield serializers.serialize(
-      object.longitude,
-      specifiedType: const FullType(double),
-    );
-    if (object.accuracy != null) {
-      yield r'accuracy';
-      yield serializers.serialize(
-        object.accuracy,
-        specifiedType: const FullType.nullable(double),
-      );
-    }
-    if (object.speed != null) {
-      yield r'speed';
-      yield serializers.serialize(
-        object.speed,
-        specifiedType: const FullType.nullable(double),
-      );
-    }
-    if (object.heading != null) {
-      yield r'heading';
-      yield serializers.serialize(
-        object.heading,
-        specifiedType: const FullType.nullable(double),
-      );
-    }
-    yield r'timestamp';
-    yield serializers.serialize(
-      object.timestamp,
-      specifiedType: const FullType(DateTime),
-    );
-  }
 
-  @override
-  Object serialize(
-    Serializers serializers,
-    BusLocation object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
-  }
+      /// GPS latitude coordinate
+  @JsonKey(
+    
+    name: r'latitude',
+    required: true,
+    includeIfNull: false,
+  )
 
-  void _deserializeProperties(
-    Serializers serializers,
-    Object serialized, {
-    FullType specifiedType = FullType.unspecified,
-    required List<Object?> serializedList,
-    required BusLocationBuilder result,
-    required List<Object?> unhandled,
-  }) {
-    for (var i = 0; i < serializedList.length; i += 2) {
-      final key = serializedList[i] as String;
-      final value = serializedList[i + 1];
-      switch (key) {
-        case r'location_id':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(int),
-          ) as int;
-          result.locationId = valueDes;
-          break;
-        case r'latitude':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(double),
-          ) as double;
-          result.latitude = valueDes;
-          break;
-        case r'longitude':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(double),
-          ) as double;
-          result.longitude = valueDes;
-          break;
-        case r'accuracy':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType.nullable(double),
-          ) as double?;
-          if (valueDes == null) continue;
-          result.accuracy = valueDes;
-          break;
-        case r'speed':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType.nullable(double),
-          ) as double?;
-          if (valueDes == null) continue;
-          result.speed = valueDes;
-          break;
-        case r'heading':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType.nullable(double),
-          ) as double?;
-          if (valueDes == null) continue;
-          result.heading = valueDes;
-          break;
-        case r'timestamp':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(DateTime),
-          ) as DateTime;
-          result.timestamp = valueDes;
-          break;
-        default:
-          unhandled.add(key);
-          unhandled.add(value);
-          break;
-      }
-    }
-  }
+
+  final double latitude;
+
+
+
+      /// GPS longitude coordinate
+  @JsonKey(
+    
+    name: r'longitude',
+    required: true,
+    includeIfNull: false,
+  )
+
+
+  final double longitude;
+
+
+
+      /// GPS accuracy in meters
+  @JsonKey(
+    
+    name: r'accuracy',
+    required: false,
+    includeIfNull: false,
+  )
+
+
+  final double? accuracy;
+
+
+
+      /// Speed in km/h
+  @JsonKey(
+    
+    name: r'speed',
+    required: false,
+    includeIfNull: false,
+  )
+
+
+  final double? speed;
+
+
+
+      /// Heading/bearing in degrees (0-360)
+  @JsonKey(
+    
+    name: r'heading',
+    required: false,
+    includeIfNull: false,
+  )
+
+
+  final double? heading;
+
+
+
+      /// When this location was recorded by the kiosk
+  @JsonKey(
+    
+    name: r'timestamp',
+    required: true,
+    includeIfNull: false,
+  )
+
+
+  final DateTime timestamp;
+
+
+
+
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is BusLocation &&
+      other.locationId == locationId &&
+      other.latitude == latitude &&
+      other.longitude == longitude &&
+      other.accuracy == accuracy &&
+      other.speed == speed &&
+      other.heading == heading &&
+      other.timestamp == timestamp;
+
+    @override
+    int get hashCode =>
+        locationId.hashCode +
+        latitude.hashCode +
+        longitude.hashCode +
+        (accuracy == null ? 0 : accuracy.hashCode) +
+        (speed == null ? 0 : speed.hashCode) +
+        (heading == null ? 0 : heading.hashCode) +
+        timestamp.hashCode;
+
+  factory BusLocation.fromJson(Map<String, dynamic> json) => _$BusLocationFromJson(json);
+
+  Map<String, dynamic> toJson() => _$BusLocationToJson(this);
 
   @override
-  BusLocation deserialize(
-    Serializers serializers,
-    Object serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
-    final result = BusLocationBuilder();
-    final serializedList = (serialized as Iterable<Object?>).toList();
-    final unhandled = <Object?>[];
-    _deserializeProperties(
-      serializers,
-      serialized,
-      specifiedType: specifiedType,
-      serializedList: serializedList,
-      unhandled: unhandled,
-      result: result,
-    );
-    return result.build();
+  String toString() {
+    return toJson().toString();
   }
+
 }
 

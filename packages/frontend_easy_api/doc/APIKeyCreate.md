@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **kioskId** | **String** | Reference to kiosk device | 
 **name** | **String** | Human-readable name for the key | [optional] 
-**permissions** | [**JsonObject**](.md) | JSON object defining scoped permissions | [optional] 
+**permissions** | **Object** | JSON object defining scoped permissions | [optional] 
 **expiresAt** | [**DateTime**](DateTime.md) |  | [optional] 
 **rawKey** | **String** |  | 
 

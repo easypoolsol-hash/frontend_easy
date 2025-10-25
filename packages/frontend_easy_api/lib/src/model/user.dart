@@ -3,235 +3,182 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:built_value/built_value.dart';
-import 'package:built_value/serializer.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'user.g.dart';
 
-/// User
-///
-/// Properties:
-/// * [userId] 
-/// * [username] 
-/// * [email] 
-/// * [role] 
-/// * [roleName] 
-/// * [isActive] 
-/// * [lastLogin] 
-/// * [createdAt] 
-/// * [updatedAt] 
-@BuiltValue()
-abstract class User implements Built<User, UserBuilder> {
-  @BuiltValueField(wireName: r'user_id')
-  String get userId;
 
-  @BuiltValueField(wireName: r'username')
-  String get username;
+@JsonSerializable(
+  checked: true,
+  createToJson: true,
+  disallowUnrecognizedKeys: false,
+  explicitToJson: true,
+)
+class User {
+  /// Returns a new [User] instance.
+  User({
 
-  @BuiltValueField(wireName: r'email')
-  String get email;
+    required  this.userId,
 
-  @BuiltValueField(wireName: r'role')
-  String get role;
+    required  this.username,
 
-  @BuiltValueField(wireName: r'role_name')
-  String get roleName;
+    required  this.email,
 
-  @BuiltValueField(wireName: r'is_active')
-  bool? get isActive;
+    required  this.role,
 
-  @BuiltValueField(wireName: r'last_login')
-  DateTime? get lastLogin;
+    required  this.roleName,
 
-  @BuiltValueField(wireName: r'created_at')
-  DateTime get createdAt;
+     this.isActive,
 
-  @BuiltValueField(wireName: r'updated_at')
-  DateTime get updatedAt;
+    required  this.lastLogin,
 
-  User._();
+    required  this.createdAt,
 
-  factory User([void updates(UserBuilder b)]) = _$User;
+    required  this.updatedAt,
+  });
 
-  @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(UserBuilder b) => b;
+  @JsonKey(
+    
+    name: r'user_id',
+    required: true,
+    includeIfNull: false,
+  )
 
-  @BuiltValueSerializer(custom: true)
-  static Serializer<User> get serializer => _$UserSerializer();
-}
 
-class _$UserSerializer implements PrimitiveSerializer<User> {
-  @override
-  final Iterable<Type> types = const [User, _$User];
+  final String userId;
 
-  @override
-  final String wireName = r'User';
 
-  Iterable<Object?> _serializeProperties(
-    Serializers serializers,
-    User object, {
-    FullType specifiedType = FullType.unspecified,
-  }) sync* {
-    yield r'user_id';
-    yield serializers.serialize(
-      object.userId,
-      specifiedType: const FullType(String),
-    );
-    yield r'username';
-    yield serializers.serialize(
-      object.username,
-      specifiedType: const FullType(String),
-    );
-    yield r'email';
-    yield serializers.serialize(
-      object.email,
-      specifiedType: const FullType(String),
-    );
-    yield r'role';
-    yield serializers.serialize(
-      object.role,
-      specifiedType: const FullType(String),
-    );
-    yield r'role_name';
-    yield serializers.serialize(
-      object.roleName,
-      specifiedType: const FullType(String),
-    );
-    if (object.isActive != null) {
-      yield r'is_active';
-      yield serializers.serialize(
-        object.isActive,
-        specifiedType: const FullType(bool),
-      );
-    }
-    yield r'last_login';
-    yield object.lastLogin == null ? null : serializers.serialize(
-      object.lastLogin,
-      specifiedType: const FullType.nullable(DateTime),
-    );
-    yield r'created_at';
-    yield serializers.serialize(
-      object.createdAt,
-      specifiedType: const FullType(DateTime),
-    );
-    yield r'updated_at';
-    yield serializers.serialize(
-      object.updatedAt,
-      specifiedType: const FullType(DateTime),
-    );
-  }
 
-  @override
-  Object serialize(
-    Serializers serializers,
-    User object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
-  }
+  @JsonKey(
+    
+    name: r'username',
+    required: true,
+    includeIfNull: false,
+  )
 
-  void _deserializeProperties(
-    Serializers serializers,
-    Object serialized, {
-    FullType specifiedType = FullType.unspecified,
-    required List<Object?> serializedList,
-    required UserBuilder result,
-    required List<Object?> unhandled,
-  }) {
-    for (var i = 0; i < serializedList.length; i += 2) {
-      final key = serializedList[i] as String;
-      final value = serializedList[i + 1];
-      switch (key) {
-        case r'user_id':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.userId = valueDes;
-          break;
-        case r'username':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.username = valueDes;
-          break;
-        case r'email':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.email = valueDes;
-          break;
-        case r'role':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.role = valueDes;
-          break;
-        case r'role_name':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.roleName = valueDes;
-          break;
-        case r'is_active':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(bool),
-          ) as bool;
-          result.isActive = valueDes;
-          break;
-        case r'last_login':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType.nullable(DateTime),
-          ) as DateTime?;
-          if (valueDes == null) continue;
-          result.lastLogin = valueDes;
-          break;
-        case r'created_at':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(DateTime),
-          ) as DateTime;
-          result.createdAt = valueDes;
-          break;
-        case r'updated_at':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(DateTime),
-          ) as DateTime;
-          result.updatedAt = valueDes;
-          break;
-        default:
-          unhandled.add(key);
-          unhandled.add(value);
-          break;
-      }
-    }
-  }
+
+  final String username;
+
+
+
+  @JsonKey(
+    
+    name: r'email',
+    required: true,
+    includeIfNull: false,
+  )
+
+
+  final String email;
+
+
+
+  @JsonKey(
+    
+    name: r'role',
+    required: true,
+    includeIfNull: false,
+  )
+
+
+  final String role;
+
+
+
+  @JsonKey(
+    
+    name: r'role_name',
+    required: true,
+    includeIfNull: false,
+  )
+
+
+  final String roleName;
+
+
+
+  @JsonKey(
+    
+    name: r'is_active',
+    required: false,
+    includeIfNull: false,
+  )
+
+
+  final bool? isActive;
+
+
+
+  @JsonKey(
+    
+    name: r'last_login',
+    required: true,
+    includeIfNull: true,
+  )
+
+
+  final DateTime? lastLogin;
+
+
+
+  @JsonKey(
+    
+    name: r'created_at',
+    required: true,
+    includeIfNull: false,
+  )
+
+
+  final DateTime createdAt;
+
+
+
+  @JsonKey(
+    
+    name: r'updated_at',
+    required: true,
+    includeIfNull: false,
+  )
+
+
+  final DateTime updatedAt;
+
+
+
+
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is User &&
+      other.userId == userId &&
+      other.username == username &&
+      other.email == email &&
+      other.role == role &&
+      other.roleName == roleName &&
+      other.isActive == isActive &&
+      other.lastLogin == lastLogin &&
+      other.createdAt == createdAt &&
+      other.updatedAt == updatedAt;
+
+    @override
+    int get hashCode =>
+        userId.hashCode +
+        username.hashCode +
+        email.hashCode +
+        role.hashCode +
+        roleName.hashCode +
+        isActive.hashCode +
+        (lastLogin == null ? 0 : lastLogin.hashCode) +
+        createdAt.hashCode +
+        updatedAt.hashCode;
+
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+
+  Map<String, dynamic> toJson() => _$UserToJson(this);
 
   @override
-  User deserialize(
-    Serializers serializers,
-    Object serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
-    final result = UserBuilder();
-    final serializedList = (serialized as Iterable<Object?>).toList();
-    final unhandled = <Object?>[];
-    _deserializeProperties(
-      serializers,
-      serialized,
-      specifiedType: specifiedType,
-      serializedList: serializedList,
-      unhandled: unhandled,
-      result: result,
-    );
-    return result.build();
+  String toString() {
+    return toJson().toString();
   }
+
 }
 

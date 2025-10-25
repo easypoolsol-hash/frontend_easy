@@ -3,238 +3,183 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:built_collection/built_collection.dart';
-import 'package:built_value/json_object.dart';
-import 'package:built_value/built_value.dart';
-import 'package:built_value/serializer.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'device_log.g.dart';
 
-/// Serializer for device logs
-///
-/// Properties:
-/// * [logId] - Auto-incrementing log entry ID
-/// * [kiosk] - Kiosk that generated this log entry
-/// * [kioskId] 
-/// * [logLevel] - Log level severity  * `DEBUG` - Debug * `INFO` - Info * `WARN` - Warning * `ERROR` - Error * `CRITICAL` - Critical
-/// * [message] - Log message content
-/// * [metadata] - Additional structured data as JSON
-/// * [timestamp] - When this log entry was created
-@BuiltValue()
-abstract class DeviceLog implements Built<DeviceLog, DeviceLogBuilder> {
-  /// Auto-incrementing log entry ID
-  @BuiltValueField(wireName: r'log_id')
-  int get logId;
 
-  /// Kiosk that generated this log entry
-  @BuiltValueField(wireName: r'kiosk')
-  String get kiosk;
+@JsonSerializable(
+  checked: true,
+  createToJson: true,
+  disallowUnrecognizedKeys: false,
+  explicitToJson: true,
+)
+class DeviceLog {
+  /// Returns a new [DeviceLog] instance.
+  DeviceLog({
 
-  @BuiltValueField(wireName: r'kiosk_id')
-  String get kioskId;
+    required  this.logId,
 
-  /// Log level severity  * `DEBUG` - Debug * `INFO` - Info * `WARN` - Warning * `ERROR` - Error * `CRITICAL` - Critical
-  @BuiltValueField(wireName: r'log_level')
-  DeviceLogLogLevelEnum get logLevel;
-  // enum logLevelEnum {  DEBUG,  INFO,  WARN,  ERROR,  CRITICAL,  };
+    required  this.kiosk,
 
-  /// Log message content
-  @BuiltValueField(wireName: r'message')
-  String get message;
+    required  this.kioskId,
 
-  /// Additional structured data as JSON
-  @BuiltValueField(wireName: r'metadata')
-  JsonObject? get metadata;
+    required  this.logLevel,
 
-  /// When this log entry was created
-  @BuiltValueField(wireName: r'timestamp')
-  DateTime get timestamp;
+    required  this.message,
 
-  DeviceLog._();
+     this.metadata,
 
-  factory DeviceLog([void updates(DeviceLogBuilder b)]) = _$DeviceLog;
+    required  this.timestamp,
+  });
 
-  @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(DeviceLogBuilder b) => b;
+      /// Auto-incrementing log entry ID
+  @JsonKey(
+    
+    name: r'log_id',
+    required: true,
+    includeIfNull: false,
+  )
 
-  @BuiltValueSerializer(custom: true)
-  static Serializer<DeviceLog> get serializer => _$DeviceLogSerializer();
+
+  final int logId;
+
+
+
+      /// Kiosk that generated this log entry
+  @JsonKey(
+    
+    name: r'kiosk',
+    required: true,
+    includeIfNull: false,
+  )
+
+
+  final String kiosk;
+
+
+
+  @JsonKey(
+    
+    name: r'kiosk_id',
+    required: true,
+    includeIfNull: false,
+  )
+
+
+  final String kioskId;
+
+
+
+      /// Log level severity  * `DEBUG` - Debug * `INFO` - Info * `WARN` - Warning * `ERROR` - Error * `CRITICAL` - Critical
+  @JsonKey(
+    
+    name: r'log_level',
+    required: true,
+    includeIfNull: false,
+  )
+
+
+  final DeviceLogLogLevelEnum logLevel;
+
+
+
+      /// Log message content
+  @JsonKey(
+    
+    name: r'message',
+    required: true,
+    includeIfNull: false,
+  )
+
+
+  final String message;
+
+
+
+      /// Additional structured data as JSON
+  @JsonKey(
+    
+    name: r'metadata',
+    required: false,
+    includeIfNull: false,
+  )
+
+
+  final Object? metadata;
+
+
+
+      /// When this log entry was created
+  @JsonKey(
+    
+    name: r'timestamp',
+    required: true,
+    includeIfNull: false,
+  )
+
+
+  final DateTime timestamp;
+
+
+
+
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is DeviceLog &&
+      other.logId == logId &&
+      other.kiosk == kiosk &&
+      other.kioskId == kioskId &&
+      other.logLevel == logLevel &&
+      other.message == message &&
+      other.metadata == metadata &&
+      other.timestamp == timestamp;
+
+    @override
+    int get hashCode =>
+        logId.hashCode +
+        kiosk.hashCode +
+        kioskId.hashCode +
+        logLevel.hashCode +
+        message.hashCode +
+        (metadata == null ? 0 : metadata.hashCode) +
+        timestamp.hashCode;
+
+  factory DeviceLog.fromJson(Map<String, dynamic> json) => _$DeviceLogFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DeviceLogToJson(this);
+
+  @override
+  String toString() {
+    return toJson().toString();
+  }
+
 }
 
-class _$DeviceLogSerializer implements PrimitiveSerializer<DeviceLog> {
-  @override
-  final Iterable<Type> types = const [DeviceLog, _$DeviceLog];
+/// Log level severity  * `DEBUG` - Debug * `INFO` - Info * `WARN` - Warning * `ERROR` - Error * `CRITICAL` - Critical
+enum DeviceLogLogLevelEnum {
+    /// Log level severity  * `DEBUG` - Debug * `INFO` - Info * `WARN` - Warning * `ERROR` - Error * `CRITICAL` - Critical
+@JsonValue(r'DEBUG')
+DEBUG(r'DEBUG'),
+    /// Log level severity  * `DEBUG` - Debug * `INFO` - Info * `WARN` - Warning * `ERROR` - Error * `CRITICAL` - Critical
+@JsonValue(r'INFO')
+INFO(r'INFO'),
+    /// Log level severity  * `DEBUG` - Debug * `INFO` - Info * `WARN` - Warning * `ERROR` - Error * `CRITICAL` - Critical
+@JsonValue(r'WARN')
+WARN(r'WARN'),
+    /// Log level severity  * `DEBUG` - Debug * `INFO` - Info * `WARN` - Warning * `ERROR` - Error * `CRITICAL` - Critical
+@JsonValue(r'ERROR')
+ERROR(r'ERROR'),
+    /// Log level severity  * `DEBUG` - Debug * `INFO` - Info * `WARN` - Warning * `ERROR` - Error * `CRITICAL` - Critical
+@JsonValue(r'CRITICAL')
+CRITICAL(r'CRITICAL');
 
-  @override
-  final String wireName = r'DeviceLog';
+const DeviceLogLogLevelEnum(this.value);
 
-  Iterable<Object?> _serializeProperties(
-    Serializers serializers,
-    DeviceLog object, {
-    FullType specifiedType = FullType.unspecified,
-  }) sync* {
-    yield r'log_id';
-    yield serializers.serialize(
-      object.logId,
-      specifiedType: const FullType(int),
-    );
-    yield r'kiosk';
-    yield serializers.serialize(
-      object.kiosk,
-      specifiedType: const FullType(String),
-    );
-    yield r'kiosk_id';
-    yield serializers.serialize(
-      object.kioskId,
-      specifiedType: const FullType(String),
-    );
-    yield r'log_level';
-    yield serializers.serialize(
-      object.logLevel,
-      specifiedType: const FullType(DeviceLogLogLevelEnum),
-    );
-    yield r'message';
-    yield serializers.serialize(
-      object.message,
-      specifiedType: const FullType(String),
-    );
-    if (object.metadata != null) {
-      yield r'metadata';
-      yield serializers.serialize(
-        object.metadata,
-        specifiedType: const FullType.nullable(JsonObject),
-      );
-    }
-    yield r'timestamp';
-    yield serializers.serialize(
-      object.timestamp,
-      specifiedType: const FullType(DateTime),
-    );
-  }
+final String value;
 
-  @override
-  Object serialize(
-    Serializers serializers,
-    DeviceLog object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
-  }
-
-  void _deserializeProperties(
-    Serializers serializers,
-    Object serialized, {
-    FullType specifiedType = FullType.unspecified,
-    required List<Object?> serializedList,
-    required DeviceLogBuilder result,
-    required List<Object?> unhandled,
-  }) {
-    for (var i = 0; i < serializedList.length; i += 2) {
-      final key = serializedList[i] as String;
-      final value = serializedList[i + 1];
-      switch (key) {
-        case r'log_id':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(int),
-          ) as int;
-          result.logId = valueDes;
-          break;
-        case r'kiosk':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.kiosk = valueDes;
-          break;
-        case r'kiosk_id':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.kioskId = valueDes;
-          break;
-        case r'log_level':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(DeviceLogLogLevelEnum),
-          ) as DeviceLogLogLevelEnum;
-          result.logLevel = valueDes;
-          break;
-        case r'message':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.message = valueDes;
-          break;
-        case r'metadata':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType.nullable(JsonObject),
-          ) as JsonObject?;
-          if (valueDes == null) continue;
-          result.metadata = valueDes;
-          break;
-        case r'timestamp':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(DateTime),
-          ) as DateTime;
-          result.timestamp = valueDes;
-          break;
-        default:
-          unhandled.add(key);
-          unhandled.add(value);
-          break;
-      }
-    }
-  }
-
-  @override
-  DeviceLog deserialize(
-    Serializers serializers,
-    Object serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
-    final result = DeviceLogBuilder();
-    final serializedList = (serialized as Iterable<Object?>).toList();
-    final unhandled = <Object?>[];
-    _deserializeProperties(
-      serializers,
-      serialized,
-      specifiedType: specifiedType,
-      serializedList: serializedList,
-      unhandled: unhandled,
-      result: result,
-    );
-    return result.build();
-  }
+@override
+String toString() => value;
 }
 
-class DeviceLogLogLevelEnum extends EnumClass {
-
-  /// Log level severity  * `DEBUG` - Debug * `INFO` - Info * `WARN` - Warning * `ERROR` - Error * `CRITICAL` - Critical
-  @BuiltValueEnumConst(wireName: r'DEBUG')
-  static const DeviceLogLogLevelEnum DEBUG = _$deviceLogLogLevelEnum_DEBUG;
-  /// Log level severity  * `DEBUG` - Debug * `INFO` - Info * `WARN` - Warning * `ERROR` - Error * `CRITICAL` - Critical
-  @BuiltValueEnumConst(wireName: r'INFO')
-  static const DeviceLogLogLevelEnum INFO = _$deviceLogLogLevelEnum_INFO;
-  /// Log level severity  * `DEBUG` - Debug * `INFO` - Info * `WARN` - Warning * `ERROR` - Error * `CRITICAL` - Critical
-  @BuiltValueEnumConst(wireName: r'WARN')
-  static const DeviceLogLogLevelEnum WARN = _$deviceLogLogLevelEnum_WARN;
-  /// Log level severity  * `DEBUG` - Debug * `INFO` - Info * `WARN` - Warning * `ERROR` - Error * `CRITICAL` - Critical
-  @BuiltValueEnumConst(wireName: r'ERROR')
-  static const DeviceLogLogLevelEnum ERROR = _$deviceLogLogLevelEnum_ERROR;
-  /// Log level severity  * `DEBUG` - Debug * `INFO` - Info * `WARN` - Warning * `ERROR` - Error * `CRITICAL` - Critical
-  @BuiltValueEnumConst(wireName: r'CRITICAL')
-  static const DeviceLogLogLevelEnum CRITICAL = _$deviceLogLogLevelEnum_CRITICAL;
-
-  static Serializer<DeviceLogLogLevelEnum> get serializer => _$deviceLogLogLevelEnumSerializer;
-
-  const DeviceLogLogLevelEnum._(String name): super(name);
-
-  static BuiltSet<DeviceLogLogLevelEnum> get values => _$deviceLogLogLevelEnumValues;
-  static DeviceLogLogLevelEnum valueOf(String name) => _$deviceLogLogLevelEnumValueOf(name);
-}
 

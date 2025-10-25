@@ -33,10 +33,31 @@ class StudentActivityParams {
   /// Pagination offset (default: 0)
   final int? offset;
 
+  /// Search query for name or student ID (client-side filter)
+  final String? searchQuery;
+
   /// Creates student activity filter parameters
   const StudentActivityParams({
     this.date,
     this.limit,
     this.offset,
+    this.searchQuery,
   });
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is StudentActivityParams &&
+          runtimeType == other.runtimeType &&
+          date == other.date &&
+          limit == other.limit &&
+          offset == other.offset &&
+          searchQuery == other.searchQuery;
+
+  @override
+  int get hashCode =>
+      date.hashCode ^
+      limit.hashCode ^
+      offset.hashCode ^
+      searchQuery.hashCode;
 }

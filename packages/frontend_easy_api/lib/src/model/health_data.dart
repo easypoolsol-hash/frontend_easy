@@ -3,259 +3,188 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:built_value/built_value.dart';
-import 'package:built_value/serializer.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'health_data.g.dart';
 
-/// Serializer for health metrics
-///
-/// Properties:
-/// * [batteryLevel] 
-/// * [isCharging] 
-/// * [storageAvailableMb] 
-/// * [cameraActive] 
-/// * [networkType] 
-/// * [appVersion] 
-/// * [lastFaceDetectedAgoMin] 
-/// * [facesDetectedToday] 
-/// * [studentsIdentifiedToday] 
-@BuiltValue()
-abstract class HealthData implements Built<HealthData, HealthDataBuilder> {
-  @BuiltValueField(wireName: r'battery_level')
-  int? get batteryLevel;
 
-  @BuiltValueField(wireName: r'is_charging')
-  bool? get isCharging;
+@JsonSerializable(
+  checked: true,
+  createToJson: true,
+  disallowUnrecognizedKeys: false,
+  explicitToJson: true,
+)
+class HealthData {
+  /// Returns a new [HealthData] instance.
+  HealthData({
 
-  @BuiltValueField(wireName: r'storage_available_mb')
-  int? get storageAvailableMb;
+     this.batteryLevel,
 
-  @BuiltValueField(wireName: r'camera_active')
-  bool? get cameraActive;
+     this.isCharging = false,
 
-  @BuiltValueField(wireName: r'network_type')
-  String? get networkType;
+     this.storageAvailableMb,
 
-  @BuiltValueField(wireName: r'app_version')
-  String? get appVersion;
+     this.cameraActive = false,
 
-  @BuiltValueField(wireName: r'last_face_detected_ago_min')
-  int? get lastFaceDetectedAgoMin;
+     this.networkType,
 
-  @BuiltValueField(wireName: r'faces_detected_today')
-  int? get facesDetectedToday;
+     this.appVersion,
 
-  @BuiltValueField(wireName: r'students_identified_today')
-  int? get studentsIdentifiedToday;
+     this.lastFaceDetectedAgoMin,
 
-  HealthData._();
+     this.facesDetectedToday = 0,
 
-  factory HealthData([void updates(HealthDataBuilder b)]) = _$HealthData;
+     this.studentsIdentifiedToday = 0,
+  });
 
-  @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(HealthDataBuilder b) => b
-      ..isCharging = false
-      ..cameraActive = false
-      ..facesDetectedToday = 0
-      ..studentsIdentifiedToday = 0;
+          // minimum: 0
+          // maximum: 100
+  @JsonKey(
+    
+    name: r'battery_level',
+    required: false,
+    includeIfNull: false,
+  )
 
-  @BuiltValueSerializer(custom: true)
-  static Serializer<HealthData> get serializer => _$HealthDataSerializer();
-}
 
-class _$HealthDataSerializer implements PrimitiveSerializer<HealthData> {
-  @override
-  final Iterable<Type> types = const [HealthData, _$HealthData];
+  final int? batteryLevel;
 
-  @override
-  final String wireName = r'HealthData';
 
-  Iterable<Object?> _serializeProperties(
-    Serializers serializers,
-    HealthData object, {
-    FullType specifiedType = FullType.unspecified,
-  }) sync* {
-    if (object.batteryLevel != null) {
-      yield r'battery_level';
-      yield serializers.serialize(
-        object.batteryLevel,
-        specifiedType: const FullType.nullable(int),
-      );
-    }
-    if (object.isCharging != null) {
-      yield r'is_charging';
-      yield serializers.serialize(
-        object.isCharging,
-        specifiedType: const FullType(bool),
-      );
-    }
-    if (object.storageAvailableMb != null) {
-      yield r'storage_available_mb';
-      yield serializers.serialize(
-        object.storageAvailableMb,
-        specifiedType: const FullType.nullable(int),
-      );
-    }
-    if (object.cameraActive != null) {
-      yield r'camera_active';
-      yield serializers.serialize(
-        object.cameraActive,
-        specifiedType: const FullType(bool),
-      );
-    }
-    if (object.networkType != null) {
-      yield r'network_type';
-      yield serializers.serialize(
-        object.networkType,
-        specifiedType: const FullType.nullable(String),
-      );
-    }
-    if (object.appVersion != null) {
-      yield r'app_version';
-      yield serializers.serialize(
-        object.appVersion,
-        specifiedType: const FullType.nullable(String),
-      );
-    }
-    if (object.lastFaceDetectedAgoMin != null) {
-      yield r'last_face_detected_ago_min';
-      yield serializers.serialize(
-        object.lastFaceDetectedAgoMin,
-        specifiedType: const FullType.nullable(int),
-      );
-    }
-    if (object.facesDetectedToday != null) {
-      yield r'faces_detected_today';
-      yield serializers.serialize(
-        object.facesDetectedToday,
-        specifiedType: const FullType(int),
-      );
-    }
-    if (object.studentsIdentifiedToday != null) {
-      yield r'students_identified_today';
-      yield serializers.serialize(
-        object.studentsIdentifiedToday,
-        specifiedType: const FullType(int),
-      );
-    }
-  }
 
-  @override
-  Object serialize(
-    Serializers serializers,
-    HealthData object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
-  }
+  @JsonKey(
+    defaultValue: false,
+    name: r'is_charging',
+    required: false,
+    includeIfNull: false,
+  )
 
-  void _deserializeProperties(
-    Serializers serializers,
-    Object serialized, {
-    FullType specifiedType = FullType.unspecified,
-    required List<Object?> serializedList,
-    required HealthDataBuilder result,
-    required List<Object?> unhandled,
-  }) {
-    for (var i = 0; i < serializedList.length; i += 2) {
-      final key = serializedList[i] as String;
-      final value = serializedList[i + 1];
-      switch (key) {
-        case r'battery_level':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType.nullable(int),
-          ) as int?;
-          if (valueDes == null) continue;
-          result.batteryLevel = valueDes;
-          break;
-        case r'is_charging':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(bool),
-          ) as bool;
-          result.isCharging = valueDes;
-          break;
-        case r'storage_available_mb':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType.nullable(int),
-          ) as int?;
-          if (valueDes == null) continue;
-          result.storageAvailableMb = valueDes;
-          break;
-        case r'camera_active':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(bool),
-          ) as bool;
-          result.cameraActive = valueDes;
-          break;
-        case r'network_type':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType.nullable(String),
-          ) as String?;
-          if (valueDes == null) continue;
-          result.networkType = valueDes;
-          break;
-        case r'app_version':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType.nullable(String),
-          ) as String?;
-          if (valueDes == null) continue;
-          result.appVersion = valueDes;
-          break;
-        case r'last_face_detected_ago_min':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType.nullable(int),
-          ) as int?;
-          if (valueDes == null) continue;
-          result.lastFaceDetectedAgoMin = valueDes;
-          break;
-        case r'faces_detected_today':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(int),
-          ) as int;
-          result.facesDetectedToday = valueDes;
-          break;
-        case r'students_identified_today':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(int),
-          ) as int;
-          result.studentsIdentifiedToday = valueDes;
-          break;
-        default:
-          unhandled.add(key);
-          unhandled.add(value);
-          break;
-      }
-    }
-  }
+
+  final bool? isCharging;
+
+
+
+          // minimum: 0
+  @JsonKey(
+    
+    name: r'storage_available_mb',
+    required: false,
+    includeIfNull: false,
+  )
+
+
+  final int? storageAvailableMb;
+
+
+
+  @JsonKey(
+    defaultValue: false,
+    name: r'camera_active',
+    required: false,
+    includeIfNull: false,
+  )
+
+
+  final bool? cameraActive;
+
+
+
+  @JsonKey(
+    
+    name: r'network_type',
+    required: false,
+    includeIfNull: false,
+  )
+
+
+  final String? networkType;
+
+
+
+  @JsonKey(
+    
+    name: r'app_version',
+    required: false,
+    includeIfNull: false,
+  )
+
+
+  final String? appVersion;
+
+
+
+          // minimum: 0
+  @JsonKey(
+    
+    name: r'last_face_detected_ago_min',
+    required: false,
+    includeIfNull: false,
+  )
+
+
+  final int? lastFaceDetectedAgoMin;
+
+
+
+          // minimum: 0
+  @JsonKey(
+    defaultValue: 0,
+    name: r'faces_detected_today',
+    required: false,
+    includeIfNull: false,
+  )
+
+
+  final int? facesDetectedToday;
+
+
+
+          // minimum: 0
+  @JsonKey(
+    defaultValue: 0,
+    name: r'students_identified_today',
+    required: false,
+    includeIfNull: false,
+  )
+
+
+  final int? studentsIdentifiedToday;
+
+
+
+
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is HealthData &&
+      other.batteryLevel == batteryLevel &&
+      other.isCharging == isCharging &&
+      other.storageAvailableMb == storageAvailableMb &&
+      other.cameraActive == cameraActive &&
+      other.networkType == networkType &&
+      other.appVersion == appVersion &&
+      other.lastFaceDetectedAgoMin == lastFaceDetectedAgoMin &&
+      other.facesDetectedToday == facesDetectedToday &&
+      other.studentsIdentifiedToday == studentsIdentifiedToday;
+
+    @override
+    int get hashCode =>
+        (batteryLevel == null ? 0 : batteryLevel.hashCode) +
+        isCharging.hashCode +
+        (storageAvailableMb == null ? 0 : storageAvailableMb.hashCode) +
+        cameraActive.hashCode +
+        (networkType == null ? 0 : networkType.hashCode) +
+        (appVersion == null ? 0 : appVersion.hashCode) +
+        (lastFaceDetectedAgoMin == null ? 0 : lastFaceDetectedAgoMin.hashCode) +
+        facesDetectedToday.hashCode +
+        studentsIdentifiedToday.hashCode;
+
+  factory HealthData.fromJson(Map<String, dynamic> json) => _$HealthDataFromJson(json);
+
+  Map<String, dynamic> toJson() => _$HealthDataToJson(this);
 
   @override
-  HealthData deserialize(
-    Serializers serializers,
-    Object serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
-    final result = HealthDataBuilder();
-    final serializedList = (serialized as Iterable<Object?>).toList();
-    final unhandled = <Object?>[];
-    _deserializeProperties(
-      serializers,
-      serialized,
-      specifiedType: specifiedType,
-      serializedList: serializedList,
-      unhandled: unhandled,
-      result: result,
-    );
-    return result.build();
+  String toString() {
+    return toJson().toString();
   }
+
 }
 

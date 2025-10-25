@@ -7,8 +7,7 @@ export 'package:frontend_easy_api/src/auth/api_key_auth.dart';
 export 'package:frontend_easy_api/src/auth/basic_auth.dart';
 export 'package:frontend_easy_api/src/auth/bearer_auth.dart';
 export 'package:frontend_easy_api/src/auth/oauth.dart';
-export 'package:frontend_easy_api/src/serializers.dart';
-export 'package:frontend_easy_api/src/model/date.dart';
+
 
 export 'package:frontend_easy_api/src/api/api_api.dart';
 export 'package:frontend_easy_api/src/api/kiosk_activation_api.dart';

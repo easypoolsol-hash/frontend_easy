@@ -16,11 +16,11 @@ Name | Type | Description | Notes
 **section** | **String** |  | [optional] 
 **assignedBus** | **String** | UUID primary key | [optional] 
 **status** | **String** | * `active` - Active * `inactive` - Inactive * `suspended` - Suspended | [optional] 
-**enrollmentDate** | [**Date**](Date.md) |  | 
+**enrollmentDate** | [**DateTime**](DateTime.md) |  | 
 **schoolDetails** | [**School**](School.md) |  | 
 **busDetails** | [**BusBasic**](BusBasic.md) |  | 
-**parents** | [**BuiltList&lt;StudentParent&gt;**](StudentParent.md) |  | 
-**photos** | [**BuiltList&lt;StudentPhoto&gt;**](StudentPhoto.md) |  | 
+**parents** | [**List&lt;StudentParent&gt;**](StudentParent.md) |  | 
+**photos** | [**List&lt;StudentPhoto&gt;**](StudentPhoto.md) |  | 
 **createdAt** | [**DateTime**](DateTime.md) |  | 
 **updatedAt** | [**DateTime**](DateTime.md) |  | 
 

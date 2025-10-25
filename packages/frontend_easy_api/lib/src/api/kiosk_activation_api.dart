@@ -4,11 +4,11 @@
 
 import 'dart:async';
 
-import 'package:built_value/json_object.dart';
-import 'package:built_value/serializer.dart';
+// ignore: unused_import
+import 'dart:convert';
+import 'package:frontend_easy_api/src/deserialize.dart';
 import 'package:dio/dio.dart';
 
-import 'package:built_value/json_object.dart';
 import 'package:frontend_easy_api/src/model/kiosk_activation.dart';
 import 'package:frontend_easy_api/src/model/kiosk_activation_response.dart';
 
@@ -16,9 +16,7 @@ class KioskActivationApi {
 
   final Dio _dio;
 
-  final Serializers _serializers;
-
-  const KioskActivationApi(this._dio, this._serializers);
+  const KioskActivationApi(this._dio);
 
   /// kioskActivate
   ///      **Fortune 500 Standard: One-time Device Activation**      Used by: Google Nest, Amazon Alexa, Netflix devices      Activates a kiosk using a disposable activation token.     After activation, the token becomes garbage and cannot be reused.      **Security Features:**     - One-time use activation tokens (WhatsApp leak protection)     - Tokens destroyed after first use     - 60-day rotating refresh tokens     - 15-minute access tokens      **Example Request:**     &#x60;&#x60;&#x60;json     {         \&quot;kiosk_id\&quot;: \&quot;KIOSK-SCHOOL-001\&quot;,         \&quot;activation_token\&quot;: \&quot;8Jz4Y-x9K2mQ_r5WvLp3NcTg7HfB6DsA1eU0oI9j8Xw\&quot;     }     &#x60;&#x60;&#x60;     
@@ -60,9 +58,7 @@ class KioskActivationApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(KioskActivation);
-      _bodyData = _serializers.serialize(kioskActivation, specifiedType: _type);
-
+_bodyData=jsonEncode(kioskActivation);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -87,12 +83,8 @@ class KioskActivationApi {
     KioskActivationResponse? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(KioskActivationResponse),
-      ) as KioskActivationResponse;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<KioskActivationResponse, KioskActivationResponse>(rawData, 'KioskActivationResponse', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,

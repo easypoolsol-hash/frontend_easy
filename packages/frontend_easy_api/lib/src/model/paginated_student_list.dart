@@ -3,160 +3,103 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:built_collection/built_collection.dart';
 import 'package:frontend_easy_api/src/model/student.dart';
-import 'package:built_value/built_value.dart';
-import 'package:built_value/serializer.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'paginated_student_list.g.dart';
 
-/// PaginatedStudentList
-///
-/// Properties:
-/// * [count] 
-/// * [next] 
-/// * [previous] 
-/// * [results] 
-@BuiltValue()
-abstract class PaginatedStudentList implements Built<PaginatedStudentList, PaginatedStudentListBuilder> {
-  @BuiltValueField(wireName: r'count')
-  int get count;
 
-  @BuiltValueField(wireName: r'next')
-  String? get next;
+@JsonSerializable(
+  checked: true,
+  createToJson: true,
+  disallowUnrecognizedKeys: false,
+  explicitToJson: true,
+)
+class PaginatedStudentList {
+  /// Returns a new [PaginatedStudentList] instance.
+  PaginatedStudentList({
 
-  @BuiltValueField(wireName: r'previous')
-  String? get previous;
+    required  this.count,
 
-  @BuiltValueField(wireName: r'results')
-  BuiltList<Student> get results;
+     this.next,
 
-  PaginatedStudentList._();
+     this.previous,
 
-  factory PaginatedStudentList([void updates(PaginatedStudentListBuilder b)]) = _$PaginatedStudentList;
+    required  this.results,
+  });
 
-  @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(PaginatedStudentListBuilder b) => b;
+  @JsonKey(
+    
+    name: r'count',
+    required: true,
+    includeIfNull: false,
+  )
 
-  @BuiltValueSerializer(custom: true)
-  static Serializer<PaginatedStudentList> get serializer => _$PaginatedStudentListSerializer();
-}
 
-class _$PaginatedStudentListSerializer implements PrimitiveSerializer<PaginatedStudentList> {
-  @override
-  final Iterable<Type> types = const [PaginatedStudentList, _$PaginatedStudentList];
+  final int count;
 
-  @override
-  final String wireName = r'PaginatedStudentList';
 
-  Iterable<Object?> _serializeProperties(
-    Serializers serializers,
-    PaginatedStudentList object, {
-    FullType specifiedType = FullType.unspecified,
-  }) sync* {
-    yield r'count';
-    yield serializers.serialize(
-      object.count,
-      specifiedType: const FullType(int),
-    );
-    if (object.next != null) {
-      yield r'next';
-      yield serializers.serialize(
-        object.next,
-        specifiedType: const FullType.nullable(String),
-      );
-    }
-    if (object.previous != null) {
-      yield r'previous';
-      yield serializers.serialize(
-        object.previous,
-        specifiedType: const FullType.nullable(String),
-      );
-    }
-    yield r'results';
-    yield serializers.serialize(
-      object.results,
-      specifiedType: const FullType(BuiltList, [FullType(Student)]),
-    );
-  }
 
-  @override
-  Object serialize(
-    Serializers serializers,
-    PaginatedStudentList object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
-  }
+  @JsonKey(
+    
+    name: r'next',
+    required: false,
+    includeIfNull: false,
+  )
 
-  void _deserializeProperties(
-    Serializers serializers,
-    Object serialized, {
-    FullType specifiedType = FullType.unspecified,
-    required List<Object?> serializedList,
-    required PaginatedStudentListBuilder result,
-    required List<Object?> unhandled,
-  }) {
-    for (var i = 0; i < serializedList.length; i += 2) {
-      final key = serializedList[i] as String;
-      final value = serializedList[i + 1];
-      switch (key) {
-        case r'count':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(int),
-          ) as int;
-          result.count = valueDes;
-          break;
-        case r'next':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType.nullable(String),
-          ) as String?;
-          if (valueDes == null) continue;
-          result.next = valueDes;
-          break;
-        case r'previous':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType.nullable(String),
-          ) as String?;
-          if (valueDes == null) continue;
-          result.previous = valueDes;
-          break;
-        case r'results':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(BuiltList, [FullType(Student)]),
-          ) as BuiltList<Student>;
-          result.results.replace(valueDes);
-          break;
-        default:
-          unhandled.add(key);
-          unhandled.add(value);
-          break;
-      }
-    }
-  }
+
+  final String? next;
+
+
+
+  @JsonKey(
+    
+    name: r'previous',
+    required: false,
+    includeIfNull: false,
+  )
+
+
+  final String? previous;
+
+
+
+  @JsonKey(
+    
+    name: r'results',
+    required: true,
+    includeIfNull: false,
+  )
+
+
+  final List<Student> results;
+
+
+
+
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is PaginatedStudentList &&
+      other.count == count &&
+      other.next == next &&
+      other.previous == previous &&
+      other.results == results;
+
+    @override
+    int get hashCode =>
+        count.hashCode +
+        (next == null ? 0 : next.hashCode) +
+        (previous == null ? 0 : previous.hashCode) +
+        results.hashCode;
+
+  factory PaginatedStudentList.fromJson(Map<String, dynamic> json) => _$PaginatedStudentListFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PaginatedStudentListToJson(this);
 
   @override
-  PaginatedStudentList deserialize(
-    Serializers serializers,
-    Object serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
-    final result = PaginatedStudentListBuilder();
-    final serializedList = (serialized as Iterable<Object?>).toList();
-    final unhandled = <Object?>[];
-    _deserializeProperties(
-      serializers,
-      serialized,
-      specifiedType: specifiedType,
-      serializedList: serializedList,
-      unhandled: unhandled,
-      result: result,
-    );
-    return result.build();
+  String toString() {
+    return toJson().toString();
   }
+
 }
 

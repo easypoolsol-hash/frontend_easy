@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **student** | **String** | Student attendance record | 
 **studentName** | **String** |  | 
 **studentGrade** | **String** |  | 
-**date** | [**Date**](Date.md) | Date of attendance record | 
+**date** | [**DateTime**](DateTime.md) | Date of attendance record | 
 **morningBoarded** | **bool** | Whether student boarded in the morning | [optional] 
 **morningTime** | [**DateTime**](DateTime.md) | Time of morning boarding | [optional] 
 **afternoonBoarded** | **bool** | Whether student boarded in the afternoon | [optional] 

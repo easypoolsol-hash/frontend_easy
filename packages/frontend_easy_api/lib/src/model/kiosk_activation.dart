@@ -3,122 +3,72 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:built_value/built_value.dart';
-import 'package:built_value/serializer.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'kiosk_activation.g.dart';
 
-/// Fortune 500 Standard: One-time kiosk activation  Used by: Google, Amazon, Netflix for device activation Pattern: Disposable tokens that become garbage after first use
-///
-/// Properties:
-/// * [kioskId] - Kiosk identifier (e.g., KIOSK-SCHOOL-001)
-/// * [activationToken] - One-time activation token (destroyed after use)
-@BuiltValue()
-abstract class KioskActivation implements Built<KioskActivation, KioskActivationBuilder> {
-  /// Kiosk identifier (e.g., KIOSK-SCHOOL-001)
-  @BuiltValueField(wireName: r'kiosk_id')
-  String get kioskId;
 
-  /// One-time activation token (destroyed after use)
-  @BuiltValueField(wireName: r'activation_token')
-  String get activationToken;
+@JsonSerializable(
+  checked: true,
+  createToJson: true,
+  disallowUnrecognizedKeys: false,
+  explicitToJson: true,
+)
+class KioskActivation {
+  /// Returns a new [KioskActivation] instance.
+  KioskActivation({
 
-  KioskActivation._();
+    required  this.kioskId,
 
-  factory KioskActivation([void updates(KioskActivationBuilder b)]) = _$KioskActivation;
+    required  this.activationToken,
+  });
 
-  @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(KioskActivationBuilder b) => b;
+      /// Kiosk identifier (e.g., KIOSK-SCHOOL-001)
+  @JsonKey(
+    
+    name: r'kiosk_id',
+    required: true,
+    includeIfNull: false,
+  )
 
-  @BuiltValueSerializer(custom: true)
-  static Serializer<KioskActivation> get serializer => _$KioskActivationSerializer();
-}
 
-class _$KioskActivationSerializer implements PrimitiveSerializer<KioskActivation> {
-  @override
-  final Iterable<Type> types = const [KioskActivation, _$KioskActivation];
+  final String kioskId;
 
-  @override
-  final String wireName = r'KioskActivation';
 
-  Iterable<Object?> _serializeProperties(
-    Serializers serializers,
-    KioskActivation object, {
-    FullType specifiedType = FullType.unspecified,
-  }) sync* {
-    yield r'kiosk_id';
-    yield serializers.serialize(
-      object.kioskId,
-      specifiedType: const FullType(String),
-    );
-    yield r'activation_token';
-    yield serializers.serialize(
-      object.activationToken,
-      specifiedType: const FullType(String),
-    );
-  }
 
-  @override
-  Object serialize(
-    Serializers serializers,
-    KioskActivation object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
-  }
+      /// One-time activation token (destroyed after use)
+  @JsonKey(
+    
+    name: r'activation_token',
+    required: true,
+    includeIfNull: false,
+  )
 
-  void _deserializeProperties(
-    Serializers serializers,
-    Object serialized, {
-    FullType specifiedType = FullType.unspecified,
-    required List<Object?> serializedList,
-    required KioskActivationBuilder result,
-    required List<Object?> unhandled,
-  }) {
-    for (var i = 0; i < serializedList.length; i += 2) {
-      final key = serializedList[i] as String;
-      final value = serializedList[i + 1];
-      switch (key) {
-        case r'kiosk_id':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.kioskId = valueDes;
-          break;
-        case r'activation_token':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.activationToken = valueDes;
-          break;
-        default:
-          unhandled.add(key);
-          unhandled.add(value);
-          break;
-      }
-    }
-  }
+
+  final String activationToken;
+
+
+
+
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is KioskActivation &&
+      other.kioskId == kioskId &&
+      other.activationToken == activationToken;
+
+    @override
+    int get hashCode =>
+        kioskId.hashCode +
+        activationToken.hashCode;
+
+  factory KioskActivation.fromJson(Map<String, dynamic> json) => _$KioskActivationFromJson(json);
+
+  Map<String, dynamic> toJson() => _$KioskActivationToJson(this);
 
   @override
-  KioskActivation deserialize(
-    Serializers serializers,
-    Object serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
-    final result = KioskActivationBuilder();
-    final serializedList = (serialized as Iterable<Object?>).toList();
-    final unhandled = <Object?>[];
-    _deserializeProperties(
-      serializers,
-      serialized,
-      specifiedType: specifiedType,
-      serializedList: serializedList,
-      unhandled: unhandled,
-      result: result,
-    );
-    return result.build();
+  String toString() {
+    return toJson().toString();
   }
+
 }
 

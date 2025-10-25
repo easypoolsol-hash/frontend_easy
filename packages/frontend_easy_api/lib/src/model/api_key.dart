@@ -3,231 +3,169 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:built_value/json_object.dart';
-import 'package:built_value/built_value.dart';
-import 'package:built_value/serializer.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'api_key.g.dart';
 
-/// APIKey
-///
-/// Properties:
-/// * [keyId] 
-/// * [kioskId] - Reference to kiosk device
-/// * [name] - Human-readable name for the key
-/// * [permissions] - JSON object defining scoped permissions
-/// * [isActive] 
-/// * [expiresAt] 
-/// * [lastUsed] 
-/// * [createdAt] 
-@BuiltValue()
-abstract class APIKey implements Built<APIKey, APIKeyBuilder> {
-  @BuiltValueField(wireName: r'key_id')
-  String get keyId;
 
-  /// Reference to kiosk device
-  @BuiltValueField(wireName: r'kiosk_id')
-  String get kioskId;
+@JsonSerializable(
+  checked: true,
+  createToJson: true,
+  disallowUnrecognizedKeys: false,
+  explicitToJson: true,
+)
+class APIKey {
+  /// Returns a new [APIKey] instance.
+  APIKey({
 
-  /// Human-readable name for the key
-  @BuiltValueField(wireName: r'name')
-  String? get name;
+    required  this.keyId,
 
-  /// JSON object defining scoped permissions
-  @BuiltValueField(wireName: r'permissions')
-  JsonObject? get permissions;
+    required  this.kioskId,
 
-  @BuiltValueField(wireName: r'is_active')
-  bool? get isActive;
+     this.name,
 
-  @BuiltValueField(wireName: r'expires_at')
-  DateTime? get expiresAt;
+     this.permissions,
 
-  @BuiltValueField(wireName: r'last_used')
-  DateTime? get lastUsed;
+     this.isActive,
 
-  @BuiltValueField(wireName: r'created_at')
-  DateTime get createdAt;
+     this.expiresAt,
 
-  APIKey._();
+    required  this.lastUsed,
 
-  factory APIKey([void updates(APIKeyBuilder b)]) = _$APIKey;
+    required  this.createdAt,
+  });
 
-  @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(APIKeyBuilder b) => b;
+  @JsonKey(
+    
+    name: r'key_id',
+    required: true,
+    includeIfNull: false,
+  )
 
-  @BuiltValueSerializer(custom: true)
-  static Serializer<APIKey> get serializer => _$APIKeySerializer();
-}
 
-class _$APIKeySerializer implements PrimitiveSerializer<APIKey> {
-  @override
-  final Iterable<Type> types = const [APIKey, _$APIKey];
+  final String keyId;
 
-  @override
-  final String wireName = r'APIKey';
 
-  Iterable<Object?> _serializeProperties(
-    Serializers serializers,
-    APIKey object, {
-    FullType specifiedType = FullType.unspecified,
-  }) sync* {
-    yield r'key_id';
-    yield serializers.serialize(
-      object.keyId,
-      specifiedType: const FullType(String),
-    );
-    yield r'kiosk_id';
-    yield serializers.serialize(
-      object.kioskId,
-      specifiedType: const FullType(String),
-    );
-    if (object.name != null) {
-      yield r'name';
-      yield serializers.serialize(
-        object.name,
-        specifiedType: const FullType(String),
-      );
-    }
-    if (object.permissions != null) {
-      yield r'permissions';
-      yield serializers.serialize(
-        object.permissions,
-        specifiedType: const FullType.nullable(JsonObject),
-      );
-    }
-    if (object.isActive != null) {
-      yield r'is_active';
-      yield serializers.serialize(
-        object.isActive,
-        specifiedType: const FullType(bool),
-      );
-    }
-    if (object.expiresAt != null) {
-      yield r'expires_at';
-      yield serializers.serialize(
-        object.expiresAt,
-        specifiedType: const FullType.nullable(DateTime),
-      );
-    }
-    yield r'last_used';
-    yield object.lastUsed == null ? null : serializers.serialize(
-      object.lastUsed,
-      specifiedType: const FullType.nullable(DateTime),
-    );
-    yield r'created_at';
-    yield serializers.serialize(
-      object.createdAt,
-      specifiedType: const FullType(DateTime),
-    );
-  }
 
-  @override
-  Object serialize(
-    Serializers serializers,
-    APIKey object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
-  }
+      /// Reference to kiosk device
+  @JsonKey(
+    
+    name: r'kiosk_id',
+    required: true,
+    includeIfNull: false,
+  )
 
-  void _deserializeProperties(
-    Serializers serializers,
-    Object serialized, {
-    FullType specifiedType = FullType.unspecified,
-    required List<Object?> serializedList,
-    required APIKeyBuilder result,
-    required List<Object?> unhandled,
-  }) {
-    for (var i = 0; i < serializedList.length; i += 2) {
-      final key = serializedList[i] as String;
-      final value = serializedList[i + 1];
-      switch (key) {
-        case r'key_id':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.keyId = valueDes;
-          break;
-        case r'kiosk_id':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.kioskId = valueDes;
-          break;
-        case r'name':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.name = valueDes;
-          break;
-        case r'permissions':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType.nullable(JsonObject),
-          ) as JsonObject?;
-          if (valueDes == null) continue;
-          result.permissions = valueDes;
-          break;
-        case r'is_active':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(bool),
-          ) as bool;
-          result.isActive = valueDes;
-          break;
-        case r'expires_at':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType.nullable(DateTime),
-          ) as DateTime?;
-          if (valueDes == null) continue;
-          result.expiresAt = valueDes;
-          break;
-        case r'last_used':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType.nullable(DateTime),
-          ) as DateTime?;
-          if (valueDes == null) continue;
-          result.lastUsed = valueDes;
-          break;
-        case r'created_at':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(DateTime),
-          ) as DateTime;
-          result.createdAt = valueDes;
-          break;
-        default:
-          unhandled.add(key);
-          unhandled.add(value);
-          break;
-      }
-    }
-  }
+
+  final String kioskId;
+
+
+
+      /// Human-readable name for the key
+  @JsonKey(
+    
+    name: r'name',
+    required: false,
+    includeIfNull: false,
+  )
+
+
+  final String? name;
+
+
+
+      /// JSON object defining scoped permissions
+  @JsonKey(
+    
+    name: r'permissions',
+    required: false,
+    includeIfNull: false,
+  )
+
+
+  final Object? permissions;
+
+
+
+  @JsonKey(
+    
+    name: r'is_active',
+    required: false,
+    includeIfNull: false,
+  )
+
+
+  final bool? isActive;
+
+
+
+  @JsonKey(
+    
+    name: r'expires_at',
+    required: false,
+    includeIfNull: false,
+  )
+
+
+  final DateTime? expiresAt;
+
+
+
+  @JsonKey(
+    
+    name: r'last_used',
+    required: true,
+    includeIfNull: true,
+  )
+
+
+  final DateTime? lastUsed;
+
+
+
+  @JsonKey(
+    
+    name: r'created_at',
+    required: true,
+    includeIfNull: false,
+  )
+
+
+  final DateTime createdAt;
+
+
+
+
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is APIKey &&
+      other.keyId == keyId &&
+      other.kioskId == kioskId &&
+      other.name == name &&
+      other.permissions == permissions &&
+      other.isActive == isActive &&
+      other.expiresAt == expiresAt &&
+      other.lastUsed == lastUsed &&
+      other.createdAt == createdAt;
+
+    @override
+    int get hashCode =>
+        keyId.hashCode +
+        kioskId.hashCode +
+        name.hashCode +
+        (permissions == null ? 0 : permissions.hashCode) +
+        isActive.hashCode +
+        (expiresAt == null ? 0 : expiresAt.hashCode) +
+        (lastUsed == null ? 0 : lastUsed.hashCode) +
+        createdAt.hashCode;
+
+  factory APIKey.fromJson(Map<String, dynamic> json) => _$APIKeyFromJson(json);
+
+  Map<String, dynamic> toJson() => _$APIKeyToJson(this);
 
   @override
-  APIKey deserialize(
-    Serializers serializers,
-    Object serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
-    final result = APIKeyBuilder();
-    final serializedList = (serialized as Iterable<Object?>).toList();
-    final unhandled = <Object?>[];
-    _deserializeProperties(
-      serializers,
-      serialized,
-      specifiedType: specifiedType,
-      serializedList: serializedList,
-      unhandled: unhandled,
-      result: result,
-    );
-    return result.build();
+  String toString() {
+    return toJson().toString();
   }
+
 }
 

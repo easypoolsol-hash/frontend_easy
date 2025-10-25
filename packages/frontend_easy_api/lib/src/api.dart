@@ -3,8 +3,6 @@
 //
 
 import 'package:dio/dio.dart';
-import 'package:built_value/serializer.dart';
-import 'package:frontend_easy_api/src/serializers.dart';
 import 'package:frontend_easy_api/src/auth/api_key_auth.dart';
 import 'package:frontend_easy_api/src/auth/basic_auth.dart';
 import 'package:frontend_easy_api/src/auth/bearer_auth.dart';
@@ -16,14 +14,11 @@ class FrontendEasyApi {
   static const String basePath = r'http://localhost:8000';
 
   final Dio dio;
-  final Serializers serializers;
-
   FrontendEasyApi({
     Dio? dio,
-    Serializers? serializers,
     String? basePathOverride,
     List<Interceptor>? interceptors,
-  })  : this.serializers = serializers ?? standardSerializers,
+  })  : 
         this.dio = dio ??
             Dio(BaseOptions(
               baseUrl: basePathOverride ?? basePath,
@@ -69,12 +64,12 @@ class FrontendEasyApi {
   /// Get ApiApi instance, base route and serializer can be overridden by a given but be careful,
   /// by doing that all interceptors will not be executed
   ApiApi getApiApi() {
-    return ApiApi(dio, serializers);
+    return ApiApi(dio);
   }
 
   /// Get KioskActivationApi instance, base route and serializer can be overridden by a given but be careful,
   /// by doing that all interceptors will not be executed
   KioskActivationApi getKioskActivationApi() {
-    return KioskActivationApi(dio, serializers);
+    return KioskActivationApi(dio);
   }
 }

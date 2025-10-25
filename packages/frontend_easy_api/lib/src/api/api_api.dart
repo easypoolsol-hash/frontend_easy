@@ -4,14 +4,11 @@
 
 import 'dart:async';
 
-import 'package:built_value/json_object.dart';
-import 'package:built_value/serializer.dart';
+// ignore: unused_import
+import 'dart:convert';
+import 'package:frontend_easy_api/src/deserialize.dart';
 import 'package:dio/dio.dart';
 
-import 'dart:typed_data';
-import 'package:built_collection/built_collection.dart';
-import 'package:built_value/json_object.dart';
-import 'package:frontend_easy_api/src/api_util.dart';
 import 'package:frontend_easy_api/src/model/api_key.dart';
 import 'package:frontend_easy_api/src/model/api_key_create.dart';
 import 'package:frontend_easy_api/src/model/api_v1_kiosk_boarding_create200_response.dart';
@@ -24,7 +21,6 @@ import 'package:frontend_easy_api/src/model/bus_location.dart';
 import 'package:frontend_easy_api/src/model/check_updates_response.dart';
 import 'package:frontend_easy_api/src/model/dashboard_stats.dart';
 import 'package:frontend_easy_api/src/model/dashboard_students_response.dart';
-import 'package:frontend_easy_api/src/model/date.dart';
 import 'package:frontend_easy_api/src/model/device_log.dart';
 import 'package:frontend_easy_api/src/model/heartbeat.dart';
 import 'package:frontend_easy_api/src/model/kiosk_log200_response.dart';
@@ -68,9 +64,7 @@ class ApiApi {
 
   final Dio _dio;
 
-  final Serializers _serializers;
-
-  const ApiApi(this._dio, this._serializers);
+  const ApiApi(this._dio);
 
   /// apiV1ApiKeysCreate
   /// 
@@ -127,9 +121,7 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(APIKeyCreate);
-      _bodyData = _serializers.serialize(aPIKeyCreate, specifiedType: _type);
-
+_bodyData=jsonEncode(aPIKeyCreate);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -154,12 +146,8 @@ class ApiApi {
     APIKeyCreate? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(APIKeyCreate),
-      ) as APIKeyCreate;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<APIKeyCreate, APIKeyCreate>(rawData, 'APIKeyCreate', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -205,7 +193,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/api-keys/{key_id}/'.replaceAll('{' r'key_id' '}', encodeQueryParameter(_serializers, keyId, const FullType(String)).toString());
+    final _path = r'/api/v1/api-keys/{key_id}/'.replaceAll('{' r'key_id' '}', keyId.toString());
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -300,9 +288,9 @@ class ApiApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      if (ordering != null) r'ordering': encodeQueryParameter(_serializers, ordering, const FullType(String)),
-      if (page != null) r'page': encodeQueryParameter(_serializers, page, const FullType(int)),
-      if (search != null) r'search': encodeQueryParameter(_serializers, search, const FullType(String)),
+      if (ordering != null) r'ordering': ordering,
+      if (page != null) r'page': page,
+      if (search != null) r'search': search,
     };
 
     final _response = await _dio.request<Object>(
@@ -317,12 +305,8 @@ class ApiApi {
     PaginatedAPIKeyList? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(PaginatedAPIKeyList),
-      ) as PaginatedAPIKeyList;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<PaginatedAPIKeyList, PaginatedAPIKeyList>(rawData, 'PaginatedAPIKeyList', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -370,7 +354,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/api-keys/{key_id}/'.replaceAll('{' r'key_id' '}', encodeQueryParameter(_serializers, keyId, const FullType(String)).toString());
+    final _path = r'/api/v1/api-keys/{key_id}/'.replaceAll('{' r'key_id' '}', keyId.toString());
     final _options = Options(
       method: r'PATCH',
       headers: <String, dynamic>{
@@ -402,9 +386,7 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(PatchedAPIKey);
-      _bodyData = patchedAPIKey == null ? null : _serializers.serialize(patchedAPIKey, specifiedType: _type);
-
+_bodyData=jsonEncode(patchedAPIKey);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -429,12 +411,8 @@ class ApiApi {
     APIKey? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(APIKey),
-      ) as APIKey;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<APIKey, APIKey>(rawData, 'APIKey', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -480,7 +458,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/api-keys/{key_id}/'.replaceAll('{' r'key_id' '}', encodeQueryParameter(_serializers, keyId, const FullType(String)).toString());
+    final _path = r'/api/v1/api-keys/{key_id}/'.replaceAll('{' r'key_id' '}', keyId.toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -519,12 +497,8 @@ class ApiApi {
     APIKey? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(APIKey),
-      ) as APIKey;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<APIKey, APIKey>(rawData, 'APIKey', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -572,7 +546,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/api-keys/{key_id}/revoke/'.replaceAll('{' r'key_id' '}', encodeQueryParameter(_serializers, keyId, const FullType(String)).toString());
+    final _path = r'/api/v1/api-keys/{key_id}/revoke/'.replaceAll('{' r'key_id' '}', keyId.toString());
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
@@ -604,9 +578,7 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(APIKey);
-      _bodyData = _serializers.serialize(aPIKey, specifiedType: _type);
-
+_bodyData=jsonEncode(aPIKey);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -631,12 +603,8 @@ class ApiApi {
     APIKey? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(APIKey),
-      ) as APIKey;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<APIKey, APIKey>(rawData, 'APIKey', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -684,7 +652,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/api-keys/{key_id}/'.replaceAll('{' r'key_id' '}', encodeQueryParameter(_serializers, keyId, const FullType(String)).toString());
+    final _path = r'/api/v1/api-keys/{key_id}/'.replaceAll('{' r'key_id' '}', keyId.toString());
     final _options = Options(
       method: r'PUT',
       headers: <String, dynamic>{
@@ -716,9 +684,7 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(APIKey);
-      _bodyData = _serializers.serialize(aPIKey, specifiedType: _type);
-
+_bodyData=jsonEncode(aPIKey);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -743,12 +709,8 @@ class ApiApi {
     APIKey? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(APIKey),
-      ) as APIKey;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<APIKey, APIKey>(rawData, 'APIKey', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -789,7 +751,7 @@ class ApiApi {
   /// Returns a [Future] containing a [Response] with a [PaginatedAttendanceRecordList] as data
   /// Throws [DioException] if API call or serialization fails
   Future<Response<PaginatedAttendanceRecordList>> apiV1AttendanceList({ 
-    Date? date,
+    DateTime? date,
     int? page,
     String? status,
     String? student,
@@ -829,10 +791,10 @@ class ApiApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      if (date != null) r'date': encodeQueryParameter(_serializers, date, const FullType(Date)),
-      if (page != null) r'page': encodeQueryParameter(_serializers, page, const FullType(int)),
-      if (status != null) r'status': encodeQueryParameter(_serializers, status, const FullType(String)),
-      if (student != null) r'student': encodeQueryParameter(_serializers, student, const FullType(String)),
+      if (date != null) r'date': date,
+      if (page != null) r'page': page,
+      if (status != null) r'status': status,
+      if (student != null) r'student': student,
     };
 
     final _response = await _dio.request<Object>(
@@ -847,12 +809,8 @@ class ApiApi {
     PaginatedAttendanceRecordList? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(PaginatedAttendanceRecordList),
-      ) as PaginatedAttendanceRecordList;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<PaginatedAttendanceRecordList, PaginatedAttendanceRecordList>(rawData, 'PaginatedAttendanceRecordList', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -898,7 +856,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/attendance/{record_id}/'.replaceAll('{' r'record_id' '}', encodeQueryParameter(_serializers, recordId, const FullType(String)).toString());
+    final _path = r'/api/v1/attendance/{record_id}/'.replaceAll('{' r'record_id' '}', recordId.toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -937,12 +895,8 @@ class ApiApi {
     AttendanceRecord? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(AttendanceRecord),
-      ) as AttendanceRecord;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<AttendanceRecord, AttendanceRecord>(rawData, 'AttendanceRecord', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -988,7 +942,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/attendance/student/{student_id}/'.replaceAll('{' r'student_id' '}', encodeQueryParameter(_serializers, studentId, const FullType(String)).toString());
+    final _path = r'/api/v1/attendance/student/{student_id}/'.replaceAll('{' r'student_id' '}', studentId.toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -1027,12 +981,8 @@ class ApiApi {
     AttendanceRecord? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(AttendanceRecord),
-      ) as AttendanceRecord;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<AttendanceRecord, AttendanceRecord>(rawData, 'AttendanceRecord', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1115,12 +1065,8 @@ class ApiApi {
     AttendanceRecord? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(AttendanceRecord),
-      ) as AttendanceRecord;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<AttendanceRecord, AttendanceRecord>(rawData, 'AttendanceRecord', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1199,9 +1145,9 @@ class ApiApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      if (ordering != null) r'ordering': encodeQueryParameter(_serializers, ordering, const FullType(String)),
-      if (page != null) r'page': encodeQueryParameter(_serializers, page, const FullType(int)),
-      if (search != null) r'search': encodeQueryParameter(_serializers, search, const FullType(String)),
+      if (ordering != null) r'ordering': ordering,
+      if (page != null) r'page': page,
+      if (search != null) r'search': search,
     };
 
     final _response = await _dio.request<Object>(
@@ -1216,12 +1162,8 @@ class ApiApi {
     PaginatedAuditLogList? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(PaginatedAuditLogList),
-      ) as PaginatedAuditLogList;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<PaginatedAuditLogList, PaginatedAuditLogList>(rawData, 'PaginatedAuditLogList', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1267,7 +1209,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/audit-logs/{log_id}/'.replaceAll('{' r'log_id' '}', encodeQueryParameter(_serializers, logId, const FullType(int)).toString());
+    final _path = r'/api/v1/audit-logs/{log_id}/'.replaceAll('{' r'log_id' '}', logId.toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -1306,12 +1248,8 @@ class ApiApi {
     AuditLog? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(AuditLog),
-      ) as AuditLog;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<AuditLog, AuditLog>(rawData, 'AuditLog', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1374,9 +1312,7 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(TokenObtainPair);
-      _bodyData = _serializers.serialize(tokenObtainPair, specifiedType: _type);
-
+_bodyData=jsonEncode(tokenObtainPair);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -1401,12 +1337,8 @@ class ApiApi {
     TokenObtainPair? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(TokenObtainPair),
-      ) as TokenObtainPair;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<TokenObtainPair, TokenObtainPair>(rawData, 'TokenObtainPair', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1469,9 +1401,7 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(TokenRefreshRequest);
-      _bodyData = _serializers.serialize(tokenRefreshRequest, specifiedType: _type);
-
+_bodyData=jsonEncode(tokenRefreshRequest);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -1496,12 +1426,8 @@ class ApiApi {
     TokenRefreshResponse? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(TokenRefreshResponse),
-      ) as TokenRefreshResponse;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<TokenRefreshResponse, TokenRefreshResponse>(rawData, 'TokenRefreshResponse', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1570,9 +1496,7 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(BoardingEvent);
-      _bodyData = _serializers.serialize(boardingEvent, specifiedType: _type);
-
+_bodyData=jsonEncode(boardingEvent);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -1597,12 +1521,8 @@ class ApiApi {
     BoardingEvent? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(BoardingEvent),
-      ) as BoardingEvent;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<BoardingEvent, BoardingEvent>(rawData, 'BoardingEvent', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1671,9 +1591,7 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(BoardingEventCreate);
-      _bodyData = _serializers.serialize(boardingEventCreate, specifiedType: _type);
-
+_bodyData=jsonEncode(boardingEventCreate);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -1698,12 +1616,8 @@ class ApiApi {
     BoardingEventCreate? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(BoardingEventCreate),
-      ) as BoardingEventCreate;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<BoardingEventCreate, BoardingEventCreate>(rawData, 'BoardingEventCreate', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1749,7 +1663,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/boarding-events/{event_id}/'.replaceAll('{' r'event_id' '}', encodeQueryParameter(_serializers, eventId, const FullType(String)).toString());
+    final _path = r'/api/v1/boarding-events/{event_id}/'.replaceAll('{' r'event_id' '}', eventId.toString());
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -1830,11 +1744,11 @@ class ApiApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      if (busRoute != null) r'bus_route': encodeQueryParameter(_serializers, busRoute, const FullType(String)),
-      if (kioskId != null) r'kiosk_id': encodeQueryParameter(_serializers, kioskId, const FullType(String)),
-      if (page != null) r'page': encodeQueryParameter(_serializers, page, const FullType(int)),
-      if (student != null) r'student': encodeQueryParameter(_serializers, student, const FullType(String)),
-      if (timestamp != null) r'timestamp': encodeQueryParameter(_serializers, timestamp, const FullType(DateTime)),
+      if (busRoute != null) r'bus_route': busRoute,
+      if (kioskId != null) r'kiosk_id': kioskId,
+      if (page != null) r'page': page,
+      if (student != null) r'student': student,
+      if (timestamp != null) r'timestamp': timestamp,
     };
 
     final _response = await _dio.request<Object>(
@@ -1849,12 +1763,8 @@ class ApiApi {
     PaginatedBoardingEventList? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(PaginatedBoardingEventList),
-      ) as PaginatedBoardingEventList;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<PaginatedBoardingEventList, PaginatedBoardingEventList>(rawData, 'PaginatedBoardingEventList', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1902,7 +1812,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/boarding-events/{event_id}/'.replaceAll('{' r'event_id' '}', encodeQueryParameter(_serializers, eventId, const FullType(String)).toString());
+    final _path = r'/api/v1/boarding-events/{event_id}/'.replaceAll('{' r'event_id' '}', eventId.toString());
     final _options = Options(
       method: r'PATCH',
       headers: <String, dynamic>{
@@ -1925,9 +1835,7 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(PatchedBoardingEvent);
-      _bodyData = patchedBoardingEvent == null ? null : _serializers.serialize(patchedBoardingEvent, specifiedType: _type);
-
+_bodyData=jsonEncode(patchedBoardingEvent);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -1952,12 +1860,8 @@ class ApiApi {
     BoardingEvent? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(BoardingEvent),
-      ) as BoardingEvent;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<BoardingEvent, BoardingEvent>(rawData, 'BoardingEvent', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -2031,12 +1935,8 @@ class ApiApi {
     BoardingEvent? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(BoardingEvent),
-      ) as BoardingEvent;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<BoardingEvent, BoardingEvent>(rawData, 'BoardingEvent', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -2082,7 +1982,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/boarding-events/{event_id}/'.replaceAll('{' r'event_id' '}', encodeQueryParameter(_serializers, eventId, const FullType(String)).toString());
+    final _path = r'/api/v1/boarding-events/{event_id}/'.replaceAll('{' r'event_id' '}', eventId.toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -2112,12 +2012,8 @@ class ApiApi {
     BoardingEvent? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(BoardingEvent),
-      ) as BoardingEvent;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<BoardingEvent, BoardingEvent>(rawData, 'BoardingEvent', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -2165,7 +2061,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/boarding-events/{event_id}/'.replaceAll('{' r'event_id' '}', encodeQueryParameter(_serializers, eventId, const FullType(String)).toString());
+    final _path = r'/api/v1/boarding-events/{event_id}/'.replaceAll('{' r'event_id' '}', eventId.toString());
     final _options = Options(
       method: r'PUT',
       headers: <String, dynamic>{
@@ -2188,9 +2084,7 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(BoardingEvent);
-      _bodyData = _serializers.serialize(boardingEvent, specifiedType: _type);
-
+_bodyData=jsonEncode(boardingEvent);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -2215,12 +2109,8 @@ class ApiApi {
     BoardingEvent? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(BoardingEvent),
-      ) as BoardingEvent;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<BoardingEvent, BoardingEvent>(rawData, 'BoardingEvent', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -2298,9 +2188,7 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(Bus);
-      _bodyData = _serializers.serialize(bus, specifiedType: _type);
-
+_bodyData=jsonEncode(bus);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -2325,12 +2213,8 @@ class ApiApi {
     Bus? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(Bus),
-      ) as Bus;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -2408,9 +2292,7 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(Bus);
-      _bodyData = _serializers.serialize(bus, specifiedType: _type);
-
+_bodyData=jsonEncode(bus);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -2435,12 +2317,8 @@ class ApiApi {
     Bus? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(Bus),
-      ) as Bus;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -2486,7 +2364,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/buses/{bus_id}/'.replaceAll('{' r'bus_id' '}', encodeQueryParameter(_serializers, busId, const FullType(String)).toString());
+    final _path = r'/api/v1/buses/{bus_id}/'.replaceAll('{' r'bus_id' '}', busId.toString());
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -2583,10 +2461,10 @@ class ApiApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      if (deviceId != null) r'device_id': encodeQueryParameter(_serializers, deviceId, const FullType(String)),
-      if (page != null) r'page': encodeQueryParameter(_serializers, page, const FullType(int)),
-      if (route != null) r'route': encodeQueryParameter(_serializers, route, const FullType(String)),
-      if (status != null) r'status': encodeQueryParameter(_serializers, status, const FullType(String)),
+      if (deviceId != null) r'device_id': deviceId,
+      if (page != null) r'page': page,
+      if (route != null) r'route': route,
+      if (status != null) r'status': status,
     };
 
     final _response = await _dio.request<Object>(
@@ -2601,12 +2479,8 @@ class ApiApi {
     PaginatedBusList? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(PaginatedBusList),
-      ) as PaginatedBusList;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<PaginatedBusList, PaginatedBusList>(rawData, 'PaginatedBusList', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -2654,7 +2528,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/buses/{bus_id}/'.replaceAll('{' r'bus_id' '}', encodeQueryParameter(_serializers, busId, const FullType(String)).toString());
+    final _path = r'/api/v1/buses/{bus_id}/'.replaceAll('{' r'bus_id' '}', busId.toString());
     final _options = Options(
       method: r'PATCH',
       headers: <String, dynamic>{
@@ -2686,9 +2560,7 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(PatchedBus);
-      _bodyData = patchedBus == null ? null : _serializers.serialize(patchedBus, specifiedType: _type);
-
+_bodyData=jsonEncode(patchedBus);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -2713,12 +2585,8 @@ class ApiApi {
     Bus? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(Bus),
-      ) as Bus;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -2764,7 +2632,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/buses/{bus_id}/'.replaceAll('{' r'bus_id' '}', encodeQueryParameter(_serializers, busId, const FullType(String)).toString());
+    final _path = r'/api/v1/buses/{bus_id}/'.replaceAll('{' r'bus_id' '}', busId.toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -2803,12 +2671,8 @@ class ApiApi {
     Bus? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(Bus),
-      ) as Bus;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -2854,7 +2718,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/buses/{bus_id}/students/'.replaceAll('{' r'bus_id' '}', encodeQueryParameter(_serializers, busId, const FullType(String)).toString());
+    final _path = r'/api/v1/buses/{bus_id}/students/'.replaceAll('{' r'bus_id' '}', busId.toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -2893,12 +2757,8 @@ class ApiApi {
     Bus? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(Bus),
-      ) as Bus;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -2946,7 +2806,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/buses/{bus_id}/'.replaceAll('{' r'bus_id' '}', encodeQueryParameter(_serializers, busId, const FullType(String)).toString());
+    final _path = r'/api/v1/buses/{bus_id}/'.replaceAll('{' r'bus_id' '}', busId.toString());
     final _options = Options(
       method: r'PUT',
       headers: <String, dynamic>{
@@ -2978,9 +2838,7 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(Bus);
-      _bodyData = _serializers.serialize(bus, specifiedType: _type);
-
+_bodyData=jsonEncode(bus);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -3005,12 +2863,8 @@ class ApiApi {
     Bus? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(Bus),
-      ) as Bus;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -3093,12 +2947,8 @@ class ApiApi {
     Bus? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(Bus),
-      ) as Bus;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -3136,7 +2986,7 @@ class ApiApi {
   /// Returns a [Future] containing a [Response] with a [DashboardStats] as data
   /// Throws [DioException] if API call or serialization fails
   Future<Response<DashboardStats>> apiV1DashboardStatsRetrieve({ 
-    Date? date,
+    DateTime? date,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -3173,7 +3023,7 @@ class ApiApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      if (date != null) r'date': encodeQueryParameter(_serializers, date, const FullType(Date)),
+      if (date != null) r'date': date,
     };
 
     final _response = await _dio.request<Object>(
@@ -3188,12 +3038,8 @@ class ApiApi {
     DashboardStats? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(DashboardStats),
-      ) as DashboardStats;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<DashboardStats, DashboardStats>(rawData, 'DashboardStats', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -3233,7 +3079,7 @@ class ApiApi {
   /// Returns a [Future] containing a [Response] with a [DashboardStudentsResponse] as data
   /// Throws [DioException] if API call or serialization fails
   Future<Response<DashboardStudentsResponse>> apiV1DashboardStudentsRetrieve({ 
-    Date? date,
+    DateTime? date,
     int? limit,
     int? offset,
     CancelToken? cancelToken,
@@ -3272,9 +3118,9 @@ class ApiApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      if (date != null) r'date': encodeQueryParameter(_serializers, date, const FullType(Date)),
-      if (limit != null) r'limit': encodeQueryParameter(_serializers, limit, const FullType(int)),
-      if (offset != null) r'offset': encodeQueryParameter(_serializers, offset, const FullType(int)),
+      if (date != null) r'date': date,
+      if (limit != null) r'limit': limit,
+      if (offset != null) r'offset': offset,
     };
 
     final _response = await _dio.request<Object>(
@@ -3289,12 +3135,8 @@ class ApiApi {
     DashboardStudentsResponse? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(DashboardStudentsResponse),
-      ) as DashboardStudentsResponse;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<DashboardStudentsResponse, DashboardStudentsResponse>(rawData, 'DashboardStudentsResponse', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -3332,7 +3174,7 @@ class ApiApi {
   /// Returns a [Future] containing a [Response] with a [ApiV1KioskBoardingCreate200Response] as data
   /// Throws [DioException] if API call or serialization fails
   Future<Response<ApiV1KioskBoardingCreate200Response>> apiV1KioskBoardingCreate({ 
-    BuiltMap<String, JsonObject>? requestBody,
+    Map<String, Object>? requestBody,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -3372,9 +3214,7 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(BuiltMap, [FullType(String), FullType(JsonObject)]);
-      _bodyData = requestBody == null ? null : _serializers.serialize(requestBody, specifiedType: _type);
-
+_bodyData=jsonEncode(requestBody);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -3399,12 +3239,8 @@ class ApiApi {
     ApiV1KioskBoardingCreate200Response? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(ApiV1KioskBoardingCreate200Response),
-      ) as ApiV1KioskBoardingCreate200Response;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<ApiV1KioskBoardingCreate200Response, ApiV1KioskBoardingCreate200Response>(rawData, 'ApiV1KioskBoardingCreate200Response', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -3482,9 +3318,7 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(Parent);
-      _bodyData = _serializers.serialize(parent, specifiedType: _type);
-
+_bodyData=jsonEncode(parent);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -3509,12 +3343,8 @@ class ApiApi {
     Parent? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(Parent),
-      ) as Parent;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<Parent, Parent>(rawData, 'Parent', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -3560,7 +3390,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/parents/{parent_id}/'.replaceAll('{' r'parent_id' '}', encodeQueryParameter(_serializers, parentId, const FullType(String)).toString());
+    final _path = r'/api/v1/parents/{parent_id}/'.replaceAll('{' r'parent_id' '}', parentId.toString());
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -3655,9 +3485,9 @@ class ApiApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      if (ordering != null) r'ordering': encodeQueryParameter(_serializers, ordering, const FullType(String)),
-      if (page != null) r'page': encodeQueryParameter(_serializers, page, const FullType(int)),
-      if (search != null) r'search': encodeQueryParameter(_serializers, search, const FullType(String)),
+      if (ordering != null) r'ordering': ordering,
+      if (page != null) r'page': page,
+      if (search != null) r'search': search,
     };
 
     final _response = await _dio.request<Object>(
@@ -3672,12 +3502,8 @@ class ApiApi {
     PaginatedParentList? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(PaginatedParentList),
-      ) as PaginatedParentList;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<PaginatedParentList, PaginatedParentList>(rawData, 'PaginatedParentList', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -3725,7 +3551,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/parents/{parent_id}/'.replaceAll('{' r'parent_id' '}', encodeQueryParameter(_serializers, parentId, const FullType(String)).toString());
+    final _path = r'/api/v1/parents/{parent_id}/'.replaceAll('{' r'parent_id' '}', parentId.toString());
     final _options = Options(
       method: r'PATCH',
       headers: <String, dynamic>{
@@ -3757,9 +3583,7 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(PatchedParent);
-      _bodyData = patchedParent == null ? null : _serializers.serialize(patchedParent, specifiedType: _type);
-
+_bodyData=jsonEncode(patchedParent);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -3784,12 +3608,8 @@ class ApiApi {
     Parent? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(Parent),
-      ) as Parent;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<Parent, Parent>(rawData, 'Parent', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -3835,7 +3655,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/parents/{parent_id}/'.replaceAll('{' r'parent_id' '}', encodeQueryParameter(_serializers, parentId, const FullType(String)).toString());
+    final _path = r'/api/v1/parents/{parent_id}/'.replaceAll('{' r'parent_id' '}', parentId.toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -3874,12 +3694,8 @@ class ApiApi {
     Parent? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(Parent),
-      ) as Parent;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<Parent, Parent>(rawData, 'Parent', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -3925,7 +3741,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/parents/{parent_id}/students/'.replaceAll('{' r'parent_id' '}', encodeQueryParameter(_serializers, parentId, const FullType(String)).toString());
+    final _path = r'/api/v1/parents/{parent_id}/students/'.replaceAll('{' r'parent_id' '}', parentId.toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -3964,12 +3780,8 @@ class ApiApi {
     Parent? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(Parent),
-      ) as Parent;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<Parent, Parent>(rawData, 'Parent', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -4017,7 +3829,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/parents/{parent_id}/'.replaceAll('{' r'parent_id' '}', encodeQueryParameter(_serializers, parentId, const FullType(String)).toString());
+    final _path = r'/api/v1/parents/{parent_id}/'.replaceAll('{' r'parent_id' '}', parentId.toString());
     final _options = Options(
       method: r'PUT',
       headers: <String, dynamic>{
@@ -4049,9 +3861,7 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(Parent);
-      _bodyData = _serializers.serialize(parent, specifiedType: _type);
-
+_bodyData=jsonEncode(parent);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -4076,12 +3886,8 @@ class ApiApi {
     Parent? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(Parent),
-      ) as Parent;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<Parent, Parent>(rawData, 'Parent', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -4160,9 +3966,9 @@ class ApiApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      if (ordering != null) r'ordering': encodeQueryParameter(_serializers, ordering, const FullType(String)),
-      if (page != null) r'page': encodeQueryParameter(_serializers, page, const FullType(int)),
-      if (search != null) r'search': encodeQueryParameter(_serializers, search, const FullType(String)),
+      if (ordering != null) r'ordering': ordering,
+      if (page != null) r'page': page,
+      if (search != null) r'search': search,
     };
 
     final _response = await _dio.request<Object>(
@@ -4177,12 +3983,8 @@ class ApiApi {
     PaginatedRoleList? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(PaginatedRoleList),
-      ) as PaginatedRoleList;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<PaginatedRoleList, PaginatedRoleList>(rawData, 'PaginatedRoleList', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -4228,7 +4030,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/roles/{role_id}/'.replaceAll('{' r'role_id' '}', encodeQueryParameter(_serializers, roleId, const FullType(String)).toString());
+    final _path = r'/api/v1/roles/{role_id}/'.replaceAll('{' r'role_id' '}', roleId.toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -4267,12 +4069,8 @@ class ApiApi {
     Role? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(Role),
-      ) as Role;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<Role, Role>(rawData, 'Role', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -4318,7 +4116,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/routes/{route_id}/buses/'.replaceAll('{' r'route_id' '}', encodeQueryParameter(_serializers, routeId, const FullType(String)).toString());
+    final _path = r'/api/v1/routes/{route_id}/buses/'.replaceAll('{' r'route_id' '}', routeId.toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -4357,12 +4155,8 @@ class ApiApi {
     Route? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(Route),
-      ) as Route;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Route', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -4440,9 +4234,7 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(Route);
-      _bodyData = _serializers.serialize(route, specifiedType: _type);
-
+_bodyData=jsonEncode(route);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -4467,12 +4259,8 @@ class ApiApi {
     Route? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(Route),
-      ) as Route;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Route', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -4518,7 +4306,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/routes/{route_id}/'.replaceAll('{' r'route_id' '}', encodeQueryParameter(_serializers, routeId, const FullType(String)).toString());
+    final _path = r'/api/v1/routes/{route_id}/'.replaceAll('{' r'route_id' '}', routeId.toString());
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -4611,8 +4399,8 @@ class ApiApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      if (isActive != null) r'is_active': encodeQueryParameter(_serializers, isActive, const FullType(bool)),
-      if (page != null) r'page': encodeQueryParameter(_serializers, page, const FullType(int)),
+      if (isActive != null) r'is_active': isActive,
+      if (page != null) r'page': page,
     };
 
     final _response = await _dio.request<Object>(
@@ -4627,12 +4415,8 @@ class ApiApi {
     PaginatedRouteList? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(PaginatedRouteList),
-      ) as PaginatedRouteList;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<PaginatedRouteList, PaginatedRouteList>(rawData, 'PaginatedRouteList', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -4680,7 +4464,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/routes/{route_id}/'.replaceAll('{' r'route_id' '}', encodeQueryParameter(_serializers, routeId, const FullType(String)).toString());
+    final _path = r'/api/v1/routes/{route_id}/'.replaceAll('{' r'route_id' '}', routeId.toString());
     final _options = Options(
       method: r'PATCH',
       headers: <String, dynamic>{
@@ -4712,9 +4496,7 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(PatchedRoute);
-      _bodyData = patchedRoute == null ? null : _serializers.serialize(patchedRoute, specifiedType: _type);
-
+_bodyData=jsonEncode(patchedRoute);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -4739,12 +4521,8 @@ class ApiApi {
     Route? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(Route),
-      ) as Route;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Route', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -4790,7 +4568,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/routes/{route_id}/'.replaceAll('{' r'route_id' '}', encodeQueryParameter(_serializers, routeId, const FullType(String)).toString());
+    final _path = r'/api/v1/routes/{route_id}/'.replaceAll('{' r'route_id' '}', routeId.toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -4829,12 +4607,8 @@ class ApiApi {
     Route? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(Route),
-      ) as Route;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Route', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -4880,7 +4654,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/routes/{route_id}/students/'.replaceAll('{' r'route_id' '}', encodeQueryParameter(_serializers, routeId, const FullType(String)).toString());
+    final _path = r'/api/v1/routes/{route_id}/students/'.replaceAll('{' r'route_id' '}', routeId.toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -4919,12 +4693,8 @@ class ApiApi {
     Route? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(Route),
-      ) as Route;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Route', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -4972,7 +4742,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/routes/{route_id}/'.replaceAll('{' r'route_id' '}', encodeQueryParameter(_serializers, routeId, const FullType(String)).toString());
+    final _path = r'/api/v1/routes/{route_id}/'.replaceAll('{' r'route_id' '}', routeId.toString());
     final _options = Options(
       method: r'PUT',
       headers: <String, dynamic>{
@@ -5004,9 +4774,7 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(Route);
-      _bodyData = _serializers.serialize(route, specifiedType: _type);
-
+_bodyData=jsonEncode(route);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -5031,12 +4799,8 @@ class ApiApi {
     Route? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(Route),
-      ) as Route;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Route', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -5114,9 +4878,7 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(School);
-      _bodyData = _serializers.serialize(school, specifiedType: _type);
-
+_bodyData=jsonEncode(school);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -5141,12 +4903,8 @@ class ApiApi {
     School? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(School),
-      ) as School;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<School, School>(rawData, 'School', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -5192,7 +4950,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/schools/{school_id}/'.replaceAll('{' r'school_id' '}', encodeQueryParameter(_serializers, schoolId, const FullType(String)).toString());
+    final _path = r'/api/v1/schools/{school_id}/'.replaceAll('{' r'school_id' '}', schoolId.toString());
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -5287,9 +5045,9 @@ class ApiApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      if (ordering != null) r'ordering': encodeQueryParameter(_serializers, ordering, const FullType(String)),
-      if (page != null) r'page': encodeQueryParameter(_serializers, page, const FullType(int)),
-      if (search != null) r'search': encodeQueryParameter(_serializers, search, const FullType(String)),
+      if (ordering != null) r'ordering': ordering,
+      if (page != null) r'page': page,
+      if (search != null) r'search': search,
     };
 
     final _response = await _dio.request<Object>(
@@ -5304,12 +5062,8 @@ class ApiApi {
     PaginatedSchoolList? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(PaginatedSchoolList),
-      ) as PaginatedSchoolList;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<PaginatedSchoolList, PaginatedSchoolList>(rawData, 'PaginatedSchoolList', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -5357,7 +5111,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/schools/{school_id}/'.replaceAll('{' r'school_id' '}', encodeQueryParameter(_serializers, schoolId, const FullType(String)).toString());
+    final _path = r'/api/v1/schools/{school_id}/'.replaceAll('{' r'school_id' '}', schoolId.toString());
     final _options = Options(
       method: r'PATCH',
       headers: <String, dynamic>{
@@ -5389,9 +5143,7 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(PatchedSchool);
-      _bodyData = patchedSchool == null ? null : _serializers.serialize(patchedSchool, specifiedType: _type);
-
+_bodyData=jsonEncode(patchedSchool);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -5416,12 +5168,8 @@ class ApiApi {
     School? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(School),
-      ) as School;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<School, School>(rawData, 'School', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -5467,7 +5215,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/schools/{school_id}/'.replaceAll('{' r'school_id' '}', encodeQueryParameter(_serializers, schoolId, const FullType(String)).toString());
+    final _path = r'/api/v1/schools/{school_id}/'.replaceAll('{' r'school_id' '}', schoolId.toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -5506,12 +5254,8 @@ class ApiApi {
     School? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(School),
-      ) as School;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<School, School>(rawData, 'School', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -5559,7 +5303,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/schools/{school_id}/'.replaceAll('{' r'school_id' '}', encodeQueryParameter(_serializers, schoolId, const FullType(String)).toString());
+    final _path = r'/api/v1/schools/{school_id}/'.replaceAll('{' r'school_id' '}', schoolId.toString());
     final _options = Options(
       method: r'PUT',
       headers: <String, dynamic>{
@@ -5591,9 +5335,7 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(School);
-      _bodyData = _serializers.serialize(school, specifiedType: _type);
-
+_bodyData=jsonEncode(school);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -5618,12 +5360,8 @@ class ApiApi {
     School? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(School),
-      ) as School;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<School, School>(rawData, 'School', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -5701,9 +5439,7 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(StudentParent);
-      _bodyData = _serializers.serialize(studentParent, specifiedType: _type);
-
+_bodyData=jsonEncode(studentParent);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -5728,12 +5464,8 @@ class ApiApi {
     StudentParent? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(StudentParent),
-      ) as StudentParent;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<StudentParent, StudentParent>(rawData, 'StudentParent', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -5779,7 +5511,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/student-parents/{id}/'.replaceAll('{' r'id' '}', encodeQueryParameter(_serializers, id, const FullType(int)).toString());
+    final _path = r'/api/v1/student-parents/{id}/'.replaceAll('{' r'id' '}', id.toString());
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -5874,9 +5606,9 @@ class ApiApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      if (ordering != null) r'ordering': encodeQueryParameter(_serializers, ordering, const FullType(String)),
-      if (page != null) r'page': encodeQueryParameter(_serializers, page, const FullType(int)),
-      if (search != null) r'search': encodeQueryParameter(_serializers, search, const FullType(String)),
+      if (ordering != null) r'ordering': ordering,
+      if (page != null) r'page': page,
+      if (search != null) r'search': search,
     };
 
     final _response = await _dio.request<Object>(
@@ -5891,12 +5623,8 @@ class ApiApi {
     PaginatedStudentParentList? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(PaginatedStudentParentList),
-      ) as PaginatedStudentParentList;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<PaginatedStudentParentList, PaginatedStudentParentList>(rawData, 'PaginatedStudentParentList', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -5944,7 +5672,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/student-parents/{id}/'.replaceAll('{' r'id' '}', encodeQueryParameter(_serializers, id, const FullType(int)).toString());
+    final _path = r'/api/v1/student-parents/{id}/'.replaceAll('{' r'id' '}', id.toString());
     final _options = Options(
       method: r'PATCH',
       headers: <String, dynamic>{
@@ -5976,9 +5704,7 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(PatchedStudentParent);
-      _bodyData = patchedStudentParent == null ? null : _serializers.serialize(patchedStudentParent, specifiedType: _type);
-
+_bodyData=jsonEncode(patchedStudentParent);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -6003,12 +5729,8 @@ class ApiApi {
     StudentParent? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(StudentParent),
-      ) as StudentParent;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<StudentParent, StudentParent>(rawData, 'StudentParent', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -6054,7 +5776,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/student-parents/{id}/'.replaceAll('{' r'id' '}', encodeQueryParameter(_serializers, id, const FullType(int)).toString());
+    final _path = r'/api/v1/student-parents/{id}/'.replaceAll('{' r'id' '}', id.toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -6093,12 +5815,8 @@ class ApiApi {
     StudentParent? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(StudentParent),
-      ) as StudentParent;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<StudentParent, StudentParent>(rawData, 'StudentParent', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -6146,7 +5864,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/student-parents/{id}/'.replaceAll('{' r'id' '}', encodeQueryParameter(_serializers, id, const FullType(int)).toString());
+    final _path = r'/api/v1/student-parents/{id}/'.replaceAll('{' r'id' '}', id.toString());
     final _options = Options(
       method: r'PUT',
       headers: <String, dynamic>{
@@ -6178,9 +5896,7 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(StudentParent);
-      _bodyData = _serializers.serialize(studentParent, specifiedType: _type);
-
+_bodyData=jsonEncode(studentParent);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -6205,12 +5921,8 @@ class ApiApi {
     StudentParent? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(StudentParent),
-      ) as StudentParent;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<StudentParent, StudentParent>(rawData, 'StudentParent', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -6288,9 +6000,7 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(StudentPhoto);
-      _bodyData = _serializers.serialize(studentPhoto, specifiedType: _type);
-
+_bodyData=jsonEncode(studentPhoto);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -6315,12 +6025,8 @@ class ApiApi {
     StudentPhoto? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(StudentPhoto),
-      ) as StudentPhoto;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<StudentPhoto, StudentPhoto>(rawData, 'StudentPhoto', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -6366,7 +6072,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/student-photos/{photo_id}/'.replaceAll('{' r'photo_id' '}', encodeQueryParameter(_serializers, photoId, const FullType(String)).toString());
+    final _path = r'/api/v1/student-photos/{photo_id}/'.replaceAll('{' r'photo_id' '}', photoId.toString());
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -6461,9 +6167,9 @@ class ApiApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      if (ordering != null) r'ordering': encodeQueryParameter(_serializers, ordering, const FullType(String)),
-      if (page != null) r'page': encodeQueryParameter(_serializers, page, const FullType(int)),
-      if (search != null) r'search': encodeQueryParameter(_serializers, search, const FullType(String)),
+      if (ordering != null) r'ordering': ordering,
+      if (page != null) r'page': page,
+      if (search != null) r'search': search,
     };
 
     final _response = await _dio.request<Object>(
@@ -6478,12 +6184,8 @@ class ApiApi {
     PaginatedStudentPhotoList? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(PaginatedStudentPhotoList),
-      ) as PaginatedStudentPhotoList;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<PaginatedStudentPhotoList, PaginatedStudentPhotoList>(rawData, 'PaginatedStudentPhotoList', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -6531,7 +6233,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/student-photos/{photo_id}/'.replaceAll('{' r'photo_id' '}', encodeQueryParameter(_serializers, photoId, const FullType(String)).toString());
+    final _path = r'/api/v1/student-photos/{photo_id}/'.replaceAll('{' r'photo_id' '}', photoId.toString());
     final _options = Options(
       method: r'PATCH',
       headers: <String, dynamic>{
@@ -6563,9 +6265,7 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(PatchedStudentPhoto);
-      _bodyData = patchedStudentPhoto == null ? null : _serializers.serialize(patchedStudentPhoto, specifiedType: _type);
-
+_bodyData=jsonEncode(patchedStudentPhoto);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -6590,12 +6290,8 @@ class ApiApi {
     StudentPhoto? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(StudentPhoto),
-      ) as StudentPhoto;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<StudentPhoto, StudentPhoto>(rawData, 'StudentPhoto', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -6641,7 +6337,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/student-photos/{photo_id}/'.replaceAll('{' r'photo_id' '}', encodeQueryParameter(_serializers, photoId, const FullType(String)).toString());
+    final _path = r'/api/v1/student-photos/{photo_id}/'.replaceAll('{' r'photo_id' '}', photoId.toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -6680,12 +6376,8 @@ class ApiApi {
     StudentPhoto? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(StudentPhoto),
-      ) as StudentPhoto;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<StudentPhoto, StudentPhoto>(rawData, 'StudentPhoto', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -6733,7 +6425,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/student-photos/{photo_id}/set_primary/'.replaceAll('{' r'photo_id' '}', encodeQueryParameter(_serializers, photoId, const FullType(String)).toString());
+    final _path = r'/api/v1/student-photos/{photo_id}/set_primary/'.replaceAll('{' r'photo_id' '}', photoId.toString());
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
@@ -6765,9 +6457,7 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(StudentPhoto);
-      _bodyData = _serializers.serialize(studentPhoto, specifiedType: _type);
-
+_bodyData=jsonEncode(studentPhoto);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -6792,12 +6482,8 @@ class ApiApi {
     StudentPhoto? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(StudentPhoto),
-      ) as StudentPhoto;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<StudentPhoto, StudentPhoto>(rawData, 'StudentPhoto', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -6845,7 +6531,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/student-photos/{photo_id}/'.replaceAll('{' r'photo_id' '}', encodeQueryParameter(_serializers, photoId, const FullType(String)).toString());
+    final _path = r'/api/v1/student-photos/{photo_id}/'.replaceAll('{' r'photo_id' '}', photoId.toString());
     final _options = Options(
       method: r'PUT',
       headers: <String, dynamic>{
@@ -6877,9 +6563,7 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(StudentPhoto);
-      _bodyData = _serializers.serialize(studentPhoto, specifiedType: _type);
-
+_bodyData=jsonEncode(studentPhoto);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -6904,12 +6588,8 @@ class ApiApi {
     StudentPhoto? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(StudentPhoto),
-      ) as StudentPhoto;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<StudentPhoto, StudentPhoto>(rawData, 'StudentPhoto', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -6957,7 +6637,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/students/{student_id}/assign_bus/'.replaceAll('{' r'student_id' '}', encodeQueryParameter(_serializers, studentId, const FullType(String)).toString());
+    final _path = r'/api/v1/students/{student_id}/assign_bus/'.replaceAll('{' r'student_id' '}', studentId.toString());
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
@@ -6989,9 +6669,7 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(Student);
-      _bodyData = _serializers.serialize(student, specifiedType: _type);
-
+_bodyData=jsonEncode(student);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -7016,12 +6694,8 @@ class ApiApi {
     Student? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(Student),
-      ) as Student;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 'Student', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -7099,9 +6773,7 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(Student);
-      _bodyData = _serializers.serialize(student, specifiedType: _type);
-
+_bodyData=jsonEncode(student);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -7126,12 +6798,8 @@ class ApiApi {
     Student? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(Student),
-      ) as Student;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 'Student', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -7177,7 +6845,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/students/{student_id}/'.replaceAll('{' r'student_id' '}', encodeQueryParameter(_serializers, studentId, const FullType(String)).toString());
+    final _path = r'/api/v1/students/{student_id}/'.replaceAll('{' r'student_id' '}', studentId.toString());
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -7272,9 +6940,9 @@ class ApiApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      if (ordering != null) r'ordering': encodeQueryParameter(_serializers, ordering, const FullType(String)),
-      if (page != null) r'page': encodeQueryParameter(_serializers, page, const FullType(int)),
-      if (search != null) r'search': encodeQueryParameter(_serializers, search, const FullType(String)),
+      if (ordering != null) r'ordering': ordering,
+      if (page != null) r'page': page,
+      if (search != null) r'search': search,
     };
 
     final _response = await _dio.request<Object>(
@@ -7289,12 +6957,8 @@ class ApiApi {
     PaginatedStudentList? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(PaginatedStudentList),
-      ) as PaginatedStudentList;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<PaginatedStudentList, PaginatedStudentList>(rawData, 'PaginatedStudentList', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -7340,7 +7004,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/students/{student_id}/parents/'.replaceAll('{' r'student_id' '}', encodeQueryParameter(_serializers, studentId, const FullType(String)).toString());
+    final _path = r'/api/v1/students/{student_id}/parents/'.replaceAll('{' r'student_id' '}', studentId.toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -7379,12 +7043,8 @@ class ApiApi {
     Student? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(Student),
-      ) as Student;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 'Student', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -7432,7 +7092,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/students/{student_id}/'.replaceAll('{' r'student_id' '}', encodeQueryParameter(_serializers, studentId, const FullType(String)).toString());
+    final _path = r'/api/v1/students/{student_id}/'.replaceAll('{' r'student_id' '}', studentId.toString());
     final _options = Options(
       method: r'PATCH',
       headers: <String, dynamic>{
@@ -7464,9 +7124,7 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(PatchedStudent);
-      _bodyData = patchedStudent == null ? null : _serializers.serialize(patchedStudent, specifiedType: _type);
-
+_bodyData=jsonEncode(patchedStudent);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -7491,12 +7149,8 @@ class ApiApi {
     Student? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(Student),
-      ) as Student;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 'Student', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -7542,7 +7196,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/students/{student_id}/'.replaceAll('{' r'student_id' '}', encodeQueryParameter(_serializers, studentId, const FullType(String)).toString());
+    final _path = r'/api/v1/students/{student_id}/'.replaceAll('{' r'student_id' '}', studentId.toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -7581,12 +7235,8 @@ class ApiApi {
     Student? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(Student),
-      ) as Student;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 'Student', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -7634,7 +7284,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/students/{student_id}/'.replaceAll('{' r'student_id' '}', encodeQueryParameter(_serializers, studentId, const FullType(String)).toString());
+    final _path = r'/api/v1/students/{student_id}/'.replaceAll('{' r'student_id' '}', studentId.toString());
     final _options = Options(
       method: r'PUT',
       headers: <String, dynamic>{
@@ -7666,9 +7316,7 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(Student);
-      _bodyData = _serializers.serialize(student, specifiedType: _type);
-
+_bodyData=jsonEncode(student);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -7693,12 +7341,8 @@ class ApiApi {
     Student? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(Student),
-      ) as Student;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 'Student', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -7776,9 +7420,7 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(UserCreate);
-      _bodyData = _serializers.serialize(userCreate, specifiedType: _type);
-
+_bodyData=jsonEncode(userCreate);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -7803,12 +7445,8 @@ class ApiApi {
     UserCreate? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(UserCreate),
-      ) as UserCreate;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<UserCreate, UserCreate>(rawData, 'UserCreate', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -7854,7 +7492,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/users/{user_id}/'.replaceAll('{' r'user_id' '}', encodeQueryParameter(_serializers, userId, const FullType(String)).toString());
+    final _path = r'/api/v1/users/{user_id}/'.replaceAll('{' r'user_id' '}', userId.toString());
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -7949,9 +7587,9 @@ class ApiApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      if (ordering != null) r'ordering': encodeQueryParameter(_serializers, ordering, const FullType(String)),
-      if (page != null) r'page': encodeQueryParameter(_serializers, page, const FullType(int)),
-      if (search != null) r'search': encodeQueryParameter(_serializers, search, const FullType(String)),
+      if (ordering != null) r'ordering': ordering,
+      if (page != null) r'page': page,
+      if (search != null) r'search': search,
     };
 
     final _response = await _dio.request<Object>(
@@ -7966,12 +7604,8 @@ class ApiApi {
     PaginatedUserList? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(PaginatedUserList),
-      ) as PaginatedUserList;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<PaginatedUserList, PaginatedUserList>(rawData, 'PaginatedUserList', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -8049,9 +7683,7 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(User);
-      _bodyData = _serializers.serialize(user, specifiedType: _type);
-
+_bodyData=jsonEncode(user);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -8076,12 +7708,8 @@ class ApiApi {
     User? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(User),
-      ) as User;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<User, User>(rawData, 'User', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -8159,9 +7787,7 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(User);
-      _bodyData = _serializers.serialize(user, specifiedType: _type);
-
+_bodyData=jsonEncode(user);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -8186,12 +7812,8 @@ class ApiApi {
     User? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(User),
-      ) as User;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<User, User>(rawData, 'User', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -8274,12 +7896,8 @@ class ApiApi {
     User? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(User),
-      ) as User;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<User, User>(rawData, 'User', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -8327,7 +7945,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/users/{user_id}/'.replaceAll('{' r'user_id' '}', encodeQueryParameter(_serializers, userId, const FullType(String)).toString());
+    final _path = r'/api/v1/users/{user_id}/'.replaceAll('{' r'user_id' '}', userId.toString());
     final _options = Options(
       method: r'PATCH',
       headers: <String, dynamic>{
@@ -8359,9 +7977,7 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(PatchedUser);
-      _bodyData = patchedUser == null ? null : _serializers.serialize(patchedUser, specifiedType: _type);
-
+_bodyData=jsonEncode(patchedUser);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -8386,12 +8002,8 @@ class ApiApi {
     User? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(User),
-      ) as User;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<User, User>(rawData, 'User', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -8437,7 +8049,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/users/{user_id}/'.replaceAll('{' r'user_id' '}', encodeQueryParameter(_serializers, userId, const FullType(String)).toString());
+    final _path = r'/api/v1/users/{user_id}/'.replaceAll('{' r'user_id' '}', userId.toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -8476,12 +8088,8 @@ class ApiApi {
     User? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(User),
-      ) as User;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<User, User>(rawData, 'User', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -8529,7 +8137,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/users/{user_id}/'.replaceAll('{' r'user_id' '}', encodeQueryParameter(_serializers, userId, const FullType(String)).toString());
+    final _path = r'/api/v1/users/{user_id}/'.replaceAll('{' r'user_id' '}', userId.toString());
     final _options = Options(
       method: r'PUT',
       headers: <String, dynamic>{
@@ -8561,9 +8169,7 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(User);
-      _bodyData = _serializers.serialize(user, specifiedType: _type);
-
+_bodyData=jsonEncode(user);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -8588,12 +8194,8 @@ class ApiApi {
     User? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(User),
-      ) as User;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<User, User>(rawData, 'User', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -8641,7 +8243,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/kiosks/{kiosk_id}/check-updates/'.replaceAll('{' r'kiosk_id' '}', encodeQueryParameter(_serializers, kioskId, const FullType(String)).toString());
+    final _path = r'/api/v1/kiosks/{kiosk_id}/check-updates/'.replaceAll('{' r'kiosk_id' '}', kioskId.toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -8661,7 +8263,7 @@ class ApiApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      if (lastSyncHash != null) r'last_sync_hash': encodeQueryParameter(_serializers, lastSyncHash, const FullType(String)),
+      if (lastSyncHash != null) r'last_sync_hash': lastSyncHash,
     };
 
     final _response = await _dio.request<Object>(
@@ -8676,12 +8278,8 @@ class ApiApi {
     CheckUpdatesResponse? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(CheckUpdatesResponse),
-      ) as CheckUpdatesResponse;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<CheckUpdatesResponse, CheckUpdatesResponse>(rawData, 'CheckUpdatesResponse', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -8716,9 +8314,9 @@ class ApiApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [Uint8List] as data
+  /// Returns a [Future] containing a [Response] with a [MultipartFile] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Uint8List>> kioskDownloadSnapshot({ 
+  Future<Response<MultipartFile>> kioskDownloadSnapshot({ 
     required String kioskId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -8727,7 +8325,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/kiosks/{kiosk_id}/snapshot/'.replaceAll('{' r'kiosk_id' '}', encodeQueryParameter(_serializers, kioskId, const FullType(String)).toString());
+    final _path = r'/api/v1/kiosks/{kiosk_id}/snapshot/'.replaceAll('{' r'kiosk_id' '}', kioskId.toString());
     final _options = Options(
       method: r'GET',
       responseType: ResponseType.bytes,
@@ -8755,12 +8353,11 @@ class ApiApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    Uint8List? _responseData;
+    MultipartFile? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : rawResponse as Uint8List;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<MultipartFile, MultipartFile>(rawData, 'MultipartFile', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -8771,7 +8368,7 @@ class ApiApi {
       );
     }
 
-    return Response<Uint8List>(
+    return Response<MultipartFile>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -8808,7 +8405,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/kiosks/{kiosk_id}/heartbeat/'.replaceAll('{' r'kiosk_id' '}', encodeQueryParameter(_serializers, kioskId, const FullType(String)).toString());
+    final _path = r'/api/v1/kiosks/{kiosk_id}/heartbeat/'.replaceAll('{' r'kiosk_id' '}', kioskId.toString());
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
@@ -8831,9 +8428,7 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(Heartbeat);
-      _bodyData = _serializers.serialize(heartbeat, specifiedType: _type);
-
+_bodyData=jsonEncode(heartbeat);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -8904,9 +8499,7 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(DeviceLog);
-      _bodyData = _serializers.serialize(deviceLog, specifiedType: _type);
-
+_bodyData=jsonEncode(deviceLog);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -8931,12 +8524,8 @@ class ApiApi {
     KioskLog200Response? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(KioskLog200Response),
-      ) as KioskLog200Response;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<KioskLog200Response, KioskLog200Response>(rawData, 'KioskLog200Response', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -8984,7 +8573,7 @@ class ApiApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/kiosks/{kiosk_id}/location/'.replaceAll('{' r'kiosk_id' '}', encodeQueryParameter(_serializers, kioskId, const FullType(String)).toString());
+    final _path = r'/api/v1/kiosks/{kiosk_id}/location/'.replaceAll('{' r'kiosk_id' '}', kioskId.toString());
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
@@ -9007,9 +8596,7 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(BusLocation);
-      _bodyData = _serializers.serialize(busLocation, specifiedType: _type);
-
+_bodyData=jsonEncode(busLocation);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -9034,12 +8621,8 @@ class ApiApi {
     BusLocation? _responseData;
 
     try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(BusLocation),
-      ) as BusLocation;
-
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<BusLocation, BusLocation>(rawData, 'BusLocation', growable: true);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,

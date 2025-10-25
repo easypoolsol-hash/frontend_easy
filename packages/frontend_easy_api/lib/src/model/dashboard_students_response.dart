@@ -3,158 +3,107 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:built_collection/built_collection.dart';
 import 'package:frontend_easy_api/src/model/student_activity.dart';
-import 'package:built_value/built_value.dart';
-import 'package:built_value/serializer.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'dashboard_students_response.g.dart';
 
-/// Paginated response for dashboard students.
-///
-/// Properties:
-/// * [count] - Total number of students with events
-/// * [next] - Has next page
-/// * [previous] - Has previous page
-/// * [results] - List of students
-@BuiltValue()
-abstract class DashboardStudentsResponse implements Built<DashboardStudentsResponse, DashboardStudentsResponseBuilder> {
-  /// Total number of students with events
-  @BuiltValueField(wireName: r'count')
-  int get count;
 
-  /// Has next page
-  @BuiltValueField(wireName: r'next')
-  bool get next;
+@JsonSerializable(
+  checked: true,
+  createToJson: true,
+  disallowUnrecognizedKeys: false,
+  explicitToJson: true,
+)
+class DashboardStudentsResponse {
+  /// Returns a new [DashboardStudentsResponse] instance.
+  DashboardStudentsResponse({
 
-  /// Has previous page
-  @BuiltValueField(wireName: r'previous')
-  bool get previous;
+    required  this.count,
 
-  /// List of students
-  @BuiltValueField(wireName: r'results')
-  BuiltList<StudentActivity> get results;
+    required  this.next,
 
-  DashboardStudentsResponse._();
+    required  this.previous,
 
-  factory DashboardStudentsResponse([void updates(DashboardStudentsResponseBuilder b)]) = _$DashboardStudentsResponse;
+    required  this.results,
+  });
 
-  @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(DashboardStudentsResponseBuilder b) => b;
+      /// Total number of students with events
+  @JsonKey(
+    
+    name: r'count',
+    required: true,
+    includeIfNull: false,
+  )
 
-  @BuiltValueSerializer(custom: true)
-  static Serializer<DashboardStudentsResponse> get serializer => _$DashboardStudentsResponseSerializer();
-}
 
-class _$DashboardStudentsResponseSerializer implements PrimitiveSerializer<DashboardStudentsResponse> {
-  @override
-  final Iterable<Type> types = const [DashboardStudentsResponse, _$DashboardStudentsResponse];
+  final int count;
 
-  @override
-  final String wireName = r'DashboardStudentsResponse';
 
-  Iterable<Object?> _serializeProperties(
-    Serializers serializers,
-    DashboardStudentsResponse object, {
-    FullType specifiedType = FullType.unspecified,
-  }) sync* {
-    yield r'count';
-    yield serializers.serialize(
-      object.count,
-      specifiedType: const FullType(int),
-    );
-    yield r'next';
-    yield serializers.serialize(
-      object.next,
-      specifiedType: const FullType(bool),
-    );
-    yield r'previous';
-    yield serializers.serialize(
-      object.previous,
-      specifiedType: const FullType(bool),
-    );
-    yield r'results';
-    yield serializers.serialize(
-      object.results,
-      specifiedType: const FullType(BuiltList, [FullType(StudentActivity)]),
-    );
-  }
 
-  @override
-  Object serialize(
-    Serializers serializers,
-    DashboardStudentsResponse object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
-  }
+      /// Has next page
+  @JsonKey(
+    
+    name: r'next',
+    required: true,
+    includeIfNull: false,
+  )
 
-  void _deserializeProperties(
-    Serializers serializers,
-    Object serialized, {
-    FullType specifiedType = FullType.unspecified,
-    required List<Object?> serializedList,
-    required DashboardStudentsResponseBuilder result,
-    required List<Object?> unhandled,
-  }) {
-    for (var i = 0; i < serializedList.length; i += 2) {
-      final key = serializedList[i] as String;
-      final value = serializedList[i + 1];
-      switch (key) {
-        case r'count':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(int),
-          ) as int;
-          result.count = valueDes;
-          break;
-        case r'next':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(bool),
-          ) as bool;
-          result.next = valueDes;
-          break;
-        case r'previous':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(bool),
-          ) as bool;
-          result.previous = valueDes;
-          break;
-        case r'results':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(BuiltList, [FullType(StudentActivity)]),
-          ) as BuiltList<StudentActivity>;
-          result.results.replace(valueDes);
-          break;
-        default:
-          unhandled.add(key);
-          unhandled.add(value);
-          break;
-      }
-    }
-  }
+
+  final bool next;
+
+
+
+      /// Has previous page
+  @JsonKey(
+    
+    name: r'previous',
+    required: true,
+    includeIfNull: false,
+  )
+
+
+  final bool previous;
+
+
+
+      /// List of students
+  @JsonKey(
+    
+    name: r'results',
+    required: true,
+    includeIfNull: false,
+  )
+
+
+  final List<StudentActivity> results;
+
+
+
+
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is DashboardStudentsResponse &&
+      other.count == count &&
+      other.next == next &&
+      other.previous == previous &&
+      other.results == results;
+
+    @override
+    int get hashCode =>
+        count.hashCode +
+        next.hashCode +
+        previous.hashCode +
+        results.hashCode;
+
+  factory DashboardStudentsResponse.fromJson(Map<String, dynamic> json) => _$DashboardStudentsResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DashboardStudentsResponseToJson(this);
 
   @override
-  DashboardStudentsResponse deserialize(
-    Serializers serializers,
-    Object serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
-    final result = DashboardStudentsResponseBuilder();
-    final serializedList = (serialized as Iterable<Object?>).toList();
-    final unhandled = <Object?>[];
-    _deserializeProperties(
-      serializers,
-      serialized,
-      specifiedType: specifiedType,
-      serializedList: serializedList,
-      unhandled: unhandled,
-      result: result,
-    );
-    return result.build();
+  String toString() {
+    return toJson().toString();
   }
+
 }
 

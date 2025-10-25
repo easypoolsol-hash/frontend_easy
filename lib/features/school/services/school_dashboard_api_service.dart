@@ -25,7 +25,7 @@ class SchoolDashboardApiService {
     DateTime? date,
   }) async {
     final response = await _apiClient.apiV1DashboardStatsRetrieve(
-      date: date != null ? Date(date.year, date.month, date.day) : null,
+      date: date,
     );
 
     if (response.data == null) {
@@ -47,7 +47,7 @@ class SchoolDashboardApiService {
     int? offset,
   }) async {
     final response = await _apiClient.apiV1DashboardStudentsRetrieve(
-      date: date != null ? Date(date.year, date.month, date.day) : null,
+      date: date,
       limit: limit,
       offset: offset,
     );
