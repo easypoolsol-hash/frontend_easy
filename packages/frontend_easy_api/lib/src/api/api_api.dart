@@ -2972,10 +2972,9 @@ _responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', g
   }
 
   /// Get dashboard summary statistics
-  /// Returns summary statistics for school dashboard (buses, students boarded). Cached for 10 seconds.
+  /// Returns summary statistics for school dashboard (buses, students boarded) for TODAY only. Cached for 10 seconds.
   ///
   /// Parameters:
-  /// * [date] - Date for stats (YYYY-MM-DD, default=today)
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -2986,7 +2985,6 @@ _responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', g
   /// Returns a [Future] containing a [Response] with a [DashboardStats] as data
   /// Throws [DioException] if API call or serialization fails
   Future<Response<DashboardStats>> apiV1DashboardStatsRetrieve({ 
-    DateTime? date,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -3022,14 +3020,9 @@ _responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', g
       validateStatus: validateStatus,
     );
 
-    final _queryParameters = <String, dynamic>{
-      if (date != null) r'date': date,
-    };
-
     final _response = await _dio.request<Object>(
       _path,
       options: _options,
-      queryParameters: _queryParameters,
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -3063,10 +3056,9 @@ _responseData = rawData == null ? null : deserialize<DashboardStats, DashboardSt
   }
 
   /// Get students with boarding events
-  /// Returns paginated list of students who boarded on a specific date with all their events
+  /// Returns paginated list of students who boarded TODAY with all their events
   ///
   /// Parameters:
-  /// * [date] - Date filter (YYYY-MM-DD, default=today)
   /// * [limit] - Number of students per page (default=50)
   /// * [offset] - Offset for pagination (default=0)
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
@@ -3079,7 +3071,6 @@ _responseData = rawData == null ? null : deserialize<DashboardStats, DashboardSt
   /// Returns a [Future] containing a [Response] with a [DashboardStudentsResponse] as data
   /// Throws [DioException] if API call or serialization fails
   Future<Response<DashboardStudentsResponse>> apiV1DashboardStudentsRetrieve({ 
-    DateTime? date,
     int? limit,
     int? offset,
     CancelToken? cancelToken,
@@ -3118,7 +3109,6 @@ _responseData = rawData == null ? null : deserialize<DashboardStats, DashboardSt
     );
 
     final _queryParameters = <String, dynamic>{
-      if (date != null) r'date': date,
       if (limit != null) r'limit': limit,
       if (offset != null) r'offset': offset,
     };

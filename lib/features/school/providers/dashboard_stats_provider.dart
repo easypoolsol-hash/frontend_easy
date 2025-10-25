@@ -26,18 +26,3 @@ final dashboardStatsProvider = FutureProvider<DashboardStats>((ref) async {
   return service.getDashboardStats();
 });
 
-/// Provider for dashboard stats with specific date
-///
-/// NOTE: Date filtering disabled due to Dart OpenAPI generator limitation
-/// Always shows today's data. See school_dashboard_api_service.dart for details.
-final dashboardStatsByDateProvider =
-    FutureProvider.family<DashboardStats, DateTime?>((ref, date) async {
-  // Auto-refresh every 30 seconds
-  ref.watch(autoRefreshProvider);
-
-  // Keep alive for navigation
-  ref.keepAlive();
-
-  final service = ref.watch(dashboardApiServiceProvider);
-  return service.getDashboardStats(date: date);  // Ignored - always uses today
-});

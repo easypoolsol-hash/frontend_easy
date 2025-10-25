@@ -1578,11 +1578,11 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiV1DashboardStatsRetrieve**
-> DashboardStats apiV1DashboardStatsRetrieve(date)
+> DashboardStats apiV1DashboardStatsRetrieve()
 
 Get dashboard summary statistics
 
-Returns summary statistics for school dashboard (buses, students boarded). Cached for 10 seconds.
+Returns summary statistics for school dashboard (buses, students boarded) for TODAY only. Cached for 10 seconds.
 
 ### Example
 ```dart
@@ -1593,10 +1593,9 @@ import 'package:frontend_easy_api/api.dart';
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
 final api = FrontendEasyApi().getApiApi();
-final DateTime date = 2013-10-20; // DateTime | Date for stats (YYYY-MM-DD, default=today)
 
 try {
-    final response = api.apiV1DashboardStatsRetrieve(date);
+    final response = api.apiV1DashboardStatsRetrieve();
     print(response);
 } catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1DashboardStatsRetrieve: $e\n');
@@ -1604,10 +1603,7 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **date** | **DateTime**| Date for stats (YYYY-MM-DD, default=today) | [optional] 
+This endpoint does not need any parameter.
 
 ### Return type
 
@@ -1625,11 +1621,11 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiV1DashboardStudentsRetrieve**
-> DashboardStudentsResponse apiV1DashboardStudentsRetrieve(date, limit, offset)
+> DashboardStudentsResponse apiV1DashboardStudentsRetrieve(limit, offset)
 
 Get students with boarding events
 
-Returns paginated list of students who boarded on a specific date with all their events
+Returns paginated list of students who boarded TODAY with all their events
 
 ### Example
 ```dart
@@ -1640,12 +1636,11 @@ import 'package:frontend_easy_api/api.dart';
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
 final api = FrontendEasyApi().getApiApi();
-final DateTime date = 2013-10-20; // DateTime | Date filter (YYYY-MM-DD, default=today)
 final int limit = 56; // int | Number of students per page (default=50)
 final int offset = 56; // int | Offset for pagination (default=0)
 
 try {
-    final response = api.apiV1DashboardStudentsRetrieve(date, limit, offset);
+    final response = api.apiV1DashboardStudentsRetrieve(limit, offset);
     print(response);
 } catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1DashboardStudentsRetrieve: $e\n');
@@ -1656,7 +1651,6 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **date** | **DateTime**| Date filter (YYYY-MM-DD, default=today) | [optional] 
  **limit** | **int**| Number of students per page (default=50) | [optional] 
  **offset** | **int**| Offset for pagination (default=0) | [optional] 
 

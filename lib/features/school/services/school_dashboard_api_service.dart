@@ -18,19 +18,11 @@ class SchoolDashboardApiService {
   SchoolDashboardApiService(this._apiClient);
 
 
-  /// Fetch dashboard summary statistics
+  /// Fetch dashboard summary statistics (today only)
   /// Returns: DashboardStats (API model)
-  /// Params:
-  ///   - date: Optional date filter (default=today)
-  Future<DashboardStats> getDashboardStats({
-    DateTime? date,
-  }) async {
-    // Pass null - generated client expects DateTime but backend needs string
-    // This is Dart OpenAPI generator limitation with format:date
-    // TODO: Override generated client or use intl package DateFormat
-    final response = await _apiClient.apiV1DashboardStatsRetrieve(
-      date: null,  // Always use today until we fix the generator issue
-    );
+  /// Backend always returns today's stats (no date parameter)
+  Future<DashboardStats> getDashboardStats() async {
+    final response = await _apiClient.apiV1DashboardStatsRetrieve();
 
     if (response.data == null) {
       throw Exception('Failed to load dashboard stats');
@@ -39,22 +31,17 @@ class SchoolDashboardApiService {
     return response.data!;
   }
 
-  /// Fetch student boarding activity
+  /// Fetch student boarding activity (today only)
   /// Returns: DashboardStudentsResponse (API model with pagination)
+  /// Backend always returns today's students (no date parameter)
   /// Params:
-  ///   - date: Optional date filter (default=today)
   ///   - limit: Number of students per page (default=50)
   ///   - offset: Pagination offset (default=0)
   Future<DashboardStudentsResponse> getStudentActivity({
-    DateTime? date,
     int? limit,
     int? offset,
   }) async {
-    // Pass null - generated client expects DateTime but backend needs string
-    // This is Dart OpenAPI generator limitation with format:date
-    // TODO: Override generated client or use intl package DateFormat
     final response = await _apiClient.apiV1DashboardStudentsRetrieve(
-      date: null,  // Always use today until we fix the generator issue
       limit: limit,
       offset: offset,
     );

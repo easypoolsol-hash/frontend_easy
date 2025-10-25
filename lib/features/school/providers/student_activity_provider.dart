@@ -20,15 +20,11 @@ final studentActivityProvider =
   return service.getStudentActivity(limit: 50);
 });
 
-/// Provider for student activity with filters
-///
-/// NOTE: Date filtering disabled due to Dart OpenAPI generator limitation
-/// The generator creates DateTime param but backend expects "YYYY-MM-DD" string
-/// Always shows today's data. See school_dashboard_api_service.dart for details.
+/// Provider for student activity with filters (pagination only, today's data)
 final studentActivityFilteredProvider = FutureProvider.family<
     DashboardStudentsResponse,
     StudentActivityParams>((ref, params) async {
-  // Auto-refresh every 30 seconds
+  // Auto-refresh every 10 seconds
   ref.watch(autoRefreshProvider);
 
   // Keep alive for navigation
@@ -36,16 +32,13 @@ final studentActivityFilteredProvider = FutureProvider.family<
 
   final service = ref.watch(dashboardApiServiceProvider);
   return service.getStudentActivity(
-    date: params.date,  // Ignored - always uses today
     limit: params.limit,
     offset: params.offset,
   );
 });
 
-/// Parameters for filtering student activity
+/// Parameters for filtering student activity (pagination + search)
 class StudentActivityParams {
-  /// Date filter (default: today)
-  final DateTime? date;
 
   /// Number of students per page (default: 50)
   final int? limit;
@@ -58,7 +51,6 @@ class StudentActivityParams {
 
   /// Creates student activity filter parameters
   const StudentActivityParams({
-    this.date,
     this.limit,
     this.offset,
     this.searchQuery,
@@ -69,14 +61,12 @@ class StudentActivityParams {
       identical(this, other) ||
       other is StudentActivityParams &&
           runtimeType == other.runtimeType &&
-          date == other.date &&
           limit == other.limit &&
           offset == other.offset &&
           searchQuery == other.searchQuery;
 
   @override
   int get hashCode =>
-      date.hashCode ^
       limit.hashCode ^
       offset.hashCode ^
       searchQuery.hashCode;
