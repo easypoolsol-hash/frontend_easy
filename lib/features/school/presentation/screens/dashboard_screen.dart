@@ -19,7 +19,6 @@ class DashboardScreen extends ConsumerStatefulWidget {
 }
 
 class _DashboardScreenState extends ConsumerState<DashboardScreen> {
-  DateTime? _selectedDate;
   final _searchController = TextEditingController();
 
   @override
@@ -33,8 +32,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     final statsAsync = ref.watch(dashboardStatsProvider);
     final studentActivityAsync = ref.watch(
       studentActivityFilteredProvider(
-        StudentActivityParams(
-          date: _selectedDate,
+        const StudentActivityParams(
           limit: 100,
         ),
       ),
@@ -147,30 +145,21 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
             const SizedBox(height: 16),
             Row(
               children: [
-                // Date Filter
-                Expanded(
-                  child: OutlinedButton.icon(
-                    onPressed: () => _selectDate(context),
-                    icon: const Icon(Icons.calendar_today),
-                    label: Text(
-                      _selectedDate == null
-                          ? 'Today'
-                          : '${_selectedDate!.year}-${_selectedDate!.month.toString().padLeft(2, '0')}-${_selectedDate!.day.toString().padLeft(2, '0')}',
-                    ),
-                  ),
+                // Today's Activity Label
+                const Text(
+                  "Today's Boarding Activity",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                 ),
-                const SizedBox(width: 8),
-                // Clear Date Filter
-                if (_selectedDate != null)
-                  IconButton(
-                    icon: const Icon(Icons.clear),
-                    onPressed: () {
-                      setState(() {
-                        _selectedDate = null;
-                      });
-                    },
-                    tooltip: 'Clear date filter',
-                  ),
+                const Spacer(),
+                // Manual Refresh Button
+                IconButton(
+                  icon: const Icon(Icons.refresh),
+                  onPressed: () {
+                    ref.invalidate(studentActivityFilteredProvider);
+                    ref.invalidate(dashboardStatsProvider);
+                  },
+                  tooltip: 'Refresh data',
+                ),
               ],
             ),
             const SizedBox(height: 12),
@@ -201,19 +190,6 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     );
   }
 
-  Future<void> _selectDate(BuildContext context) async {
-    final picked = await showDatePicker(
-      context: context,
-      initialDate: _selectedDate ?? DateTime.now(),
-      firstDate: DateTime.now().subtract(const Duration(days: 90)),
-      lastDate: DateTime.now(),
-    );
-    if (picked != null) {
-      setState(() {
-        _selectedDate = picked;
-      });
-    }
-  }
 
   Widget _buildBoardingEventsList(
     AsyncValue<DashboardStudentsResponse> studentActivityAsync,

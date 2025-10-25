@@ -2,13 +2,13 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Auto-refresh notifier for dashboard
-/// Triggers refresh every 30 seconds
+/// Triggers refresh every 10 seconds (matches backend cache TTL)
 class AutoRefreshNotifier extends StateNotifier<DateTime> {
   Timer? _timer;
   final Duration refreshInterval;
 
   AutoRefreshNotifier({
-    this.refreshInterval = const Duration(seconds: 30),
+    this.refreshInterval = const Duration(seconds: 10),
   }) : super(DateTime.now()) {
     _startTimer();
   }
