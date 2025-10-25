@@ -7,7 +7,6 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 /// Real-time dashboard WebSocket service
 ///
@@ -16,12 +15,11 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 ///
 /// Architecture:
 /// - WebSocket connection with auto-reconnect
-/// - JWT authentication via query param
+/// - Session-based authentication (cookies automatically sent)
 /// - Stream-based event broadcasting
 /// - Automatic reconnection on disconnect
 class DashboardWebSocketService {
   final String baseUrl;
-  final FlutterSecureStorage _storage;
 
   WebSocketChannel? _channel;
   StreamController<BoardingEventData>? _boardingEventsController;
@@ -29,7 +27,6 @@ class DashboardWebSocketService {
   StreamController<WebSocketStatus>? _statusController;
   Timer? _reconnectTimer;
   bool _isConnecting = false;
-  String? _cachedToken;
 
   /// WebSocket connection status
   Stream<WebSocketStatus> get statusStream =>
@@ -45,14 +42,14 @@ class DashboardWebSocketService {
 
   DashboardWebSocketService({
     required this.baseUrl,
-    FlutterSecureStorage? storage,
-  }) : _storage = storage ?? const FlutterSecureStorage() {
+  }) {
     _boardingEventsController = StreamController<BoardingEventData>.broadcast();
     _statsController = StreamController<StatsUpdateData>.broadcast();
     _statusController = StreamController<WebSocketStatus>.broadcast();
   }
 
   /// Connect to dashboard WebSocket
+  /// Session authentication via cookies (automatically sent by browser)
   Future<void> connect() async {
     if (_isConnecting || _channel != null) return;
 
@@ -60,21 +57,13 @@ class DashboardWebSocketService {
     _statusController?.add(WebSocketStatus.connecting);
 
     try {
-      // Get auth token
-      _cachedToken = await _storage.read(key: 'access_token');
-      if (_cachedToken == null) {
-        _statusController?.add(WebSocketStatus.authError);
-        _isConnecting = false;
-        return;
-      }
-
       // Convert http/https URL to ws/wss
       final wsUrl = baseUrl
           .replaceFirst('http://', 'ws://')
           .replaceFirst('https://', 'wss://');
 
-      // Connect with JWT token as query param
-      final uri = Uri.parse('$wsUrl/ws/dashboard/?token=$_cachedToken');
+      // Connect without token - session cookie automatically sent
+      final uri = Uri.parse('$wsUrl/ws/dashboard/');
 
       _channel = WebSocketChannel.connect(uri);
 
