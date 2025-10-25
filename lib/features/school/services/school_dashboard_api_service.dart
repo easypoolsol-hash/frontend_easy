@@ -24,8 +24,13 @@ class SchoolDashboardApiService {
   Future<DashboardStats> getDashboardStats({
     DateTime? date,
   }) async {
+    // Format date as YYYY-MM-DD (Django expects date-only, not datetime)
+    final formattedDate = date != null
+        ? DateTime(date.year, date.month, date.day)
+        : null;
+
     final response = await _apiClient.apiV1DashboardStatsRetrieve(
-      date: date,
+      date: formattedDate,
     );
 
     if (response.data == null) {
@@ -46,8 +51,13 @@ class SchoolDashboardApiService {
     int? limit,
     int? offset,
   }) async {
+    // Format date as YYYY-MM-DD (Django expects date-only, not datetime)
+    final formattedDate = date != null
+        ? DateTime(date.year, date.month, date.day)
+        : null;
+
     final response = await _apiClient.apiV1DashboardStudentsRetrieve(
-      date: date,
+      date: formattedDate,
       limit: limit,
       offset: offset,
     );
