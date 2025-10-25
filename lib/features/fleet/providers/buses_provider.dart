@@ -9,7 +9,7 @@ final busesProvider = FutureProvider<List<api.Bus>>((ref) async {
   try {
     final apiService = ApiService().api;
     final response = await apiService.apiV1BusesList();
-    return response?.data?.results ?? [];
+    return response.data?.results.toList() ?? [];
   } catch (e) {
     // Return empty list on error to keep app functional
     return [];
@@ -20,7 +20,7 @@ final busesProvider = FutureProvider<List<api.Bus>>((ref) async {
 final busesByRouteProvider = FutureProvider.family<List<api.Bus>, String>((ref, routeId) async {
   final apiService = ApiService().api;
   final response = await apiService.apiV1BusesList(route: routeId);
-  return response?.data?.results ?? [];
+  return response.data?.results.toList() ?? [];
 });
 
 /// Provider for a single bus by ID

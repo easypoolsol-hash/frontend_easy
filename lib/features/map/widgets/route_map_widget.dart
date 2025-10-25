@@ -61,26 +61,10 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
   double _currentZoom = 12.0;
   LatLng _currentCenter = LatLng(HomeLocation.latitude, HomeLocation.longitude);
 
-  // Helper: extract stops from the Route model in a backward/forward compatible way.
+  // Helper: extract stops from the Route model (converts BuiltList to List)
   List<dynamic> _stopsForRoute(api.Route route) {
-    // Try `routeStops` (older/newer clients may have this)
-    try {
-      final rs = (route as dynamic).routeStops;
-      if (rs is List) return rs;
-    } catch (_) {}
-
-    // Try `stops` field (generated client uses this)
-    final s = route.routeStops;
-    if (s == null) return <dynamic>[];
-    if (s is List) return s;
-
-    // If `s` is already a list, return it directly.
-    if (s is List) {
-      return s;
-    }
-
-    // Unknown shape -> empty
-    return <dynamic>[];
+    // Convert BuiltList to regular List
+    return route.routeStops.toList();
   }
 
   // Helper: get color hex from route, defaulting to blue when not present.
