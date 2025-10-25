@@ -17,6 +17,7 @@ class SchoolDashboardApiService {
   /// Constructor
   SchoolDashboardApiService(this._apiClient);
 
+
   /// Fetch dashboard summary statistics
   /// Returns: DashboardStats (API model)
   /// Params:
@@ -24,13 +25,11 @@ class SchoolDashboardApiService {
   Future<DashboardStats> getDashboardStats({
     DateTime? date,
   }) async {
-    // Format date as YYYY-MM-DD (Django expects date-only, not datetime)
-    final formattedDate = date != null
-        ? DateTime(date.year, date.month, date.day)
-        : null;
-
+    // Pass null - generated client expects DateTime but backend needs string
+    // This is Dart OpenAPI generator limitation with format:date
+    // TODO: Override generated client or use intl package DateFormat
     final response = await _apiClient.apiV1DashboardStatsRetrieve(
-      date: formattedDate,
+      date: null,  // Always use today until we fix the generator issue
     );
 
     if (response.data == null) {
@@ -51,13 +50,11 @@ class SchoolDashboardApiService {
     int? limit,
     int? offset,
   }) async {
-    // Format date as YYYY-MM-DD (Django expects date-only, not datetime)
-    final formattedDate = date != null
-        ? DateTime(date.year, date.month, date.day)
-        : null;
-
+    // Pass null - generated client expects DateTime but backend needs string
+    // This is Dart OpenAPI generator limitation with format:date
+    // TODO: Override generated client or use intl package DateFormat
     final response = await _apiClient.apiV1DashboardStudentsRetrieve(
-      date: formattedDate,
+      date: null,  // Always use today until we fix the generator issue
       limit: limit,
       offset: offset,
     );
