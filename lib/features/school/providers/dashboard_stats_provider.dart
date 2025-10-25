@@ -2,7 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend_easy_api/frontend_easy_api.dart';
 import 'package:frontend_easy/shared/services/api_service.dart';
 import 'package:frontend_easy/features/school/services/school_dashboard_api_service.dart';
-import 'package:frontend_easy/features/school/providers/auto_refresh_provider.dart';
 
 /// Provider for dashboard stats API service
 final dashboardApiServiceProvider = Provider<SchoolDashboardApiService>((ref) {

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend_easy/shared/widgets/app_top_nav_bar.dart';
 import 'package:frontend_easy/features/school/providers/dashboard_stats_provider.dart';
 import 'package:frontend_easy/features/school/providers/student_activity_provider.dart';
+import 'package:frontend_easy/features/school/providers/dashboard_websocket_provider.dart';
 import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 /// School Dashboard Screen
@@ -29,6 +30,33 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Listen to real-time WebSocket events
+    ref.listen(boardingEventsStreamProvider, (previous, next) {
+      next.whenData((event) {
+        // New boarding event received - refresh data
+        ref.invalidate(studentActivityFilteredProvider);
+
+        // Show snackbar notification (optional)
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('${event.studentName} just boarded!'),
+              duration: const Duration(seconds: 2),
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+        }
+      });
+    });
+
+    // Listen to real-time stats updates
+    ref.listen(statsUpdatesStreamProvider, (previous, next) {
+      next.whenData((stats) {
+        // Stats updated - refresh dashboard stats
+        ref.invalidate(dashboardStatsProvider);
+      });
+    });
+
     final statsAsync = ref.watch(dashboardStatsProvider);
     final studentActivityAsync = ref.watch(
       studentActivityFilteredProvider(

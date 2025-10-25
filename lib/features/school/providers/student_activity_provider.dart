@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend_easy_api/frontend_easy_api.dart';
-import 'package:frontend_easy/features/school/providers/auto_refresh_provider.dart';
 import 'package:frontend_easy/features/school/providers/dashboard_stats_provider.dart';
 
 /// Provider for student activity (boarding events) - manual refresh only
@@ -19,12 +18,12 @@ final studentActivityProvider =
   return service.getStudentActivity(limit: 50);
 });
 
-/// Provider for student activity with filters (pagination only, today's data)
+/// Provider for student activity with filters - real-time via WebSocket
 final studentActivityFilteredProvider = FutureProvider.family<
     DashboardStudentsResponse,
     StudentActivityParams>((ref, params) async {
-  // Auto-refresh every 10 seconds
-  ref.watch(autoRefreshProvider);
+  // No auto-refresh - WebSocket provides real-time updates
+  // Manual refresh button also available
 
   // Keep alive for navigation
   ref.keepAlive();
