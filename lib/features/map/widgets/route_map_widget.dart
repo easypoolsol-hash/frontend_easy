@@ -349,15 +349,7 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
       // Full opacity - vibrant colors
       const opacity = 1.0;
 
-      // Add white border polyline for visibility
-      polylines.add(Polyline(
-        polylineId: PolylineId('${route.routeId}_border'),
-        points: points.map((p) => LatLng(p.latitude, p.longitude)).toList(),
-        color: Colors.white,
-        width: 8,
-      ));
-
-      // Add colored route polyline
+      // Add colored route polyline (no border)
       polylines.add(Polyline(
         polylineId: PolylineId(route.routeId),
         points: points.map((p) => LatLng(p.latitude, p.longitude)).toList(),

@@ -35,7 +35,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
       body: Column(
         children: [
           const AppTopNavBar(currentIndex: 0),
-          // Search bar with autocomplete
+          // Search bar with autocomplete (right-aligned, compact)
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             decoration: BoxDecoration(
@@ -47,15 +47,24 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                 ),
               ),
             ),
-            child: busesAsync.when(
+            child: Row(
+              children: [
+                const Spacer(),
+                SizedBox(
+                  width: 350,
+                  child: busesAsync.when(
               data: (buses) => Autocomplete<api.Bus>(
-                displayStringForOption: (bus) => bus.licensePlate,
+                displayStringForOption: (bus) => '${bus.licensePlate} - ${bus.routeName}',
                 optionsBuilder: (TextEditingValue textEditingValue) {
                   if (textEditingValue.text.isEmpty) {
                     return const Iterable<api.Bus>.empty();
                   }
+                  final searchText = textEditingValue.text.toLowerCase();
                   return buses.where((bus) {
-                    return bus.licensePlate.toLowerCase().contains(textEditingValue.text.toLowerCase());
+                    // Smart search: matches any part of license plate, route name, or bus ID
+                    return bus.licensePlate.toLowerCase().contains(searchText) ||
+                           bus.routeName.toLowerCase().contains(searchText) ||
+                           bus.busId.toLowerCase().contains(searchText);
                   });
                 },
                 onSelected: (api.Bus bus) {
@@ -66,7 +75,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                     controller: controller,
                     focusNode: focusNode,
                     decoration: InputDecoration(
-                      hintText: 'Search bus by license plate...',
+                      hintText: 'Search bus...',
                       prefixIcon: const Icon(Icons.search),
                       suffixIcon: controller.text.isNotEmpty
                           ? IconButton(
@@ -132,6 +141,9 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                   isDense: true,
                 ),
               ),
+            ),
+                ),
+              ],
             ),
           ),
           Expanded(
