@@ -34,11 +34,19 @@ WORKDIR /app
 ARG API_BASE_URL=https://easypool.in
 ARG GOOGLE_MAPS_API_KEY
 
-# Build optimized web app with baked-in configuration
+# Build optimized web app with production security hardening
 # NOTE: Constitutional enforcement runs in backend pre-commit hook
+# Security flags:
+#   --release: Minifies & optimizes code
+#   --no-source-maps: Prevents reverse engineering
+#   --tree-shake-icons: Removes unused icons (smaller bundle)
+#   --pwa-strategy: Enables offline PWA capabilities
 RUN flutter build web --release \
     --dart-define=API_BASE_URL=${API_BASE_URL} \
-    --dart-define=GOOGLE_MAPS_API_KEY=${GOOGLE_MAPS_API_KEY}
+    --dart-define=GOOGLE_MAPS_API_KEY=${GOOGLE_MAPS_API_KEY} \
+    --no-source-maps \
+    --tree-shake-icons \
+    --pwa-strategy=offline-first
 
 # ----------------------------------------------------------------------------
 # STAGE 2: PRODUCTION (Nginx)
