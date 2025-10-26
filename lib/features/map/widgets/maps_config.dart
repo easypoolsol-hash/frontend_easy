@@ -1,4 +1,6 @@
-const String googleMapsApiKey = String.fromEnvironment('GOOGLE_MAPS_API_KEY', defaultValue: 'YOUR_API_KEY_HERE');
+// Google Maps API key is now managed by backend for security
+// Frontend uses google_maps_flutter which doesn't require API key for web
+const String googleMapsApiKey = '';
 
 /// Default map center location (Kolkata, India)
 class HomeLocation {

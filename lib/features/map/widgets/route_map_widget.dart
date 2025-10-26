@@ -146,41 +146,9 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
     // Watch bus locations data
     final busLocationsAsync = ref.watch(busLocationsProvider);
 
-    // Show error if Google Maps API key is not configured
-    if (googleMapsApiKey.isEmpty) {
-      return Container(
-        color: Colors.grey[100],
-        child: const Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.map,
-                size: 64,
-                color: Colors.grey,
-              ),
-              SizedBox(height: 16),
-              Text(
-                'Google Maps API Key Required',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey,
-                ),
-              ),
-              SizedBox(height: 8),
-              Text(
-                'Set GOOGLE_MAPS_API_KEY environment variable',
-                style: TextStyle(
-                  color: Colors.grey,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
-        ),
-      );
-    }
+    // NOTE: Google Maps API key is loaded via <script> tag in web/index.html
+    // The google_maps_flutter widget reads it from the JavaScript API, not from Dart code
+    // No validation needed here - if key is missing, Google Maps will show its own error
 
     // Build marker and polyline sets
     final routePolylines = <Polyline>{};

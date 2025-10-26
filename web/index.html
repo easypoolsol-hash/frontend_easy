@@ -42,9 +42,9 @@
   <title>EasyPool School Admin Dashboard</title>
   <link rel="manifest" href="manifest.json">
 
-  <!-- Google Maps API - Key injected from environment variable at build time -->
-  <!-- Key is read from .env.prod file via Makefile -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKSCmNdyZFRpQ3jQl8nCTHXKjYWjLzxxk&loading=async" async defer></script>
+  <!-- Google Maps API - Key injected at Docker build time via template replacement -->
+  <!-- Template {{GOOGLE_MAPS_API_KEY}} is replaced by Dockerfile using sed -->
+  <script src="https://maps.googleapis.com/maps/api/js?key={{GOOGLE_MAPS_API_KEY}}&loading=async" async defer></script>
 
   <!--
     Suppress Google Maps Marker deprecation warning

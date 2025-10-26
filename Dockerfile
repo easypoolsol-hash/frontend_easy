@@ -43,10 +43,13 @@ ARG GOOGLE_MAPS_API_KEY
 #   --pwa-strategy: Enables offline PWA capabilities
 RUN flutter build web --release \
     --dart-define=API_BASE_URL=${API_BASE_URL} \
-    --dart-define=GOOGLE_MAPS_API_KEY=${GOOGLE_MAPS_API_KEY} \
     --no-source-maps \
     --tree-shake-icons \
     --pwa-strategy=offline-first
+
+# Replace template placeholders in index.html with actual values
+# This allows keeping secrets out of git while injecting at build time
+RUN sed -i "s|{{GOOGLE_MAPS_API_KEY}}|${GOOGLE_MAPS_API_KEY}|g" /app/build/web/index.html
 
 # ----------------------------------------------------------------------------
 # STAGE 2: PRODUCTION (Nginx)
