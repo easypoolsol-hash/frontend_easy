@@ -1,13 +1,15 @@
-import 'dart:math' as math;
+import 'dart:ui' as ui;
 
 import 'package:frontend_easy_api/frontend_easy_api.dart' as api;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:frontend_easy/features/map/widgets/maps_config.dart';
 import 'package:frontend_easy/features/map/widgets/map_zoom_controls.dart';
 import 'package:frontend_easy/core/theme/route_colors.dart';
+import 'package:frontend_easy/core/theme/bus_marker_colors.dart';
 import 'package:frontend_easy/features/fleet/models/map_mode.dart';
 import 'package:frontend_easy/features/fleet/providers/bus_locations_provider.dart';
 
@@ -73,6 +75,82 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
   double _currentZoom = 12.0;
   LatLng _currentCenter = const LatLng(HomeLocation.latitude, HomeLocation.longitude);
 
+  // Cache for dynamically colored bus markers - 2025 BEST PRACTICE
+  // Map<Color, BitmapDescriptor> to cache markers by color
+  final Map<String, BitmapDescriptor> _markerCache = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _preloadCommonMarkerColors();
+  }
+
+  /// Preload common bus marker colors to avoid async loading delays
+  Future<void> _preloadCommonMarkerColors() async {
+    // Preload the most common marker colors
+    await Future.wait([
+      _getColoredBusMarker(BusMarkerColors.active),
+      _getColoredBusMarker(BusMarkerColors.inactive),
+      _getColoredBusMarker(BusMarkerColors.selected),
+      _getColoredBusMarker(BusMarkerColors.warning),
+      _getColoredBusMarker(BusMarkerColors.error),
+      _getColoredBusMarker(BusMarkerColors.stale),
+      _getColoredBusMarker(BusMarkerColors.veryStale),
+    ]);
+
+    if (mounted) {
+      setState(() {}); // Trigger rebuild with preloaded markers
+    }
+  }
+
+  /// Create colored bus marker from SVG - 2025 BEST PRACTICE: Dynamic coloring
+  /// Uses cached markers to avoid regenerating same color multiple times
+  Future<BitmapDescriptor> _getColoredBusMarker(Color color) async {
+    final colorKey = color.toARGB32().toString();
+
+    // Return cached marker if already created
+    if (_markerCache.containsKey(colorKey)) {
+      return _markerCache[colorKey]!;
+    }
+
+    try {
+      // Load SVG and convert to colored bitmap
+      final pictureInfo = await vg.loadPicture(
+        const SvgAssetLoader('assets/icons/bus.svg'),
+        null,
+      );
+
+      final recorder = ui.PictureRecorder();
+      final canvas = Canvas(recorder);
+      final paint = Paint()..colorFilter = ColorFilter.mode(color, BlendMode.srcIn);
+
+      // Draw SVG scaled to 106x106 with color filter
+      canvas.save();
+      canvas.scale(106.0 / pictureInfo.size.width);
+      canvas.saveLayer(null, paint);
+      canvas.drawPicture(pictureInfo.picture);
+      canvas.restore();
+      canvas.restore();
+
+      final picture = recorder.endRecording();
+      final image = await picture.toImage(106, 106);
+      final bytes = await image.toByteData(format: ui.ImageByteFormat.png);
+
+      final descriptor = BitmapDescriptor.bytes(bytes!.buffer.asUint8List());
+
+      // Cache for reuse
+      _markerCache[colorKey] = descriptor;
+
+      pictureInfo.picture.dispose();
+
+      return descriptor;
+    } catch (e) {
+      debugPrint('Failed to create colored bus marker: $e');
+      // Fallback to default marker
+      return BitmapDescriptor.defaultMarker;
+    }
+  }
+
   @override
   void didUpdateWidget(RouteMapWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -128,18 +206,35 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
     return route.routeStops.toList();
   }
 
-  // Helper: get color hex from route, defaulting to blue when not present.
-  String _colorForRoute(api.Route route) {
-    try {
-      final c = (route as dynamic).colorCode;
-      if (c is String && c.isNotEmpty) return c;
-    } catch (_) {}
-    try {
-      final c = (route as dynamic).color_code;
-      if (c is String && c.isNotEmpty) return c;
-    } catch (_) {}
-    return '#0072B2';
+  // Helper: get color for route using hash-based assignment
+  Color _colorForRoute(api.Route route) {
+    return RouteColors.getColorForRoute(route.routeId);
   }
+
+  // Helper: convert Color to HSL hue (0-360) for BitmapDescriptor
+  double _colorToHue(Color color) {
+    final r = ((color.r * 255.0).round() & 0xff) / 255.0;
+    final g = ((color.g * 255.0).round() & 0xff) / 255.0;
+    final b = ((color.b * 255.0).round() & 0xff) / 255.0;
+
+    final max = [r, g, b].reduce((a, b) => a > b ? a : b);
+    final min = [r, g, b].reduce((a, b) => a < b ? a : b);
+    final delta = max - min;
+
+    if (delta == 0) return 0;
+
+    double hue;
+    if (max == r) {
+      hue = 60 * (((g - b) / delta) % 6);
+    } else if (max == g) {
+      hue = 60 * (((b - r) / delta) + 2);
+    } else {
+      hue = 60 * (((r - g) / delta) + 4);
+    }
+
+    return hue < 0 ? hue + 360 : hue;
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -161,7 +256,35 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
     }
 
     if (widget.showStops) {
-      stopMarkers.addAll(_buildStopMarkers());
+      // Use default markers temporarily, will enhance later
+      for (final route in widget.routes) {
+        final stops = _stopsForRoute(route);
+        final routeColor = _colorForRoute(route);
+        final routeHue = _colorToHue(routeColor);
+
+        for (int i = 0; i < stops.length; i++) {
+          final routeStop = stops[i];
+          dynamic latVal, lonVal;
+          if (routeStop is Map) {
+            latVal = routeStop['latitude'] ?? routeStop['lat'];
+            lonVal = routeStop['longitude'] ?? routeStop['lon'];
+          } else {
+            try { latVal = (routeStop as dynamic).latitude; } catch (_) {}
+            try { lonVal = (routeStop as dynamic).longitude; } catch (_) {}
+          }
+          if (latVal == null || lonVal == null) continue;
+
+          final isEndpoint = (i == 0 || i == stops.length - 1);
+          stopMarkers.add(Marker(
+            markerId: MarkerId('stop_${route.routeId}_$i'),
+            position: LatLng((latVal as num).toDouble(), (lonVal as num).toDouble()),
+            icon: isEndpoint
+                ? BitmapDescriptor.defaultMarkerWithHue(routeHue)
+                : BitmapDescriptor.defaultMarker,
+            infoWindow: InfoWindow(title: i == 0 ? 'Start' : (i == stops.length - 1 ? 'End' : 'Stop')),
+          ));
+        }
+      }
     }
 
     if (widget.showBuses) {
@@ -254,77 +377,33 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
 
       if (points.length < 2) continue;
 
-      // Parse color from route
-  final color = RouteColors.fromHex(_colorForRoute(route));
+      // Get color for route using hash-based assignment
+      final color = _colorForRoute(route);
 
-      // Opacity based on mode
-      final opacity = widget.mode == MapMode.routeFocus && route.routeId == widget.selectedRouteId
-          ? 1.0
-          : 0.4;
+      // Full opacity - vibrant colors
+      const opacity = 1.0;
 
+      // Add white border polyline for visibility
       polylines.add(Polyline(
-        polylineId: PolylineId(route.routeId ?? math.Random().nextInt(1 << 30).toString()),
+        polylineId: PolylineId('${route.routeId}_border'),
         points: points.map((p) => LatLng(p.latitude, p.longitude)).toList(),
-        color: Color.fromRGBO(
-          (color.r * 255.0).round(),
-          (color.g * 255.0).round(),
-          (color.b * 255.0).round(),
-          opacity,
-        ),
+        color: Colors.white,
+        width: route.routeId == widget.selectedRouteId ? 10 : 8,
+      ));
+
+      // Add colored route polyline
+      polylines.add(Polyline(
+        polylineId: PolylineId(route.routeId),
+        points: points.map((p) => LatLng(p.latitude, p.longitude)).toList(),
+        color: color.withValues(alpha: opacity),
         width: route.routeId == widget.selectedRouteId ? 6 : 4,
       ));
     }
     return polylines;
   }
 
-  /// Build bus stop markers layer
-  Set<Marker> _buildStopMarkers() {
-    final markers = <Marker>{};
 
-    for (final route in widget.routes) {
-      final stops = _stopsForRoute(route);
-
-      for (final routeStop in stops) {
-        dynamic latVal;
-        dynamic lonVal;
-        if (routeStop is Map) {
-          latVal = routeStop['latitude'] ?? routeStop['lat'] ?? routeStop['latitute'] ?? routeStop['lati'];
-          lonVal = routeStop['longitude'] ?? routeStop['lon'] ?? routeStop['lng'] ?? routeStop['long'];
-        } else {
-          try {
-            latVal = (routeStop as dynamic).latitude;
-          } catch (_) {
-            latVal = null;
-          }
-          try {
-            lonVal = (routeStop as dynamic).longitude;
-          } catch (_) {
-            lonVal = null;
-          }
-        }
-
-        if (latVal == null || lonVal == null) continue;
-        double? lat;
-        double? lon;
-        try {
-          lat = (latVal as num).toDouble();
-          lon = (lonVal as num).toDouble();
-        } catch (_) {
-          continue;
-        }
-
-        markers.add(Marker(
-    markerId: MarkerId('stop_${lat}_${lon}_${markers.length}'),
-          position: LatLng(lat, lon),
-          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
-          infoWindow: const InfoWindow(title: 'Stop'),
-        ));
-      }
-    }
-    return markers;
-  }
-
-  /// Build bus position markers layer
+  /// Build bus position markers layer - 2025 BEST PRACTICE: Dynamic colored markers
   Set<Marker> _buildBusMarkers(List<Map<String, dynamic>> busLocations) {
     final markers = <Marker>{};
 
@@ -339,27 +418,60 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
       final status = properties['status'] as String;
       final busName = properties['name']?.toString() ?? 'Bus';
 
-      // Filter: Only show this bus if no filter is active or this bus is selected
-      if (widget.selectedBusId != null && busId != widget.selectedBusId) {
-        continue; // Skip this bus
+      // Parse last location update timestamp
+      DateTime? lastLocationUpdate;
+      if (properties['last_location_update'] != null) {
+        try {
+          lastLocationUpdate = DateTime.parse(properties['last_location_update'] as String);
+        } catch (_) {
+          // If parsing fails, treat as null (no timestamp available)
+        }
       }
 
-      // Determine marker color and alpha based on selection
+      // Filter
+      if (widget.selectedBusId != null && busId != widget.selectedBusId) {
+        continue;
+      }
+
       final isSelected = widget.selectedBusId == busId;
-      final markerHue = status.toLowerCase() == 'active'
-          ? BitmapDescriptor.hueGreen
-          : BitmapDescriptor.hueRed;
+
+      // Get marker color using BusMarkerColors logic
+      final markerColor = BusMarkerColors.getColorForStatus(
+        status,
+        isSelected: isSelected,
+        lastLocationUpdate: lastLocationUpdate,
+      );
+
+      // Get color reason for tooltip
+      final colorReason = BusMarkerColors.getColorReason(
+        status,
+        isSelected: isSelected,
+        lastLocationUpdate: lastLocationUpdate,
+      );
+
+      // Get cached marker icon (preloaded in initState)
+      final colorKey = markerColor.toARGB32().toString();
+      final icon = _markerCache[colorKey];
+
+      // If marker not loaded yet (rare case), use default and load async
+      if (icon == null) {
+        _getColoredBusMarker(markerColor).then((loadedIcon) {
+          if (mounted) setState(() {}); // Trigger rebuild when loaded
+        });
+        continue; // Skip this marker for now, will appear on next rebuild
+      }
 
       markers.add(Marker(
         markerId: MarkerId('bus_$busId'),
         position: LatLng(latitude, longitude),
-        icon: BitmapDescriptor.defaultMarkerWithHue(markerHue),
+        icon: icon,
+        // 2025 BEST PRACTICE: Set anchor to center for proper positioning
+        anchor: const Offset(0.5, 0.5),
         infoWindow: InfoWindow(
           title: busName,
-          snippet: isSelected ? 'Selected • $status' : status,
+          snippet: isSelected ? 'Selected • $colorReason' : colorReason,
         ),
         onTap: () {
-          // Notify parent when bus is tapped
           widget.onBusTapped?.call(busId, latitude, longitude);
         },
       ));
