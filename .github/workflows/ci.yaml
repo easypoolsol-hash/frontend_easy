@@ -97,6 +97,9 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          build-args: |
+            API_BASE_URL=https://easypool.in
+            GOOGLE_MAPS_API_KEY=${{ secrets.GOOGLE_MAPS_API_KEY }}
 
   # ============================================================================
   # STAGE 4: TEST IMAGE (Smoke Test)

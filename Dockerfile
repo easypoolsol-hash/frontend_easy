@@ -30,9 +30,15 @@ RUN flutter pub get
 # Back to app root
 WORKDIR /app
 
-# Build optimized web app
+# Build arguments for production configuration (injected by CI)
+ARG API_BASE_URL=https://easypool.in
+ARG GOOGLE_MAPS_API_KEY
+
+# Build optimized web app with baked-in configuration
 # NOTE: Constitutional enforcement runs in backend pre-commit hook
-RUN flutter build web --release
+RUN flutter build web --release \
+    --dart-define=API_BASE_URL=${API_BASE_URL} \
+    --dart-define=GOOGLE_MAPS_API_KEY=${GOOGLE_MAPS_API_KEY}
 
 # ----------------------------------------------------------------------------
 # STAGE 2: PRODUCTION (Nginx)
