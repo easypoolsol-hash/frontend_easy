@@ -6,14 +6,14 @@ class AppTheme {
   // Private constructor to prevent instantiation
   AppTheme._();
 
-  /// Primary color palette (Bus Yellow - warm, professional)
-  static const Color primaryColor = Color(0xFFE6A800);
-  static const Color primaryLight = Color(0xFFF5C842);
-  static const Color primaryDark = Color(0xFFB88600);
+  /// Primary color palette (School Bus Yellow - bright, happy)
+  static const Color primaryColor = Color(0xFFFFD800); // Bright happy yellow
+  static const Color primaryLight = Color(0xFFFFE54C);
+  static const Color primaryDark = Color(0xFFFFC800);
 
-  /// Surface colors for dark mode (using dark gray, not pure black)
-  static const Color surfaceDark = Color(0xFF121212);
-  static const Color surfaceLight = Color(0xFFFAFAFA);
+  /// Surface colors (bright white for happy feeling, deep black for contrast)
+  static const Color surfaceDark = Color(0xFF1A1A1A); // Black from login
+  static const Color surfaceLight = Color(0xFFFFFFFF); // Pure white
 
   /// Error colors
   static const Color errorColor = Color(0xFFD55E00);
@@ -28,9 +28,15 @@ class AppTheme {
   static ThemeData lightTheme = ThemeData(
     useMaterial3: true,
     brightness: Brightness.light,
-    colorScheme: ColorScheme.fromSeed(
-      seedColor: primaryColor,
-      brightness: Brightness.light,
+    colorScheme: const ColorScheme.light(
+      primary: primaryColor, // Bright happy yellow
+      onPrimary: Color(0xFF1A1A1A), // Black text on yellow
+      primaryContainer: primaryLight, // Lighter yellow for containers
+      onPrimaryContainer: Color(0xFF1A1A1A),
+      secondary: Color(0xFF66BB6A), // Lighter green accent
+      onSecondary: Colors.white,
+      surface: surfaceLight, // White background
+      onSurface: Color(0xFF1A1A1A), // Black text
     ),
     scaffoldBackgroundColor: surfaceLight,
     appBarTheme: const AppBarTheme(

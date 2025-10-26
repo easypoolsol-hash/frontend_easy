@@ -8,7 +8,6 @@ import 'package:flutter_svg/svg.dart' as vg;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:frontend_easy/features/map/widgets/maps_config.dart';
-import 'package:frontend_easy/features/map/widgets/map_zoom_controls.dart';
 import 'package:frontend_easy/core/theme/route_colors.dart';
 import 'package:frontend_easy/core/theme/bus_marker_colors.dart';
 import 'package:frontend_easy/features/fleet/models/map_mode.dart';
@@ -73,8 +72,6 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
         zoom: 12.0,
       );
 
-  double _currentZoom = 12.0;
-  LatLng _currentCenter = const LatLng(HomeLocation.latitude, HomeLocation.longitude);
 
   // Cache for dynamically colored bus markers - 2025 BEST PRACTICE
   // Map<Color, BitmapDescriptor> to cache markers by color
@@ -128,16 +125,16 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
       final canvas = Canvas(recorder);
       final paint = Paint()..colorFilter = ColorFilter.mode(color, BlendMode.srcIn);
 
-      // Draw SVG scaled to 106x106 with color filter
+      // Draw SVG scaled to 48x48 with color filter (smaller, comparable to default markers)
       canvas.save();
-      canvas.scale(106.0 / pictureInfo.size.width);
+      canvas.scale(48.0 / pictureInfo.size.width);
       canvas.saveLayer(null, paint);
       canvas.drawPicture(pictureInfo.picture);
       canvas.restore();
       canvas.restore();
 
       final picture = recorder.endRecording();
-      final image = await picture.toImage(106, 106);
+      final image = await picture.toImage(48, 48);
       final bytes = await image.toByteData(format: ui.ImageByteFormat.png);
 
       final descriptor = BitmapDescriptor.bytes(bytes!.buffer.asUint8List());
@@ -307,8 +304,7 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
           initialCameraPosition: _initialCamera(),
           onMapCreated: (controller) => _mapController = controller,
           onCameraMove: (position) {
-            _currentZoom = position.zoom;
-            _currentCenter = position.target;
+            // Camera tracking not needed
           },
           markers: {...stopMarkers, ...busMarkers},
           polylines: routePolylines,
@@ -318,18 +314,21 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
           zoomControlsEnabled: false,
         ),
 
-        MapZoomControls(
-          onZoomIn: () async {
-            final zoom = (_currentZoom + 1).clamp(5.0, 18.0);
-            await _mapController?.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: _currentCenter, zoom: zoom)));
-          },
-          onZoomOut: () async {
-            final zoom = (_currentZoom - 1).clamp(5.0, 18.0);
-            await _mapController?.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: _currentCenter, zoom: zoom)));
-          },
-          onCenterHome: () async {
-            await _mapController?.animateCamera(CameraUpdate.newCameraPosition(_initialCamera()));
-          },
+        // Home button (bottom-right) - FAB handles click properly
+        Positioned(
+          bottom: 100,
+          right: 10,
+          child: FloatingActionButton.small(
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.grey[700],
+            elevation: 4,
+            onPressed: () async {
+              await _mapController?.animateCamera(
+                CameraUpdate.newCameraPosition(_initialCamera()),
+              );
+            },
+            child: const Icon(Icons.home_outlined, size: 20),
+          ),
         ),
       ],
     );
@@ -478,6 +477,7 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
 
   /// Build snippet for bus marker info window
   String _buildBusSnippet(String busId, DateTime? lastUpdate) {
+    if (widget.buses.isEmpty) return 'No info';
     final bus = widget.buses.firstWhere((b) => b.busId == busId, orElse: () => widget.buses.first);
     final route = bus.routeName.isNotEmpty ? bus.routeName : 'No route';
     final timeAgo = lastUpdate != null ? _formatTimestamp(lastUpdate) : 'No update';
