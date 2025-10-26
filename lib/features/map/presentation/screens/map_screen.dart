@@ -71,7 +71,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                             showRoutes: _showRoutes,
                             showStops: _showStops,
                             showBuses: _showBuses,
-                            selectedBusId: _selectedBusId,
+                            selectedBusIds: _selectedBusId != null ? [_selectedBusId!] : [],
                             onBusTapped: (busId, lat, lon) {
                               setState(() {
                                 _selectedBusId = busId;
@@ -96,7 +96,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                           width: 320,
                           child: RouteFilterPanel(
                             currentMode: _selectedMode,
-                            selectedBusId: _selectedBusId,
+                            selectedBusIds: _selectedBusId != null ? [_selectedBusId!] : [],
                             onClose: () {
                               setState(() {
                                 _showFilterPanel = false;
@@ -109,13 +109,10 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                                 _showBuses = showBuses;
                               });
                             },
-                            onBusSelected: (busId) {
+                            onBusSelected: (busIds) {
                               setState(() {
-                                _selectedBusId = busId;
+                                _selectedBusId = busIds.isEmpty ? null : busIds.first;
                               });
-                            },
-                            onFocusBusRequested: () {
-                              // Bus will be focused automatically when selectedBusId changes
                             },
                           ),
                         ),

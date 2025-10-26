@@ -37,8 +37,8 @@ class RouteMapWidget extends ConsumerStatefulWidget {
   /// Whether to show buses layer
   final bool showBuses;
 
-  /// Selected bus ID to focus on (null = show all buses)
-  final String? selectedBusId;
+  /// Selected bus IDs to focus on (empty = show all buses)
+  final List<String> selectedBusIds;
 
   /// Trigger to focus on selected bus (increment to trigger focus)
   final int? focusTrigger;
@@ -52,7 +52,7 @@ class RouteMapWidget extends ConsumerStatefulWidget {
     required this.buses,
     required this.mode,
     this.selectedRouteId,
-    this.selectedBusId,
+    this.selectedBusIds = const [],
     this.focusTrigger,
     this.showRoutes = true,
     this.showStops = true,
@@ -159,14 +159,14 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
     // Check if focus trigger changed
     if (widget.focusTrigger != null &&
         widget.focusTrigger != oldWidget.focusTrigger &&
-        widget.selectedBusId != null) {
+        widget.selectedBusIds.isNotEmpty) {
       _focusOnSelectedBus();
     }
   }
 
   /// Focus camera on the selected bus
   Future<void> _focusOnSelectedBus() async {
-    if (_mapController == null || widget.selectedBusId == null) return;
+    if (_mapController == null || widget.selectedBusIds.isEmpty) return;
 
     // Get bus locations and find the selected bus
     final busLocationsAsync = ref.read(busLocationsProvider);
@@ -177,7 +177,7 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
           final properties = busFeature['properties'] as Map<String, dynamic>;
           final busId = properties['id']?.toString();
 
-          if (busId == widget.selectedBusId) {
+          if (widget.selectedBusIds.contains(busId)) {
             final geometry = busFeature['geometry'] as Map<String, dynamic>;
             final coordinates = geometry['coordinates'] as List<dynamic>;
             final lon = (coordinates[0] as num).toDouble();
@@ -314,7 +314,7 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
           zoomControlsEnabled: false,
         ),
 
-        // Home button (bottom-right) - FAB handles click properly
+        // Home button (bottom-right)
         Positioned(
           bottom: 100,
           right: 10,
@@ -432,11 +432,11 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
       }
 
       // Filter
-      if (widget.selectedBusId != null && busId != widget.selectedBusId) {
+      if (widget.selectedBusIds.isNotEmpty && !widget.selectedBusIds.contains(busId)) {
         continue;
       }
 
-      final isSelected = widget.selectedBusId == busId;
+      final isSelected = widget.selectedBusIds.contains(busId);
 
       // Get marker color using BusMarkerColors logic
       final markerColor = BusMarkerColors.getColorForStatus(

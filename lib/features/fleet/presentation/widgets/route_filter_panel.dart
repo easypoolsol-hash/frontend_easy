@@ -16,14 +16,11 @@ class RouteFilterPanel extends StatefulWidget {
   /// Parameters: (showRoutes, showStops, showBuses)
   final void Function(bool, bool, bool) onVisibilityChanged;
 
-  /// Callback when bus selection changes
-  final void Function(String? busId)? onBusSelected;
+  /// Callback when bus selection changes (empty list = show all buses)
+  final void Function(List<String> busIds)? onBusSelected;
 
-  /// Callback when focus on bus is requested
-  final VoidCallback? onFocusBusRequested;
-
-  /// Currently selected bus ID
-  final String? selectedBusId;
+  /// Currently selected bus IDs
+  final List<String> selectedBusIds;
 
   /// Creates a route filter panel
   const RouteFilterPanel({
@@ -31,8 +28,7 @@ class RouteFilterPanel extends StatefulWidget {
     required this.onClose,
     required this.onVisibilityChanged,
     this.onBusSelected,
-    this.onFocusBusRequested,
-    this.selectedBusId,
+    this.selectedBusIds = const <String>[],
     super.key,
   });
 
@@ -179,9 +175,8 @@ class _RouteFilterPanelState extends State<RouteFilterPanel> {
                 // Bus Selection
                 if (widget.onBusSelected != null)
                   BusSelectorWidget(
-                    selectedBusId: widget.selectedBusId,
+                    selectedBusIds: widget.selectedBusIds,
                     onBusSelected: widget.onBusSelected!,
-                    onFocusRequested: widget.onFocusBusRequested,
                   ),
               ],
             ),

@@ -25,7 +25,7 @@ class _RouteMapScreenState extends ConsumerState<RouteMapScreen> {
   bool _showRoutes = true;
   bool _showStops = true;
   bool _showBuses = true;
-  String? _selectedBusId;
+  List<String> _selectedBusIds = [];
   int _focusTrigger = 0;
 
   @override
@@ -74,11 +74,11 @@ class _RouteMapScreenState extends ConsumerState<RouteMapScreen> {
                                 showRoutes: _showRoutes,
                                 showStops: _showStops,
                                 showBuses: _showBuses,
-                                selectedBusId: _selectedBusId,
+                                selectedBusIds: _selectedBusIds,
                                 focusTrigger: _focusTrigger,
                                 onBusTapped: (busId, lat, lon) {
                                   setState(() {
-                                    _selectedBusId = busId;
+                                    _selectedBusIds = [busId];
                                   });
                                 },
                               );
@@ -100,7 +100,7 @@ class _RouteMapScreenState extends ConsumerState<RouteMapScreen> {
                           width: 320,
                           child: RouteFilterPanel(
                             currentMode: _selectedMode,
-                            selectedBusId: _selectedBusId,
+                            selectedBusIds: _selectedBusIds,
                             onClose: () {
                               setState(() {
                                 _showFilterPanel = false;
@@ -113,15 +113,9 @@ class _RouteMapScreenState extends ConsumerState<RouteMapScreen> {
                                 _showBuses = showBuses;
                               });
                             },
-                            onBusSelected: (busId) {
+                            onBusSelected: (busIds) {
                               setState(() {
-                                _selectedBusId = busId;
-                              });
-                            },
-                            onFocusBusRequested: () {
-                              // Trigger focus by incrementing the counter
-                              setState(() {
-                                _focusTrigger++;
+                                _selectedBusIds = busIds;
                               });
                             },
                           ),

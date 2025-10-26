@@ -2,22 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend_easy/features/fleet/providers/bus_locations_provider.dart';
 
-/// Widget for selecting a specific bus to focus on the map
+/// Widget for selecting multiple buses to focus on the map
 class BusSelectorWidget extends ConsumerWidget {
-  /// Currently selected bus ID
-  final String? selectedBusId;
+  /// Currently selected bus IDs
+  final List<String> selectedBusIds;
 
   /// Callback when bus selection changes
-  final void Function(String? busId) onBusSelected;
-
-  /// Callback when user wants to focus on selected bus
-  final VoidCallback? onFocusRequested;
+  final void Function(List<String> busIds) onBusSelected;
 
   /// Creates a bus selector widget
   const BusSelectorWidget({
-    required this.selectedBusId,
+    required this.selectedBusIds,
     required this.onBusSelected,
-    this.onFocusRequested,
     super.key,
   });
 
@@ -36,15 +32,6 @@ class BusSelectorWidget extends ConsumerWidget {
                 style: Theme.of(context).textTheme.titleSmall,
               ),
             ),
-            if (selectedBusId != null && onFocusRequested != null)
-              TextButton.icon(
-                onPressed: onFocusRequested,
-                icon: const Icon(Icons.my_location, size: 16),
-                label: const Text('Focus'),
-                style: TextButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                ),
-              ),
           ],
         ),
         const SizedBox(height: 8),
@@ -60,12 +47,16 @@ class BusSelectorWidget extends ConsumerWidget {
             return Column(
               children: [
                 // "Show All" option
-                RadioListTile<String?>(
+                CheckboxListTile(
                   title: const Text('Show All Buses'),
-                  value: null,
-                  groupValue: selectedBusId,
-                  onChanged: onBusSelected,
+                  value: selectedBusIds.isEmpty,
+                  onChanged: (checked) {
+                    if (checked == true) {
+                      onBusSelected([]);
+                    }
+                  },
                   dense: true,
+                  controlAffinity: ListTileControlAffinity.leading,
                 ),
                 const Divider(height: 1),
                 // Individual buses
@@ -75,7 +66,7 @@ class BusSelectorWidget extends ConsumerWidget {
                   final busName = properties['name']?.toString() ?? 'Bus $busId';
                   final status = properties['status']?.toString() ?? 'unknown';
 
-                  return RadioListTile<String?>(
+                  return CheckboxListTile(
                     title: Text(busName),
                     subtitle: Text(
                       status,
@@ -86,10 +77,18 @@ class BusSelectorWidget extends ConsumerWidget {
                         fontSize: 12,
                       ),
                     ),
-                    value: busId,
-                    groupValue: selectedBusId,
-                    onChanged: onBusSelected,
+                    value: selectedBusIds.contains(busId),
+                    onChanged: (checked) {
+                      final newSelection = List<String>.from(selectedBusIds);
+                      if (checked == true) {
+                        newSelection.add(busId);
+                      } else {
+                        newSelection.remove(busId);
+                      }
+                      onBusSelected(newSelection);
+                    },
                     dense: true,
+                    controlAffinity: ListTileControlAffinity.leading,
                     secondary: Icon(
                       Icons.directions_bus,
                       color: status.toLowerCase() == 'active'

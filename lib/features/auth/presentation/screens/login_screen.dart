@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:frontend_easy/features/auth/providers/login_provider.dart';
+import 'package:frontend_easy/core/theme/app_theme.dart';
 
 /// School bus themed login screen
 /// Colors: Yellow (#FFD800), White, Black
@@ -17,12 +18,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _obscurePassword = true;
-
-  // School bus color palette
-  static const Color schoolBusYellow = Color(0xFFFFD800);
-  static const Color schoolBusBlack = Color(0xFF1A1A1A);
-  static const Color schoolBusWhite = Color(0xFFFFFFFF);
-  static const Color schoolBusGray = Color(0xFFF5F5F5);
 
   @override
   void initState() {
@@ -56,7 +51,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      backgroundColor: schoolBusWhite,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: loginState.when(
         data: (state) => Row(
           children: [
@@ -64,13 +59,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             if (size.width > 800)
               Expanded(
                 child: Container(
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     gradient: LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
-                        schoolBusYellow,
-                        Color(0xFFFFC800),
+                        Theme.of(context).colorScheme.primary,
+                        AppTheme.primaryDark,
                       ],
                     ),
                   ),
@@ -82,13 +77,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         Container(
                           padding: const EdgeInsets.all(32),
                           decoration: BoxDecoration(
-                            color: schoolBusWhite.withValues(alpha: 0.2),
+                            color: Colors.white.withValues(alpha: 0.2),
                             borderRadius: BorderRadius.circular(100),
                           ),
                           child: const Icon(
                             Icons.directions_bus,
                             size: 120,
-                            color: schoolBusWhite,
+                            color: Colors.white,
                           ),
                         ),
                         const SizedBox(height: 32),
@@ -97,7 +92,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           style: TextStyle(
                             fontSize: 42,
                             fontWeight: FontWeight.bold,
-                            color: schoolBusWhite,
+                            color: Colors.white,
                             letterSpacing: 1.2,
                           ),
                         ),
@@ -106,7 +101,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           'Smart School Transportation Management',
                           style: TextStyle(
                             fontSize: 18,
-                            color: schoolBusWhite,
+                            color: Colors.white,
                             fontWeight: FontWeight.w300,
                           ),
                         ),
@@ -119,7 +114,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             // Right side - Login form
             Expanded(
               child: Container(
-                color: schoolBusWhite,
+                color: Colors.white,
                 child: Center(
                   child: SingleChildScrollView(
                     child: Padding(
@@ -130,32 +125,38 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            // Logo for mobile
-                            if (size.width <= 800) ...[
-                              Center(
-                                child: Container(
-                                  padding: const EdgeInsets.all(16),
-                                  decoration: BoxDecoration(
-                                    color: schoolBusYellow.withValues(alpha: 0.1),
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: const Icon(
-                                    Icons.directions_bus,
-                                    size: 64,
-                                    color: schoolBusYellow,
-                                  ),
-                                ),
+                            // Logo (visible on all screen sizes)
+                            Center(
+                              child: Image.asset(
+                                'assets/images/logo.png',
+                                width: 150,
+                                height: 150,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Container(
+                                    width: 150,
+                                    height: 150,
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Icon(
+                                      Icons.directions_bus,
+                                      size: 96,
+                                      color: Theme.of(context).colorScheme.primary,
+                                    ),
+                                  );
+                                },
                               ),
-                              const SizedBox(height: 24),
-                            ],
+                            ),
+                            const SizedBox(height: 24),
 
                             // Welcome text
-                            const Text(
+                            Text(
                               'Welcome Back!',
                               style: TextStyle(
                                 fontSize: 32,
                                 fontWeight: FontWeight.bold,
-                                color: schoolBusBlack,
+                                color: Theme.of(context).colorScheme.onSurface,
                               ),
                               textAlign: TextAlign.center,
                             ),
@@ -176,7 +177,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               decoration: InputDecoration(
                                 labelText: 'Username',
                                 hintText: 'Enter your username',
-                                prefixIcon: const Icon(Icons.person_outline, color: schoolBusYellow),
+                                prefixIcon: Icon(Icons.person_outline, color: Theme.of(context).colorScheme.primary),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
                                   borderSide: const BorderSide(color: Colors.grey, width: 1.5),
@@ -187,10 +188,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: const BorderSide(color: schoolBusYellow, width: 2),
+                                  borderSide: BorderSide(color: Theme.of(context).colorScheme.primary, width: 2),
                                 ),
                                 filled: true,
-                                fillColor: schoolBusGray,
+                                fillColor: Theme.of(context).colorScheme.surfaceContainerHighest,
                               ),
                             ),
                             const SizedBox(height: 20),
@@ -202,7 +203,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               decoration: InputDecoration(
                                 labelText: 'Password',
                                 hintText: 'Enter your password',
-                                prefixIcon: const Icon(Icons.lock_outline, color: schoolBusYellow),
+                                prefixIcon: Icon(Icons.lock_outline, color: Theme.of(context).colorScheme.primary),
                                 suffixIcon: IconButton(
                                   icon: Icon(
                                     _obscurePassword ? Icons.visibility_off : Icons.visibility,
@@ -224,10 +225,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: const BorderSide(color: schoolBusYellow, width: 2),
+                                  borderSide: BorderSide(color: Theme.of(context).colorScheme.primary, width: 2),
                                 ),
                                 filled: true,
-                                fillColor: schoolBusGray,
+                                fillColor: Theme.of(context).colorScheme.surfaceContainerHighest,
                               ),
                             ),
 
@@ -247,7 +248,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                     const SizedBox(width: 8),
                                     Expanded(
                                       child: Text(
-                                        state.errorMessage!,
+                                        'Invalid username or password. Please try again.',
                                         style: TextStyle(color: Colors.red.shade700),
                                       ),
                                     ),
@@ -262,8 +263,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             ElevatedButton(
                               onPressed: state.isSubmitting ? null : _login,
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: schoolBusYellow,
-                                foregroundColor: schoolBusBlack,
+                                backgroundColor: Theme.of(context).colorScheme.primary,
+                                foregroundColor: Theme.of(context).colorScheme.onPrimary,
                                 padding: const EdgeInsets.symmetric(vertical: 16),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12),
@@ -275,12 +276,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                 ),
                               ),
                               child: state.isSubmitting
-                                  ? const SizedBox(
+                                  ? SizedBox(
                                       height: 20,
                                       width: 20,
                                       child: CircularProgressIndicator(
                                         strokeWidth: 2,
-                                        valueColor: AlwaysStoppedAnimation<Color>(schoolBusBlack),
+                                        valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.onPrimary),
                                       ),
                                     )
                                   : const Text('Sign In'),
@@ -309,15 +310,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           ],
         ),
         loading: () => Container(
-          color: schoolBusWhite,
-          child: const Center(
+          color: Colors.white,
+          child: Center(
             child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(schoolBusYellow),
+              valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.primary),
             ),
           ),
         ),
         error: (error, stack) => Container(
-          color: schoolBusWhite,
+          color: Colors.white,
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -333,8 +334,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 ElevatedButton(
                   onPressed: _login,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: schoolBusYellow,
-                    foregroundColor: schoolBusBlack,
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    foregroundColor: Theme.of(context).colorScheme.onPrimary,
                   ),
                   child: const Text('Retry'),
                 ),
