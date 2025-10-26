@@ -4,7 +4,7 @@ import 'package:frontend_easy_api/frontend_easy_api.dart' as api;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart' as vg;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:frontend_easy/features/map/widgets/maps_config.dart';
@@ -118,9 +118,9 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
       // Load SVG string from assets
       final svgString = await rootBundle.loadString('assets/icons/bus.svg');
 
-      // Parse SVG and get picture with color theme
-      final pictureInfo = await vg.loadPicture(
-        SvgStringLoader(svgString, theme: SvgTheme(currentColor: color)),
+      // Parse SVG using flutter_svg 2.2 API
+      final vg.PictureInfo pictureInfo = await vg.vg.loadPicture(
+        vg.SvgStringLoader(svgString),
         null,
       );
 
