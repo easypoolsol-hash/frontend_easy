@@ -20,6 +20,8 @@ class PatchedBus {
 
      this.busId,
 
+     this.busNumber,
+
      this.licensePlate,
 
      this.route,
@@ -61,6 +63,19 @@ class PatchedBus {
 
 
   final String? busId;
+
+
+
+      /// School-assigned bus number (e.g., 'BUS-001', 'B-12')
+  @JsonKey(
+    
+    name: r'bus_number',
+    required: false,
+    includeIfNull: false,
+  )
+
+
+  final String? busNumber;
 
 
 
@@ -264,6 +279,7 @@ class PatchedBus {
     @override
     bool operator ==(Object other) => identical(this, other) || other is PatchedBus &&
       other.busId == busId &&
+      other.busNumber == busNumber &&
       other.licensePlate == licensePlate &&
       other.route == route &&
       other.routeName == routeName &&
@@ -283,6 +299,7 @@ class PatchedBus {
     @override
     int get hashCode =>
         busId.hashCode +
+        busNumber.hashCode +
         licensePlate.hashCode +
         (route == null ? 0 : route.hashCode) +
         routeName.hashCode +

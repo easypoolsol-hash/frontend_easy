@@ -54,17 +54,20 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                   width: 350,
                   child: busesAsync.when(
               data: (buses) => Autocomplete<api.Bus>(
-                displayStringForOption: (bus) => '${bus.licensePlate} - ${bus.routeName}',
+                displayStringForOption: (bus) => '${bus.busNumber} - ${bus.licensePlate}',
                 optionsBuilder: (TextEditingValue textEditingValue) {
                   if (textEditingValue.text.isEmpty) {
                     return const Iterable<api.Bus>.empty();
                   }
                   final searchText = textEditingValue.text.toLowerCase();
                   return buses.where((bus) {
-                    // Smart search: matches any part of license plate, route name, or bus ID
-                    return bus.licensePlate.toLowerCase().contains(searchText) ||
+                    // Smart search: matches bus number, license plate, route name, or bus ID
+                    // Also shows all buses if searching by route name
+                    return bus.busNumber.toLowerCase().contains(searchText) ||
+                           bus.licensePlate.toLowerCase().contains(searchText) ||
                            bus.routeName.toLowerCase().contains(searchText) ||
-                           bus.busId.toLowerCase().contains(searchText);
+                           bus.busId.toLowerCase().contains(searchText) ||
+                           (bus.route?.toLowerCase().contains(searchText) ?? false);
                   });
                 },
                 onSelected: (api.Bus bus) {
@@ -110,8 +113,8 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                             return ListTile(
                               dense: true,
                               leading: const Icon(Icons.directions_bus, size: 20),
-                              title: Text(bus.licensePlate, style: const TextStyle(fontSize: 14)),
-                              subtitle: Text('Route: ${bus.routeName}', style: const TextStyle(fontSize: 12)),
+                              title: Text('Bus ${bus.busNumber}', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+                              subtitle: Text('${bus.licensePlate} • Route: ${bus.routeName}', style: const TextStyle(fontSize: 12)),
                               onTap: () {
                                 onSelected(bus);
                               },

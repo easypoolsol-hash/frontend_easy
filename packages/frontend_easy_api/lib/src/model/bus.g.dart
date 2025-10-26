@@ -14,6 +14,7 @@ Bus _$BusFromJson(Map<String, dynamic> json) => $checkedCreate(
       json,
       requiredKeys: const [
         'bus_id',
+        'bus_number',
         'license_plate',
         'route_name',
         'capacity',
@@ -26,6 +27,7 @@ Bus _$BusFromJson(Map<String, dynamic> json) => $checkedCreate(
     );
     final val = Bus(
       busId: $checkedConvert('bus_id', (v) => v as String),
+      busNumber: $checkedConvert('bus_number', (v) => v as String),
       licensePlate: $checkedConvert('license_plate', (v) => v as String),
       route: $checkedConvert('route', (v) => v as String?),
       routeName: $checkedConvert('route_name', (v) => v as String),
@@ -64,6 +66,7 @@ Bus _$BusFromJson(Map<String, dynamic> json) => $checkedCreate(
   },
   fieldKeyMap: const {
     'busId': 'bus_id',
+    'busNumber': 'bus_number',
     'licensePlate': 'license_plate',
     'routeName': 'route_name',
     'deviceId': 'device_id',
@@ -78,6 +81,7 @@ Bus _$BusFromJson(Map<String, dynamic> json) => $checkedCreate(
 
 Map<String, dynamic> _$BusToJson(Bus instance) => <String, dynamic>{
   'bus_id': instance.busId,
+  'bus_number': instance.busNumber,
   'license_plate': instance.licensePlate,
   'route': ?instance.route,
   'route_name': instance.routeName,

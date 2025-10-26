@@ -9,6 +9,7 @@ import 'package:frontend_easy_api/api.dart';
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **busId** | **String** | UUID primary key | [optional] 
+**busNumber** | **String** | School-assigned bus number (e.g., 'BUS-001', 'B-12') | [optional] 
 **licensePlate** | **String** | Vehicle license plate number | [optional] 
 **route** | **String** | Route this bus is assigned to | [optional] 
 **routeName** | **String** |  | [optional] 
