@@ -446,13 +446,6 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
         lastLocationUpdate: lastLocationUpdate,
       );
 
-      // Get color reason for tooltip
-      final colorReason = BusMarkerColors.getColorReason(
-        status,
-        isSelected: isSelected,
-        lastLocationUpdate: lastLocationUpdate,
-      );
-
       // Get cached marker icon (preloaded in initState)
       final colorKey = markerColor.toARGB32().toString();
       final icon = _markerCache[colorKey];
@@ -473,7 +466,7 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
         anchor: const Offset(0.5, 0.5),
         infoWindow: InfoWindow(
           title: busName,
-          snippet: isSelected ? 'Selected • $colorReason' : colorReason,
+          snippet: _buildBusSnippet(busId, lastLocationUpdate),
         ),
         onTap: () {
           widget.onBusTapped?.call(busId, latitude, longitude);
@@ -481,6 +474,25 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
       ));
     }
     return markers;
+  }
+
+  /// Build snippet for bus marker info window
+  String _buildBusSnippet(String busId, DateTime? lastUpdate) {
+    final bus = widget.buses.firstWhere((b) => b.busId == busId, orElse: () => widget.buses.first);
+    final route = bus.routeName.isNotEmpty ? bus.routeName : 'No route';
+    final timeAgo = lastUpdate != null ? _formatTimestamp(lastUpdate) : 'No update';
+    return '$route • Updated: $timeAgo';
+  }
+
+  /// Format timestamp as relative time
+  String _formatTimestamp(DateTime timestamp) {
+    final now = DateTime.now();
+    final diff = now.difference(timestamp);
+
+    if (diff.inSeconds < 60) return 'Just now';
+    if (diff.inMinutes < 60) return '${diff.inMinutes}m ago';
+    if (diff.inHours < 24) return '${diff.inHours}h ago';
+    return '${timestamp.month}/${timestamp.day}';
   }
 
   /// Focus camera on specific coordinates
