@@ -50,8 +50,10 @@ class RouteColors {
 
   /// Convert Color to hex string (for API)
   static String toHex(Color color) {
-    final argb = color.toARGB32();
-    return '#${argb.toRadixString(16).substring(2).toUpperCase()}';
+    // Use built-in value (ARGB) and convert to #RRGGBB
+    final argb = color.value; // 0xAARRGGBB
+    final rgb = argb & 0x00FFFFFF;
+    return '#${rgb.toRadixString(16).padLeft(6, '0').toUpperCase()}';
   }
 
   /// Line dash patterns for additional visual distinction
@@ -79,6 +81,38 @@ class RouteColors {
       default:
         return dashPatterns[0];
     }
+  }
+
+  /// Get a color for a route id.
+  ///
+  /// Behavior:
+  /// - If [routeId] looks like a hex color (e.g. "#RRGGBB" or "RRGGBB"), parse it.
+  /// - Otherwise compute a small hash of the id and pick a color from the extended palette.
+  static Color getColorForRoute(String? routeId) {
+    if (routeId == null || routeId.isEmpty) {
+      return getColorByIndex(0);
+    }
+
+    final id = routeId.trim();
+
+    // If it looks like a hex color, try parsing
+    final hexCandidate = id.replaceFirst('#', '');
+    final hexRegExp = RegExp(r'^[0-9A-Fa-f]{6}$');
+    if (hexRegExp.hasMatch(hexCandidate)) {
+      try {
+        return fromHex(hexCandidate);
+      } catch (_) {
+        // fallthrough to hash choice
+      }
+    }
+
+    // Fallback: stable hash -> palette index
+    var h = 0;
+    for (var rune in id.runes) {
+      h = (h * 31 + rune) & 0x7FFFFFFF; // keep positive
+    }
+    final idx = h % extendedPalette.length;
+    return getColorByIndex(idx);
   }
 
   /// Status colors (for buses)
