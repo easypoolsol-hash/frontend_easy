@@ -9,26 +9,18 @@ import 'package:frontend_easy/features/fleet/presentation/widgets/map_mode_selec
 class MapControlsWidget extends StatefulWidget {
   final MapMode selectedMode;
   final bool showRoutes;
-  final bool showStops;
-  final bool showBuses;
   final bool showFilterPanel;
   final ValueChanged<MapMode> onModeChanged;
   final ValueChanged<bool> onRoutesVisibilityChanged;
-  final ValueChanged<bool> onStopsVisibilityChanged;
-  final ValueChanged<bool> onBusesVisibilityChanged;
   final ValueChanged<bool>? onFilterPanelToggle;
 
-  const MapControlsWidget({
+  MapControlsWidget({
     super.key,
     required this.selectedMode,
     required this.showRoutes,
-    required this.showStops,
-    required this.showBuses,
     this.showFilterPanel = false,
     required this.onModeChanged,
     required this.onRoutesVisibilityChanged,
-    required this.onStopsVisibilityChanged,
-    required this.onBusesVisibilityChanged,
     this.onFilterPanelToggle,
   });
 
@@ -62,10 +54,7 @@ class _MapControlsWidgetState extends State<MapControlsWidget> {
           // Quick filter toggles
           const SizedBox(width: 16),
           _buildQuickFilter('Routes', widget.showRoutes, widget.onRoutesVisibilityChanged),
-          const SizedBox(width: 8),
-          _buildQuickFilter('Stops', widget.showStops, widget.onStopsVisibilityChanged),
-          const SizedBox(width: 8),
-          _buildQuickFilter('Buses', widget.showBuses, widget.onBusesVisibilityChanged),
+
           // Filter panel toggle (optional)
           if (widget.onFilterPanelToggle != null) ...[
             const SizedBox(width: 8),

@@ -10,11 +10,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:frontend_easy/features/map/widgets/maps_config.dart';
 import 'package:frontend_easy/core/theme/route_colors.dart';
 import 'package:frontend_easy/core/theme/bus_marker_colors.dart';
-import 'package:frontend_easy/features/fleet/models/map_mode.dart';
 import 'package:frontend_easy/features/fleet/providers/bus_locations_provider.dart';
 
 /// Interactive map widget for route visualization
-/// Renders routes, stops, and buses based on mode
+/// Renders routes, stops, and buses
 class RouteMapWidget extends ConsumerStatefulWidget {
   /// List of routes to display
   final List<api.Route> routes;
@@ -22,26 +21,14 @@ class RouteMapWidget extends ConsumerStatefulWidget {
   /// List of buses to display
   final List<api.Bus> buses;
 
-  /// Current map mode
-  final MapMode mode;
-
-  /// Selected route ID for focus mode
-  final String? selectedRouteId;
-
-  /// Whether to show routes layer
-  final bool showRoutes;
-
-  /// Whether to show stops layer
-  final bool showStops;
-
-  /// Whether to show buses layer
-  final bool showBuses;
-
   /// Selected bus IDs to focus on (empty = show all buses)
   final List<String> selectedBusIds;
 
-  /// Trigger to focus on selected bus (increment to trigger focus)
-  final int? focusTrigger;
+  /// Selected bus latitude for camera focus
+  final double? selectedBusLat;
+
+  /// Selected bus longitude for camera focus
+  final double? selectedBusLon;
 
   /// Callback when bus marker is tapped
   final void Function(String busId, double lat, double lon)? onBusTapped;
@@ -50,13 +37,9 @@ class RouteMapWidget extends ConsumerStatefulWidget {
   const RouteMapWidget({
     required this.routes,
     required this.buses,
-    required this.mode,
-    this.selectedRouteId,
     this.selectedBusIds = const [],
-    this.focusTrigger,
-    this.showRoutes = true,
-    this.showStops = true,
-    this.showBuses = true,
+    this.selectedBusLat,
+    this.selectedBusLon,
     this.onBusTapped,
     super.key,
   });
@@ -156,48 +139,29 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
   void didUpdateWidget(RouteMapWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    // Check if focus trigger changed
-    if (widget.focusTrigger != null &&
-        widget.focusTrigger != oldWidget.focusTrigger &&
-        widget.selectedBusIds.isNotEmpty) {
+    // Check if selected bus changed and we have coordinates
+    if (widget.selectedBusLat != null &&
+        widget.selectedBusLon != null &&
+        (widget.selectedBusLat != oldWidget.selectedBusLat ||
+            widget.selectedBusLon != oldWidget.selectedBusLon)) {
       _focusOnSelectedBus();
     }
   }
 
   /// Focus camera on the selected bus
   Future<void> _focusOnSelectedBus() async {
-    if (_mapController == null || widget.selectedBusIds.isEmpty) return;
+    if (_mapController == null ||
+        widget.selectedBusLat == null ||
+        widget.selectedBusLon == null) return;
 
-    // Get bus locations and find the selected bus
-    final busLocationsAsync = ref.read(busLocationsProvider);
-
-    await busLocationsAsync.when(
-      data: (busLocations) async {
-        for (final busFeature in busLocations) {
-          final properties = busFeature['properties'] as Map<String, dynamic>;
-          final busId = properties['id']?.toString();
-
-          if (widget.selectedBusIds.contains(busId)) {
-            final geometry = busFeature['geometry'] as Map<String, dynamic>;
-            final coordinates = geometry['coordinates'] as List<dynamic>;
-            final lon = (coordinates[0] as num).toDouble();
-            final lat = (coordinates[1] as num).toDouble();
-
-            // Animate camera to bus location
-            await _mapController?.animateCamera(
-              CameraUpdate.newCameraPosition(
-                CameraPosition(
-                  target: LatLng(lat, lon),
-                  zoom: 15.0, // Zoom in closer for focused view
-                ),
-              ),
-            );
-            break;
-          }
-        }
-      },
-      loading: () async {},
-      error: (_, __) async {},
+    // Animate camera to bus location
+    await _mapController?.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: LatLng(widget.selectedBusLat!, widget.selectedBusLon!),
+          zoom: 15.0, // Zoom in closer for focused view
+        ),
+      ),
     );
   }
 
@@ -251,52 +215,48 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
     final stopMarkers = <Marker>{};
     final busMarkers = <Marker>{};
 
-    if (widget.showRoutes) {
-      final polylines = _buildRoutePolylines();
-      routePolylines.addAll(polylines);
-    }
+    // Always show routes
+    final polylines = _buildRoutePolylines();
+    routePolylines.addAll(polylines);
 
-    if (widget.showStops) {
-      // Use default markers temporarily, will enhance later
-      for (final route in widget.routes) {
-        final stops = _stopsForRoute(route);
-        final routeColor = _colorForRoute(route);
-        final routeHue = _colorToHue(routeColor);
+    // Always show stops
+    for (final route in widget.routes) {
+      final stops = _stopsForRoute(route);
+      final routeColor = _colorForRoute(route);
+      final routeHue = _colorToHue(routeColor);
 
-        for (int i = 0; i < stops.length; i++) {
-          final routeStop = stops[i];
-          dynamic latVal, lonVal;
-          if (routeStop is Map) {
-            latVal = routeStop['latitude'] ?? routeStop['lat'];
-            lonVal = routeStop['longitude'] ?? routeStop['lon'];
-          } else {
-            try { latVal = (routeStop as dynamic).latitude; } catch (_) {}
-            try { lonVal = (routeStop as dynamic).longitude; } catch (_) {}
-          }
-          if (latVal == null || lonVal == null) continue;
-
-          final isEndpoint = (i == 0 || i == stops.length - 1);
-          stopMarkers.add(Marker(
-            markerId: MarkerId('stop_${route.routeId}_$i'),
-            position: LatLng((latVal as num).toDouble(), (lonVal as num).toDouble()),
-            icon: isEndpoint
-                ? BitmapDescriptor.defaultMarkerWithHue(routeHue)
-                : BitmapDescriptor.defaultMarker,
-            infoWindow: InfoWindow(title: i == 0 ? 'Start' : (i == stops.length - 1 ? 'End' : 'Stop')),
-          ));
+      for (int i = 0; i < stops.length; i++) {
+        final routeStop = stops[i];
+        dynamic latVal, lonVal;
+        if (routeStop is Map) {
+          latVal = routeStop['latitude'] ?? routeStop['lat'];
+          lonVal = routeStop['longitude'] ?? routeStop['lon'];
+        } else {
+          try { latVal = (routeStop as dynamic).latitude; } catch (_) {}
+          try { lonVal = (routeStop as dynamic).longitude; } catch (_) {}
         }
+        if (latVal == null || lonVal == null) continue;
+
+        final isEndpoint = (i == 0 || i == stops.length - 1);
+        stopMarkers.add(Marker(
+          markerId: MarkerId('stop_${route.routeId}_$i'),
+          position: LatLng((latVal as num).toDouble(), (lonVal as num).toDouble()),
+          icon: isEndpoint
+              ? BitmapDescriptor.defaultMarkerWithHue(routeHue)
+              : BitmapDescriptor.defaultMarker,
+          infoWindow: InfoWindow(title: i == 0 ? 'Start' : (i == stops.length - 1 ? 'End' : 'Stop')),
+        ));
       }
     }
 
-    if (widget.showBuses) {
-      busMarkers.addAll(
-        busLocationsAsync.when(
-          data: (busLocations) => _buildBusMarkers(busLocations),
-          loading: () => <Marker>{},
-          error: (error, stack) => <Marker>{},
-        ),
-      );
-    }
+    // Always show buses
+    busMarkers.addAll(
+      busLocationsAsync.when(
+        data: (busLocations) => _buildBusMarkers(busLocations),
+        loading: () => <Marker>{},
+        error: (error, stack) => <Marker>{},
+      ),
+    );
 
     return Stack(
       children: [
@@ -339,13 +299,6 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
     final polylines = <Polyline>{};
 
   for (final route in widget.routes) {
-      // Skip if in focus mode and not selected
-      if (widget.mode == MapMode.routeFocus &&
-          widget.selectedRouteId != null &&
-          route.routeId != widget.selectedRouteId) {
-        continue;
-      }
-
       // Get route stops to build polyline (support different generated models)
       final stops = _stopsForRoute(route);
       if (stops.isEmpty) continue;
@@ -391,7 +344,7 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
         polylineId: PolylineId('${route.routeId}_border'),
         points: points.map((p) => LatLng(p.latitude, p.longitude)).toList(),
         color: Colors.white,
-        width: route.routeId == widget.selectedRouteId ? 10 : 8,
+        width: 8,
       ));
 
       // Add colored route polyline
@@ -399,7 +352,7 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
         polylineId: PolylineId(route.routeId),
         points: points.map((p) => LatLng(p.latitude, p.longitude)).toList(),
         color: color.withValues(alpha: opacity),
-        width: route.routeId == widget.selectedRouteId ? 6 : 4,
+        width: 4,
       ));
     }
     return polylines;

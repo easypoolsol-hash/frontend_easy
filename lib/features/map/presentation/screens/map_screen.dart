@@ -4,12 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend_easy/features/fleet/providers/routes_provider.dart';
 import 'package:frontend_easy/features/fleet/providers/buses_provider.dart';
 import 'package:frontend_easy/features/map/widgets/route_map_widget.dart';
-import 'package:frontend_easy/features/fleet/models/map_mode.dart';
-import 'package:frontend_easy/features/fleet/presentation/widgets/route_filter_panel.dart';
 import 'package:frontend_easy/shared/widgets/app_top_nav_bar.dart';
-import 'package:frontend_easy/shared/widgets/map_controls_widget.dart';
 
-/// Map screen - displays live bus tracking map with controls and filters
+/// Map screen - displays live bus tracking map with search functionality
 /// Real-time WebSocket updates for bus locations
 class MapScreen extends ConsumerStatefulWidget {
   const MapScreen({super.key});
@@ -19,14 +16,51 @@ class MapScreen extends ConsumerStatefulWidget {
 }
 
 class _MapScreenState extends ConsumerState<MapScreen> {
-  MapMode _selectedMode = MapMode.overview;
-  bool _showRoutes = true;
-  bool _showStops = true;
-  bool _showBuses = true;
-  bool _showFilterPanel = false;
   String? _selectedBusId;
   double? _selectedBusLat;
   double? _selectedBusLon;
+  final _searchController = TextEditingController();
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _searchBus(String busNumber, List buses) {
+    if (busNumber.isEmpty) {
+      setState(() {
+        _selectedBusId = null;
+        _selectedBusLat = null;
+        _selectedBusLon = null;
+      });
+      return;
+    }
+
+    // Find bus by number
+    final bus = buses.firstWhere(
+      (b) => b.busNumber.toLowerCase().contains(busNumber.toLowerCase()),
+      orElse: () => null,
+    );
+
+    if (bus != null) {
+      setState(() {
+        _selectedBusId = bus.id;
+        _selectedBusLat = bus.currentLocation.latitude;
+        _selectedBusLon = bus.currentLocation.longitude;
+      });
+    } else {
+      // Show snackbar if bus not found
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Bus "$busNumber" not found'),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,17 +72,63 @@ class _MapScreenState extends ConsumerState<MapScreen> {
       body: Column(
         children: [
           const AppTopNavBar(currentIndex: 0),
-          MapControlsWidget(
-            selectedMode: _selectedMode,
-            showRoutes: _showRoutes,
-            showStops: _showStops,
-            showBuses: _showBuses,
-            showFilterPanel: _showFilterPanel,
-            onModeChanged: (mode) => setState(() => _selectedMode = mode),
-            onRoutesVisibilityChanged: (value) => setState(() => _showRoutes = value),
-            onStopsVisibilityChanged: (value) => setState(() => _showStops = value),
-            onBusesVisibilityChanged: (value) => setState(() => _showBuses = value),
-            onFilterPanelToggle: (value) => setState(() => _showFilterPanel = value),
+          // Search bar
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surface,
+              border: Border(
+                bottom: BorderSide(
+                  color: Theme.of(context).colorScheme.outline.withOpacity(0.2),
+                  width: 1,
+                ),
+              ),
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _searchController,
+                    decoration: InputDecoration(
+                      hintText: 'Search bus by number...',
+                      prefixIcon: const Icon(Icons.search),
+                      suffixIcon: _searchController.text.isNotEmpty
+                          ? IconButton(
+                              icon: const Icon(Icons.clear),
+                              onPressed: () {
+                                _searchController.clear();
+                                setState(() {
+                                  _selectedBusId = null;
+                                  _selectedBusLat = null;
+                                  _selectedBusLon = null;
+                                });
+                              },
+                            )
+                          : null,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    ),
+                    onSubmitted: (value) {
+                      busesAsync.whenData((buses) {
+                        _searchBus(value, buses);
+                      });
+                    },
+                  ),
+                ),
+                const SizedBox(width: 8),
+                FilledButton.icon(
+                  onPressed: () {
+                    busesAsync.whenData((buses) {
+                      _searchBus(_searchController.text, buses);
+                    });
+                  },
+                  icon: const Icon(Icons.search),
+                  label: const Text('Search'),
+                ),
+              ],
+            ),
           ),
           Expanded(
             child: Padding(
@@ -67,11 +147,9 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                           data: (buses) => RouteMapWidget(
                             routes: routes,
                             buses: buses,
-                            mode: _selectedMode,
-                            showRoutes: _showRoutes,
-                            showStops: _showStops,
-                            showBuses: _showBuses,
                             selectedBusIds: _selectedBusId != null ? [_selectedBusId!] : [],
+                            selectedBusLat: _selectedBusLat,
+                            selectedBusLon: _selectedBusLon,
                             onBusTapped: (busId, lat, lon) {
                               setState(() {
                                 _selectedBusId = busId;
@@ -86,36 +164,6 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                         loading: () => _buildLoadingIndicator(),
                         error: (error, stack) => _buildError('Failed to load routes: $error'),
                       ),
-
-                      // Filter panel (right side)
-                      if (_showFilterPanel)
-                        Positioned(
-                          top: 0,
-                          right: 0,
-                          bottom: 0,
-                          width: 320,
-                          child: RouteFilterPanel(
-                            currentMode: _selectedMode,
-                            selectedBusIds: _selectedBusId != null ? [_selectedBusId!] : [],
-                            onClose: () {
-                              setState(() {
-                                _showFilterPanel = false;
-                              });
-                            },
-                            onVisibilityChanged: (showRoutes, showStops, showBuses) {
-                              setState(() {
-                                _showRoutes = showRoutes;
-                                _showStops = showStops;
-                                _showBuses = showBuses;
-                              });
-                            },
-                            onBusSelected: (busIds) {
-                              setState(() {
-                                _selectedBusId = busIds.isEmpty ? null : busIds.first;
-                              });
-                            },
-                          ),
-                        ),
                     ],
                   ),
                 ),
