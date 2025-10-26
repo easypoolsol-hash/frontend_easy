@@ -1,16 +1,22 @@
 name: CI Pipeline (Improved)
 
 on:
+  push:
+    branches: [ master, main, develop ]
     paths-ignore:
       - '**.md'
       - 'docs/**'
       - '.vscode/**'
       - '.idea/**'
       - 'LICENSE'
-  push:
-    branches: [ master, main, develop ]
   pull_request:
     branches: [ master, main, develop ]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - '.vscode/**'
+      - '.idea/**'
+      - 'LICENSE'
   workflow_dispatch:
 
 permissions:
