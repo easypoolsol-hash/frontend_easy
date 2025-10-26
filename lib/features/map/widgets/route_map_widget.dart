@@ -24,12 +24,6 @@ class RouteMapWidget extends ConsumerStatefulWidget {
   /// Selected bus IDs to focus on (empty = show all buses)
   final List<String> selectedBusIds;
 
-  /// Selected bus latitude for camera focus
-  final double? selectedBusLat;
-
-  /// Selected bus longitude for camera focus
-  final double? selectedBusLon;
-
   /// Callback when bus marker is tapped
   final void Function(String busId, double lat, double lon)? onBusTapped;
 
@@ -38,8 +32,6 @@ class RouteMapWidget extends ConsumerStatefulWidget {
     required this.routes,
     required this.buses,
     this.selectedBusIds = const [],
-    this.selectedBusLat,
-    this.selectedBusLon,
     this.onBusTapped,
     super.key,
   });
@@ -139,29 +131,47 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
   void didUpdateWidget(RouteMapWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    // Check if selected bus changed and we have coordinates
-    if (widget.selectedBusLat != null &&
-        widget.selectedBusLon != null &&
-        (widget.selectedBusLat != oldWidget.selectedBusLat ||
-            widget.selectedBusLon != oldWidget.selectedBusLon)) {
+    // Check if selected bus IDs changed
+    if (widget.selectedBusIds != oldWidget.selectedBusIds &&
+        widget.selectedBusIds.isNotEmpty) {
       _focusOnSelectedBus();
     }
   }
 
   /// Focus camera on the selected bus
   Future<void> _focusOnSelectedBus() async {
-    if (_mapController == null ||
-        widget.selectedBusLat == null ||
-        widget.selectedBusLon == null) return;
+    if (_mapController == null || widget.selectedBusIds.isEmpty) return;
 
-    // Animate camera to bus location
-    await _mapController?.animateCamera(
-      CameraUpdate.newCameraPosition(
-        CameraPosition(
-          target: LatLng(widget.selectedBusLat!, widget.selectedBusLon!),
-          zoom: 15.0, // Zoom in closer for focused view
-        ),
-      ),
+    // Get bus locations and find the selected bus
+    final busLocationsAsync = ref.read(busLocationsProvider);
+
+    await busLocationsAsync.when(
+      data: (busLocations) async {
+        for (final busFeature in busLocations) {
+          final properties = busFeature['properties'] as Map<String, dynamic>;
+          final busId = properties['id']?.toString();
+
+          if (widget.selectedBusIds.contains(busId)) {
+            final geometry = busFeature['geometry'] as Map<String, dynamic>;
+            final coordinates = geometry['coordinates'] as List<dynamic>;
+            final lon = (coordinates[0] as num).toDouble();
+            final lat = (coordinates[1] as num).toDouble();
+
+            // Animate camera to bus location
+            await _mapController?.animateCamera(
+              CameraUpdate.newCameraPosition(
+                CameraPosition(
+                  target: LatLng(lat, lon),
+                  zoom: 15.0, // Zoom in closer for focused view
+                ),
+              ),
+            );
+            break;
+          }
+        }
+      },
+      loading: () async {},
+      error: (_, __) async {},
     );
   }
 

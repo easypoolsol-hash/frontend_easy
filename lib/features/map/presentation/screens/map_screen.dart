@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:frontend_easy_api/frontend_easy_api.dart' as api;
 
 import 'package:frontend_easy/features/fleet/providers/routes_provider.dart';
 import 'package:frontend_easy/features/fleet/providers/buses_provider.dart';
@@ -17,49 +18,11 @@ class MapScreen extends ConsumerStatefulWidget {
 
 class _MapScreenState extends ConsumerState<MapScreen> {
   String? _selectedBusId;
-  double? _selectedBusLat;
-  double? _selectedBusLon;
-  final _searchController = TextEditingController();
 
-  @override
-  void dispose() {
-    _searchController.dispose();
-    super.dispose();
-  }
-
-  void _searchBus(String busNumber, List buses) {
-    if (busNumber.isEmpty) {
-      setState(() {
-        _selectedBusId = null;
-        _selectedBusLat = null;
-        _selectedBusLon = null;
-      });
-      return;
-    }
-
-    // Find bus by number
-    final bus = buses.firstWhere(
-      (b) => b.busNumber.toLowerCase().contains(busNumber.toLowerCase()),
-      orElse: () => null,
-    );
-
-    if (bus != null) {
-      setState(() {
-        _selectedBusId = bus.id;
-        _selectedBusLat = bus.currentLocation.latitude;
-        _selectedBusLon = bus.currentLocation.longitude;
-      });
-    } else {
-      // Show snackbar if bus not found
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Bus "$busNumber" not found'),
-            duration: const Duration(seconds: 2),
-          ),
-        );
-      }
-    }
+  void _selectBus(api.Bus? bus) {
+    setState(() {
+      _selectedBusId = bus?.busId;
+    });
   }
 
   @override
@@ -72,62 +35,103 @@ class _MapScreenState extends ConsumerState<MapScreen> {
       body: Column(
         children: [
           const AppTopNavBar(currentIndex: 0),
-          // Search bar
+          // Search bar with autocomplete
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.surface,
               border: Border(
                 bottom: BorderSide(
-                  color: Theme.of(context).colorScheme.outline.withOpacity(0.2),
+                  color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
                   width: 1,
                 ),
               ),
             ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _searchController,
+            child: busesAsync.when(
+              data: (buses) => Autocomplete<api.Bus>(
+                displayStringForOption: (bus) => bus.licensePlate,
+                optionsBuilder: (TextEditingValue textEditingValue) {
+                  if (textEditingValue.text.isEmpty) {
+                    return const Iterable<api.Bus>.empty();
+                  }
+                  return buses.where((bus) {
+                    return bus.licensePlate.toLowerCase().contains(textEditingValue.text.toLowerCase());
+                  });
+                },
+                onSelected: (api.Bus bus) {
+                  _selectBus(bus);
+                },
+                fieldViewBuilder: (context, controller, focusNode, onFieldSubmitted) {
+                  return TextField(
+                    controller: controller,
+                    focusNode: focusNode,
                     decoration: InputDecoration(
-                      hintText: 'Search bus by number...',
+                      hintText: 'Search bus by license plate...',
                       prefixIcon: const Icon(Icons.search),
-                      suffixIcon: _searchController.text.isNotEmpty
+                      suffixIcon: controller.text.isNotEmpty
                           ? IconButton(
                               icon: const Icon(Icons.clear),
                               onPressed: () {
-                                _searchController.clear();
-                                setState(() {
-                                  _selectedBusId = null;
-                                  _selectedBusLat = null;
-                                  _selectedBusLon = null;
-                                });
+                                controller.clear();
+                                _selectBus(null);
                               },
                             )
                           : null,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      isDense: true,
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                     ),
-                    onSubmitted: (value) {
-                      busesAsync.whenData((buses) {
-                        _searchBus(value, buses);
-                      });
-                    },
-                  ),
+                  );
+                },
+                optionsViewBuilder: (context, onSelected, options) {
+                  return Align(
+                    alignment: Alignment.topLeft,
+                    child: Material(
+                      elevation: 4.0,
+                      child: ConstrainedBox(
+                        constraints: const BoxConstraints(maxHeight: 200, maxWidth: 300),
+                        child: ListView.builder(
+                          padding: EdgeInsets.zero,
+                          shrinkWrap: true,
+                          itemCount: options.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            final api.Bus bus = options.elementAt(index);
+                            return ListTile(
+                              dense: true,
+                              leading: const Icon(Icons.directions_bus, size: 20),
+                              title: Text(bus.licensePlate, style: const TextStyle(fontSize: 14)),
+                              subtitle: Text('Route: ${bus.routeName}', style: const TextStyle(fontSize: 12)),
+                              onTap: () {
+                                onSelected(bus);
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+              loading: () => const TextField(
+                enabled: false,
+                decoration: InputDecoration(
+                  hintText: 'Loading buses...',
+                  prefixIcon: Icon(Icons.search),
+                  border: OutlineInputBorder(),
+                  isDense: true,
                 ),
-                const SizedBox(width: 8),
-                FilledButton.icon(
-                  onPressed: () {
-                    busesAsync.whenData((buses) {
-                      _searchBus(_searchController.text, buses);
-                    });
-                  },
-                  icon: const Icon(Icons.search),
-                  label: const Text('Search'),
+              ),
+              error: (error, stack) => const TextField(
+                enabled: false,
+                decoration: InputDecoration(
+                  hintText: 'Error loading buses',
+                  prefixIcon: Icon(Icons.error),
+                  border: OutlineInputBorder(),
+                  isDense: true,
                 ),
-              ],
+              ),
             ),
           ),
           Expanded(
@@ -148,13 +152,9 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                             routes: routes,
                             buses: buses,
                             selectedBusIds: _selectedBusId != null ? [_selectedBusId!] : [],
-                            selectedBusLat: _selectedBusLat,
-                            selectedBusLon: _selectedBusLon,
                             onBusTapped: (busId, lat, lon) {
                               setState(() {
                                 _selectedBusId = busId;
-                                _selectedBusLat = lat;
-                                _selectedBusLon = lon;
                               });
                             },
                           ),
