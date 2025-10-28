@@ -57,5 +57,8 @@ app.*.map.json
 .env
 lib/core/config/maps_config.dart
 
+# Firebase generated files
+.firebase/
+
 # OpenAPI Schema (copied from backend via git hook)
 # openapi-schema.yaml  # MUST BE COMMITTED - Required for CI to generate API client
