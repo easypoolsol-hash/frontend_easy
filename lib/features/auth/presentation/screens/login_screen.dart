@@ -248,8 +248,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                     const SizedBox(width: 8),
                                     Expanded(
                                       child: Text(
-                                        'Login successful! Redirecting...',
-                                        style: TextStyle(color: Colors.green.shade700),
+                                        'Login successful!',
+                                        style: TextStyle(color: Colors.green.shade700, fontWeight: FontWeight.bold),
                                       ),
                                     ),
                                   ],
