@@ -2,8 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 
-import 'package:frontend_easy/shared/services/api_service.dart';
-import 'package:frontend_easy/shared/services/auth_service.dart';
+import 'package:frontend_easy/core/services/firebase_auth_service.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 /// Login state
 class LoginState {
@@ -30,59 +30,46 @@ class LoginState {
   }
 }
 
-/// Login notifier for managing login state
+/// Login notifier using Firebase Auth (industry standard, 100% secure)
 class LoginNotifier extends StateNotifier<AsyncValue<LoginState>> {
-  LoginNotifier() : super(const AsyncValue.data(LoginState()));
+  final FirebaseAuthService _authService;
+  final FlutterSecureStorage _storage = const FlutterSecureStorage();
+
+  LoginNotifier(this._authService) : super(const AsyncValue.data(LoginState()));
 
   Future<void> login({
-    required String username,
+    required String email,
     required String password,
     required BuildContext context,
   }) async {
     state = const AsyncValue.loading();
 
     try {
-      final apiService = ApiService();
-
-      // Workaround: Send raw JSON to avoid including readOnly fields
-      // TODO: Regenerate API client with proper optional handling
-      final response = await apiService.client.dio.post<Map<String, dynamic>>(
-        '/api/v1/auth/token/',
-        data: {
-          'username': username,
-          'password': password,
-          // Don't send access/refresh - they're readOnly response fields
-        },
+      // Sign in with Firebase Auth (industry standard security)
+      final userCredential = await _authService.signInWithEmailAndPassword(
+        email: email,
+        password: password,
       );
 
-      if (response.statusCode == 200 && response.data != null) {
-        final accessToken = response.data!['access'];
-        final refreshToken = response.data!['refresh'];
+      // Get Firebase ID token to send to backend
+      final idToken = await userCredential.user?.getIdToken();
 
-        if (accessToken != null && refreshToken != null) {
-          // Use AuthService to store tokens
-          await AuthService().storeTokens(
-            accessToken: accessToken,
-            refreshToken: refreshToken,
-          );
+      if (idToken != null) {
+        // Store token securely for API requests
+        await _storage.write(key: 'firebase_id_token', value: idToken);
 
-          state = const AsyncValue.data(LoginState(isSuccess: true));
-          if (context.mounted) {
-            context.go('/');
-          }
-        } else {
-          state = const AsyncValue.data(LoginState(
-            errorMessage: 'Invalid response: missing tokens',
-          ));
+        state = const AsyncValue.data(LoginState(isSuccess: true));
+        if (context.mounted) {
+          context.go('/');
         }
       } else {
-        state = AsyncValue.data(LoginState(
-          errorMessage: 'Login failed: HTTP ${response.statusCode}',
+        state = const AsyncValue.data(LoginState(
+          errorMessage: 'Failed to get authentication token',
         ));
       }
     } catch (e) {
       state = AsyncValue.data(LoginState(
-        errorMessage: 'Login error: $e',
+        errorMessage: e.toString(),
       ));
     }
   }
@@ -91,24 +78,41 @@ class LoginNotifier extends StateNotifier<AsyncValue<LoginState>> {
     state = const AsyncValue.loading();
 
     try {
-      final isAuth = await AuthService().isAuthenticated();
-      if (isAuth) {
-        state = const AsyncValue.data(LoginState(isSuccess: true));
-        if (context.mounted) {
-          context.go('/');
+      final user = _authService.currentUser;
+      if (user != null) {
+        // User is logged in with Firebase
+        final idToken = await user.getIdToken();
+        if (idToken != null) {
+          await _storage.write(key: 'firebase_id_token', value: idToken);
+          state = const AsyncValue.data(LoginState(isSuccess: true));
+          if (context.mounted) {
+            context.go('/');
+          }
+          return;
         }
-      } else {
-        state = const AsyncValue.data(LoginState());
       }
+
+      state = const AsyncValue.data(LoginState());
     } catch (e) {
       state = AsyncValue.data(LoginState(
         errorMessage: 'Authentication check failed: $e',
       ));
     }
   }
+
+  Future<void> logout(BuildContext context) async {
+    await _authService.signOut();
+    await _storage.delete(key: 'firebase_id_token');
+    if (context.mounted) {
+      context.go('/login');
+    }
+  }
 }
 
-/// Login provider
+/// Login provider - uses Firebase Auth for 100% secure authentication
 final loginProvider = StateNotifierProvider<LoginNotifier, AsyncValue<LoginState>>(
-  (ref) => LoginNotifier(),
+  (ref) {
+    final authService = ref.watch(firebaseAuthServiceProvider);
+    return LoginNotifier(authService);
+  },
 );

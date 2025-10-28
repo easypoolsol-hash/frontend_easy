@@ -67,6 +67,10 @@ dependencies:
   # Environment variables
   flutter_dotenv: ^5.1.0
 
+  # Firebase Authentication - Industry standard secure auth
+  firebase_core: ^3.8.1
+  firebase_auth: ^5.3.3
+
   import_sorter: ^4.6.0
   flutter_svg: ^2.2.1
 
