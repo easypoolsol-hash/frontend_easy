@@ -1,192 +1,287 @@
 # Imperial EasyPool Frontend
 
-Multi-platform Flutter application (Web, iOS, Android) for school bus management system.
+Multi-platform Flutter application (Web, iOS, Android) for school bus management system with Firebase authentication and automated deployment.
 
-## Features
+## � **Development Lifecycle**
 
-- 🗺️ **Interactive Maps** - Google Maps integration for route visualization
-- 🚌 **Fleet Management** - Real-time bus tracking and route management
-- 👨‍👩‍👧‍👦 **Student Management** - Parent and student dashboards
-- 📊 **School Dashboard** - Administrative interface
-- 🔐 **Secure Authentication** - JWT-based kiosk authentication
-- 📱 **Responsive Design** - Material Design 3 with adaptive layouts
+### **Git Workflow: Develop → Master → Production**
 
-## Prerequisites
+```
+┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+│   develop   │ -> │   master    │ -> │ Production  │
+│             │    │             │    │             │
+│ • Features  │    │ • Stable    │    │ • Live App  │
+│ • Testing   │    │ • Releases  │    │ • Firebase  │
+│ • CI/CD     │    │ • Merges    │    │ • Hosting   │
+└─────────────┘    └─────────────┘    └─────────────┘
+```
+
+### **Branch Strategy**
+
+- **`develop`**: Active development branch
+  - All new features and bug fixes
+  - Continuous integration testing
+  - Safe experimentation environment
+
+- **`master`**: Production-ready branch
+  - Stable, tested code only
+  - Automatic deployment to Firebase Hosting
+  - Release candidates
+
+### **Workflow Steps**
+
+1. **Start Development**
+   ```bash
+   git checkout develop
+   git pull origin develop
+   ```
+
+2. **Create Feature Branch** (optional)
+   ```bash
+   git checkout -b feature/new-feature
+   ```
+
+3. **Develop & Test**
+   ```bash
+   flutter run -d web-server  # Test locally
+   flutter test               # Run tests
+   ```
+
+4. **Commit Changes**
+   ```bash
+   git add .
+   git commit -m "feat: Add new feature"
+   git push origin develop
+   ```
+
+5. **Merge to Master** (when ready for production)
+   ```bash
+   git checkout master
+   git merge develop
+   git push origin master
+   ```
+
+6. **Automatic Deployment**
+   - GitHub Actions triggers on `master` push
+   - Builds Flutter app
+   - Deploys to Firebase Hosting
+   - App updates live at: https://easypool-30af3.web.app
+
+## 📋 **Prerequisites**
 
 - Flutter SDK (^3.9.2)
 - Dart SDK (^3.9.2)
-- Google Maps API Key (for map functionality)
+- Firebase CLI (for deployment)
+- GitHub repository access
 
-## Google Maps Setup
+## 🔧 **Setup & Installation**
 
-### 1. Get API Key
-1. Go to [Google Cloud Console](https://console.cloud.google.com/)
-2. Create a new project or select existing one
-3. Enable the following APIs:
-   - Maps JavaScript API
-   - Maps Embed API
-4. Create credentials (API Key)
-5. Restrict the API key to your domain for security
+### **1. Clone Repository**
+```bash
+git clone <repository-url>
+cd frontend_easy
+```
 
-### 2. Configure API Key
+### **2. Install Dependencies**
+```bash
+flutter pub get
+```
 
-#### Option A: .env File (Recommended)
-Create a `.env` file in the project root:
+### **3. Firebase Setup**
+```bash
+# Login to Firebase
+firebase login
 
+# Use project
+firebase use easypool-30af3
+```
+
+### **4. Environment Configuration**
+Create `.env` file:
 ```env
 GOOGLE_MAPS_API_KEY=your_api_key_here
 ```
 
-**Important**: Add `.env` to your `.gitignore` to prevent committing API keys.
+## 🏃 **Running the Application**
 
-#### Option B: Environment Variable
+### **Development Mode**
 ```bash
-# Development
-flutter run --dart-define=GOOGLE_MAPS_API_KEY=your_api_key_here
+# Start on develop branch
+git checkout develop
 
-# Production Build
-flutter build web --dart-define=GOOGLE_MAPS_API_KEY=your_api_key_here --release
+# Run locally
+flutter run -d web-server
+
+# Or with custom port
+flutter run -d web-server --web-port=3000
 ```
 
-#### Option C: Using Build Scripts
+### **Production Build**
 ```bash
-# Development (port 3000)
-./run.sh 3000
-
-# Production build
-./build.sh prod
-
-# Development build
-./build.sh dev
+flutter build web --release
 ```
 
-## Getting Started
+## 🚀 **Deployment Process**
 
-### Installation
+### **Automatic Deployment (Recommended)**
+1. **Work on `develop`** branch
+2. **Test thoroughly** locally
+3. **Merge to `master`** when ready
+4. **GitHub Actions** automatically:
+   - Builds the app
+   - Deploys to Firebase Hosting
+   - Updates live site
 
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd frontend_easy
-   ```
-
-2. **Install dependencies**
-   ```bash
-   flutter pub get
-   ```
-
-3. **Generate API client** (if needed)
-   ```bash
-   # Generate from OpenAPI spec
-   flutter pub run build_runner build
-   ```
-
-### Running the App
-
-#### Development
+### **Manual Deployment**
 ```bash
-# With .env file (recommended)
-flutter run -d chrome --web-port=3000
-
-# With environment variable
-flutter run -d chrome --web-port=3000 --dart-define=GOOGLE_MAPS_API_KEY=your_key
-
-# Or use the run script (uses .env file)
-./run.sh 3000
-```
-
-#### Production Build
-```bash
-# Build for web deployment (uses .env file)
+# Build
 flutter build web --release
 
-# With environment variable
-flutter build web --release --dart-define=GOOGLE_MAPS_API_KEY=your_key
-
-# Or use the build script (uses .env file)
-./build.sh prod
+# Deploy
+firebase deploy --only hosting
 ```
 
-### Testing
+## 🔐 **Authentication**
+
+- **Firebase Authentication** for user login
+- **Email/Password** authentication
+- **Secure token management**
+- **Automatic logout on session expiry**
+
+## 🧪 **Testing**
 
 ```bash
-# Run tests
+# Run all tests
 flutter test
 
-# Run tests with coverage
+# Run with coverage
 flutter test --coverage
+
+# Run integration tests
+flutter test integration_test/
 ```
 
-## Project Structure
+## 📁 **Project Structure**
 
 ```
-lib/
-├── core/                 # Core functionality
-│   ├── config/          # Configuration files
-│   ├── routing/         # App routing
-│   └── theme/           # UI themes and colors
-├── features/            # Feature-based modules
-│   ├── auth/            # Authentication
-│   ├── fleet/           # Fleet management
-│   ├── home/            # Home dashboard
-│   └── map/             # Map functionality
-├── shared/              # Shared components
-│   └── widgets/         # Reusable widgets
-└── main.dart           # App entry point
-
-packages/
-└── frontend_easy_api/  # Generated API client
+frontend_easy/
+├── lib/                          # Flutter source code
+│   ├── core/                    # Core functionality
+│   │   ├── config/             # Firebase & API config
+│   │   ├── routing/            # App navigation
+│   │   └── services/           # Firebase services
+│   ├── features/               # Feature modules
+│   │   ├── auth/               # Authentication
+│   │   ├── fleet/              # Bus management
+│   │   ├── home/               # Dashboard
+│   │   └── map/                # Maps integration
+│   └── shared/                 # Shared components
+├── packages/
+│   └── frontend_easy_api/      # Generated API client
+├── .github/workflows/          # CI/CD pipelines
+├── build/web/                  # Built web app (generated)
+├── firebase.json              # Firebase hosting config
+├── .firebaserc               # Firebase project config
+└── pubspec.yaml              # Flutter dependencies
 ```
 
-## API Integration
+## 🔄 **Git Branch Management**
 
-The app uses OpenAPI-generated client for backend communication:
-
-- **Base URL**: Configurable via environment
-- **Authentication**: JWT tokens
-- **Real-time**: WebSocket support for live updates
-
-## Deployment
-
-### Web Deployment
+### **Daily Workflow**
 ```bash
-# Build optimized web app (uses .env file)
+# Start working
+git checkout develop
+git pull origin develop
+
+# Make changes
+# ... develop code ...
+
+# Commit
+git add .
+git commit -m "feat: Add new feature"
+git push origin develop
+
+# Deploy to production
+git checkout master
+git merge develop
+git push origin master  # Triggers auto-deployment
+```
+
+### **Branch Protection**
+- `master` branch: Protected, requires PR review
+- `develop` branch: Open for development
+- Feature branches: Created from `develop`, merged back to `develop`
+
+## 📊 **CI/CD Pipeline**
+
+### **GitHub Actions Workflow**
+- **Trigger**: Push to `master` branch
+- **Steps**:
+  1. Checkout code
+  2. Setup Flutter
+  3. Install dependencies
+  4. Run tests
+  5. Build web app
+  6. Deploy to Firebase
+
+### **Deployment URL**
+**Live App**: https://easypool-30af3.web.app
+
+## 🐛 **Troubleshooting**
+
+### **Build Issues**
+```bash
+# Clean and rebuild
+flutter clean
+flutter pub get
 flutter build web --release
-
-# With environment variable
-flutter build web --release --dart-define=GOOGLE_MAPS_API_KEY=your_key
-
-# Deploy build/web/ contents to your web server
 ```
 
-### Mobile Deployment
+### **Firebase Issues**
 ```bash
-# iOS
-flutter build ios --release
+# Check Firebase status
+firebase projects:list
 
-# Android
-flutter build apk --release
+# Reinitialize if needed
+firebase init hosting
 ```
 
-## Environment Variables
+### **Git Issues**
+```bash
+# Reset to clean state
+git checkout develop
+git reset --hard origin/develop
+```
 
-| Variable | Description | Required |
-|----------|-------------|----------|
-| `GOOGLE_MAPS_API_KEY` | Google Maps API key for map functionality | Yes |
+## 🤝 **Contributing**
 
-## Contributing
+1. **Fork** the repository
+2. **Create** feature branch from `develop`
+3. **Develop** and test locally
+4. **Commit** with clear messages
+5. **Push** to your fork
+6. **Create** Pull Request to `develop` branch
 
-1. Follow Flutter best practices
-2. Use feature-based architecture
-3. Write tests for new features
-4. Update documentation
+### **Commit Message Format**
+```
+feat: Add new user authentication
+fix: Resolve login timeout issue
+docs: Update API documentation
+refactor: Simplify routing logic
+```
 
-## License
+## 📞 **Support**
+
+- **Issues**: Create GitHub issues for bugs/features
+- **Discussions**: Use GitHub Discussions for questions
+- **Documentation**: Check this README and inline code comments
+
+## 📄 **License**
 
 [Add your license information here]
 
-## Support
+---
 
-For support and questions:
-- Create an issue in the repository
-- Contact the development team
+**Happy Coding! 🎉**
+
+*This README reflects the complete development lifecycle from local development to production deployment.*
