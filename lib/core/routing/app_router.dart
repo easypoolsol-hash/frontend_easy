@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -9,18 +10,21 @@ import 'package:frontend_easy/features/home/presentation/screens/boarding_events
 import 'package:frontend_easy/features/map/presentation/screens/map_screen.dart';
 import 'package:frontend_easy/features/fleet/presentation/screens/route_map_screen.dart';
 import 'package:frontend_easy/features/school/presentation/screens/dashboard_screen.dart';
-import 'package:frontend_easy/core/services/firebase_auth_service.dart';
 
-/// Helper class to convert Stream to Listenable for GoRouter
+/// Industry Standard: Stream to ChangeNotifier adapter for go_router
+/// This is the official pattern from go_router documentation
+/// https://pub.dev/documentation/go_router/latest/topics/Configuration-topic.html#redirecting
 class GoRouterRefreshStream extends ChangeNotifier {
-  late final StreamSubscription<dynamic> _subscription;
-
   GoRouterRefreshStream(Stream<dynamic> stream) {
     notifyListeners();
     _subscription = stream.asBroadcastStream().listen(
-          (dynamic _) => notifyListeners(),
-        );
+      (_) {
+        notifyListeners();
+      },
+    );
   }
+
+  late final StreamSubscription<dynamic> _subscription;
 
   @override
   void dispose() {
@@ -29,29 +33,32 @@ class GoRouterRefreshStream extends ChangeNotifier {
   }
 }
 
-/// Application routing configuration using go_router
-/// Single source of truth for navigation with authentication guards
+/// Application routing configuration using go_router (Industry Standard)
+/// Pattern: Firebase Auth + go_router redirect
+/// Reference: https://codewithandrea.com/articles/flutter-navigation-authentication-go-router/
 final appRouterProvider = Provider<GoRouter>((ref) {
-  // Watch auth state to trigger router rebuilds
-  final authState = ref.watch(authStateProvider);
-  final authService = ref.watch(firebaseAuthServiceProvider);
+  final firebaseAuth = FirebaseAuth.instance;
 
   return GoRouter(
-    initialLocation: '/',
+    initialLocation: '/login',
     debugLogDiagnostics: true,
-    refreshListenable: GoRouterRefreshStream(authService.authStateChanges),
-    redirect: (context, state) {
-      // Get current auth state synchronously
-      final isAuthenticated = authState.value != null;
-      final isLoginPage = state.matchedLocation == '/login';
 
-      // If not authenticated and not on login page, redirect to login
-      if (!isAuthenticated && !isLoginPage) {
+    // Industry Standard: Listen to Firebase auth state changes
+    // Router automatically rebuilds when user logs in/out
+    refreshListenable: GoRouterRefreshStream(firebaseAuth.authStateChanges()),
+
+    redirect: (BuildContext context, GoRouterState state) {
+      final user = firebaseAuth.currentUser;
+      final isLoggedIn = user != null;
+      final isGoingToLogin = state.matchedLocation == '/login';
+
+      // Not logged in → redirect to login (unless already there)
+      if (!isLoggedIn && !isGoingToLogin) {
         return '/login';
       }
 
-      // If authenticated and on login page, redirect to home
-      if (isAuthenticated && isLoginPage) {
+      // Logged in but on login page → redirect to home
+      if (isLoggedIn && isGoingToLogin) {
         return '/';
       }
 
