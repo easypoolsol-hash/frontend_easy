@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:frontend_easy/shared/services/api_service.dart';
 
 /// Authentication Service - Fortune 500 Security Standards
@@ -11,17 +11,6 @@ class AuthService {
   static final AuthService _instance = AuthService._internal();
   factory AuthService() => _instance;
   AuthService._internal();
-
-  // Secure storage using platform-specific encryption
-  // iOS: KeyChain | Android: KeyStore | Web: AES encryption
-  final _secureStorage = const FlutterSecureStorage(
-    aOptions: AndroidOptions(
-      encryptedSharedPreferences: true,
-    ),
-    iOptions: IOSOptions(
-      accessibility: KeychainAccessibility.first_unlock,
-    ),
-  );
 
   // Storage keys
   static const _keyAccessToken = 'secure_access_token';
@@ -35,12 +24,14 @@ class AuthService {
 
   /// Get stored access token from secure storage
   Future<String?> getAccessToken() async {
-    return await _secureStorage.read(key: _keyAccessToken);
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_keyAccessToken);
   }
 
   /// Get stored refresh token from secure storage
   Future<String?> getRefreshToken() async {
-    return await _secureStorage.read(key: _keyRefreshToken);
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_keyRefreshToken);
   }
 
   /// Store authentication tokens in encrypted storage
@@ -50,8 +41,9 @@ class AuthService {
     required String refreshToken,
   }) async {
     // Write to encrypted storage (KeyChain/KeyStore)
-    await _secureStorage.write(key: _keyAccessToken, value: accessToken);
-    await _secureStorage.write(key: _keyRefreshToken, value: refreshToken);
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_keyAccessToken, accessToken);
+    await prefs.setString(_keyRefreshToken, refreshToken);
 
     // Update API client authorization header
     ApiService().client.dio.options.headers['Authorization'] = 'Bearer $accessToken';
@@ -84,8 +76,9 @@ class AuthService {
     }
 
     // Clear tokens from secure storage
-    await _secureStorage.delete(key: _keyAccessToken);
-    await _secureStorage.delete(key: _keyRefreshToken);
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_keyAccessToken);
+    await prefs.remove(_keyRefreshToken);
 
     // Clear authorization header from API client
     ApiService().client.dio.options.headers.remove('Authorization');

@@ -7,7 +7,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 /// Real-time bus tracking WebSocket service
 ///
@@ -22,7 +22,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 class BusTrackingWebSocketService {
   /// Base URL of the backend API
   final String baseUrl;
-  final FlutterSecureStorage _storage;
 
   WebSocketChannel? _channel;
   StreamController<List<Map<String, dynamic>>>? _locationsController;
@@ -46,8 +45,7 @@ class BusTrackingWebSocketService {
   /// Creates a bus tracking WebSocket service
   BusTrackingWebSocketService({
     required this.baseUrl,
-    FlutterSecureStorage? storage,
-  }) : _storage = storage ?? const FlutterSecureStorage() {
+  }) {
     _locationsController = StreamController<List<Map<String, dynamic>>>.broadcast();
     _statusController = StreamController<WebSocketConnectionStatus>.broadcast();
   }
@@ -60,8 +58,15 @@ class BusTrackingWebSocketService {
     _statusController?.add(WebSocketConnectionStatus.connecting);
 
     try {
-      // Get auth token
-      _cachedToken = await _storage.read(key: 'access_token');
+      // Get Firebase ID token for authentication
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null) {
+        _statusController?.add(WebSocketConnectionStatus.authError);
+        _isConnecting = false;
+        return;
+      }
+
+      _cachedToken = await user.getIdToken();
       if (_cachedToken == null) {
         _statusController?.add(WebSocketConnectionStatus.authError);
         _isConnecting = false;

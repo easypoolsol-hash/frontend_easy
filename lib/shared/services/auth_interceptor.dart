@@ -1,6 +1,5 @@
-import 'dart:async';
 import 'package:dio/dio.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 /// Firebase Auth Interceptor - Industry Standard (Google Security)
@@ -8,11 +7,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 /// Firebase handles token refresh automatically - NO manual refresh needed!
 /// Benefits: Zero security bugs, automatic token rotation, industry standard
 class AuthInterceptor extends Interceptor {
-  final Dio _dio;
-  final FlutterSecureStorage _storage = const FlutterSecureStorage();
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-  AuthInterceptor(this._dio);
+  AuthInterceptor();
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
@@ -27,12 +24,14 @@ class AuthInterceptor extends Interceptor {
           // Send Firebase token to backend
           options.headers['Authorization'] = 'Bearer $idToken';
           // Also cache for offline use
-          await _storage.write(key: 'firebase_id_token', value: idToken);
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('firebase_id_token', idToken);
         }
       } catch (e) {
         // Token refresh failed - user may be offline or token revoked
         // Try to use cached token
-        final cachedToken = await _storage.read(key: 'firebase_id_token');
+        final prefs = await SharedPreferences.getInstance();
+        final cachedToken = prefs.getString('firebase_id_token');
         if (cachedToken != null) {
           options.headers['Authorization'] = 'Bearer $cachedToken';
         }
@@ -50,7 +49,8 @@ class AuthInterceptor extends Interceptor {
     if (err.response?.statusCode == 401) {
       // Token is invalid - sign out user
       await _firebaseAuth.signOut();
-      await _storage.delete(key: 'firebase_id_token');
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove('firebase_id_token');
     }
 
     // Pass through all errors

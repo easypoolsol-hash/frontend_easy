@@ -1,9 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:frontend_easy/core/services/firebase_auth_service.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 /// Login state
 class LoginState {
@@ -33,7 +33,6 @@ class LoginState {
 /// Login notifier using Firebase Auth (industry standard, 100% secure)
 class LoginNotifier extends StateNotifier<AsyncValue<LoginState>> {
   final FirebaseAuthService _authService;
-  final FlutterSecureStorage _storage = const FlutterSecureStorage();
 
   LoginNotifier(this._authService) : super(const AsyncValue.data(LoginState()));
 
@@ -56,7 +55,8 @@ class LoginNotifier extends StateNotifier<AsyncValue<LoginState>> {
 
       if (idToken != null) {
         // Store Firebase token securely for API requests (optional - backend integration)
-        await _storage.write(key: 'firebase_id_token', value: idToken);
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('firebase_id_token', idToken);
 
         state = const AsyncValue.data(LoginState(isSuccess: true));
         // Navigation is handled by router redirect logic
@@ -81,7 +81,8 @@ class LoginNotifier extends StateNotifier<AsyncValue<LoginState>> {
         // User is logged in with Firebase
         final idToken = await user.getIdToken();
         if (idToken != null) {
-          await _storage.write(key: 'firebase_id_token', value: idToken);
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('firebase_id_token', idToken);
           state = const AsyncValue.data(LoginState(isSuccess: true));
           // Navigation handled by router
           return;
@@ -98,7 +99,8 @@ class LoginNotifier extends StateNotifier<AsyncValue<LoginState>> {
 
   Future<void> logout(BuildContext context) async {
     await _authService.signOut();
-    await _storage.delete(key: 'firebase_id_token');
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('firebase_id_token');
     if (context.mounted) {
       context.go('/login');
     }

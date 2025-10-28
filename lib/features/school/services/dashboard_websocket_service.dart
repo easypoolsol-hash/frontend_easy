@@ -7,7 +7,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 /// Real-time dashboard WebSocket service
 ///
@@ -21,7 +21,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 /// - Automatic reconnection on disconnect
 class DashboardWebSocketService {
   final String baseUrl;
-  final FlutterSecureStorage _storage;
 
   WebSocketChannel? _channel;
   StreamController<BoardingEventData>? _boardingEventsController;
@@ -45,8 +44,7 @@ class DashboardWebSocketService {
 
   DashboardWebSocketService({
     required this.baseUrl,
-    FlutterSecureStorage? storage,
-  }) : _storage = storage ?? const FlutterSecureStorage() {
+  }) {
     _boardingEventsController = StreamController<BoardingEventData>.broadcast();
     _statsController = StreamController<StatsUpdateData>.broadcast();
     _statusController = StreamController<WebSocketStatus>.broadcast();
@@ -60,8 +58,15 @@ class DashboardWebSocketService {
     _statusController?.add(WebSocketStatus.connecting);
 
     try {
-      // Get auth token
-      _cachedToken = await _storage.read(key: 'access_token');
+      // Get Firebase ID token for authentication
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null) {
+        _statusController?.add(WebSocketStatus.authError);
+        _isConnecting = false;
+        return;
+      }
+
+      _cachedToken = await user.getIdToken();
       if (_cachedToken == null) {
         _statusController?.add(WebSocketStatus.authError);
         _isConnecting = false;

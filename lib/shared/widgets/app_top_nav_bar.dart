@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:frontend_easy/shared/services/auth_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 /// Reusable top navigation bar
 class AppTopNavBar extends StatelessWidget {
@@ -135,8 +135,8 @@ class AppTopNavBar extends StatelessWidget {
     );
 
     if (shouldLogout == true && context.mounted) {
-      // Use AuthService to handle logout logic
-      await AuthService().logout();
+      // Use Firebase Auth to handle logout
+      await FirebaseAuth.instance.signOut();
 
       // Navigate to login
       if (context.mounted) {

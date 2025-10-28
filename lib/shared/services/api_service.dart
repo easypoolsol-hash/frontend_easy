@@ -21,7 +21,7 @@ class ApiService {
     _api = FrontendEasyApi(basePathOverride: ApiConfig.baseUrl);
 
     // Add automatic token refresh interceptor (Fortune 500 standard)
-    _api.dio.interceptors.add(AuthInterceptor(_api.dio));
+    _api.dio.interceptors.add(AuthInterceptor());
   }
 
   /// Get API endpoints access

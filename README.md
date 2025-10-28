@@ -123,23 +123,42 @@ flutter build web --release
 
 ## 🚀 **Deployment Process**
 
+### **Multi-Environment Deployment**
+
+We use **Firebase Hosting Channels** for separate staging and production environments:
+
+- **Staging (Develop)**: [https://easypool-30af3--develop.web.app](https://easypool-30af3--develop.web.app)
+  - Deployed automatically on every `develop` branch push
+  - Test new features safely before production
+
+- **Production (Master)**: [https://easypool-30af3.web.app](https://easypool-30af3.web.app)
+  - Deployed automatically on `master` branch merges
+  - Live production environment
+
 ### **Automatic Deployment (Recommended)**
+
 1. **Work on `develop`** branch
-2. **Test thoroughly** locally
-3. **Merge to `master`** when ready
-4. **GitHub Actions** automatically:
-   - Builds the app
-   - Deploys to Firebase Hosting
-   - Updates live site
+2. **Test thoroughly** locally and on staging
+3. **Merge to `master`** when ready for production
+4. **GitHub Actions** automatically deploys to production
 
 ### **Manual Deployment**
-```bash
-# Build
-flutter build web --release
 
-# Deploy
+```bash
+# Deploy to staging (develop channel)
+flutter build web --release
+firebase hosting:channel:deploy develop
+
+# Deploy to production (live channel)
+flutter build web --release
 firebase deploy --only hosting
 ```
+
+### **GitHub Actions CI/CD**
+
+- **Develop Branch**: Deploys to staging channel for testing
+- **Master Branch**: Deploys to production for live users
+- **Automated**: No manual intervention needed
 
 ## 🔐 **Authentication**
 
@@ -224,12 +243,15 @@ git push origin master  # Triggers auto-deployment
   5. Build web app
   6. Deploy to Firebase
 
-### **Deployment URL**
-**Live App**: https://easypool-30af3.web.app
+### **Deployment URLs**
+
+- **Staging Environment**: [https://easypool-30af3--develop-yrpdh4zu.web.app](https://easypool-30af3--develop-yrpdh4zu.web.app) (expires 2025-11-04)
+- **Production Environment**: [https://easypool-30af3.web.app](https://easypool-30af3.web.app)
 
 ## 🐛 **Troubleshooting**
 
 ### **Build Issues**
+
 ```bash
 # Clean and rebuild
 flutter clean
@@ -238,6 +260,7 @@ flutter build web --release
 ```
 
 ### **Firebase Issues**
+
 ```bash
 # Check Firebase status
 firebase projects:list
@@ -247,6 +270,7 @@ firebase init hosting
 ```
 
 ### **Git Issues**
+
 ```bash
 # Reset to clean state
 git checkout develop
@@ -263,7 +287,8 @@ git reset --hard origin/develop
 6. **Create** Pull Request to `develop` branch
 
 ### **Commit Message Format**
-```
+
+```text
 feat: Add new user authentication
 fix: Resolve login timeout issue
 docs: Update API documentation
@@ -282,6 +307,6 @@ refactor: Simplify routing logic
 
 ---
 
-**Happy Coding! 🎉**
+## **Happy Coding! 🎉**
 
-*This README reflects the complete development lifecycle from local development to production deployment.*
+*This README reflects the complete development lifecycle from local development to production deployment with Firebase Hosting and GitHub Actions CI/CD.*
