@@ -65,20 +65,23 @@ AttendanceRecord _$AttendanceRecordFromJson(Map<String, dynamic> json) =>
       },
     );
 
-Map<String, dynamic> _$AttendanceRecordToJson(AttendanceRecord instance) =>
-    <String, dynamic>{
-      'record_id': instance.recordId,
-      'student': instance.student,
-      'student_name': instance.studentName,
-      'student_grade': instance.studentGrade,
-      'date': instance.date.toIso8601String(),
-      'morning_boarded': ?instance.morningBoarded,
-      'morning_time': ?instance.morningTime?.toIso8601String(),
-      'afternoon_boarded': ?instance.afternoonBoarded,
-      'afternoon_time': ?instance.afternoonTime?.toIso8601String(),
-      'status': _$AttendanceRecordStatusEnumEnumMap[instance.status]!,
-      'created_at': instance.createdAt.toIso8601String(),
-    };
+Map<String, dynamic> _$AttendanceRecordToJson(
+  AttendanceRecord instance,
+) => <String, dynamic>{
+  'record_id': instance.recordId,
+  'student': instance.student,
+  'student_name': instance.studentName,
+  'student_grade': instance.studentGrade,
+  'date': instance.date.toIso8601String(),
+  if (instance.morningBoarded case final value?) 'morning_boarded': value,
+  if (instance.morningTime?.toIso8601String() case final value?)
+    'morning_time': value,
+  if (instance.afternoonBoarded case final value?) 'afternoon_boarded': value,
+  if (instance.afternoonTime?.toIso8601String() case final value?)
+    'afternoon_time': value,
+  'status': _$AttendanceRecordStatusEnumEnumMap[instance.status]!,
+  'created_at': instance.createdAt.toIso8601String(),
+};
 
 const _$AttendanceRecordStatusEnumEnumMap = {
   AttendanceRecordStatusEnum.present: 'present',

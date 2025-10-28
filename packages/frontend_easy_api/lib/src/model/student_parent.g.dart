@@ -53,7 +53,7 @@ Map<String, dynamic> _$StudentParentToJson(StudentParent instance) =>
       'parent': instance.parent,
       'relationship':
           _$StudentParentRelationshipEnumEnumMap[instance.relationship]!,
-      'is_primary': ?instance.isPrimary,
+      if (instance.isPrimary case final value?) 'is_primary': value,
       'parent_details': instance.parentDetails.toJson(),
       'student_details': instance.studentDetails,
     };

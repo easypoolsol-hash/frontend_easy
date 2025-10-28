@@ -63,8 +63,8 @@ Route _$RouteFromJson(Map<String, dynamic> json) => $checkedCreate(
 Map<String, dynamic> _$RouteToJson(Route instance) => <String, dynamic>{
   'route_id': instance.routeId,
   'name': instance.name,
-  'description': ?instance.description,
-  'is_active': ?instance.isActive,
+  if (instance.description case final value?) 'description': value,
+  if (instance.isActive case final value?) 'is_active': value,
   'stop_count': instance.stopCount,
   'total_students': instance.totalStudents,
   'route_stops': instance.routeStops.map((e) => e.toJson()).toList(),

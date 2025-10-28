@@ -16,4 +16,4 @@ KioskLog200Response _$KioskLog200ResponseFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$KioskLog200ResponseToJson(
   KioskLog200Response instance,
-) => <String, dynamic>{'status': ?instance.status};
+) => <String, dynamic>{if (instance.status case final value?) 'status': value};

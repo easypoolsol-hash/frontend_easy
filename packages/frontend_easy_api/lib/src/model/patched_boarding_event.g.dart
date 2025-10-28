@@ -51,16 +51,18 @@ PatchedBoardingEvent _$PatchedBoardingEventFromJson(
 Map<String, dynamic> _$PatchedBoardingEventToJson(
   PatchedBoardingEvent instance,
 ) => <String, dynamic>{
-  'event_id': ?instance.eventId,
-  'student': ?instance.student,
-  'kiosk_id': ?instance.kioskId,
-  'confidence_score': ?instance.confidenceScore,
-  'timestamp': ?instance.timestamp?.toIso8601String(),
-  'latitude': ?instance.latitude,
-  'longitude': ?instance.longitude,
-  'bus_route': ?instance.busRoute,
-  'face_image_url': ?instance.faceImageUrl,
-  'model_version': ?instance.modelVersion,
-  'metadata': ?instance.metadata,
-  'created_at': ?instance.createdAt?.toIso8601String(),
+  if (instance.eventId case final value?) 'event_id': value,
+  if (instance.student case final value?) 'student': value,
+  if (instance.kioskId case final value?) 'kiosk_id': value,
+  if (instance.confidenceScore case final value?) 'confidence_score': value,
+  if (instance.timestamp?.toIso8601String() case final value?)
+    'timestamp': value,
+  if (instance.latitude case final value?) 'latitude': value,
+  if (instance.longitude case final value?) 'longitude': value,
+  if (instance.busRoute case final value?) 'bus_route': value,
+  if (instance.faceImageUrl case final value?) 'face_image_url': value,
+  if (instance.modelVersion case final value?) 'model_version': value,
+  if (instance.metadata case final value?) 'metadata': value,
+  if (instance.createdAt?.toIso8601String() case final value?)
+    'created_at': value,
 };

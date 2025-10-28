@@ -44,12 +44,15 @@ PatchedAPIKey _$PatchedAPIKeyFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$PatchedAPIKeyToJson(PatchedAPIKey instance) =>
     <String, dynamic>{
-      'key_id': ?instance.keyId,
-      'kiosk_id': ?instance.kioskId,
-      'name': ?instance.name,
-      'permissions': ?instance.permissions,
-      'is_active': ?instance.isActive,
-      'expires_at': ?instance.expiresAt?.toIso8601String(),
-      'last_used': ?instance.lastUsed?.toIso8601String(),
-      'created_at': ?instance.createdAt?.toIso8601String(),
+      if (instance.keyId case final value?) 'key_id': value,
+      if (instance.kioskId case final value?) 'kiosk_id': value,
+      if (instance.name case final value?) 'name': value,
+      if (instance.permissions case final value?) 'permissions': value,
+      if (instance.isActive case final value?) 'is_active': value,
+      if (instance.expiresAt?.toIso8601String() case final value?)
+        'expires_at': value,
+      if (instance.lastUsed?.toIso8601String() case final value?)
+        'last_used': value,
+      if (instance.createdAt?.toIso8601String() case final value?)
+        'created_at': value,
     };

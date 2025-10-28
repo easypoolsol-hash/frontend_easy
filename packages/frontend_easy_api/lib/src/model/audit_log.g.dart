@@ -58,15 +58,15 @@ AuditLog _$AuditLogFromJson(Map<String, dynamic> json) => $checkedCreate(
 
 Map<String, dynamic> _$AuditLogToJson(AuditLog instance) => <String, dynamic>{
   'log_id': instance.logId,
-  'user': ?instance.user,
+  if (instance.user case final value?) 'user': value,
   'user_username': instance.userUsername,
   'user_email': instance.userEmail,
   'action': _$AuditLogActionEnumEnumMap[instance.action]!,
   'resource_type': _$AuditLogResourceTypeEnumEnumMap[instance.resourceType]!,
-  'resource_id': ?instance.resourceId,
-  'changes': ?instance.changes,
-  'ip_address': ?instance.ipAddress,
-  'user_agent': ?instance.userAgent,
+  if (instance.resourceId case final value?) 'resource_id': value,
+  if (instance.changes case final value?) 'changes': value,
+  if (instance.ipAddress case final value?) 'ip_address': value,
+  if (instance.userAgent case final value?) 'user_agent': value,
   'timestamp': instance.timestamp.toIso8601String(),
 };
 

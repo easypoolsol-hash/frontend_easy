@@ -74,21 +74,28 @@ PatchedStudent _$PatchedStudentFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$PatchedStudentToJson(PatchedStudent instance) =>
     <String, dynamic>{
-      'student_id': ?instance.studentId,
-      'school': ?instance.school,
-      'decrypted_name': ?instance.decryptedName,
-      'name': ?instance.name,
-      'grade': ?instance.grade,
-      'section': ?instance.section,
-      'assigned_bus': ?instance.assignedBus,
-      'status': ?_$PatchedStudentStatusEnumEnumMap[instance.status],
-      'enrollment_date': ?instance.enrollmentDate?.toIso8601String(),
-      'school_details': ?instance.schoolDetails?.toJson(),
-      'bus_details': ?instance.busDetails?.toJson(),
-      'parents': ?instance.parents?.map((e) => e.toJson()).toList(),
-      'photos': ?instance.photos?.map((e) => e.toJson()).toList(),
-      'created_at': ?instance.createdAt?.toIso8601String(),
-      'updated_at': ?instance.updatedAt?.toIso8601String(),
+      if (instance.studentId case final value?) 'student_id': value,
+      if (instance.school case final value?) 'school': value,
+      if (instance.decryptedName case final value?) 'decrypted_name': value,
+      if (instance.name case final value?) 'name': value,
+      if (instance.grade case final value?) 'grade': value,
+      if (instance.section case final value?) 'section': value,
+      if (instance.assignedBus case final value?) 'assigned_bus': value,
+      if (_$PatchedStudentStatusEnumEnumMap[instance.status] case final value?)
+        'status': value,
+      if (instance.enrollmentDate?.toIso8601String() case final value?)
+        'enrollment_date': value,
+      if (instance.schoolDetails?.toJson() case final value?)
+        'school_details': value,
+      if (instance.busDetails?.toJson() case final value?) 'bus_details': value,
+      if (instance.parents?.map((e) => e.toJson()).toList() case final value?)
+        'parents': value,
+      if (instance.photos?.map((e) => e.toJson()).toList() case final value?)
+        'photos': value,
+      if (instance.createdAt?.toIso8601String() case final value?)
+        'created_at': value,
+      if (instance.updatedAt?.toIso8601String() case final value?)
+        'updated_at': value,
     };
 
 const _$PatchedStudentStatusEnumEnumMap = {

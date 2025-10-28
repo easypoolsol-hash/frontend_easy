@@ -61,7 +61,7 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
   'email': instance.email,
   'role': instance.role,
   'role_name': instance.roleName,
-  'is_active': ?instance.isActive,
+  if (instance.isActive case final value?) 'is_active': value,
   'last_login': instance.lastLogin?.toIso8601String(),
   'created_at': instance.createdAt.toIso8601String(),
   'updated_at': instance.updatedAt.toIso8601String(),

@@ -8,7 +8,7 @@ import 'package:frontend_easy/features/home/presentation/screens/boarding_events
 import 'package:frontend_easy/features/map/presentation/screens/map_screen.dart';
 import 'package:frontend_easy/features/fleet/presentation/screens/route_map_screen.dart';
 import 'package:frontend_easy/features/school/presentation/screens/dashboard_screen.dart';
-import 'package:frontend_easy/shared/services/auth_service.dart';
+import 'package:frontend_easy/core/services/firebase_auth_service.dart';
 
 /// Application routing configuration using go_router
 /// Single source of truth for navigation with authentication guards
@@ -17,7 +17,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
     initialLocation: '/',
     debugLogDiagnostics: true,
     redirect: (context, state) async {
-      final isAuthenticated = await AuthService().isAuthenticated();
+      // Check Firebase authentication state
+      final firebaseAuth = FirebaseAuthService();
+      final currentUser = firebaseAuth.currentUser;
+      final isAuthenticated = currentUser != null;
       final isLoginPage = state.matchedLocation == '/login';
 
       // If not authenticated and not on login page, redirect to login

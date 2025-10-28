@@ -92,9 +92,10 @@ Map<String, dynamic> _$StudentToJson(Student instance) => <String, dynamic>{
   'decrypted_name': instance.decryptedName,
   'name': instance.name,
   'grade': instance.grade,
-  'section': ?instance.section,
-  'assigned_bus': ?instance.assignedBus,
-  'status': ?_$StudentStatusEnumEnumMap[instance.status],
+  if (instance.section case final value?) 'section': value,
+  if (instance.assignedBus case final value?) 'assigned_bus': value,
+  if (_$StudentStatusEnumEnumMap[instance.status] case final value?)
+    'status': value,
   'enrollment_date': instance.enrollmentDate.toIso8601String(),
   'school_details': instance.schoolDetails.toJson(),
   'bus_details': instance.busDetails.toJson(),

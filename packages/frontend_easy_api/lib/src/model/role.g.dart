@@ -45,9 +45,9 @@ Role _$RoleFromJson(Map<String, dynamic> json) => $checkedCreate(
 Map<String, dynamic> _$RoleToJson(Role instance) => <String, dynamic>{
   'role_id': instance.roleId,
   'name': _$RoleNameEnumEnumMap[instance.name]!,
-  'description': ?instance.description,
-  'permissions': ?instance.permissions,
-  'is_active': ?instance.isActive,
+  if (instance.description case final value?) 'description': value,
+  if (instance.permissions case final value?) 'permissions': value,
+  if (instance.isActive case final value?) 'is_active': value,
   'created_at': instance.createdAt.toIso8601String(),
   'updated_at': instance.updatedAt.toIso8601String(),
 };

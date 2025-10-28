@@ -66,23 +66,29 @@ PatchedBus _$PatchedBusFromJson(Map<String, dynamic> json) => $checkedCreate(
 
 Map<String, dynamic> _$PatchedBusToJson(PatchedBus instance) =>
     <String, dynamic>{
-      'bus_id': ?instance.busId,
-      'bus_number': ?instance.busNumber,
-      'license_plate': ?instance.licensePlate,
-      'route': ?instance.route,
-      'route_name': ?instance.routeName,
-      'capacity': ?instance.capacity,
-      'device_id': ?instance.deviceId,
-      'status': ?_$PatchedBusStatusEnumEnumMap[instance.status],
-      'manufacturer': ?instance.manufacturer,
-      'model': ?instance.model,
-      'year': ?instance.year,
-      'last_maintenance': ?instance.lastMaintenance?.toIso8601String(),
-      'assigned_students_count': ?instance.assignedStudentsCount,
-      'utilization_percentage': ?instance.utilizationPercentage,
-      'is_available': ?instance.isAvailable,
-      'created_at': ?instance.createdAt?.toIso8601String(),
-      'updated_at': ?instance.updatedAt?.toIso8601String(),
+      if (instance.busId case final value?) 'bus_id': value,
+      if (instance.busNumber case final value?) 'bus_number': value,
+      if (instance.licensePlate case final value?) 'license_plate': value,
+      if (instance.route case final value?) 'route': value,
+      if (instance.routeName case final value?) 'route_name': value,
+      if (instance.capacity case final value?) 'capacity': value,
+      if (instance.deviceId case final value?) 'device_id': value,
+      if (_$PatchedBusStatusEnumEnumMap[instance.status] case final value?)
+        'status': value,
+      if (instance.manufacturer case final value?) 'manufacturer': value,
+      if (instance.model case final value?) 'model': value,
+      if (instance.year case final value?) 'year': value,
+      if (instance.lastMaintenance?.toIso8601String() case final value?)
+        'last_maintenance': value,
+      if (instance.assignedStudentsCount case final value?)
+        'assigned_students_count': value,
+      if (instance.utilizationPercentage case final value?)
+        'utilization_percentage': value,
+      if (instance.isAvailable case final value?) 'is_available': value,
+      if (instance.createdAt?.toIso8601String() case final value?)
+        'created_at': value,
+      if (instance.updatedAt?.toIso8601String() case final value?)
+        'updated_at': value,
     };
 
 const _$PatchedBusStatusEnumEnumMap = {

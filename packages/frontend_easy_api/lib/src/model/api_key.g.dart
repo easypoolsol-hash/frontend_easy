@@ -48,10 +48,11 @@ APIKey _$APIKeyFromJson(Map<String, dynamic> json) => $checkedCreate(
 Map<String, dynamic> _$APIKeyToJson(APIKey instance) => <String, dynamic>{
   'key_id': instance.keyId,
   'kiosk_id': instance.kioskId,
-  'name': ?instance.name,
-  'permissions': ?instance.permissions,
-  'is_active': ?instance.isActive,
-  'expires_at': ?instance.expiresAt?.toIso8601String(),
+  if (instance.name case final value?) 'name': value,
+  if (instance.permissions case final value?) 'permissions': value,
+  if (instance.isActive case final value?) 'is_active': value,
+  if (instance.expiresAt?.toIso8601String() case final value?)
+    'expires_at': value,
   'last_used': instance.lastUsed?.toIso8601String(),
   'created_at': instance.createdAt.toIso8601String(),
 };

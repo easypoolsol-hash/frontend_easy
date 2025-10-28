@@ -51,7 +51,8 @@ Map<String, dynamic> _$BusBasicToJson(BusBasic instance) => <String, dynamic>{
   'bus_id': instance.busId,
   'license_plate': instance.licensePlate,
   'capacity': instance.capacity,
-  'status': ?_$BusBasicStatusEnumEnumMap[instance.status],
+  if (_$BusBasicStatusEnumEnumMap[instance.status] case final value?)
+    'status': value,
   'created_at': instance.createdAt.toIso8601String(),
   'updated_at': instance.updatedAt.toIso8601String(),
 };

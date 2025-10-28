@@ -50,8 +50,8 @@ Heartbeat _$HeartbeatFromJson(Map<String, dynamic> json) => $checkedCreate(
 Map<String, dynamic> _$HeartbeatToJson(Heartbeat instance) => <String, dynamic>{
   'timestamp': instance.timestamp.toIso8601String(),
   'database_version': instance.databaseVersion,
-  'database_hash': ?instance.databaseHash,
+  if (instance.databaseHash case final value?) 'database_hash': value,
   'student_count': instance.studentCount,
   'embedding_count': instance.embeddingCount,
-  'health': ?instance.health?.toJson(),
+  if (instance.health?.toJson() case final value?) 'health': value,
 };

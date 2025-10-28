@@ -27,7 +27,7 @@ Map<String, dynamic> _$PaginatedSchoolListToJson(
   PaginatedSchoolList instance,
 ) => <String, dynamic>{
   'count': instance.count,
-  'next': ?instance.next,
-  'previous': ?instance.previous,
+  if (instance.next case final value?) 'next': value,
+  if (instance.previous case final value?) 'previous': value,
   'results': instance.results.map((e) => e.toJson()).toList(),
 };

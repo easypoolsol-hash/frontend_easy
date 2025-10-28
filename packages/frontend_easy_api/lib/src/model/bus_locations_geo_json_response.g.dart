@@ -28,4 +28,7 @@ BusLocationsGeoJSONResponse _$BusLocationsGeoJSONResponseFromJson(
 
 Map<String, dynamic> _$BusLocationsGeoJSONResponseToJson(
   BusLocationsGeoJSONResponse instance,
-) => <String, dynamic>{'type': ?instance.type, 'features': instance.features};
+) => <String, dynamic>{
+  if (instance.type case final value?) 'type': value,
+  'features': instance.features,
+};

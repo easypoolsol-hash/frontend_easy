@@ -43,11 +43,13 @@ PatchedStudentPhoto _$PatchedStudentPhotoFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$PatchedStudentPhotoToJson(
   PatchedStudentPhoto instance,
 ) => <String, dynamic>{
-  'photo_id': ?instance.photoId,
-  'student': ?instance.student,
-  'photo': ?instance.photo,
-  'is_primary': ?instance.isPrimary,
-  'captured_at': ?instance.capturedAt?.toIso8601String(),
-  'student_details': ?instance.studentDetails,
-  'created_at': ?instance.createdAt?.toIso8601String(),
+  if (instance.photoId case final value?) 'photo_id': value,
+  if (instance.student case final value?) 'student': value,
+  if (instance.photo case final value?) 'photo': value,
+  if (instance.isPrimary case final value?) 'is_primary': value,
+  if (instance.capturedAt?.toIso8601String() case final value?)
+    'captured_at': value,
+  if (instance.studentDetails case final value?) 'student_details': value,
+  if (instance.createdAt?.toIso8601String() case final value?)
+    'created_at': value,
 };

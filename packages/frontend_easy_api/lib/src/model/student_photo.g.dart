@@ -53,9 +53,10 @@ Map<String, dynamic> _$StudentPhotoToJson(StudentPhoto instance) =>
     <String, dynamic>{
       'photo_id': instance.photoId,
       'student': instance.student,
-      'photo': ?instance.photo,
-      'is_primary': ?instance.isPrimary,
-      'captured_at': ?instance.capturedAt?.toIso8601String(),
+      if (instance.photo case final value?) 'photo': value,
+      if (instance.isPrimary case final value?) 'is_primary': value,
+      if (instance.capturedAt?.toIso8601String() case final value?)
+        'captured_at': value,
       'student_details': instance.studentDetails,
       'created_at': instance.createdAt.toIso8601String(),
     };

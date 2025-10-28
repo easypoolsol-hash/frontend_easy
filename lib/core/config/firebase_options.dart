@@ -21,11 +21,20 @@ class DefaultFirebaseOptions {
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-        return android;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for android - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.iOS:
-        return ios;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for ios - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -44,40 +53,12 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBtAqkWlSyYHLSpojPYSdrrT1G2_jBy24Q',
-    appId: '1:683213759629:web:YOUR_WEB_APP_ID',
-    messagingSenderId: '683213759629',
+    apiKey: 'AIzaSyAjxRph52IttictaOjnSEezQA3ayWw5iEQ',
+    appId: '1:725567398741:web:c0a8c0685d468a2888c5dc',
+    messagingSenderId: '725567398741',
     projectId: 'easypool-30af3',
     authDomain: 'easypool-30af3.firebaseapp.com',
-    storageBucket: 'easypool-30af3.appspot.com',
-  );
-
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBtAqkWlSyYHLSpojPYSdrrT1G2_jBy24Q',
-    appId: '1:683213759629:android:YOUR_ANDROID_APP_ID',
-    messagingSenderId: '683213759629',
-    projectId: 'easypool-30af3',
-    authDomain: 'easypool-30af3.firebaseapp.com',
-    storageBucket: 'easypool-30af3.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBtAqkWlSyYHLSpojPYSdrrT1G2_jBy24Q',
-    appId: '1:683213759629:ios:YOUR_IOS_APP_ID',
-    messagingSenderId: '683213759629',
-    projectId: 'easypool-30af3',
-    authDomain: 'easypool-30af3.firebaseapp.com',
-    storageBucket: 'easypool-30af3.appspot.com',
-    iosBundleId: 'com.easypool.frontendEasy',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBtAqkWlSyYHLSpojPYSdrrT1G2_jBy24Q',
-    appId: '1:683213759629:ios:YOUR_IOS_APP_ID',
-    messagingSenderId: '683213759629',
-    projectId: 'easypool-30af3',
-    authDomain: 'easypool-30af3.firebaseapp.com',
-    storageBucket: 'easypool-30af3.appspot.com',
-    iosBundleId: 'com.easypool.frontendEasy',
+    storageBucket: 'easypool-30af3.firebasestorage.app',
+    measurementId: 'G-4X27P59HRY',
   );
 }

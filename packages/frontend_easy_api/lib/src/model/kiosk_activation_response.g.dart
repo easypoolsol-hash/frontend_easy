@@ -49,6 +49,6 @@ Map<String, dynamic> _$KioskActivationResponseToJson(
   'access': instance.access,
   'refresh': instance.refresh,
   'kiosk_id': instance.kioskId,
-  'bus_id': ?instance.busId,
+  if (instance.busId case final value?) 'bus_id': value,
   'activation_token_destroyed': instance.activationTokenDestroyed,
 };

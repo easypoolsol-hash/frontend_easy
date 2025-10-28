@@ -52,8 +52,8 @@ Map<String, dynamic> _$StudentActivityToJson(StudentActivity instance) =>
       'school_student_id': instance.schoolStudentId,
       'student_name': instance.studentName,
       'grade': instance.grade,
-      'bus_number': ?instance.busNumber,
-      'route_name': ?instance.routeName,
+      if (instance.busNumber case final value?) 'bus_number': value,
+      if (instance.routeName case final value?) 'route_name': value,
       'events': instance.events.map((e) => e.toJson()).toList(),
       'event_count': instance.eventCount,
     };

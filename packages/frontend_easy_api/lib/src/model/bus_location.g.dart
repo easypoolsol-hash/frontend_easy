@@ -30,8 +30,8 @@ Map<String, dynamic> _$BusLocationToJson(BusLocation instance) =>
       'location_id': instance.locationId,
       'latitude': instance.latitude,
       'longitude': instance.longitude,
-      'accuracy': ?instance.accuracy,
-      'speed': ?instance.speed,
-      'heading': ?instance.heading,
+      if (instance.accuracy case final value?) 'accuracy': value,
+      if (instance.speed case final value?) 'speed': value,
+      if (instance.heading case final value?) 'heading': value,
       'timestamp': instance.timestamp.toIso8601String(),
     };

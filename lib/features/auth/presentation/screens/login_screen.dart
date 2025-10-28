@@ -15,7 +15,7 @@ class LoginScreen extends ConsumerStatefulWidget {
 }
 
 class _LoginScreenState extends ConsumerState<LoginScreen> {
-  final _usernameController = TextEditingController();
+  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _obscurePassword = true;
 
@@ -32,14 +32,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   void dispose() {
-    _usernameController.dispose();
+    _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
 
   Future<void> _login() async {
     await ref.read(loginProvider.notifier).login(
-      username: _usernameController.text,
+      email: _emailController.text,
       password: _passwordController.text,
       context: context,
     );
@@ -171,13 +171,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             ),
                             const SizedBox(height: 48),
 
-                            // Username field
+                            // Email field
                             TextField(
-                              controller: _usernameController,
+                              controller: _emailController,
                               decoration: InputDecoration(
-                                labelText: 'Username',
-                                hintText: 'Enter your username',
-                                prefixIcon: Icon(Icons.person_outline, color: Theme.of(context).colorScheme.primary),
+                                labelText: 'Email',
+                                hintText: 'Enter your email',
+                                prefixIcon: Icon(Icons.email_outlined, color: Theme.of(context).colorScheme.primary),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
                                   borderSide: const BorderSide(color: Colors.grey, width: 1.5),
@@ -232,6 +232,31 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               ),
                             ),
 
+                            // Success message
+                            if (state.isSuccess) ...[
+                              const SizedBox(height: 16),
+                              Container(
+                                padding: const EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                  color: Colors.green.shade50,
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(color: Colors.green.shade200),
+                                ),
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.check_circle_outline, color: Colors.green.shade700, size: 20),
+                                    const SizedBox(width: 8),
+                                    Expanded(
+                                      child: Text(
+                                        'Login successful! Redirecting...',
+                                        style: TextStyle(color: Colors.green.shade700),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+
                             // Error message
                             if (state.errorMessage != null) ...[
                               const SizedBox(height: 16),
@@ -248,7 +273,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                     const SizedBox(width: 8),
                                     Expanded(
                                       child: Text(
-                                        'Invalid username or password. Please try again.',
+                                        state.errorMessage ?? 'Invalid email or password. Please try again.',
                                         style: TextStyle(color: Colors.red.shade700),
                                       ),
                                     ),

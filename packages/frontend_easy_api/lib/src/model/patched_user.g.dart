@@ -44,13 +44,16 @@ PatchedUser _$PatchedUserFromJson(Map<String, dynamic> json) => $checkedCreate(
 
 Map<String, dynamic> _$PatchedUserToJson(PatchedUser instance) =>
     <String, dynamic>{
-      'user_id': ?instance.userId,
-      'username': ?instance.username,
-      'email': ?instance.email,
-      'role': ?instance.role,
-      'role_name': ?instance.roleName,
-      'is_active': ?instance.isActive,
-      'last_login': ?instance.lastLogin?.toIso8601String(),
-      'created_at': ?instance.createdAt?.toIso8601String(),
-      'updated_at': ?instance.updatedAt?.toIso8601String(),
+      if (instance.userId case final value?) 'user_id': value,
+      if (instance.username case final value?) 'username': value,
+      if (instance.email case final value?) 'email': value,
+      if (instance.role case final value?) 'role': value,
+      if (instance.roleName case final value?) 'role_name': value,
+      if (instance.isActive case final value?) 'is_active': value,
+      if (instance.lastLogin?.toIso8601String() case final value?)
+        'last_login': value,
+      if (instance.createdAt?.toIso8601String() case final value?)
+        'created_at': value,
+      if (instance.updatedAt?.toIso8601String() case final value?)
+        'updated_at': value,
     };

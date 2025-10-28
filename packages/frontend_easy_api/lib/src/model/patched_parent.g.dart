@@ -38,12 +38,13 @@ PatchedParent _$PatchedParentFromJson(
 
 Map<String, dynamic> _$PatchedParentToJson(PatchedParent instance) =>
     <String, dynamic>{
-      'parent_id': ?instance.parentId,
-      'decrypted_name': ?instance.decryptedName,
-      'decrypted_phone': ?instance.decryptedPhone,
-      'decrypted_email': ?instance.decryptedEmail,
-      'name': ?instance.name,
-      'phone': ?instance.phone,
-      'email': ?instance.email,
-      'created_at': ?instance.createdAt?.toIso8601String(),
+      if (instance.parentId case final value?) 'parent_id': value,
+      if (instance.decryptedName case final value?) 'decrypted_name': value,
+      if (instance.decryptedPhone case final value?) 'decrypted_phone': value,
+      if (instance.decryptedEmail case final value?) 'decrypted_email': value,
+      if (instance.name case final value?) 'name': value,
+      if (instance.phone case final value?) 'phone': value,
+      if (instance.email case final value?) 'email': value,
+      if (instance.createdAt?.toIso8601String() case final value?)
+        'created_at': value,
     };

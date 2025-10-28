@@ -51,7 +51,7 @@ Map<String, dynamic> _$DeviceLogToJson(DeviceLog instance) => <String, dynamic>{
   'kiosk_id': instance.kioskId,
   'log_level': _$DeviceLogLogLevelEnumEnumMap[instance.logLevel]!,
   'message': instance.message,
-  'metadata': ?instance.metadata,
+  if (instance.metadata case final value?) 'metadata': value,
   'timestamp': instance.timestamp.toIso8601String(),
 };
 

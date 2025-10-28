@@ -26,7 +26,8 @@ PatchedSchool _$PatchedSchoolFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$PatchedSchoolToJson(PatchedSchool instance) =>
     <String, dynamic>{
-      'school_id': ?instance.schoolId,
-      'name': ?instance.name,
-      'created_at': ?instance.createdAt?.toIso8601String(),
+      if (instance.schoolId case final value?) 'school_id': value,
+      if (instance.name case final value?) 'name': value,
+      if (instance.createdAt?.toIso8601String() case final value?)
+        'created_at': value,
     };

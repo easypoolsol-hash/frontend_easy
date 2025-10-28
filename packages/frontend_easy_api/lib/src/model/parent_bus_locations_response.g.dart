@@ -28,4 +28,7 @@ ParentBusLocationsResponse _$ParentBusLocationsResponseFromJson(
 
 Map<String, dynamic> _$ParentBusLocationsResponseToJson(
   ParentBusLocationsResponse instance,
-) => <String, dynamic>{'type': ?instance.type, 'features': instance.features};
+) => <String, dynamic>{
+  if (instance.type case final value?) 'type': value,
+  'features': instance.features,
+};

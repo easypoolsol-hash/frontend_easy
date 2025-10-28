@@ -68,8 +68,8 @@ Map<String, dynamic> _$BoardingEventCreateToJson(
   'confidence_score': instance.confidenceScore,
   'timestamp': instance.timestamp.toIso8601String(),
   'gps_coords': instance.gpsCoords,
-  'bus_route': ?instance.busRoute,
-  'face_image_url': ?instance.faceImageUrl,
+  if (instance.busRoute case final value?) 'bus_route': value,
+  if (instance.faceImageUrl case final value?) 'face_image_url': value,
   'model_version': instance.modelVersion,
-  'metadata': ?instance.metadata,
+  if (instance.metadata case final value?) 'metadata': value,
 };

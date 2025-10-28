@@ -39,5 +39,5 @@ Map<String, dynamic> _$RouteStopToJson(RouteStop instance) => <String, dynamic>{
   'latitude': instance.latitude,
   'longitude': instance.longitude,
   'sequence': instance.sequence,
-  'waypoints': ?instance.waypoints,
+  if (instance.waypoints case final value?) 'waypoints': value,
 };

@@ -41,13 +41,15 @@ PatchedStudentParent _$PatchedStudentParentFromJson(
 Map<String, dynamic> _$PatchedStudentParentToJson(
   PatchedStudentParent instance,
 ) => <String, dynamic>{
-  'student': ?instance.student,
-  'parent': ?instance.parent,
-  'relationship':
-      ?_$PatchedStudentParentRelationshipEnumEnumMap[instance.relationship],
-  'is_primary': ?instance.isPrimary,
-  'parent_details': ?instance.parentDetails?.toJson(),
-  'student_details': ?instance.studentDetails,
+  if (instance.student case final value?) 'student': value,
+  if (instance.parent case final value?) 'parent': value,
+  if (_$PatchedStudentParentRelationshipEnumEnumMap[instance.relationship]
+      case final value?)
+    'relationship': value,
+  if (instance.isPrimary case final value?) 'is_primary': value,
+  if (instance.parentDetails?.toJson() case final value?)
+    'parent_details': value,
+  if (instance.studentDetails case final value?) 'student_details': value,
 };
 
 const _$PatchedStudentParentRelationshipEnumEnumMap = {

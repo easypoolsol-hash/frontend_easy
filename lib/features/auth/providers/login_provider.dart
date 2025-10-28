@@ -51,17 +51,15 @@ class LoginNotifier extends StateNotifier<AsyncValue<LoginState>> {
         password: password,
       );
 
-      // Get Firebase ID token to send to backend
+      // Get Firebase ID token to send to backend (for future API calls)
       final idToken = await userCredential.user?.getIdToken();
 
       if (idToken != null) {
-        // Store token securely for API requests
+        // Store Firebase token securely for API requests (optional - backend integration)
         await _storage.write(key: 'firebase_id_token', value: idToken);
 
         state = const AsyncValue.data(LoginState(isSuccess: true));
-        if (context.mounted) {
-          context.go('/');
-        }
+        // Navigation is handled by router redirect logic
       } else {
         state = const AsyncValue.data(LoginState(
           errorMessage: 'Failed to get authentication token',
@@ -85,9 +83,7 @@ class LoginNotifier extends StateNotifier<AsyncValue<LoginState>> {
         if (idToken != null) {
           await _storage.write(key: 'firebase_id_token', value: idToken);
           state = const AsyncValue.data(LoginState(isSuccess: true));
-          if (context.mounted) {
-            context.go('/');
-          }
+          // Navigation handled by router
           return;
         }
       }

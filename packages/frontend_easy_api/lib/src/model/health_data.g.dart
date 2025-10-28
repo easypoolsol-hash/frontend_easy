@@ -56,13 +56,17 @@ HealthData _$HealthDataFromJson(Map<String, dynamic> json) => $checkedCreate(
 
 Map<String, dynamic> _$HealthDataToJson(HealthData instance) =>
     <String, dynamic>{
-      'battery_level': ?instance.batteryLevel,
-      'is_charging': ?instance.isCharging,
-      'storage_available_mb': ?instance.storageAvailableMb,
-      'camera_active': ?instance.cameraActive,
-      'network_type': ?instance.networkType,
-      'app_version': ?instance.appVersion,
-      'last_face_detected_ago_min': ?instance.lastFaceDetectedAgoMin,
-      'faces_detected_today': ?instance.facesDetectedToday,
-      'students_identified_today': ?instance.studentsIdentifiedToday,
+      if (instance.batteryLevel case final value?) 'battery_level': value,
+      if (instance.isCharging case final value?) 'is_charging': value,
+      if (instance.storageAvailableMb case final value?)
+        'storage_available_mb': value,
+      if (instance.cameraActive case final value?) 'camera_active': value,
+      if (instance.networkType case final value?) 'network_type': value,
+      if (instance.appVersion case final value?) 'app_version': value,
+      if (instance.lastFaceDetectedAgoMin case final value?)
+        'last_face_detected_ago_min': value,
+      if (instance.facesDetectedToday case final value?)
+        'faces_detected_today': value,
+      if (instance.studentsIdentifiedToday case final value?)
+        'students_identified_today': value,
     };

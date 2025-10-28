@@ -21,6 +21,6 @@ _$ApiV1KioskBoardingCreate200ResponseFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$ApiV1KioskBoardingCreate200ResponseToJson(
   ApiV1KioskBoardingCreate200Response instance,
 ) => <String, dynamic>{
-  'status': ?instance.status,
-  'message': ?instance.message,
+  if (instance.status case final value?) 'status': value,
+  if (instance.message case final value?) 'message': value,
 };

@@ -34,8 +34,9 @@ APIKeyCreate _$APIKeyCreateFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$APIKeyCreateToJson(APIKeyCreate instance) =>
     <String, dynamic>{
       'kiosk_id': instance.kioskId,
-      'name': ?instance.name,
-      'permissions': ?instance.permissions,
-      'expires_at': ?instance.expiresAt?.toIso8601String(),
+      if (instance.name case final value?) 'name': value,
+      if (instance.permissions case final value?) 'permissions': value,
+      if (instance.expiresAt?.toIso8601String() case final value?)
+        'expires_at': value,
       'raw_key': instance.rawKey,
     };

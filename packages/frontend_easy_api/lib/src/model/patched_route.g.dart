@@ -49,15 +49,19 @@ PatchedRoute _$PatchedRouteFromJson(Map<String, dynamic> json) =>
       },
     );
 
-Map<String, dynamic> _$PatchedRouteToJson(PatchedRoute instance) =>
-    <String, dynamic>{
-      'route_id': ?instance.routeId,
-      'name': ?instance.name,
-      'description': ?instance.description,
-      'is_active': ?instance.isActive,
-      'stop_count': ?instance.stopCount,
-      'total_students': ?instance.totalStudents,
-      'route_stops': ?instance.routeStops?.map((e) => e.toJson()).toList(),
-      'created_at': ?instance.createdAt?.toIso8601String(),
-      'updated_at': ?instance.updatedAt?.toIso8601String(),
-    };
+Map<String, dynamic> _$PatchedRouteToJson(
+  PatchedRoute instance,
+) => <String, dynamic>{
+  if (instance.routeId case final value?) 'route_id': value,
+  if (instance.name case final value?) 'name': value,
+  if (instance.description case final value?) 'description': value,
+  if (instance.isActive case final value?) 'is_active': value,
+  if (instance.stopCount case final value?) 'stop_count': value,
+  if (instance.totalStudents case final value?) 'total_students': value,
+  if (instance.routeStops?.map((e) => e.toJson()).toList() case final value?)
+    'route_stops': value,
+  if (instance.createdAt?.toIso8601String() case final value?)
+    'created_at': value,
+  if (instance.updatedAt?.toIso8601String() case final value?)
+    'updated_at': value,
+};

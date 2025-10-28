@@ -26,7 +26,7 @@ PaginatedRoleList _$PaginatedRoleListFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$PaginatedRoleListToJson(PaginatedRoleList instance) =>
     <String, dynamic>{
       'count': instance.count,
-      'next': ?instance.next,
-      'previous': ?instance.previous,
+      if (instance.next case final value?) 'next': value,
+      if (instance.previous case final value?) 'previous': value,
       'results': instance.results.map((e) => e.toJson()).toList(),
     };
