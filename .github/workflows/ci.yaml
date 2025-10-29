@@ -252,6 +252,11 @@ jobs:
       - name: Install Firebase CLI
         run: npm install -g firebase-tools
 
+      - name: Configure Firebase targets
+        run: |
+          firebase target:apply hosting develop easypool-30af3
+          firebase target:apply hosting live easypool-30af3
+
       - name: 🚀 Deploy to Firebase Hosting (develop channel)
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
@@ -313,6 +318,11 @@ jobs:
 
       - name: Install Firebase CLI
         run: npm install -g firebase-tools
+
+      - name: Configure Firebase targets
+        run: |
+          firebase target:apply hosting develop easypool-30af3
+          firebase target:apply hosting live easypool-30af3
 
       - name: 🚀 Deploy to Firebase Hosting (live)
         uses: FirebaseExtended/action-hosting-deploy@v0
