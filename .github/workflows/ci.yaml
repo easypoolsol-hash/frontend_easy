@@ -257,13 +257,15 @@ jobs:
           firebase target:apply hosting develop easypool-30af3
           firebase target:apply hosting live easypool-30af3
 
-      - name: 🚀 Deploy to Firebase Hosting (develop channel)
-        uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_EASYPOOL_30AF3 }}
-          channelId: develop
-          projectId: ${{ env.FIREBASE_PROJECT_ID }}
+      - name: Setup Firebase Authentication
+        run: |
+          echo ${{ secrets.FIREBASE_SERVICE_ACCOUNT_EASYPOOL_30AF3 }} > service-account.json
+          export GOOGLE_APPLICATION_CREDENTIALS=service-account.json
+
+      - name: 🚀 Deploy to Firebase Hosting (develop target)
+        run: firebase deploy --only hosting:develop --project ${{ env.FIREBASE_PROJECT_ID }}
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: service-account.json
 
       - name: ✅ Deployment Success
         run: |
@@ -324,13 +326,15 @@ jobs:
           firebase target:apply hosting develop easypool-30af3
           firebase target:apply hosting live easypool-30af3
 
-      - name: 🚀 Deploy to Firebase Hosting (live)
-        uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_EASYPOOL_30AF3 }}
-          channelId: live
-          projectId: ${{ env.FIREBASE_PROJECT_ID }}
+      - name: Setup Firebase Authentication
+        run: |
+          echo ${{ secrets.FIREBASE_SERVICE_ACCOUNT_EASYPOOL_30AF3 }} > service-account.json
+          export GOOGLE_APPLICATION_CREDENTIALS=service-account.json
+
+      - name: 🚀 Deploy to Firebase Hosting (live target)
+        run: firebase deploy --only hosting:live --project ${{ env.FIREBASE_PROJECT_ID }}
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: service-account.json
 
       - name: ✅ Production Deployment Success
         run: |
