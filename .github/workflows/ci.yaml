@@ -264,7 +264,6 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_EASYPOOL_30AF3 }}
           channelId: develop
           projectId: ${{ env.FIREBASE_PROJECT_ID }}
-          entryPoint: "/github/workspace"
 
       - name: ✅ Deployment Success
         run: |
@@ -332,7 +331,6 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_EASYPOOL_30AF3 }}
           channelId: live
           projectId: ${{ env.FIREBASE_PROJECT_ID }}
-          entryPoint: "/github/workspace"
 
       - name: ✅ Production Deployment Success
         run: |
