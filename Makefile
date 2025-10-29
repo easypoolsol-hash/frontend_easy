@@ -1,4 +1,4 @@
-.PHONY: help setup generate analyze test run-web build-web clean
+.PHONY: help setup generate analyze test run-web build-web clean deploy-live deploy-staging deploy-current
 
 # Default target - show help
 help:
@@ -16,6 +16,9 @@ help:
 	@echo ""
 	@echo "PRODUCTION:"
 	@echo "  make build-web     - Build for web deployment"
+	@echo "  make deploy-live   - Deploy master branch to live site"
+	@echo "  make deploy-staging- Deploy develop branch to staging site"
+	@echo "  make deploy-current- Deploy current branch (auto-detects live/staging)"
 	@echo ""
 	@echo "CLEANUP:"
 	@echo "  make clean         - Clean build artifacts"
@@ -61,3 +64,29 @@ clean:
 	@flutter clean
 	@rm -rf packages/frontend_easy_api
 	@echo "Cleanup complete!"
+
+# Deployment commands
+deploy-live:
+	@echo "🚀 Deploying master branch to LIVE site..."
+	@git checkout master
+	@flutter build web --release
+	@firebase target:apply hosting live easypool-30af3
+	@firebase deploy --only hosting:live
+	@echo "✅ Live deployment complete!"
+	@echo "🌐 URL: https://easypool-30af3.web.app"
+
+deploy-staging:
+	@echo "🧪 Deploying develop branch to STAGING site..."
+	@git checkout develop
+	@flutter build web --release
+	@firebase target:apply hosting develop easypool-30af3
+	@firebase hosting:channel:deploy develop --only develop
+	@echo "✅ Staging deployment complete!"
+	@echo "🌐 URL: https://easypool-30af3--develop-yrpdh4zu.web.app"
+
+deploy-current:
+	@echo "🔄 Deploying current branch..."
+	@echo "Current branch: $$(git branch --show-current)"
+	@echo "For master branch: use 'make deploy-live'"
+	@echo "For develop branch: use 'make deploy-staging'"
+	@echo "This command doesn't auto-detect - use the specific commands above!"

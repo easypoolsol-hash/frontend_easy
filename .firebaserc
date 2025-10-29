@@ -1,5 +1,15 @@
 {
   "projects": {
     "default": "easypool-30af3"
-  }
+  },
+  "targets": {
+    "easypool-30af3": {
+      "hosting": {
+        "develop": [
+          "easypool-30af3"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }
