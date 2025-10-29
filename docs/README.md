@@ -1,130 +1,70 @@
-# Frontend Easy
+# Imperial EasyPool Frontend
 
-A modern Flutter web application for Imperial EasyPool bus tracking system.
+Multi-platform Flutter application (Web, iOS, Android) for school bus management system with Firebase authentication and automated deployment.
 
-## 📚 Documentation
+## � **Development Lifecycle**
 
-All documentation has been organized in the [`docs/`](./docs/) folder:
-
-- [Setup Guide](./docs/ENV_SETUP.md) - Environment setup and configuration
-- [Implementation Summary](./docs/IMPLEMENTATION_SUMMARY.md) - Architecture overview
-- [CI/CD Analysis](./docs/CI_ANALYSIS.md) - Build and deployment pipeline
-- [Firebase Integration](./docs/FIREBASE_AUTH_MIGRATION.md) - Authentication setup
-- [Google Maps Security](./docs/GOOGLE_MAPS_SECURITY.md) - Maps API configuration
-- [App Icons Setup](./docs/APP_ICONS_SETUP_GUIDE.md) - Icon configuration
-- [Desktop App Installation](./docs/INSTALL_DESKTOP_APP.md) - Desktop deployment
-- [Map Features](./docs/MAP_MODES_EXPLAINED.md) - Map functionality
-- [Bus Markers](./docs/BUS_MARKER_COLOR_LOGIC.md) - Marker customization
-- [Custom Markers](./docs/CUSTOM_MAP_MARKERS_BEST_PRACTICES.md) - Best practices
-- [Favicon Setup](./docs/FAVICON_FIX_INSTRUCTIONS.md) - Favicon configuration
-
-## 🚀 Quick Start
-
-1. **Setup Environment:**
-   ```bash
-   make frontend-setup
-   ```
-
-2. **Run Development Server:**
-   ```bash
-   make frontend
-   ```
-
-3. **Build for Production:**
-   ```bash
-   make firebase-deploy
-   ```
-
-## 🏗️ Architecture
-
-- **Framework:** Flutter Web
-- **State Management:** Riverpod
-- **Routing:** Go Router
-- **Authentication:** Firebase Auth
-- **Maps:** Google Maps API
-- **Backend:** Django REST API with WebSockets
-
-## 📁 Project Structure
+### **Git Workflow: Develop → Master → Production**
 
 ```
-frontend_easy/
-├── docs/                    # 📚 Documentation
-├── lib/                     # 🏗️ Source code
-│   ├── core/               # Core functionality
-│   ├── features/           # Feature modules
-│   └── shared/             # Shared utilities
-├── packages/               # 📦 Local packages
-├── test/                   # 🧪 Tests
-└── web/                    # 🌐 Web assets
+┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+│   develop   │ -> │   master    │ -> │ Production  │
+│             │    │             │    │             │
+│ • Features  │    │ • Stable    │    │ • Live App  │
+│ • Testing   │    │ • Releases  │    │ • Firebase  │
+│ • CI/CD     │    │ • Merges    │    │ • Hosting   │
+└─────────────┘    └─────────────┘    └─────────────┘
 ```
 
-## 🔧 Development
+### **Branch Strategy**
 
-See the [Setup Guide](./docs/ENV_SETUP.md) for detailed development instructions.
+- **`develop`**: Active development branch
+  - All new features and bug fixes
+  - Continuous integration testing
+  - Safe experimentation environment
 
-## 📄 License
+- **`master`**: Production-ready branch
+  - Stable, tested code only
+  - Automatic deployment to Firebase Hosting
+  - Release candidates
 
-This project is part of the Imperial EasyPool system.
+### **Workflow Steps**
 
-## 🏗️ Architecture
+1. **Start Development**
+   ```bash
+   git checkout develop
+   git pull origin develop
+   ```
 
 2. **Create Feature Branch** (optional)
+   ```bash
+   git checkout -b feature/new-feature
+   ```
 
-- **Framework:** Flutter Web   ```bash
-
-- **State Management:** Riverpod   git checkout -b feature/new-feature
-
-- **Routing:** Go Router   ```
-
-- **Authentication:** Firebase Auth
-
-- **Maps:** Google Maps API3. **Develop & Test**
-
-- **Backend:** Django REST API with WebSockets   ```bash
-
+3. **Develop & Test**
+   ```bash
    flutter run -d web-server  # Test locally
-
-## 📁 Project Structure   flutter test               # Run tests
-
+   flutter test               # Run tests
    ```
 
-```
+4. **Commit Changes**
+   ```bash
+   git add .
+   git commit -m "feat: Add new feature"
+   git push origin develop
+   ```
 
-frontend_easy/4. **Commit Changes**
-
-├── docs/                    # 📚 Documentation   ```bash
-
-├── lib/                     # 🏗️ Source code   git add .
-
-│   ├── core/               # Core functionality   git commit -m "feat: Add new feature"
-
-│   ├── features/           # Feature modules   git push origin develop
-
-│   └── shared/             # Shared utilities   ```
-
-├── packages/               # 📦 Local packages
-
-├── test/                   # 🧪 Tests5. **Merge to Master** (when ready for production)
-
-└── web/                    # 🌐 Web assets   ```bash
-
-```   git checkout master
-
+5. **Merge to Master** (when ready for production)
+   ```bash
+   git checkout master
    git merge develop
-
-## 🔧 Development   git push origin master
-
+   git push origin master
    ```
-
-See the [Setup Guide](./docs/ENV_SETUP.md) for detailed development instructions.
 
 6. **Automatic Deployment**
-
-## 📄 License   - GitHub Actions triggers on `master` push
-
+   - GitHub Actions triggers on `master` push
    - Builds Flutter app
-
-This project is part of the Imperial EasyPool system.   - Deploys to Firebase Hosting
+   - Deploys to Firebase Hosting
    - App updates live at: https://easypool-30af3.web.app
 
 ## 📋 **Prerequisites**
