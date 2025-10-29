@@ -137,6 +137,17 @@ jobs:
           channel: 'stable'
           cache: true
 
+      # Cache Flutter pub dependencies
+      - name: Cache Flutter dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pub-cache
+            .dart_tool/package_config.json
+          key: flutter-pub-${{ runner.os }}-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            flutter-pub-${{ runner.os }}-
+
       - name: Install dependencies
         run: flutter pub get
 
@@ -161,8 +172,30 @@ jobs:
           channel: 'stable'
           cache: true
 
+      # Cache Flutter pub dependencies
+      - name: Cache Flutter dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pub-cache
+            .dart_tool/package_config.json
+          key: flutter-pub-${{ runner.os }}-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            flutter-pub-${{ runner.os }}-
+
       - name: Install dependencies
         run: flutter pub get
+
+      # Cache Flutter build
+      - name: Cache Flutter build
+        uses: actions/cache@v4
+        with:
+          path: |
+            build/
+            .flutter-plugins-dependencies
+          key: flutter-build-${{ runner.os }}-${{ hashFiles('**/pubspec.lock', 'lib/**', 'web/**', 'assets/**') }}
+          restore-keys: |
+            flutter-build-${{ runner.os }}-${{ hashFiles('**/pubspec.lock') }}-
 
       - name: Build web (release)
         run: flutter build web --release
@@ -203,6 +236,11 @@ jobs:
           name: web-build
           path: build/web
 
+      - name: Configure Firebase targets
+        run: |
+          firebase target:apply hosting develop easypool-30af3
+          firebase target:apply hosting live easypool-30af3
+
       - name: 🚀 Deploy to Firebase Hosting (develop channel)
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
@@ -210,6 +248,7 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_EASYPOOL_30AF3 }}
           channelId: develop
           projectId: ${{ env.FIREBASE_PROJECT_ID }}
+          entryPoint: "/github/workspace"
 
       - name: ✅ Deployment Success
         run: |
@@ -249,6 +288,11 @@ jobs:
           name: web-build
           path: build/web
 
+      - name: Configure Firebase targets
+        run: |
+          firebase target:apply hosting develop easypool-30af3
+          firebase target:apply hosting live easypool-30af3
+
       - name: 🚀 Deploy to Firebase Hosting (live)
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
@@ -256,6 +300,7 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_EASYPOOL_30AF3 }}
           channelId: live
           projectId: ${{ env.FIREBASE_PROJECT_ID }}
+          entryPoint: "/github/workspace"
 
       - name: ✅ Production Deployment Success
         run: |
