@@ -1,6 +1,12 @@
 name: Build Flutter Web
 description: Build Flutter web app for production (no caching - builds are fast)
 
+inputs:
+  api_base_url:
+    description: Backend API base URL (e.g., https://easypool-backend-staging-44387923111.asia-south1.run.app)
+    required: false
+    default: 'http://localhost:8000'
+
 runs:
   using: composite
   steps:
@@ -8,7 +14,8 @@ runs:
       shell: bash
       run: |
         echo "🏗️ Building Flutter web..."
-        flutter build web --release
+        echo "🔗 Backend URL: ${{ inputs.api_base_url }}"
+        flutter build web --release --dart-define=API_BASE_URL=${{ inputs.api_base_url }}
         echo "✅ Build complete"
 
     - name: Verify build output

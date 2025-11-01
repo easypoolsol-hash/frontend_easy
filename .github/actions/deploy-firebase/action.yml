@@ -12,10 +12,6 @@ inputs:
     description: Firebase project ID
     required: false
     default: easypool-30af3
-  build-artifact:
-    description: Name of build artifact to download
-    required: false
-    default: web-build-${{ github.sha }}
 
 outputs:
   deploy-url:
@@ -25,22 +21,16 @@ outputs:
 runs:
   using: composite
   steps:
-    - name: Download build artifact
-      uses: actions/download-artifact@v4
-      with:
-        name: ${{ inputs.build-artifact }}
-        path: build/web
-
-    - name: Verify build artifact
+    - name: Verify build output
       shell: bash
       run: |
-        echo "🔍 Verifying downloaded build..."
+        echo "🔍 Verifying build output..."
         if [ ! -f "build/web/index.html" ]; then
-          echo "❌ ERROR: Build artifact missing index.html!"
-          ls -la build/web/
+          echo "❌ ERROR: Build missing index.html!"
+          ls -la build/web/ || echo "build/web/ does not exist"
           exit 1
         fi
-        echo "✅ Build artifact verified"
+        echo "✅ Build verified and ready for deployment"
 
     - name: Setup Node.js
       uses: actions/setup-node@v4

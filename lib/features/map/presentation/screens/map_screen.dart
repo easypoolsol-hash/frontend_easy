@@ -6,6 +6,7 @@ import 'package:frontend_easy/features/fleet/providers/routes_provider.dart';
 import 'package:frontend_easy/features/fleet/providers/buses_provider.dart';
 import 'package:frontend_easy/features/map/widgets/route_map_widget.dart';
 import 'package:frontend_easy/shared/widgets/app_top_nav_bar.dart';
+import 'package:frontend_easy/shared/utils/error_handler.dart';
 
 /// Map screen - displays live bus tracking map with search functionality
 /// Real-time WebSocket updates for bus locations
@@ -174,10 +175,10 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                             },
                           ),
                           loading: () => _buildLoadingIndicator(),
-                          error: (error, stack) => _buildError('Failed to load buses: $error'),
+                          error: (error, stack) => _buildError(error, 'buses'),
                         ),
                         loading: () => _buildLoadingIndicator(),
-                        error: (error, stack) => _buildError('Failed to load routes: $error'),
+                        error: (error, stack) => _buildError(error, 'map data'),
                       ),
                     ],
                   ),
@@ -203,29 +204,39 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     );
   }
 
-  Widget _buildError(String message) {
+  Widget _buildError(dynamic error, String resourceName) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Icon(
-            Icons.error_outline,
+            Icons.cloud_off_outlined,
             size: 64,
             color: Colors.grey,
           ),
           const SizedBox(height: 16),
           Text(
-            message,
+            'Unable to load $resourceName',
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 8),
+          Text(
+            ErrorHandler.getUserFriendlyMessage(error),
+            style: const TextStyle(color: Colors.grey),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 24),
           FilledButton.icon(
             onPressed: () {
               ref.invalidate(routesProvider);
               ref.invalidate(busesProvider);
             },
             icon: const Icon(Icons.refresh),
-            label: const Text('Retry'),
+            label: const Text('Try Again'),
           ),
         ],
       ),

@@ -4,6 +4,7 @@ import 'package:frontend_easy/shared/widgets/app_top_nav_bar.dart';
 import 'package:frontend_easy/features/school/providers/dashboard_stats_provider.dart';
 import 'package:frontend_easy/features/school/providers/student_activity_provider.dart';
 import 'package:frontend_easy/features/school/providers/dashboard_websocket_provider.dart';
+import 'package:frontend_easy/shared/utils/error_handler.dart';
 import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 /// School Dashboard Screen
@@ -82,13 +83,26 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(Icons.error_outline, size: 48, color: Colors.red),
+                    const Icon(Icons.cloud_off_outlined, size: 64, color: Colors.grey),
                     const SizedBox(height: 16),
-                    Text('Error loading dashboard: $error'),
-                    const SizedBox(height: 16),
-                    ElevatedButton(
+                    const Text(
+                      'Unable to load dashboard',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      ErrorHandler.getUserFriendlyMessage(error),
+                      style: const TextStyle(color: Colors.grey),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 24),
+                    ElevatedButton.icon(
                       onPressed: () => ref.refresh(dashboardStatsProvider),
-                      child: const Text('Retry'),
+                      icon: const Icon(Icons.refresh),
+                      label: const Text('Try Again'),
                     ),
                   ],
                 ),
@@ -273,18 +287,31 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       ),
       error: (error, stack) => Card(
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(24),
           child: Column(
             children: [
-              const Icon(Icons.error_outline, size: 48, color: Colors.red),
+              const Icon(Icons.cloud_off_outlined, size: 48, color: Colors.grey),
+              const SizedBox(height: 12),
+              const Text(
+                'Unable to load student activity',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               const SizedBox(height: 8),
-              Text('Error loading student activity: $error'),
-              const SizedBox(height: 8),
-              ElevatedButton(
+              Text(
+                ErrorHandler.getUserFriendlyMessage(error),
+                style: const TextStyle(color: Colors.grey),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton.icon(
                 onPressed: () {
                   ref.invalidate(studentActivityFilteredProvider);
                 },
-                child: const Text('Retry'),
+                icon: const Icon(Icons.refresh),
+                label: const Text('Try Again'),
               ),
             ],
           ),

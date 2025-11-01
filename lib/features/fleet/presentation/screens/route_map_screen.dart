@@ -6,6 +6,7 @@ import 'package:frontend_easy/features/fleet/providers/routes_provider.dart';
 import 'package:frontend_easy/features/fleet/providers/buses_provider.dart';
 import 'package:frontend_easy/features/map/widgets/route_map_widget.dart';
 import 'package:frontend_easy/shared/widgets/app_top_nav_bar.dart';
+import 'package:frontend_easy/shared/utils/error_handler.dart';
 
 /// Main screen for route and fleet visualization
 /// Displays interactive map with bus search functionality
@@ -179,11 +180,11 @@ class _RouteMapScreenState extends ConsumerState<RouteMapScreen> {
                               );
                             },
                             loading: () => _buildLoadingIndicator(),
-                            error: (error, stack) => _buildError('Failed to load buses: $error'),
+                            error: (error, stack) => _buildError(error, 'buses'),
                           );
                         },
                         loading: () => _buildLoadingIndicator(),
-                        error: (error, stack) => _buildError('Failed to load routes: $error'),
+                        error: (error, stack) => _buildError(error, 'map data'),
                       ),
                     ],
                   ),
@@ -212,30 +213,38 @@ class _RouteMapScreenState extends ConsumerState<RouteMapScreen> {
     );
   }
 
-  Widget _buildError(String message) {
+  Widget _buildError(dynamic error, String resourceName) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            Icons.error_outline,
+          const Icon(
+            Icons.cloud_off_outlined,
             size: 64,
-            color: Theme.of(context).colorScheme.error,
+            color: Colors.grey,
           ),
           const SizedBox(height: 16),
           Text(
-            message,
-            style: Theme.of(context).textTheme.bodyLarge,
+            'Unable to load $resourceName',
+            style: Theme.of(context).textTheme.titleLarge,
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 8),
+          Text(
+            ErrorHandler.getUserFriendlyMessage(error),
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: Colors.grey,
+                ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 24),
           FilledButton.icon(
             onPressed: () {
               ref.invalidate(routesProvider);
               ref.invalidate(busesProvider);
             },
             icon: const Icon(Icons.refresh),
-            label: const Text('Retry'),
+            label: const Text('Try Again'),
           ),
         ],
       ),
