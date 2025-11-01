@@ -57,29 +57,52 @@ jobs:
           if [[ "${{ github.event_name }}" == "pull_request" ]]; then
             PATH_INDICATOR="🔍 PR VALIDATION"
             SHOULD_DEPLOY=false
+            echo "# 🎯 CHOSEN PATH: PR VALIDATION" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
             echo "## 🔍 PR VALIDATION" >> $GITHUB_STEP_SUMMARY
             echo "Quality checks + build only, no deployment" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Branch:** ${{ github.head_ref }}" >> $GITHUB_STEP_SUMMARY
+            echo "**Action:** Validate only (no deployment)" >> $GITHUB_STEP_SUMMARY
 
           # develop: deploy to develop site
           elif [[ "${{ github.ref }}" == "refs/heads/develop" ]]; then
             PATH_INDICATOR="🟡 DEVELOP → dev.easypool.in"
             SHOULD_DEPLOY=true
             DEPLOY_DEVELOP=true
+            echo "# 🎯 CHOSEN PATH: DEVELOP DEPLOYMENT" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
             echo "## 🟡 DEVELOP → dev.easypool.in" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Branch:** develop" >> $GITHUB_STEP_SUMMARY
+            echo "**Target:** Development environment" >> $GITHUB_STEP_SUMMARY
+            echo "**URL:** https://dev.easypool.in" >> $GITHUB_STEP_SUMMARY
 
           # master: deploy to staging site
           elif [[ "${{ github.ref }}" == "refs/heads/master" ]] || [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
             PATH_INDICATOR="🟠 STAGING → stage.easypool.in"
             SHOULD_DEPLOY=true
             DEPLOY_STAGING=true
+            echo "# 🎯 CHOSEN PATH: STAGING DEPLOYMENT" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
             echo "## 🟠 STAGING → stage.easypool.in" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Branch:** master/main" >> $GITHUB_STEP_SUMMARY
+            echo "**Target:** Staging environment" >> $GITHUB_STEP_SUMMARY
+            echo "**URL:** https://stage.easypool.in" >> $GITHUB_STEP_SUMMARY
 
           # v* tag: deploy to production
           elif [[ "${{ github.ref }}" == refs/tags/v* ]]; then
             PATH_INDICATOR="🔴 PRODUCTION → easypool.in"
             SHOULD_DEPLOY=true
             DEPLOY_PRODUCTION=true
+            echo "# 🎯 CHOSEN PATH: PRODUCTION DEPLOYMENT" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
             echo "## 🔴 PRODUCTION → easypool.in" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Tag:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+            echo "**Target:** Production environment" >> $GITHUB_STEP_SUMMARY
+            echo "**URL:** https://easypool.in" >> $GITHUB_STEP_SUMMARY
           fi
 
           # Set outputs

@@ -49,8 +49,6 @@ runs:
       uses: actions/setup-node@v4
       with:
         node-version: '20'
-        cache: npm
-        cache-dependency-path: '**/package-lock.json'
 
     - name: Cache Firebase CLI
       uses: actions/cache@v4
@@ -67,9 +65,9 @@ runs:
     - name: Configure Firebase authentication
       shell: bash
       run: |
-        echo '${{ inputs.firebase-token }}' > ${{ runner.temp }}/firebase-sa.json
-        export GOOGLE_APPLICATION_CREDENTIALS=${{ runner.temp }}/firebase-sa.json
-        echo "GOOGLE_APPLICATION_CREDENTIALS=${{ runner.temp }}/firebase-sa.json" >> $GITHUB_ENV
+        echo '${{ inputs.firebase-token }}' > "${RUNNER_TEMP}/firebase-sa.json"
+        export GOOGLE_APPLICATION_CREDENTIALS="${RUNNER_TEMP}/firebase-sa.json"
+        echo "GOOGLE_APPLICATION_CREDENTIALS=${RUNNER_TEMP}/firebase-sa.json" >> $GITHUB_ENV
 
     - name: Deploy to Firebase Hosting
       id: deploy
@@ -102,4 +100,4 @@ runs:
       if: always()
       shell: bash
       run: |
-        rm -f ${{ runner.temp }}/firebase-sa.json
+        rm -f "${RUNNER_TEMP}/firebase-sa.json" || true
