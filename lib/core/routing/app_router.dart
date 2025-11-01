@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:frontend_easy/features/auth/presentation/screens/login_screen.dart';
+import 'package:frontend_easy/features/auth/presentation/screens/landing_screen.dart';
 import 'package:frontend_easy/features/home/presentation/screens/home_screen.dart';
 import 'package:frontend_easy/features/home/presentation/screens/boarding_events_screen.dart';
 import 'package:frontend_easy/features/map/presentation/screens/map_screen.dart';
@@ -40,7 +41,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
   final firebaseAuth = FirebaseAuth.instance;
 
   return GoRouter(
-    initialLocation: '/login',
+    initialLocation: '/',
     debugLogDiagnostics: true,
 
     // Industry Standard: Listen to Firebase auth state changes
@@ -50,15 +51,19 @@ final appRouterProvider = Provider<GoRouter>((ref) {
     redirect: (BuildContext context, GoRouterState state) {
       final user = firebaseAuth.currentUser;
       final isLoggedIn = user != null;
-      final isGoingToLogin = state.matchedLocation == '/login';
+      final location = state.matchedLocation;
 
-      // Not logged in → redirect to login (unless already there)
-      if (!isLoggedIn && !isGoingToLogin) {
-        return '/login';
+      // Public routes accessible to everyone
+      final publicRoutes = ['/', '/login'];
+      final isPublicRoute = publicRoutes.contains(location);
+
+      // If logged in and trying to access public routes → redirect to home
+      if (isLoggedIn && isPublicRoute) {
+        return '/home';
       }
 
-      // Logged in but on login page → redirect to home
-      if (isLoggedIn && isGoingToLogin) {
+      // If not logged in and trying to access protected route → redirect to landing
+      if (!isLoggedIn && !isPublicRoute) {
         return '/';
       }
 
@@ -67,6 +72,13 @@ final appRouterProvider = Provider<GoRouter>((ref) {
     },
     routes: [
       GoRoute(
+        path: '/',
+        name: 'landing',
+        pageBuilder: (context, state) => const MaterialPage(
+          child: LandingScreen(),
+        ),
+      ),
+      GoRoute(
         path: '/login',
         name: 'login',
         pageBuilder: (context, state) => const MaterialPage(
@@ -74,7 +86,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         ),
       ),
       GoRoute(
-        path: '/',
+        path: '/home',
         name: 'home',
         pageBuilder: (context, state) => const MaterialPage(
           child: HomeScreen(),

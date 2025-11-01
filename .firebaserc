@@ -6,6 +6,12 @@
     "easypool-30af3": {
       "hosting": {
         "develop": [
+          "easypool-develop"
+        ],
+        "staging": [
+          "easypool-staging"
+        ],
+        "live": [
           "easypool-30af3"
         ]
       }

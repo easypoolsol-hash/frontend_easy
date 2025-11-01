@@ -88,7 +88,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         ),
                         const SizedBox(height: 32),
                         const Text(
-                          'Imperial EasyPool',
+                          'EasyPool',
                           style: TextStyle(
                             fontSize: 42,
                             fontWeight: FontWeight.bold,
