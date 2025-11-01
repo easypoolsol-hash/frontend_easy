@@ -162,10 +162,10 @@ jobs:
 
       - uses: ./.github/actions/setup-flutter
 
-      - name: Build with candidate backend
+      - name: Build with dev backend
         uses: ./.github/actions/build-web
         with:
-          api_base_url: 'https://easypool-backend-candidate-44387923111.asia-south1.run.app'
+          api_base_url: 'https://easypool-backend-dev-44387923111.asia-south1.run.app'
 
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
@@ -182,7 +182,7 @@ jobs:
       - run: |
           echo "# 🟡 DEVELOP DEPLOYED" >> $GITHUB_STEP_SUMMARY
           echo "**URL:** https://dev.easypool.in" >> $GITHUB_STEP_SUMMARY
-          echo "**Backend:** https://easypool-backend-candidate-44387923111.asia-south1.run.app" >> $GITHUB_STEP_SUMMARY
+          echo "**Backend:** https://easypool-backend-dev-44387923111.asia-south1.run.app" >> $GITHUB_STEP_SUMMARY
 
   deploy-staging:
     name: 🟠 Deploy to Staging
