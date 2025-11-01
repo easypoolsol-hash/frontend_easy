@@ -1,5 +1,5 @@
 name: Build Flutter Web
-description: Build Flutter web app for production (no caching - builds are fast)
+description: Build Flutter web app for production (uses cache, no artifacts)
 
 inputs:
   api_base_url:
@@ -39,11 +39,6 @@ runs:
         echo ""
         echo "📁 Build contents:"
         ls -lh build/web/ | head -20
-
-    - name: Upload build artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: web-build-${{ github.sha }}
-        path: build/web
-        retention-days: 7
-        compression-level: 9
+        echo ""
+        echo "💡 Build output available at: build/web/"
+        echo "🚀 Ready for deployment (no artifact upload - deploying in same job)"
