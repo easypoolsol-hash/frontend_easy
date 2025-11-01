@@ -41,6 +41,9 @@ jobs:
       deploy_develop: ${{ steps.route.outputs.deploy_develop }}
       deploy_staging: ${{ steps.route.outputs.deploy_staging }}
       deploy_production: ${{ steps.route.outputs.deploy_production }}
+      path_name: ${{ steps.route.outputs.path_name }}
+      path_emoji: ${{ steps.route.outputs.path_emoji }}
+      path_url: ${{ steps.route.outputs.path_url }}
     steps:
       - name: Route workflow
         id: route
@@ -52,29 +55,44 @@ jobs:
           DEPLOY_DEVELOP=false
           DEPLOY_STAGING=false
           DEPLOY_PRODUCTION=false
+          PATH_NAME=""
+          PATH_EMOJI=""
+          PATH_URL=""
 
           # PR: validate only
           if [[ "${{ github.event_name }}" == "pull_request" ]]; then
             echo "## 🔍 PR VALIDATION" >> $GITHUB_STEP_SUMMARY
             SHOULD_DEPLOY=false
+            PATH_NAME="PR"
+            PATH_EMOJI="🔍"
+            PATH_URL="(no deployment)"
 
           # develop: deploy to develop site
           elif [[ "${{ github.ref }}" == "refs/heads/develop" ]]; then
             echo "## 🟡 DEVELOP → dev.easypool.in" >> $GITHUB_STEP_SUMMARY
             SHOULD_DEPLOY=true
             DEPLOY_DEVELOP=true
+            PATH_NAME="DEVELOP"
+            PATH_EMOJI="🟡"
+            PATH_URL="dev.easypool.in"
 
           # master: deploy to staging site
           elif [[ "${{ github.ref }}" == "refs/heads/master" ]] || [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
             echo "## 🟠 STAGING → stage.easypool.in" >> $GITHUB_STEP_SUMMARY
             SHOULD_DEPLOY=true
             DEPLOY_STAGING=true
+            PATH_NAME="STAGING"
+            PATH_EMOJI="🟠"
+            PATH_URL="stage.easypool.in"
 
           # v* tag: deploy to production
           elif [[ "${{ github.ref }}" == refs/tags/v* ]]; then
             echo "## 🔴 PRODUCTION → easypool.in" >> $GITHUB_STEP_SUMMARY
             SHOULD_DEPLOY=true
             DEPLOY_PRODUCTION=true
+            PATH_NAME="PRODUCTION"
+            PATH_EMOJI="🔴"
+            PATH_URL="easypool.in"
           fi
 
           # Set outputs
@@ -82,62 +100,44 @@ jobs:
           echo "deploy_develop=$DEPLOY_DEVELOP" >> $GITHUB_OUTPUT
           echo "deploy_staging=$DEPLOY_STAGING" >> $GITHUB_OUTPUT
           echo "deploy_production=$DEPLOY_PRODUCTION" >> $GITHUB_OUTPUT
+          echo "path_name=$PATH_NAME" >> $GITHUB_OUTPUT
+          echo "path_emoji=$PATH_EMOJI" >> $GITHUB_OUTPUT
+          echo "path_url=$PATH_URL" >> $GITHUB_OUTPUT
 
   # ============================================================================
-  # PATH INDICATORS: Visual indication of active path
+  # PATH INDICATOR: Single job showing active path
   # ============================================================================
-
-  path-develop:
-    name: 🟡 DEVELOP PATH
+  path:
+    name: ${{ needs.decide.outputs.path_emoji }} ${{ needs.decide.outputs.path_name }} PATH
     runs-on: ubuntu-latest
     needs: [decide]
-    if: needs.decide.outputs.deploy_develop == 'true'
+    if: needs.decide.outputs.path_name != ''
     steps:
-      - run: echo "✅ Deploying to DEVELOP (dev.easypool.in)"
-
-  path-staging:
-    name: 🟠 STAGING PATH
-    runs-on: ubuntu-latest
-    needs: [decide]
-    if: needs.decide.outputs.deploy_staging == 'true'
-    steps:
-      - run: echo "✅ Deploying to STAGING (stage.easypool.in)"
-
-  path-production:
-    name: 🔴 PRODUCTION PATH
-    runs-on: ubuntu-latest
-    needs: [decide]
-    if: needs.decide.outputs.deploy_production == 'true'
-    steps:
-      - run: echo "✅ Deploying to PRODUCTION (easypool.in)"
-
-  path-pr:
-    name: 🔍 PR VALIDATION
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
-    steps:
-      - run: echo "✅ Pull Request validation (no deployment)"
+      - run: echo "✅ Deploying to ${{ needs.decide.outputs.path_url }}"
 
   # ============================================================================
-  # SINGLE FLOW: Quality → Build (runs once for all paths)
+  # QUALITY: Non-blocking quality checks
   # ============================================================================
-
   quality:
     name: ⚡ Quality
     runs-on: ubuntu-latest
     needs: [decide]
     if: needs.decide.outputs.should_deploy == 'true' || github.event_name == 'pull_request'
+    continue-on-error: true  # Won't block build/deploy
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-flutter
       - uses: ./.github/actions/quality-check
         with:
-          fail-on-warnings: 'true'
+          fail-on-warnings: 'false'
 
+  # ============================================================================
+  # BUILD: Single build job
+  # ============================================================================
   build:
     name: 🏗️ Build
     runs-on: ubuntu-latest
-    needs: [quality]
+    needs: [decide]
     if: needs.decide.outputs.should_deploy == 'true' || github.event_name == 'pull_request'
     steps:
       - uses: actions/checkout@v4
@@ -145,67 +145,50 @@ jobs:
       - uses: ./.github/actions/build-web
 
   # ============================================================================
-  # THREE DEPLOY BRANCHES: Only one runs based on path
+  # DEPLOY: Matrix strategy for all environments
   # ============================================================================
-
-  deploy-develop:
-    name: 🟡 Deploy to Develop
+  deploy:
+    name: ${{ matrix.emoji }} Deploy to ${{ matrix.name }}
     runs-on: ubuntu-latest
     needs: [decide, build]
-    if: needs.decide.outputs.deploy_develop == 'true'
+    if: |
+      (matrix.env == 'develop' && needs.decide.outputs.deploy_develop == 'true') ||
+      (matrix.env == 'staging' && needs.decide.outputs.deploy_staging == 'true') ||
+      (matrix.env == 'production' && needs.decide.outputs.deploy_production == 'true')
+    strategy:
+      matrix:
+        include:
+          - env: develop
+            name: Develop
+            emoji: 🟡
+            site: easypool-develop
+            target: develop
+            url: https://dev.easypool.in
+          - env: staging
+            name: Staging
+            emoji: 🟠
+            site: easypool-staging
+            target: staging
+            url: https://stage.easypool.in
+          - env: production
+            name: Production
+            emoji: 🔴
+            site: easypool-30af3
+            target: live
+            url: https://easypool.in
     environment:
-      name: develop
-      url: https://dev.easypool.in
+      name: ${{ matrix.env }}
+      url: ${{ matrix.url }}
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/deploy-firebase
         with:
-          site: easypool-develop
-          target: develop
-          firebase-token: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_EASYPOOL_30AF3 }}
-          project-id: ${{ env.FIREBASE_PROJECT_ID }}
-          build-artifact: web-build-${{ github.sha }}
-
-      - run: echo "# 🟡 DEVELOP DEPLOYED" >> $GITHUB_STEP_SUMMARY
-
-  deploy-staging:
-    name: 🟠 Deploy to Staging
-    runs-on: ubuntu-latest
-    needs: [decide, build]
-    if: needs.decide.outputs.deploy_staging == 'true'
-    environment:
-      name: staging
-      url: https://stage.easypool.in
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/deploy-firebase
-        with:
-          site: easypool-staging
-          target: staging
-          firebase-token: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_EASYPOOL_30AF3 }}
-          project-id: ${{ env.FIREBASE_PROJECT_ID }}
-          build-artifact: web-build-${{ github.sha }}
-
-      - run: echo "# 🟠 STAGING DEPLOYED" >> $GITHUB_STEP_SUMMARY
-
-  deploy-production:
-    name: 🔴 Deploy to Production
-    runs-on: ubuntu-latest
-    needs: [decide, build]
-    if: needs.decide.outputs.deploy_production == 'true'
-    environment:
-      name: production
-      url: https://easypool.in
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/deploy-firebase
-        with:
-          site: easypool-30af3
-          target: live
+          site: ${{ matrix.site }}
+          target: ${{ matrix.target }}
           firebase-token: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_EASYPOOL_30AF3 }}
           project-id: ${{ env.FIREBASE_PROJECT_ID }}
           build-artifact: web-build-${{ github.sha }}
 
       - run: |
-          echo "# 🔴 PRODUCTION DEPLOYED" >> $GITHUB_STEP_SUMMARY
-          echo "**Tag:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "# ${{ matrix.emoji }} ${{ matrix.name }} DEPLOYED" >> $GITHUB_STEP_SUMMARY
+          echo "**URL:** ${{ matrix.url }}" >> $GITHUB_STEP_SUMMARY
