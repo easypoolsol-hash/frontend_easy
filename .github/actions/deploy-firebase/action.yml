@@ -68,10 +68,14 @@ runs:
         echo "📦 Project: ${{ inputs.project-id }}"
         echo ""
 
+        # Get access token from authenticated gcloud
+        ACCESS_TOKEN=$(gcloud auth print-access-token)
+
         # Deploy to the specific site using target
         firebase deploy \
           --only hosting:${{ inputs.target }} \
           --project ${{ inputs.project-id }} \
+          --token "${ACCESS_TOKEN}" \
           --non-interactive
 
         # Construct URL based on site name
