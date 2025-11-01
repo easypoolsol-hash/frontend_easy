@@ -153,13 +153,22 @@ jobs:
     environment:
       name: develop
       url: https://dev.easypool.in
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: 'projects/725567398741/locations/global/workloadIdentityPools/github-actions-pool/providers/github-provider'
+          service_account: 'firebase-deployer@easypool-30af3.iam.gserviceaccount.com'
+
       - uses: ./.github/actions/deploy-firebase
         with:
           site: easypool-develop
           target: develop
-          firebase-token: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_EASYPOOL_30AF3 }}
           project-id: ${{ env.FIREBASE_PROJECT_ID }}
           build-artifact: web-build-${{ github.sha }}
 
@@ -175,13 +184,22 @@ jobs:
     environment:
       name: staging
       url: https://stage.easypool.in
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: 'projects/725567398741/locations/global/workloadIdentityPools/github-actions-pool/providers/github-provider'
+          service_account: 'firebase-deployer@easypool-30af3.iam.gserviceaccount.com'
+
       - uses: ./.github/actions/deploy-firebase
         with:
           site: easypool-staging
           target: staging
-          firebase-token: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_EASYPOOL_30AF3 }}
           project-id: ${{ env.FIREBASE_PROJECT_ID }}
           build-artifact: web-build-${{ github.sha }}
 
@@ -197,13 +215,22 @@ jobs:
     environment:
       name: production
       url: https://easypool.in
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: 'projects/725567398741/locations/global/workloadIdentityPools/github-actions-pool/providers/github-provider'
+          service_account: 'firebase-deployer@easypool-30af3.iam.gserviceaccount.com'
+
       - uses: ./.github/actions/deploy-firebase
         with:
           site: easypool-30af3
           target: live
-          firebase-token: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_EASYPOOL_30AF3 }}
           project-id: ${{ env.FIREBASE_PROJECT_ID }}
           build-artifact: web-build-${{ github.sha }}
 
