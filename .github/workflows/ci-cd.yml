@@ -113,14 +113,13 @@ jobs:
           echo "path_indicator=$PATH_INDICATOR" >> $GITHUB_OUTPUT
 
   # ============================================================================
-  # QUALITY: Non-blocking quality checks
+  # QUALITY: Parallel quality checks (blocking for deployment)
   # ============================================================================
   quality:
     name: ⚡ Quality
     runs-on: ubuntu-latest
     needs: [decide]
     if: needs.decide.outputs.should_deploy == 'true' || github.event_name == 'pull_request'
-    continue-on-error: true  # Won't block build/deploy
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-flutter
@@ -148,7 +147,7 @@ jobs:
   deploy-develop:
     name: 🟡 Deploy to Develop
     runs-on: ubuntu-latest
-    needs: [decide, build]
+    needs: [decide, quality, build]
     if: needs.decide.outputs.deploy_develop == 'true'
     environment:
       name: develop
@@ -179,7 +178,7 @@ jobs:
   deploy-staging:
     name: 🟠 Deploy to Staging
     runs-on: ubuntu-latest
-    needs: [decide, build]
+    needs: [decide, quality, build]
     if: needs.decide.outputs.deploy_staging == 'true'
     environment:
       name: staging
@@ -210,7 +209,7 @@ jobs:
   deploy-production:
     name: 🔴 Deploy to Production
     runs-on: ubuntu-latest
-    needs: [decide, build]
+    needs: [decide, quality, build]
     if: needs.decide.outputs.deploy_production == 'true'
     environment:
       name: production
