@@ -1,0 +1,263 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ master, main, develop ]
+    tags:
+      - 'v*'
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - 'doc_new/**'
+      - '.vscode/**'
+      - '.idea/**'
+      - 'LICENSE'
+  pull_request:
+    branches: [ master, main, develop ]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - 'doc_new/**'
+      - '.vscode/**'
+      - '.idea/**'
+      - 'LICENSE'
+
+permissions:
+  contents: read
+  checks: write
+
+env:
+  FIREBASE_PROJECT_ID: easypool-30af3
+
+jobs:
+  # ============================================================================
+  # DECISION HEAD: Route to correct deployment path
+  # ============================================================================
+  # develop → deploy to easypool-develop (dev.easypool.in)
+  # master  → deploy to easypool-staging (stage.easypool.in)
+  # v* tag  → deploy to easypool-30af3 (easypool.in)
+  # PR      → validate only (no deploy)
+  # ============================================================================
+  decide:
+    name: 🎯 Decide deployment path
+    runs-on: ubuntu-latest
+    outputs:
+      should_deploy: ${{ steps.route.outputs.should_deploy }}
+      deploy_develop: ${{ steps.route.outputs.deploy_develop }}
+      deploy_staging: ${{ steps.route.outputs.deploy_staging }}
+      deploy_production: ${{ steps.route.outputs.deploy_production }}
+      require_quality: ${{ steps.route.outputs.require_quality }}
+    steps:
+      - name: Route workflow
+        id: route
+        run: |
+          echo "# 🎯 Workflow Routing Decision" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Event:** ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Ref:** ${{ github.ref }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Branch:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Commit:** \`${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Initialize outputs
+          SHOULD_DEPLOY=false
+          DEPLOY_DEVELOP=false
+          DEPLOY_STAGING=false
+          DEPLOY_PRODUCTION=false
+          REQUIRE_QUALITY=false
+
+          # PR: validate only
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            echo "## 🔍 PULL REQUEST MODE" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Actions:**" >> $GITHUB_STEP_SUMMARY
+            echo "- ✅ Quality checks (REQUIRED)" >> $GITHUB_STEP_SUMMARY
+            echo "- ✅ Build validation" >> $GITHUB_STEP_SUMMARY
+            echo "- ❌ No deployment" >> $GITHUB_STEP_SUMMARY
+
+            SHOULD_DEPLOY=false
+            REQUIRE_QUALITY=true
+
+          # develop branch: deploy to develop site
+          elif [[ "${{ github.ref }}" == "refs/heads/develop" ]]; then
+            echo "## 🟡 DEVELOP PATH" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Deployment:**" >> $GITHUB_STEP_SUMMARY
+            echo "- 🎯 Target: easypool-develop site" >> $GITHUB_STEP_SUMMARY
+            echo "- 🌐 URL: https://dev.easypool.in" >> $GITHUB_STEP_SUMMARY
+            echo "- 🔌 Backend: staging" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Quality:** ⚠️ Optional (won't block deployment)" >> $GITHUB_STEP_SUMMARY
+
+            SHOULD_DEPLOY=true
+            DEPLOY_DEVELOP=true
+            REQUIRE_QUALITY=false
+
+          # master branch: deploy to staging site
+          elif [[ "${{ github.ref }}" == "refs/heads/master" ]] || [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "## 🟠 STAGING PATH" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Deployment:**" >> $GITHUB_STEP_SUMMARY
+            echo "- 🎯 Target: easypool-staging site" >> $GITHUB_STEP_SUMMARY
+            echo "- 🌐 URL: https://stage.easypool.in" >> $GITHUB_STEP_SUMMARY
+            echo "- 🔌 Backend: candidate" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Quality:** ⚠️ Optional (won't block deployment)" >> $GITHUB_STEP_SUMMARY
+
+            SHOULD_DEPLOY=true
+            DEPLOY_STAGING=true
+            REQUIRE_QUALITY=false
+
+          # v* tag: deploy to production
+          elif [[ "${{ github.ref }}" == refs/tags/v* ]]; then
+            echo "## 🔴 PRODUCTION PATH" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Deployment:**" >> $GITHUB_STEP_SUMMARY
+            echo "- 🎯 Target: easypool-30af3 site (live)" >> $GITHUB_STEP_SUMMARY
+            echo "- 🌐 URL: https://easypool.in" >> $GITHUB_STEP_SUMMARY
+            echo "- 🔌 Backend: production" >> $GITHUB_STEP_SUMMARY
+            echo "- 🏷️ Tag: ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Quality:** ✅ REQUIRED" >> $GITHUB_STEP_SUMMARY
+
+            SHOULD_DEPLOY=true
+            DEPLOY_PRODUCTION=true
+            REQUIRE_QUALITY=true
+
+          else
+            echo "## ❓ UNKNOWN PATH" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "No deployment will occur." >> $GITHUB_STEP_SUMMARY
+
+            SHOULD_DEPLOY=false
+            REQUIRE_QUALITY=false
+          fi
+
+          # Set outputs
+          echo "should_deploy=$SHOULD_DEPLOY" >> $GITHUB_OUTPUT
+          echo "deploy_develop=$DEPLOY_DEVELOP" >> $GITHUB_OUTPUT
+          echo "deploy_staging=$DEPLOY_STAGING" >> $GITHUB_OUTPUT
+          echo "deploy_production=$DEPLOY_PRODUCTION" >> $GITHUB_OUTPUT
+          echo "require_quality=$REQUIRE_QUALITY" >> $GITHUB_OUTPUT
+
+  # ============================================================================
+  # QUALITY: Optional for dev/staging, Required for production/PR
+  # ============================================================================
+  quality:
+    name: ⚡ Quality checks
+    runs-on: ubuntu-latest
+    needs: [decide]
+    if: needs.decide.outputs.require_quality == 'true'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-flutter
+
+      - uses: ./.github/actions/quality-check
+        with:
+          fail-on-warnings: 'true'
+
+  # ============================================================================
+  # BUILD: Single build for all paths
+  # ============================================================================
+  build:
+    name: 🏗️ Build Flutter web
+    runs-on: ubuntu-latest
+    needs: [decide]
+    # Always run build (even if quality fails for optional paths)
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-flutter
+
+      - uses: ./.github/actions/build-web
+
+  # ============================================================================
+  # DEPLOY BRANCHES: Three explicit deployment targets
+  # ============================================================================
+
+  deploy-develop:
+    name: 🟡 Deploy to Develop
+    runs-on: ubuntu-latest
+    needs: [decide, build]
+    if: needs.decide.outputs.deploy_develop == 'true'
+    environment:
+      name: develop
+      url: https://dev.easypool.in
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/deploy-firebase
+        with:
+          site: easypool-develop
+          target: develop
+          firebase-token: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_EASYPOOL_30AF3 }}
+          project-id: ${{ env.FIREBASE_PROJECT_ID }}
+          build-artifact: web-build-${{ github.sha }}
+
+      - name: ✅ Deployment success
+        run: |
+          echo "# 🟡 DEVELOP DEPLOYMENT SUCCESSFUL" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Site:** easypool-develop" >> $GITHUB_STEP_SUMMARY
+          echo "**URL:** https://dev.easypool.in" >> $GITHUB_STEP_SUMMARY
+          echo "**Backend:** staging (runtime detection)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+  deploy-staging:
+    name: 🟠 Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: [decide, build]
+    if: needs.decide.outputs.deploy_staging == 'true'
+    environment:
+      name: staging
+      url: https://stage.easypool.in
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/deploy-firebase
+        with:
+          site: easypool-staging
+          target: staging
+          firebase-token: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_EASYPOOL_30AF3 }}
+          project-id: ${{ env.FIREBASE_PROJECT_ID }}
+          build-artifact: web-build-${{ github.sha }}
+
+      - name: ✅ Deployment success
+        run: |
+          echo "# 🟠 STAGING DEPLOYMENT SUCCESSFUL" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Site:** easypool-staging" >> $GITHUB_STEP_SUMMARY
+          echo "**URL:** https://stage.easypool.in" >> $GITHUB_STEP_SUMMARY
+          echo "**Backend:** candidate (runtime detection)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+  deploy-production:
+    name: 🔴 Deploy to Production
+    runs-on: ubuntu-latest
+    needs: [decide, build, quality]
+    if: needs.decide.outputs.deploy_production == 'true'
+    environment:
+      name: production
+      url: https://easypool.in
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/deploy-firebase
+        with:
+          site: easypool-30af3
+          target: live
+          firebase-token: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_EASYPOOL_30AF3 }}
+          project-id: ${{ env.FIREBASE_PROJECT_ID }}
+          build-artifact: web-build-${{ github.sha }}
+
+      - name: ✅ Production deployment success
+        run: |
+          echo "# 🔴 PRODUCTION DEPLOYMENT SUCCESSFUL" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Site:** easypool-30af3 (live)" >> $GITHUB_STEP_SUMMARY
+          echo "**URL:** https://easypool.in" >> $GITHUB_STEP_SUMMARY
+          echo "**Backend:** production (runtime detection)" >> $GITHUB_STEP_SUMMARY
+          echo "**Tag:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "🎉 **Production release complete!**" >> $GITHUB_STEP_SUMMARY

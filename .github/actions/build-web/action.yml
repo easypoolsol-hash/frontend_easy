@@ -1,0 +1,42 @@
+name: Build Flutter Web
+description: Build Flutter web app for production (no caching - builds are fast)
+
+runs:
+  using: composite
+  steps:
+    - name: Build Flutter web (release)
+      shell: bash
+      run: |
+        echo "🏗️ Building Flutter web..."
+        flutter build web --release --web-renderer html
+        echo "✅ Build complete"
+
+    - name: Verify build output
+      shell: bash
+      run: |
+        echo "🔍 Verifying build output..."
+        if [ ! -f "build/web/index.html" ]; then
+          echo "❌ ERROR: index.html not found in build output!"
+          exit 1
+        fi
+
+        if [ ! -d "build/web/assets" ]; then
+          echo "❌ ERROR: assets directory not found in build output!"
+          exit 1
+        fi
+
+        echo "✅ Build verification passed"
+        echo ""
+        echo "📊 Build size:"
+        du -sh build/web
+        echo ""
+        echo "📁 Build contents:"
+        ls -lh build/web/ | head -20
+
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: web-build-${{ github.sha }}
+        path: build/web
+        retention-days: 7
+        compression-level: 9

@@ -1,0 +1,45 @@
+name: Setup Flutter
+description: Install Flutter SDK with caching for faster builds
+
+inputs:
+  flutter-version:
+    description: Flutter version to install
+    required: false
+    default: '3.35.6'
+  cache-key:
+    description: Additional cache key suffix
+    required: false
+    default: ''
+
+runs:
+  using: composite
+  steps:
+    - name: Setup Flutter SDK
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: ${{ inputs.flutter-version }}
+        channel: stable
+        cache: true
+
+    - name: Cache pub dependencies
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.pub-cache
+          .dart_tool/package_config.json
+        key: flutter-pub-${{ runner.os }}-${{ hashFiles('**/pubspec.lock') }}${{ inputs.cache-key }}
+        restore-keys: |
+          flutter-pub-${{ runner.os }}-
+
+    - name: Get Flutter dependencies
+      shell: bash
+      run: flutter pub get
+
+    - name: Verify Flutter installation
+      shell: bash
+      run: |
+        echo "✅ Flutter version:"
+        flutter --version
+        echo ""
+        echo "✅ Dart version:"
+        dart --version

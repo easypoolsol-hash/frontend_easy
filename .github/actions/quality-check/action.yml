@@ -1,0 +1,76 @@
+name: Quality Checks
+description: Run Flutter analyze and format checks
+
+inputs:
+  fail-on-warnings:
+    description: Fail if analysis warnings are found
+    required: false
+    default: 'false'
+
+outputs:
+  analysis-result:
+    description: Analysis result (passed/failed)
+    value: ${{ steps.analyze.outcome }}
+  format-result:
+    description: Format check result (passed/failed)
+    value: ${{ steps.format.outcome }}
+
+runs:
+  using: composite
+  steps:
+    - name: Flutter analyze
+      id: analyze
+      shell: bash
+      continue-on-error: ${{ inputs.fail-on-warnings == 'false' }}
+      run: |
+        echo "🔍 Running Flutter analyze..."
+        flutter analyze --no-fatal-infos
+        ANALYZE_EXIT=$?
+
+        if [ $ANALYZE_EXIT -eq 0 ]; then
+          echo "✅ Analysis passed - no issues found"
+        else
+          echo "⚠️ Analysis found issues"
+        fi
+
+        exit $ANALYZE_EXIT
+
+    - name: Check Dart formatting
+      id: format
+      shell: bash
+      continue-on-error: true
+      run: |
+        echo "🎨 Checking Dart formatting..."
+        dart format --set-exit-if-changed --output none .
+        FORMAT_EXIT=$?
+
+        if [ $FORMAT_EXIT -eq 0 ]; then
+          echo "✅ Format check passed - code is properly formatted"
+        else
+          echo "⚠️ Format check failed - code needs formatting"
+          echo ""
+          echo "To fix, run: dart format ."
+        fi
+
+        exit $FORMAT_EXIT
+
+    - name: Quality summary
+      shell: bash
+      if: always()
+      run: |
+        echo "## 📊 Quality Check Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+
+        if [[ "${{ steps.analyze.outcome }}" == "success" ]]; then
+          echo "- ✅ **Analysis**: Passed" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "- ⚠️ **Analysis**: Failed" >> $GITHUB_STEP_SUMMARY
+        fi
+
+        if [[ "${{ steps.format.outcome }}" == "success" ]]; then
+          echo "- ✅ **Format**: Passed" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "- ⚠️ **Format**: Failed (run \`dart format .\`)" >> $GITHUB_STEP_SUMMARY
+        fi
+
+        echo "" >> $GITHUB_STEP_SUMMARY
