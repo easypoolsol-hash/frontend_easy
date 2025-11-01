@@ -141,52 +141,42 @@ jobs:
           echo "require_quality=$REQUIRE_QUALITY" >> $GITHUB_OUTPUT
 
   # ============================================================================
-  # QUALITY: Optional for dev/staging, Required for production/PR
+  # DEVELOP BRANCH: Quality → Build → Deploy to Develop
   # ============================================================================
-  quality:
-    name: ⚡ Quality checks
+
+  quality-develop:
+    name: 🟡 Quality (Develop)
     runs-on: ubuntu-latest
     needs: [decide]
-    if: needs.decide.outputs.require_quality == 'true'
+    if: needs.decide.outputs.deploy_develop == 'true'
+    continue-on-error: true  # Won't block deployment
     steps:
       - uses: actions/checkout@v4
-
       - uses: ./.github/actions/setup-flutter
-
       - uses: ./.github/actions/quality-check
         with:
-          fail-on-warnings: 'true'
+          fail-on-warnings: 'false'
 
-  # ============================================================================
-  # BUILD: Single build for all paths
-  # ============================================================================
-  build:
-    name: 🏗️ Build Flutter web
+  build-develop:
+    name: 🟡 Build (Develop)
     runs-on: ubuntu-latest
     needs: [decide]
-    # Always run build (even if quality fails for optional paths)
+    if: needs.decide.outputs.deploy_develop == 'true'
     steps:
       - uses: actions/checkout@v4
-
       - uses: ./.github/actions/setup-flutter
-
       - uses: ./.github/actions/build-web
-
-  # ============================================================================
-  # DEPLOY BRANCHES: Three explicit deployment targets
-  # ============================================================================
 
   deploy-develop:
     name: 🟡 Deploy to Develop
     runs-on: ubuntu-latest
-    needs: [decide, build]
+    needs: [decide, build-develop]
     if: needs.decide.outputs.deploy_develop == 'true'
     environment:
       name: develop
       url: https://dev.easypool.in
     steps:
       - uses: actions/checkout@v4
-
       - uses: ./.github/actions/deploy-firebase
         with:
           site: easypool-develop
@@ -202,19 +192,44 @@ jobs:
           echo "**Site:** easypool-develop" >> $GITHUB_STEP_SUMMARY
           echo "**URL:** https://dev.easypool.in" >> $GITHUB_STEP_SUMMARY
           echo "**Backend:** staging (runtime detection)" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
+
+  # ============================================================================
+  # STAGING BRANCH: Quality → Build → Deploy to Staging
+  # ============================================================================
+
+  quality-staging:
+    name: 🟠 Quality (Staging)
+    runs-on: ubuntu-latest
+    needs: [decide]
+    if: needs.decide.outputs.deploy_staging == 'true'
+    continue-on-error: true  # Won't block deployment
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-flutter
+      - uses: ./.github/actions/quality-check
+        with:
+          fail-on-warnings: 'false'
+
+  build-staging:
+    name: 🟠 Build (Staging)
+    runs-on: ubuntu-latest
+    needs: [decide]
+    if: needs.decide.outputs.deploy_staging == 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-flutter
+      - uses: ./.github/actions/build-web
 
   deploy-staging:
     name: 🟠 Deploy to Staging
     runs-on: ubuntu-latest
-    needs: [decide, build]
+    needs: [decide, build-staging]
     if: needs.decide.outputs.deploy_staging == 'true'
     environment:
       name: staging
       url: https://stage.easypool.in
     steps:
       - uses: actions/checkout@v4
-
       - uses: ./.github/actions/deploy-firebase
         with:
           site: easypool-staging
@@ -230,19 +245,43 @@ jobs:
           echo "**Site:** easypool-staging" >> $GITHUB_STEP_SUMMARY
           echo "**URL:** https://stage.easypool.in" >> $GITHUB_STEP_SUMMARY
           echo "**Backend:** candidate (runtime detection)" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
+
+  # ============================================================================
+  # PRODUCTION BRANCH: Quality (REQUIRED) → Build → Deploy to Production
+  # ============================================================================
+
+  quality-production:
+    name: 🔴 Quality (Production - REQUIRED)
+    runs-on: ubuntu-latest
+    needs: [decide]
+    if: needs.decide.outputs.deploy_production == 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-flutter
+      - uses: ./.github/actions/quality-check
+        with:
+          fail-on-warnings: 'true'
+
+  build-production:
+    name: 🔴 Build (Production)
+    runs-on: ubuntu-latest
+    needs: [decide, quality-production]
+    if: needs.decide.outputs.deploy_production == 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-flutter
+      - uses: ./.github/actions/build-web
 
   deploy-production:
     name: 🔴 Deploy to Production
     runs-on: ubuntu-latest
-    needs: [decide, build, quality]
+    needs: [decide, build-production]
     if: needs.decide.outputs.deploy_production == 'true'
     environment:
       name: production
       url: https://easypool.in
     steps:
       - uses: actions/checkout@v4
-
       - uses: ./.github/actions/deploy-firebase
         with:
           site: easypool-30af3
@@ -261,3 +300,28 @@ jobs:
           echo "**Tag:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "🎉 **Production release complete!**" >> $GITHUB_STEP_SUMMARY
+
+  # ============================================================================
+  # PR VALIDATION: Quality (REQUIRED) → Build (No Deploy)
+  # ============================================================================
+
+  quality-pr:
+    name: 🔍 Quality (PR)
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-flutter
+      - uses: ./.github/actions/quality-check
+        with:
+          fail-on-warnings: 'true'
+
+  build-pr:
+    name: 🔍 Build (PR - Validate Only)
+    runs-on: ubuntu-latest
+    needs: [quality-pr]
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-flutter
+      - uses: ./.github/actions/build-web
