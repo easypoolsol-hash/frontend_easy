@@ -31,10 +31,10 @@ env:
 
 jobs:
   # ============================================================================
-  # DECISION HEAD: Shows path and routes deployment
+  # DECISION HEAD: Routes deployment (path shown in summary)
   # ============================================================================
   decide:
-    name: 🎯 Decide → ${{ steps.route.outputs.path_indicator }}
+    name: 🎯 Decide
     runs-on: ubuntu-latest
     outputs:
       should_deploy: ${{ steps.route.outputs.should_deploy }}
