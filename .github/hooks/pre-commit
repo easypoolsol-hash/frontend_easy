@@ -1,0 +1,26 @@
+#!/bin/bash
+# Pre-commit hook to prevent direct commits to master/main branch
+
+BRANCH=$(git symbolic-ref --short HEAD 2>/dev/null)
+
+if [ "$BRANCH" = "master" ] || [ "$BRANCH" = "main" ]; then
+    echo ""
+    echo "❌ COMMIT BLOCKED: Direct commits to '$BRANCH' are not allowed!"
+    echo ""
+    echo "🔒 Branch Protection Policy:"
+    echo "   - All changes must go through 'develop' branch"
+    echo "   - Master/main only accepts merges from develop"
+    echo ""
+    echo "📋 Recommended workflow:"
+    echo "   1. Switch to develop:  git checkout develop"
+    echo "   2. Commit your changes: git commit"
+    echo "   3. Push to develop:    git push origin develop"
+    echo "   4. Merge develop → master when ready"
+    echo ""
+    echo "⚠️  If you REALLY need to commit to master (emergency fix):"
+    echo "   git commit --no-verify"
+    echo ""
+    exit 1
+fi
+
+exit 0
