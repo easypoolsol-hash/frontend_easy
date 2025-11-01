@@ -33,9 +33,12 @@ runs:
 
     - name: Get Flutter dependencies
       shell: bash
-      run: flutter pub get
+      run: |
+        echo "📦 Getting dependencies..."
+        flutter pub get
+        echo "✅ Dependencies installed"
 
-    - name: Verify Flutter installation
+    - name: Verify installation
       shell: bash
       run: |
         echo "✅ Flutter version:"
