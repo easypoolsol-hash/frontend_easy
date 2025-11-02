@@ -9,7 +9,7 @@ import 'package:frontend_easy/shared/services/api_service.dart';
 /// Auto-caches and updates on refresh
 final routesProvider = FutureProvider<List<api.Route>>((ref) async {
   try {
-    final apiService = ApiService().api;
+    final apiService = ref.watch(apiServiceProvider).api;
     final response = await apiService.apiV1RoutesList(isActive: true);
     // Convert BuiltList to List
     return response.data?.results.toList() ?? [];
@@ -24,7 +24,7 @@ final routeProvider = FutureProvider.family<api.Route?, String>((
   ref,
   routeId,
 ) async {
-  final apiService = ApiService().api;
+  final apiService = ref.watch(apiServiceProvider).api;
   final response = await apiService.apiV1RoutesRetrieve(routeId: routeId);
   return response.data;
 });

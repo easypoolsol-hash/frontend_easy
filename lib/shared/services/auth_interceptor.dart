@@ -1,59 +1,63 @@
 import 'package:dio/dio.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:frontend_easy/core/services/token_manager.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-/// Firebase Auth Interceptor - Industry Standard (Google Security)
+/// Firebase Auth Interceptor - Centralized Token Management
+/// Uses TokenManager for single source of truth
 /// Automatically attaches Firebase ID token to all API requests
-/// Firebase handles token refresh automatically - NO manual refresh needed!
-/// Benefits: Zero security bugs, automatic token rotation, industry standard
+/// Benefits: No duplicate token requests, automatic refresh, industry standard
 class AuthInterceptor extends Interceptor {
+  final TokenManager _tokenManager;
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-  AuthInterceptor();
+  AuthInterceptor(this._tokenManager);
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
-    // Get fresh Firebase ID token (automatically refreshed by Firebase SDK)
-    final user = _firebaseAuth.currentUser;
-    if (user != null) {
-      try {
-        // Firebase SDK handles token refresh automatically
-        // forceRefresh=true ensures we always get a valid token
-        final idToken = await user.getIdToken(true);
-        if (idToken != null && idToken.isNotEmpty) {
-          // Send Firebase token to backend
-          options.headers['Authorization'] = 'Bearer $idToken';
-          // Also cache for offline use
-          final prefs = await SharedPreferences.getInstance();
-          await prefs.setString('firebase_id_token', idToken);
-        }
-      } catch (e) {
-        // Token refresh failed - user may be offline or token revoked
-        // Try to use cached token
-        final prefs = await SharedPreferences.getInstance();
-        final cachedToken = prefs.getString('firebase_id_token');
-        if (cachedToken != null) {
-          options.headers['Authorization'] = 'Bearer $cachedToken';
-        }
-      }
+    // Get token from centralized manager (cached + auto-refreshed)
+    final token = await _tokenManager.getToken();
+
+    if (token != null && token.isNotEmpty) {
+      options.headers['Authorization'] = 'Bearer $token';
     }
+
     return handler.next(options);
   }
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
-    // With Firebase Auth, 401 errors mean:
-    // 1. User token is invalid/revoked (sign out user)
-    // 2. Backend configuration issue
-    // Firebase SDK already handles token refresh, so we don't need manual refresh logic!
-    if (err.response?.statusCode == 401) {
-      // Token is invalid - sign out user
-      await _firebaseAuth.signOut();
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.remove('firebase_id_token');
+    // Handle 401/403 errors - token may be expired or invalid
+    if (err.response?.statusCode == 401 || err.response?.statusCode == 403) {
+      // Try force refresh token once
+      final newToken = await _tokenManager.forceRefreshToken();
+
+      if (newToken != null) {
+        // Retry request with new token
+        final opts = err.requestOptions;
+        opts.headers['Authorization'] = 'Bearer $newToken';
+
+        try {
+          final dio = Dio();
+          final response = await dio.fetch(opts);
+          return handler.resolve(response);
+        } catch (e) {
+          // Retry failed - sign out user
+          await _firebaseAuth.signOut();
+        }
+      } else {
+        // Token refresh failed - sign out user
+        await _firebaseAuth.signOut();
+      }
     }
 
     // Pass through all errors
     return handler.next(err);
   }
 }
+
+/// Provider for AuthInterceptor
+final authInterceptorProvider = Provider<AuthInterceptor>((ref) {
+  final tokenManager = ref.watch(tokenManagerProvider);
+  return AuthInterceptor(tokenManager);
+});

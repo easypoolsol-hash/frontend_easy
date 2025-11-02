@@ -6,85 +6,106 @@
 /// Uses Mocktail (2025 best practice - no codegen, null-safe)
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:frontend_easy/shared/services/auth_service.dart';
 import 'package:frontend_easy/shared/services/api_service.dart';
+import 'package:frontend_easy/core/services/token_manager.dart';
 
-// Mock classes using Mocktail (no codegen needed!)
-class MockAuthService extends Mock implements AuthService {}
-class MockApiService extends Mock implements ApiService {}
+// Mock Firebase Auth
+class MockFirebaseAuth extends Mock implements FirebaseAuth {}
+class MockUser extends Mock implements User {}
 
 void main() {
-  group('Authentication Lifecycle Tests', () {
-    late AuthService authService;
-    late ApiService apiService;
+  group('Authentication Lifecycle Tests - Provider Pattern', () {
+    late MockFirebaseAuth mockAuth;
+    late MockUser mockUser;
 
     setUp(() {
-      authService = AuthService();
-      apiService = ApiService();
-      apiService.initialize();
+      mockAuth = MockFirebaseAuth();
+      mockUser = MockUser();
     });
 
-    test('Complete user auth flow: login → access API → token refresh → logout', () async {
-      // 1. Login (simulated - requires mock server for real test)
-      // TODO: Add mock server setup
-
-      // 2. Verify token stored in secure storage
-      await authService.storeTokens(
-        accessToken: 'test_access_token',
-        refreshToken: 'test_refresh_token',
+    test('Provider creates AuthService with dependencies', () {
+      final container = ProviderContainer(
+        overrides: [
+          authServiceProvider.overrideWithValue(AuthService(mockAuth)),
+        ],
       );
 
-      final isAuth = await authService.isAuthenticated();
-      expect(isAuth, isTrue);
+      final authService = container.read(authServiceProvider);
+      expect(authService, isNotNull);
 
-      // 3. Verify token retrieved
-      final accessToken = await authService.getAccessToken();
-      expect(accessToken, equals('test_access_token'));
+      container.dispose();
+    });
 
-      // 4. Logout
+    test('Auth state changes are reactive', () async {
+      when(() => mockAuth.authStateChanges())
+          .thenAnswer((_) => Stream.value(mockUser));
+
+      final container = ProviderContainer(
+        overrides: [
+          authServiceProvider.overrideWithValue(AuthService(mockAuth)),
+        ],
+      );
+
+      final authStateStream = container.read(currentUserProvider.stream);
+      final user = await authStateStream.first;
+
+      expect(user, isNotNull);
+
+      container.dispose();
+    });
+
+    test('Logout clears Firebase session', () async {
+      when(() => mockAuth.signOut()).thenAnswer((_) async => {});
+
+      final authService = AuthService(mockAuth);
       await authService.logout();
 
-      // 5. Verify tokens cleared
-      final isAuthAfterLogout = await authService.isAuthenticated();
-      expect(isAuthAfterLogout, isFalse);
+      verify(() => mockAuth.signOut()).called(1);
     });
 
-    test('Token lifecycle: 1-day lifetime for human users', () async {
-      // This test ensures frontend respects 1-day token lifetime
-      // Actual expiry handled by backend, but frontend should handle 401 properly
+    test('isAuthenticated returns true when user exists', () {
+      when(() => mockAuth.currentUser).thenReturn(mockUser);
 
-      await authService.storeTokens(
-        accessToken: 'test_token',
-        refreshToken: 'test_refresh',
-      );
-
-      expect(await authService.isAuthenticated(), isTrue);
+      final authService = AuthService(mockAuth);
+      expect(authService.isAuthenticated, isTrue);
     });
 
-    test('Secure storage: Tokens encrypted at rest', () async {
-      // Verify tokens are stored in secure storage (KeyChain/KeyStore)
-      // Not in plain SharedPreferences
+    test('isAuthenticated returns false when user is null', () {
+      when(() => mockAuth.currentUser).thenReturn(null);
 
-      const testToken = 'sensitive_jwt_token_12345';
-      await authService.storeTokens(
-        accessToken: testToken,
-        refreshToken: 'test_refresh',
-      );
-
-      final retrieved = await authService.getAccessToken();
-      expect(retrieved, equals(testToken));
+      final authService = AuthService(mockAuth);
+      expect(authService.isAuthenticated, isFalse);
     });
   });
 
   group('API Integration with Auth', () {
-    test('API calls include Authorization header', () {
-      // Verify API service properly attaches Bearer token
-      final apiService = ApiService();
-      apiService.initialize();
+    test('API calls include Authorization header via TokenManager', () {
+      // Verify API service properly attaches Bearer token via provider
+      final container = ProviderContainer();
+
+      final apiService = container.read(apiServiceProvider);
 
       // Auth interceptor should be added
       expect(apiService.client.dio.interceptors.length, greaterThan(0));
+
+      container.dispose();
+    });
+
+    test('Single TokenManager instance across app', () {
+      // Verify Fortune 500 pattern - single token manager
+      final container = ProviderContainer();
+
+      final tokenManager1 = container.read(tokenManagerProvider);
+      final tokenManager2 = container.read(tokenManagerProvider);
+
+      // Must be same instance
+      expect(identical(tokenManager1, tokenManager2), isTrue);
+
+      container.dispose();
     });
   });
 

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:frontend_easy/shared/widgets/app_top_nav_bar.dart';
+import 'package:frontend_easy/features/school/presentation/widgets/attendance_report_dialog.dart';
 import 'package:frontend_easy/features/school/providers/dashboard_stats_provider.dart';
-import 'package:frontend_easy/features/school/providers/student_activity_provider.dart';
 import 'package:frontend_easy/features/school/providers/dashboard_websocket_provider.dart';
+import 'package:frontend_easy/features/school/providers/student_activity_provider.dart';
 import 'package:frontend_easy/shared/utils/error_handler.dart';
+import 'package:frontend_easy/shared/widgets/app_top_nav_bar.dart';
 import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 /// School Dashboard Screen
@@ -193,6 +194,16 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                 ),
                 const Spacer(),
+                // Download Report Button
+                FilledButton.tonalIcon(
+                  onPressed: () => showAttendanceReportDialog(context),
+                  icon: const Icon(Icons.download_rounded, size: 18),
+                  label: const Text('Download Report'),
+                  style: FilledButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  ),
+                ),
+                const SizedBox(width: 8),
                 // Manual Refresh Button
                 IconButton(
                   icon: const Icon(Icons.refresh),

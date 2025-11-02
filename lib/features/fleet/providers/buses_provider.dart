@@ -7,7 +7,7 @@ import 'package:frontend_easy/shared/services/api_service.dart';
 /// Can filter by route, status, etc.
 final busesProvider = FutureProvider<List<api.Bus>>((ref) async {
   try {
-    final apiService = ApiService().api;
+    final apiService = ref.watch(apiServiceProvider).api;
     final response = await apiService.apiV1BusesList();
     return response.data?.results.toList() ?? [];
   } catch (e) {
@@ -18,14 +18,14 @@ final busesProvider = FutureProvider<List<api.Bus>>((ref) async {
 
 /// Provider for buses filtered by route
 final busesByRouteProvider = FutureProvider.family<List<api.Bus>, String>((ref, routeId) async {
-  final apiService = ApiService().api;
+  final apiService = ref.watch(apiServiceProvider).api;
   final response = await apiService.apiV1BusesList(route: routeId);
   return response.data?.results.toList() ?? [];
 });
 
 /// Provider for a single bus by ID
 final busProvider = FutureProvider.family<api.Bus?, String>((ref, busId) async {
-  final apiService = ApiService().api;
+  final apiService = ref.watch(apiServiceProvider).api;
   final response = await apiService.apiV1BusesRetrieve(busId: busId);
   return response.data;
 });

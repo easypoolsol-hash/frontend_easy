@@ -184,3 +184,75 @@ performance_patterns:
     - "Use WeakReference for circular dependencies"
     - "Clean up subscriptions in dispose()"
     - "Use family providers for parameterized dependencies"
+
+# ===================
+# TOKEN MANAGEMENT PATTERNS (Constitutional)
+# ===================
+# Critical: Prevents 403 errors from stale tokens
+# Fortune 500 Pattern: Single source of truth for authentication tokens
+token_management:
+  singleton_requirement:
+    rule: "EXACTLY ONE TokenManager instance per application"
+    rationale: "Multiple instances cause stale tokens and 403 Forbidden errors"
+    enforcement: |
+      - TokenManager MUST be provided via tokenManagerProvider
+      - All services (HTTP, WebSocket, etc.) MUST use ref.watch(tokenManagerProvider)
+      - NEVER create new TokenManager() instances directly
+      - NEVER use singleton pattern for services that need TokenManager
+
+  provider_injection:
+    rule: "All services requiring tokens MUST receive TokenManager via dependency injection"
+    pattern: |
+      class ApiService {
+        final TokenManager _tokenManager;
+        ApiService(this._tokenManager);  // Dependency injection
+      }
+
+      final apiServiceProvider = Provider<ApiService>((ref) {
+        final tokenManager = ref.watch(tokenManagerProvider);  // Single instance
+        return ApiService(tokenManager);
+      });
+
+  forbidden_patterns:
+    - pattern: "ApiService._() with internal TokenManager()"
+      reason: "Creates separate TokenManager instances, causes stale tokens"
+
+    - pattern: "final tokenManager = TokenManager(FirebaseAuth.instance)"
+      reason: "Creates new instance instead of using provider"
+
+    - pattern: "class ApiService { factory ApiService() => _instance; }"
+      reason: "Singleton pattern prevents dependency injection"
+
+  required_patterns:
+    - pattern: "ref.watch(tokenManagerProvider)"
+      usage: "All services needing tokens"
+
+    - pattern: "Provider-based dependency injection"
+      usage: "All stateless services (ApiService, WebSocket, etc.)"
+
+    - pattern: "Single TokenManager shared across HTTP + WebSocket"
+      usage: "Ensures consistent authentication state"
+
+  testing_requirements:
+    - "Test MUST verify single TokenManager instance across app"
+    - "Test MUST verify HTTP and WebSocket share same token"
+    - "Test MUST verify no duplicate token requests to Firebase"
+    - "Test MUST verify automatic refresh before expiry"
+    - "Test MUST verify 401/403 handling with token refresh"
+
+  drift_prevention:
+    detectors:
+      - "Check for multiple TokenManager instantiations"
+      - "Check for services using singleton pattern with TokenManager"
+      - "Check for direct TokenManager() calls instead of provider"
+      - "Check that apiServiceProvider depends on tokenManagerProvider"
+
+    regression_tests:
+      - name: "test_single_token_manager_instance"
+        file: "test/services/token_manager_test.dart"
+
+      - name: "test_http_websocket_share_token"
+        file: "test/services/token_manager_test.dart"
+
+      - name: "test_no_duplicate_firebase_calls"
+        file: "test/services/token_manager_test.dart"

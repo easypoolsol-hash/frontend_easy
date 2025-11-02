@@ -6,8 +6,8 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:frontend_easy/core/services/token_manager.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 /// Real-time dashboard WebSocket service
 ///
@@ -16,11 +16,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 ///
 /// Architecture:
 /// - WebSocket connection with auto-reconnect
-/// - JWT authentication via query param
+/// - Centralized token management (same token as HTTP)
 /// - Stream-based event broadcasting
 /// - Automatic reconnection on disconnect
 class DashboardWebSocketService {
   final String baseUrl;
+  final TokenManager tokenManager;
 
   WebSocketChannel? _channel;
   StreamController<BoardingEventData>? _boardingEventsController;
@@ -28,7 +29,6 @@ class DashboardWebSocketService {
   StreamController<WebSocketStatus>? _statusController;
   Timer? _reconnectTimer;
   bool _isConnecting = false;
-  String? _cachedToken;
 
   /// WebSocket connection status
   Stream<WebSocketStatus> get statusStream =>
@@ -44,6 +44,7 @@ class DashboardWebSocketService {
 
   DashboardWebSocketService({
     required this.baseUrl,
+    required this.tokenManager,
   }) {
     _boardingEventsController = StreamController<BoardingEventData>.broadcast();
     _statsController = StreamController<StatsUpdateData>.broadcast();
@@ -58,16 +59,9 @@ class DashboardWebSocketService {
     _statusController?.add(WebSocketStatus.connecting);
 
     try {
-      // Get Firebase ID token for authentication
-      final user = FirebaseAuth.instance.currentUser;
-      if (user == null) {
-        _statusController?.add(WebSocketStatus.authError);
-        _isConnecting = false;
-        return;
-      }
-
-      _cachedToken = await user.getIdToken();
-      if (_cachedToken == null) {
+      // Get token from centralized manager (same as HTTP requests)
+      final token = await tokenManager.getToken();
+      if (token == null) {
         _statusController?.add(WebSocketStatus.authError);
         _isConnecting = false;
         return;
@@ -78,8 +72,8 @@ class DashboardWebSocketService {
           .replaceFirst('http://', 'ws://')
           .replaceFirst('https://', 'wss://');
 
-      // Connect with JWT token as query param
-      final uri = Uri.parse('$wsUrl/ws/dashboard/?token=$_cachedToken');
+      // Connect with token as query param
+      final uri = Uri.parse('$wsUrl/ws/dashboard/?token=$token');
 
       _channel = WebSocketChannel.connect(uri);
 

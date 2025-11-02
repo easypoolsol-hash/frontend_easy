@@ -1,94 +1,56 @@
-import 'package:dio/dio.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:frontend_easy/shared/services/api_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-/// Authentication Service - Fortune 500 Security Standards
-/// Uses encrypted storage (KeyChain/KeyStore) instead of plain text
-/// Single responsibility: Manage authentication state and tokens
-/// NOTE: Clears tokens on app startup for development/demo purposes
+/// Authentication Service - Fortune 500 Provider Pattern
+/// Uses Firebase Auth as single source of truth
+/// No token storage needed - Firebase handles it automatically
+///
+/// Modern Pattern:
+/// - No singleton pattern
+/// - Dependency injection via Riverpod
+/// - Firebase Auth handles token management
+/// - TokenManager handles token refresh automatically
 class AuthService {
-  // Singleton pattern
-  static final AuthService _instance = AuthService._internal();
-  factory AuthService() => _instance;
-  AuthService._internal();
+  final FirebaseAuth _firebaseAuth;
 
-  // Storage keys
-  static const _keyAccessToken = 'secure_access_token';
-  static const _keyRefreshToken = 'secure_refresh_token';
+  /// Constructor with dependency injection
+  AuthService(this._firebaseAuth);
 
   /// Check if user is authenticated
-  Future<bool> isAuthenticated() async {
-    final token = await getAccessToken();
-    return token != null && token.isNotEmpty;
-  }
+  bool get isAuthenticated => _firebaseAuth.currentUser != null;
 
-  /// Get stored access token from secure storage
-  Future<String?> getAccessToken() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_keyAccessToken);
-  }
+  /// Get current user
+  User? get currentUser => _firebaseAuth.currentUser;
 
-  /// Get stored refresh token from secure storage
-  Future<String?> getRefreshToken() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_keyRefreshToken);
-  }
-
-  /// Store authentication tokens in encrypted storage
-  /// Industry standard: Tokens encrypted at rest
-  Future<void> storeTokens({
-    required String accessToken,
-    required String refreshToken,
-  }) async {
-    // Write to encrypted storage (KeyChain/KeyStore)
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_keyAccessToken, accessToken);
-    await prefs.setString(_keyRefreshToken, refreshToken);
-
-    // Update API client authorization header
-    ApiService().client.dio.options.headers['Authorization'] = 'Bearer $accessToken';
-  }
-
-  /// Clear authentication tokens and logout
-  /// Security: Blacklist token on server + remove from encrypted storage
+  /// Sign out user
+  /// - Clears Firebase session
+  /// - TokenManager automatically clears cached token
+  /// - AuthInterceptor stops adding tokens to requests
   Future<void> logout() async {
-    try {
-      final refreshToken = await getRefreshToken();
-      final accessToken = await getAccessToken();
-
-      // Call server to blacklist token (Fortune 500 standard)
-      if (refreshToken != null && refreshToken.isNotEmpty) {
-        try {
-          // Ensure Authorization header is set for authenticated logout endpoint
-          await ApiService().client.dio.post<Map<String, dynamic>>(
-            '/api/v1/users/logout/',
-            data: {'refresh': refreshToken},
-            options: accessToken != null
-                ? Options(headers: {'Authorization': 'Bearer $accessToken'})
-                : null,
-          );
-        } catch (e) {
-          // Ignore server errors - still clear local tokens
-        }
-      }
-    } catch (e) {
-      // Ignore errors - still proceed with local logout
-    }
-
-    // Clear tokens from secure storage
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove(_keyAccessToken);
-    await prefs.remove(_keyRefreshToken);
-
-    // Clear authorization header from API client
-    ApiService().client.dio.options.headers.remove('Authorization');
+    await _firebaseAuth.signOut();
+    // That's it! Firebase handles everything:
+    // - Session cleared
+    // - TokenManager detects null user and clears token
+    // - No manual token cleanup needed
   }
 
-  /// Initialize auth state (call on app startup)
-  /// Production mode: Restore existing tokens if valid
-  Future<void> initialize() async {
-    // Production: Keep tokens, let interceptor handle refresh
-    // The AuthInterceptor will automatically add auth headers on each request
-    // No need to do anything here - tokens persist across app restarts
-  }
+  /// Listen to auth state changes
+  Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
 }
+
+/// Provider for AuthService (Fortune 500 pattern)
+final authServiceProvider = Provider<AuthService>((ref) {
+  return AuthService(FirebaseAuth.instance);
+});
+
+/// Provider for current user (reactive)
+final currentUserProvider = StreamProvider<User?>((ref) {
+  final authService = ref.watch(authServiceProvider);
+  return authService.authStateChanges;
+});
+
+/// Provider for auth state (boolean)
+final isAuthenticatedProvider = StreamProvider<bool>((ref) {
+  final authService = ref.watch(authServiceProvider);
+  return authService.authStateChanges.map((user) => user != null);
+});

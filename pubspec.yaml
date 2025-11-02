@@ -73,6 +73,9 @@ dependencies:
   import_sorter: ^4.6.0
   flutter_svg: ^2.2.1
 
+  # Cross-platform file download
+  url_launcher: ^6.3.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

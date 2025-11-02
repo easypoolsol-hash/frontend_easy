@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend_easy/core/config/firebase_options.dart';
 import 'package:frontend_easy/core/routing/app_router.dart';
 import 'package:frontend_easy/core/theme/app_theme.dart';
-import 'package:frontend_easy/shared/services/api_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,9 +13,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  // Initialize API service
-  ApiService().initialize();
-
+  // API service initialized via provider (no manual init needed)
   runApp(const ProviderScope(child: FrontendEasyApp()));
 }
 

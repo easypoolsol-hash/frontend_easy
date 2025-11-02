@@ -15,12 +15,11 @@ class ApiConfig {
   }
 
   /// Google Maps API Key
-  /// Uses --dart-define at build time: flutter run --dart-define=GOOGLE_MAPS_API_KEY=...
+  /// HARDCODED - This key is used for all environments
+  /// Key: AIzaSyDZDOD6oQbVcDytzN2XE6DWakpLDEJbDdI
   static String get googleMapsApiKey {
-    return const String.fromEnvironment(
-      'GOOGLE_MAPS_API_KEY',
-      defaultValue: '',
-    );
+    // HARDCODED KEY - DO NOT CHANGE
+    return 'AIzaSyDZDOD6oQbVcDytzN2XE6DWakpLDEJbDdI';
   }
 
   /// API timeout duration

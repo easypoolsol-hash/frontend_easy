@@ -8,11 +8,20 @@
         "develop": [
           "easypool-develop"
         ],
-        "staging": [
-          "easypool-staging"
+        "stage": [
+          "easypool-stage"
         ],
         "live": [
           "easypool-30af3"
+        ],
+        "api-develop": [
+          "easypool-api-develop"
+        ],
+        "api-stage": [
+          "easypool-api-stage"
+        ],
+        "api-live": [
+          "easypool-api-live"
         ]
       }
     }

@@ -1,6 +1,5 @@
-// Google Maps API key is now managed by backend for security
-// Frontend uses google_maps_flutter which doesn't require API key for web
-const String googleMapsApiKey = '';
+// HARDCODED Google Maps API Key - DO NOT COMMIT TO PUBLIC REPO
+const String googleMapsApiKey = 'AIzaSyDZDOD6oQbVcDytzN2XE6DWakpLDEJbDdI';
 
 /// Default map center location (Kolkata, India)
 class HomeLocation {

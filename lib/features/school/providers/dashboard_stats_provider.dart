@@ -5,7 +5,7 @@ import 'package:frontend_easy/features/school/services/school_dashboard_api_serv
 
 /// Provider for dashboard stats API service
 final dashboardApiServiceProvider = Provider<SchoolDashboardApiService>((ref) {
-  final apiClient = ApiService().api;
+  final apiClient = ref.watch(apiServiceProvider).api;
   return SchoolDashboardApiService(apiClient);
 });
 

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:frontend_easy/shared/services/auth_service.dart';
 
 /// Reusable top navigation bar
-class AppTopNavBar extends StatelessWidget {
+class AppTopNavBar extends ConsumerWidget {
   final int currentIndex;
 
   const AppTopNavBar({
@@ -12,7 +13,7 @@ class AppTopNavBar extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
@@ -51,7 +52,7 @@ class AppTopNavBar extends StatelessWidget {
             const SizedBox(width: 4),
             _buildNavButton(context, 'Events', Icons.event, 1),
             const SizedBox(width: 4),
-            _buildNavButton(context, 'Students', Icons.people, 2),
+            _buildNavButton(context, 'Attendance', Icons.people, 2),
             const SizedBox(width: 4),
             _buildNavButton(context, 'Fleet', Icons.directions_bus, 3),
             const SizedBox(width: 8),
@@ -59,7 +60,7 @@ class AppTopNavBar extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.logout),
               tooltip: 'Logout',
-              onPressed: () => _showLogoutDialog(context),
+              onPressed: () => _showLogoutDialog(context, ref),
             ),
           ],
         ),
@@ -115,7 +116,7 @@ class AppTopNavBar extends StatelessWidget {
     }
   }
 
-  Future<void> _showLogoutDialog(BuildContext context) async {
+  Future<void> _showLogoutDialog(BuildContext context, WidgetRef ref) async {
     final shouldLogout = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
@@ -135,8 +136,9 @@ class AppTopNavBar extends StatelessWidget {
     );
 
     if (shouldLogout == true && context.mounted) {
-      // Use Firebase Auth to handle logout
-      await FirebaseAuth.instance.signOut();
+      // Use provider-based auth service (Fortune 500 pattern)
+      final authService = ref.read(authServiceProvider);
+      await authService.logout();
 
       // Navigate to login
       if (context.mounted) {

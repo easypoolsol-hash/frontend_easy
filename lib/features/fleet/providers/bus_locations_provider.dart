@@ -44,7 +44,7 @@ final busLocationsProvider = StreamProvider<List<Map<String, dynamic>>>((ref) as
 final busLocationsRestProvider = FutureProvider<List<Map<String, dynamic>>>((ref) async {
   try {
     // Use generated SchoolDashboardApi client (constitutional compliance)
-    final api = ApiService().client.getSchoolDashboardApi();
+    final api = ref.watch(apiServiceProvider).client.getSchoolDashboardApi();
 
     // Call generated method - AuthInterceptor adds Bearer token automatically
     final response = await api.schoolBusLocationsList();
