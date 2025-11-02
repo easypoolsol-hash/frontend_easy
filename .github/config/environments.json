@@ -1,0 +1,28 @@
+{
+  "environments": {
+    "develop": {
+      "name": "Development",
+      "backend_url": "https://easypool-backend-dev-781819882627.asia-south1.run.app",
+      "frontend_url": "https://dev.easypool.in",
+      "firebase_site": "easypool-develop",
+      "firebase_target": "develop"
+    },
+    "staging": {
+      "name": "Staging",
+      "backend_url": "https://easypool-backend-staging-REPLACE-AFTER-FIRST-DEPLOY.asia-south1.run.app",
+      "frontend_url": "https://staging.easypool.in",
+      "firebase_site": "easypool-staging",
+      "firebase_target": "staging"
+    },
+    "production": {
+      "name": "Production",
+      "backend_url": "https://easypool-backend-production-REPLACE-AFTER-FIRST-DEPLOY.asia-south1.run.app",
+      "frontend_url": "https://easypool.in",
+      "firebase_site": "easypool-30af3",
+      "firebase_target": "live"
+    }
+  },
+  "firebase_project_id": "easypool-30af3",
+  "workload_identity_provider": "projects/725567398741/locations/global/workloadIdentityPools/github-pool/providers/github-provider-frontend",
+  "service_account": "firebase-deployer@easypool-30af3.iam.gserviceaccount.com"
+}

@@ -27,7 +27,7 @@ permissions:
   checks: write
 
 env:
-  FIREBASE_PROJECT_ID: easypool-30af3
+  CONFIG_FILE: .github/config/environments.json
 
 jobs:
   # ============================================================================
@@ -160,29 +160,48 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Load environment config
+        id: config
+        run: |
+          BACKEND_URL=$(jq -r '.environments.develop.backend_url' ${{ env.CONFIG_FILE }})
+          FRONTEND_URL=$(jq -r '.environments.develop.frontend_url' ${{ env.CONFIG_FILE }})
+          FIREBASE_SITE=$(jq -r '.environments.develop.firebase_site' ${{ env.CONFIG_FILE }})
+          FIREBASE_TARGET=$(jq -r '.environments.develop.firebase_target' ${{ env.CONFIG_FILE }})
+          FIREBASE_PROJECT_ID=$(jq -r '.firebase_project_id' ${{ env.CONFIG_FILE }})
+          WORKLOAD_IDENTITY=$(jq -r '.workload_identity_provider' ${{ env.CONFIG_FILE }})
+          SERVICE_ACCOUNT=$(jq -r '.service_account' ${{ env.CONFIG_FILE }})
+
+          echo "backend_url=$BACKEND_URL" >> $GITHUB_OUTPUT
+          echo "frontend_url=$FRONTEND_URL" >> $GITHUB_OUTPUT
+          echo "firebase_site=$FIREBASE_SITE" >> $GITHUB_OUTPUT
+          echo "firebase_target=$FIREBASE_TARGET" >> $GITHUB_OUTPUT
+          echo "firebase_project_id=$FIREBASE_PROJECT_ID" >> $GITHUB_OUTPUT
+          echo "workload_identity=$WORKLOAD_IDENTITY" >> $GITHUB_OUTPUT
+          echo "service_account=$SERVICE_ACCOUNT" >> $GITHUB_OUTPUT
+
       - uses: ./.github/actions/setup-flutter
 
       - name: Build with dev backend
         uses: ./.github/actions/build-web
         with:
-          api_base_url: 'https://easypool-backend-dev-44387923111.asia-south1.run.app'
+          api_base_url: ${{ steps.config.outputs.backend_url }}
 
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
-          workload_identity_provider: 'projects/725567398741/locations/global/workloadIdentityPools/github-pool/providers/github-provider-frontend'
-          service_account: 'firebase-deployer@easypool-30af3.iam.gserviceaccount.com'
+          workload_identity_provider: ${{ steps.config.outputs.workload_identity }}
+          service_account: ${{ steps.config.outputs.service_account }}
 
       - uses: ./.github/actions/deploy-firebase
         with:
-          site: easypool-develop
-          target: develop
-          project-id: ${{ env.FIREBASE_PROJECT_ID }}
+          site: ${{ steps.config.outputs.firebase_site }}
+          target: ${{ steps.config.outputs.firebase_target }}
+          project-id: ${{ steps.config.outputs.firebase_project_id }}
 
       - run: |
           echo "# 🟡 DEVELOP DEPLOYED" >> $GITHUB_STEP_SUMMARY
-          echo "**URL:** https://dev.easypool.in" >> $GITHUB_STEP_SUMMARY
-          echo "**Backend:** https://easypool-backend-dev-44387923111.asia-south1.run.app" >> $GITHUB_STEP_SUMMARY
+          echo "**URL:** ${{ steps.config.outputs.frontend_url }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Backend:** ${{ steps.config.outputs.backend_url }}" >> $GITHUB_STEP_SUMMARY
 
   deploy-staging:
     name: 🟠 Deploy to Staging
@@ -198,29 +217,48 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Load environment config
+        id: config
+        run: |
+          BACKEND_URL=$(jq -r '.environments.staging.backend_url' ${{ env.CONFIG_FILE }})
+          FRONTEND_URL=$(jq -r '.environments.staging.frontend_url' ${{ env.CONFIG_FILE }})
+          FIREBASE_SITE=$(jq -r '.environments.staging.firebase_site' ${{ env.CONFIG_FILE }})
+          FIREBASE_TARGET=$(jq -r '.environments.staging.firebase_target' ${{ env.CONFIG_FILE }})
+          FIREBASE_PROJECT_ID=$(jq -r '.firebase_project_id' ${{ env.CONFIG_FILE }})
+          WORKLOAD_IDENTITY=$(jq -r '.workload_identity_provider' ${{ env.CONFIG_FILE }})
+          SERVICE_ACCOUNT=$(jq -r '.service_account' ${{ env.CONFIG_FILE }})
+
+          echo "backend_url=$BACKEND_URL" >> $GITHUB_OUTPUT
+          echo "frontend_url=$FRONTEND_URL" >> $GITHUB_OUTPUT
+          echo "firebase_site=$FIREBASE_SITE" >> $GITHUB_OUTPUT
+          echo "firebase_target=$FIREBASE_TARGET" >> $GITHUB_OUTPUT
+          echo "firebase_project_id=$FIREBASE_PROJECT_ID" >> $GITHUB_OUTPUT
+          echo "workload_identity=$WORKLOAD_IDENTITY" >> $GITHUB_OUTPUT
+          echo "service_account=$SERVICE_ACCOUNT" >> $GITHUB_OUTPUT
+
       - uses: ./.github/actions/setup-flutter
 
       - name: Build with staging backend
         uses: ./.github/actions/build-web
         with:
-          api_base_url: 'https://easypool-backend-staging-44387923111.asia-south1.run.app'
+          api_base_url: ${{ steps.config.outputs.backend_url }}
 
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
-          workload_identity_provider: 'projects/725567398741/locations/global/workloadIdentityPools/github-pool/providers/github-provider-frontend'
-          service_account: 'firebase-deployer@easypool-30af3.iam.gserviceaccount.com'
+          workload_identity_provider: ${{ steps.config.outputs.workload_identity }}
+          service_account: ${{ steps.config.outputs.service_account }}
 
       - uses: ./.github/actions/deploy-firebase
         with:
-          site: easypool-staging
-          target: staging
-          project-id: ${{ env.FIREBASE_PROJECT_ID }}
+          site: ${{ steps.config.outputs.firebase_site }}
+          target: ${{ steps.config.outputs.firebase_target }}
+          project-id: ${{ steps.config.outputs.firebase_project_id }}
 
       - run: |
           echo "# 🟠 STAGING DEPLOYED" >> $GITHUB_STEP_SUMMARY
-          echo "**URL:** https://stage.easypool.in" >> $GITHUB_STEP_SUMMARY
-          echo "**Backend:** https://easypool-backend-staging-44387923111.asia-south1.run.app" >> $GITHUB_STEP_SUMMARY
+          echo "**URL:** ${{ steps.config.outputs.frontend_url }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Backend:** ${{ steps.config.outputs.backend_url }}" >> $GITHUB_STEP_SUMMARY
 
   deploy-production:
     name: 🔴 Deploy to Production
@@ -236,27 +274,46 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Load environment config
+        id: config
+        run: |
+          BACKEND_URL=$(jq -r '.environments.production.backend_url' ${{ env.CONFIG_FILE }})
+          FRONTEND_URL=$(jq -r '.environments.production.frontend_url' ${{ env.CONFIG_FILE }})
+          FIREBASE_SITE=$(jq -r '.environments.production.firebase_site' ${{ env.CONFIG_FILE }})
+          FIREBASE_TARGET=$(jq -r '.environments.production.firebase_target' ${{ env.CONFIG_FILE }})
+          FIREBASE_PROJECT_ID=$(jq -r '.firebase_project_id' ${{ env.CONFIG_FILE }})
+          WORKLOAD_IDENTITY=$(jq -r '.workload_identity_provider' ${{ env.CONFIG_FILE }})
+          SERVICE_ACCOUNT=$(jq -r '.service_account' ${{ env.CONFIG_FILE }})
+
+          echo "backend_url=$BACKEND_URL" >> $GITHUB_OUTPUT
+          echo "frontend_url=$FRONTEND_URL" >> $GITHUB_OUTPUT
+          echo "firebase_site=$FIREBASE_SITE" >> $GITHUB_OUTPUT
+          echo "firebase_target=$FIREBASE_TARGET" >> $GITHUB_OUTPUT
+          echo "firebase_project_id=$FIREBASE_PROJECT_ID" >> $GITHUB_OUTPUT
+          echo "workload_identity=$WORKLOAD_IDENTITY" >> $GITHUB_OUTPUT
+          echo "service_account=$SERVICE_ACCOUNT" >> $GITHUB_OUTPUT
+
       - uses: ./.github/actions/setup-flutter
 
       - name: Build with production backend
         uses: ./.github/actions/build-web
         with:
-          api_base_url: 'https://easypool-backend-44387923111.asia-south1.run.app'
+          api_base_url: ${{ steps.config.outputs.backend_url }}
 
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
-          workload_identity_provider: 'projects/725567398741/locations/global/workloadIdentityPools/github-pool/providers/github-provider-frontend'
-          service_account: 'firebase-deployer@easypool-30af3.iam.gserviceaccount.com'
+          workload_identity_provider: ${{ steps.config.outputs.workload_identity }}
+          service_account: ${{ steps.config.outputs.service_account }}
 
       - uses: ./.github/actions/deploy-firebase
         with:
-          site: easypool-30af3
-          target: live
-          project-id: ${{ env.FIREBASE_PROJECT_ID }}
+          site: ${{ steps.config.outputs.firebase_site }}
+          target: ${{ steps.config.outputs.firebase_target }}
+          project-id: ${{ steps.config.outputs.firebase_project_id }}
 
       - run: |
           echo "# 🔴 PRODUCTION DEPLOYED" >> $GITHUB_STEP_SUMMARY
-          echo "**URL:** https://easypool.in" >> $GITHUB_STEP_SUMMARY
-          echo "**Backend:** https://easypool-backend-44387923111.asia-south1.run.app" >> $GITHUB_STEP_SUMMARY
+          echo "**URL:** ${{ steps.config.outputs.frontend_url }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Backend:** ${{ steps.config.outputs.backend_url }}" >> $GITHUB_STEP_SUMMARY
           echo "**Tag:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
