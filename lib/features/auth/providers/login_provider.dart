@@ -1,9 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:frontend_easy/core/services/firebase_auth_service.dart';
+
+part 'login_provider.g.dart';
 
 /// Login state
 class LoginState {
@@ -31,10 +34,14 @@ class LoginState {
 }
 
 /// Login notifier using Firebase Auth (industry standard, 100% secure)
-class LoginNotifier extends StateNotifier<AsyncValue<LoginState>> {
-  final FirebaseAuthService _authService;
+@riverpod
+class LoginNotifier extends _$LoginNotifier {
+  @override
+  AsyncValue<LoginState> build() {
+    return const AsyncValue.data(LoginState());
+  }
 
-  LoginNotifier(this._authService) : super(const AsyncValue.data(LoginState()));
+  FirebaseAuthService get _authService => ref.read(firebaseAuthServiceProvider);
 
   Future<void> login({
     required String email,
@@ -106,11 +113,3 @@ class LoginNotifier extends StateNotifier<AsyncValue<LoginState>> {
     }
   }
 }
-
-/// Login provider - uses Firebase Auth for 100% secure authentication
-final loginProvider = StateNotifierProvider<LoginNotifier, AsyncValue<LoginState>>(
-  (ref) {
-    final authService = ref.watch(firebaseAuthServiceProvider);
-    return LoginNotifier(authService);
-  },
-);

@@ -1,7 +1,10 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:table_calendar/table_calendar.dart';
+
+part 'attendance_report_filter.g.dart';
 
 /// Attendance Report Filter Model
 /// Holds all filter criteria for generating attendance reports
@@ -61,8 +64,17 @@ class AttendanceReportFilter {
 }
 
 /// Provider for attendance report filter state
-final attendanceReportFilterProvider =
-    StateProvider<AttendanceReportFilter>((ref) => const AttendanceReportFilter());
+@riverpod
+class AttendanceReportFilterNotifier extends _$AttendanceReportFilterNotifier {
+  @override
+  AttendanceReportFilter build() {
+    return const AttendanceReportFilter();
+  }
+
+  void updateFilter(AttendanceReportFilter filter) {
+    state = filter;
+  }
+}
 
 /// Attendance Report Filter Widget
 /// Beautiful Material Design 3 UI with table_calendar and dropdown_search
@@ -106,8 +118,8 @@ class _AttendanceReportFilterWidgetState
       _focusedDay = DateTime.now();
       _showCalendar = false;
     });
-    ref.read(attendanceReportFilterProvider.notifier).state =
-        const AttendanceReportFilter();
+    ref.read(attendanceReportFilterProvider.notifier)
+        .updateFilter(const AttendanceReportFilter());
   }
 
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
@@ -123,10 +135,10 @@ class _AttendanceReportFilterWidgetState
         _rangeEnd = selectedDay;
 
         // Update filter
-        ref.read(attendanceReportFilterProvider.notifier).state =
-            ref.read(attendanceReportFilterProvider).copyWith(
+        ref.read(attendanceReportFilterProvider.notifier)
+            .updateFilter(ref.read(attendanceReportFilterProvider).copyWith(
                   dateRange: DateTimeRange(start: _rangeStart!, end: _rangeEnd!),
-                );
+                ));
 
         // Close calendar after complete selection
         _showCalendar = false;
@@ -448,8 +460,8 @@ class _AttendanceReportFilterWidgetState
                 ),
               ),
               onChanged: (selectedBuses) {
-                ref.read(attendanceReportFilterProvider.notifier).state =
-                    filter.copyWith(busNumbers: selectedBuses);
+                ref.read(attendanceReportFilterProvider.notifier)
+                    .updateFilter(filter.copyWith(busNumbers: selectedBuses));
               },
             ),
 
@@ -536,8 +548,8 @@ class _AttendanceReportFilterWidgetState
                 ),
               ),
               onChanged: (selectedStudents) {
-                ref.read(attendanceReportFilterProvider.notifier).state =
-                    filter.copyWith(studentIds: selectedStudents);
+                ref.read(attendanceReportFilterProvider.notifier)
+                    .updateFilter(filter.copyWith(studentIds: selectedStudents));
               },
             ),
 
