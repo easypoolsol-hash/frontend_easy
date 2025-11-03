@@ -16,10 +16,14 @@ class PatchedRoute {
     this.routeId,
     this.name,
     this.description,
+    this.colorCode,
+    this.linePattern,
     this.isActive,
     this.stopCount,
     this.totalStudents,
     this.routeStops = const [],
+    this.encodedPolyline,
+    this.busStops,
     this.createdAt,
     this.updatedAt,
   });
@@ -51,6 +55,18 @@ class PatchedRoute {
   ///
   String? description;
 
+  /// Hex color for map display (e.g., #FF5733)
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? colorCode;
+
+  /// Line pattern for map visualization  * `solid` - Solid Line * `dashed` - Dashed Line
+  PatchedRouteLinePatternEnum? linePattern;
+
   /// Whether this route is currently active
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -78,6 +94,22 @@ class PatchedRoute {
 
   List<RouteStop> routeStops;
 
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? encodedPolyline;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? busStops;
+
   /// When this route was created
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -101,10 +133,14 @@ class PatchedRoute {
     other.routeId == routeId &&
     other.name == name &&
     other.description == description &&
+    other.colorCode == colorCode &&
+    other.linePattern == linePattern &&
     other.isActive == isActive &&
     other.stopCount == stopCount &&
     other.totalStudents == totalStudents &&
     _deepEquality.equals(other.routeStops, routeStops) &&
+    other.encodedPolyline == encodedPolyline &&
+    other.busStops == busStops &&
     other.createdAt == createdAt &&
     other.updatedAt == updatedAt;
 
@@ -114,15 +150,19 @@ class PatchedRoute {
     (routeId == null ? 0 : routeId!.hashCode) +
     (name == null ? 0 : name!.hashCode) +
     (description == null ? 0 : description!.hashCode) +
+    (colorCode == null ? 0 : colorCode!.hashCode) +
+    (linePattern == null ? 0 : linePattern!.hashCode) +
     (isActive == null ? 0 : isActive!.hashCode) +
     (stopCount == null ? 0 : stopCount!.hashCode) +
     (totalStudents == null ? 0 : totalStudents!.hashCode) +
     (routeStops.hashCode) +
+    (encodedPolyline == null ? 0 : encodedPolyline!.hashCode) +
+    (busStops == null ? 0 : busStops!.hashCode) +
     (createdAt == null ? 0 : createdAt!.hashCode) +
     (updatedAt == null ? 0 : updatedAt!.hashCode);
 
   @override
-  String toString() => 'PatchedRoute[routeId=$routeId, name=$name, description=$description, isActive=$isActive, stopCount=$stopCount, totalStudents=$totalStudents, routeStops=$routeStops, createdAt=$createdAt, updatedAt=$updatedAt]';
+  String toString() => 'PatchedRoute[routeId=$routeId, name=$name, description=$description, colorCode=$colorCode, linePattern=$linePattern, isActive=$isActive, stopCount=$stopCount, totalStudents=$totalStudents, routeStops=$routeStops, encodedPolyline=$encodedPolyline, busStops=$busStops, createdAt=$createdAt, updatedAt=$updatedAt]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -141,6 +181,16 @@ class PatchedRoute {
     } else {
       json[r'description'] = null;
     }
+    if (this.colorCode != null) {
+      json[r'color_code'] = this.colorCode;
+    } else {
+      json[r'color_code'] = null;
+    }
+    if (this.linePattern != null) {
+      json[r'line_pattern'] = this.linePattern;
+    } else {
+      json[r'line_pattern'] = null;
+    }
     if (this.isActive != null) {
       json[r'is_active'] = this.isActive;
     } else {
@@ -157,6 +207,16 @@ class PatchedRoute {
       json[r'total_students'] = null;
     }
       json[r'route_stops'] = this.routeStops;
+    if (this.encodedPolyline != null) {
+      json[r'encoded_polyline'] = this.encodedPolyline;
+    } else {
+      json[r'encoded_polyline'] = null;
+    }
+    if (this.busStops != null) {
+      json[r'bus_stops'] = this.busStops;
+    } else {
+      json[r'bus_stops'] = null;
+    }
     if (this.createdAt != null) {
       json[r'created_at'] = this.createdAt!.toUtc().toIso8601String();
     } else {
@@ -192,10 +252,14 @@ class PatchedRoute {
         routeId: mapValueOfType<String>(json, r'route_id'),
         name: mapValueOfType<String>(json, r'name'),
         description: mapValueOfType<String>(json, r'description'),
+        colorCode: mapValueOfType<String>(json, r'color_code'),
+        linePattern: PatchedRouteLinePatternEnum.fromJson(json[r'line_pattern']),
         isActive: mapValueOfType<bool>(json, r'is_active'),
         stopCount: mapValueOfType<int>(json, r'stop_count'),
         totalStudents: mapValueOfType<int>(json, r'total_students'),
         routeStops: RouteStop.listFromJson(json[r'route_stops']),
+        encodedPolyline: mapValueOfType<String>(json, r'encoded_polyline'),
+        busStops: mapValueOfType<String>(json, r'bus_stops'),
         createdAt: mapDateTime(json, r'created_at', r''),
         updatedAt: mapDateTime(json, r'updated_at', r''),
       );
@@ -247,4 +311,78 @@ class PatchedRoute {
   static const requiredKeys = <String>{
   };
 }
+
+/// Line pattern for map visualization  * `solid` - Solid Line * `dashed` - Dashed Line
+class PatchedRouteLinePatternEnum {
+  /// Instantiate a new enum with the provided [value].
+  const PatchedRouteLinePatternEnum._(this.value);
+
+  /// The underlying value of this enum member.
+  final String value;
+
+  @override
+  String toString() => value;
+
+  String toJson() => value;
+
+  static const solid = PatchedRouteLinePatternEnum._(r'solid');
+  static const dashed = PatchedRouteLinePatternEnum._(r'dashed');
+
+  /// List of all possible values in this [enum][PatchedRouteLinePatternEnum].
+  static const values = <PatchedRouteLinePatternEnum>[
+    solid,
+    dashed,
+  ];
+
+  static PatchedRouteLinePatternEnum? fromJson(dynamic value) => PatchedRouteLinePatternEnumTypeTransformer().decode(value);
+
+  static List<PatchedRouteLinePatternEnum> listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <PatchedRouteLinePatternEnum>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = PatchedRouteLinePatternEnum.fromJson(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return result.toList(growable: growable);
+  }
+}
+
+/// Transformation class that can [encode] an instance of [PatchedRouteLinePatternEnum] to String,
+/// and [decode] dynamic data back to [PatchedRouteLinePatternEnum].
+class PatchedRouteLinePatternEnumTypeTransformer {
+  factory PatchedRouteLinePatternEnumTypeTransformer() => _instance ??= const PatchedRouteLinePatternEnumTypeTransformer._();
+
+  const PatchedRouteLinePatternEnumTypeTransformer._();
+
+  String encode(PatchedRouteLinePatternEnum data) => data.value;
+
+  /// Decodes a [dynamic value][data] to a PatchedRouteLinePatternEnum.
+  ///
+  /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
+  /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
+  /// cannot be decoded successfully, then an [UnimplementedError] is thrown.
+  ///
+  /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
+  /// and users are still using an old app with the old code.
+  PatchedRouteLinePatternEnum? decode(dynamic data, {bool allowNull = true}) {
+    if (data != null) {
+      switch (data) {
+        case r'solid': return PatchedRouteLinePatternEnum.solid;
+        case r'dashed': return PatchedRouteLinePatternEnum.dashed;
+        default:
+          if (!allowNull) {
+            throw ArgumentError('Unknown enum value to decode: $data');
+          }
+      }
+    }
+    return null;
+  }
+
+  /// Singleton [PatchedRouteLinePatternEnumTypeTransformer] instance.
+  static PatchedRouteLinePatternEnumTypeTransformer? _instance;
+}
+
 

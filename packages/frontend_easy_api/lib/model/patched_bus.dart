@@ -14,6 +14,7 @@ class PatchedBus {
   /// Returns a new [PatchedBus] instance.
   PatchedBus({
     this.busId,
+    this.busNumber,
     this.licensePlate,
     this.route,
     this.routeName,
@@ -39,6 +40,15 @@ class PatchedBus {
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
   String? busId;
+
+  /// School-assigned bus number (e.g., 'BUS-001', 'B-12')
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? busNumber;
 
   /// Vehicle license plate number
   ///
@@ -150,6 +160,7 @@ class PatchedBus {
   @override
   bool operator ==(Object other) => identical(this, other) || other is PatchedBus &&
     other.busId == busId &&
+    other.busNumber == busNumber &&
     other.licensePlate == licensePlate &&
     other.route == route &&
     other.routeName == routeName &&
@@ -170,6 +181,7 @@ class PatchedBus {
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (busId == null ? 0 : busId!.hashCode) +
+    (busNumber == null ? 0 : busNumber!.hashCode) +
     (licensePlate == null ? 0 : licensePlate!.hashCode) +
     (route == null ? 0 : route!.hashCode) +
     (routeName == null ? 0 : routeName!.hashCode) +
@@ -187,7 +199,7 @@ class PatchedBus {
     (updatedAt == null ? 0 : updatedAt!.hashCode);
 
   @override
-  String toString() => 'PatchedBus[busId=$busId, licensePlate=$licensePlate, route=$route, routeName=$routeName, capacity=$capacity, deviceId=$deviceId, status=$status, manufacturer=$manufacturer, model=$model, year=$year, lastMaintenance=$lastMaintenance, assignedStudentsCount=$assignedStudentsCount, utilizationPercentage=$utilizationPercentage, isAvailable=$isAvailable, createdAt=$createdAt, updatedAt=$updatedAt]';
+  String toString() => 'PatchedBus[busId=$busId, busNumber=$busNumber, licensePlate=$licensePlate, route=$route, routeName=$routeName, capacity=$capacity, deviceId=$deviceId, status=$status, manufacturer=$manufacturer, model=$model, year=$year, lastMaintenance=$lastMaintenance, assignedStudentsCount=$assignedStudentsCount, utilizationPercentage=$utilizationPercentage, isAvailable=$isAvailable, createdAt=$createdAt, updatedAt=$updatedAt]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -195,6 +207,11 @@ class PatchedBus {
       json[r'bus_id'] = this.busId;
     } else {
       json[r'bus_id'] = null;
+    }
+    if (this.busNumber != null) {
+      json[r'bus_number'] = this.busNumber;
+    } else {
+      json[r'bus_number'] = null;
     }
     if (this.licensePlate != null) {
       json[r'license_plate'] = this.licensePlate;
@@ -294,6 +311,7 @@ class PatchedBus {
 
       return PatchedBus(
         busId: mapValueOfType<String>(json, r'bus_id'),
+        busNumber: mapValueOfType<String>(json, r'bus_number'),
         licensePlate: mapValueOfType<String>(json, r'license_plate'),
         route: mapValueOfType<String>(json, r'route'),
         routeName: mapValueOfType<String>(json, r'route_name'),

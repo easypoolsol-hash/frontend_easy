@@ -14,6 +14,7 @@ class Bus {
   /// Returns a new [Bus] instance.
   Bus({
     required this.busId,
+    required this.busNumber,
     required this.licensePlate,
     this.route,
     required this.routeName,
@@ -33,6 +34,9 @@ class Bus {
 
   /// UUID primary key
   String busId;
+
+  /// School-assigned bus number (e.g., 'BUS-001', 'B-12')
+  String busNumber;
 
   /// Vehicle license plate number
   String licensePlate;
@@ -96,6 +100,7 @@ class Bus {
   @override
   bool operator ==(Object other) => identical(this, other) || other is Bus &&
     other.busId == busId &&
+    other.busNumber == busNumber &&
     other.licensePlate == licensePlate &&
     other.route == route &&
     other.routeName == routeName &&
@@ -116,6 +121,7 @@ class Bus {
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (busId.hashCode) +
+    (busNumber.hashCode) +
     (licensePlate.hashCode) +
     (route == null ? 0 : route!.hashCode) +
     (routeName.hashCode) +
@@ -133,11 +139,12 @@ class Bus {
     (updatedAt.hashCode);
 
   @override
-  String toString() => 'Bus[busId=$busId, licensePlate=$licensePlate, route=$route, routeName=$routeName, capacity=$capacity, deviceId=$deviceId, status=$status, manufacturer=$manufacturer, model=$model, year=$year, lastMaintenance=$lastMaintenance, assignedStudentsCount=$assignedStudentsCount, utilizationPercentage=$utilizationPercentage, isAvailable=$isAvailable, createdAt=$createdAt, updatedAt=$updatedAt]';
+  String toString() => 'Bus[busId=$busId, busNumber=$busNumber, licensePlate=$licensePlate, route=$route, routeName=$routeName, capacity=$capacity, deviceId=$deviceId, status=$status, manufacturer=$manufacturer, model=$model, year=$year, lastMaintenance=$lastMaintenance, assignedStudentsCount=$assignedStudentsCount, utilizationPercentage=$utilizationPercentage, isAvailable=$isAvailable, createdAt=$createdAt, updatedAt=$updatedAt]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
       json[r'bus_id'] = this.busId;
+      json[r'bus_number'] = this.busNumber;
       json[r'license_plate'] = this.licensePlate;
     if (this.route != null) {
       json[r'route'] = this.route;
@@ -204,6 +211,7 @@ class Bus {
 
       return Bus(
         busId: mapValueOfType<String>(json, r'bus_id')!,
+        busNumber: mapValueOfType<String>(json, r'bus_number')!,
         licensePlate: mapValueOfType<String>(json, r'license_plate')!,
         route: mapValueOfType<String>(json, r'route'),
         routeName: mapValueOfType<String>(json, r'route_name')!,
@@ -267,6 +275,7 @@ class Bus {
   /// The list of required keys that must be present in a JSON.
   static const requiredKeys = <String>{
     'bus_id',
+    'bus_number',
     'license_plate',
     'route_name',
     'capacity',

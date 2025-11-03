@@ -24,8 +24,8 @@ class PatchedStudent {
     this.enrollmentDate,
     this.schoolDetails,
     this.busDetails,
-    this.parents,
-    this.photos,
+    this.parents = const [],
+    this.photos = const [],
     this.createdAt,
     this.updatedAt,
   });
@@ -109,21 +109,9 @@ class PatchedStudent {
   ///
   BusBasic? busDetails;
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  String? parents;
+  List<StudentParent> parents;
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  String? photos;
+  List<StudentPhoto> photos;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -154,8 +142,8 @@ class PatchedStudent {
     other.enrollmentDate == enrollmentDate &&
     other.schoolDetails == schoolDetails &&
     other.busDetails == busDetails &&
-    other.parents == parents &&
-    other.photos == photos &&
+    _deepEquality.equals(other.parents, parents) &&
+    _deepEquality.equals(other.photos, photos) &&
     other.createdAt == createdAt &&
     other.updatedAt == updatedAt;
 
@@ -173,8 +161,8 @@ class PatchedStudent {
     (enrollmentDate == null ? 0 : enrollmentDate!.hashCode) +
     (schoolDetails == null ? 0 : schoolDetails!.hashCode) +
     (busDetails == null ? 0 : busDetails!.hashCode) +
-    (parents == null ? 0 : parents!.hashCode) +
-    (photos == null ? 0 : photos!.hashCode) +
+    (parents.hashCode) +
+    (photos.hashCode) +
     (createdAt == null ? 0 : createdAt!.hashCode) +
     (updatedAt == null ? 0 : updatedAt!.hashCode);
 
@@ -238,16 +226,8 @@ class PatchedStudent {
     } else {
       json[r'bus_details'] = null;
     }
-    if (this.parents != null) {
       json[r'parents'] = this.parents;
-    } else {
-      json[r'parents'] = null;
-    }
-    if (this.photos != null) {
       json[r'photos'] = this.photos;
-    } else {
-      json[r'photos'] = null;
-    }
     if (this.createdAt != null) {
       json[r'created_at'] = this.createdAt!.toUtc().toIso8601String();
     } else {
@@ -291,8 +271,8 @@ class PatchedStudent {
         enrollmentDate: mapDateTime(json, r'enrollment_date', r''),
         schoolDetails: School.fromJson(json[r'school_details']),
         busDetails: BusBasic.fromJson(json[r'bus_details']),
-        parents: mapValueOfType<String>(json, r'parents'),
-        photos: mapValueOfType<String>(json, r'photos'),
+        parents: StudentParent.listFromJson(json[r'parents']),
+        photos: StudentPhoto.listFromJson(json[r'photos']),
         createdAt: mapDateTime(json, r'created_at', r''),
         updatedAt: mapDateTime(json, r'updated_at', r''),
       );

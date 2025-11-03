@@ -22,8 +22,6 @@ Method | HTTP request | Description
 [**apiV1AttendanceSummaryRetrieve**](ApiApi.md#apiv1attendancesummaryretrieve) | **GET** /api/v1/attendance/summary/ | 
 [**apiV1AuditLogsList**](ApiApi.md#apiv1auditlogslist) | **GET** /api/v1/audit-logs/ | 
 [**apiV1AuditLogsRetrieve**](ApiApi.md#apiv1auditlogsretrieve) | **GET** /api/v1/audit-logs/{log_id}/ | 
-[**apiV1AuthTokenCreate**](ApiApi.md#apiv1authtokencreate) | **POST** /api/v1/auth/token/ | 
-[**apiV1AuthTokenRefreshCreate**](ApiApi.md#apiv1authtokenrefreshcreate) | **POST** /api/v1/auth/token/refresh/ | 
 [**apiV1BoardingEventsBulkCreate**](ApiApi.md#apiv1boardingeventsbulkcreate) | **POST** /api/v1/boarding-events/bulk/ | 
 [**apiV1BoardingEventsCreate**](ApiApi.md#apiv1boardingeventscreate) | **POST** /api/v1/boarding-events/ | 
 [**apiV1BoardingEventsDestroy**](ApiApi.md#apiv1boardingeventsdestroy) | **DELETE** /api/v1/boarding-events/{event_id}/ | 
@@ -43,7 +41,20 @@ Method | HTTP request | Description
 [**apiV1BusesUtilizationRetrieve**](ApiApi.md#apiv1busesutilizationretrieve) | **GET** /api/v1/buses/utilization/ | 
 [**apiV1DashboardStatsRetrieve**](ApiApi.md#apiv1dashboardstatsretrieve) | **GET** /api/v1/dashboard/stats/ | Get dashboard summary statistics
 [**apiV1DashboardStudentsRetrieve**](ApiApi.md#apiv1dashboardstudentsretrieve) | **GET** /api/v1/dashboard/students/ | Get students with boarding events
+[**apiV1GeocodeCreate**](ApiApi.md#apiv1geocodecreate) | **POST** /api/v1/geocode/ | 
+[**apiV1GroupsList**](ApiApi.md#apiv1groupslist) | **GET** /api/v1/groups/ | 
+[**apiV1GroupsRetrieve**](ApiApi.md#apiv1groupsretrieve) | **GET** /api/v1/groups/{id}/ | 
 [**apiV1KioskBoardingCreate**](ApiApi.md#apiv1kioskboardingcreate) | **POST** /api/v1/kiosk/boarding/ | 
+[**apiV1KiosksCreate**](ApiApi.md#apiv1kioskscreate) | **POST** /api/v1/kiosks/ | 
+[**apiV1KiosksDestroy**](ApiApi.md#apiv1kiosksdestroy) | **DELETE** /api/v1/kiosks/{kiosk_id}/ | 
+[**apiV1KiosksList**](ApiApi.md#apiv1kioskslist) | **GET** /api/v1/kiosks/ | 
+[**apiV1KiosksPartialUpdate**](ApiApi.md#apiv1kioskspartialupdate) | **PATCH** /api/v1/kiosks/{kiosk_id}/ | 
+[**apiV1KiosksRetrieve**](ApiApi.md#apiv1kiosksretrieve) | **GET** /api/v1/kiosks/{kiosk_id}/ | 
+[**apiV1KiosksUpdate**](ApiApi.md#apiv1kiosksupdate) | **PUT** /api/v1/kiosks/{kiosk_id}/ | 
+[**apiV1LocationsRetrieve**](ApiApi.md#apiv1locationsretrieve) | **GET** /api/v1/locations/ | 
+[**apiV1LogsList**](ApiApi.md#apiv1logslist) | **GET** /api/v1/logs/ | 
+[**apiV1LogsRetrieve**](ApiApi.md#apiv1logsretrieve) | **GET** /api/v1/logs/{log_id}/ | 
+[**apiV1LogsSummaryRetrieve**](ApiApi.md#apiv1logssummaryretrieve) | **GET** /api/v1/logs/summary/ | 
 [**apiV1ParentsCreate**](ApiApi.md#apiv1parentscreate) | **POST** /api/v1/parents/ | 
 [**apiV1ParentsDestroy**](ApiApi.md#apiv1parentsdestroy) | **DELETE** /api/v1/parents/{parent_id}/ | 
 [**apiV1ParentsList**](ApiApi.md#apiv1parentslist) | **GET** /api/v1/parents/ | 
@@ -51,8 +62,6 @@ Method | HTTP request | Description
 [**apiV1ParentsRetrieve**](ApiApi.md#apiv1parentsretrieve) | **GET** /api/v1/parents/{parent_id}/ | 
 [**apiV1ParentsStudentsRetrieve**](ApiApi.md#apiv1parentsstudentsretrieve) | **GET** /api/v1/parents/{parent_id}/students/ | 
 [**apiV1ParentsUpdate**](ApiApi.md#apiv1parentsupdate) | **PUT** /api/v1/parents/{parent_id}/ | 
-[**apiV1RolesList**](ApiApi.md#apiv1roleslist) | **GET** /api/v1/roles/ | 
-[**apiV1RolesRetrieve**](ApiApi.md#apiv1rolesretrieve) | **GET** /api/v1/roles/{role_id}/ | 
 [**apiV1RoutesBusesRetrieve**](ApiApi.md#apiv1routesbusesretrieve) | **GET** /api/v1/routes/{route_id}/buses/ | 
 [**apiV1RoutesCreate**](ApiApi.md#apiv1routescreate) | **POST** /api/v1/routes/ | 
 [**apiV1RoutesDestroy**](ApiApi.md#apiv1routesdestroy) | **DELETE** /api/v1/routes/{route_id}/ | 
@@ -61,6 +70,7 @@ Method | HTTP request | Description
 [**apiV1RoutesRetrieve**](ApiApi.md#apiv1routesretrieve) | **GET** /api/v1/routes/{route_id}/ | 
 [**apiV1RoutesStudentsRetrieve**](ApiApi.md#apiv1routesstudentsretrieve) | **GET** /api/v1/routes/{route_id}/students/ | 
 [**apiV1RoutesUpdate**](ApiApi.md#apiv1routesupdate) | **PUT** /api/v1/routes/{route_id}/ | 
+[**apiV1SchoolApiBusLocationsRetrieve**](ApiApi.md#apiv1schoolapibuslocationsretrieve) | **GET** /api/v1/school/api/bus-locations/ | 
 [**apiV1SchoolsCreate**](ApiApi.md#apiv1schoolscreate) | **POST** /api/v1/schools/ | 
 [**apiV1SchoolsDestroy**](ApiApi.md#apiv1schoolsdestroy) | **DELETE** /api/v1/schools/{school_id}/ | 
 [**apiV1SchoolsList**](ApiApi.md#apiv1schoolslist) | **GET** /api/v1/schools/ | 
@@ -91,8 +101,6 @@ Method | HTTP request | Description
 [**apiV1UsersCreate**](ApiApi.md#apiv1userscreate) | **POST** /api/v1/users/ | 
 [**apiV1UsersDestroy**](ApiApi.md#apiv1usersdestroy) | **DELETE** /api/v1/users/{user_id}/ | 
 [**apiV1UsersList**](ApiApi.md#apiv1userslist) | **GET** /api/v1/users/ | 
-[**apiV1UsersLoginCreate**](ApiApi.md#apiv1userslogincreate) | **POST** /api/v1/users/login/ | 
-[**apiV1UsersLogoutCreate**](ApiApi.md#apiv1userslogoutcreate) | **POST** /api/v1/users/logout/ | 
 [**apiV1UsersMeRetrieve**](ApiApi.md#apiv1usersmeretrieve) | **GET** /api/v1/users/me/ | 
 [**apiV1UsersPartialUpdate**](ApiApi.md#apiv1userspartialupdate) | **PATCH** /api/v1/users/{user_id}/ | 
 [**apiV1UsersRetrieve**](ApiApi.md#apiv1usersretrieve) | **GET** /api/v1/users/{user_id}/ | 
@@ -117,13 +125,13 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final APIKeyCreate aPIKeyCreate = ; // APIKeyCreate | 
+final api_instance = ApiApi();
+final aPIKeyCreate = APIKeyCreate(); // APIKeyCreate | 
 
 try {
-    final response = api.apiV1ApiKeysCreate(aPIKeyCreate);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1ApiKeysCreate(aPIKeyCreate);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1ApiKeysCreate: $e\n');
 }
 ```
@@ -140,7 +148,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -162,12 +170,12 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String keyId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this api key.
+final api_instance = ApiApi();
+final keyId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this api key.
 
 try {
-    api.apiV1ApiKeysDestroy(keyId);
-} catch on DioException (e) {
+    api_instance.apiV1ApiKeysDestroy(keyId);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1ApiKeysDestroy: $e\n');
 }
 ```
@@ -184,7 +192,7 @@ void (empty response body)
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -206,15 +214,15 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String ordering = ordering_example; // String | Which field to use when ordering the results.
-final int page = 56; // int | A page number within the paginated result set.
-final String search = search_example; // String | A search term.
+final api_instance = ApiApi();
+final ordering = ordering_example; // String | Which field to use when ordering the results.
+final page = 56; // int | A page number within the paginated result set.
+final search = search_example; // String | A search term.
 
 try {
-    final response = api.apiV1ApiKeysList(ordering, page, search);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1ApiKeysList(ordering, page, search);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1ApiKeysList: $e\n');
 }
 ```
@@ -233,7 +241,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -255,14 +263,14 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String keyId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this api key.
-final PatchedAPIKey patchedAPIKey = ; // PatchedAPIKey | 
+final api_instance = ApiApi();
+final keyId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this api key.
+final patchedAPIKey = PatchedAPIKey(); // PatchedAPIKey | 
 
 try {
-    final response = api.apiV1ApiKeysPartialUpdate(keyId, patchedAPIKey);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1ApiKeysPartialUpdate(keyId, patchedAPIKey);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1ApiKeysPartialUpdate: $e\n');
 }
 ```
@@ -280,7 +288,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -302,13 +310,13 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String keyId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this api key.
+final api_instance = ApiApi();
+final keyId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this api key.
 
 try {
-    final response = api.apiV1ApiKeysRetrieve(keyId);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1ApiKeysRetrieve(keyId);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1ApiKeysRetrieve: $e\n');
 }
 ```
@@ -325,7 +333,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -347,14 +355,14 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String keyId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this api key.
-final APIKey aPIKey = ; // APIKey | 
+final api_instance = ApiApi();
+final keyId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this api key.
+final aPIKey = APIKey(); // APIKey | 
 
 try {
-    final response = api.apiV1ApiKeysRevokeCreate(keyId, aPIKey);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1ApiKeysRevokeCreate(keyId, aPIKey);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1ApiKeysRevokeCreate: $e\n');
 }
 ```
@@ -372,7 +380,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -394,14 +402,14 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String keyId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this api key.
-final APIKey aPIKey = ; // APIKey | 
+final api_instance = ApiApi();
+final keyId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this api key.
+final aPIKey = APIKey(); // APIKey | 
 
 try {
-    final response = api.apiV1ApiKeysUpdate(keyId, aPIKey);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1ApiKeysUpdate(keyId, aPIKey);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1ApiKeysUpdate: $e\n');
 }
 ```
@@ -419,7 +427,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -443,16 +451,16 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final DateTime date = 2013-10-20; // DateTime | 
-final int page = 56; // int | A page number within the paginated result set.
-final String status = status_example; // String | Overall attendance status  * `present` - Present * `absent` - Absent * `partial` - Partial
-final String student = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final api_instance = ApiApi();
+final date = 2013-10-20; // DateTime | 
+final page = 56; // int | A page number within the paginated result set.
+final status = status_example; // String | Overall attendance status  * `present` - Present * `absent` - Absent * `partial` - Partial
+final student = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
 
 try {
-    final response = api.apiV1AttendanceList(date, page, status, student);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1AttendanceList(date, page, status, student);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1AttendanceList: $e\n');
 }
 ```
@@ -472,7 +480,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -496,13 +504,13 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String recordId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final api_instance = ApiApi();
+final recordId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
 
 try {
-    final response = api.apiV1AttendanceRetrieve(recordId);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1AttendanceRetrieve(recordId);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1AttendanceRetrieve: $e\n');
 }
 ```
@@ -519,7 +527,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -543,13 +551,13 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final api_instance = ApiApi();
+final studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
 
 try {
-    final response = api.apiV1AttendanceStudentRetrieve(studentId);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1AttendanceStudentRetrieve(studentId);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1AttendanceStudentRetrieve: $e\n');
 }
 ```
@@ -566,7 +574,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -590,12 +598,12 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
+final api_instance = ApiApi();
 
 try {
-    final response = api.apiV1AttendanceSummaryRetrieve();
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1AttendanceSummaryRetrieve();
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1AttendanceSummaryRetrieve: $e\n');
 }
 ```
@@ -609,7 +617,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -631,15 +639,15 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String ordering = ordering_example; // String | Which field to use when ordering the results.
-final int page = 56; // int | A page number within the paginated result set.
-final String search = search_example; // String | A search term.
+final api_instance = ApiApi();
+final ordering = ordering_example; // String | Which field to use when ordering the results.
+final page = 56; // int | A page number within the paginated result set.
+final search = search_example; // String | A search term.
 
 try {
-    final response = api.apiV1AuditLogsList(ordering, page, search);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1AuditLogsList(ordering, page, search);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1AuditLogsList: $e\n');
 }
 ```
@@ -658,7 +666,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -680,13 +688,13 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final int logId = 56; // int | A unique integer value identifying this audit log.
+final api_instance = ApiApi();
+final logId = 56; // int | A unique integer value identifying this audit log.
 
 try {
-    final response = api.apiV1AuditLogsRetrieve(logId);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1AuditLogsRetrieve(logId);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1AuditLogsRetrieve: $e\n');
 }
 ```
@@ -703,97 +711,11 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **apiV1AuthTokenCreate**
-> TokenObtainPair apiV1AuthTokenCreate(tokenObtainPair)
-
-
-
-Takes a set of user credentials and returns an access and refresh JSON web token pair to prove the authentication of those credentials.
-
-### Example
-```dart
-import 'package:frontend_easy_api/api.dart';
-
-final api = FrontendEasyApi().getApiApi();
-final TokenObtainPair tokenObtainPair = ; // TokenObtainPair | 
-
-try {
-    final response = api.apiV1AuthTokenCreate(tokenObtainPair);
-    print(response);
-} catch on DioException (e) {
-    print('Exception when calling ApiApi->apiV1AuthTokenCreate: $e\n');
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **tokenObtainPair** | [**TokenObtainPair**](TokenObtainPair.md)|  | 
-
-### Return type
-
-[**TokenObtainPair**](TokenObtainPair.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: application/json, application/x-www-form-urlencoded, multipart/form-data
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **apiV1AuthTokenRefreshCreate**
-> TokenRefreshResponse apiV1AuthTokenRefreshCreate(tokenRefreshRequest)
-
-
-
-     Custom TokenRefreshView that supports both regular JWT and kiosk JWT tokens.      **Token Rotation Security:**     - Accepts: refresh token only     - Returns: NEW access token (15 min) + NEW refresh token (60 days)     - Old refresh token is immediately blacklisted (cannot be reused)     
-
-### Example
-```dart
-import 'package:frontend_easy_api/api.dart';
-
-final api = FrontendEasyApi().getApiApi();
-final TokenRefreshRequest tokenRefreshRequest = {"refresh":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."}; // TokenRefreshRequest | 
-
-try {
-    final response = api.apiV1AuthTokenRefreshCreate(tokenRefreshRequest);
-    print(response);
-} catch on DioException (e) {
-    print('Exception when calling ApiApi->apiV1AuthTokenRefreshCreate: $e\n');
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **tokenRefreshRequest** | [**TokenRefreshRequest**](TokenRefreshRequest.md)|  | 
-
-### Return type
-
-[**TokenRefreshResponse**](TokenRefreshResponse.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: application/json, application/x-www-form-urlencoded, multipart/form-data
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -809,13 +731,13 @@ Bulk create boarding events (for high-throughput kiosk operations)
 ```dart
 import 'package:frontend_easy_api/api.dart';
 
-final api = FrontendEasyApi().getApiApi();
-final BoardingEvent boardingEvent = ; // BoardingEvent | 
+final api_instance = ApiApi();
+final boardingEvent = BoardingEvent(); // BoardingEvent | 
 
 try {
-    final response = api.apiV1BoardingEventsBulkCreate(boardingEvent);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1BoardingEventsBulkCreate(boardingEvent);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1BoardingEventsBulkCreate: $e\n');
 }
 ```
@@ -832,7 +754,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[KioskJWTAuth](../README.md#KioskJWTAuth)
+No authorization required
 
 ### HTTP request headers
 
@@ -852,13 +774,13 @@ ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices 
 ```dart
 import 'package:frontend_easy_api/api.dart';
 
-final api = FrontendEasyApi().getApiApi();
-final BoardingEventCreate boardingEventCreate = ; // BoardingEventCreate | 
+final api_instance = ApiApi();
+final boardingEventCreate = BoardingEventCreate(); // BoardingEventCreate | 
 
 try {
-    final response = api.apiV1BoardingEventsCreate(boardingEventCreate);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1BoardingEventsCreate(boardingEventCreate);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1BoardingEventsCreate: $e\n');
 }
 ```
@@ -875,7 +797,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[KioskJWTAuth](../README.md#KioskJWTAuth)
+No authorization required
 
 ### HTTP request headers
 
@@ -895,12 +817,12 @@ ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices 
 ```dart
 import 'package:frontend_easy_api/api.dart';
 
-final api = FrontendEasyApi().getApiApi();
-final String eventId = eventId_example; // String | 
+final api_instance = ApiApi();
+final eventId = eventId_example; // String | 
 
 try {
-    api.apiV1BoardingEventsDestroy(eventId);
-} catch on DioException (e) {
+    api_instance.apiV1BoardingEventsDestroy(eventId);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1BoardingEventsDestroy: $e\n');
 }
 ```
@@ -917,7 +839,7 @@ void (empty response body)
 
 ### Authorization
 
-[KioskJWTAuth](../README.md#KioskJWTAuth)
+No authorization required
 
 ### HTTP request headers
 
@@ -937,17 +859,17 @@ ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices 
 ```dart
 import 'package:frontend_easy_api/api.dart';
 
-final api = FrontendEasyApi().getApiApi();
-final String busRoute = busRoute_example; // String | 
-final String kioskId = kioskId_example; // String | 
-final int page = 56; // int | A page number within the paginated result set.
-final String student = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
-final DateTime timestamp = 2013-10-20T19:20:30+01:00; // DateTime | 
+final api_instance = ApiApi();
+final busRoute = busRoute_example; // String | 
+final kioskId = kioskId_example; // String | 
+final page = 56; // int | A page number within the paginated result set.
+final student = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final timestamp = 2013-10-20T19:20:30+01:00; // DateTime | 
 
 try {
-    final response = api.apiV1BoardingEventsList(busRoute, kioskId, page, student, timestamp);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1BoardingEventsList(busRoute, kioskId, page, student, timestamp);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1BoardingEventsList: $e\n');
 }
 ```
@@ -968,7 +890,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[KioskJWTAuth](../README.md#KioskJWTAuth)
+No authorization required
 
 ### HTTP request headers
 
@@ -988,14 +910,14 @@ ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices 
 ```dart
 import 'package:frontend_easy_api/api.dart';
 
-final api = FrontendEasyApi().getApiApi();
-final String eventId = eventId_example; // String | 
-final PatchedBoardingEvent patchedBoardingEvent = ; // PatchedBoardingEvent | 
+final api_instance = ApiApi();
+final eventId = eventId_example; // String | 
+final patchedBoardingEvent = PatchedBoardingEvent(); // PatchedBoardingEvent | 
 
 try {
-    final response = api.apiV1BoardingEventsPartialUpdate(eventId, patchedBoardingEvent);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1BoardingEventsPartialUpdate(eventId, patchedBoardingEvent);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1BoardingEventsPartialUpdate: $e\n');
 }
 ```
@@ -1013,7 +935,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[KioskJWTAuth](../README.md#KioskJWTAuth)
+No authorization required
 
 ### HTTP request headers
 
@@ -1033,12 +955,12 @@ Get recent boarding events for dashboard
 ```dart
 import 'package:frontend_easy_api/api.dart';
 
-final api = FrontendEasyApi().getApiApi();
+final api_instance = ApiApi();
 
 try {
-    final response = api.apiV1BoardingEventsRecentRetrieve();
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1BoardingEventsRecentRetrieve();
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1BoardingEventsRecentRetrieve: $e\n');
 }
 ```
@@ -1052,7 +974,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[KioskJWTAuth](../README.md#KioskJWTAuth)
+No authorization required
 
 ### HTTP request headers
 
@@ -1072,13 +994,13 @@ ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices 
 ```dart
 import 'package:frontend_easy_api/api.dart';
 
-final api = FrontendEasyApi().getApiApi();
-final String eventId = eventId_example; // String | 
+final api_instance = ApiApi();
+final eventId = eventId_example; // String | 
 
 try {
-    final response = api.apiV1BoardingEventsRetrieve(eventId);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1BoardingEventsRetrieve(eventId);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1BoardingEventsRetrieve: $e\n');
 }
 ```
@@ -1095,7 +1017,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[KioskJWTAuth](../README.md#KioskJWTAuth)
+No authorization required
 
 ### HTTP request headers
 
@@ -1115,14 +1037,14 @@ ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices 
 ```dart
 import 'package:frontend_easy_api/api.dart';
 
-final api = FrontendEasyApi().getApiApi();
-final String eventId = eventId_example; // String | 
-final BoardingEvent boardingEvent = ; // BoardingEvent | 
+final api_instance = ApiApi();
+final eventId = eventId_example; // String | 
+final boardingEvent = BoardingEvent(); // BoardingEvent | 
 
 try {
-    final response = api.apiV1BoardingEventsUpdate(eventId, boardingEvent);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1BoardingEventsUpdate(eventId, boardingEvent);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1BoardingEventsUpdate: $e\n');
 }
 ```
@@ -1140,7 +1062,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[KioskJWTAuth](../README.md#KioskJWTAuth)
+No authorization required
 
 ### HTTP request headers
 
@@ -1164,13 +1086,13 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final Bus bus = ; // Bus | 
+final api_instance = ApiApi();
+final bus = Bus(); // Bus | 
 
 try {
-    final response = api.apiV1BusesAssignStudentsCreate(bus);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1BusesAssignStudentsCreate(bus);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1BusesAssignStudentsCreate: $e\n');
 }
 ```
@@ -1187,7 +1109,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -1211,13 +1133,13 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final Bus bus = ; // Bus | 
+final api_instance = ApiApi();
+final bus = Bus(); // Bus | 
 
 try {
-    final response = api.apiV1BusesCreate(bus);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1BusesCreate(bus);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1BusesCreate: $e\n');
 }
 ```
@@ -1234,7 +1156,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -1258,12 +1180,12 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String busId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final api_instance = ApiApi();
+final busId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
 
 try {
-    api.apiV1BusesDestroy(busId);
-} catch on DioException (e) {
+    api_instance.apiV1BusesDestroy(busId);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1BusesDestroy: $e\n');
 }
 ```
@@ -1280,7 +1202,7 @@ void (empty response body)
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -1304,16 +1226,16 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String deviceId = deviceId_example; // String | 
-final int page = 56; // int | A page number within the paginated result set.
-final String route = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | UUID primary key
-final String status = status_example; // String | Current operational status  * `active` - Active * `maintenance` - Under Maintenance * `retired` - Retired
+final api_instance = ApiApi();
+final deviceId = deviceId_example; // String | 
+final page = 56; // int | A page number within the paginated result set.
+final route = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | UUID primary key
+final status = status_example; // String | Current operational status  * `active` - Active * `maintenance` - Under Maintenance * `retired` - Retired
 
 try {
-    final response = api.apiV1BusesList(deviceId, page, route, status);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1BusesList(deviceId, page, route, status);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1BusesList: $e\n');
 }
 ```
@@ -1333,7 +1255,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -1357,14 +1279,14 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String busId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
-final PatchedBus patchedBus = ; // PatchedBus | 
+final api_instance = ApiApi();
+final busId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final patchedBus = PatchedBus(); // PatchedBus | 
 
 try {
-    final response = api.apiV1BusesPartialUpdate(busId, patchedBus);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1BusesPartialUpdate(busId, patchedBus);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1BusesPartialUpdate: $e\n');
 }
 ```
@@ -1382,7 +1304,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -1406,13 +1328,13 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String busId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final api_instance = ApiApi();
+final busId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
 
 try {
-    final response = api.apiV1BusesRetrieve(busId);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1BusesRetrieve(busId);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1BusesRetrieve: $e\n');
 }
 ```
@@ -1429,7 +1351,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -1453,13 +1375,13 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String busId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final api_instance = ApiApi();
+final busId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
 
 try {
-    final response = api.apiV1BusesStudentsRetrieve(busId);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1BusesStudentsRetrieve(busId);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1BusesStudentsRetrieve: $e\n');
 }
 ```
@@ -1476,7 +1398,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -1500,14 +1422,14 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String busId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
-final Bus bus = ; // Bus | 
+final api_instance = ApiApi();
+final busId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final bus = Bus(); // Bus | 
 
 try {
-    final response = api.apiV1BusesUpdate(busId, bus);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1BusesUpdate(busId, bus);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1BusesUpdate: $e\n');
 }
 ```
@@ -1525,7 +1447,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -1549,12 +1471,12 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
+final api_instance = ApiApi();
 
 try {
-    final response = api.apiV1BusesUtilizationRetrieve();
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1BusesUtilizationRetrieve();
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1BusesUtilizationRetrieve: $e\n');
 }
 ```
@@ -1568,7 +1490,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -1592,12 +1514,12 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
+final api_instance = ApiApi();
 
 try {
-    final response = api.apiV1DashboardStatsRetrieve();
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1DashboardStatsRetrieve();
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1DashboardStatsRetrieve: $e\n');
 }
 ```
@@ -1611,7 +1533,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -1635,14 +1557,14 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final int limit = 56; // int | Number of students per page (default=50)
-final int offset = 56; // int | Offset for pagination (default=0)
+final api_instance = ApiApi();
+final limit = 56; // int | Number of students per page (default=50)
+final offset = 56; // int | Offset for pagination (default=0)
 
 try {
-    final response = api.apiV1DashboardStudentsRetrieve(limit, offset);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1DashboardStudentsRetrieve(limit, offset);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1DashboardStudentsRetrieve: $e\n');
 }
 ```
@@ -1660,7 +1582,147 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiV1GeocodeCreate**
+> apiV1GeocodeCreate()
+
+
+
+Geocode an address to coordinates.  POST /api/v1/geocode/ Body: {\"address\": \"Imperial College London\"}  Returns: {     \"latitude\": 51.4988,     \"longitude\": -0.1749,     \"formatted_address\": \"Imperial College London, Exhibition Rd, London SW7 2AZ, UK\" }
+
+### Example
+```dart
+import 'package:frontend_easy_api/api.dart';
+// TODO Configure API key authorization: cookieAuth
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+
+final api_instance = ApiApi();
+
+try {
+    api_instance.apiV1GeocodeCreate();
+} catch (e) {
+    print('Exception when calling ApiApi->apiV1GeocodeCreate: $e\n');
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[cookieAuth](../README.md#cookieAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiV1GroupsList**
+> PaginatedGroupList apiV1GroupsList(ordering, page, search)
+
+
+
+API endpoint for Groups (Roles). Read-only following IAM principle - groups managed via seed_groups command. Groups represent user roles: school_admin, parent, driver.
+
+### Example
+```dart
+import 'package:frontend_easy_api/api.dart';
+// TODO Configure API key authorization: cookieAuth
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+
+final api_instance = ApiApi();
+final ordering = ordering_example; // String | Which field to use when ordering the results.
+final page = 56; // int | A page number within the paginated result set.
+final search = search_example; // String | A search term.
+
+try {
+    final result = api_instance.apiV1GroupsList(ordering, page, search);
+    print(result);
+} catch (e) {
+    print('Exception when calling ApiApi->apiV1GroupsList: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **ordering** | **String**| Which field to use when ordering the results. | [optional] 
+ **page** | **int**| A page number within the paginated result set. | [optional] 
+ **search** | **String**| A search term. | [optional] 
+
+### Return type
+
+[**PaginatedGroupList**](PaginatedGroupList.md)
+
+### Authorization
+
+[cookieAuth](../README.md#cookieAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiV1GroupsRetrieve**
+> Group apiV1GroupsRetrieve(id)
+
+
+
+API endpoint for Groups (Roles). Read-only following IAM principle - groups managed via seed_groups command. Groups represent user roles: school_admin, parent, driver.
+
+### Example
+```dart
+import 'package:frontend_easy_api/api.dart';
+// TODO Configure API key authorization: cookieAuth
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+
+final api_instance = ApiApi();
+final id = 56; // int | A unique integer value identifying this group.
+
+try {
+    final result = api_instance.apiV1GroupsRetrieve(id);
+    print(result);
+} catch (e) {
+    print('Exception when calling ApiApi->apiV1GroupsRetrieve: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **int**| A unique integer value identifying this group. | 
+
+### Return type
+
+[**Group**](Group.md)
+
+### Authorization
+
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -1684,13 +1746,13 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final Map<String, Object> requestBody = Object; // Map<String, Object> | 
+final api_instance = ApiApi();
+final requestBody = Map<String, Object>(); // Map<String, Object> | 
 
 try {
-    final response = api.apiV1KioskBoardingCreate(requestBody);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1KioskBoardingCreate(requestBody);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1KioskBoardingCreate: $e\n');
 }
 ```
@@ -1699,7 +1761,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **requestBody** | [**Map&lt;String, Object&gt;**](Object.md)|  | [optional] 
+ **requestBody** | [**Map<String, Object>**](Object.md)|  | [optional] 
 
 ### Return type
 
@@ -1707,11 +1769,485 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/x-www-form-urlencoded, multipart/form-data
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiV1KiosksCreate**
+> Kiosk apiV1KiosksCreate(kiosk)
+
+
+
+ViewSet for kiosk management (admin only)
+
+### Example
+```dart
+import 'package:frontend_easy_api/api.dart';
+// TODO Configure API key authorization: cookieAuth
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+
+final api_instance = ApiApi();
+final kiosk = Kiosk(); // Kiosk | 
+
+try {
+    final result = api_instance.apiV1KiosksCreate(kiosk);
+    print(result);
+} catch (e) {
+    print('Exception when calling ApiApi->apiV1KiosksCreate: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **kiosk** | [**Kiosk**](Kiosk.md)|  | [optional] 
+
+### Return type
+
+[**Kiosk**](Kiosk.md)
+
+### Authorization
+
+[cookieAuth](../README.md#cookieAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json, application/x-www-form-urlencoded, multipart/form-data
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiV1KiosksDestroy**
+> apiV1KiosksDestroy(kioskId)
+
+
+
+ViewSet for kiosk management (admin only)
+
+### Example
+```dart
+import 'package:frontend_easy_api/api.dart';
+// TODO Configure API key authorization: cookieAuth
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+
+final api_instance = ApiApi();
+final kioskId = kioskId_example; // String | 
+
+try {
+    api_instance.apiV1KiosksDestroy(kioskId);
+} catch (e) {
+    print('Exception when calling ApiApi->apiV1KiosksDestroy: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **kioskId** | **String**|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[cookieAuth](../README.md#cookieAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiV1KiosksList**
+> PaginatedKioskList apiV1KiosksList(ordering, page, search)
+
+
+
+ViewSet for kiosk management (admin only)
+
+### Example
+```dart
+import 'package:frontend_easy_api/api.dart';
+// TODO Configure API key authorization: cookieAuth
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+
+final api_instance = ApiApi();
+final ordering = ordering_example; // String | Which field to use when ordering the results.
+final page = 56; // int | A page number within the paginated result set.
+final search = search_example; // String | A search term.
+
+try {
+    final result = api_instance.apiV1KiosksList(ordering, page, search);
+    print(result);
+} catch (e) {
+    print('Exception when calling ApiApi->apiV1KiosksList: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **ordering** | **String**| Which field to use when ordering the results. | [optional] 
+ **page** | **int**| A page number within the paginated result set. | [optional] 
+ **search** | **String**| A search term. | [optional] 
+
+### Return type
+
+[**PaginatedKioskList**](PaginatedKioskList.md)
+
+### Authorization
+
+[cookieAuth](../README.md#cookieAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiV1KiosksPartialUpdate**
+> Kiosk apiV1KiosksPartialUpdate(kioskId, patchedKiosk)
+
+
+
+ViewSet for kiosk management (admin only)
+
+### Example
+```dart
+import 'package:frontend_easy_api/api.dart';
+// TODO Configure API key authorization: cookieAuth
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+
+final api_instance = ApiApi();
+final kioskId = kioskId_example; // String | 
+final patchedKiosk = PatchedKiosk(); // PatchedKiosk | 
+
+try {
+    final result = api_instance.apiV1KiosksPartialUpdate(kioskId, patchedKiosk);
+    print(result);
+} catch (e) {
+    print('Exception when calling ApiApi->apiV1KiosksPartialUpdate: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **kioskId** | **String**|  | 
+ **patchedKiosk** | [**PatchedKiosk**](PatchedKiosk.md)|  | [optional] 
+
+### Return type
+
+[**Kiosk**](Kiosk.md)
+
+### Authorization
+
+[cookieAuth](../README.md#cookieAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json, application/x-www-form-urlencoded, multipart/form-data
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiV1KiosksRetrieve**
+> Kiosk apiV1KiosksRetrieve(kioskId)
+
+
+
+ViewSet for kiosk management (admin only)
+
+### Example
+```dart
+import 'package:frontend_easy_api/api.dart';
+// TODO Configure API key authorization: cookieAuth
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+
+final api_instance = ApiApi();
+final kioskId = kioskId_example; // String | 
+
+try {
+    final result = api_instance.apiV1KiosksRetrieve(kioskId);
+    print(result);
+} catch (e) {
+    print('Exception when calling ApiApi->apiV1KiosksRetrieve: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **kioskId** | **String**|  | 
+
+### Return type
+
+[**Kiosk**](Kiosk.md)
+
+### Authorization
+
+[cookieAuth](../README.md#cookieAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiV1KiosksUpdate**
+> Kiosk apiV1KiosksUpdate(kioskId, kiosk)
+
+
+
+ViewSet for kiosk management (admin only)
+
+### Example
+```dart
+import 'package:frontend_easy_api/api.dart';
+// TODO Configure API key authorization: cookieAuth
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+
+final api_instance = ApiApi();
+final kioskId = kioskId_example; // String | 
+final kiosk = Kiosk(); // Kiosk | 
+
+try {
+    final result = api_instance.apiV1KiosksUpdate(kioskId, kiosk);
+    print(result);
+} catch (e) {
+    print('Exception when calling ApiApi->apiV1KiosksUpdate: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **kioskId** | **String**|  | 
+ **kiosk** | [**Kiosk**](Kiosk.md)|  | [optional] 
+
+### Return type
+
+[**Kiosk**](Kiosk.md)
+
+### Authorization
+
+[cookieAuth](../README.md#cookieAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json, application/x-www-form-urlencoded, multipart/form-data
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiV1LocationsRetrieve**
+> apiV1LocationsRetrieve()
+
+
+
+Bus locations API for school dashboard (any authenticated user).  Returns real-time bus locations for ALL buses in the fleet as GeoJSON. Accessible by any authenticated user.
+
+### Example
+```dart
+import 'package:frontend_easy_api/api.dart';
+// TODO Configure API key authorization: cookieAuth
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+
+final api_instance = ApiApi();
+
+try {
+    api_instance.apiV1LocationsRetrieve();
+} catch (e) {
+    print('Exception when calling ApiApi->apiV1LocationsRetrieve: $e\n');
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[cookieAuth](../README.md#cookieAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiV1LogsList**
+> PaginatedDeviceLogList apiV1LogsList(kiosk, logLevel, page, timestamp)
+
+
+
+Read-only ViewSet for device logs (any authenticated user)
+
+### Example
+```dart
+import 'package:frontend_easy_api/api.dart';
+// TODO Configure API key authorization: cookieAuth
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+
+final api_instance = ApiApi();
+final kiosk = kiosk_example; // String | Unique kiosk device identifier (e.g., KIOSK001, BUS123-KIOSK)
+final logLevel = logLevel_example; // String | Log level severity  * `DEBUG` - Debug * `INFO` - Info * `WARN` - Warning * `ERROR` - Error * `CRITICAL` - Critical
+final page = 56; // int | A page number within the paginated result set.
+final timestamp = 2013-10-20T19:20:30+01:00; // DateTime | 
+
+try {
+    final result = api_instance.apiV1LogsList(kiosk, logLevel, page, timestamp);
+    print(result);
+} catch (e) {
+    print('Exception when calling ApiApi->apiV1LogsList: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **kiosk** | **String**| Unique kiosk device identifier (e.g., KIOSK001, BUS123-KIOSK) | [optional] 
+ **logLevel** | **String**| Log level severity  * `DEBUG` - Debug * `INFO` - Info * `WARN` - Warning * `ERROR` - Error * `CRITICAL` - Critical | [optional] 
+ **page** | **int**| A page number within the paginated result set. | [optional] 
+ **timestamp** | **DateTime**|  | [optional] 
+
+### Return type
+
+[**PaginatedDeviceLogList**](PaginatedDeviceLogList.md)
+
+### Authorization
+
+[cookieAuth](../README.md#cookieAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiV1LogsRetrieve**
+> DeviceLog apiV1LogsRetrieve(logId)
+
+
+
+Read-only ViewSet for device logs (any authenticated user)
+
+### Example
+```dart
+import 'package:frontend_easy_api/api.dart';
+// TODO Configure API key authorization: cookieAuth
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+
+final api_instance = ApiApi();
+final logId = 56; // int | 
+
+try {
+    final result = api_instance.apiV1LogsRetrieve(logId);
+    print(result);
+} catch (e) {
+    print('Exception when calling ApiApi->apiV1LogsRetrieve: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **logId** | **int**|  | 
+
+### Return type
+
+[**DeviceLog**](DeviceLog.md)
+
+### Authorization
+
+[cookieAuth](../README.md#cookieAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiV1LogsSummaryRetrieve**
+> DeviceLog apiV1LogsSummaryRetrieve()
+
+
+
+Get logs summary by level and time
+
+### Example
+```dart
+import 'package:frontend_easy_api/api.dart';
+// TODO Configure API key authorization: cookieAuth
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+
+final api_instance = ApiApi();
+
+try {
+    final result = api_instance.apiV1LogsSummaryRetrieve();
+    print(result);
+} catch (e) {
+    print('Exception when calling ApiApi->apiV1LogsSummaryRetrieve: $e\n');
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**DeviceLog**](DeviceLog.md)
+
+### Authorization
+
+[cookieAuth](../README.md#cookieAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -1729,13 +2265,13 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final Parent parent = ; // Parent | 
+final api_instance = ApiApi();
+final parent = Parent(); // Parent | 
 
 try {
-    final response = api.apiV1ParentsCreate(parent);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1ParentsCreate(parent);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1ParentsCreate: $e\n');
 }
 ```
@@ -1752,7 +2288,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -1774,12 +2310,12 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String parentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this parent.
+final api_instance = ApiApi();
+final parentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this parent.
 
 try {
-    api.apiV1ParentsDestroy(parentId);
-} catch on DioException (e) {
+    api_instance.apiV1ParentsDestroy(parentId);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1ParentsDestroy: $e\n');
 }
 ```
@@ -1796,7 +2332,7 @@ void (empty response body)
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -1818,15 +2354,15 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String ordering = ordering_example; // String | Which field to use when ordering the results.
-final int page = 56; // int | A page number within the paginated result set.
-final String search = search_example; // String | A search term.
+final api_instance = ApiApi();
+final ordering = ordering_example; // String | Which field to use when ordering the results.
+final page = 56; // int | A page number within the paginated result set.
+final search = search_example; // String | A search term.
 
 try {
-    final response = api.apiV1ParentsList(ordering, page, search);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1ParentsList(ordering, page, search);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1ParentsList: $e\n');
 }
 ```
@@ -1845,7 +2381,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -1867,14 +2403,14 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String parentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this parent.
-final PatchedParent patchedParent = ; // PatchedParent | 
+final api_instance = ApiApi();
+final parentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this parent.
+final patchedParent = PatchedParent(); // PatchedParent | 
 
 try {
-    final response = api.apiV1ParentsPartialUpdate(parentId, patchedParent);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1ParentsPartialUpdate(parentId, patchedParent);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1ParentsPartialUpdate: $e\n');
 }
 ```
@@ -1892,7 +2428,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -1914,13 +2450,13 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String parentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this parent.
+final api_instance = ApiApi();
+final parentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this parent.
 
 try {
-    final response = api.apiV1ParentsRetrieve(parentId);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1ParentsRetrieve(parentId);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1ParentsRetrieve: $e\n');
 }
 ```
@@ -1937,7 +2473,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -1959,13 +2495,13 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String parentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this parent.
+final api_instance = ApiApi();
+final parentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this parent.
 
 try {
-    final response = api.apiV1ParentsStudentsRetrieve(parentId);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1ParentsStudentsRetrieve(parentId);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1ParentsStudentsRetrieve: $e\n');
 }
 ```
@@ -1982,7 +2518,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -2004,14 +2540,14 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String parentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this parent.
-final Parent parent = ; // Parent | 
+final api_instance = ApiApi();
+final parentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this parent.
+final parent = Parent(); // Parent | 
 
 try {
-    final response = api.apiV1ParentsUpdate(parentId, parent);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1ParentsUpdate(parentId, parent);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1ParentsUpdate: $e\n');
 }
 ```
@@ -2029,105 +2565,11 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/x-www-form-urlencoded, multipart/form-data
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **apiV1RolesList**
-> PaginatedRoleList apiV1RolesList(ordering, page, search)
-
-
-
-### Example
-```dart
-import 'package:frontend_easy_api/api.dart';
-// TODO Configure API key authorization: cookieAuth
-//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
-// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
-
-final api = FrontendEasyApi().getApiApi();
-final String ordering = ordering_example; // String | Which field to use when ordering the results.
-final int page = 56; // int | A page number within the paginated result set.
-final String search = search_example; // String | A search term.
-
-try {
-    final response = api.apiV1RolesList(ordering, page, search);
-    print(response);
-} catch on DioException (e) {
-    print('Exception when calling ApiApi->apiV1RolesList: $e\n');
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **ordering** | **String**| Which field to use when ordering the results. | [optional] 
- **page** | **int**| A page number within the paginated result set. | [optional] 
- **search** | **String**| A search term. | [optional] 
-
-### Return type
-
-[**PaginatedRoleList**](PaginatedRoleList.md)
-
-### Authorization
-
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **apiV1RolesRetrieve**
-> Role apiV1RolesRetrieve(roleId)
-
-
-
-### Example
-```dart
-import 'package:frontend_easy_api/api.dart';
-// TODO Configure API key authorization: cookieAuth
-//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
-// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
-
-final api = FrontendEasyApi().getApiApi();
-final String roleId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this role.
-
-try {
-    final response = api.apiV1RolesRetrieve(roleId);
-    print(response);
-} catch on DioException (e) {
-    print('Exception when calling ApiApi->apiV1RolesRetrieve: $e\n');
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **roleId** | **String**| A UUID string identifying this role. | 
-
-### Return type
-
-[**Role**](Role.md)
-
-### Authorization
-
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -2147,13 +2589,13 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final api_instance = ApiApi();
+final routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
 
 try {
-    final response = api.apiV1RoutesBusesRetrieve(routeId);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1RoutesBusesRetrieve(routeId);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1RoutesBusesRetrieve: $e\n');
 }
 ```
@@ -2170,7 +2612,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -2194,13 +2636,13 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final Route route = ; // Route | 
+final api_instance = ApiApi();
+final route = Route(); // Route | 
 
 try {
-    final response = api.apiV1RoutesCreate(route);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1RoutesCreate(route);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1RoutesCreate: $e\n');
 }
 ```
@@ -2217,7 +2659,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -2241,12 +2683,12 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final api_instance = ApiApi();
+final routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
 
 try {
-    api.apiV1RoutesDestroy(routeId);
-} catch on DioException (e) {
+    api_instance.apiV1RoutesDestroy(routeId);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1RoutesDestroy: $e\n');
 }
 ```
@@ -2263,7 +2705,7 @@ void (empty response body)
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -2287,14 +2729,14 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final bool isActive = true; // bool | 
-final int page = 56; // int | A page number within the paginated result set.
+final api_instance = ApiApi();
+final isActive = true; // bool | 
+final page = 56; // int | A page number within the paginated result set.
 
 try {
-    final response = api.apiV1RoutesList(isActive, page);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1RoutesList(isActive, page);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1RoutesList: $e\n');
 }
 ```
@@ -2312,7 +2754,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -2336,14 +2778,14 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
-final PatchedRoute patchedRoute = ; // PatchedRoute | 
+final api_instance = ApiApi();
+final routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final patchedRoute = PatchedRoute(); // PatchedRoute | 
 
 try {
-    final response = api.apiV1RoutesPartialUpdate(routeId, patchedRoute);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1RoutesPartialUpdate(routeId, patchedRoute);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1RoutesPartialUpdate: $e\n');
 }
 ```
@@ -2361,7 +2803,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -2385,13 +2827,13 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final api_instance = ApiApi();
+final routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
 
 try {
-    final response = api.apiV1RoutesRetrieve(routeId);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1RoutesRetrieve(routeId);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1RoutesRetrieve: $e\n');
 }
 ```
@@ -2408,7 +2850,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -2432,13 +2874,13 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final api_instance = ApiApi();
+final routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
 
 try {
-    final response = api.apiV1RoutesStudentsRetrieve(routeId);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1RoutesStudentsRetrieve(routeId);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1RoutesStudentsRetrieve: $e\n');
 }
 ```
@@ -2455,7 +2897,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -2479,14 +2921,14 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
-final Route route = ; // Route | 
+final api_instance = ApiApi();
+final routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final route = Route(); // Route | 
 
 try {
-    final response = api.apiV1RoutesUpdate(routeId, route);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1RoutesUpdate(routeId, route);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1RoutesUpdate: $e\n');
 }
 ```
@@ -2504,12 +2946,54 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/x-www-form-urlencoded, multipart/form-data
  - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiV1SchoolApiBusLocationsRetrieve**
+> apiV1SchoolApiBusLocationsRetrieve()
+
+
+
+Bus locations API for school dashboard (any authenticated user).  Returns real-time bus locations for ALL buses in the fleet as GeoJSON. Accessible by any authenticated user.
+
+### Example
+```dart
+import 'package:frontend_easy_api/api.dart';
+// TODO Configure API key authorization: cookieAuth
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+
+final api_instance = ApiApi();
+
+try {
+    api_instance.apiV1SchoolApiBusLocationsRetrieve();
+} catch (e) {
+    print('Exception when calling ApiApi->apiV1SchoolApiBusLocationsRetrieve: $e\n');
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[cookieAuth](../README.md#cookieAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -2526,13 +3010,13 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final School school = ; // School | 
+final api_instance = ApiApi();
+final school = School(); // School | 
 
 try {
-    final response = api.apiV1SchoolsCreate(school);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1SchoolsCreate(school);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1SchoolsCreate: $e\n');
 }
 ```
@@ -2549,7 +3033,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -2571,12 +3055,12 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String schoolId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this school.
+final api_instance = ApiApi();
+final schoolId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this school.
 
 try {
-    api.apiV1SchoolsDestroy(schoolId);
-} catch on DioException (e) {
+    api_instance.apiV1SchoolsDestroy(schoolId);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1SchoolsDestroy: $e\n');
 }
 ```
@@ -2593,7 +3077,7 @@ void (empty response body)
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -2615,15 +3099,15 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String ordering = ordering_example; // String | Which field to use when ordering the results.
-final int page = 56; // int | A page number within the paginated result set.
-final String search = search_example; // String | A search term.
+final api_instance = ApiApi();
+final ordering = ordering_example; // String | Which field to use when ordering the results.
+final page = 56; // int | A page number within the paginated result set.
+final search = search_example; // String | A search term.
 
 try {
-    final response = api.apiV1SchoolsList(ordering, page, search);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1SchoolsList(ordering, page, search);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1SchoolsList: $e\n');
 }
 ```
@@ -2642,7 +3126,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -2664,14 +3148,14 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String schoolId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this school.
-final PatchedSchool patchedSchool = ; // PatchedSchool | 
+final api_instance = ApiApi();
+final schoolId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this school.
+final patchedSchool = PatchedSchool(); // PatchedSchool | 
 
 try {
-    final response = api.apiV1SchoolsPartialUpdate(schoolId, patchedSchool);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1SchoolsPartialUpdate(schoolId, patchedSchool);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1SchoolsPartialUpdate: $e\n');
 }
 ```
@@ -2689,7 +3173,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -2711,13 +3195,13 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String schoolId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this school.
+final api_instance = ApiApi();
+final schoolId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this school.
 
 try {
-    final response = api.apiV1SchoolsRetrieve(schoolId);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1SchoolsRetrieve(schoolId);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1SchoolsRetrieve: $e\n');
 }
 ```
@@ -2734,7 +3218,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -2756,14 +3240,14 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String schoolId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this school.
-final School school = ; // School | 
+final api_instance = ApiApi();
+final schoolId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this school.
+final school = School(); // School | 
 
 try {
-    final response = api.apiV1SchoolsUpdate(schoolId, school);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1SchoolsUpdate(schoolId, school);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1SchoolsUpdate: $e\n');
 }
 ```
@@ -2781,7 +3265,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -2803,13 +3287,13 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final StudentParent studentParent = ; // StudentParent | 
+final api_instance = ApiApi();
+final studentParent = StudentParent(); // StudentParent | 
 
 try {
-    final response = api.apiV1StudentParentsCreate(studentParent);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1StudentParentsCreate(studentParent);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1StudentParentsCreate: $e\n');
 }
 ```
@@ -2826,7 +3310,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -2848,12 +3332,12 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final int id = 56; // int | A unique integer value identifying this student parent.
+final api_instance = ApiApi();
+final id = 56; // int | A unique integer value identifying this student parent.
 
 try {
-    api.apiV1StudentParentsDestroy(id);
-} catch on DioException (e) {
+    api_instance.apiV1StudentParentsDestroy(id);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1StudentParentsDestroy: $e\n');
 }
 ```
@@ -2870,7 +3354,7 @@ void (empty response body)
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -2892,15 +3376,15 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String ordering = ordering_example; // String | Which field to use when ordering the results.
-final int page = 56; // int | A page number within the paginated result set.
-final String search = search_example; // String | A search term.
+final api_instance = ApiApi();
+final ordering = ordering_example; // String | Which field to use when ordering the results.
+final page = 56; // int | A page number within the paginated result set.
+final search = search_example; // String | A search term.
 
 try {
-    final response = api.apiV1StudentParentsList(ordering, page, search);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1StudentParentsList(ordering, page, search);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1StudentParentsList: $e\n');
 }
 ```
@@ -2919,7 +3403,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -2941,14 +3425,14 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final int id = 56; // int | A unique integer value identifying this student parent.
-final PatchedStudentParent patchedStudentParent = ; // PatchedStudentParent | 
+final api_instance = ApiApi();
+final id = 56; // int | A unique integer value identifying this student parent.
+final patchedStudentParent = PatchedStudentParent(); // PatchedStudentParent | 
 
 try {
-    final response = api.apiV1StudentParentsPartialUpdate(id, patchedStudentParent);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1StudentParentsPartialUpdate(id, patchedStudentParent);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1StudentParentsPartialUpdate: $e\n');
 }
 ```
@@ -2966,7 +3450,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -2988,13 +3472,13 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final int id = 56; // int | A unique integer value identifying this student parent.
+final api_instance = ApiApi();
+final id = 56; // int | A unique integer value identifying this student parent.
 
 try {
-    final response = api.apiV1StudentParentsRetrieve(id);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1StudentParentsRetrieve(id);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1StudentParentsRetrieve: $e\n');
 }
 ```
@@ -3011,7 +3495,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -3033,14 +3517,14 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final int id = 56; // int | A unique integer value identifying this student parent.
-final StudentParent studentParent = ; // StudentParent | 
+final api_instance = ApiApi();
+final id = 56; // int | A unique integer value identifying this student parent.
+final studentParent = StudentParent(); // StudentParent | 
 
 try {
-    final response = api.apiV1StudentParentsUpdate(id, studentParent);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1StudentParentsUpdate(id, studentParent);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1StudentParentsUpdate: $e\n');
 }
 ```
@@ -3058,7 +3542,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -3080,13 +3564,13 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final StudentPhoto studentPhoto = ; // StudentPhoto | 
+final api_instance = ApiApi();
+final studentPhoto = StudentPhoto(); // StudentPhoto | 
 
 try {
-    final response = api.apiV1StudentPhotosCreate(studentPhoto);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1StudentPhotosCreate(studentPhoto);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1StudentPhotosCreate: $e\n');
 }
 ```
@@ -3103,7 +3587,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -3125,12 +3609,12 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String photoId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student photo.
+final api_instance = ApiApi();
+final photoId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student photo.
 
 try {
-    api.apiV1StudentPhotosDestroy(photoId);
-} catch on DioException (e) {
+    api_instance.apiV1StudentPhotosDestroy(photoId);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1StudentPhotosDestroy: $e\n');
 }
 ```
@@ -3147,7 +3631,7 @@ void (empty response body)
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -3169,15 +3653,15 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String ordering = ordering_example; // String | Which field to use when ordering the results.
-final int page = 56; // int | A page number within the paginated result set.
-final String search = search_example; // String | A search term.
+final api_instance = ApiApi();
+final ordering = ordering_example; // String | Which field to use when ordering the results.
+final page = 56; // int | A page number within the paginated result set.
+final search = search_example; // String | A search term.
 
 try {
-    final response = api.apiV1StudentPhotosList(ordering, page, search);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1StudentPhotosList(ordering, page, search);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1StudentPhotosList: $e\n');
 }
 ```
@@ -3196,7 +3680,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -3218,14 +3702,14 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String photoId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student photo.
-final PatchedStudentPhoto patchedStudentPhoto = ; // PatchedStudentPhoto | 
+final api_instance = ApiApi();
+final photoId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student photo.
+final patchedStudentPhoto = PatchedStudentPhoto(); // PatchedStudentPhoto | 
 
 try {
-    final response = api.apiV1StudentPhotosPartialUpdate(photoId, patchedStudentPhoto);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1StudentPhotosPartialUpdate(photoId, patchedStudentPhoto);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1StudentPhotosPartialUpdate: $e\n');
 }
 ```
@@ -3243,7 +3727,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -3265,13 +3749,13 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String photoId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student photo.
+final api_instance = ApiApi();
+final photoId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student photo.
 
 try {
-    final response = api.apiV1StudentPhotosRetrieve(photoId);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1StudentPhotosRetrieve(photoId);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1StudentPhotosRetrieve: $e\n');
 }
 ```
@@ -3288,7 +3772,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -3310,14 +3794,14 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String photoId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student photo.
-final StudentPhoto studentPhoto = ; // StudentPhoto | 
+final api_instance = ApiApi();
+final photoId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student photo.
+final studentPhoto = StudentPhoto(); // StudentPhoto | 
 
 try {
-    final response = api.apiV1StudentPhotosSetPrimaryCreate(photoId, studentPhoto);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1StudentPhotosSetPrimaryCreate(photoId, studentPhoto);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1StudentPhotosSetPrimaryCreate: $e\n');
 }
 ```
@@ -3335,7 +3819,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -3357,14 +3841,14 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String photoId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student photo.
-final StudentPhoto studentPhoto = ; // StudentPhoto | 
+final api_instance = ApiApi();
+final photoId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student photo.
+final studentPhoto = StudentPhoto(); // StudentPhoto | 
 
 try {
-    final response = api.apiV1StudentPhotosUpdate(photoId, studentPhoto);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1StudentPhotosUpdate(photoId, studentPhoto);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1StudentPhotosUpdate: $e\n');
 }
 ```
@@ -3382,7 +3866,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -3404,14 +3888,14 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student.
-final Student student = ; // Student | 
+final api_instance = ApiApi();
+final studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student.
+final student = Student(); // Student | 
 
 try {
-    final response = api.apiV1StudentsAssignBusCreate(studentId, student);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1StudentsAssignBusCreate(studentId, student);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1StudentsAssignBusCreate: $e\n');
 }
 ```
@@ -3429,7 +3913,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -3451,13 +3935,13 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final Student student = ; // Student | 
+final api_instance = ApiApi();
+final student = Student(); // Student | 
 
 try {
-    final response = api.apiV1StudentsCreate(student);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1StudentsCreate(student);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1StudentsCreate: $e\n');
 }
 ```
@@ -3474,7 +3958,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -3496,12 +3980,12 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student.
+final api_instance = ApiApi();
+final studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student.
 
 try {
-    api.apiV1StudentsDestroy(studentId);
-} catch on DioException (e) {
+    api_instance.apiV1StudentsDestroy(studentId);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1StudentsDestroy: $e\n');
 }
 ```
@@ -3518,7 +4002,7 @@ void (empty response body)
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -3540,15 +4024,15 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String ordering = ordering_example; // String | Which field to use when ordering the results.
-final int page = 56; // int | A page number within the paginated result set.
-final String search = search_example; // String | A search term.
+final api_instance = ApiApi();
+final ordering = ordering_example; // String | Which field to use when ordering the results.
+final page = 56; // int | A page number within the paginated result set.
+final search = search_example; // String | A search term.
 
 try {
-    final response = api.apiV1StudentsList(ordering, page, search);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1StudentsList(ordering, page, search);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1StudentsList: $e\n');
 }
 ```
@@ -3567,7 +4051,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -3589,13 +4073,13 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student.
+final api_instance = ApiApi();
+final studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student.
 
 try {
-    final response = api.apiV1StudentsParentsRetrieve(studentId);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1StudentsParentsRetrieve(studentId);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1StudentsParentsRetrieve: $e\n');
 }
 ```
@@ -3612,7 +4096,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -3634,14 +4118,14 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student.
-final PatchedStudent patchedStudent = ; // PatchedStudent | 
+final api_instance = ApiApi();
+final studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student.
+final patchedStudent = PatchedStudent(); // PatchedStudent | 
 
 try {
-    final response = api.apiV1StudentsPartialUpdate(studentId, patchedStudent);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1StudentsPartialUpdate(studentId, patchedStudent);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1StudentsPartialUpdate: $e\n');
 }
 ```
@@ -3659,7 +4143,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -3681,13 +4165,13 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student.
+final api_instance = ApiApi();
+final studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student.
 
 try {
-    final response = api.apiV1StudentsRetrieve(studentId);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1StudentsRetrieve(studentId);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1StudentsRetrieve: $e\n');
 }
 ```
@@ -3704,7 +4188,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -3726,14 +4210,14 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student.
-final Student student = ; // Student | 
+final api_instance = ApiApi();
+final studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student.
+final student = Student(); // Student | 
 
 try {
-    final response = api.apiV1StudentsUpdate(studentId, student);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1StudentsUpdate(studentId, student);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1StudentsUpdate: $e\n');
 }
 ```
@@ -3751,7 +4235,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -3761,7 +4245,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiV1UsersCreate**
-> UserCreate apiV1UsersCreate(userCreate)
+> User apiV1UsersCreate(user)
 
 
 
@@ -3773,13 +4257,13 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final UserCreate userCreate = ; // UserCreate | 
+final api_instance = ApiApi();
+final user = User(); // User | 
 
 try {
-    final response = api.apiV1UsersCreate(userCreate);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1UsersCreate(user);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1UsersCreate: $e\n');
 }
 ```
@@ -3788,15 +4272,15 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **userCreate** | [**UserCreate**](UserCreate.md)|  | 
+ **user** | [**User**](User.md)|  | 
 
 ### Return type
 
-[**UserCreate**](UserCreate.md)
+[**User**](User.md)
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -3818,12 +4302,12 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String userId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this user.
+final api_instance = ApiApi();
+final userId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this user.
 
 try {
-    api.apiV1UsersDestroy(userId);
-} catch on DioException (e) {
+    api_instance.apiV1UsersDestroy(userId);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1UsersDestroy: $e\n');
 }
 ```
@@ -3840,7 +4324,7 @@ void (empty response body)
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -3862,15 +4346,15 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String ordering = ordering_example; // String | Which field to use when ordering the results.
-final int page = 56; // int | A page number within the paginated result set.
-final String search = search_example; // String | A search term.
+final api_instance = ApiApi();
+final ordering = ordering_example; // String | Which field to use when ordering the results.
+final page = 56; // int | A page number within the paginated result set.
+final search = search_example; // String | A search term.
 
 try {
-    final response = api.apiV1UsersList(ordering, page, search);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1UsersList(ordering, page, search);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1UsersList: $e\n');
 }
 ```
@@ -3889,103 +4373,11 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **apiV1UsersLoginCreate**
-> User apiV1UsersLoginCreate(user)
-
-
-
-### Example
-```dart
-import 'package:frontend_easy_api/api.dart';
-// TODO Configure API key authorization: cookieAuth
-//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
-// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
-
-final api = FrontendEasyApi().getApiApi();
-final User user = ; // User | 
-
-try {
-    final response = api.apiV1UsersLoginCreate(user);
-    print(response);
-} catch on DioException (e) {
-    print('Exception when calling ApiApi->apiV1UsersLoginCreate: $e\n');
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **user** | [**User**](User.md)|  | 
-
-### Return type
-
-[**User**](User.md)
-
-### Authorization
-
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
-
-### HTTP request headers
-
- - **Content-Type**: application/json, application/x-www-form-urlencoded, multipart/form-data
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **apiV1UsersLogoutCreate**
-> User apiV1UsersLogoutCreate(user)
-
-
-
-Logout endpoint - Blacklists refresh token (Fortune 500 standard)  Security: Prevents token reuse even if stolen  Request Body: { \"refresh\": \"...\" } Returns: 200 { \"message\": \"Logout successful\" }
-
-### Example
-```dart
-import 'package:frontend_easy_api/api.dart';
-// TODO Configure API key authorization: cookieAuth
-//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
-// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
-
-final api = FrontendEasyApi().getApiApi();
-final User user = ; // User | 
-
-try {
-    final response = api.apiV1UsersLogoutCreate(user);
-    print(response);
-} catch on DioException (e) {
-    print('Exception when calling ApiApi->apiV1UsersLogoutCreate: $e\n');
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **user** | [**User**](User.md)|  | 
-
-### Return type
-
-[**User**](User.md)
-
-### Authorization
-
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
-
-### HTTP request headers
-
- - **Content-Type**: application/json, application/x-www-form-urlencoded, multipart/form-data
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -4005,12 +4397,12 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
+final api_instance = ApiApi();
 
 try {
-    final response = api.apiV1UsersMeRetrieve();
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1UsersMeRetrieve();
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1UsersMeRetrieve: $e\n');
 }
 ```
@@ -4024,7 +4416,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -4046,14 +4438,14 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String userId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this user.
-final PatchedUser patchedUser = ; // PatchedUser | 
+final api_instance = ApiApi();
+final userId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this user.
+final patchedUser = PatchedUser(); // PatchedUser | 
 
 try {
-    final response = api.apiV1UsersPartialUpdate(userId, patchedUser);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1UsersPartialUpdate(userId, patchedUser);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1UsersPartialUpdate: $e\n');
 }
 ```
@@ -4071,7 +4463,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -4093,13 +4485,13 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String userId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this user.
+final api_instance = ApiApi();
+final userId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this user.
 
 try {
-    final response = api.apiV1UsersRetrieve(userId);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1UsersRetrieve(userId);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1UsersRetrieve: $e\n');
 }
 ```
@@ -4116,7 +4508,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -4138,14 +4530,14 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getApiApi();
-final String userId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this user.
-final User user = ; // User | 
+final api_instance = ApiApi();
+final userId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this user.
+final user = User(); // User | 
 
 try {
-    final response = api.apiV1UsersUpdate(userId, user);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.apiV1UsersUpdate(userId, user);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->apiV1UsersUpdate: $e\n');
 }
 ```
@@ -4163,7 +4555,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 
@@ -4183,14 +4575,14 @@ Check if kiosk needs database update
 ```dart
 import 'package:frontend_easy_api/api.dart';
 
-final api = FrontendEasyApi().getApiApi();
-final String kioskId = kioskId_example; // String | 
-final String lastSyncHash = lastSyncHash_example; // String | Last content hash from kiosk
+final api_instance = ApiApi();
+final kioskId = kioskId_example; // String | 
+final lastSyncHash = lastSyncHash_example; // String | Last content hash from kiosk
 
 try {
-    final response = api.kioskCheckUpdates(kioskId, lastSyncHash);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.kioskCheckUpdates(kioskId, lastSyncHash);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->kioskCheckUpdates: $e\n');
 }
 ```
@@ -4208,7 +4600,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[KioskJWTAuth](../README.md#KioskJWTAuth)
+No authorization required
 
 ### HTTP request headers
 
@@ -4228,13 +4620,13 @@ Download kiosk database snapshot (binary SQLite file). Returns raw binary data w
 ```dart
 import 'package:frontend_easy_api/api.dart';
 
-final api = FrontendEasyApi().getApiApi();
-final String kioskId = kioskId_example; // String | 
+final api_instance = ApiApi();
+final kioskId = kioskId_example; // String | 
 
 try {
-    final response = api.kioskDownloadSnapshot(kioskId);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.kioskDownloadSnapshot(kioskId);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->kioskDownloadSnapshot: $e\n');
 }
 ```
@@ -4251,7 +4643,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[KioskJWTAuth](../README.md#KioskJWTAuth)
+No authorization required
 
 ### HTTP request headers
 
@@ -4271,13 +4663,13 @@ Report kiosk health and sync status
 ```dart
 import 'package:frontend_easy_api/api.dart';
 
-final api = FrontendEasyApi().getApiApi();
-final String kioskId = kioskId_example; // String | 
-final Heartbeat heartbeat = ; // Heartbeat | 
+final api_instance = ApiApi();
+final kioskId = kioskId_example; // String | 
+final heartbeat = Heartbeat(); // Heartbeat | 
 
 try {
-    api.kioskHeartbeat(kioskId, heartbeat);
-} catch on DioException (e) {
+    api_instance.kioskHeartbeat(kioskId, heartbeat);
+} catch (e) {
     print('Exception when calling ApiApi->kioskHeartbeat: $e\n');
 }
 ```
@@ -4295,7 +4687,7 @@ void (empty response body)
 
 ### Authorization
 
-[KioskJWTAuth](../README.md#KioskJWTAuth)
+No authorization required
 
 ### HTTP request headers
 
@@ -4315,13 +4707,13 @@ Kiosk logging endpoint for device log submission
 ```dart
 import 'package:frontend_easy_api/api.dart';
 
-final api = FrontendEasyApi().getApiApi();
-final DeviceLog deviceLog = ; // DeviceLog | 
+final api_instance = ApiApi();
+final deviceLog = DeviceLog(); // DeviceLog | 
 
 try {
-    final response = api.kioskLog(deviceLog);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.kioskLog(deviceLog);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->kioskLog: $e\n');
 }
 ```
@@ -4338,7 +4730,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[KioskJWTAuth](../README.md#KioskJWTAuth)
+No authorization required
 
 ### HTTP request headers
 
@@ -4358,14 +4750,14 @@ Update bus GPS location. Kiosk sends location when bus moves significantly or ev
 ```dart
 import 'package:frontend_easy_api/api.dart';
 
-final api = FrontendEasyApi().getApiApi();
-final String kioskId = kioskId_example; // String | 
-final BusLocation busLocation = ; // BusLocation | 
+final api_instance = ApiApi();
+final kioskId = kioskId_example; // String | 
+final busLocation = BusLocation(); // BusLocation | 
 
 try {
-    final response = api.kioskUpdateLocation(kioskId, busLocation);
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.kioskUpdateLocation(kioskId, busLocation);
+    print(result);
+} catch (e) {
     print('Exception when calling ApiApi->kioskUpdateLocation: $e\n');
 }
 ```
@@ -4383,7 +4775,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[KioskJWTAuth](../README.md#KioskJWTAuth)
+No authorization required
 
 ### HTTP request headers
 

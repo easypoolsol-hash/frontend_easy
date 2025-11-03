@@ -24,8 +24,8 @@ class Student {
     required this.enrollmentDate,
     required this.schoolDetails,
     required this.busDetails,
-    required this.parents,
-    required this.photos,
+    this.parents = const [],
+    this.photos = const [],
     required this.createdAt,
     required this.updatedAt,
   });
@@ -61,9 +61,9 @@ class Student {
 
   BusBasic busDetails;
 
-  String parents;
+  List<StudentParent> parents;
 
-  String photos;
+  List<StudentPhoto> photos;
 
   DateTime createdAt;
 
@@ -82,8 +82,8 @@ class Student {
     other.enrollmentDate == enrollmentDate &&
     other.schoolDetails == schoolDetails &&
     other.busDetails == busDetails &&
-    other.parents == parents &&
-    other.photos == photos &&
+    _deepEquality.equals(other.parents, parents) &&
+    _deepEquality.equals(other.photos, photos) &&
     other.createdAt == createdAt &&
     other.updatedAt == updatedAt;
 
@@ -171,8 +171,8 @@ class Student {
         enrollmentDate: mapDateTime(json, r'enrollment_date', r'')!,
         schoolDetails: School.fromJson(json[r'school_details'])!,
         busDetails: BusBasic.fromJson(json[r'bus_details'])!,
-        parents: mapValueOfType<String>(json, r'parents')!,
-        photos: mapValueOfType<String>(json, r'photos')!,
+        parents: StudentParent.listFromJson(json[r'parents']),
+        photos: StudentPhoto.listFromJson(json[r'photos']),
         createdAt: mapDateTime(json, r'created_at', r'')!,
         updatedAt: mapDateTime(json, r'updated_at', r'')!,
       );

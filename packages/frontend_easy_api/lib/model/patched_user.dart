@@ -16,8 +16,8 @@ class PatchedUser {
     this.userId,
     this.username,
     this.email,
-    this.role,
-    this.roleName,
+    this.groups = const [],
+    this.groupNames,
     this.isActive,
     this.lastLogin,
     this.createdAt,
@@ -48,13 +48,7 @@ class PatchedUser {
   ///
   String? email;
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  String? role;
+  List<String> groups;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -62,7 +56,7 @@ class PatchedUser {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  String? roleName;
+  String? groupNames;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -95,8 +89,8 @@ class PatchedUser {
     other.userId == userId &&
     other.username == username &&
     other.email == email &&
-    other.role == role &&
-    other.roleName == roleName &&
+    _deepEquality.equals(other.groups, groups) &&
+    other.groupNames == groupNames &&
     other.isActive == isActive &&
     other.lastLogin == lastLogin &&
     other.createdAt == createdAt &&
@@ -108,15 +102,15 @@ class PatchedUser {
     (userId == null ? 0 : userId!.hashCode) +
     (username == null ? 0 : username!.hashCode) +
     (email == null ? 0 : email!.hashCode) +
-    (role == null ? 0 : role!.hashCode) +
-    (roleName == null ? 0 : roleName!.hashCode) +
+    (groups.hashCode) +
+    (groupNames == null ? 0 : groupNames!.hashCode) +
     (isActive == null ? 0 : isActive!.hashCode) +
     (lastLogin == null ? 0 : lastLogin!.hashCode) +
     (createdAt == null ? 0 : createdAt!.hashCode) +
     (updatedAt == null ? 0 : updatedAt!.hashCode);
 
   @override
-  String toString() => 'PatchedUser[userId=$userId, username=$username, email=$email, role=$role, roleName=$roleName, isActive=$isActive, lastLogin=$lastLogin, createdAt=$createdAt, updatedAt=$updatedAt]';
+  String toString() => 'PatchedUser[userId=$userId, username=$username, email=$email, groups=$groups, groupNames=$groupNames, isActive=$isActive, lastLogin=$lastLogin, createdAt=$createdAt, updatedAt=$updatedAt]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -135,15 +129,11 @@ class PatchedUser {
     } else {
       json[r'email'] = null;
     }
-    if (this.role != null) {
-      json[r'role'] = this.role;
+      json[r'groups'] = this.groups;
+    if (this.groupNames != null) {
+      json[r'group_names'] = this.groupNames;
     } else {
-      json[r'role'] = null;
-    }
-    if (this.roleName != null) {
-      json[r'role_name'] = this.roleName;
-    } else {
-      json[r'role_name'] = null;
+      json[r'group_names'] = null;
     }
     if (this.isActive != null) {
       json[r'is_active'] = this.isActive;
@@ -190,8 +180,10 @@ class PatchedUser {
         userId: mapValueOfType<String>(json, r'user_id'),
         username: mapValueOfType<String>(json, r'username'),
         email: mapValueOfType<String>(json, r'email'),
-        role: mapValueOfType<String>(json, r'role'),
-        roleName: mapValueOfType<String>(json, r'role_name'),
+        groups: json[r'groups'] is Iterable
+            ? (json[r'groups'] as Iterable).cast<String>().toList(growable: false)
+            : const [],
+        groupNames: mapValueOfType<String>(json, r'group_names'),
         isActive: mapValueOfType<bool>(json, r'is_active'),
         lastLogin: mapDateTime(json, r'last_login', r''),
         createdAt: mapDateTime(json, r'created_at', r''),

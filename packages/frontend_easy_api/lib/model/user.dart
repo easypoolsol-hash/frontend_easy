@@ -16,8 +16,8 @@ class User {
     required this.userId,
     required this.username,
     required this.email,
-    required this.role,
-    required this.roleName,
+    this.groups = const [],
+    required this.groupNames,
     this.isActive,
     required this.lastLogin,
     required this.createdAt,
@@ -30,9 +30,9 @@ class User {
 
   String email;
 
-  String role;
+  List<String> groups;
 
-  String roleName;
+  String groupNames;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -53,8 +53,8 @@ class User {
     other.userId == userId &&
     other.username == username &&
     other.email == email &&
-    other.role == role &&
-    other.roleName == roleName &&
+    _deepEquality.equals(other.groups, groups) &&
+    other.groupNames == groupNames &&
     other.isActive == isActive &&
     other.lastLogin == lastLogin &&
     other.createdAt == createdAt &&
@@ -66,23 +66,23 @@ class User {
     (userId.hashCode) +
     (username.hashCode) +
     (email.hashCode) +
-    (role.hashCode) +
-    (roleName.hashCode) +
+    (groups.hashCode) +
+    (groupNames.hashCode) +
     (isActive == null ? 0 : isActive!.hashCode) +
     (lastLogin == null ? 0 : lastLogin!.hashCode) +
     (createdAt.hashCode) +
     (updatedAt.hashCode);
 
   @override
-  String toString() => 'User[userId=$userId, username=$username, email=$email, role=$role, roleName=$roleName, isActive=$isActive, lastLogin=$lastLogin, createdAt=$createdAt, updatedAt=$updatedAt]';
+  String toString() => 'User[userId=$userId, username=$username, email=$email, groups=$groups, groupNames=$groupNames, isActive=$isActive, lastLogin=$lastLogin, createdAt=$createdAt, updatedAt=$updatedAt]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
       json[r'user_id'] = this.userId;
       json[r'username'] = this.username;
       json[r'email'] = this.email;
-      json[r'role'] = this.role;
-      json[r'role_name'] = this.roleName;
+      json[r'groups'] = this.groups;
+      json[r'group_names'] = this.groupNames;
     if (this.isActive != null) {
       json[r'is_active'] = this.isActive;
     } else {
@@ -120,8 +120,10 @@ class User {
         userId: mapValueOfType<String>(json, r'user_id')!,
         username: mapValueOfType<String>(json, r'username')!,
         email: mapValueOfType<String>(json, r'email')!,
-        role: mapValueOfType<String>(json, r'role')!,
-        roleName: mapValueOfType<String>(json, r'role_name')!,
+        groups: json[r'groups'] is Iterable
+            ? (json[r'groups'] as Iterable).cast<String>().toList(growable: false)
+            : const [],
+        groupNames: mapValueOfType<String>(json, r'group_names')!,
         isActive: mapValueOfType<bool>(json, r'is_active'),
         lastLogin: mapDateTime(json, r'last_login', r''),
         createdAt: mapDateTime(json, r'created_at', r'')!,
@@ -176,8 +178,8 @@ class User {
     'user_id',
     'username',
     'email',
-    'role',
-    'role_name',
+    'groups',
+    'group_names',
     'last_login',
     'created_at',
     'updated_at',

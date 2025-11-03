@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ui' as ui;
 
 import 'package:frontend_easy_api/frontend_easy_api.dart' as api;
@@ -6,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart' as vg;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 
 import 'package:frontend_easy/features/map/widgets/maps_config.dart';
 import 'package:frontend_easy/core/theme/route_colors.dart';
@@ -175,14 +177,44 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
     );
   }
 
-  // Helper: extract stops from the Route model (converts BuiltList to List)
-  List<dynamic> _stopsForRoute(api.Route route) {
-    // Convert BuiltList to regular List
-    return route.routeStops.toList();
+  // Helper: decode encoded polyline from backend
+  List<LatLng> _decodePolyline(String? encodedPolyline) {
+    if (encodedPolyline == null || encodedPolyline.isEmpty) {
+      return [];
+    }
+
+    try {
+      // Use static method from PolylinePoints
+      final decoded = PolylinePoints.decodePolyline(encodedPolyline);
+      return decoded
+          .map((point) => LatLng(point.latitude, point.longitude))
+          .toList();
+    } catch (e) {
+      // Silent fallback for invalid polylines
+      return [];
+    }
   }
 
-  // Helper: get color for route using hash-based assignment
+  // Helper: get Google Maps style color for route
+  // Uses route's color_code from backend, or falls back to hash-based color
   Color _colorForRoute(api.Route route) {
+    // Try to use color_code from backend (Google Maps standard)
+    try {
+      final colorCode = (route as dynamic).colorCode;
+      if (colorCode != null && colorCode.isNotEmpty) {
+        try {
+          // Parse hex color (e.g., "#FF5733")
+          final hexColor = colorCode.replaceAll('#', '');
+          return Color(int.parse('FF$hexColor', radix: 16));
+        } catch (e) {
+          // Invalid color code, fall back
+        }
+      }
+    } catch (_) {
+      // colorCode field not available, fall back
+    }
+
+    // Fallback to hash-based color
     return RouteColors.getColorForRoute(route.routeId);
   }
 
@@ -229,33 +261,42 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
     final polylines = _buildRoutePolylines();
     routePolylines.addAll(polylines);
 
-    // Always show stops
+    // Always show bus stop markers
     for (final route in widget.routes) {
-      final stops = _stopsForRoute(route);
-      final routeColor = _colorForRoute(route);
-      final routeHue = _colorToHue(routeColor);
+      // Get bus stops from backend (JSON-encoded list)
+      final busStopsJson = (route as dynamic).busStops as String?;
+      if (busStopsJson == null || busStopsJson.isEmpty) continue;
 
-      for (int i = 0; i < stops.length; i++) {
-        final routeStop = stops[i];
-        dynamic latVal, lonVal;
-        if (routeStop is Map) {
-          latVal = routeStop['latitude'] ?? routeStop['lat'];
-          lonVal = routeStop['longitude'] ?? routeStop['lon'];
-        } else {
-          try { latVal = (routeStop as dynamic).latitude; } catch (_) {}
-          try { lonVal = (routeStop as dynamic).longitude; } catch (_) {}
+      try {
+        final stops = jsonDecode(busStopsJson) as List;
+        final routeColor = _colorForRoute(route);
+        final routeHue = _colorToHue(routeColor);
+
+        for (int i = 0; i < stops.length; i++) {
+          final stop = stops[i] as Map<String, dynamic>;
+          final lat = stop['latitude'] as num?;
+          final lon = stop['longitude'] as num?;
+          if (lat == null || lon == null) continue;
+
+          final metadata = stop['metadata'] as Map<String, dynamic>?;
+          final stopName = metadata?['name'] as String? ?? 'Stop ${i + 1}';
+
+          final isEndpoint = (i == 0 || i == stops.length - 1);
+          stopMarkers.add(Marker(
+            markerId: MarkerId('stop_${route.routeId}_$i'),
+            position: LatLng(lat.toDouble(), lon.toDouble()),
+            icon: isEndpoint
+                ? BitmapDescriptor.defaultMarkerWithHue(routeHue)
+                : BitmapDescriptor.defaultMarker,
+            infoWindow: InfoWindow(
+              title: isEndpoint
+                ? (i == 0 ? 'Start: $stopName' : 'End: $stopName')
+                : stopName
+            ),
+          ));
         }
-        if (latVal == null || lonVal == null) continue;
-
-        final isEndpoint = (i == 0 || i == stops.length - 1);
-        stopMarkers.add(Marker(
-          markerId: MarkerId('stop_${route.routeId}_$i'),
-          position: LatLng((latVal as num).toDouble(), (lonVal as num).toDouble()),
-          icon: isEndpoint
-              ? BitmapDescriptor.defaultMarkerWithHue(routeHue)
-              : BitmapDescriptor.defaultMarker,
-          infoWindow: InfoWindow(title: i == 0 ? 'Start' : (i == stops.length - 1 ? 'End' : 'Stop')),
-        ));
+      } catch (e) {
+        // Skip invalid bus stops data
       }
     }
 
@@ -308,53 +349,23 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
   Set<Polyline> _buildRoutePolylines() {
     final polylines = <Polyline>{};
 
-  for (final route in widget.routes) {
-      // Get route stops to build polyline (support different generated models)
-      final stops = _stopsForRoute(route);
-      if (stops.isEmpty) continue;
-
-      final points = <LatLng>[];
-      for (final stop in stops) {
-        dynamic latVal;
-        dynamic lonVal;
-        if (stop is Map) {
-          latVal = stop['latitude'] ?? stop['lat'] ?? stop['latitute'] ?? stop['lati'];
-          lonVal = stop['longitude'] ?? stop['lon'] ?? stop['lng'] ?? stop['long'];
-        } else {
-          try {
-            latVal = (stop as dynamic).latitude;
-          } catch (_) {
-            latVal = null;
-          }
-          try {
-            lonVal = (stop as dynamic).longitude;
-          } catch (_) {
-            lonVal = null;
-          }
-        }
-
-        if (latVal == null || lonVal == null) continue;
-        try {
-          points.add(LatLng((latVal as num).toDouble(), (lonVal as num).toDouble()));
-        } catch (_) {
-          // Skip invalid coordinate
-        }
-      }
-
+    for (final route in widget.routes) {
+      // Decode polyline from backend's encoded polyline
+      // Use dynamic access until IDE recognizes new fields
+      final encodedPolyline = (route as dynamic).encodedPolyline as String?;
+      final points = _decodePolyline(encodedPolyline);
       if (points.length < 2) continue;
 
-      // Get color for route using hash-based assignment
+      // Get Google Maps color from backend
       final color = _colorForRoute(route);
 
-      // Full opacity - vibrant colors
-      const opacity = 1.0;
-
-      // Add colored route polyline (no border)
+      // Add route polyline with Google Maps styling
       polylines.add(Polyline(
         polylineId: PolylineId(route.routeId),
-        points: points.map((p) => LatLng(p.latitude, p.longitude)).toList(),
-        color: color.withValues(alpha: opacity),
-        width: 4,
+        points: points,
+        color: color,
+        width: 5,  // Google Maps standard width
+        geodesic: true,  // Follow Earth's curvature
       ));
     }
     return polylines;

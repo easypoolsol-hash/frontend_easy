@@ -8,7 +8,7 @@ import 'package:frontend_easy_api/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**locationId** | **int** | Auto-incrementing location entry ID | 
+**locationId** | **int** | Auto-incrementing location entry ID | [readonly] 
 **latitude** | **double** | GPS latitude coordinate | 
 **longitude** | **double** | GPS longitude coordinate | 
 **accuracy** | **double** | GPS accuracy in meters | [optional] 

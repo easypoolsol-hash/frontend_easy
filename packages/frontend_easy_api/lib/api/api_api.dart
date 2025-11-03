@@ -388,7 +388,7 @@ class ApiApi {
     return null;
   }
 
-  /// Read-only ViewSet for attendance records
+  /// Read-only ViewSet for attendance records  PERMISSION: IsSchoolAdmin (school administrators only)  NOTE: Old permission was IsAuthenticated (too permissive!) Now using AWS-style deny-by-default with explicit permissions.
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -441,7 +441,7 @@ class ApiApi {
     );
   }
 
-  /// Read-only ViewSet for attendance records
+  /// Read-only ViewSet for attendance records  PERMISSION: IsSchoolAdmin (school administrators only)  NOTE: Old permission was IsAuthenticated (too permissive!) Now using AWS-style deny-by-default with explicit permissions.
   ///
   /// Parameters:
   ///
@@ -469,7 +469,7 @@ class ApiApi {
     return null;
   }
 
-  /// Read-only ViewSet for attendance records
+  /// Read-only ViewSet for attendance records  PERMISSION: IsSchoolAdmin (school administrators only)  NOTE: Old permission was IsAuthenticated (too permissive!) Now using AWS-style deny-by-default with explicit permissions.
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -502,7 +502,7 @@ class ApiApi {
     );
   }
 
-  /// Read-only ViewSet for attendance records
+  /// Read-only ViewSet for attendance records  PERMISSION: IsSchoolAdmin (school administrators only)  NOTE: Old permission was IsAuthenticated (too permissive!) Now using AWS-style deny-by-default with explicit permissions.
   ///
   /// Parameters:
   ///
@@ -740,110 +740,6 @@ class ApiApi {
     return null;
   }
 
-  /// Takes a set of user credentials and returns an access and refresh JSON web token pair to prove the authentication of those credentials.
-  ///
-  /// Note: This method returns the HTTP [Response].
-  ///
-  /// Parameters:
-  ///
-  /// * [TokenObtainPair] tokenObtainPair (required):
-  Future<Response> apiV1AuthTokenCreateWithHttpInfo(TokenObtainPair tokenObtainPair,) async {
-    // ignore: prefer_const_declarations
-    final path = r'/api/v1/auth/token/';
-
-    // ignore: prefer_final_locals
-    Object? postBody = tokenObtainPair;
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-
-    const contentTypes = <String>['application/json', 'application/x-www-form-urlencoded', 'multipart/form-data'];
-
-
-    return apiClient.invokeAPI(
-      path,
-      'POST',
-      queryParams,
-      postBody,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-    );
-  }
-
-  /// Takes a set of user credentials and returns an access and refresh JSON web token pair to prove the authentication of those credentials.
-  ///
-  /// Parameters:
-  ///
-  /// * [TokenObtainPair] tokenObtainPair (required):
-  Future<TokenObtainPair?> apiV1AuthTokenCreate(TokenObtainPair tokenObtainPair,) async {
-    final response = await apiV1AuthTokenCreateWithHttpInfo(tokenObtainPair,);
-    if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
-    }
-    // When a remote server returns no body with a status of 204, we shall not decode it.
-    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
-    // FormatException when trying to decode an empty string.
-    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'TokenObtainPair',) as TokenObtainPair;
-    
-    }
-    return null;
-  }
-
-  ///      Custom TokenRefreshView that supports both regular JWT and kiosk JWT tokens.      **Token Rotation Security:**     - Accepts: refresh token only     - Returns: NEW access token (15 min) + NEW refresh token (60 days)     - Old refresh token is immediately blacklisted (cannot be reused)     
-  ///
-  /// Note: This method returns the HTTP [Response].
-  ///
-  /// Parameters:
-  ///
-  /// * [TokenRefreshRequest] tokenRefreshRequest (required):
-  Future<Response> apiV1AuthTokenRefreshCreateWithHttpInfo(TokenRefreshRequest tokenRefreshRequest,) async {
-    // ignore: prefer_const_declarations
-    final path = r'/api/v1/auth/token/refresh/';
-
-    // ignore: prefer_final_locals
-    Object? postBody = tokenRefreshRequest;
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-
-    const contentTypes = <String>['application/json', 'application/x-www-form-urlencoded', 'multipart/form-data'];
-
-
-    return apiClient.invokeAPI(
-      path,
-      'POST',
-      queryParams,
-      postBody,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-    );
-  }
-
-  ///      Custom TokenRefreshView that supports both regular JWT and kiosk JWT tokens.      **Token Rotation Security:**     - Accepts: refresh token only     - Returns: NEW access token (15 min) + NEW refresh token (60 days)     - Old refresh token is immediately blacklisted (cannot be reused)     
-  ///
-  /// Parameters:
-  ///
-  /// * [TokenRefreshRequest] tokenRefreshRequest (required):
-  Future<TokenRefreshResponse?> apiV1AuthTokenRefreshCreate(TokenRefreshRequest tokenRefreshRequest,) async {
-    final response = await apiV1AuthTokenRefreshCreateWithHttpInfo(tokenRefreshRequest,);
-    if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
-    }
-    // When a remote server returns no body with a status of 204, we shall not decode it.
-    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
-    // FormatException when trying to decode an empty string.
-    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'TokenRefreshResponse',) as TokenRefreshResponse;
-    
-    }
-    return null;
-  }
-
   /// Bulk create boarding events (for high-throughput kiosk operations)
   ///
   /// Note: This method returns the HTTP [Response].
@@ -896,7 +792,7 @@ class ApiApi {
     return null;
   }
 
-  /// ViewSet for boarding events
+  /// ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices only) - LIST/RETRIEVE/UPDATE/DELETE: IsSchoolAdmin (school admins only) - RECENT: IsSchoolAdmin (school admins only)  NOTE: Old permission was IsAuthenticated (too permissive!) Now using AWS-style deny-by-default with explicit permissions.
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -928,7 +824,7 @@ class ApiApi {
     );
   }
 
-  /// ViewSet for boarding events
+  /// ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices only) - LIST/RETRIEVE/UPDATE/DELETE: IsSchoolAdmin (school admins only) - RECENT: IsSchoolAdmin (school admins only)  NOTE: Old permission was IsAuthenticated (too permissive!) Now using AWS-style deny-by-default with explicit permissions.
   ///
   /// Parameters:
   ///
@@ -948,7 +844,7 @@ class ApiApi {
     return null;
   }
 
-  /// ViewSet for boarding events
+  /// ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices only) - LIST/RETRIEVE/UPDATE/DELETE: IsSchoolAdmin (school admins only) - RECENT: IsSchoolAdmin (school admins only)  NOTE: Old permission was IsAuthenticated (too permissive!) Now using AWS-style deny-by-default with explicit permissions.
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -981,7 +877,7 @@ class ApiApi {
     );
   }
 
-  /// ViewSet for boarding events
+  /// ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices only) - LIST/RETRIEVE/UPDATE/DELETE: IsSchoolAdmin (school admins only) - RECENT: IsSchoolAdmin (school admins only)  NOTE: Old permission was IsAuthenticated (too permissive!) Now using AWS-style deny-by-default with explicit permissions.
   ///
   /// Parameters:
   ///
@@ -993,7 +889,7 @@ class ApiApi {
     }
   }
 
-  /// ViewSet for boarding events
+  /// ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices only) - LIST/RETRIEVE/UPDATE/DELETE: IsSchoolAdmin (school admins only) - RECENT: IsSchoolAdmin (school admins only)  NOTE: Old permission was IsAuthenticated (too permissive!) Now using AWS-style deny-by-default with explicit permissions.
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -1050,7 +946,7 @@ class ApiApi {
     );
   }
 
-  /// ViewSet for boarding events
+  /// ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices only) - LIST/RETRIEVE/UPDATE/DELETE: IsSchoolAdmin (school admins only) - RECENT: IsSchoolAdmin (school admins only)  NOTE: Old permission was IsAuthenticated (too permissive!) Now using AWS-style deny-by-default with explicit permissions.
   ///
   /// Parameters:
   ///
@@ -1079,7 +975,7 @@ class ApiApi {
     return null;
   }
 
-  /// ViewSet for boarding events
+  /// ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices only) - LIST/RETRIEVE/UPDATE/DELETE: IsSchoolAdmin (school admins only) - RECENT: IsSchoolAdmin (school admins only)  NOTE: Old permission was IsAuthenticated (too permissive!) Now using AWS-style deny-by-default with explicit permissions.
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -1114,7 +1010,7 @@ class ApiApi {
     );
   }
 
-  /// ViewSet for boarding events
+  /// ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices only) - LIST/RETRIEVE/UPDATE/DELETE: IsSchoolAdmin (school admins only) - RECENT: IsSchoolAdmin (school admins only)  NOTE: Old permission was IsAuthenticated (too permissive!) Now using AWS-style deny-by-default with explicit permissions.
   ///
   /// Parameters:
   ///
@@ -1180,7 +1076,7 @@ class ApiApi {
     return null;
   }
 
-  /// ViewSet for boarding events
+  /// ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices only) - LIST/RETRIEVE/UPDATE/DELETE: IsSchoolAdmin (school admins only) - RECENT: IsSchoolAdmin (school admins only)  NOTE: Old permission was IsAuthenticated (too permissive!) Now using AWS-style deny-by-default with explicit permissions.
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -1213,7 +1109,7 @@ class ApiApi {
     );
   }
 
-  /// ViewSet for boarding events
+  /// ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices only) - LIST/RETRIEVE/UPDATE/DELETE: IsSchoolAdmin (school admins only) - RECENT: IsSchoolAdmin (school admins only)  NOTE: Old permission was IsAuthenticated (too permissive!) Now using AWS-style deny-by-default with explicit permissions.
   ///
   /// Parameters:
   ///
@@ -1233,7 +1129,7 @@ class ApiApi {
     return null;
   }
 
-  /// ViewSet for boarding events
+  /// ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices only) - LIST/RETRIEVE/UPDATE/DELETE: IsSchoolAdmin (school admins only) - RECENT: IsSchoolAdmin (school admins only)  NOTE: Old permission was IsAuthenticated (too permissive!) Now using AWS-style deny-by-default with explicit permissions.
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -1268,7 +1164,7 @@ class ApiApi {
     );
   }
 
-  /// ViewSet for boarding events
+  /// ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices only) - LIST/RETRIEVE/UPDATE/DELETE: IsSchoolAdmin (school admins only) - RECENT: IsSchoolAdmin (school admins only)  NOTE: Old permission was IsAuthenticated (too permissive!) Now using AWS-style deny-by-default with explicit permissions.
   ///
   /// Parameters:
   ///
@@ -1786,6 +1682,292 @@ class ApiApi {
     return null;
   }
 
+  /// Get dashboard summary statistics
+  ///
+  /// Returns summary statistics for school dashboard (buses, students boarded) for TODAY only. Cached for 10 seconds.
+  ///
+  /// Note: This method returns the HTTP [Response].
+  Future<Response> apiV1DashboardStatsRetrieveWithHttpInfo() async {
+    // ignore: prefer_const_declarations
+    final path = r'/api/v1/dashboard/stats/';
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Get dashboard summary statistics
+  ///
+  /// Returns summary statistics for school dashboard (buses, students boarded) for TODAY only. Cached for 10 seconds.
+  Future<DashboardStats?> apiV1DashboardStatsRetrieve() async {
+    final response = await apiV1DashboardStatsRetrieveWithHttpInfo();
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'DashboardStats',) as DashboardStats;
+    
+    }
+    return null;
+  }
+
+  /// Get students with boarding events
+  ///
+  /// Returns paginated list of students who boarded TODAY with all their events
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [int] limit:
+  ///   Number of students per page (default=50)
+  ///
+  /// * [int] offset:
+  ///   Offset for pagination (default=0)
+  Future<Response> apiV1DashboardStudentsRetrieveWithHttpInfo({ int? limit, int? offset, }) async {
+    // ignore: prefer_const_declarations
+    final path = r'/api/v1/dashboard/students/';
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    if (limit != null) {
+      queryParams.addAll(_queryParams('', 'limit', limit));
+    }
+    if (offset != null) {
+      queryParams.addAll(_queryParams('', 'offset', offset));
+    }
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Get students with boarding events
+  ///
+  /// Returns paginated list of students who boarded TODAY with all their events
+  ///
+  /// Parameters:
+  ///
+  /// * [int] limit:
+  ///   Number of students per page (default=50)
+  ///
+  /// * [int] offset:
+  ///   Offset for pagination (default=0)
+  Future<DashboardStudentsResponse?> apiV1DashboardStudentsRetrieve({ int? limit, int? offset, }) async {
+    final response = await apiV1DashboardStudentsRetrieveWithHttpInfo( limit: limit, offset: offset, );
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'DashboardStudentsResponse',) as DashboardStudentsResponse;
+    
+    }
+    return null;
+  }
+
+  /// Geocode an address to coordinates.  POST /api/v1/geocode/ Body: {\"address\": \"Imperial College London\"}  Returns: {     \"latitude\": 51.4988,     \"longitude\": -0.1749,     \"formatted_address\": \"Imperial College London, Exhibition Rd, London SW7 2AZ, UK\" }
+  ///
+  /// Note: This method returns the HTTP [Response].
+  Future<Response> apiV1GeocodeCreateWithHttpInfo() async {
+    // ignore: prefer_const_declarations
+    final path = r'/api/v1/geocode/';
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'POST',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Geocode an address to coordinates.  POST /api/v1/geocode/ Body: {\"address\": \"Imperial College London\"}  Returns: {     \"latitude\": 51.4988,     \"longitude\": -0.1749,     \"formatted_address\": \"Imperial College London, Exhibition Rd, London SW7 2AZ, UK\" }
+  Future<void> apiV1GeocodeCreate() async {
+    final response = await apiV1GeocodeCreateWithHttpInfo();
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+  }
+
+  /// API endpoint for Groups (Roles). Read-only following IAM principle - groups managed via seed_groups command. Groups represent user roles: school_admin, parent, driver.
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [String] ordering:
+  ///   Which field to use when ordering the results.
+  ///
+  /// * [int] page:
+  ///   A page number within the paginated result set.
+  ///
+  /// * [String] search:
+  ///   A search term.
+  Future<Response> apiV1GroupsListWithHttpInfo({ String? ordering, int? page, String? search, }) async {
+    // ignore: prefer_const_declarations
+    final path = r'/api/v1/groups/';
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    if (ordering != null) {
+      queryParams.addAll(_queryParams('', 'ordering', ordering));
+    }
+    if (page != null) {
+      queryParams.addAll(_queryParams('', 'page', page));
+    }
+    if (search != null) {
+      queryParams.addAll(_queryParams('', 'search', search));
+    }
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// API endpoint for Groups (Roles). Read-only following IAM principle - groups managed via seed_groups command. Groups represent user roles: school_admin, parent, driver.
+  ///
+  /// Parameters:
+  ///
+  /// * [String] ordering:
+  ///   Which field to use when ordering the results.
+  ///
+  /// * [int] page:
+  ///   A page number within the paginated result set.
+  ///
+  /// * [String] search:
+  ///   A search term.
+  Future<PaginatedGroupList?> apiV1GroupsList({ String? ordering, int? page, String? search, }) async {
+    final response = await apiV1GroupsListWithHttpInfo( ordering: ordering, page: page, search: search, );
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'PaginatedGroupList',) as PaginatedGroupList;
+    
+    }
+    return null;
+  }
+
+  /// API endpoint for Groups (Roles). Read-only following IAM principle - groups managed via seed_groups command. Groups represent user roles: school_admin, parent, driver.
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [int] id (required):
+  ///   A unique integer value identifying this group.
+  Future<Response> apiV1GroupsRetrieveWithHttpInfo(int id,) async {
+    // ignore: prefer_const_declarations
+    final path = r'/api/v1/groups/{id}/'
+      .replaceAll('{id}', id.toString());
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// API endpoint for Groups (Roles). Read-only following IAM principle - groups managed via seed_groups command. Groups represent user roles: school_admin, parent, driver.
+  ///
+  /// Parameters:
+  ///
+  /// * [int] id (required):
+  ///   A unique integer value identifying this group.
+  Future<Group?> apiV1GroupsRetrieve(int id,) async {
+    final response = await apiV1GroupsRetrieveWithHttpInfo(id,);
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Group',) as Group;
+    
+    }
+    return null;
+  }
+
   /// Student boarding endpoint - returns immediate approval and schedules background processing
   ///
   /// Note: This method returns the HTTP [Response].
@@ -1833,6 +2015,562 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ApiV1KioskBoardingCreate200Response',) as ApiV1KioskBoardingCreate200Response;
+    
+    }
+    return null;
+  }
+
+  /// ViewSet for kiosk management (admin only)
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [Kiosk] kiosk:
+  Future<Response> apiV1KiosksCreateWithHttpInfo({ Kiosk? kiosk, }) async {
+    // ignore: prefer_const_declarations
+    final path = r'/api/v1/kiosks/';
+
+    // ignore: prefer_final_locals
+    Object? postBody = kiosk;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>['application/json', 'application/x-www-form-urlencoded', 'multipart/form-data'];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'POST',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// ViewSet for kiosk management (admin only)
+  ///
+  /// Parameters:
+  ///
+  /// * [Kiosk] kiosk:
+  Future<Kiosk?> apiV1KiosksCreate({ Kiosk? kiosk, }) async {
+    final response = await apiV1KiosksCreateWithHttpInfo( kiosk: kiosk, );
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Kiosk',) as Kiosk;
+    
+    }
+    return null;
+  }
+
+  /// ViewSet for kiosk management (admin only)
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [String] kioskId (required):
+  Future<Response> apiV1KiosksDestroyWithHttpInfo(String kioskId,) async {
+    // ignore: prefer_const_declarations
+    final path = r'/api/v1/kiosks/{kiosk_id}/'
+      .replaceAll('{kiosk_id}', kioskId);
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'DELETE',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// ViewSet for kiosk management (admin only)
+  ///
+  /// Parameters:
+  ///
+  /// * [String] kioskId (required):
+  Future<void> apiV1KiosksDestroy(String kioskId,) async {
+    final response = await apiV1KiosksDestroyWithHttpInfo(kioskId,);
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+  }
+
+  /// ViewSet for kiosk management (admin only)
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [String] ordering:
+  ///   Which field to use when ordering the results.
+  ///
+  /// * [int] page:
+  ///   A page number within the paginated result set.
+  ///
+  /// * [String] search:
+  ///   A search term.
+  Future<Response> apiV1KiosksListWithHttpInfo({ String? ordering, int? page, String? search, }) async {
+    // ignore: prefer_const_declarations
+    final path = r'/api/v1/kiosks/';
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    if (ordering != null) {
+      queryParams.addAll(_queryParams('', 'ordering', ordering));
+    }
+    if (page != null) {
+      queryParams.addAll(_queryParams('', 'page', page));
+    }
+    if (search != null) {
+      queryParams.addAll(_queryParams('', 'search', search));
+    }
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// ViewSet for kiosk management (admin only)
+  ///
+  /// Parameters:
+  ///
+  /// * [String] ordering:
+  ///   Which field to use when ordering the results.
+  ///
+  /// * [int] page:
+  ///   A page number within the paginated result set.
+  ///
+  /// * [String] search:
+  ///   A search term.
+  Future<PaginatedKioskList?> apiV1KiosksList({ String? ordering, int? page, String? search, }) async {
+    final response = await apiV1KiosksListWithHttpInfo( ordering: ordering, page: page, search: search, );
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'PaginatedKioskList',) as PaginatedKioskList;
+    
+    }
+    return null;
+  }
+
+  /// ViewSet for kiosk management (admin only)
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [String] kioskId (required):
+  ///
+  /// * [PatchedKiosk] patchedKiosk:
+  Future<Response> apiV1KiosksPartialUpdateWithHttpInfo(String kioskId, { PatchedKiosk? patchedKiosk, }) async {
+    // ignore: prefer_const_declarations
+    final path = r'/api/v1/kiosks/{kiosk_id}/'
+      .replaceAll('{kiosk_id}', kioskId);
+
+    // ignore: prefer_final_locals
+    Object? postBody = patchedKiosk;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>['application/json', 'application/x-www-form-urlencoded', 'multipart/form-data'];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'PATCH',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// ViewSet for kiosk management (admin only)
+  ///
+  /// Parameters:
+  ///
+  /// * [String] kioskId (required):
+  ///
+  /// * [PatchedKiosk] patchedKiosk:
+  Future<Kiosk?> apiV1KiosksPartialUpdate(String kioskId, { PatchedKiosk? patchedKiosk, }) async {
+    final response = await apiV1KiosksPartialUpdateWithHttpInfo(kioskId,  patchedKiosk: patchedKiosk, );
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Kiosk',) as Kiosk;
+    
+    }
+    return null;
+  }
+
+  /// ViewSet for kiosk management (admin only)
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [String] kioskId (required):
+  Future<Response> apiV1KiosksRetrieveWithHttpInfo(String kioskId,) async {
+    // ignore: prefer_const_declarations
+    final path = r'/api/v1/kiosks/{kiosk_id}/'
+      .replaceAll('{kiosk_id}', kioskId);
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// ViewSet for kiosk management (admin only)
+  ///
+  /// Parameters:
+  ///
+  /// * [String] kioskId (required):
+  Future<Kiosk?> apiV1KiosksRetrieve(String kioskId,) async {
+    final response = await apiV1KiosksRetrieveWithHttpInfo(kioskId,);
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Kiosk',) as Kiosk;
+    
+    }
+    return null;
+  }
+
+  /// ViewSet for kiosk management (admin only)
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [String] kioskId (required):
+  ///
+  /// * [Kiosk] kiosk:
+  Future<Response> apiV1KiosksUpdateWithHttpInfo(String kioskId, { Kiosk? kiosk, }) async {
+    // ignore: prefer_const_declarations
+    final path = r'/api/v1/kiosks/{kiosk_id}/'
+      .replaceAll('{kiosk_id}', kioskId);
+
+    // ignore: prefer_final_locals
+    Object? postBody = kiosk;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>['application/json', 'application/x-www-form-urlencoded', 'multipart/form-data'];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'PUT',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// ViewSet for kiosk management (admin only)
+  ///
+  /// Parameters:
+  ///
+  /// * [String] kioskId (required):
+  ///
+  /// * [Kiosk] kiosk:
+  Future<Kiosk?> apiV1KiosksUpdate(String kioskId, { Kiosk? kiosk, }) async {
+    final response = await apiV1KiosksUpdateWithHttpInfo(kioskId,  kiosk: kiosk, );
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Kiosk',) as Kiosk;
+    
+    }
+    return null;
+  }
+
+  /// Bus locations API for school dashboard (any authenticated user).  Returns real-time bus locations for ALL buses in the fleet as GeoJSON. Accessible by any authenticated user.
+  ///
+  /// Note: This method returns the HTTP [Response].
+  Future<Response> apiV1LocationsRetrieveWithHttpInfo() async {
+    // ignore: prefer_const_declarations
+    final path = r'/api/v1/locations/';
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Bus locations API for school dashboard (any authenticated user).  Returns real-time bus locations for ALL buses in the fleet as GeoJSON. Accessible by any authenticated user.
+  Future<void> apiV1LocationsRetrieve() async {
+    final response = await apiV1LocationsRetrieveWithHttpInfo();
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+  }
+
+  /// Read-only ViewSet for device logs (any authenticated user)
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [String] kiosk:
+  ///   Unique kiosk device identifier (e.g., KIOSK001, BUS123-KIOSK)
+  ///
+  /// * [String] logLevel:
+  ///   Log level severity  * `DEBUG` - Debug * `INFO` - Info * `WARN` - Warning * `ERROR` - Error * `CRITICAL` - Critical
+  ///
+  /// * [int] page:
+  ///   A page number within the paginated result set.
+  ///
+  /// * [DateTime] timestamp:
+  Future<Response> apiV1LogsListWithHttpInfo({ String? kiosk, String? logLevel, int? page, DateTime? timestamp, }) async {
+    // ignore: prefer_const_declarations
+    final path = r'/api/v1/logs/';
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    if (kiosk != null) {
+      queryParams.addAll(_queryParams('', 'kiosk', kiosk));
+    }
+    if (logLevel != null) {
+      queryParams.addAll(_queryParams('', 'log_level', logLevel));
+    }
+    if (page != null) {
+      queryParams.addAll(_queryParams('', 'page', page));
+    }
+    if (timestamp != null) {
+      queryParams.addAll(_queryParams('', 'timestamp', timestamp));
+    }
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Read-only ViewSet for device logs (any authenticated user)
+  ///
+  /// Parameters:
+  ///
+  /// * [String] kiosk:
+  ///   Unique kiosk device identifier (e.g., KIOSK001, BUS123-KIOSK)
+  ///
+  /// * [String] logLevel:
+  ///   Log level severity  * `DEBUG` - Debug * `INFO` - Info * `WARN` - Warning * `ERROR` - Error * `CRITICAL` - Critical
+  ///
+  /// * [int] page:
+  ///   A page number within the paginated result set.
+  ///
+  /// * [DateTime] timestamp:
+  Future<PaginatedDeviceLogList?> apiV1LogsList({ String? kiosk, String? logLevel, int? page, DateTime? timestamp, }) async {
+    final response = await apiV1LogsListWithHttpInfo( kiosk: kiosk, logLevel: logLevel, page: page, timestamp: timestamp, );
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'PaginatedDeviceLogList',) as PaginatedDeviceLogList;
+    
+    }
+    return null;
+  }
+
+  /// Read-only ViewSet for device logs (any authenticated user)
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [int] logId (required):
+  Future<Response> apiV1LogsRetrieveWithHttpInfo(int logId,) async {
+    // ignore: prefer_const_declarations
+    final path = r'/api/v1/logs/{log_id}/'
+      .replaceAll('{log_id}', logId.toString());
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Read-only ViewSet for device logs (any authenticated user)
+  ///
+  /// Parameters:
+  ///
+  /// * [int] logId (required):
+  Future<DeviceLog?> apiV1LogsRetrieve(int logId,) async {
+    final response = await apiV1LogsRetrieveWithHttpInfo(logId,);
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'DeviceLog',) as DeviceLog;
+    
+    }
+    return null;
+  }
+
+  /// Get logs summary by level and time
+  ///
+  /// Note: This method returns the HTTP [Response].
+  Future<Response> apiV1LogsSummaryRetrieveWithHttpInfo() async {
+    // ignore: prefer_const_declarations
+    final path = r'/api/v1/logs/summary/';
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Get logs summary by level and time
+  Future<DeviceLog?> apiV1LogsSummaryRetrieve() async {
+    final response = await apiV1LogsSummaryRetrieveWithHttpInfo();
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'DeviceLog',) as DeviceLog;
     
     }
     return null;
@@ -2201,127 +2939,6 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Parent',) as Parent;
-    
-    }
-    return null;
-  }
-
-  /// Performs an HTTP 'GET /api/v1/roles/' operation and returns the [Response].
-  /// Parameters:
-  ///
-  /// * [String] ordering:
-  ///   Which field to use when ordering the results.
-  ///
-  /// * [int] page:
-  ///   A page number within the paginated result set.
-  ///
-  /// * [String] search:
-  ///   A search term.
-  Future<Response> apiV1RolesListWithHttpInfo({ String? ordering, int? page, String? search, }) async {
-    // ignore: prefer_const_declarations
-    final path = r'/api/v1/roles/';
-
-    // ignore: prefer_final_locals
-    Object? postBody;
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-
-    if (ordering != null) {
-      queryParams.addAll(_queryParams('', 'ordering', ordering));
-    }
-    if (page != null) {
-      queryParams.addAll(_queryParams('', 'page', page));
-    }
-    if (search != null) {
-      queryParams.addAll(_queryParams('', 'search', search));
-    }
-
-    const contentTypes = <String>[];
-
-
-    return apiClient.invokeAPI(
-      path,
-      'GET',
-      queryParams,
-      postBody,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-    );
-  }
-
-  /// Parameters:
-  ///
-  /// * [String] ordering:
-  ///   Which field to use when ordering the results.
-  ///
-  /// * [int] page:
-  ///   A page number within the paginated result set.
-  ///
-  /// * [String] search:
-  ///   A search term.
-  Future<PaginatedRoleList?> apiV1RolesList({ String? ordering, int? page, String? search, }) async {
-    final response = await apiV1RolesListWithHttpInfo( ordering: ordering, page: page, search: search, );
-    if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
-    }
-    // When a remote server returns no body with a status of 204, we shall not decode it.
-    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
-    // FormatException when trying to decode an empty string.
-    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'PaginatedRoleList',) as PaginatedRoleList;
-    
-    }
-    return null;
-  }
-
-  /// Performs an HTTP 'GET /api/v1/roles/{role_id}/' operation and returns the [Response].
-  /// Parameters:
-  ///
-  /// * [String] roleId (required):
-  ///   A UUID string identifying this role.
-  Future<Response> apiV1RolesRetrieveWithHttpInfo(String roleId,) async {
-    // ignore: prefer_const_declarations
-    final path = r'/api/v1/roles/{role_id}/'
-      .replaceAll('{role_id}', roleId);
-
-    // ignore: prefer_final_locals
-    Object? postBody;
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-
-    const contentTypes = <String>[];
-
-
-    return apiClient.invokeAPI(
-      path,
-      'GET',
-      queryParams,
-      postBody,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-    );
-  }
-
-  /// Parameters:
-  ///
-  /// * [String] roleId (required):
-  ///   A UUID string identifying this role.
-  Future<Role?> apiV1RolesRetrieve(String roleId,) async {
-    final response = await apiV1RolesRetrieveWithHttpInfo(roleId,);
-    if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
-    }
-    // When a remote server returns no body with a status of 204, we shall not decode it.
-    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
-    // FormatException when trying to decode an empty string.
-    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Role',) as Role;
     
     }
     return null;
@@ -2760,6 +3377,42 @@ class ApiApi {
     
     }
     return null;
+  }
+
+  /// Bus locations API for school dashboard (any authenticated user).  Returns real-time bus locations for ALL buses in the fleet as GeoJSON. Accessible by any authenticated user.
+  ///
+  /// Note: This method returns the HTTP [Response].
+  Future<Response> apiV1SchoolApiBusLocationsRetrieveWithHttpInfo() async {
+    // ignore: prefer_const_declarations
+    final path = r'/api/v1/school/api/bus-locations/';
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Bus locations API for school dashboard (any authenticated user).  Returns real-time bus locations for ALL buses in the fleet as GeoJSON. Accessible by any authenticated user.
+  Future<void> apiV1SchoolApiBusLocationsRetrieve() async {
+    final response = await apiV1SchoolApiBusLocationsRetrieveWithHttpInfo();
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
   }
 
   /// Performs an HTTP 'POST /api/v1/schools/' operation and returns the [Response].
@@ -4195,13 +4848,13 @@ class ApiApi {
   /// Performs an HTTP 'POST /api/v1/users/' operation and returns the [Response].
   /// Parameters:
   ///
-  /// * [UserCreate] userCreate (required):
-  Future<Response> apiV1UsersCreateWithHttpInfo(UserCreate userCreate,) async {
+  /// * [User] user (required):
+  Future<Response> apiV1UsersCreateWithHttpInfo(User user,) async {
     // ignore: prefer_const_declarations
     final path = r'/api/v1/users/';
 
     // ignore: prefer_final_locals
-    Object? postBody = userCreate;
+    Object? postBody = user;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -4223,9 +4876,9 @@ class ApiApi {
 
   /// Parameters:
   ///
-  /// * [UserCreate] userCreate (required):
-  Future<UserCreate?> apiV1UsersCreate(UserCreate userCreate,) async {
-    final response = await apiV1UsersCreateWithHttpInfo(userCreate,);
+  /// * [User] user (required):
+  Future<User?> apiV1UsersCreate(User user,) async {
+    final response = await apiV1UsersCreateWithHttpInfo(user,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -4233,7 +4886,7 @@ class ApiApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'UserCreate',) as UserCreate;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'User',) as User;
     
     }
     return null;
@@ -4347,105 +5000,6 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'PaginatedUserList',) as PaginatedUserList;
-    
-    }
-    return null;
-  }
-
-  /// Performs an HTTP 'POST /api/v1/users/login/' operation and returns the [Response].
-  /// Parameters:
-  ///
-  /// * [User] user (required):
-  Future<Response> apiV1UsersLoginCreateWithHttpInfo(User user,) async {
-    // ignore: prefer_const_declarations
-    final path = r'/api/v1/users/login/';
-
-    // ignore: prefer_final_locals
-    Object? postBody = user;
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-
-    const contentTypes = <String>['application/json', 'application/x-www-form-urlencoded', 'multipart/form-data'];
-
-
-    return apiClient.invokeAPI(
-      path,
-      'POST',
-      queryParams,
-      postBody,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-    );
-  }
-
-  /// Parameters:
-  ///
-  /// * [User] user (required):
-  Future<User?> apiV1UsersLoginCreate(User user,) async {
-    final response = await apiV1UsersLoginCreateWithHttpInfo(user,);
-    if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
-    }
-    // When a remote server returns no body with a status of 204, we shall not decode it.
-    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
-    // FormatException when trying to decode an empty string.
-    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'User',) as User;
-    
-    }
-    return null;
-  }
-
-  /// Logout endpoint - Blacklists refresh token (Fortune 500 standard)  Security: Prevents token reuse even if stolen  Request Body: { \"refresh\": \"...\" } Returns: 200 { \"message\": \"Logout successful\" }
-  ///
-  /// Note: This method returns the HTTP [Response].
-  ///
-  /// Parameters:
-  ///
-  /// * [User] user (required):
-  Future<Response> apiV1UsersLogoutCreateWithHttpInfo(User user,) async {
-    // ignore: prefer_const_declarations
-    final path = r'/api/v1/users/logout/';
-
-    // ignore: prefer_final_locals
-    Object? postBody = user;
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-
-    const contentTypes = <String>['application/json', 'application/x-www-form-urlencoded', 'multipart/form-data'];
-
-
-    return apiClient.invokeAPI(
-      path,
-      'POST',
-      queryParams,
-      postBody,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-    );
-  }
-
-  /// Logout endpoint - Blacklists refresh token (Fortune 500 standard)  Security: Prevents token reuse even if stolen  Request Body: { \"refresh\": \"...\" } Returns: 200 { \"message\": \"Logout successful\" }
-  ///
-  /// Parameters:
-  ///
-  /// * [User] user (required):
-  Future<User?> apiV1UsersLogoutCreate(User user,) async {
-    final response = await apiV1UsersLogoutCreateWithHttpInfo(user,);
-    if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
-    }
-    // When a remote server returns no body with a status of 204, we shall not decode it.
-    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
-    // FormatException when trying to decode an empty string.
-    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'User',) as User;
     
     }
     return null;

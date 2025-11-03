@@ -27,12 +27,12 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getParentsApi();
+final api_instance = ParentsApi();
 
 try {
-    final response = api.parentBusLocations();
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.parentBusLocations();
+    print(result);
+} catch (e) {
     print('Exception when calling ParentsApi->parentBusLocations: $e\n');
 }
 ```
@@ -46,7 +46,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[cookieAuth](../README.md#cookieAuth), [jwtAuth](../README.md#jwtAuth), [KioskJWTAuth](../README.md#KioskJWTAuth)
+[cookieAuth](../README.md#cookieAuth)
 
 ### HTTP request headers
 

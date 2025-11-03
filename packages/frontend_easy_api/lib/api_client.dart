@@ -196,6 +196,8 @@ class ApiClient {
           return BoardingEvent.fromJson(value);
         case 'BoardingEventCreate':
           return BoardingEventCreate.fromJson(value);
+        case 'BoardingEventNested':
+          return BoardingEventNested.fromJson(value);
         case 'Bus':
           return Bus.fromJson(value);
         case 'BusBasic':
@@ -204,16 +206,20 @@ class ApiClient {
           return BusLocation.fromJson(value);
         case 'CheckUpdatesResponse':
           return CheckUpdatesResponse.fromJson(value);
+        case 'DashboardStats':
+          return DashboardStats.fromJson(value);
+        case 'DashboardStudentsResponse':
+          return DashboardStudentsResponse.fromJson(value);
         case 'DeviceLog':
           return DeviceLog.fromJson(value);
+        case 'Group':
+          return Group.fromJson(value);
         case 'HealthData':
           return HealthData.fromJson(value);
         case 'Heartbeat':
           return Heartbeat.fromJson(value);
-        case 'KioskActivation':
-          return KioskActivation.fromJson(value);
-        case 'KioskActivationResponse':
-          return KioskActivationResponse.fromJson(value);
+        case 'Kiosk':
+          return Kiosk.fromJson(value);
         case 'KioskLog200Response':
           return KioskLog200Response.fromJson(value);
         case 'PaginatedAPIKeyList':
@@ -226,10 +232,14 @@ class ApiClient {
           return PaginatedBoardingEventList.fromJson(value);
         case 'PaginatedBusList':
           return PaginatedBusList.fromJson(value);
+        case 'PaginatedDeviceLogList':
+          return PaginatedDeviceLogList.fromJson(value);
+        case 'PaginatedGroupList':
+          return PaginatedGroupList.fromJson(value);
+        case 'PaginatedKioskList':
+          return PaginatedKioskList.fromJson(value);
         case 'PaginatedParentList':
           return PaginatedParentList.fromJson(value);
-        case 'PaginatedRoleList':
-          return PaginatedRoleList.fromJson(value);
         case 'PaginatedRouteList':
           return PaginatedRouteList.fromJson(value);
         case 'PaginatedSchoolList':
@@ -244,12 +254,16 @@ class ApiClient {
           return PaginatedUserList.fromJson(value);
         case 'Parent':
           return Parent.fromJson(value);
+        case 'ParentBusLocationsResponse':
+          return ParentBusLocationsResponse.fromJson(value);
         case 'PatchedAPIKey':
           return PatchedAPIKey.fromJson(value);
         case 'PatchedBoardingEvent':
           return PatchedBoardingEvent.fromJson(value);
         case 'PatchedBus':
           return PatchedBus.fromJson(value);
+        case 'PatchedKiosk':
+          return PatchedKiosk.fromJson(value);
         case 'PatchedParent':
           return PatchedParent.fromJson(value);
         case 'PatchedRoute':
@@ -264,8 +278,6 @@ class ApiClient {
           return PatchedStudentPhoto.fromJson(value);
         case 'PatchedUser':
           return PatchedUser.fromJson(value);
-        case 'Role':
-          return Role.fromJson(value);
         case 'Route':
           return Route.fromJson(value);
         case 'RouteStop':
@@ -274,20 +286,14 @@ class ApiClient {
           return School.fromJson(value);
         case 'Student':
           return Student.fromJson(value);
+        case 'StudentActivity':
+          return StudentActivity.fromJson(value);
         case 'StudentParent':
           return StudentParent.fromJson(value);
         case 'StudentPhoto':
           return StudentPhoto.fromJson(value);
-        case 'TokenObtainPair':
-          return TokenObtainPair.fromJson(value);
-        case 'TokenRefreshRequest':
-          return TokenRefreshRequest.fromJson(value);
-        case 'TokenRefreshResponse':
-          return TokenRefreshResponse.fromJson(value);
         case 'User':
           return User.fromJson(value);
-        case 'UserCreate':
-          return UserCreate.fromJson(value);
         default:
           dynamic match;
           if (value is List && (match = _regList.firstMatch(targetType)?.group(1)) != null) {
