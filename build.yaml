@@ -1,5 +1,38 @@
+# Google Product Standard - Build Configuration
+#
+# This file configures the code generation build order and exclusions
+# to prevent conflicts between OpenAPI-generated code and our custom models.
+
 targets:
   $default:
-    sources:
-      - "lib/**"
-      - "packages/frontend_easy_api/lib/**"
+    builders:
+      freezed:
+        enabled: true
+        options:
+          copy_with: true
+          equal: true
+        generate_for:
+          include:
+            - lib/**/*.dart
+          exclude:
+            - packages/frontend_easy_api/**
+            - lib/data/repositories/**
+            - lib/shared/services/**
+            - lib/core/services/**
+            - lib/**/providers/**
+
+      json_serializable:
+        enabled: true
+        options:
+          checked: true
+          create_to_json: true
+          explicit_to_json: true
+        generate_for:
+          include:
+            - lib/**/*.dart
+          exclude:
+            - packages/frontend_easy_api/**
+            - lib/data/repositories/**
+            - lib/shared/services/**
+            - lib/core/services/**
+            - lib/**/providers/**

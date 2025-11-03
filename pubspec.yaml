@@ -84,6 +84,8 @@ dependencies:
   google_fonts: ^6.3.2
   dynamic_color: ^1.8.1
   firebase_crashlytics: ^4.3.10
+  json_annotation: ^4.9.0
+  freezed_annotation: ^3.1.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -98,6 +100,9 @@ dev_dependencies:
 
   # Icon generation - 2025 BEST PRACTICE: Automatic cross-platform icon generation
   flutter_launcher_icons: ^0.14.3  # Auto-generate app icons for all platforms
+  build_runner: ^2.10.1
+  json_serializable: ^6.11.1
+  freezed: ^3.2.3
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

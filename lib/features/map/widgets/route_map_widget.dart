@@ -10,7 +10,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 
 import 'package:frontend_easy/features/map/widgets/maps_config.dart';
-import 'package:frontend_easy/core/theme/route_colors.dart';
 import 'package:frontend_easy/core/theme/bus_marker_colors.dart';
 import 'package:frontend_easy/features/fleet/providers/bus_locations_provider.dart';
 
@@ -215,7 +214,7 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
     }
 
     // Fallback to hash-based color
-    return RouteColors.getColorForRoute(route.routeId);
+    return HSLColor.fromAHSL(1.0, (route.routeId.hashCode % 360).toDouble(), 0.7, 0.5).toColor();
   }
 
   // Helper: convert Color to HSL hue (0-360) for BitmapDescriptor
