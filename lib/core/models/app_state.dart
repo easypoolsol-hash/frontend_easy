@@ -7,15 +7,18 @@
 /// - @freezed for immutability, copyWith, value equality
 /// - @JsonSerializable via freezed integration for JSON conversion
 /// - Use for: app state, user preferences, custom business logic models
+///
+/// IMPORTANT: Freezed 3.x requires 'sealed' or 'abstract' keyword
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'app_state.freezed.dart';
 part 'app_state.g.dart';
 
-/// Application state model - example of Google-level architecture
+/// Application state model - Google Product Standard 2025
+/// Uses 'sealed' for simple data models with single constructor
 @freezed
-class AppState with _$AppState {
+sealed class AppState with _$AppState {
   const factory AppState({
     required String userId,
     required bool isOnline,

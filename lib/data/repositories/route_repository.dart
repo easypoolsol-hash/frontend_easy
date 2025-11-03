@@ -7,6 +7,7 @@
 
 import 'dart:convert';
 
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend_easy/shared/services/api_service.dart';
 import 'package:frontend_easy_api/frontend_easy_api.dart' as api;
@@ -76,8 +77,13 @@ class RouteRepositoryImpl implements RouteRepository {
     try {
       final response = await _apiClient.apiV1RoutesRetrieve(routeId: routeId);
       return response.data;
-    } catch (e) {
-      print('Error fetching route $routeId: $e');
+    } catch (e, stackTrace) {
+      await FirebaseCrashlytics.instance.recordError(
+        e,
+        stackTrace,
+        reason: 'Error fetching route $routeId',
+        fatal: false,
+      );
       return null;
     }
   }
@@ -92,8 +98,13 @@ class RouteRepositoryImpl implements RouteRepository {
       await _cacheRoutes(routes);
 
       return routes;
-    } catch (e) {
-      print('Error refreshing routes: $e');
+    } catch (e, stackTrace) {
+      await FirebaseCrashlytics.instance.recordError(
+        e,
+        stackTrace,
+        reason: 'Error refreshing routes from API',
+        fatal: false,
+      );
 
       // Return cached data as fallback
       final cached = await _getCachedRoutes();
@@ -118,8 +129,13 @@ class RouteRepositoryImpl implements RouteRepository {
       return jsonList
           .map((json) => api.Route.fromJson(json as Map<String, dynamic>))
           .toList();
-    } catch (e) {
-      print('Error decoding cached routes: $e');
+    } catch (e, stackTrace) {
+      await FirebaseCrashlytics.instance.recordError(
+        e,
+        stackTrace,
+        reason: 'Error decoding cached routes',
+        fatal: false,
+      );
       return null;
     }
   }
@@ -132,8 +148,13 @@ class RouteRepositoryImpl implements RouteRepository {
         _cacheTimestampKey,
         DateTime.now().millisecondsSinceEpoch,
       );
-    } catch (e) {
-      print('Error caching routes: $e');
+    } catch (e, stackTrace) {
+      await FirebaseCrashlytics.instance.recordError(
+        e,
+        stackTrace,
+        reason: 'Error caching routes to SharedPreferences',
+        fatal: false,
+      );
     }
   }
 
@@ -153,9 +174,14 @@ class RouteRepositoryImpl implements RouteRepository {
     Future.microtask(() async {
       try {
         await refreshRoutes();
-      } catch (e) {
+      } catch (e, stackTrace) {
         // Silent failure - cached data already returned
-        print('Background refresh failed: $e');
+        await FirebaseCrashlytics.instance.recordError(
+          e,
+          stackTrace,
+          reason: 'Background route refresh failed',
+          fatal: false,
+        );
       }
     });
   }
