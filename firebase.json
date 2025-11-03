@@ -51,57 +51,6 @@
           "destination": "/index.html"
         }
       ]
-    },
-    {
-      "target": "api-live",
-      "public": "public",
-      "ignore": [
-        "firebase.json",
-        "**/.*"
-      ],
-      "rewrites": [
-        {
-          "source": "/**",
-          "run": {
-            "serviceId": "easypool-backend-production",
-            "region": "asia-south1"
-          }
-        }
-      ]
-    },
-    {
-      "target": "api-develop",
-      "public": "public",
-      "ignore": [
-        "firebase.json",
-        "**/.*"
-      ],
-      "rewrites": [
-        {
-          "source": "/**",
-          "run": {
-            "serviceId": "easypool-backend-dev",
-            "region": "asia-south1"
-          }
-        }
-      ]
-    },
-    {
-      "target": "api-stage",
-      "public": "public",
-      "ignore": [
-        "firebase.json",
-        "**/.*"
-      ],
-      "rewrites": [
-        {
-          "source": "/**",
-          "run": {
-            "serviceId": "easypool-backend-staging",
-            "region": "asia-south1"
-          }
-        }
-      ]
     }
   ]
 }
