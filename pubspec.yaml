@@ -37,7 +37,8 @@ dependencies:
     path: packages/frontend_easy_api
 
   # State Management
-  flutter_riverpod: ^2.6.1
+  flutter_riverpod: ^3.0.0
+  riverpod_annotation: ^3.0.0 # riverpod codegen support
 
   # Routing
   go_router: ^14.6.2
@@ -85,7 +86,7 @@ dependencies:
   dynamic_color: ^1.8.1
   firebase_crashlytics: ^4.3.10
   json_annotation: ^4.9.0
-  freezed_annotation: ^3.1.0
+  freezed_annotation: ^3.0.0  # Freezed 3.x with sealed class support
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -100,9 +101,10 @@ dev_dependencies:
 
   # Icon generation - 2025 BEST PRACTICE: Automatic cross-platform icon generation
   flutter_launcher_icons: ^0.14.3  # Auto-generate app icons for all platforms
-  build_runner: ^2.10.1
-  json_serializable: ^6.11.1
-  freezed: ^3.2.3
+  build_runner: ^2.4.13  # Compatible with Riverpod 3.0 and Freezed 3.x
+  json_serializable: ^6.8.0  # Compatible with build 3.x
+  freezed: ^3.0.6  # Freezed 3.x with sealed class support
+  riverpod_generator: ^3.0.0  # Riverpod 3.0 with enhanced code generation
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
