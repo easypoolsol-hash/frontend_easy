@@ -6,6 +6,7 @@ import 'package:frontend_easy/features/school/providers/dashboard_websocket_prov
 import 'package:frontend_easy/features/school/providers/student_activity_provider.dart';
 import 'package:frontend_easy/shared/utils/error_handler.dart';
 import 'package:frontend_easy/shared/widgets/app_top_nav_bar.dart';
+import 'package:frontend_easy/core/widgets/status_banner.dart';
 import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 /// School Dashboard Screen
@@ -72,6 +73,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       body: Column(
         children: [
           const AppTopNavBar(currentIndex: 2), // School dashboard tab
+          // System health status banner (shows when backend is down)
+          const StatusBanner(),
           Expanded(
             child: statsAsync.when(
               data: (stats) => _buildDashboardContent(
@@ -80,34 +83,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 studentActivityAsync,
               ),
               loading: () => const Center(child: CircularProgressIndicator()),
-              error: (error, stack) => Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(Icons.cloud_off_outlined, size: 64, color: Colors.grey),
-                    const SizedBox(height: 16),
-                    const Text(
-                      'Unable to load dashboard',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      ErrorHandler.getUserFriendlyMessage(error),
-                      style: const TextStyle(color: Colors.grey),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 24),
-                    ElevatedButton.icon(
-                      onPressed: () => ref.refresh(dashboardStatsProvider),
-                      icon: const Icon(Icons.refresh),
-                      label: const Text('Try Again'),
-                    ),
-                  ],
-                ),
-              ),
+              error: (error, stack) => _buildEmptyDashboard(context),
             ),
           ),
         ],
@@ -492,6 +468,120 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  /// Graceful degraded state when backend is unavailable
+  /// Shows empty dashboard with helpful message instead of blocking page
+  Widget _buildEmptyDashboard(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Padding(
+      padding: const EdgeInsets.all(24.0),
+      child: Column(
+        children: [
+          // Empty stats cards row
+          Row(
+            children: [
+              Expanded(
+                child: _buildStatCard(
+                  context,
+                  title: 'Students Boarded',
+                  value: '--',
+                  icon: Icons.groups,
+                  color: theme.colorScheme.primary,
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: _buildStatCard(
+                  context,
+                  title: 'Buses Active',
+                  value: '--',
+                  icon: Icons.directions_bus,
+                  color: theme.colorScheme.secondary,
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: _buildStatCard(
+                  context,
+                  title: 'Routes Active',
+                  value: '--',
+                  icon: Icons.route,
+                  color: theme.colorScheme.tertiary,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 24),
+          // Empty student activity section
+          Expanded(
+            child: Card(
+              elevation: 2,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+              child: Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.surface,
+                      borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(Icons.access_time, color: theme.colorScheme.onSurface),
+                        const SizedBox(width: 8),
+                        Text(
+                          'Recent Student Activity',
+                          style: theme.textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const Spacer(),
+                        IconButton(
+                          onPressed: () => ref.refresh(dashboardStatsProvider),
+                          icon: const Icon(Icons.refresh),
+                          tooltip: 'Retry loading data',
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.cloud_queue,
+                            size: 64,
+                            color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            'Waiting for live data...',
+                            style: theme.textTheme.titleMedium?.copyWith(
+                              color: theme.colorScheme.onSurfaceVariant,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'Dashboard will update when backend reconnects',
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.7),
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
