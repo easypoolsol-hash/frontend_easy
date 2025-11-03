@@ -178,10 +178,29 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                             },
                           ),
                           loading: () => _buildLoadingIndicator(),
-                          error: (error, stack) => _buildError(error, 'buses'),
+                          error: (error, stack) => RouteMapWidget(
+                            routes: routes,
+                            buses: const [], // Empty buses with routes still visible
+                            selectedBusIds: const [],
+                            onBusTapped: (busId, lat, lon) {},
+                          ),
                         ),
                         loading: () => _buildLoadingIndicator(),
-                        error: (error, stack) => _buildError(error, 'map data'),
+                        error: (error, stack) => busesAsync.when(
+                          data: (buses) => RouteMapWidget(
+                            routes: const [], // Empty routes with buses still visible
+                            buses: buses,
+                            selectedBusIds: const [],
+                            onBusTapped: (busId, lat, lon) {},
+                          ),
+                          loading: () => _buildLoadingIndicator(),
+                          error: (error, stack) => RouteMapWidget(
+                            routes: const [], // Both empty - show empty map
+                            buses: const [],
+                            selectedBusIds: const [],
+                            onBusTapped: (busId, lat, lon) {},
+                          ),
+                        ),
                       ),
                     ],
                   ),
