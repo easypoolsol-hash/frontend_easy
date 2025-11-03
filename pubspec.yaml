@@ -76,6 +76,12 @@ dependencies:
   # Cross-platform file download
   url_launcher: ^6.3.1
 
+
+  # Beautiful calendar with Material Design - Fortune 500 standard
+  table_calendar: ^3.1.2
+
+  # Multi-select dropdown with search - Modern Material Design
+  dropdown_search: ^6.0.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -160,3 +166,5 @@ flutter_launcher_icons:
     generate: true
     image_path: "assets/images/logo.png"
     icon_size: 256  # Windows .ico file size
+
+  # Beautiful calendar with Material Design - Fortune 500 standard

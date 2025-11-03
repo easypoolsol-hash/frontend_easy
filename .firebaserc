@@ -13,6 +13,15 @@
         ],
         "live": [
           "easypool-30af3"
+        ],
+        "api-develop": [
+          "easypool-api-dev"
+        ],
+        "api-stage": [
+          "easypool-api-stage"
+        ],
+        "api-live": [
+          "easypool-api-live"
         ]
       }
     }

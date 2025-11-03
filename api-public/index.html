@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>API Redirect</title>
+    <script>
+        // Get the backend URL from the current hostname
+        const hostname = window.location.hostname;
+        let backendUrl;
+
+        if (hostname.includes('api-dev') || hostname.includes('develop')) {
+            backendUrl = 'https://easypool-backend-dev-781819882627.asia-south1.run.app';
+        } else if (hostname.includes('api-stage') || hostname.includes('stage')) {
+            backendUrl = 'https://easypool-backend-staging-781819882627.asia-south1.run.app';
+        } else {
+            backendUrl = 'https://easypool-backend-production-781819882627.asia-south1.run.app';
+        }
+
+        // Redirect to backend with full path and query string
+        const targetUrl = backendUrl + window.location.pathname + window.location.search + window.location.hash;
+        window.location.replace(targetUrl);
+    </script>
+</head>
+<body>
+    <p>Redirecting to API backend...</p>
+</body>
+</html>
