@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend_easy_api/frontend_easy_api.dart' as api;
 
-import 'package:frontend_easy/features/fleet/providers/routes_provider.dart';
+import 'package:frontend_easy/features/fleet/controllers/routes_controller.dart';
 import 'package:frontend_easy/features/fleet/providers/buses_provider.dart';
 import 'package:frontend_easy/features/map/widgets/route_map_widget.dart';
 import 'package:frontend_easy/shared/widgets/app_top_nav_bar.dart';
@@ -30,7 +30,7 @@ class _RouteMapScreenState extends ConsumerState<RouteMapScreen> {
   @override
   Widget build(BuildContext context) {
     // Watch routes and buses data
-    final routesAsync = ref.watch(routesProvider);
+    final routesAsync = ref.watch(routesControllerProvider);
     final busesAsync = ref.watch(busesProvider);
 
     return Scaffold(
@@ -240,7 +240,7 @@ class _RouteMapScreenState extends ConsumerState<RouteMapScreen> {
           const SizedBox(height: 24),
           FilledButton.icon(
             onPressed: () {
-              ref.invalidate(routesProvider);
+              ref.invalidate(routesControllerProvider);
               ref.invalidate(busesProvider);
             },
             icon: const Icon(Icons.refresh),

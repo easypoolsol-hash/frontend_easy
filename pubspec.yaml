@@ -58,8 +58,6 @@ dependencies:
 
   # JSON Serialization - 2025 BEST PRACTICE: freezed + json_serializable
   # Replaces built_value (older approach) with modern freezed pattern
-  json_annotation: ^4.9.0
-  freezed_annotation: ^2.4.4
 
   # WebSocket for real-time updates
   web_socket_channel: ^3.0.1
@@ -97,9 +95,6 @@ dev_dependencies:
   flutter_lints: ^5.0.0
 
   # Code generation - 2025 BEST PRACTICE: freezed + json_serializable
-  build_runner: ^2.4.13
-  json_serializable: ^6.9.2
-  freezed: ^2.5.7  # Modern immutable model generator
 
   # Icon generation - 2025 BEST PRACTICE: Automatic cross-platform icon generation
   flutter_launcher_icons: ^0.14.3  # Auto-generate app icons for all platforms
