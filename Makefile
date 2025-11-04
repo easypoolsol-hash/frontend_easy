@@ -9,6 +9,7 @@ help:
 	@echo "  make setup         - First time setup"
 	@echo "  make generate      - Regenerate OpenAPI client"
 	@echo "  make run-web       - Run in web browser"
+	@echo "  make run-web-fresh - Run with cache clean (if changes not showing)"
 	@echo ""
 	@echo "DEVELOPMENT:"
 	@echo "  make analyze       - Check code for errors"
@@ -62,6 +63,14 @@ test:
 # Development runs
 run-web:
 	@echo "Starting web development server..."
+	@echo "Note: If changes don't appear, press 'R' in terminal for full restart"
+	@flutter run -d chrome --web-port=3000
+
+run-web-fresh:
+	@echo "Starting web development server with fresh build..."
+	@echo "This will clean cache and rebuild everything"
+	@flutter clean
+	@flutter pub get
 	@flutter run -d chrome --web-port=3000
 
 # Production builds
