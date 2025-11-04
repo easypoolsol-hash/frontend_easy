@@ -15,21 +15,14 @@ import 'package:frontend_easy/data/repositories/route_repository.dart';
 class RoutesController extends AsyncNotifier<List<api.Route>> {
   @override
   Future<List<api.Route>> build() async {
-    debugPrint('[RoutesController] Building - fetching routes...');
-
     // Get repository from provider
     try {
-      debugPrint('[RoutesController] Accessing routeRepositoryProvider...');
       final repository = ref.read(routeRepositoryProvider);
-      debugPrint('[RoutesController] Repository obtained successfully');
 
       // Fetch routes (uses cache-then-network pattern)
       final routes = await repository.getRoutes();
-      debugPrint('[RoutesController] Successfully fetched ${routes.length} routes');
       return routes;
     } catch (e, stackTrace) {
-      debugPrint('[RoutesController] Error fetching routes: $e');
-      debugPrint('[RoutesController] Stack trace: $stackTrace');
       rethrow;
     }
   }

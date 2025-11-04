@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:math' as math;
+import 'dart:ui' as ui;
 
 import 'package:frontend_easy_api/frontend_easy_api.dart' as api;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -55,6 +57,17 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
   // Current zoom level for dynamic sizing
   double _currentZoom = 12.0;
 
+  // Selected bus stop for showing info directly on marker
+  String? _selectedStopId;
+  String? _lastShownStopId; // Track last shown to prevent re-showing
+
+  // Track selected bus to show info
+  String? _selectedBusId;
+  String? _lastShownBusId; // Track last shown to prevent re-showing
+
+  // Cache for custom bus marker icons by route color
+  final Map<Color, BitmapDescriptor> _cachedBusMarkerIcons = {};
+
   @override
   void initState() {
     super.initState();
@@ -79,32 +92,112 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
     });
   }
 
+  /// Create a custom bus marker icon with route color
+  Future<BitmapDescriptor> _createBusMarker(Color routeColor) async {
+    final pictureRecorder = ui.PictureRecorder();
+    final canvas = Canvas(pictureRecorder);
+    const size = 48.0;
+    const center = Offset(size / 2, size / 2);
+
+    // Draw white circle background
+    final whiteCirclePaint = Paint()
+      ..color = Colors.white
+      ..style = PaintingStyle.fill;
+    canvas.drawCircle(center, size / 2, whiteCirclePaint);
+
+    // Draw bus icon in route color (SVG path)
+    final busIconPaint = Paint()
+      ..color = routeColor // Bus matches route color
+      ..style = PaintingStyle.fill;
+
+    // Scale and translate SVG path to fit
+    // Original SVG viewBox is 24x24, scale to fill most of canvas
+    const iconSize = size * 0.6;
+    const scale = iconSize / 24.0;
+    const offsetX = (size - iconSize) / 2;
+    const offsetY = (size - iconSize) / 2;
+
+    canvas.save();
+    canvas.translate(offsetX, offsetY);
+    canvas.scale(scale, scale);
+
+    // Bus SVG path
+    final path = Path()
+      ..moveTo(4, 16)
+      ..cubicTo(4, 16.88, 4.39, 17.67, 5, 18.22)
+      ..lineTo(5, 20)
+      ..cubicTo(5, 20.55, 5.45, 21, 6, 21)
+      ..lineTo(7, 21)
+      ..cubicTo(7.55, 21, 8, 20.55, 8, 20)
+      ..lineTo(8, 19)
+      ..lineTo(16, 19)
+      ..lineTo(16, 20)
+      ..cubicTo(16, 20.55, 16.45, 21, 17, 21)
+      ..lineTo(18, 21)
+      ..cubicTo(18.55, 21, 19, 20.55, 19, 20)
+      ..lineTo(19, 18.22)
+      ..cubicTo(19.61, 17.67, 20, 16.88, 20, 16)
+      ..lineTo(20, 6)
+      ..cubicTo(20, 2.5, 16.42, 2, 12, 2)
+      ..cubicTo(7.58, 2, 4, 2.5, 4, 6)
+      ..lineTo(4, 16)
+      ..close()
+      ..moveTo(7.5, 17)
+      ..cubicTo(6.67, 17, 6, 16.33, 6, 15.5)
+      ..cubicTo(6, 14.67, 6.67, 14, 7.5, 14)
+      ..cubicTo(8.33, 14, 9, 14.67, 9, 15.5)
+      ..cubicTo(9, 16.33, 8.33, 17, 7.5, 17)
+      ..close()
+      ..moveTo(16.5, 17)
+      ..cubicTo(15.67, 17, 15, 16.33, 15, 15.5)
+      ..cubicTo(15, 14.67, 15.67, 14, 16.5, 14)
+      ..cubicTo(17.33, 14, 18, 14.67, 18, 15.5)
+      ..cubicTo(18, 16.33, 17.33, 17, 16.5, 17)
+      ..close()
+      ..moveTo(18, 11)
+      ..lineTo(6, 11)
+      ..lineTo(6, 6)
+      ..lineTo(18, 6)
+      ..lineTo(18, 11)
+      ..close();
+
+    canvas.drawPath(path, busIconPaint);
+    canvas.restore();
+
+    final picture = pictureRecorder.endRecording();
+    final image = await picture.toImage(size.toInt(), size.toInt());
+    final bytes = await image.toByteData(format: ui.ImageByteFormat.png);
+
+    return BitmapDescriptor.fromBytes(bytes!.buffer.asUint8List());
+  }
+
   /// Calculate zoom-adjusted radius for circles
-  /// At low zoom levels (zoomed out), circles need to be larger to remain visible
-  /// IMPORTANT: Circle radius is in METERS, not pixels!
-  /// Each zoom level change doubles/halves the visible area, so we need aggressive scaling
+  /// Aggressive inverse scaling to mimic pixel-based sizing (not ground meters)
+  /// Google Maps circles use ground meters, so we scale exponentially to maintain visual size
   double _getZoomAdjustedRadius(double baseRadius) {
-    // Google Maps zoom levels: 1-20 (1=world, 20=buildings)
-    // Reference zoom: 12 (city level) uses base radius
-    // Scale aggressively: radius needs to grow exponentially to maintain screen size
-    // Formula: radius *= 2^(12 - currentZoom)
-    // Examples:
-    //   Zoom 12: scale = 1.0x   (2^0 = 1)
-    //   Zoom 11: scale = 2.0x   (2^1 = 2) - viewing 2x more area
-    //   Zoom 10: scale = 4.0x   (2^2 = 4) - viewing 4x more area
-    //   Zoom 9:  scale = 8.0x   (2^3 = 8) - viewing 8x more area
-    //   Zoom 13: scale = 0.5x   (2^-1 = 0.5) - viewing 1/2 area
-    //   Zoom 14: scale = 0.25x  (2^-2 = 0.25) - viewing 1/4 area
-    final zoomDifference = 12.0 - _currentZoom;
-    final scaleFactor = math.pow(2.0, zoomDifference).toDouble();
-    return baseRadius * scaleFactor;
+    // Reference zoom level (matches initial camera zoom for consistent appearance)
+    const referenceZoom = 12.0;
+
+    // Aggressive exponential scaling to mimic pixel-based behavior
+    // Google Maps doubles visible ground area for each zoom level decrease
+    // So we need to double the radius for each zoom level decrease to maintain visual size
+    final zoomDiff = referenceZoom - _currentZoom;
+    final scaleFactor = math.pow(2.0, zoomDiff).toDouble(); // Full exponential scaling (2^zoomDiff)
+
+    final adjustedRadius = baseRadius * scaleFactor;
+    return adjustedRadius;
   }
 
   /// Toggle map style between normal and dark mode
-  void _toggleMapStyle() {
+  void _toggleMapStyle() async {
     setState(() {
       _isDarkMode = !_isDarkMode;
     });
+
+    // Apply the style change to the map controller
+    if (_mapController != null) {
+      await _mapController!.setMapStyle(_isDarkMode ? _darkMapStyle : null);
+    }
   }
 
   // Google Maps navigation mode dark theme (blue-tinted, not pure black)
@@ -235,8 +328,6 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
     // Watch bus locations data
     final busLocationsAsync = ref.watch(busLocationsProvider);
 
-    debugPrint('[RouteMapWidget] Building map with ${widget.routes.length} routes');
-
     // NOTE: Google Maps API key is loaded via <script> tag in web/index.html
     // The google_maps_flutter widget reads it from the JavaScript API, not from Dart code
     // No validation needed here - if key is missing, Google Maps will show its own error
@@ -244,19 +335,18 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
     // Build marker and polyline sets
     final routePolylines = <Polyline>{};
     final stopCircles = <Circle>{}; // Bus stops as circles (Google Maps transit style)
+    final stopMarkers = <Marker>{}; // Bus stop name markers (invisible, only for labels)
     final busMarkers = <Marker>{};
     final busCircles = <Circle>{}; // Ripple effect circles
 
     // Always show routes
     final polylines = _buildRoutePolylines();
     routePolylines.addAll(polylines);
-    debugPrint('[RouteMapWidget] Added ${polylines.length} route polylines');
 
     // Always show bus stop markers
     for (final route in widget.routes) {
       // Get bus stops from backend (built_value BuiltList of BuiltMap with JsonObject values)
       final busStops = route.busStops;
-      debugPrint('[RouteMapWidget] Route ${route.name}: ${busStops.length} bus stops');
 
       if (busStops.isEmpty) continue;
 
@@ -272,7 +362,6 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
           final lonObj = stop['longitude'];
 
           if (latObj == null || lonObj == null) {
-            debugPrint('[RouteMapWidget] Stop $i: Missing lat/lon objects');
             continue;
           }
 
@@ -280,11 +369,8 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
           final lon = lonObj.value as num?;
 
           if (lat == null || lon == null) {
-            debugPrint('[RouteMapWidget] Stop $i: lat/lon values are null');
             continue;
           }
-
-          debugPrint('[RouteMapWidget] Stop $i: lat=$lat, lon=$lon');
 
           // Extract stop name from metadata
           final metadataObj = stop['metadata'];
@@ -298,60 +384,219 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
 
           final isEndpoint = (i == 0 || i == stops.length - 1);
           final position = LatLng(lat.toDouble(), lon.toDouble());
+          final stopId = 'stop_${route.routeId}_$i';
 
-          // Google Maps transit style: Visible circles for stops
-          // Design: White fill with colored border (inverted from route line)
-          // This makes stops stand out against the route while maintaining color coding
-          // Radius scales with zoom level for consistent visibility
+          // Google Maps transit style: Colored fill with white border
+          // Inner: Route color, Outer: White border for contrast
+          // Much larger base size for better visibility
+          final isSelected = _selectedStopId == stopId;
+          final baseRadius = isEndpoint ? 120.0 : 80.0; // Much larger: Endpoints 120m, regular 80m
+          final outerRadius = isSelected ? baseRadius * 1.5 : baseRadius; // 50% bigger when selected
+          final innerRadius = outerRadius * 0.6; // Inner colored circle is 60% of outer
+
+          // Outer circle with white fill and grey border (no shadow)
           stopCircles.add(Circle(
-            circleId: CircleId('stop_${route.routeId}_$i'),
+            circleId: CircleId('${stopId}_outer'),
             center: position,
-            radius: _getZoomAdjustedRadius(isEndpoint ? 50 : 30), // Larger: Endpoints 50m, regular stops 30m
-            fillColor: Colors.white.withValues(alpha: 0.9), // White fill for high contrast
-            strokeColor: routeColor, // Route color border for identification
-            strokeWidth: isEndpoint ? 5 : 4, // Thicker border for visibility
+            radius: _getZoomAdjustedRadius(outerRadius),
+            fillColor: Colors.white, // White fill
+            strokeColor: const Color(0xFF9E9E9E), // Grey border (lighter than before)
+            strokeWidth: isSelected ? 4 : 3,
+          ));
+
+          // Inner circle with route color
+          stopCircles.add(Circle(
+            circleId: CircleId(stopId),
+            center: position,
+            radius: _getZoomAdjustedRadius(innerRadius),
+            fillColor: routeColor.withValues(alpha: isSelected ? 1.0 : 0.9), // Route color fill
+            strokeColor: routeColor, // Same color border
+            strokeWidth: isSelected ? 3 : 2,
             consumeTapEvents: true,
             onTap: () {
-              // Could show stop info in a snackbar or dialog
-              debugPrint('[RouteMapWidget] Tapped stop: $stopName');
+              setState(() {
+                if (_selectedStopId == stopId) {
+                  _selectedStopId = null;
+                  _lastShownStopId = null;
+                } else {
+                  _selectedStopId = stopId;
+                }
+              });
             },
           ));
-        }
 
-        debugPrint('[RouteMapWidget] Route ${route.name}: Added ${stops.length} stop circles');
+          // Always add larger invisible marker with info window for easier hover
+          final markerId = MarkerId('stop_label_$stopId');
+          stopMarkers.add(Marker(
+            markerId: markerId,
+            position: position,
+            icon: BitmapDescriptor.defaultMarker,
+            alpha: 0.0, // Make marker invisible, only show label
+            infoWindow: InfoWindow(
+              title: stopName,
+              snippet: route.name, // Show route name
+              anchor: const Offset(0.5, 2.0), // Position label well above the circle
+            ),
+            // Marker inherently has a larger hit area than the visual circle
+            consumeTapEvents: false, // Don't consume taps so circle can also be clicked
+          ));
+        }
       } catch (e, stackTrace) {
-        // Log error for debugging
-        debugPrint('[RouteMapWidget] Error parsing bus stops for route ${route.routeId}: $e');
-        debugPrint('[RouteMapWidget] Stack trace: $stackTrace');
+        // Silently skip routes with parsing errors
       }
     }
 
-    debugPrint('[RouteMapWidget] Total stop circles: ${stopCircles.length}');
-
-    // Always show buses with ripple circles
-    busLocationsAsync.when(
+    // Always show buses with ripple circles - synchronous version
+    busLocationsAsync.whenOrNull(
       data: (busLocations) {
-        debugPrint('[RouteMapWidget] Received ${busLocations.length} bus locations from WebSocket');
-        final markersAndCircles = _buildBusMarkersWithCircles(busLocations);
-        busMarkers.addAll(markersAndCircles['markers'] as Set<Marker>);
-        busCircles.addAll(markersAndCircles['circles'] as Set<Circle>);
-      },
-      loading: () {
-        debugPrint('[RouteMapWidget] Bus locations loading...');
-      },
-      error: (error, stack) {
-        debugPrint('[RouteMapWidget] Bus locations error: $error');
+        // Process synchronously - create simple markers first, custom icons later
+        for (final busFeature in busLocations) {
+          try {
+            final geometry = busFeature['geometry'] as Map<String, dynamic>;
+            final properties = busFeature['properties'] as Map<String, dynamic>;
+            final coordinates = geometry['coordinates'] as List<dynamic>;
+
+            final longitude = (coordinates[0] as num).toDouble();
+            final latitude = (coordinates[1] as num).toDouble();
+            final busId = properties['id']?.toString() ?? 'bus_${busMarkers.length}';
+            final busNumber = properties['bus_number']?.toString() ?? 'BUS';
+            final busName = properties['name']?.toString() ?? 'Bus';
+            final routeId = properties['route_id']?.toString();
+
+            final position = LatLng(latitude, longitude);
+
+            // Find route and route color for this bus
+            String? routeInfo;
+            Color routeColor = const Color(0xFF1976D2); // Default blue
+            if (routeId != null && widget.routes.isNotEmpty) {
+              try {
+                final busRoute = widget.routes.firstWhere(
+                  (r) => r.routeId == routeId,
+                );
+                routeInfo = busRoute.name;
+                routeColor = _colorForRoute(busRoute);
+              } catch (e) {
+                // Route not found, use first route as fallback
+                if (widget.routes.isNotEmpty) {
+                  final fallbackRoute = widget.routes.first;
+                  routeInfo = fallbackRoute.name;
+                  routeColor = _colorForRoute(fallbackRoute);
+                }
+              }
+            } else if (widget.routes.isNotEmpty) {
+              // No routeId, use first route as default
+              final defaultRoute = widget.routes.first;
+              routeInfo = defaultRoute.name;
+              routeColor = _colorForRoute(defaultRoute);
+            }
+
+            // Custom bus marker with route color
+            final busMarkerId = MarkerId('bus_$busId');
+            final isSelected = _selectedBusId == busId;
+
+            // Create or get cached marker icon for this route color
+            if (!_cachedBusMarkerIcons.containsKey(routeColor)) {
+              _createBusMarker(routeColor).then((icon) {
+                if (mounted) {
+                  setState(() {
+                    _cachedBusMarkerIcons[routeColor] = icon;
+                  });
+                }
+              });
+            }
+
+            // Only add marker if icon is ready
+            final cachedIcon = _cachedBusMarkerIcons[routeColor];
+            if (cachedIcon != null) {
+              busMarkers.add(Marker(
+                markerId: busMarkerId,
+                position: position,
+                icon: cachedIcon,
+                onTap: () {
+                  setState(() {
+                    if (_selectedBusId == busId) {
+                      _selectedBusId = null;
+                      _lastShownBusId = null;
+                    } else {
+                      _selectedBusId = busId;
+                    }
+                  });
+                  widget.onBusTapped?.call(busId, latitude, longitude);
+                },
+              ));
+            }
+
+            // Add invisible marker to show info window when selected
+            if (isSelected) {
+              final infoMarkerId = MarkerId('bus_info_$busId');
+              busMarkers.add(Marker(
+                markerId: infoMarkerId,
+                position: position,
+                icon: BitmapDescriptor.defaultMarker,
+                alpha: 0.0, // Invisible marker
+                infoWindow: InfoWindow(
+                  title: busNumber, // School-assigned bus number (e.g., BUS-001)
+                  snippet: routeInfo != null ? 'Route: $routeInfo' : busName,
+                  anchor: const Offset(0.5, 1.0),
+                ),
+              ));
+
+              // Only show info window once when first selected
+              if (_lastShownBusId != busId) {
+                _lastShownBusId = busId;
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  _mapController?.showMarkerInfoWindow(infoMarkerId);
+                });
+              }
+            }
+
+            // Add blue ripple circles (not yellow)
+            final ripplePhase = _ripplePhase;
+
+            // Outer circle - blue color
+            final outerBaseRadius = 600.0 + (ripplePhase * 80.0);
+            final outerRadius = _getZoomAdjustedRadius(outerBaseRadius);
+            final outerOpacity = 0.25 - (ripplePhase * 0.06);
+            busCircles.add(Circle(
+              circleId: CircleId('bus_outer_$busId'),
+              center: position,
+              radius: outerRadius,
+              fillColor: Color.fromRGBO(30, 136, 229, outerOpacity), // Blue
+              strokeColor: Color.fromRGBO(30, 136, 229, outerOpacity * 1.5),
+              strokeWidth: 2,
+            ));
+
+            // Inner circle - blue color
+            final innerPhase = (ripplePhase + 1) % 3;
+            final innerBaseRadius = 300.0 + (innerPhase * 60.0);
+            final innerRadius = _getZoomAdjustedRadius(innerBaseRadius);
+            final innerOpacity = 0.35 - (innerPhase * 0.08);
+            busCircles.add(Circle(
+              circleId: CircleId('bus_inner_$busId'),
+              center: position,
+              radius: innerRadius,
+              fillColor: Color.fromRGBO(30, 136, 229, innerOpacity), // Blue
+              strokeColor: Color.fromRGBO(30, 136, 229, innerOpacity * 1.5),
+              strokeWidth: 2,
+            ));
+          } catch (e) {
+            // Silently skip invalid bus locations
+          }
+        }
       },
     );
-
-    debugPrint('[RouteMapWidget] Total bus markers: ${busMarkers.length}');
-    debugPrint('[RouteMapWidget] Total bus circles: ${busCircles.length}');
 
     return Stack(
       children: [
         GoogleMap(
           initialCameraPosition: _initialCamera(),
-          onMapCreated: (controller) => _mapController = controller,
+          onMapCreated: (controller) {
+            _mapController = controller;
+            // Apply initial dark mode style if enabled
+            if (_isDarkMode) {
+              controller.setMapStyle(_darkMapStyle);
+            }
+          },
           onCameraMove: (position) {
             // Track zoom level for dynamic circle sizing
             if (_currentZoom != position.zoom) {
@@ -360,7 +605,7 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
               });
             }
           },
-          markers: busMarkers,
+          markers: {...stopMarkers, ...busMarkers},
           polylines: routePolylines,
           circles: {...stopCircles, ...busCircles}, // Stop circles + bus ripple circles
           myLocationEnabled: true,
@@ -413,13 +658,10 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
     for (final route in widget.routes) {
       // Decode polyline from backend's encoded polyline
       final encodedPolyline = route.encodedPolyline;
-      debugPrint('[RouteMapWidget] Route ${route.name}: encodedPolyline length=${encodedPolyline.length}');
 
       final points = _decodePolyline(encodedPolyline);
-      debugPrint('[RouteMapWidget] Route ${route.name}: decoded ${points.length} points');
 
       if (points.length < 2) {
-        debugPrint('[RouteMapWidget] Route ${route.name}: Skipping (need at least 2 points)');
         continue;
       }
 
@@ -434,100 +676,11 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
         width: 5,  // Google Maps standard width
         geodesic: true,  // Follow Earth's curvature
       ));
-
-      debugPrint('[RouteMapWidget] Route ${route.name}: Added polyline with ${points.length} points');
     }
     return polylines;
   }
 
 
-  /// Build bus position markers with ripple effect circles
-  /// Returns a map with 'markers' and 'circles' sets
-  Map<String, Set<dynamic>> _buildBusMarkersWithCircles(List<Map<String, dynamic>> busLocations) {
-    final markers = <Marker>{};
-    final circles = <Circle>{};
-    debugPrint('[RouteMapWidget] Building bus markers from ${busLocations.length} locations');
-
-    for (final busFeature in busLocations) {
-      try {
-        final geometry = busFeature['geometry'] as Map<String, dynamic>;
-        final properties = busFeature['properties'] as Map<String, dynamic>;
-        final coordinates = geometry['coordinates'] as List<dynamic>;
-
-        final longitude = (coordinates[0] as num).toDouble();
-        final latitude = (coordinates[1] as num).toDouble();
-        final busId = properties['id']?.toString() ?? 'bus_${markers.length}';
-        final status = properties['status'] as String;
-        final busName = properties['name']?.toString() ?? 'Bus';
-        final busNumber = properties['bus_number']?.toString() ?? 'BUS';
-
-        debugPrint('[RouteMapWidget] Bus $busName ($busId): lat=$latitude, lon=$longitude, status=$status');
-
-      // Don't filter buses - show all markers always
-      // Google standard: Always visible, no hiding on selection
-
-      final position = LatLng(latitude, longitude);
-
-        // Replace pin marker with blue dot (Google Maps "my location" style)
-        // This avoids the red marker issue completely
-        // Center dot - solid blue (larger base radius for visibility)
-        circles.add(Circle(
-          circleId: CircleId('bus_dot_$busId'),
-          center: position,
-          radius: _getZoomAdjustedRadius(25), // Larger solid blue dot (25m base), scales with zoom
-          fillColor: const Color(0xFF1E88E5), // Solid Material Blue 600
-          strokeColor: Colors.white, // White border
-          strokeWidth: 3,
-          consumeTapEvents: true,
-          onTap: () {
-            widget.onBusTapped?.call(busId, latitude, longitude);
-            debugPrint('[RouteMapWidget] Tapped bus: $busNumber - $busName');
-          },
-        ));
-
-        // Add animated ripple effect circles (Google Maps navigation style)
-        // Animation cycles through 3 phases with varying sizes and opacity
-        final ripplePhase = _ripplePhase;
-
-        // Outer circle - animated pulse (larger base radius)
-        final outerBaseRadius = 200.0 + (ripplePhase * 30.0); // 200 → 230 → 260
-        final outerRadius = _getZoomAdjustedRadius(outerBaseRadius);
-        final outerOpacity = 0.25 - (ripplePhase * 0.06); // 0.25 → 0.19 → 0.13
-        circles.add(Circle(
-          circleId: CircleId('bus_circle_outer_$busId'),
-          center: position,
-          radius: outerRadius,
-          fillColor: Color.fromRGBO(30, 136, 229, outerOpacity), // Fading blue
-          strokeColor: Color.fromRGBO(30, 136, 229, outerOpacity * 1.5),
-          strokeWidth: 2,
-        ));
-
-        // Inner circle - animated pulse (opposite phase for wave effect, larger base)
-        final innerPhase = (ripplePhase + 1) % 3; // Offset by 1 phase
-        final innerBaseRadius = 100.0 + (innerPhase * 20.0); // 100 → 120 → 140
-        final innerRadius = _getZoomAdjustedRadius(innerBaseRadius);
-        final innerOpacity = 0.35 - (innerPhase * 0.08); // 0.35 → 0.27 → 0.19
-        circles.add(Circle(
-          circleId: CircleId('bus_circle_inner_$busId'),
-          center: position,
-          radius: innerRadius,
-          fillColor: Color.fromRGBO(30, 136, 229, innerOpacity),
-          strokeColor: Color.fromRGBO(30, 136, 229, innerOpacity * 1.5),
-          strokeWidth: 2,
-        ));
-
-        debugPrint('[RouteMapWidget] Added marker and ripple circles for bus $busName');
-      } catch (e) {
-        debugPrint('[RouteMapWidget] Error creating bus marker: $e');
-      }
-    }
-
-    debugPrint('[RouteMapWidget] Built ${markers.length} bus markers and ${circles.length} circles');
-    return {
-      'markers': markers,
-      'circles': circles,
-    };
-  }
 
   /// Focus camera on specific coordinates
   Future<void> focusOnLocation(double latitude, double longitude, {double zoom = 15.0}) async {

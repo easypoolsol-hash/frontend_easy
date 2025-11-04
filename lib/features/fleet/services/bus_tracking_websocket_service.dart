@@ -63,17 +63,13 @@ class BusTrackingWebSocketService {
 
     try {
       // Get token from centralized TokenManager (same as HTTP APIs)
-      debugPrint('[WebSocket] Requesting token from TokenManager...');
       final token = await tokenManager.getToken();
 
       if (token == null) {
-        debugPrint('[WebSocket] No token available - auth not ready or user not logged in');
         _statusController?.add(WebSocketConnectionStatus.authError);
         _isConnecting = false;
         return;
       }
-
-      debugPrint('[WebSocket] Token received, connecting...');
 
       // Convert http/https URL to ws/wss
       final wsUrl = baseUrl
@@ -94,10 +90,8 @@ class BusTrackingWebSocketService {
       );
 
       _statusController?.add(WebSocketConnectionStatus.connected);
-      debugPrint('[WebSocket] Connected successfully');
       _isConnecting = false;
     } catch (e) {
-      debugPrint('[WebSocket] Connection error: $e');
       _handleError(e);
       _isConnecting = false;
     }
@@ -134,23 +128,22 @@ class BusTrackingWebSocketService {
           break;
 
         default:
-          debugPrint('Unknown WebSocket message type: $type');
+          // Unknown message type, ignore
+          break;
       }
     } catch (e) {
-      debugPrint('Error parsing WebSocket message: $e');
+      // Silently ignore parsing errors
     }
   }
 
   /// Handle WebSocket errors
   void _handleError(dynamic error) {
-    debugPrint('Bus tracking WebSocket error: $error');
     _statusController?.add(WebSocketConnectionStatus.error);
     _scheduleReconnect();
   }
 
   /// Handle WebSocket disconnect
   void _handleDisconnect() {
-    debugPrint('Bus tracking WebSocket disconnected');
     _statusController?.add(WebSocketConnectionStatus.disconnected);
     _channel = null;
     _scheduleReconnect();
@@ -161,7 +154,6 @@ class BusTrackingWebSocketService {
     _reconnectTimer?.cancel();
     _reconnectTimer = Timer(const Duration(seconds: 5), () {
       if (_channel == null && !_isConnecting) {
-        debugPrint('Attempting bus tracking WebSocket reconnect...');
         connect();
       }
     });

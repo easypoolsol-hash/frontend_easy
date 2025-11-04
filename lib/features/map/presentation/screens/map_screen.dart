@@ -32,7 +32,6 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   Widget build(BuildContext context) {
     // Watch routes and buses data
     final routesAsync = ref.watch(routesControllerProvider);
-    debugPrint('[MapScreen] routesAsync state: ${routesAsync}');
     final busesAsync = ref.watch(busesProvider);
 
     return Scaffold(
@@ -160,7 +159,6 @@ class _MapScreenState extends ConsumerState<MapScreen> {
               children: [
                 routesAsync.when(
                         data: (routes) {
-                          debugPrint('[MapScreen] Received ${routes.length} routes from routesControllerProvider');
                           return busesAsync.when(
                             data: (buses) => RouteMapWidget(
                               routes: routes,

@@ -115,23 +115,22 @@ class DashboardWebSocketService {
           break;
 
         default:
-          debugPrint('Unknown WebSocket message type: $type');
+          // Unknown message type, ignore
+          break;
       }
     } catch (e) {
-      debugPrint('Error parsing WebSocket message: $e');
+      // Silently ignore parsing errors
     }
   }
 
   /// Handle WebSocket errors
   void _handleError(dynamic error) {
-    debugPrint('WebSocket error: $error');
     _statusController?.add(WebSocketStatus.error);
     _scheduleReconnect();
   }
 
   /// Handle WebSocket disconnect
   void _handleDisconnect() {
-    debugPrint('WebSocket disconnected');
     _statusController?.add(WebSocketStatus.disconnected);
     _channel = null;
     _scheduleReconnect();
@@ -142,7 +141,6 @@ class DashboardWebSocketService {
     _reconnectTimer?.cancel();
     _reconnectTimer = Timer(const Duration(seconds: 5), () {
       if (_channel == null && !_isConnecting) {
-        debugPrint('Attempting WebSocket reconnect...');
         connect();
       }
     });
