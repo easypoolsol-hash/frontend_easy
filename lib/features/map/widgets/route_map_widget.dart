@@ -96,17 +96,19 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
 
   /// Get standard Google Maps blue marker
   BitmapDescriptor _getStandardBlueMarker() {
-    const cacheKey = 'standard_blue';
+    const cacheKey = 'standard_cyan_marker';
 
     // Return cached marker if already created
     if (_markerCache.containsKey(cacheKey)) {
       return _markerCache[cacheKey]!;
     }
 
-    // Use Google's standard marker with cyan/azure hue (200° = Google Maps blue)
-    // This matches the typical "blue dot" location marker in Google Maps
-    // Hue values: Red=0°, Orange=30°, Yellow=60°, Green=120°, Cyan=180°, Blue=240°, Magenta=300°
-    final marker = BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan);
+    // Use Google's standard marker with azure blue hue (210° = Azure/Light Blue)
+    // BitmapDescriptor constants:
+    // - hueRed = 0°, hueOrange = 30°, hueYellow = 60°, hueGreen = 120°
+    // - hueCyan = 180°, hueAzure = 210°, hueBlue = 240°, hueMagenta = 300°
+    // Using 210° (Azure) for a brighter, more visible blue marker
+    final marker = BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure);
     _markerCache[cacheKey] = marker;
     return marker;
   }
