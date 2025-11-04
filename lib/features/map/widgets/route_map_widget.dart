@@ -103,10 +103,10 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
       return _markerCache[cacheKey]!;
     }
 
-    // Use Google's standard marker with bright blue hue (240° = pure blue, more visible)
-    // Note: Google Maps uses cyan/azure for default blue, which is around 200-210°
-    // But for bus markers we want a brighter, more visible blue at 240°
-    final marker = BitmapDescriptor.defaultMarkerWithHue(240);
+    // Use Google's standard marker with cyan/azure hue (200° = Google Maps blue)
+    // This matches the typical "blue dot" location marker in Google Maps
+    // Hue values: Red=0°, Orange=30°, Yellow=60°, Green=120°, Cyan=180°, Blue=240°, Magenta=300°
+    final marker = BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan);
     _markerCache[cacheKey] = marker;
     return marker;
   }

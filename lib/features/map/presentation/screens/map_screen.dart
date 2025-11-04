@@ -156,18 +156,9 @@ class _MapScreenState extends ConsumerState<MapScreen> {
             ),
           ),
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Card(
-                elevation: 4,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: Stack(
-                    children: [
-                      routesAsync.when(
+            child: Stack(
+              children: [
+                routesAsync.when(
                         data: (routes) {
                           debugPrint('[MapScreen] Received ${routes.length} routes from routesControllerProvider');
                           return busesAsync.when(
@@ -207,10 +198,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                           ),
                         ),
                       ),
-                    ],
-                  ),
-                ),
-              ),
+              ],
             ),
           ),
         ],
