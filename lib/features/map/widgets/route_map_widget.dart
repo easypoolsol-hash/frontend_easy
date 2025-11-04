@@ -325,11 +325,13 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
 
     debugPrint('[RouteMapWidget] Total stop markers: ${stopMarkers.length}');
 
-    // Always show buses
+    // Get bus locations data for both markers and circles
+    List<Map<String, dynamic>> busLocationsData = [];
     busMarkers.addAll(
       busLocationsAsync.when(
         data: (busLocations) {
           debugPrint('[RouteMapWidget] Received ${busLocations.length} bus locations from WebSocket');
+          busLocationsData = busLocations;
           return _buildBusMarkers(busLocations);
         },
         loading: () {
@@ -355,6 +357,7 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
           },
           markers: {...stopMarkers, ...busMarkers},
           polylines: routePolylines,
+          circles: _buildBusSignalCircles(busLocationsData),
           myLocationEnabled: true,
           myLocationButtonEnabled: true,
           mapType: MapType.normal,
@@ -445,19 +448,11 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
         }
       }
 
-      // Filter
-      if (widget.selectedBusIds.isNotEmpty && !widget.selectedBusIds.contains(busId)) {
-        continue;
-      }
+      // Don't filter buses - show all markers always
+      // Google standard: Always visible, no hiding on selection
 
-      final isSelected = widget.selectedBusIds.contains(busId);
-
-      // Get marker color using BusMarkerColors logic
-      final markerColor = BusMarkerColors.getColorForStatus(
-        status,
-        isSelected: isSelected,
-        lastLocationUpdate: lastLocationUpdate,
-      );
+      // Use Google's standard blue color for all buses (no status-based colors)
+      const markerColor = Color(0xFF4285F4); // Google blue
 
       // Get cached marker icon (preloaded in initState)
       final colorKey = markerColor.toARGB32().toString();
@@ -514,6 +509,37 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
     if (diff.inMinutes < 60) return '${diff.inMinutes}m ago';
     if (diff.inHours < 24) return '${diff.inHours}h ago';
     return '${timestamp.month}/${timestamp.day}';
+  }
+
+  /// Build signal circles around bus markers (Google-style ripple effect)
+  Set<Circle> _buildBusSignalCircles(List<Map<String, dynamic>> busLocations) {
+    final circles = <Circle>{};
+
+    for (final busFeature in busLocations) {
+      try {
+        final geometry = busFeature['geometry'] as Map<String, dynamic>;
+        final properties = busFeature['properties'] as Map<String, dynamic>;
+        final coordinates = geometry['coordinates'] as List<dynamic>;
+
+        final longitude = (coordinates[0] as num).toDouble();
+        final latitude = (coordinates[1] as num).toDouble();
+        final busId = properties['id']?.toString() ?? 'bus_${circles.length}';
+
+        // Add ripple effect circle - Google blue with transparency
+        circles.add(Circle(
+          circleId: CircleId('bus_signal_$busId'),
+          center: LatLng(latitude, longitude),
+          radius: 50, // 50 meters radius
+          fillColor: const Color(0xFF4285F4).withValues(alpha: 0.15), // Light blue fill
+          strokeColor: const Color(0xFF4285F4).withValues(alpha: 0.4), // Blue stroke
+          strokeWidth: 2,
+        ));
+      } catch (e) {
+        debugPrint('[RouteMapWidget] Error creating signal circle: $e');
+      }
+    }
+
+    return circles;
   }
 
   /// Focus camera on specific coordinates
