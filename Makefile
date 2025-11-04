@@ -62,7 +62,7 @@ test:
 # Development runs
 run-web:
 	@echo "Starting web development server..."
-	@flutter run -d chrome --web-port=3001
+	@flutter run -d chrome --web-port=3000
 
 # Production builds
 build-web:
