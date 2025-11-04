@@ -51,6 +51,9 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
   Timer? _rippleTimer;
   int _ripplePhase = 0; // 0-2 for three animation phases
 
+  // Current zoom level for dynamic sizing
+  double _currentZoom = 12.0;
+
   @override
   void initState() {
     super.initState();
@@ -73,6 +76,25 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
         });
       }
     });
+  }
+
+  /// Calculate zoom-adjusted radius for circles
+  /// At low zoom levels (zoomed out), circles need to be larger to remain visible
+  double _getZoomAdjustedRadius(double baseRadius) {
+    // Google Maps zoom levels: 1-20 (1=world, 20=buildings)
+    // Reference zoom: 12 (city level) uses base radius
+    // Scale exponentially for smooth visibility at all zoom levels
+    // Formula: radius *= 2^((12 - currentZoom) / 2)
+    // Examples:
+    //   Zoom 12: scale = 1.0x (base radius)
+    //   Zoom 10: scale = 2.0x (zoomed out 2 levels)
+    //   Zoom 8:  scale = 4.0x (zoomed out 4 levels)
+    //   Zoom 14: scale = 0.7x (zoomed in 2 levels, slightly smaller)
+    final zoomDifference = 12.0 - _currentZoom;
+    final scaleFactor = zoomDifference > 0
+        ? (1 << (zoomDifference ~/ 2)).toDouble()  // Exponential growth when zoomed out
+        : 1.0 / (1 << ((-zoomDifference) ~/ 3).toInt());  // Slight reduction when zoomed in
+    return baseRadius * scaleFactor;
   }
 
   /// Toggle map style between normal and dark mode
@@ -277,10 +299,11 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
           // Google Maps transit style: Visible circles for stops
           // Design: White fill with colored border (inverted from route line)
           // This makes stops stand out against the route while maintaining color coding
+          // Radius scales with zoom level for consistent visibility
           stopCircles.add(Circle(
             circleId: CircleId('stop_${route.routeId}_$i'),
             center: position,
-            radius: isEndpoint ? 30 : 18, // Endpoints 30m, regular stops 18m (more visible)
+            radius: _getZoomAdjustedRadius(isEndpoint ? 30 : 18), // Zoom-adjusted: Endpoints 30m, regular stops 18m
             fillColor: Colors.white.withValues(alpha: 0.9), // White fill for high contrast
             strokeColor: routeColor, // Route color border for identification
             strokeWidth: isEndpoint ? 4 : 3, // Thicker border for endpoints
@@ -327,7 +350,12 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
           initialCameraPosition: _initialCamera(),
           onMapCreated: (controller) => _mapController = controller,
           onCameraMove: (position) {
-            // Camera tracking not needed
+            // Track zoom level for dynamic circle sizing
+            if (_currentZoom != position.zoom) {
+              setState(() {
+                _currentZoom = position.zoom;
+              });
+            }
           },
           markers: busMarkers,
           polylines: routePolylines,
@@ -439,11 +467,11 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
 
         // Replace pin marker with blue dot (Google Maps "my location" style)
         // This avoids the red marker issue completely
-        // Center dot - solid blue
+        // Center dot - solid blue (zoom-adjusted for visibility)
         circles.add(Circle(
           circleId: CircleId('bus_dot_$busId'),
           center: position,
-          radius: 8, // Small solid blue dot
+          radius: _getZoomAdjustedRadius(8), // Small solid blue dot, scales with zoom
           fillColor: const Color(0xFF1E88E5), // Solid Material Blue 600
           strokeColor: Colors.white, // White border
           strokeWidth: 2,
@@ -458,8 +486,9 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
         // Animation cycles through 3 phases with varying sizes and opacity
         final ripplePhase = _ripplePhase;
 
-        // Outer circle - animated pulse
-        final outerRadius = 100.0 + (ripplePhase * 15.0); // 100 → 115 → 130
+        // Outer circle - animated pulse (zoom-adjusted)
+        final outerBaseRadius = 100.0 + (ripplePhase * 15.0); // 100 → 115 → 130
+        final outerRadius = _getZoomAdjustedRadius(outerBaseRadius);
         final outerOpacity = 0.3 - (ripplePhase * 0.08); // 0.3 → 0.22 → 0.14
         circles.add(Circle(
           circleId: CircleId('bus_circle_outer_$busId'),
@@ -470,9 +499,10 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
           strokeWidth: 2,
         ));
 
-        // Inner circle - animated pulse (opposite phase for wave effect)
+        // Inner circle - animated pulse (opposite phase for wave effect, zoom-adjusted)
         final innerPhase = (ripplePhase + 1) % 3; // Offset by 1 phase
-        final innerRadius = 50.0 + (innerPhase * 10.0); // 50 → 60 → 70
+        final innerBaseRadius = 50.0 + (innerPhase * 10.0); // 50 → 60 → 70
+        final innerRadius = _getZoomAdjustedRadius(innerBaseRadius);
         final innerOpacity = 0.4 - (innerPhase * 0.1); // 0.4 → 0.3 → 0.2
         circles.add(Circle(
           circleId: CircleId('bus_circle_inner_$busId'),
