@@ -296,15 +296,16 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
           final isEndpoint = (i == 0 || i == stops.length - 1);
           final position = LatLng(lat.toDouble(), lon.toDouble());
 
-          // Google Maps transit style: Small circles for stops
-          // Endpoints are larger, regular stops are smaller
+          // Google Maps transit style: Visible circles for stops
+          // Design: White fill with colored border (inverted from route line)
+          // This makes stops stand out against the route while maintaining color coding
           stopCircles.add(Circle(
             circleId: CircleId('stop_${route.routeId}_$i'),
             center: position,
-            radius: isEndpoint ? 20 : 12, // Endpoints larger (20m), regular stops smaller (12m)
-            fillColor: routeColor, // Use route color for the stop
-            strokeColor: Colors.white, // White border for visibility
-            strokeWidth: 2,
+            radius: isEndpoint ? 30 : 18, // Endpoints 30m, regular stops 18m (more visible)
+            fillColor: Colors.white.withValues(alpha: 0.9), // White fill for high contrast
+            strokeColor: routeColor, // Route color border for identification
+            strokeWidth: isEndpoint ? 4 : 3, // Thicker border for endpoints
             consumeTapEvents: true,
             onTap: () {
               // Could show stop info in a snackbar or dialog
