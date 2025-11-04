@@ -1,13 +1,21 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend_easy/core/config/api_config.dart';
+import 'package:frontend_easy/core/services/token_manager.dart';
 import 'package:frontend_easy/features/fleet/services/bus_tracking_websocket_service.dart';
 
 /// WebSocket service provider (singleton)
+/// Uses centralized TokenManager for authentication (Google standard)
 final busTrackingWebSocketServiceProvider = Provider<BusTrackingWebSocketService>((ref) {
-  final service = BusTrackingWebSocketService(baseUrl: ApiConfig.baseUrl);
+  // Get TokenManager (same one used by HTTP APIs)
+  final tokenManager = ref.watch(tokenManagerProvider);
 
-  // Auto-connect on first use
-  service.connect();
+  final service = BusTrackingWebSocketService(
+    baseUrl: ApiConfig.baseUrl,
+    tokenManager: tokenManager,
+  );
+
+  // DON'T auto-connect here - let the StreamProvider handle connection
+  // This prevents race condition with auth initialization
 
   // Cleanup on dispose
   ref.onDispose(() {
@@ -19,8 +27,13 @@ final busTrackingWebSocketServiceProvider = Provider<BusTrackingWebSocketService
 
 /// Real-time bus locations stream provider
 /// Uses WebSocket for live updates with fallback to REST API
+/// Connects WebSocket AFTER auth is ready (prevents race condition)
 final busLocationsProvider = StreamProvider<List<Map<String, dynamic>>>((ref) async* {
   final wsService = ref.watch(busTrackingWebSocketServiceProvider);
+
+  // Connect WebSocket now (after provider is accessed, auth should be ready)
+  // This is lazy connection - happens only when map screen is displayed
+  await wsService.connect();
 
   // First, try to load initial data from REST API as fallback
   try {

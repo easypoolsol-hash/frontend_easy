@@ -7,7 +7,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:frontend_easy/core/services/token_manager.dart';
 
 /// Real-time bus tracking WebSocket service
 ///
@@ -23,12 +23,14 @@ class BusTrackingWebSocketService {
   /// Base URL of the backend API
   final String baseUrl;
 
+  /// Centralized token manager (Google standard - single source of truth)
+  final TokenManager tokenManager;
+
   WebSocketChannel? _channel;
   StreamController<List<Map<String, dynamic>>>? _locationsController;
   StreamController<WebSocketConnectionStatus>? _statusController;
   Timer? _reconnectTimer;
   bool _isConnecting = false;
-  String? _cachedToken;
   List<Map<String, dynamic>> _lastKnownLocations = [];
 
   /// WebSocket connection status
@@ -45,12 +47,14 @@ class BusTrackingWebSocketService {
   /// Creates a bus tracking WebSocket service
   BusTrackingWebSocketService({
     required this.baseUrl,
+    required this.tokenManager,
   }) {
     _locationsController = StreamController<List<Map<String, dynamic>>>.broadcast();
     _statusController = StreamController<WebSocketConnectionStatus>.broadcast();
   }
 
   /// Connect to bus tracking WebSocket
+  /// Uses centralized TokenManager (Google standard pattern)
   Future<void> connect() async {
     if (_isConnecting || _channel != null) return;
 
@@ -58,20 +62,18 @@ class BusTrackingWebSocketService {
     _statusController?.add(WebSocketConnectionStatus.connecting);
 
     try {
-      // Get Firebase ID token for authentication
-      final user = FirebaseAuth.instance.currentUser;
-      if (user == null) {
+      // Get token from centralized TokenManager (same as HTTP APIs)
+      debugPrint('[WebSocket] Requesting token from TokenManager...');
+      final token = await tokenManager.getToken();
+
+      if (token == null) {
+        debugPrint('[WebSocket] No token available - auth not ready or user not logged in');
         _statusController?.add(WebSocketConnectionStatus.authError);
         _isConnecting = false;
         return;
       }
 
-      _cachedToken = await user.getIdToken();
-      if (_cachedToken == null) {
-        _statusController?.add(WebSocketConnectionStatus.authError);
-        _isConnecting = false;
-        return;
-      }
+      debugPrint('[WebSocket] Token received, connecting...');
 
       // Convert http/https URL to ws/wss
       final wsUrl = baseUrl
@@ -79,7 +81,7 @@ class BusTrackingWebSocketService {
           .replaceFirst('https://', 'wss://');
 
       // Connect with JWT token as query param
-      final uri = Uri.parse('$wsUrl/ws/bus-tracking/?token=$_cachedToken');
+      final uri = Uri.parse('$wsUrl/ws/bus-tracking/?token=$token');
 
       _channel = WebSocketChannel.connect(uri);
 
@@ -92,8 +94,10 @@ class BusTrackingWebSocketService {
       );
 
       _statusController?.add(WebSocketConnectionStatus.connected);
+      debugPrint('[WebSocket] Connected successfully');
       _isConnecting = false;
     } catch (e) {
+      debugPrint('[WebSocket] Connection error: $e');
       _handleError(e);
       _isConnecting = false;
     }

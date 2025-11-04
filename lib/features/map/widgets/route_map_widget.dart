@@ -239,6 +239,8 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
     // Watch bus locations data
     final busLocationsAsync = ref.watch(busLocationsProvider);
 
+    debugPrint('[RouteMapWidget] Building map with ${widget.routes.length} routes');
+
     // NOTE: Google Maps API key is loaded via <script> tag in web/index.html
     // The google_maps_flutter widget reads it from the JavaScript API, not from Dart code
     // No validation needed here - if key is missing, Google Maps will show its own error
@@ -251,11 +253,14 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
     // Always show routes
     final polylines = _buildRoutePolylines();
     routePolylines.addAll(polylines);
+    debugPrint('[RouteMapWidget] Added ${polylines.length} route polylines');
 
     // Always show bus stop markers
     for (final route in widget.routes) {
       // Get bus stops from backend (built_value BuiltList of BuiltMap with JsonObject values)
       final busStops = route.busStops;
+      debugPrint('[RouteMapWidget] Route ${route.name}: ${busStops.length} bus stops');
+
       if (busStops.isEmpty) continue;
 
       try {
@@ -269,11 +274,21 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
           // Unwrap JsonObject values from BuiltMap
           final latObj = stop['latitude'];
           final lonObj = stop['longitude'];
-          if (latObj == null || lonObj == null) continue;
+
+          if (latObj == null || lonObj == null) {
+            debugPrint('[RouteMapWidget] Stop $i: Missing lat/lon objects');
+            continue;
+          }
 
           final lat = latObj.value as num?;
           final lon = lonObj.value as num?;
-          if (lat == null || lon == null) continue;
+
+          if (lat == null || lon == null) {
+            debugPrint('[RouteMapWidget] Stop $i: lat/lon values are null');
+            continue;
+          }
+
+          debugPrint('[RouteMapWidget] Stop $i: lat=$lat, lon=$lon');
 
           // Extract stop name from metadata
           final metadataObj = stop['metadata'];
@@ -299,20 +314,36 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
             ),
           ));
         }
-      } catch (e) {
+
+        debugPrint('[RouteMapWidget] Route ${route.name}: Added ${stops.length} stop markers');
+      } catch (e, stackTrace) {
         // Log error for debugging
-        debugPrint('Error parsing bus stops for route ${route.routeId}: $e');
+        debugPrint('[RouteMapWidget] Error parsing bus stops for route ${route.routeId}: $e');
+        debugPrint('[RouteMapWidget] Stack trace: $stackTrace');
       }
     }
+
+    debugPrint('[RouteMapWidget] Total stop markers: ${stopMarkers.length}');
 
     // Always show buses
     busMarkers.addAll(
       busLocationsAsync.when(
-        data: (busLocations) => _buildBusMarkers(busLocations),
-        loading: () => <Marker>{},
-        error: (error, stack) => <Marker>{},
+        data: (busLocations) {
+          debugPrint('[RouteMapWidget] Received ${busLocations.length} bus locations from WebSocket');
+          return _buildBusMarkers(busLocations);
+        },
+        loading: () {
+          debugPrint('[RouteMapWidget] Bus locations loading...');
+          return <Marker>{};
+        },
+        error: (error, stack) {
+          debugPrint('[RouteMapWidget] Bus locations error: $error');
+          return <Marker>{};
+        },
       ),
     );
+
+    debugPrint('[RouteMapWidget] Total bus markers: ${busMarkers.length}');
 
     return Stack(
       children: [
@@ -357,8 +388,15 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
     for (final route in widget.routes) {
       // Decode polyline from backend's encoded polyline
       final encodedPolyline = route.encodedPolyline;
+      debugPrint('[RouteMapWidget] Route ${route.name}: encodedPolyline length=${encodedPolyline.length}');
+
       final points = _decodePolyline(encodedPolyline);
-      if (points.length < 2) continue;
+      debugPrint('[RouteMapWidget] Route ${route.name}: decoded ${points.length} points');
+
+      if (points.length < 2) {
+        debugPrint('[RouteMapWidget] Route ${route.name}: Skipping (need at least 2 points)');
+        continue;
+      }
 
       // Get Google Maps color from backend
       final color = _colorForRoute(route);
@@ -371,6 +409,8 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
         width: 5,  // Google Maps standard width
         geodesic: true,  // Follow Earth's curvature
       ));
+
+      debugPrint('[RouteMapWidget] Route ${route.name}: Added polyline with ${points.length} points');
     }
     return polylines;
   }
@@ -379,17 +419,21 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
   /// Build bus position markers layer - 2025 BEST PRACTICE: Dynamic colored markers
   Set<Marker> _buildBusMarkers(List<Map<String, dynamic>> busLocations) {
     final markers = <Marker>{};
+    debugPrint('[RouteMapWidget] Building bus markers from ${busLocations.length} locations');
 
     for (final busFeature in busLocations) {
-      final geometry = busFeature['geometry'] as Map<String, dynamic>;
-      final properties = busFeature['properties'] as Map<String, dynamic>;
-      final coordinates = geometry['coordinates'] as List<dynamic>;
+      try {
+        final geometry = busFeature['geometry'] as Map<String, dynamic>;
+        final properties = busFeature['properties'] as Map<String, dynamic>;
+        final coordinates = geometry['coordinates'] as List<dynamic>;
 
-      final longitude = (coordinates[0] as num).toDouble();
-      final latitude = (coordinates[1] as num).toDouble();
-      final busId = properties['id']?.toString() ?? 'bus_${markers.length}';
-      final status = properties['status'] as String;
-      final busName = properties['name']?.toString() ?? 'Bus';
+        final longitude = (coordinates[0] as num).toDouble();
+        final latitude = (coordinates[1] as num).toDouble();
+        final busId = properties['id']?.toString() ?? 'bus_${markers.length}';
+        final status = properties['status'] as String;
+        final busName = properties['name']?.toString() ?? 'Bus';
+
+        debugPrint('[RouteMapWidget] Bus $busName ($busId): lat=$latitude, lon=$longitude, status=$status');
 
       // Parse last location update timestamp
       DateTime? lastLocationUpdate;
@@ -427,21 +471,28 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
         continue; // Skip this marker for now, will appear on next rebuild
       }
 
-      markers.add(Marker(
-        markerId: MarkerId('bus_$busId'),
-        position: LatLng(latitude, longitude),
-        icon: icon,
-        // 2025 BEST PRACTICE: Set anchor to center for proper positioning
-        anchor: const Offset(0.5, 0.5),
-        infoWindow: InfoWindow(
-          title: busName,
-          snippet: _buildBusSnippet(busId, lastLocationUpdate),
-        ),
-        onTap: () {
-          widget.onBusTapped?.call(busId, latitude, longitude);
-        },
-      ));
+        markers.add(Marker(
+          markerId: MarkerId('bus_$busId'),
+          position: LatLng(latitude, longitude),
+          icon: icon,
+          // 2025 BEST PRACTICE: Set anchor to center for proper positioning
+          anchor: const Offset(0.5, 0.5),
+          infoWindow: InfoWindow(
+            title: busName,
+            snippet: _buildBusSnippet(busId, lastLocationUpdate),
+          ),
+          onTap: () {
+            widget.onBusTapped?.call(busId, latitude, longitude);
+          },
+        ));
+
+        debugPrint('[RouteMapWidget] Added marker for bus $busName');
+      } catch (e) {
+        debugPrint('[RouteMapWidget] Error creating bus marker: $e');
+      }
     }
+
+    debugPrint('[RouteMapWidget] Built ${markers.length} bus markers');
     return markers;
   }
 
