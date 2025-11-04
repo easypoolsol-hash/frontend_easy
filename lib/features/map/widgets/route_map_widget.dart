@@ -1,5 +1,3 @@
-import 'dart:ui' as ui;
-
 import 'package:frontend_easy_api/frontend_easy_api.dart' as api;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -44,16 +42,52 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
         zoom: 12.0,
       );
 
-
   // Cache for dynamically colored bus markers - 2025 BEST PRACTICE
   // Map<Color, BitmapDescriptor> to cache markers by color
   final Map<String, BitmapDescriptor> _markerCache = {};
+
+  // Dark mode toggle
+  bool _isDarkMode = false;
 
   @override
   void initState() {
     super.initState();
     // No preloading needed - markers created dynamically with bus numbers
   }
+
+  /// Toggle map style between normal and dark mode
+  void _toggleMapStyle() {
+    setState(() {
+      _isDarkMode = !_isDarkMode;
+    });
+  }
+
+  // Google Maps dark theme JSON
+  static const String _darkMapStyle = '''
+  [
+    {"elementType":"geometry","stylers":[{"color":"#212121"}]},
+    {"elementType":"labels.icon","stylers":[{"visibility":"off"}]},
+    {"elementType":"labels.text.fill","stylers":[{"color":"#757575"}]},
+    {"elementType":"labels.text.stroke","stylers":[{"color":"#212121"}]},
+    {"featureType":"administrative","elementType":"geometry","stylers":[{"color":"#757575"}]},
+    {"featureType":"administrative.country","elementType":"labels.text.fill","stylers":[{"color":"#9e9e9e"}]},
+    {"featureType":"administrative.land_parcel","stylers":[{"visibility":"off"}]},
+    {"featureType":"administrative.locality","elementType":"labels.text.fill","stylers":[{"color":"#bdbdbd"}]},
+    {"featureType":"poi","elementType":"labels.text.fill","stylers":[{"color":"#757575"}]},
+    {"featureType":"poi.park","elementType":"geometry","stylers":[{"color":"#181818"}]},
+    {"featureType":"poi.park","elementType":"labels.text.fill","stylers":[{"color":"#616161"}]},
+    {"featureType":"poi.park","elementType":"labels.text.stroke","stylers":[{"color":"#1b1b1b"}]},
+    {"featureType":"road","elementType":"geometry.fill","stylers":[{"color":"#2c2c2c"}]},
+    {"featureType":"road","elementType":"labels.text.fill","stylers":[{"color":"#8a8a8a"}]},
+    {"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#373737"}]},
+    {"featureType":"road.highway","elementType":"geometry","stylers":[{"color":"#3c3c3c"}]},
+    {"featureType":"road.highway.controlled_access","elementType":"geometry","stylers":[{"color":"#4e4e4e"}]},
+    {"featureType":"road.local","elementType":"labels.text.fill","stylers":[{"color":"#616161"}]},
+    {"featureType":"transit","elementType":"labels.text.fill","stylers":[{"color":"#757575"}]},
+    {"featureType":"water","elementType":"geometry","stylers":[{"color":"#000000"}]},
+    {"featureType":"water","elementType":"labels.text.fill","stylers":[{"color":"#3d3d3d"}]}
+  ]
+  ''';
 
   /// Get standard Google Maps blue marker
   BitmapDescriptor _getStandardBlueMarker() {
@@ -199,6 +233,7 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
     final routePolylines = <Polyline>{};
     final stopMarkers = <Marker>{};
     final busMarkers = <Marker>{};
+    final busCircles = <Circle>{}; // Ripple effect circles
 
     // Always show routes
     final polylines = _buildRoutePolylines();
@@ -275,25 +310,24 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
 
     debugPrint('[RouteMapWidget] Total stop markers: ${stopMarkers.length}');
 
-    // Always show buses
-    busMarkers.addAll(
-      busLocationsAsync.when(
-        data: (busLocations) {
-          debugPrint('[RouteMapWidget] Received ${busLocations.length} bus locations from WebSocket');
-          return _buildBusMarkers(busLocations);
-        },
-        loading: () {
-          debugPrint('[RouteMapWidget] Bus locations loading...');
-          return <Marker>{};
-        },
-        error: (error, stack) {
-          debugPrint('[RouteMapWidget] Bus locations error: $error');
-          return <Marker>{};
-        },
-      ),
+    // Always show buses with ripple circles
+    busLocationsAsync.when(
+      data: (busLocations) {
+        debugPrint('[RouteMapWidget] Received ${busLocations.length} bus locations from WebSocket');
+        final markersAndCircles = _buildBusMarkersWithCircles(busLocations);
+        busMarkers.addAll(markersAndCircles['markers'] as Set<Marker>);
+        busCircles.addAll(markersAndCircles['circles'] as Set<Circle>);
+      },
+      loading: () {
+        debugPrint('[RouteMapWidget] Bus locations loading...');
+      },
+      error: (error, stack) {
+        debugPrint('[RouteMapWidget] Bus locations error: $error');
+      },
     );
 
     debugPrint('[RouteMapWidget] Total bus markers: ${busMarkers.length}');
+    debugPrint('[RouteMapWidget] Total bus circles: ${busCircles.length}');
 
     return Stack(
       children: [
@@ -305,10 +339,28 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
           },
           markers: {...stopMarkers, ...busMarkers},
           polylines: routePolylines,
+          circles: busCircles, // Ripple effect circles around buses
           myLocationEnabled: true,
           myLocationButtonEnabled: true,
           mapType: MapType.normal,
           zoomControlsEnabled: false,
+          style: _isDarkMode ? _darkMapStyle : null, // Apply dark mode style
+        ),
+
+        // Dark mode toggle button (top-right)
+        Positioned(
+          top: 10,
+          right: 10,
+          child: FloatingActionButton.small(
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.grey[700],
+            elevation: 4,
+            onPressed: _toggleMapStyle,
+            child: Icon(
+              _isDarkMode ? Icons.light_mode : Icons.dark_mode,
+              size: 20,
+            ),
+          ),
         ),
 
         // Home button (bottom-right)
@@ -366,9 +418,11 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
   }
 
 
-  /// Build bus position markers layer - 2025 BEST PRACTICE: Dynamic colored markers
-  Set<Marker> _buildBusMarkers(List<Map<String, dynamic>> busLocations) {
+  /// Build bus position markers with ripple effect circles
+  /// Returns a map with 'markers' and 'circles' sets
+  Map<String, Set<dynamic>> _buildBusMarkersWithCircles(List<Map<String, dynamic>> busLocations) {
     final markers = <Marker>{};
+    final circles = <Circle>{};
     debugPrint('[RouteMapWidget] Building bus markers from ${busLocations.length} locations');
 
     for (final busFeature in busLocations) {
@@ -402,9 +456,12 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
       // Use Google's standard blue marker
       final icon = _getStandardBlueMarker();
 
+      final position = LatLng(latitude, longitude);
+
+        // Add marker
         markers.add(Marker(
           markerId: MarkerId('bus_$busId'),
-          position: LatLng(latitude, longitude),
+          position: position,
           icon: icon,
           infoWindow: InfoWindow(
             title: '$busNumber - $busName',
@@ -415,14 +472,38 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
           },
         ));
 
-        debugPrint('[RouteMapWidget] Added marker for bus $busName');
+        // Add ripple effect circles (Google Maps style)
+        // Outer circle - light blue with transparency
+        circles.add(Circle(
+          circleId: CircleId('bus_circle_outer_$busId'),
+          center: position,
+          radius: 100, // 100 meters
+          fillColor: const Color(0x1A4285F4), // Google blue with 10% opacity
+          strokeColor: const Color(0x4D4285F4), // Google blue with 30% opacity
+          strokeWidth: 2,
+        ));
+
+        // Inner circle - slightly more opaque
+        circles.add(Circle(
+          circleId: CircleId('bus_circle_inner_$busId'),
+          center: position,
+          radius: 50, // 50 meters
+          fillColor: const Color(0x334285F4), // Google blue with 20% opacity
+          strokeColor: const Color(0x664285F4), // Google blue with 40% opacity
+          strokeWidth: 1,
+        ));
+
+        debugPrint('[RouteMapWidget] Added marker and ripple circles for bus $busName');
       } catch (e) {
         debugPrint('[RouteMapWidget] Error creating bus marker: $e');
       }
     }
 
-    debugPrint('[RouteMapWidget] Built ${markers.length} bus markers');
-    return markers;
+    debugPrint('[RouteMapWidget] Built ${markers.length} bus markers and ${circles.length} circles');
+    return {
+      'markers': markers,
+      'circles': circles,
+    };
   }
 
   /// Build snippet for bus marker info window
