@@ -62,30 +62,35 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
     });
   }
 
-  // Google Maps dark theme JSON
+  // Google Maps navigation mode dark theme (blue-tinted, not pure black)
   static const String _darkMapStyle = '''
   [
-    {"elementType":"geometry","stylers":[{"color":"#212121"}]},
-    {"elementType":"labels.icon","stylers":[{"visibility":"off"}]},
-    {"elementType":"labels.text.fill","stylers":[{"color":"#757575"}]},
-    {"elementType":"labels.text.stroke","stylers":[{"color":"#212121"}]},
-    {"featureType":"administrative","elementType":"geometry","stylers":[{"color":"#757575"}]},
-    {"featureType":"administrative.country","elementType":"labels.text.fill","stylers":[{"color":"#9e9e9e"}]},
-    {"featureType":"administrative.land_parcel","stylers":[{"visibility":"off"}]},
-    {"featureType":"administrative.locality","elementType":"labels.text.fill","stylers":[{"color":"#bdbdbd"}]},
-    {"featureType":"poi","elementType":"labels.text.fill","stylers":[{"color":"#757575"}]},
-    {"featureType":"poi.park","elementType":"geometry","stylers":[{"color":"#181818"}]},
-    {"featureType":"poi.park","elementType":"labels.text.fill","stylers":[{"color":"#616161"}]},
-    {"featureType":"poi.park","elementType":"labels.text.stroke","stylers":[{"color":"#1b1b1b"}]},
-    {"featureType":"road","elementType":"geometry.fill","stylers":[{"color":"#2c2c2c"}]},
-    {"featureType":"road","elementType":"labels.text.fill","stylers":[{"color":"#8a8a8a"}]},
-    {"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#373737"}]},
-    {"featureType":"road.highway","elementType":"geometry","stylers":[{"color":"#3c3c3c"}]},
-    {"featureType":"road.highway.controlled_access","elementType":"geometry","stylers":[{"color":"#4e4e4e"}]},
-    {"featureType":"road.local","elementType":"labels.text.fill","stylers":[{"color":"#616161"}]},
-    {"featureType":"transit","elementType":"labels.text.fill","stylers":[{"color":"#757575"}]},
-    {"featureType":"water","elementType":"geometry","stylers":[{"color":"#000000"}]},
-    {"featureType":"water","elementType":"labels.text.fill","stylers":[{"color":"#3d3d3d"}]}
+    {"elementType":"geometry","stylers":[{"color":"#1d2c4d"}]},
+    {"elementType":"labels.text.fill","stylers":[{"color":"#8ec3b9"}]},
+    {"elementType":"labels.text.stroke","stylers":[{"color":"#1a3646"}]},
+    {"featureType":"administrative.country","elementType":"geometry.stroke","stylers":[{"color":"#4b6878"}]},
+    {"featureType":"administrative.land_parcel","elementType":"labels.text.fill","stylers":[{"color":"#64779d"}]},
+    {"featureType":"administrative.province","elementType":"geometry.stroke","stylers":[{"color":"#4b6878"}]},
+    {"featureType":"landscape.man_made","elementType":"geometry.stroke","stylers":[{"color":"#334e87"}]},
+    {"featureType":"landscape.natural","elementType":"geometry","stylers":[{"color":"#023e58"}]},
+    {"featureType":"poi","elementType":"geometry","stylers":[{"color":"#283d6a"}]},
+    {"featureType":"poi","elementType":"labels.text.fill","stylers":[{"color":"#6f9ba5"}]},
+    {"featureType":"poi","elementType":"labels.text.stroke","stylers":[{"color":"#1d2c4d"}]},
+    {"featureType":"poi.park","elementType":"geometry.fill","stylers":[{"color":"#023e58"}]},
+    {"featureType":"poi.park","elementType":"labels.text.fill","stylers":[{"color":"#3C7680"}]},
+    {"featureType":"road","elementType":"geometry","stylers":[{"color":"#304a7d"}]},
+    {"featureType":"road","elementType":"labels.text.fill","stylers":[{"color":"#98a5be"}]},
+    {"featureType":"road","elementType":"labels.text.stroke","stylers":[{"color":"#1d2c4d"}]},
+    {"featureType":"road.highway","elementType":"geometry","stylers":[{"color":"#2c6675"}]},
+    {"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#255763"}]},
+    {"featureType":"road.highway","elementType":"labels.text.fill","stylers":[{"color":"#b0d5df"}]},
+    {"featureType":"road.highway","elementType":"labels.text.stroke","stylers":[{"color":"#023e58"}]},
+    {"featureType":"transit","elementType":"labels.text.fill","stylers":[{"color":"#98a5be"}]},
+    {"featureType":"transit","elementType":"labels.text.stroke","stylers":[{"color":"#1d2c4d"}]},
+    {"featureType":"transit.line","elementType":"geometry.fill","stylers":[{"color":"#283d6a"}]},
+    {"featureType":"transit.station","elementType":"geometry","stylers":[{"color":"#3a4762"}]},
+    {"featureType":"water","elementType":"geometry","stylers":[{"color":"#0e1626"}]},
+    {"featureType":"water","elementType":"labels.text.fill","stylers":[{"color":"#4e6d70"}]}
   ]
   ''';
 
@@ -98,8 +103,10 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
       return _markerCache[cacheKey]!;
     }
 
-    // Use Google's standard marker with blue hue (211° = Google blue)
-    final marker = BitmapDescriptor.defaultMarkerWithHue(211);
+    // Use Google's standard marker with bright blue hue (240° = pure blue, more visible)
+    // Note: Google Maps uses cyan/azure for default blue, which is around 200-210°
+    // But for bus markers we want a brighter, more visible blue at 240°
+    final marker = BitmapDescriptor.defaultMarkerWithHue(240);
     _markerCache[cacheKey] = marker;
     return marker;
   }
@@ -472,25 +479,25 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
           },
         ));
 
-        // Add ripple effect circles (Google Maps style)
-        // Outer circle - light blue with transparency
+        // Add ripple effect circles (Google Maps navigation style - brighter blue)
+        // Outer circle - bright blue glow
         circles.add(Circle(
           circleId: CircleId('bus_circle_outer_$busId'),
           center: position,
-          radius: 100, // 100 meters
-          fillColor: const Color(0x1A4285F4), // Google blue with 10% opacity
-          strokeColor: const Color(0x4D4285F4), // Google blue with 30% opacity
+          radius: 120, // 120 meters
+          fillColor: const Color(0x331E88E5), // Material Blue 600 with 20% opacity
+          strokeColor: const Color(0x661E88E5), // Material Blue 600 with 40% opacity
           strokeWidth: 2,
         ));
 
-        // Inner circle - slightly more opaque
+        // Inner circle - brighter glow
         circles.add(Circle(
           circleId: CircleId('bus_circle_inner_$busId'),
           center: position,
-          radius: 50, // 50 meters
-          fillColor: const Color(0x334285F4), // Google blue with 20% opacity
-          strokeColor: const Color(0x664285F4), // Google blue with 40% opacity
-          strokeWidth: 1,
+          radius: 60, // 60 meters
+          fillColor: const Color(0x661E88E5), // Material Blue 600 with 40% opacity
+          strokeColor: const Color(0x991E88E5), // Material Blue 600 with 60% opacity
+          strokeWidth: 2,
         ));
 
         debugPrint('[RouteMapWidget] Added marker and ripple circles for bus $busName');
