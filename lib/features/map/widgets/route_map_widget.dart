@@ -74,32 +74,44 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
     }
   }
 
-  /// Create colored bus marker - Simple Google Maps style dot
-  /// Uses cached markers to avoid regenerating same color multiple times
-  Future<BitmapDescriptor> _getColoredBusMarker(Color color) async {
-    final colorKey = color.toARGB32().toString();
+  /// Create bus marker with number text - Google Maps transit style
+  /// No white circle, just blue dot with bus number overlay
+  Future<BitmapDescriptor> _getBusMarkerWithNumber(String busNumber) async {
+    final cacheKey = 'bus_$busNumber';
 
     // Return cached marker if already created
-    if (_markerCache.containsKey(colorKey)) {
-      return _markerCache[colorKey]!;
+    if (_markerCache.containsKey(cacheKey)) {
+      return _markerCache[cacheKey]!;
     }
 
     try {
-      // Create a simple colored dot marker (Google Maps style)
+      const color = Color(0xFF4285F4); // Google blue
       final recorder = ui.PictureRecorder();
       final canvas = Canvas(recorder);
 
-      // Draw outer white circle (border)
-      final outerPaint = Paint()
-        ..color = Colors.white
-        ..style = PaintingStyle.fill;
-      canvas.drawCircle(const Offset(24, 24), 16, outerPaint);
-
-      // Draw inner colored circle
-      final innerPaint = Paint()
+      // Draw just the blue circle (no white border)
+      final circlePaint = Paint()
         ..color = color
         ..style = PaintingStyle.fill;
-      canvas.drawCircle(const Offset(24, 24), 12, innerPaint);
+      canvas.drawCircle(const Offset(24, 24), 14, circlePaint);
+
+      // Draw bus number text on top
+      final textPainter = TextPainter(
+        text: TextSpan(
+          text: busNumber,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 10,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        textDirection: TextDirection.ltr,
+      );
+      textPainter.layout();
+      textPainter.paint(
+        canvas,
+        Offset(24 - textPainter.width / 2, 24 - textPainter.height / 2),
+      );
 
       final picture = recorder.endRecording();
       final image = await picture.toImage(48, 48);
@@ -108,15 +120,13 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
       final descriptor = BitmapDescriptor.bytes(bytes!.buffer.asUint8List());
 
       // Cache for reuse
-      _markerCache[colorKey] = descriptor;
+      _markerCache[cacheKey] = descriptor;
 
       return descriptor;
     } catch (e) {
-      debugPrint('Failed to create colored bus marker: $e');
-      // Fallback to default marker with hue based on color
-      return BitmapDescriptor.defaultMarkerWithHue(
-        HSVColor.fromColor(color).hue
-      );
+      debugPrint('Failed to create bus marker with number: $e');
+      // Fallback to default blue marker
+      return BitmapDescriptor.defaultMarkerWithHue(211); // Google blue hue
     }
   }
 
@@ -325,13 +335,11 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
 
     debugPrint('[RouteMapWidget] Total stop markers: ${stopMarkers.length}');
 
-    // Get bus locations data for both markers and circles
-    List<Map<String, dynamic>> busLocationsData = [];
+    // Always show buses
     busMarkers.addAll(
       busLocationsAsync.when(
         data: (busLocations) {
           debugPrint('[RouteMapWidget] Received ${busLocations.length} bus locations from WebSocket');
-          busLocationsData = busLocations;
           return _buildBusMarkers(busLocations);
         },
         loading: () {
@@ -357,7 +365,6 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
           },
           markers: {...stopMarkers, ...busMarkers},
           polylines: routePolylines,
-          circles: _buildBusSignalCircles(busLocationsData),
           myLocationEnabled: true,
           myLocationButtonEnabled: true,
           mapType: MapType.normal,
@@ -435,6 +442,7 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
         final busId = properties['id']?.toString() ?? 'bus_${markers.length}';
         final status = properties['status'] as String;
         final busName = properties['name']?.toString() ?? 'Bus';
+        final busNumber = properties['bus_number']?.toString() ?? 'BUS';
 
         debugPrint('[RouteMapWidget] Bus $busName ($busId): lat=$latitude, lon=$longitude, status=$status');
 
@@ -451,16 +459,13 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
       // Don't filter buses - show all markers always
       // Google standard: Always visible, no hiding on selection
 
-      // Use Google's standard blue color for all buses (no status-based colors)
-      const markerColor = Color(0xFF4285F4); // Google blue
+      // Get marker with bus number text (Google Maps transit style)
+      final cacheKey = 'bus_$busNumber';
+      final icon = _markerCache[cacheKey];
 
-      // Get cached marker icon (preloaded in initState)
-      final colorKey = markerColor.toARGB32().toString();
-      final icon = _markerCache[colorKey];
-
-      // If marker not loaded yet (rare case), use default and load async
+      // If marker not loaded yet, create it async
       if (icon == null) {
-        _getColoredBusMarker(markerColor).then((loadedIcon) {
+        _getBusMarkerWithNumber(busNumber).then((loadedIcon) {
           if (mounted) setState(() {}); // Trigger rebuild when loaded
         });
         continue; // Skip this marker for now, will appear on next rebuild
@@ -509,37 +514,6 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
     if (diff.inMinutes < 60) return '${diff.inMinutes}m ago';
     if (diff.inHours < 24) return '${diff.inHours}h ago';
     return '${timestamp.month}/${timestamp.day}';
-  }
-
-  /// Build signal circles around bus markers (Google-style ripple effect)
-  Set<Circle> _buildBusSignalCircles(List<Map<String, dynamic>> busLocations) {
-    final circles = <Circle>{};
-
-    for (final busFeature in busLocations) {
-      try {
-        final geometry = busFeature['geometry'] as Map<String, dynamic>;
-        final properties = busFeature['properties'] as Map<String, dynamic>;
-        final coordinates = geometry['coordinates'] as List<dynamic>;
-
-        final longitude = (coordinates[0] as num).toDouble();
-        final latitude = (coordinates[1] as num).toDouble();
-        final busId = properties['id']?.toString() ?? 'bus_${circles.length}';
-
-        // Add ripple effect circle - Google blue with transparency
-        circles.add(Circle(
-          circleId: CircleId('bus_signal_$busId'),
-          center: LatLng(latitude, longitude),
-          radius: 50, // 50 meters radius
-          fillColor: const Color(0xFF4285F4).withValues(alpha: 0.15), // Light blue fill
-          strokeColor: const Color(0xFF4285F4).withValues(alpha: 0.4), // Blue stroke
-          strokeWidth: 2,
-        ));
-      } catch (e) {
-        debugPrint('[RouteMapWidget] Error creating signal circle: $e');
-      }
-    }
-
-    return circles;
   }
 
   /// Focus camera on specific coordinates
