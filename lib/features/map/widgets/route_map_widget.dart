@@ -55,60 +55,19 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
     // No preloading needed - markers created dynamically with bus numbers
   }
 
-  /// Create bus marker with number text - Google Maps transit style
-  /// No white circle, just blue dot with bus number overlay
-  Future<BitmapDescriptor> _getBusMarkerWithNumber(String busNumber) async {
-    final cacheKey = 'bus_$busNumber';
+  /// Get standard Google Maps blue marker
+  BitmapDescriptor _getStandardBlueMarker() {
+    const cacheKey = 'standard_blue';
 
     // Return cached marker if already created
     if (_markerCache.containsKey(cacheKey)) {
       return _markerCache[cacheKey]!;
     }
 
-    try {
-      const color = Color(0xFF4285F4); // Google blue
-      final recorder = ui.PictureRecorder();
-      final canvas = Canvas(recorder);
-
-      // Draw just the blue circle (no white border)
-      final circlePaint = Paint()
-        ..color = color
-        ..style = PaintingStyle.fill;
-      canvas.drawCircle(const Offset(24, 24), 14, circlePaint);
-
-      // Draw bus number text on top
-      final textPainter = TextPainter(
-        text: TextSpan(
-          text: busNumber,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 10,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        textDirection: TextDirection.ltr,
-      );
-      textPainter.layout();
-      textPainter.paint(
-        canvas,
-        Offset(24 - textPainter.width / 2, 24 - textPainter.height / 2),
-      );
-
-      final picture = recorder.endRecording();
-      final image = await picture.toImage(48, 48);
-      final bytes = await image.toByteData(format: ui.ImageByteFormat.png);
-
-      final descriptor = BitmapDescriptor.bytes(bytes!.buffer.asUint8List());
-
-      // Cache for reuse
-      _markerCache[cacheKey] = descriptor;
-
-      return descriptor;
-    } catch (e) {
-      debugPrint('Failed to create bus marker with number: $e');
-      // Fallback to default blue marker
-      return BitmapDescriptor.defaultMarkerWithHue(211); // Google blue hue
-    }
+    // Use Google's standard marker with blue hue (211° = Google blue)
+    final marker = BitmapDescriptor.defaultMarkerWithHue(211);
+    _markerCache[cacheKey] = marker;
+    return marker;
   }
 
   @override
@@ -440,26 +399,15 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
       // Don't filter buses - show all markers always
       // Google standard: Always visible, no hiding on selection
 
-      // Get marker with bus number text (Google Maps transit style)
-      final cacheKey = 'bus_$busNumber';
-      final icon = _markerCache[cacheKey];
-
-      // If marker not loaded yet, create it async
-      if (icon == null) {
-        _getBusMarkerWithNumber(busNumber).then((loadedIcon) {
-          if (mounted) setState(() {}); // Trigger rebuild when loaded
-        });
-        continue; // Skip this marker for now, will appear on next rebuild
-      }
+      // Use Google's standard blue marker
+      final icon = _getStandardBlueMarker();
 
         markers.add(Marker(
           markerId: MarkerId('bus_$busId'),
           position: LatLng(latitude, longitude),
           icon: icon,
-          // 2025 BEST PRACTICE: Set anchor to center for proper positioning
-          anchor: const Offset(0.5, 0.5),
           infoWindow: InfoWindow(
-            title: busName,
+            title: '$busNumber - $busName',
             snippet: _buildBusSnippet(busId, lastLocationUpdate),
           ),
           onTap: () {
