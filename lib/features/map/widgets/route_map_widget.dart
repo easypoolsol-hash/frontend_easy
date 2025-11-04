@@ -7,7 +7,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 
 import 'package:frontend_easy/features/map/widgets/maps_config.dart';
-import 'package:frontend_easy/core/theme/bus_marker_colors.dart';
 import 'package:frontend_easy/features/fleet/providers/bus_locations_provider.dart';
 
 /// Interactive map widget for route visualization
@@ -53,25 +52,7 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
   @override
   void initState() {
     super.initState();
-    _preloadCommonMarkerColors();
-  }
-
-  /// Preload common bus marker colors to avoid async loading delays
-  Future<void> _preloadCommonMarkerColors() async {
-    // Preload the most common marker colors
-    await Future.wait([
-      _getColoredBusMarker(BusMarkerColors.active),
-      _getColoredBusMarker(BusMarkerColors.inactive),
-      _getColoredBusMarker(BusMarkerColors.selected),
-      _getColoredBusMarker(BusMarkerColors.warning),
-      _getColoredBusMarker(BusMarkerColors.error),
-      _getColoredBusMarker(BusMarkerColors.stale),
-      _getColoredBusMarker(BusMarkerColors.veryStale),
-    ]);
-
-    if (mounted) {
-      setState(() {}); // Trigger rebuild with preloaded markers
-    }
+    // No preloading needed - markers created dynamically with bus numbers
   }
 
   /// Create bus marker with number text - Google Maps transit style
