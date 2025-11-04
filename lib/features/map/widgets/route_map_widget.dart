@@ -254,7 +254,7 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
 
     // Always show bus stop markers
     for (final route in widget.routes) {
-      // Get bus stops from backend (already a List of Maps)
+      // Get bus stops from backend (built_value BuiltList of BuiltMap with JsonObject values)
       final busStops = route.busStops;
       if (busStops.isEmpty) continue;
 
@@ -264,13 +264,26 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
         final routeHue = _colorToHue(routeColor);
 
         for (int i = 0; i < stops.length; i++) {
-          final stop = stops[i] as Map<String, dynamic>;
-          final lat = stop['latitude'] as num?;
-          final lon = stop['longitude'] as num?;
+          final stop = stops[i];
+
+          // Unwrap JsonObject values from BuiltMap
+          final latObj = stop['latitude'];
+          final lonObj = stop['longitude'];
+          if (latObj == null || lonObj == null) continue;
+
+          final lat = latObj.value as num?;
+          final lon = lonObj.value as num?;
           if (lat == null || lon == null) continue;
 
-          final metadata = stop['metadata'] as Map<String, dynamic>?;
-          final stopName = metadata?['name'] as String? ?? 'Stop ${i + 1}';
+          // Extract stop name from metadata
+          final metadataObj = stop['metadata'];
+          String stopName = 'Stop ${i + 1}';
+          if (metadataObj != null) {
+            final metadata = metadataObj.value;
+            if (metadata is Map) {
+              stopName = (metadata['name'] as String?) ?? stopName;
+            }
+          }
 
           final isEndpoint = (i == 0 || i == stops.length - 1);
           stopMarkers.add(Marker(
@@ -287,7 +300,8 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
           ));
         }
       } catch (e) {
-        // Skip invalid bus stops data
+        // Log error for debugging
+        debugPrint('Error parsing bus stops for route ${route.routeId}: $e');
       }
     }
 

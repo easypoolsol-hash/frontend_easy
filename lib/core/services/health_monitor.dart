@@ -6,6 +6,7 @@
 import 'dart:async';
 
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:frontend_easy/core/models/system_health.dart';
 import 'package:frontend_easy/shared/services/api_service.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -61,12 +62,15 @@ class HealthMonitor extends _$HealthMonitor {
       state = const SystemHealth.operational();
     } catch (e, stackTrace) {
       // Backend unavailable: Update to degraded
-      await FirebaseCrashlytics.instance.recordError(
-        e,
-        stackTrace,
-        reason: 'Health check failed - backend unavailable',
-        fatal: false,
-      );
+      // Only record to Crashlytics on mobile platforms (not supported on web)
+      if (!kIsWeb) {
+        await FirebaseCrashlytics.instance.recordError(
+          e,
+          stackTrace,
+          reason: 'Health check failed - backend unavailable',
+          fatal: false,
+        );
+      }
 
       final lastSync = _lastSuccessfulSync ?? DateTime.now();
       state = SystemHealth.degraded(
