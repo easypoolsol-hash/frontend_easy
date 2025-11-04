@@ -3,71 +3,126 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:json_annotation/json_annotation.dart';
+import 'package:built_collection/built_collection.dart';
+import 'package:built_value/json_object.dart';
+import 'package:built_value/built_value.dart';
+import 'package:built_value/serializer.dart';
 
 part 'parent_bus_locations_response.g.dart';
 
+/// ParentBusLocationsResponse
+///
+/// Properties:
+/// * [type] 
+/// * [features] - GeoJSON features array
+@BuiltValue()
+abstract class ParentBusLocationsResponse implements Built<ParentBusLocationsResponse, ParentBusLocationsResponseBuilder> {
+  @BuiltValueField(wireName: r'type')
+  String? get type;
 
-@JsonSerializable(
-  checked: true,
-  createToJson: true,
-  disallowUnrecognizedKeys: false,
-  explicitToJson: true,
-)
-class ParentBusLocationsResponse {
-  /// Returns a new [ParentBusLocationsResponse] instance.
-  ParentBusLocationsResponse({
+  /// GeoJSON features array
+  @BuiltValueField(wireName: r'features')
+  BuiltList<BuiltMap<String, JsonObject?>> get features;
 
-     this.type = 'FeatureCollection',
+  ParentBusLocationsResponse._();
 
-    required  this.features,
-  });
+  factory ParentBusLocationsResponse([void updates(ParentBusLocationsResponseBuilder b)]) = _$ParentBusLocationsResponse;
 
-  @JsonKey(
-    defaultValue: 'FeatureCollection',
-    name: r'type',
-    required: false,
-    includeIfNull: false,
-  )
+  @BuiltValueHook(initializeBuilder: true)
+  static void _defaults(ParentBusLocationsResponseBuilder b) => b
+      ..type = 'FeatureCollection';
 
+  @BuiltValueSerializer(custom: true)
+  static Serializer<ParentBusLocationsResponse> get serializer => _$ParentBusLocationsResponseSerializer();
+}
 
-  final String? type;
-
-
-
-      /// GeoJSON features array
-  @JsonKey(
-    
-    name: r'features',
-    required: true,
-    includeIfNull: false,
-  )
-
-
-  final List<Map<String, Object>> features;
-
-
-
-
-
-    @override
-    bool operator ==(Object other) => identical(this, other) || other is ParentBusLocationsResponse &&
-      other.type == type &&
-      other.features == features;
-
-    @override
-    int get hashCode =>
-        type.hashCode +
-        features.hashCode;
-
-  factory ParentBusLocationsResponse.fromJson(Map<String, dynamic> json) => _$ParentBusLocationsResponseFromJson(json);
-
-  Map<String, dynamic> toJson() => _$ParentBusLocationsResponseToJson(this);
+class _$ParentBusLocationsResponseSerializer implements PrimitiveSerializer<ParentBusLocationsResponse> {
+  @override
+  final Iterable<Type> types = const [ParentBusLocationsResponse, _$ParentBusLocationsResponse];
 
   @override
-  String toString() {
-    return toJson().toString();
+  final String wireName = r'ParentBusLocationsResponse';
+
+  Iterable<Object?> _serializeProperties(
+    Serializers serializers,
+    ParentBusLocationsResponse object, {
+    FullType specifiedType = FullType.unspecified,
+  }) sync* {
+    if (object.type != null) {
+      yield r'type';
+      yield serializers.serialize(
+        object.type,
+        specifiedType: const FullType(String),
+      );
+    }
+    yield r'features';
+    yield serializers.serialize(
+      object.features,
+      specifiedType: const FullType(BuiltList, [FullType(BuiltMap, [FullType(String), FullType.nullable(JsonObject)])]),
+    );
   }
 
+  @override
+  Object serialize(
+    Serializers serializers,
+    ParentBusLocationsResponse object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+  }
+
+  void _deserializeProperties(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+    required List<Object?> serializedList,
+    required ParentBusLocationsResponseBuilder result,
+    required List<Object?> unhandled,
+  }) {
+    for (var i = 0; i < serializedList.length; i += 2) {
+      final key = serializedList[i] as String;
+      final value = serializedList[i + 1];
+      switch (key) {
+        case r'type':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.type = valueDes;
+          break;
+        case r'features':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(BuiltList, [FullType(BuiltMap, [FullType(String), FullType.nullable(JsonObject)])]),
+          ) as BuiltList<BuiltMap<String, JsonObject?>>;
+          result.features.replace(valueDes);
+          break;
+        default:
+          unhandled.add(key);
+          unhandled.add(value);
+          break;
+      }
+    }
+  }
+
+  @override
+  ParentBusLocationsResponse deserialize(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = ParentBusLocationsResponseBuilder();
+    final serializedList = (serialized as Iterable<Object?>).toList();
+    final unhandled = <Object?>[];
+    _deserializeProperties(
+      serializers,
+      serialized,
+      specifiedType: specifiedType,
+      serializedList: serializedList,
+      unhandled: unhandled,
+      result: result,
+    );
+    return result.build();
+  }
 }
 

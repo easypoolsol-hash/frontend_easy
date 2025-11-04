@@ -1,20 +1,12 @@
-//
-// AUTO-GENERATED FILE, DO NOT MODIFY!
-//
-
-// ignore_for_file: unused_element, unused_import
-// ignore_for_file: always_put_required_named_parameters_first
-// ignore_for_file: constant_identifier_names
-// ignore_for_file: lines_longer_than_80_chars
-
-import 'package:frontend_easy_api/api.dart';
 import 'package:test/test.dart';
+import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for Kiosk
 void main() {
-  // final instance = Kiosk();
+  final instance = KioskBuilder();
+  // TODO add properties to the builder and call build()
 
-  group('test Kiosk', () {
+  group(Kiosk, () {
     // Unique kiosk device identifier (e.g., KIOSK001, BUS123-KIOSK)
     // String kioskId
     test('to test the property `kioskId`', () async {
@@ -82,7 +74,5 @@ void main() {
       // TODO
     });
 
-
   });
-
 }

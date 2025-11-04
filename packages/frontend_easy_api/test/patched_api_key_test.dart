@@ -1,20 +1,12 @@
-//
-// AUTO-GENERATED FILE, DO NOT MODIFY!
-//
-
-// ignore_for_file: unused_element, unused_import
-// ignore_for_file: always_put_required_named_parameters_first
-// ignore_for_file: constant_identifier_names
-// ignore_for_file: lines_longer_than_80_chars
-
-import 'package:openapi/api.dart';
 import 'package:test/test.dart';
+import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for PatchedAPIKey
 void main() {
-  // final instance = PatchedAPIKey();
+  final instance = PatchedAPIKeyBuilder();
+  // TODO add properties to the builder and call build()
 
-  group('test PatchedAPIKey', () {
+  group(PatchedAPIKey, () {
     // String keyId
     test('to test the property `keyId`', () async {
       // TODO
@@ -33,7 +25,7 @@ void main() {
     });
 
     // JSON object defining scoped permissions
-    // Object permissions
+    // JsonObject permissions
     test('to test the property `permissions`', () async {
       // TODO
     });
@@ -58,7 +50,5 @@ void main() {
       // TODO
     });
 
-
   });
-
 }

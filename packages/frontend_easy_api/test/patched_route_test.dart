@@ -1,20 +1,12 @@
-//
-// AUTO-GENERATED FILE, DO NOT MODIFY!
-//
-
-// ignore_for_file: unused_element, unused_import
-// ignore_for_file: always_put_required_named_parameters_first
-// ignore_for_file: constant_identifier_names
-// ignore_for_file: lines_longer_than_80_chars
-
-import 'package:openapi/api.dart';
 import 'package:test/test.dart';
+import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for PatchedRoute
 void main() {
-  // final instance = PatchedRoute();
+  final instance = PatchedRouteBuilder();
+  // TODO add properties to the builder and call build()
 
-  group('test PatchedRoute', () {
+  group(PatchedRoute, () {
     // UUID primary key
     // String routeId
     test('to test the property `routeId`', () async {
@@ -30,6 +22,18 @@ void main() {
     // Detailed description of the route
     // String description
     test('to test the property `description`', () async {
+      // TODO
+    });
+
+    // Hex color for map display (e.g., #FF5733)
+    // String colorCode
+    test('to test the property `colorCode`', () async {
+      // TODO
+    });
+
+    // Line pattern for map visualization  * `solid` - Solid Line * `dashed` - Dashed Line
+    // String linePattern
+    test('to test the property `linePattern`', () async {
       // TODO
     });
 
@@ -49,8 +53,18 @@ void main() {
       // TODO
     });
 
-    // List<RouteStop> routeStops (default value: const [])
+    // BuiltList<RouteStop> routeStops
     test('to test the property `routeStops`', () async {
+      // TODO
+    });
+
+    // String encodedPolyline
+    test('to test the property `encodedPolyline`', () async {
+      // TODO
+    });
+
+    // BuiltList<BuiltMap<String, JsonObject>> busStops
+    test('to test the property `busStops`', () async {
       // TODO
     });
 
@@ -66,7 +80,5 @@ void main() {
       // TODO
     });
 
-
   });
-
 }

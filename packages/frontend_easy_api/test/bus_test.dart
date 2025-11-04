@@ -1,23 +1,21 @@
-//
-// AUTO-GENERATED FILE, DO NOT MODIFY!
-//
-
-// ignore_for_file: unused_element, unused_import
-// ignore_for_file: always_put_required_named_parameters_first
-// ignore_for_file: constant_identifier_names
-// ignore_for_file: lines_longer_than_80_chars
-
-import 'package:openapi/api.dart';
 import 'package:test/test.dart';
+import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for Bus
 void main() {
-  // final instance = Bus();
+  final instance = BusBuilder();
+  // TODO add properties to the builder and call build()
 
-  group('test Bus', () {
+  group(Bus, () {
     // UUID primary key
     // String busId
     test('to test the property `busId`', () async {
+      // TODO
+    });
+
+    // School-assigned bus number (e.g., 'BUS-001', 'B-12')
+    // String busNumber
+    test('to test the property `busNumber`', () async {
       // TODO
     });
 
@@ -75,7 +73,7 @@ void main() {
     });
 
     // Date of last maintenance
-    // DateTime lastMaintenance
+    // Date lastMaintenance
     test('to test the property `lastMaintenance`', () async {
       // TODO
     });
@@ -107,7 +105,5 @@ void main() {
       // TODO
     });
 
-
   });
-
 }

@@ -3,244 +3,306 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:json_annotation/json_annotation.dart';
+import 'package:built_value/json_object.dart';
+import 'package:built_value/built_value.dart';
+import 'package:built_value/serializer.dart';
 
 part 'boarding_event.g.dart';
 
-
-@JsonSerializable(
-  checked: true,
-  createToJson: true,
-  disallowUnrecognizedKeys: false,
-  explicitToJson: true,
-)
-class BoardingEvent {
-  /// Returns a new [BoardingEvent] instance.
-  BoardingEvent({
-
-    required  this.eventId,
-
-    required  this.student,
-
-    required  this.kioskId,
-
-    required  this.confidenceScore,
-
-    required  this.timestamp,
-
-     this.latitude,
-
-     this.longitude,
-
-     this.busRoute,
-
-     this.faceImageUrl,
-
-    required  this.modelVersion,
-
-     this.metadata,
-
-    required  this.createdAt,
-  });
-
-      /// ULID primary key for global uniqueness and time sorting
-  @JsonKey(
-    
-    name: r'event_id',
-    required: true,
-    includeIfNull: false,
-  )
-
-
-  final String eventId;
-
-
-
-      /// Student who boarded the bus
-  @JsonKey(
-    
-    name: r'student',
-    required: true,
-    includeIfNull: false,
-  )
-
-
-  final String student;
-
-
-
-      /// Kiosk device identifier
-  @JsonKey(
-    
-    name: r'kiosk_id',
-    required: true,
-    includeIfNull: false,
-  )
-
-
-  final String kioskId;
-
-
-
-      /// Face recognition confidence score (0.0-1.0)
-          // minimum: 0.0
-          // maximum: 1.0
-  @JsonKey(
-    
-    name: r'confidence_score',
-    required: true,
-    includeIfNull: false,
-  )
-
-
-  final double confidenceScore;
-
-
-
-      /// When the boarding event occurred
-  @JsonKey(
-    
-    name: r'timestamp',
-    required: true,
-    includeIfNull: false,
-  )
-
-
-  final DateTime timestamp;
-
-
-
-      /// GPS latitude coordinate
-  @JsonKey(
-    
-    name: r'latitude',
-    required: false,
-    includeIfNull: false,
-  )
-
-
-  final double? latitude;
-
-
-
-      /// GPS longitude coordinate
-  @JsonKey(
-    
-    name: r'longitude',
-    required: false,
-    includeIfNull: false,
-  )
-
-
-  final double? longitude;
-
-
-
-      /// Bus route identifier
-  @JsonKey(
-    
-    name: r'bus_route',
-    required: false,
-    includeIfNull: false,
-  )
-
-
-  final String? busRoute;
-
-
-
-      /// S3 URL to face image for verification (optional)
-  @JsonKey(
-    
-    name: r'face_image_url',
-    required: false,
-    includeIfNull: false,
-  )
-
-
-  final String? faceImageUrl;
-
-
-
-      /// Face recognition model version used
-  @JsonKey(
-    
-    name: r'model_version',
-    required: true,
-    includeIfNull: false,
-  )
-
-
-  final String modelVersion;
-
-
-
-      /// Additional metadata as JSON
-  @JsonKey(
-    
-    name: r'metadata',
-    required: false,
-    includeIfNull: false,
-  )
-
-
-  final Object? metadata;
-
-
-
-      /// When this record was created in database
-  @JsonKey(
-    
-    name: r'created_at',
-    required: true,
-    includeIfNull: false,
-  )
-
-
-  final DateTime createdAt;
-
-
-
-
-
-    @override
-    bool operator ==(Object other) => identical(this, other) || other is BoardingEvent &&
-      other.eventId == eventId &&
-      other.student == student &&
-      other.kioskId == kioskId &&
-      other.confidenceScore == confidenceScore &&
-      other.timestamp == timestamp &&
-      other.latitude == latitude &&
-      other.longitude == longitude &&
-      other.busRoute == busRoute &&
-      other.faceImageUrl == faceImageUrl &&
-      other.modelVersion == modelVersion &&
-      other.metadata == metadata &&
-      other.createdAt == createdAt;
-
-    @override
-    int get hashCode =>
-        eventId.hashCode +
-        student.hashCode +
-        kioskId.hashCode +
-        confidenceScore.hashCode +
-        timestamp.hashCode +
-        (latitude == null ? 0 : latitude.hashCode) +
-        (longitude == null ? 0 : longitude.hashCode) +
-        busRoute.hashCode +
-        faceImageUrl.hashCode +
-        modelVersion.hashCode +
-        (metadata == null ? 0 : metadata.hashCode) +
-        createdAt.hashCode;
-
-  factory BoardingEvent.fromJson(Map<String, dynamic> json) => _$BoardingEventFromJson(json);
-
-  Map<String, dynamic> toJson() => _$BoardingEventToJson(this);
+/// Serializer for boarding events
+///
+/// Properties:
+/// * [eventId] - ULID primary key for global uniqueness and time sorting
+/// * [student] - Student who boarded the bus
+/// * [kioskId] - Kiosk device identifier
+/// * [confidenceScore] - Face recognition confidence score (0.0-1.0)
+/// * [timestamp] - When the boarding event occurred
+/// * [latitude] - GPS latitude coordinate
+/// * [longitude] - GPS longitude coordinate
+/// * [busRoute] - Bus route identifier
+/// * [faceImageUrl] - S3 URL to face image for verification (optional)
+/// * [modelVersion] - Face recognition model version used
+/// * [metadata] - Additional metadata as JSON
+/// * [createdAt] - When this record was created in database
+@BuiltValue()
+abstract class BoardingEvent implements Built<BoardingEvent, BoardingEventBuilder> {
+  /// ULID primary key for global uniqueness and time sorting
+  @BuiltValueField(wireName: r'event_id')
+  String get eventId;
+
+  /// Student who boarded the bus
+  @BuiltValueField(wireName: r'student')
+  String get student;
+
+  /// Kiosk device identifier
+  @BuiltValueField(wireName: r'kiosk_id')
+  String get kioskId;
+
+  /// Face recognition confidence score (0.0-1.0)
+  @BuiltValueField(wireName: r'confidence_score')
+  double get confidenceScore;
+
+  /// When the boarding event occurred
+  @BuiltValueField(wireName: r'timestamp')
+  DateTime get timestamp;
+
+  /// GPS latitude coordinate
+  @BuiltValueField(wireName: r'latitude')
+  double? get latitude;
+
+  /// GPS longitude coordinate
+  @BuiltValueField(wireName: r'longitude')
+  double? get longitude;
+
+  /// Bus route identifier
+  @BuiltValueField(wireName: r'bus_route')
+  String? get busRoute;
+
+  /// S3 URL to face image for verification (optional)
+  @BuiltValueField(wireName: r'face_image_url')
+  String? get faceImageUrl;
+
+  /// Face recognition model version used
+  @BuiltValueField(wireName: r'model_version')
+  String get modelVersion;
+
+  /// Additional metadata as JSON
+  @BuiltValueField(wireName: r'metadata')
+  JsonObject? get metadata;
+
+  /// When this record was created in database
+  @BuiltValueField(wireName: r'created_at')
+  DateTime get createdAt;
+
+  BoardingEvent._();
+
+  factory BoardingEvent([void updates(BoardingEventBuilder b)]) = _$BoardingEvent;
+
+  @BuiltValueHook(initializeBuilder: true)
+  static void _defaults(BoardingEventBuilder b) => b;
+
+  @BuiltValueSerializer(custom: true)
+  static Serializer<BoardingEvent> get serializer => _$BoardingEventSerializer();
+}
+
+class _$BoardingEventSerializer implements PrimitiveSerializer<BoardingEvent> {
+  @override
+  final Iterable<Type> types = const [BoardingEvent, _$BoardingEvent];
 
   @override
-  String toString() {
-    return toJson().toString();
+  final String wireName = r'BoardingEvent';
+
+  Iterable<Object?> _serializeProperties(
+    Serializers serializers,
+    BoardingEvent object, {
+    FullType specifiedType = FullType.unspecified,
+  }) sync* {
+    yield r'event_id';
+    yield serializers.serialize(
+      object.eventId,
+      specifiedType: const FullType(String),
+    );
+    yield r'student';
+    yield serializers.serialize(
+      object.student,
+      specifiedType: const FullType(String),
+    );
+    yield r'kiosk_id';
+    yield serializers.serialize(
+      object.kioskId,
+      specifiedType: const FullType(String),
+    );
+    yield r'confidence_score';
+    yield serializers.serialize(
+      object.confidenceScore,
+      specifiedType: const FullType(double),
+    );
+    yield r'timestamp';
+    yield serializers.serialize(
+      object.timestamp,
+      specifiedType: const FullType(DateTime),
+    );
+    if (object.latitude != null) {
+      yield r'latitude';
+      yield serializers.serialize(
+        object.latitude,
+        specifiedType: const FullType.nullable(double),
+      );
+    }
+    if (object.longitude != null) {
+      yield r'longitude';
+      yield serializers.serialize(
+        object.longitude,
+        specifiedType: const FullType.nullable(double),
+      );
+    }
+    if (object.busRoute != null) {
+      yield r'bus_route';
+      yield serializers.serialize(
+        object.busRoute,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.faceImageUrl != null) {
+      yield r'face_image_url';
+      yield serializers.serialize(
+        object.faceImageUrl,
+        specifiedType: const FullType(String),
+      );
+    }
+    yield r'model_version';
+    yield serializers.serialize(
+      object.modelVersion,
+      specifiedType: const FullType(String),
+    );
+    if (object.metadata != null) {
+      yield r'metadata';
+      yield serializers.serialize(
+        object.metadata,
+        specifiedType: const FullType.nullable(JsonObject),
+      );
+    }
+    yield r'created_at';
+    yield serializers.serialize(
+      object.createdAt,
+      specifiedType: const FullType(DateTime),
+    );
   }
 
+  @override
+  Object serialize(
+    Serializers serializers,
+    BoardingEvent object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+  }
+
+  void _deserializeProperties(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+    required List<Object?> serializedList,
+    required BoardingEventBuilder result,
+    required List<Object?> unhandled,
+  }) {
+    for (var i = 0; i < serializedList.length; i += 2) {
+      final key = serializedList[i] as String;
+      final value = serializedList[i + 1];
+      switch (key) {
+        case r'event_id':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.eventId = valueDes;
+          break;
+        case r'student':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.student = valueDes;
+          break;
+        case r'kiosk_id':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.kioskId = valueDes;
+          break;
+        case r'confidence_score':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(double),
+          ) as double;
+          result.confidenceScore = valueDes;
+          break;
+        case r'timestamp':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(DateTime),
+          ) as DateTime;
+          result.timestamp = valueDes;
+          break;
+        case r'latitude':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(double),
+          ) as double?;
+          if (valueDes == null) continue;
+          result.latitude = valueDes;
+          break;
+        case r'longitude':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(double),
+          ) as double?;
+          if (valueDes == null) continue;
+          result.longitude = valueDes;
+          break;
+        case r'bus_route':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.busRoute = valueDes;
+          break;
+        case r'face_image_url':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.faceImageUrl = valueDes;
+          break;
+        case r'model_version':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.modelVersion = valueDes;
+          break;
+        case r'metadata':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(JsonObject),
+          ) as JsonObject?;
+          if (valueDes == null) continue;
+          result.metadata = valueDes;
+          break;
+        case r'created_at':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(DateTime),
+          ) as DateTime;
+          result.createdAt = valueDes;
+          break;
+        default:
+          unhandled.add(key);
+          unhandled.add(value);
+          break;
+      }
+    }
+  }
+
+  @override
+  BoardingEvent deserialize(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = BoardingEventBuilder();
+    final serializedList = (serialized as Iterable<Object?>).toList();
+    final unhandled = <Object?>[];
+    _deserializeProperties(
+      serializers,
+      serialized,
+      specifiedType: specifiedType,
+      serializedList: serializedList,
+      unhandled: unhandled,
+      result: result,
+    );
+    return result.build();
+  }
 }
 

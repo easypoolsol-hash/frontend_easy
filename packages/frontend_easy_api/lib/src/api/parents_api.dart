@@ -4,18 +4,20 @@
 
 import 'dart:async';
 
-// ignore: unused_import
-import 'dart:convert';
-import 'package:frontend_easy_api/src/deserialize.dart';
+import 'package:built_value/json_object.dart';
+import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
+import 'package:built_value/json_object.dart';
 import 'package:frontend_easy_api/src/model/parent_bus_locations_response.dart';
 
 class ParentsApi {
 
   final Dio _dio;
 
-  const ParentsApi(this._dio);
+  final Serializers _serializers;
+
+  const ParentsApi(this._dio, this._serializers);
 
   /// parentBusLocations
   ///      **Fortune 500 IAM-style Parent Bus Locations**      Returns bus locations ONLY for buses assigned to the parent&#39;s children.      **Authorization:**     - Requires authentication (JWT token)     - Requires role: parent     - Filters results by parent-child-bus assignments     - Zero-trust: Parents can ONLY see their own children&#39;s buses      **Response:**     GeoJSON FeatureCollection with bus location points     
@@ -51,14 +53,6 @@ class ParentsApi {
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -77,8 +71,12 @@ class ParentsApi {
     ParentBusLocationsResponse? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<ParentBusLocationsResponse, ParentBusLocationsResponse>(rawData, 'ParentBusLocationsResponse', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(ParentBusLocationsResponse),
+      ) as ParentBusLocationsResponse;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,

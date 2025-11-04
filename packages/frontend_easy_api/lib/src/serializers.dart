@@ -29,18 +29,20 @@ import 'package:frontend_easy_api/src/model/check_updates_response.dart';
 import 'package:frontend_easy_api/src/model/dashboard_stats.dart';
 import 'package:frontend_easy_api/src/model/dashboard_students_response.dart';
 import 'package:frontend_easy_api/src/model/device_log.dart';
+import 'package:frontend_easy_api/src/model/group.dart';
 import 'package:frontend_easy_api/src/model/health_data.dart';
 import 'package:frontend_easy_api/src/model/heartbeat.dart';
-import 'package:frontend_easy_api/src/model/kiosk_activation.dart';
-import 'package:frontend_easy_api/src/model/kiosk_activation_response.dart';
+import 'package:frontend_easy_api/src/model/kiosk.dart';
 import 'package:frontend_easy_api/src/model/kiosk_log200_response.dart';
 import 'package:frontend_easy_api/src/model/paginated_api_key_list.dart';
 import 'package:frontend_easy_api/src/model/paginated_attendance_record_list.dart';
 import 'package:frontend_easy_api/src/model/paginated_audit_log_list.dart';
 import 'package:frontend_easy_api/src/model/paginated_boarding_event_list.dart';
 import 'package:frontend_easy_api/src/model/paginated_bus_list.dart';
+import 'package:frontend_easy_api/src/model/paginated_device_log_list.dart';
+import 'package:frontend_easy_api/src/model/paginated_group_list.dart';
+import 'package:frontend_easy_api/src/model/paginated_kiosk_list.dart';
 import 'package:frontend_easy_api/src/model/paginated_parent_list.dart';
-import 'package:frontend_easy_api/src/model/paginated_role_list.dart';
 import 'package:frontend_easy_api/src/model/paginated_route_list.dart';
 import 'package:frontend_easy_api/src/model/paginated_school_list.dart';
 import 'package:frontend_easy_api/src/model/paginated_student_list.dart';
@@ -48,9 +50,11 @@ import 'package:frontend_easy_api/src/model/paginated_student_parent_list.dart';
 import 'package:frontend_easy_api/src/model/paginated_student_photo_list.dart';
 import 'package:frontend_easy_api/src/model/paginated_user_list.dart';
 import 'package:frontend_easy_api/src/model/parent.dart';
+import 'package:frontend_easy_api/src/model/parent_bus_locations_response.dart';
 import 'package:frontend_easy_api/src/model/patched_api_key.dart';
 import 'package:frontend_easy_api/src/model/patched_boarding_event.dart';
 import 'package:frontend_easy_api/src/model/patched_bus.dart';
+import 'package:frontend_easy_api/src/model/patched_kiosk.dart';
 import 'package:frontend_easy_api/src/model/patched_parent.dart';
 import 'package:frontend_easy_api/src/model/patched_route.dart';
 import 'package:frontend_easy_api/src/model/patched_school.dart';
@@ -58,7 +62,6 @@ import 'package:frontend_easy_api/src/model/patched_student.dart';
 import 'package:frontend_easy_api/src/model/patched_student_parent.dart';
 import 'package:frontend_easy_api/src/model/patched_student_photo.dart';
 import 'package:frontend_easy_api/src/model/patched_user.dart';
-import 'package:frontend_easy_api/src/model/role.dart';
 import 'package:frontend_easy_api/src/model/route.dart';
 import 'package:frontend_easy_api/src/model/route_stop.dart';
 import 'package:frontend_easy_api/src/model/school.dart';
@@ -66,11 +69,7 @@ import 'package:frontend_easy_api/src/model/student.dart';
 import 'package:frontend_easy_api/src/model/student_activity.dart';
 import 'package:frontend_easy_api/src/model/student_parent.dart';
 import 'package:frontend_easy_api/src/model/student_photo.dart';
-import 'package:frontend_easy_api/src/model/token_obtain_pair.dart';
-import 'package:frontend_easy_api/src/model/token_refresh_request.dart';
-import 'package:frontend_easy_api/src/model/token_refresh_response.dart';
 import 'package:frontend_easy_api/src/model/user.dart';
-import 'package:frontend_easy_api/src/model/user_create.dart';
 
 part 'serializers.g.dart';
 
@@ -90,18 +89,20 @@ part 'serializers.g.dart';
   DashboardStats,
   DashboardStudentsResponse,
   DeviceLog,
+  Group,
   HealthData,
   Heartbeat,
-  KioskActivation,
-  KioskActivationResponse,
+  Kiosk,
   KioskLog200Response,
   PaginatedAPIKeyList,
   PaginatedAttendanceRecordList,
   PaginatedAuditLogList,
   PaginatedBoardingEventList,
   PaginatedBusList,
+  PaginatedDeviceLogList,
+  PaginatedGroupList,
+  PaginatedKioskList,
   PaginatedParentList,
-  PaginatedRoleList,
   PaginatedRouteList,
   PaginatedSchoolList,
   PaginatedStudentList,
@@ -109,9 +110,11 @@ part 'serializers.g.dart';
   PaginatedStudentPhotoList,
   PaginatedUserList,
   Parent,
+  ParentBusLocationsResponse,
   PatchedAPIKey,
   PatchedBoardingEvent,
   PatchedBus,
+  PatchedKiosk,
   PatchedParent,
   PatchedRoute,
   PatchedSchool,
@@ -119,7 +122,6 @@ part 'serializers.g.dart';
   PatchedStudentParent,
   PatchedStudentPhoto,
   PatchedUser,
-  Role,
   Route,
   RouteStop,
   School,
@@ -127,11 +129,7 @@ part 'serializers.g.dart';
   StudentActivity,
   StudentParent,
   StudentPhoto,
-  TokenObtainPair,
-  TokenRefreshRequest,
-  TokenRefreshResponse,
   User,
-  UserCreate,
 ])
 Serializers serializers = (_$serializers.toBuilder()
       ..addBuilderFactory(

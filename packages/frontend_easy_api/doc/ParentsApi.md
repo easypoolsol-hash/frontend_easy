@@ -27,12 +27,12 @@ import 'package:frontend_easy_api/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ParentsApi();
+final api = FrontendEasyApi().getParentsApi();
 
 try {
-    final result = api_instance.parentBusLocations();
-    print(result);
-} catch (e) {
+    final response = api.parentBusLocations();
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ParentsApi->parentBusLocations: $e\n');
 }
 ```

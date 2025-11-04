@@ -3,57 +3,199 @@
 part of 'patched_user.dart';
 
 // **************************************************************************
-// JsonSerializableGenerator
+// BuiltValueGenerator
 // **************************************************************************
 
-PatchedUser _$PatchedUserFromJson(Map<String, dynamic> json) => $checkedCreate(
-  'PatchedUser',
-  json,
-  ($checkedConvert) {
-    final val = PatchedUser(
-      userId: $checkedConvert('user_id', (v) => v as String?),
-      username: $checkedConvert('username', (v) => v as String?),
-      email: $checkedConvert('email', (v) => v as String?),
-      role: $checkedConvert('role', (v) => v as String?),
-      roleName: $checkedConvert('role_name', (v) => v as String?),
-      isActive: $checkedConvert('is_active', (v) => v as bool?),
-      lastLogin: $checkedConvert(
-        'last_login',
-        (v) => v == null ? null : DateTime.parse(v as String),
-      ),
-      createdAt: $checkedConvert(
-        'created_at',
-        (v) => v == null ? null : DateTime.parse(v as String),
-      ),
-      updatedAt: $checkedConvert(
-        'updated_at',
-        (v) => v == null ? null : DateTime.parse(v as String),
-      ),
-    );
-    return val;
-  },
-  fieldKeyMap: const {
-    'userId': 'user_id',
-    'roleName': 'role_name',
-    'isActive': 'is_active',
-    'lastLogin': 'last_login',
-    'createdAt': 'created_at',
-    'updatedAt': 'updated_at',
-  },
-);
+class _$PatchedUser extends PatchedUser {
+  @override
+  final String? userId;
+  @override
+  final String? username;
+  @override
+  final String? email;
+  @override
+  final BuiltList<String>? groups;
+  @override
+  final String? groupNames;
+  @override
+  final bool? isActive;
+  @override
+  final DateTime? lastLogin;
+  @override
+  final DateTime? createdAt;
+  @override
+  final DateTime? updatedAt;
 
-Map<String, dynamic> _$PatchedUserToJson(PatchedUser instance) =>
-    <String, dynamic>{
-      if (instance.userId case final value?) 'user_id': value,
-      if (instance.username case final value?) 'username': value,
-      if (instance.email case final value?) 'email': value,
-      if (instance.role case final value?) 'role': value,
-      if (instance.roleName case final value?) 'role_name': value,
-      if (instance.isActive case final value?) 'is_active': value,
-      if (instance.lastLogin?.toIso8601String() case final value?)
-        'last_login': value,
-      if (instance.createdAt?.toIso8601String() case final value?)
-        'created_at': value,
-      if (instance.updatedAt?.toIso8601String() case final value?)
-        'updated_at': value,
-    };
+  factory _$PatchedUser([void Function(PatchedUserBuilder)? updates]) =>
+      (PatchedUserBuilder()..update(updates))._build();
+
+  _$PatchedUser._(
+      {this.userId,
+      this.username,
+      this.email,
+      this.groups,
+      this.groupNames,
+      this.isActive,
+      this.lastLogin,
+      this.createdAt,
+      this.updatedAt})
+      : super._();
+  @override
+  PatchedUser rebuild(void Function(PatchedUserBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  PatchedUserBuilder toBuilder() => PatchedUserBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is PatchedUser &&
+        userId == other.userId &&
+        username == other.username &&
+        email == other.email &&
+        groups == other.groups &&
+        groupNames == other.groupNames &&
+        isActive == other.isActive &&
+        lastLogin == other.lastLogin &&
+        createdAt == other.createdAt &&
+        updatedAt == other.updatedAt;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, userId.hashCode);
+    _$hash = $jc(_$hash, username.hashCode);
+    _$hash = $jc(_$hash, email.hashCode);
+    _$hash = $jc(_$hash, groups.hashCode);
+    _$hash = $jc(_$hash, groupNames.hashCode);
+    _$hash = $jc(_$hash, isActive.hashCode);
+    _$hash = $jc(_$hash, lastLogin.hashCode);
+    _$hash = $jc(_$hash, createdAt.hashCode);
+    _$hash = $jc(_$hash, updatedAt.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'PatchedUser')
+          ..add('userId', userId)
+          ..add('username', username)
+          ..add('email', email)
+          ..add('groups', groups)
+          ..add('groupNames', groupNames)
+          ..add('isActive', isActive)
+          ..add('lastLogin', lastLogin)
+          ..add('createdAt', createdAt)
+          ..add('updatedAt', updatedAt))
+        .toString();
+  }
+}
+
+class PatchedUserBuilder implements Builder<PatchedUser, PatchedUserBuilder> {
+  _$PatchedUser? _$v;
+
+  String? _userId;
+  String? get userId => _$this._userId;
+  set userId(String? userId) => _$this._userId = userId;
+
+  String? _username;
+  String? get username => _$this._username;
+  set username(String? username) => _$this._username = username;
+
+  String? _email;
+  String? get email => _$this._email;
+  set email(String? email) => _$this._email = email;
+
+  ListBuilder<String>? _groups;
+  ListBuilder<String> get groups => _$this._groups ??= ListBuilder<String>();
+  set groups(ListBuilder<String>? groups) => _$this._groups = groups;
+
+  String? _groupNames;
+  String? get groupNames => _$this._groupNames;
+  set groupNames(String? groupNames) => _$this._groupNames = groupNames;
+
+  bool? _isActive;
+  bool? get isActive => _$this._isActive;
+  set isActive(bool? isActive) => _$this._isActive = isActive;
+
+  DateTime? _lastLogin;
+  DateTime? get lastLogin => _$this._lastLogin;
+  set lastLogin(DateTime? lastLogin) => _$this._lastLogin = lastLogin;
+
+  DateTime? _createdAt;
+  DateTime? get createdAt => _$this._createdAt;
+  set createdAt(DateTime? createdAt) => _$this._createdAt = createdAt;
+
+  DateTime? _updatedAt;
+  DateTime? get updatedAt => _$this._updatedAt;
+  set updatedAt(DateTime? updatedAt) => _$this._updatedAt = updatedAt;
+
+  PatchedUserBuilder() {
+    PatchedUser._defaults(this);
+  }
+
+  PatchedUserBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _userId = $v.userId;
+      _username = $v.username;
+      _email = $v.email;
+      _groups = $v.groups?.toBuilder();
+      _groupNames = $v.groupNames;
+      _isActive = $v.isActive;
+      _lastLogin = $v.lastLogin;
+      _createdAt = $v.createdAt;
+      _updatedAt = $v.updatedAt;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(PatchedUser other) {
+    _$v = other as _$PatchedUser;
+  }
+
+  @override
+  void update(void Function(PatchedUserBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  PatchedUser build() => _build();
+
+  _$PatchedUser _build() {
+    _$PatchedUser _$result;
+    try {
+      _$result = _$v ??
+          _$PatchedUser._(
+            userId: userId,
+            username: username,
+            email: email,
+            groups: _groups?.build(),
+            groupNames: groupNames,
+            isActive: isActive,
+            lastLogin: lastLogin,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+          );
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'groups';
+        _groups?.build();
+      } catch (e) {
+        throw BuiltValueNestedFieldError(
+            r'PatchedUser', _$failedField, e.toString());
+      }
+      rethrow;
+    }
+    replace(_$result);
+    return _$result;
+  }
+}
+
+// ignore_for_file: deprecated_member_use_from_same_package,type=lint

@@ -9,7 +9,7 @@ import 'package:frontend_easy_api/api.dart';
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **type** | **String** |  | [optional] [default to 'FeatureCollection']
-**features** | [**List<Map<String, Object>>**](Map.md) | GeoJSON features array | [default to const []]
+**features** | [**BuiltList&lt;BuiltMap&lt;String, JsonObject&gt;&gt;**](BuiltMap.md) | GeoJSON features array | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

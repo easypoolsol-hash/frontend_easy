@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:frontend_easy/shared/services/api_service.dart';
 import 'package:frontend_easy/core/config/api_config.dart';
 import 'package:frontend_easy/features/fleet/services/bus_tracking_websocket_service.dart';
 
@@ -40,21 +39,12 @@ final busLocationsProvider = StreamProvider<List<Map<String, dynamic>>>((ref) as
 });
 
 /// REST API fallback for initial data load
-/// Uses generated OpenAPI client with operation ID: school_bus_locations_list
+/// NOTE: OpenAPI schema incorrectly defines response as void, so we can't use the generated client
+/// We rely on WebSocket for actual data - this is just a placeholder
 final busLocationsRestProvider = FutureProvider<List<Map<String, dynamic>>>((ref) async {
   try {
-    // Use generated SchoolDashboardApi client (constitutional compliance)
-    final api = ref.watch(apiServiceProvider).client.getSchoolDashboardApi();
-
-    // Call generated method - AuthInterceptor adds Bearer token automatically
-    final response = await api.schoolBusLocationsList();
-
-    if (response.statusCode == 200 && response.data != null) {
-      final geoJson = response.data!;
-      final features = geoJson.features;
-      // Features are already Map<String, Object>, cast to Map<String, dynamic>
-      return features.map((f) => Map<String, dynamic>.from(f)).toList();
-    }
+    // TODO: Fix OpenAPI schema to properly define GeoJSON response for /api/v1/school/api/bus-locations/
+    // For now, return empty list - WebSocket will provide the data
     return [];
   } catch (e) {
     // Silently fail - user not authenticated yet

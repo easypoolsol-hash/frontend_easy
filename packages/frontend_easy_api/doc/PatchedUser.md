@@ -8,15 +8,15 @@ import 'package:frontend_easy_api/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**userId** | **String** |  | [optional] [readonly] 
+**userId** | **String** |  | [optional] 
 **username** | **String** |  | [optional] 
 **email** | **String** |  | [optional] 
-**groups** | **List<String>** |  | [optional] [readonly] [default to const []]
-**groupNames** | **String** |  | [optional] [readonly] 
+**groups** | **BuiltList&lt;String&gt;** |  | [optional] 
+**groupNames** | **String** |  | [optional] 
 **isActive** | **bool** |  | [optional] 
-**lastLogin** | [**DateTime**](DateTime.md) |  | [optional] [readonly] 
-**createdAt** | [**DateTime**](DateTime.md) |  | [optional] [readonly] 
-**updatedAt** | [**DateTime**](DateTime.md) |  | [optional] [readonly] 
+**lastLogin** | [**DateTime**](DateTime.md) |  | [optional] 
+**createdAt** | [**DateTime**](DateTime.md) |  | [optional] 
+**updatedAt** | [**DateTime**](DateTime.md) |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

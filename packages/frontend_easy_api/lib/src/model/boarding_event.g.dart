@@ -3,77 +3,231 @@
 part of 'boarding_event.dart';
 
 // **************************************************************************
-// JsonSerializableGenerator
+// BuiltValueGenerator
 // **************************************************************************
 
-BoardingEvent _$BoardingEventFromJson(Map<String, dynamic> json) =>
-    $checkedCreate(
-      'BoardingEvent',
-      json,
-      ($checkedConvert) {
-        $checkKeys(
-          json,
-          requiredKeys: const [
-            'event_id',
-            'student',
-            'kiosk_id',
-            'confidence_score',
-            'timestamp',
-            'model_version',
-            'created_at',
-          ],
-        );
-        final val = BoardingEvent(
-          eventId: $checkedConvert('event_id', (v) => v as String),
-          student: $checkedConvert('student', (v) => v as String),
-          kioskId: $checkedConvert('kiosk_id', (v) => v as String),
-          confidenceScore: $checkedConvert(
-            'confidence_score',
-            (v) => (v as num).toDouble(),
-          ),
-          timestamp: $checkedConvert(
-            'timestamp',
-            (v) => DateTime.parse(v as String),
-          ),
-          latitude: $checkedConvert('latitude', (v) => (v as num?)?.toDouble()),
-          longitude: $checkedConvert(
-            'longitude',
-            (v) => (v as num?)?.toDouble(),
-          ),
-          busRoute: $checkedConvert('bus_route', (v) => v as String?),
-          faceImageUrl: $checkedConvert('face_image_url', (v) => v as String?),
-          modelVersion: $checkedConvert('model_version', (v) => v as String),
-          metadata: $checkedConvert('metadata', (v) => v),
-          createdAt: $checkedConvert(
-            'created_at',
-            (v) => DateTime.parse(v as String),
-          ),
-        );
-        return val;
-      },
-      fieldKeyMap: const {
-        'eventId': 'event_id',
-        'kioskId': 'kiosk_id',
-        'confidenceScore': 'confidence_score',
-        'busRoute': 'bus_route',
-        'faceImageUrl': 'face_image_url',
-        'modelVersion': 'model_version',
-        'createdAt': 'created_at',
-      },
-    );
+class _$BoardingEvent extends BoardingEvent {
+  @override
+  final String eventId;
+  @override
+  final String student;
+  @override
+  final String kioskId;
+  @override
+  final double confidenceScore;
+  @override
+  final DateTime timestamp;
+  @override
+  final double? latitude;
+  @override
+  final double? longitude;
+  @override
+  final String? busRoute;
+  @override
+  final String? faceImageUrl;
+  @override
+  final String modelVersion;
+  @override
+  final JsonObject? metadata;
+  @override
+  final DateTime createdAt;
 
-Map<String, dynamic> _$BoardingEventToJson(BoardingEvent instance) =>
-    <String, dynamic>{
-      'event_id': instance.eventId,
-      'student': instance.student,
-      'kiosk_id': instance.kioskId,
-      'confidence_score': instance.confidenceScore,
-      'timestamp': instance.timestamp.toIso8601String(),
-      if (instance.latitude case final value?) 'latitude': value,
-      if (instance.longitude case final value?) 'longitude': value,
-      if (instance.busRoute case final value?) 'bus_route': value,
-      if (instance.faceImageUrl case final value?) 'face_image_url': value,
-      'model_version': instance.modelVersion,
-      if (instance.metadata case final value?) 'metadata': value,
-      'created_at': instance.createdAt.toIso8601String(),
-    };
+  factory _$BoardingEvent([void Function(BoardingEventBuilder)? updates]) =>
+      (BoardingEventBuilder()..update(updates))._build();
+
+  _$BoardingEvent._(
+      {required this.eventId,
+      required this.student,
+      required this.kioskId,
+      required this.confidenceScore,
+      required this.timestamp,
+      this.latitude,
+      this.longitude,
+      this.busRoute,
+      this.faceImageUrl,
+      required this.modelVersion,
+      this.metadata,
+      required this.createdAt})
+      : super._();
+  @override
+  BoardingEvent rebuild(void Function(BoardingEventBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  BoardingEventBuilder toBuilder() => BoardingEventBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is BoardingEvent &&
+        eventId == other.eventId &&
+        student == other.student &&
+        kioskId == other.kioskId &&
+        confidenceScore == other.confidenceScore &&
+        timestamp == other.timestamp &&
+        latitude == other.latitude &&
+        longitude == other.longitude &&
+        busRoute == other.busRoute &&
+        faceImageUrl == other.faceImageUrl &&
+        modelVersion == other.modelVersion &&
+        metadata == other.metadata &&
+        createdAt == other.createdAt;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, eventId.hashCode);
+    _$hash = $jc(_$hash, student.hashCode);
+    _$hash = $jc(_$hash, kioskId.hashCode);
+    _$hash = $jc(_$hash, confidenceScore.hashCode);
+    _$hash = $jc(_$hash, timestamp.hashCode);
+    _$hash = $jc(_$hash, latitude.hashCode);
+    _$hash = $jc(_$hash, longitude.hashCode);
+    _$hash = $jc(_$hash, busRoute.hashCode);
+    _$hash = $jc(_$hash, faceImageUrl.hashCode);
+    _$hash = $jc(_$hash, modelVersion.hashCode);
+    _$hash = $jc(_$hash, metadata.hashCode);
+    _$hash = $jc(_$hash, createdAt.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'BoardingEvent')
+          ..add('eventId', eventId)
+          ..add('student', student)
+          ..add('kioskId', kioskId)
+          ..add('confidenceScore', confidenceScore)
+          ..add('timestamp', timestamp)
+          ..add('latitude', latitude)
+          ..add('longitude', longitude)
+          ..add('busRoute', busRoute)
+          ..add('faceImageUrl', faceImageUrl)
+          ..add('modelVersion', modelVersion)
+          ..add('metadata', metadata)
+          ..add('createdAt', createdAt))
+        .toString();
+  }
+}
+
+class BoardingEventBuilder
+    implements Builder<BoardingEvent, BoardingEventBuilder> {
+  _$BoardingEvent? _$v;
+
+  String? _eventId;
+  String? get eventId => _$this._eventId;
+  set eventId(String? eventId) => _$this._eventId = eventId;
+
+  String? _student;
+  String? get student => _$this._student;
+  set student(String? student) => _$this._student = student;
+
+  String? _kioskId;
+  String? get kioskId => _$this._kioskId;
+  set kioskId(String? kioskId) => _$this._kioskId = kioskId;
+
+  double? _confidenceScore;
+  double? get confidenceScore => _$this._confidenceScore;
+  set confidenceScore(double? confidenceScore) =>
+      _$this._confidenceScore = confidenceScore;
+
+  DateTime? _timestamp;
+  DateTime? get timestamp => _$this._timestamp;
+  set timestamp(DateTime? timestamp) => _$this._timestamp = timestamp;
+
+  double? _latitude;
+  double? get latitude => _$this._latitude;
+  set latitude(double? latitude) => _$this._latitude = latitude;
+
+  double? _longitude;
+  double? get longitude => _$this._longitude;
+  set longitude(double? longitude) => _$this._longitude = longitude;
+
+  String? _busRoute;
+  String? get busRoute => _$this._busRoute;
+  set busRoute(String? busRoute) => _$this._busRoute = busRoute;
+
+  String? _faceImageUrl;
+  String? get faceImageUrl => _$this._faceImageUrl;
+  set faceImageUrl(String? faceImageUrl) => _$this._faceImageUrl = faceImageUrl;
+
+  String? _modelVersion;
+  String? get modelVersion => _$this._modelVersion;
+  set modelVersion(String? modelVersion) => _$this._modelVersion = modelVersion;
+
+  JsonObject? _metadata;
+  JsonObject? get metadata => _$this._metadata;
+  set metadata(JsonObject? metadata) => _$this._metadata = metadata;
+
+  DateTime? _createdAt;
+  DateTime? get createdAt => _$this._createdAt;
+  set createdAt(DateTime? createdAt) => _$this._createdAt = createdAt;
+
+  BoardingEventBuilder() {
+    BoardingEvent._defaults(this);
+  }
+
+  BoardingEventBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _eventId = $v.eventId;
+      _student = $v.student;
+      _kioskId = $v.kioskId;
+      _confidenceScore = $v.confidenceScore;
+      _timestamp = $v.timestamp;
+      _latitude = $v.latitude;
+      _longitude = $v.longitude;
+      _busRoute = $v.busRoute;
+      _faceImageUrl = $v.faceImageUrl;
+      _modelVersion = $v.modelVersion;
+      _metadata = $v.metadata;
+      _createdAt = $v.createdAt;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(BoardingEvent other) {
+    _$v = other as _$BoardingEvent;
+  }
+
+  @override
+  void update(void Function(BoardingEventBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  BoardingEvent build() => _build();
+
+  _$BoardingEvent _build() {
+    final _$result = _$v ??
+        _$BoardingEvent._(
+          eventId: BuiltValueNullFieldError.checkNotNull(
+              eventId, r'BoardingEvent', 'eventId'),
+          student: BuiltValueNullFieldError.checkNotNull(
+              student, r'BoardingEvent', 'student'),
+          kioskId: BuiltValueNullFieldError.checkNotNull(
+              kioskId, r'BoardingEvent', 'kioskId'),
+          confidenceScore: BuiltValueNullFieldError.checkNotNull(
+              confidenceScore, r'BoardingEvent', 'confidenceScore'),
+          timestamp: BuiltValueNullFieldError.checkNotNull(
+              timestamp, r'BoardingEvent', 'timestamp'),
+          latitude: latitude,
+          longitude: longitude,
+          busRoute: busRoute,
+          faceImageUrl: faceImageUrl,
+          modelVersion: BuiltValueNullFieldError.checkNotNull(
+              modelVersion, r'BoardingEvent', 'modelVersion'),
+          metadata: metadata,
+          createdAt: BuiltValueNullFieldError.checkNotNull(
+              createdAt, r'BoardingEvent', 'createdAt'),
+        );
+    replace(_$result);
+    return _$result;
+  }
+}
+
+// ignore_for_file: deprecated_member_use_from_same_package,type=lint

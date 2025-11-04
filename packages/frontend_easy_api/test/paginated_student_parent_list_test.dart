@@ -1,20 +1,12 @@
-//
-// AUTO-GENERATED FILE, DO NOT MODIFY!
-//
-
-// ignore_for_file: unused_element, unused_import
-// ignore_for_file: always_put_required_named_parameters_first
-// ignore_for_file: constant_identifier_names
-// ignore_for_file: lines_longer_than_80_chars
-
-import 'package:openapi/api.dart';
 import 'package:test/test.dart';
+import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for PaginatedStudentParentList
 void main() {
-  // final instance = PaginatedStudentParentList();
+  final instance = PaginatedStudentParentListBuilder();
+  // TODO add properties to the builder and call build()
 
-  group('test PaginatedStudentParentList', () {
+  group(PaginatedStudentParentList, () {
     // int count
     test('to test the property `count`', () async {
       // TODO
@@ -30,12 +22,10 @@ void main() {
       // TODO
     });
 
-    // List<StudentParent> results (default value: const [])
+    // BuiltList<StudentParent> results
     test('to test the property `results`', () async {
       // TODO
     });
 
-
   });
-
 }

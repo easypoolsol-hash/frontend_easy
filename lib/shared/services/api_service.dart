@@ -25,11 +25,9 @@ class ApiService {
     _api.dio.interceptors.add(AuthInterceptor(_tokenManager));
   }
 
-  /// Get API endpoints access
+  /// Get API endpoints access (all endpoints are under this API class)
+  /// Note: frontend_easy is school-only (no parent portal)
   ApiApi get api => _api.getApiApi();
-
-  /// Get Kiosk activation endpoints access
-  KioskActivationApi get kioskApi => _api.getKioskActivationApi();
 
   /// Get underlying HTTP client for custom requests
   FrontendEasyApi get client => _api;

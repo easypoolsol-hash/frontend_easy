@@ -3,12 +3,12 @@ import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for DashboardStats
 void main() {
-  final DashboardStats? instance = /* DashboardStats(...) */ null;
-  // TODO add properties to the entity
+  final instance = DashboardStatsBuilder();
+  // TODO add properties to the builder and call build()
 
   group(DashboardStats, () {
     // Date for stats (YYYY-MM-DD)
-    // DateTime date
+    // Date date
     test('to test the property `date`', () async {
       // TODO
     });

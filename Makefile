@@ -7,7 +7,7 @@ help:
 	@echo ""
 	@echo "QUICK START:"
 	@echo "  make setup         - First time setup"
-	@echo "  make generate      - Create service interfaces"
+	@echo "  make generate      - Regenerate OpenAPI client"
 	@echo "  make run-web       - Run in web browser"
 	@echo ""
 	@echo "DEVELOPMENT:"
@@ -27,14 +27,26 @@ help:
 setup:
 	@echo "Setting up Imperial EasyPool Frontend..."
 	@flutter pub get
-	@echo "Setup complete! Run 'make generate' to create service interfaces."
+	@echo "Setup complete! Run 'make generate' to regenerate OpenAPI client if needed."
 
-# API client generation
+# API client generation - 2025 GOOGLE STANDARD (dart-dio + built_value)
+# Uses dart-dio generator with built_value serialization for Dio compatibility
+# IMPORTANT: This matches your existing code that expects Response<T>.data pattern
 generate:
-	@echo "Regenerating API client from OpenAPI spec..."
-	@npx @openapitools/openapi-generator-cli generate -c openapi-generator-config.yaml
+	@echo "Step 1/5: Copying latest OpenAPI schema from backend..."
+	@cp ../openapi-schema.yaml ./openapi-schema.yaml
+	@echo "Step 2/5: Removing old generated code..."
+	@rm -rf packages/frontend_easy_api
+	@echo "Step 3/5: Regenerating API client with dart-dio + built_value..."
+	@npx @openapitools/openapi-generator-cli generate -i openapi-schema.yaml -g dart-dio -o packages/frontend_easy_api --additional-properties=pubName=frontend_easy_api
+	@echo "Step 4/5: Installing dependencies..."
 	@cd packages/frontend_easy_api && flutter pub get
-	@echo "API client regenerated with proper JSON serialization!"
+	@echo "Step 5/5: Generating .g.dart files with built_value..."
+	@cd packages/frontend_easy_api && flutter pub run build_runner build --delete-conflicting-outputs
+	@flutter pub get
+	@echo "✅ API client regenerated with dart-dio + built_value!"
+	@echo "📦 Serialization: built_value (Google standard for OpenAPI)"
+	@echo "🔌 HTTP Client: Dio (supports Response<T>.data pattern)"
 
 # Code quality checks
 analyze:
@@ -62,7 +74,6 @@ build-web:
 clean:
 	@echo "Cleaning up..."
 	@flutter clean
-	@rm -rf packages/frontend_easy_api
 	@echo "Cleanup complete!"
 
 # Deployment commands

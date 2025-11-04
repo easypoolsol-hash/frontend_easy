@@ -127,7 +127,11 @@ class RouteRepositoryImpl implements RouteRepository {
     try {
       final List<dynamic> jsonList = jsonDecode(cachedJson);
       return jsonList
-          .map((json) => api.Route.fromJson(json as Map<String, dynamic>))
+          .map((json) => api.standardSerializers.deserializeWith(
+                api.Route.serializer,
+                json,
+              ))
+          .whereType<api.Route>()
           .toList();
     } catch (e, stackTrace) {
       await FirebaseCrashlytics.instance.recordError(
@@ -142,7 +146,12 @@ class RouteRepositoryImpl implements RouteRepository {
 
   Future<void> _cacheRoutes(List<api.Route> routes) async {
     try {
-      final jsonList = routes.map((route) => route.toJson()).toList();
+      final jsonList = routes
+          .map((route) => api.standardSerializers.serializeWith(
+                api.Route.serializer,
+                route,
+              ))
+          .toList();
       await _prefs.setString(_cacheKey, jsonEncode(jsonList));
       await _prefs.setInt(
         _cacheTimestampKey,

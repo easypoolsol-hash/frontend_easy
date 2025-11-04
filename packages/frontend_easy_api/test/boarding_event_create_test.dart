@@ -1,20 +1,12 @@
-//
-// AUTO-GENERATED FILE, DO NOT MODIFY!
-//
-
-// ignore_for_file: unused_element, unused_import
-// ignore_for_file: always_put_required_named_parameters_first
-// ignore_for_file: constant_identifier_names
-// ignore_for_file: lines_longer_than_80_chars
-
-import 'package:openapi/api.dart';
 import 'package:test/test.dart';
+import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for BoardingEventCreate
 void main() {
-  // final instance = BoardingEventCreate();
+  final instance = BoardingEventCreateBuilder();
+  // TODO add properties to the builder and call build()
 
-  group('test BoardingEventCreate', () {
+  group(BoardingEventCreate, () {
     // ULID primary key for global uniqueness and time sorting
     // String eventId
     test('to test the property `eventId`', () async {
@@ -46,7 +38,7 @@ void main() {
     });
 
     // Return GPS coordinates as a tuple for compatibility
-    // List<double> gpsCoords (default value: const [])
+    // BuiltList<double> gpsCoords
     test('to test the property `gpsCoords`', () async {
       // TODO
     });
@@ -70,12 +62,10 @@ void main() {
     });
 
     // Additional metadata as JSON
-    // Object metadata
+    // JsonObject metadata
     test('to test the property `metadata`', () async {
       // TODO
     });
 
-
   });
-
 }

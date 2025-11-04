@@ -1,21 +1,12 @@
-//
-// AUTO-GENERATED FILE, DO NOT MODIFY!
-//
-
-// ignore_for_file: unused_element, unused_import
-// ignore_for_file: always_put_required_named_parameters_first
-// ignore_for_file: constant_identifier_names
-// ignore_for_file: lines_longer_than_80_chars
-
-import 'package:openapi/api.dart';
 import 'package:test/test.dart';
+import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 
 /// tests for ApiApi
 void main() {
-  // final instance = ApiApi();
+  final instance = FrontendEasyApi().getApiApi();
 
-  group('tests for ApiApi', () {
+  group(ApiApi, () {
     //Future<APIKeyCreate> apiV1ApiKeysCreate(APIKeyCreate aPIKeyCreate) async
     test('test apiV1ApiKeysCreate', () async {
       // TODO
@@ -51,14 +42,14 @@ void main() {
       // TODO
     });
 
-    // Read-only ViewSet for attendance records
+    // Read-only ViewSet for attendance records  PERMISSION: IsSchoolAdmin (school administrators only)  NOTE: Old permission was IsAuthenticated (too permissive!) Now using AWS-style deny-by-default with explicit permissions.
     //
-    //Future<PaginatedAttendanceRecordList> apiV1AttendanceList({ DateTime date, int page, String status, String student }) async
+    //Future<PaginatedAttendanceRecordList> apiV1AttendanceList({ Date date, int page, String status, String student }) async
     test('test apiV1AttendanceList', () async {
       // TODO
     });
 
-    // Read-only ViewSet for attendance records
+    // Read-only ViewSet for attendance records  PERMISSION: IsSchoolAdmin (school administrators only)  NOTE: Old permission was IsAuthenticated (too permissive!) Now using AWS-style deny-by-default with explicit permissions.
     //
     //Future<AttendanceRecord> apiV1AttendanceRetrieve(String recordId) async
     test('test apiV1AttendanceRetrieve', () async {
@@ -89,20 +80,6 @@ void main() {
       // TODO
     });
 
-    // Takes a set of user credentials and returns an access and refresh JSON web token pair to prove the authentication of those credentials.
-    //
-    //Future<TokenObtainPair> apiV1AuthTokenCreate(TokenObtainPair tokenObtainPair) async
-    test('test apiV1AuthTokenCreate', () async {
-      // TODO
-    });
-
-    //      Custom TokenRefreshView that supports both regular JWT and kiosk JWT tokens.      **Token Rotation Security:**     - Accepts: refresh token only     - Returns: NEW access token (15 min) + NEW refresh token (60 days)     - Old refresh token is immediately blacklisted (cannot be reused)     
-    //
-    //Future<TokenRefreshResponse> apiV1AuthTokenRefreshCreate(TokenRefreshRequest tokenRefreshRequest) async
-    test('test apiV1AuthTokenRefreshCreate', () async {
-      // TODO
-    });
-
     // Bulk create boarding events (for high-throughput kiosk operations)
     //
     //Future<BoardingEvent> apiV1BoardingEventsBulkCreate(BoardingEvent boardingEvent) async
@@ -110,28 +87,28 @@ void main() {
       // TODO
     });
 
-    // ViewSet for boarding events
+    // ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices only) - LIST/RETRIEVE/UPDATE/DELETE: IsSchoolAdmin (school admins only) - RECENT: IsSchoolAdmin (school admins only)  NOTE: Old permission was IsAuthenticated (too permissive!) Now using AWS-style deny-by-default with explicit permissions.
     //
     //Future<BoardingEventCreate> apiV1BoardingEventsCreate(BoardingEventCreate boardingEventCreate) async
     test('test apiV1BoardingEventsCreate', () async {
       // TODO
     });
 
-    // ViewSet for boarding events
+    // ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices only) - LIST/RETRIEVE/UPDATE/DELETE: IsSchoolAdmin (school admins only) - RECENT: IsSchoolAdmin (school admins only)  NOTE: Old permission was IsAuthenticated (too permissive!) Now using AWS-style deny-by-default with explicit permissions.
     //
     //Future apiV1BoardingEventsDestroy(String eventId) async
     test('test apiV1BoardingEventsDestroy', () async {
       // TODO
     });
 
-    // ViewSet for boarding events
+    // ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices only) - LIST/RETRIEVE/UPDATE/DELETE: IsSchoolAdmin (school admins only) - RECENT: IsSchoolAdmin (school admins only)  NOTE: Old permission was IsAuthenticated (too permissive!) Now using AWS-style deny-by-default with explicit permissions.
     //
     //Future<PaginatedBoardingEventList> apiV1BoardingEventsList({ String busRoute, String kioskId, int page, String student, DateTime timestamp }) async
     test('test apiV1BoardingEventsList', () async {
       // TODO
     });
 
-    // ViewSet for boarding events
+    // ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices only) - LIST/RETRIEVE/UPDATE/DELETE: IsSchoolAdmin (school admins only) - RECENT: IsSchoolAdmin (school admins only)  NOTE: Old permission was IsAuthenticated (too permissive!) Now using AWS-style deny-by-default with explicit permissions.
     //
     //Future<BoardingEvent> apiV1BoardingEventsPartialUpdate(String eventId, { PatchedBoardingEvent patchedBoardingEvent }) async
     test('test apiV1BoardingEventsPartialUpdate', () async {
@@ -145,14 +122,14 @@ void main() {
       // TODO
     });
 
-    // ViewSet for boarding events
+    // ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices only) - LIST/RETRIEVE/UPDATE/DELETE: IsSchoolAdmin (school admins only) - RECENT: IsSchoolAdmin (school admins only)  NOTE: Old permission was IsAuthenticated (too permissive!) Now using AWS-style deny-by-default with explicit permissions.
     //
     //Future<BoardingEvent> apiV1BoardingEventsRetrieve(String eventId) async
     test('test apiV1BoardingEventsRetrieve', () async {
       // TODO
     });
 
-    // ViewSet for boarding events
+    // ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices only) - LIST/RETRIEVE/UPDATE/DELETE: IsSchoolAdmin (school admins only) - RECENT: IsSchoolAdmin (school admins only)  NOTE: Old permission was IsAuthenticated (too permissive!) Now using AWS-style deny-by-default with explicit permissions.
     //
     //Future<BoardingEvent> apiV1BoardingEventsUpdate(String eventId, BoardingEvent boardingEvent) async
     test('test apiV1BoardingEventsUpdate', () async {
@@ -222,10 +199,119 @@ void main() {
       // TODO
     });
 
+    // Get dashboard summary statistics
+    //
+    // Returns summary statistics for school dashboard (buses, students boarded) for TODAY only. Cached for 10 seconds.
+    //
+    //Future<DashboardStats> apiV1DashboardStatsRetrieve() async
+    test('test apiV1DashboardStatsRetrieve', () async {
+      // TODO
+    });
+
+    // Get students with boarding events
+    //
+    // Returns paginated list of students who boarded TODAY with all their events
+    //
+    //Future<DashboardStudentsResponse> apiV1DashboardStudentsRetrieve({ int limit, int offset }) async
+    test('test apiV1DashboardStudentsRetrieve', () async {
+      // TODO
+    });
+
+    // Geocode an address to coordinates.  POST /api/v1/geocode/ Body: {\"address\": \"Imperial College London\"}  Returns: {     \"latitude\": 51.4988,     \"longitude\": -0.1749,     \"formatted_address\": \"Imperial College London, Exhibition Rd, London SW7 2AZ, UK\" }
+    //
+    //Future apiV1GeocodeCreate() async
+    test('test apiV1GeocodeCreate', () async {
+      // TODO
+    });
+
+    // API endpoint for Groups (Roles). Read-only following IAM principle - groups managed via seed_groups command. Groups represent user roles: school_admin, parent, driver.
+    //
+    //Future<PaginatedGroupList> apiV1GroupsList({ String ordering, int page, String search }) async
+    test('test apiV1GroupsList', () async {
+      // TODO
+    });
+
+    // API endpoint for Groups (Roles). Read-only following IAM principle - groups managed via seed_groups command. Groups represent user roles: school_admin, parent, driver.
+    //
+    //Future<Group> apiV1GroupsRetrieve(int id) async
+    test('test apiV1GroupsRetrieve', () async {
+      // TODO
+    });
+
     // Student boarding endpoint - returns immediate approval and schedules background processing
     //
-    //Future<ApiV1KioskBoardingCreate200Response> apiV1KioskBoardingCreate({ Map<String, Object> requestBody }) async
+    //Future<ApiV1KioskBoardingCreate200Response> apiV1KioskBoardingCreate({ BuiltMap<String, JsonObject> requestBody }) async
     test('test apiV1KioskBoardingCreate', () async {
+      // TODO
+    });
+
+    // ViewSet for kiosk management (admin only)
+    //
+    //Future<Kiosk> apiV1KiosksCreate({ Kiosk kiosk }) async
+    test('test apiV1KiosksCreate', () async {
+      // TODO
+    });
+
+    // ViewSet for kiosk management (admin only)
+    //
+    //Future apiV1KiosksDestroy(String kioskId) async
+    test('test apiV1KiosksDestroy', () async {
+      // TODO
+    });
+
+    // ViewSet for kiosk management (admin only)
+    //
+    //Future<PaginatedKioskList> apiV1KiosksList({ String ordering, int page, String search }) async
+    test('test apiV1KiosksList', () async {
+      // TODO
+    });
+
+    // ViewSet for kiosk management (admin only)
+    //
+    //Future<Kiosk> apiV1KiosksPartialUpdate(String kioskId, { PatchedKiosk patchedKiosk }) async
+    test('test apiV1KiosksPartialUpdate', () async {
+      // TODO
+    });
+
+    // ViewSet for kiosk management (admin only)
+    //
+    //Future<Kiosk> apiV1KiosksRetrieve(String kioskId) async
+    test('test apiV1KiosksRetrieve', () async {
+      // TODO
+    });
+
+    // ViewSet for kiosk management (admin only)
+    //
+    //Future<Kiosk> apiV1KiosksUpdate(String kioskId, { Kiosk kiosk }) async
+    test('test apiV1KiosksUpdate', () async {
+      // TODO
+    });
+
+    // Bus locations API for school dashboard (any authenticated user).  Returns real-time bus locations for ALL buses in the fleet as GeoJSON. Accessible by any authenticated user.
+    //
+    //Future apiV1LocationsRetrieve() async
+    test('test apiV1LocationsRetrieve', () async {
+      // TODO
+    });
+
+    // Read-only ViewSet for device logs (any authenticated user)
+    //
+    //Future<PaginatedDeviceLogList> apiV1LogsList({ String kiosk, String logLevel, int page, DateTime timestamp }) async
+    test('test apiV1LogsList', () async {
+      // TODO
+    });
+
+    // Read-only ViewSet for device logs (any authenticated user)
+    //
+    //Future<DeviceLog> apiV1LogsRetrieve(int logId) async
+    test('test apiV1LogsRetrieve', () async {
+      // TODO
+    });
+
+    // Get logs summary by level and time
+    //
+    //Future<DeviceLog> apiV1LogsSummaryRetrieve() async
+    test('test apiV1LogsSummaryRetrieve', () async {
       // TODO
     });
 
@@ -261,16 +347,6 @@ void main() {
 
     //Future<Parent> apiV1ParentsUpdate(String parentId, Parent parent) async
     test('test apiV1ParentsUpdate', () async {
-      // TODO
-    });
-
-    //Future<PaginatedRoleList> apiV1RolesList({ String ordering, int page, String search }) async
-    test('test apiV1RolesList', () async {
-      // TODO
-    });
-
-    //Future<Role> apiV1RolesRetrieve(String roleId) async
-    test('test apiV1RolesRetrieve', () async {
       // TODO
     });
 
@@ -327,6 +403,13 @@ void main() {
     //
     //Future<Route> apiV1RoutesUpdate(String routeId, Route route) async
     test('test apiV1RoutesUpdate', () async {
+      // TODO
+    });
+
+    // Bus locations API for school dashboard (any authenticated user).  Returns real-time bus locations for ALL buses in the fleet as GeoJSON. Accessible by any authenticated user.
+    //
+    //Future apiV1SchoolApiBusLocationsRetrieve() async
+    test('test apiV1SchoolApiBusLocationsRetrieve', () async {
       // TODO
     });
 
@@ -465,7 +548,7 @@ void main() {
       // TODO
     });
 
-    //Future<UserCreate> apiV1UsersCreate(UserCreate userCreate) async
+    //Future<User> apiV1UsersCreate(User user) async
     test('test apiV1UsersCreate', () async {
       // TODO
     });
@@ -477,18 +560,6 @@ void main() {
 
     //Future<PaginatedUserList> apiV1UsersList({ String ordering, int page, String search }) async
     test('test apiV1UsersList', () async {
-      // TODO
-    });
-
-    //Future<User> apiV1UsersLoginCreate(User user) async
-    test('test apiV1UsersLoginCreate', () async {
-      // TODO
-    });
-
-    // Logout endpoint - Blacklists refresh token (Fortune 500 standard)  Security: Prevents token reuse even if stolen  Request Body: { \"refresh\": \"...\" } Returns: 200 { \"message\": \"Logout successful\" }
-    //
-    //Future<User> apiV1UsersLogoutCreate(User user) async
-    test('test apiV1UsersLogoutCreate', () async {
       // TODO
     });
 
@@ -523,7 +594,7 @@ void main() {
 
     // Download kiosk database snapshot (binary SQLite file). Returns raw binary data with x-snapshot-checksum header for verification.
     //
-    //Future<MultipartFile> kioskDownloadSnapshot(String kioskId) async
+    //Future<Uint8List> kioskDownloadSnapshot(String kioskId) async
     test('test kioskDownloadSnapshot', () async {
       // TODO
     });

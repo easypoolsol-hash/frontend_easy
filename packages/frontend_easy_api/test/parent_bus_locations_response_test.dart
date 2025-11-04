@@ -3,8 +3,8 @@ import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for ParentBusLocationsResponse
 void main() {
-  final ParentBusLocationsResponse? instance = /* ParentBusLocationsResponse(...) */ null;
-  // TODO add properties to the entity
+  final instance = ParentBusLocationsResponseBuilder();
+  // TODO add properties to the builder and call build()
 
   group(ParentBusLocationsResponse, () {
     // String type (default value: 'FeatureCollection')
@@ -13,7 +13,7 @@ void main() {
     });
 
     // GeoJSON features array
-    // List<Map<String, Object>> features
+    // BuiltList<BuiltMap<String, JsonObject>> features
     test('to test the property `features`', () async {
       // TODO
     });

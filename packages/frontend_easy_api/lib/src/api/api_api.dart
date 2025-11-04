@@ -4,11 +4,14 @@
 
 import 'dart:async';
 
-// ignore: unused_import
-import 'dart:convert';
-import 'package:frontend_easy_api/src/deserialize.dart';
+import 'package:built_value/json_object.dart';
+import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
+import 'dart:typed_data';
+import 'package:built_collection/built_collection.dart';
+import 'package:built_value/json_object.dart';
+import 'package:frontend_easy_api/src/api_util.dart';
 import 'package:frontend_easy_api/src/model/api_key.dart';
 import 'package:frontend_easy_api/src/model/api_key_create.dart';
 import 'package:frontend_easy_api/src/model/api_v1_kiosk_boarding_create200_response.dart';
@@ -21,16 +24,21 @@ import 'package:frontend_easy_api/src/model/bus_location.dart';
 import 'package:frontend_easy_api/src/model/check_updates_response.dart';
 import 'package:frontend_easy_api/src/model/dashboard_stats.dart';
 import 'package:frontend_easy_api/src/model/dashboard_students_response.dart';
+import 'package:frontend_easy_api/src/model/date.dart';
 import 'package:frontend_easy_api/src/model/device_log.dart';
+import 'package:frontend_easy_api/src/model/group.dart';
 import 'package:frontend_easy_api/src/model/heartbeat.dart';
+import 'package:frontend_easy_api/src/model/kiosk.dart';
 import 'package:frontend_easy_api/src/model/kiosk_log200_response.dart';
 import 'package:frontend_easy_api/src/model/paginated_api_key_list.dart';
 import 'package:frontend_easy_api/src/model/paginated_attendance_record_list.dart';
 import 'package:frontend_easy_api/src/model/paginated_audit_log_list.dart';
 import 'package:frontend_easy_api/src/model/paginated_boarding_event_list.dart';
 import 'package:frontend_easy_api/src/model/paginated_bus_list.dart';
+import 'package:frontend_easy_api/src/model/paginated_device_log_list.dart';
+import 'package:frontend_easy_api/src/model/paginated_group_list.dart';
+import 'package:frontend_easy_api/src/model/paginated_kiosk_list.dart';
 import 'package:frontend_easy_api/src/model/paginated_parent_list.dart';
-import 'package:frontend_easy_api/src/model/paginated_role_list.dart';
 import 'package:frontend_easy_api/src/model/paginated_route_list.dart';
 import 'package:frontend_easy_api/src/model/paginated_school_list.dart';
 import 'package:frontend_easy_api/src/model/paginated_student_list.dart';
@@ -41,6 +49,7 @@ import 'package:frontend_easy_api/src/model/parent.dart';
 import 'package:frontend_easy_api/src/model/patched_api_key.dart';
 import 'package:frontend_easy_api/src/model/patched_boarding_event.dart';
 import 'package:frontend_easy_api/src/model/patched_bus.dart';
+import 'package:frontend_easy_api/src/model/patched_kiosk.dart';
 import 'package:frontend_easy_api/src/model/patched_parent.dart';
 import 'package:frontend_easy_api/src/model/patched_route.dart';
 import 'package:frontend_easy_api/src/model/patched_school.dart';
@@ -48,23 +57,20 @@ import 'package:frontend_easy_api/src/model/patched_student.dart';
 import 'package:frontend_easy_api/src/model/patched_student_parent.dart';
 import 'package:frontend_easy_api/src/model/patched_student_photo.dart';
 import 'package:frontend_easy_api/src/model/patched_user.dart';
-import 'package:frontend_easy_api/src/model/role.dart';
 import 'package:frontend_easy_api/src/model/route.dart';
 import 'package:frontend_easy_api/src/model/school.dart';
 import 'package:frontend_easy_api/src/model/student.dart';
 import 'package:frontend_easy_api/src/model/student_parent.dart';
 import 'package:frontend_easy_api/src/model/student_photo.dart';
-import 'package:frontend_easy_api/src/model/token_obtain_pair.dart';
-import 'package:frontend_easy_api/src/model/token_refresh_request.dart';
-import 'package:frontend_easy_api/src/model/token_refresh_response.dart';
 import 'package:frontend_easy_api/src/model/user.dart';
-import 'package:frontend_easy_api/src/model/user_create.dart';
 
 class ApiApi {
 
   final Dio _dio;
 
-  const ApiApi(this._dio);
+  final Serializers _serializers;
+
+  const ApiApi(this._dio, this._serializers);
 
   /// apiV1ApiKeysCreate
   /// 
@@ -102,14 +108,6 @@ class ApiApi {
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -121,7 +119,9 @@ class ApiApi {
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(aPIKeyCreate);
+      const _type = FullType(APIKeyCreate);
+      _bodyData = _serializers.serialize(aPIKeyCreate, specifiedType: _type);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -146,8 +146,12 @@ _bodyData=jsonEncode(aPIKeyCreate);
     APIKeyCreate? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<APIKeyCreate, APIKeyCreate>(rawData, 'APIKeyCreate', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(APIKeyCreate),
+      ) as APIKeyCreate;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -193,7 +197,7 @@ _responseData = rawData == null ? null : deserialize<APIKeyCreate, APIKeyCreate>
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/api-keys/{key_id}/'.replaceAll('{' r'key_id' '}', keyId.toString());
+    final _path = r'/api/v1/api-keys/{key_id}/'.replaceAll('{' r'key_id' '}', encodeQueryParameter(_serializers, keyId, const FullType(String)).toString());
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -206,14 +210,6 @@ _responseData = rawData == null ? null : deserialize<APIKeyCreate, APIKeyCreate>
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -272,14 +268,6 @@ _responseData = rawData == null ? null : deserialize<APIKeyCreate, APIKeyCreate>
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -288,9 +276,9 @@ _responseData = rawData == null ? null : deserialize<APIKeyCreate, APIKeyCreate>
     );
 
     final _queryParameters = <String, dynamic>{
-      if (ordering != null) r'ordering': ordering,
-      if (page != null) r'page': page,
-      if (search != null) r'search': search,
+      if (ordering != null) r'ordering': encodeQueryParameter(_serializers, ordering, const FullType(String)),
+      if (page != null) r'page': encodeQueryParameter(_serializers, page, const FullType(int)),
+      if (search != null) r'search': encodeQueryParameter(_serializers, search, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
@@ -305,8 +293,12 @@ _responseData = rawData == null ? null : deserialize<APIKeyCreate, APIKeyCreate>
     PaginatedAPIKeyList? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<PaginatedAPIKeyList, PaginatedAPIKeyList>(rawData, 'PaginatedAPIKeyList', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(PaginatedAPIKeyList),
+      ) as PaginatedAPIKeyList;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -354,7 +346,7 @@ _responseData = rawData == null ? null : deserialize<PaginatedAPIKeyList, Pagina
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/api-keys/{key_id}/'.replaceAll('{' r'key_id' '}', keyId.toString());
+    final _path = r'/api/v1/api-keys/{key_id}/'.replaceAll('{' r'key_id' '}', encodeQueryParameter(_serializers, keyId, const FullType(String)).toString());
     final _options = Options(
       method: r'PATCH',
       headers: <String, dynamic>{
@@ -367,14 +359,6 @@ _responseData = rawData == null ? null : deserialize<PaginatedAPIKeyList, Pagina
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -386,7 +370,9 @@ _responseData = rawData == null ? null : deserialize<PaginatedAPIKeyList, Pagina
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(patchedAPIKey);
+      const _type = FullType(PatchedAPIKey);
+      _bodyData = patchedAPIKey == null ? null : _serializers.serialize(patchedAPIKey, specifiedType: _type);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -411,8 +397,12 @@ _bodyData=jsonEncode(patchedAPIKey);
     APIKey? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<APIKey, APIKey>(rawData, 'APIKey', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(APIKey),
+      ) as APIKey;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -458,7 +448,7 @@ _responseData = rawData == null ? null : deserialize<APIKey, APIKey>(rawData, 'A
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/api-keys/{key_id}/'.replaceAll('{' r'key_id' '}', keyId.toString());
+    final _path = r'/api/v1/api-keys/{key_id}/'.replaceAll('{' r'key_id' '}', encodeQueryParameter(_serializers, keyId, const FullType(String)).toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -471,14 +461,6 @@ _responseData = rawData == null ? null : deserialize<APIKey, APIKey>(rawData, 'A
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -497,8 +479,12 @@ _responseData = rawData == null ? null : deserialize<APIKey, APIKey>(rawData, 'A
     APIKey? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<APIKey, APIKey>(rawData, 'APIKey', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(APIKey),
+      ) as APIKey;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -546,7 +532,7 @@ _responseData = rawData == null ? null : deserialize<APIKey, APIKey>(rawData, 'A
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/api-keys/{key_id}/revoke/'.replaceAll('{' r'key_id' '}', keyId.toString());
+    final _path = r'/api/v1/api-keys/{key_id}/revoke/'.replaceAll('{' r'key_id' '}', encodeQueryParameter(_serializers, keyId, const FullType(String)).toString());
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
@@ -559,14 +545,6 @@ _responseData = rawData == null ? null : deserialize<APIKey, APIKey>(rawData, 'A
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -578,7 +556,9 @@ _responseData = rawData == null ? null : deserialize<APIKey, APIKey>(rawData, 'A
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(aPIKey);
+      const _type = FullType(APIKey);
+      _bodyData = _serializers.serialize(aPIKey, specifiedType: _type);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -603,8 +583,12 @@ _bodyData=jsonEncode(aPIKey);
     APIKey? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<APIKey, APIKey>(rawData, 'APIKey', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(APIKey),
+      ) as APIKey;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -652,7 +636,7 @@ _responseData = rawData == null ? null : deserialize<APIKey, APIKey>(rawData, 'A
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/api-keys/{key_id}/'.replaceAll('{' r'key_id' '}', keyId.toString());
+    final _path = r'/api/v1/api-keys/{key_id}/'.replaceAll('{' r'key_id' '}', encodeQueryParameter(_serializers, keyId, const FullType(String)).toString());
     final _options = Options(
       method: r'PUT',
       headers: <String, dynamic>{
@@ -665,14 +649,6 @@ _responseData = rawData == null ? null : deserialize<APIKey, APIKey>(rawData, 'A
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -684,7 +660,9 @@ _responseData = rawData == null ? null : deserialize<APIKey, APIKey>(rawData, 'A
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(aPIKey);
+      const _type = FullType(APIKey);
+      _bodyData = _serializers.serialize(aPIKey, specifiedType: _type);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -709,8 +687,12 @@ _bodyData=jsonEncode(aPIKey);
     APIKey? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<APIKey, APIKey>(rawData, 'APIKey', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(APIKey),
+      ) as APIKey;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -751,7 +733,7 @@ _responseData = rawData == null ? null : deserialize<APIKey, APIKey>(rawData, 'A
   /// Returns a [Future] containing a [Response] with a [PaginatedAttendanceRecordList] as data
   /// Throws [DioException] if API call or serialization fails
   Future<Response<PaginatedAttendanceRecordList>> apiV1AttendanceList({ 
-    DateTime? date,
+    Date? date,
     int? page,
     String? status,
     String? student,
@@ -775,14 +757,6 @@ _responseData = rawData == null ? null : deserialize<APIKey, APIKey>(rawData, 'A
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -791,10 +765,10 @@ _responseData = rawData == null ? null : deserialize<APIKey, APIKey>(rawData, 'A
     );
 
     final _queryParameters = <String, dynamic>{
-      if (date != null) r'date': date,
-      if (page != null) r'page': page,
-      if (status != null) r'status': status,
-      if (student != null) r'student': student,
+      if (date != null) r'date': encodeQueryParameter(_serializers, date, const FullType(Date)),
+      if (page != null) r'page': encodeQueryParameter(_serializers, page, const FullType(int)),
+      if (status != null) r'status': encodeQueryParameter(_serializers, status, const FullType(String)),
+      if (student != null) r'student': encodeQueryParameter(_serializers, student, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
@@ -809,8 +783,12 @@ _responseData = rawData == null ? null : deserialize<APIKey, APIKey>(rawData, 'A
     PaginatedAttendanceRecordList? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<PaginatedAttendanceRecordList, PaginatedAttendanceRecordList>(rawData, 'PaginatedAttendanceRecordList', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(PaginatedAttendanceRecordList),
+      ) as PaginatedAttendanceRecordList;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -856,7 +834,7 @@ _responseData = rawData == null ? null : deserialize<PaginatedAttendanceRecordLi
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/attendance/{record_id}/'.replaceAll('{' r'record_id' '}', recordId.toString());
+    final _path = r'/api/v1/attendance/{record_id}/'.replaceAll('{' r'record_id' '}', encodeQueryParameter(_serializers, recordId, const FullType(String)).toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -869,14 +847,6 @@ _responseData = rawData == null ? null : deserialize<PaginatedAttendanceRecordLi
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -895,8 +865,12 @@ _responseData = rawData == null ? null : deserialize<PaginatedAttendanceRecordLi
     AttendanceRecord? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<AttendanceRecord, AttendanceRecord>(rawData, 'AttendanceRecord', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(AttendanceRecord),
+      ) as AttendanceRecord;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -942,7 +916,7 @@ _responseData = rawData == null ? null : deserialize<AttendanceRecord, Attendanc
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/attendance/student/{student_id}/'.replaceAll('{' r'student_id' '}', studentId.toString());
+    final _path = r'/api/v1/attendance/student/{student_id}/'.replaceAll('{' r'student_id' '}', encodeQueryParameter(_serializers, studentId, const FullType(String)).toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -955,14 +929,6 @@ _responseData = rawData == null ? null : deserialize<AttendanceRecord, Attendanc
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -981,8 +947,12 @@ _responseData = rawData == null ? null : deserialize<AttendanceRecord, Attendanc
     AttendanceRecord? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<AttendanceRecord, AttendanceRecord>(rawData, 'AttendanceRecord', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(AttendanceRecord),
+      ) as AttendanceRecord;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1039,14 +1009,6 @@ _responseData = rawData == null ? null : deserialize<AttendanceRecord, Attendanc
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -1065,8 +1027,12 @@ _responseData = rawData == null ? null : deserialize<AttendanceRecord, Attendanc
     AttendanceRecord? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<AttendanceRecord, AttendanceRecord>(rawData, 'AttendanceRecord', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(AttendanceRecord),
+      ) as AttendanceRecord;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1129,14 +1095,6 @@ _responseData = rawData == null ? null : deserialize<AttendanceRecord, Attendanc
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -1145,9 +1103,9 @@ _responseData = rawData == null ? null : deserialize<AttendanceRecord, Attendanc
     );
 
     final _queryParameters = <String, dynamic>{
-      if (ordering != null) r'ordering': ordering,
-      if (page != null) r'page': page,
-      if (search != null) r'search': search,
+      if (ordering != null) r'ordering': encodeQueryParameter(_serializers, ordering, const FullType(String)),
+      if (page != null) r'page': encodeQueryParameter(_serializers, page, const FullType(int)),
+      if (search != null) r'search': encodeQueryParameter(_serializers, search, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
@@ -1162,8 +1120,12 @@ _responseData = rawData == null ? null : deserialize<AttendanceRecord, Attendanc
     PaginatedAuditLogList? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<PaginatedAuditLogList, PaginatedAuditLogList>(rawData, 'PaginatedAuditLogList', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(PaginatedAuditLogList),
+      ) as PaginatedAuditLogList;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1209,7 +1171,7 @@ _responseData = rawData == null ? null : deserialize<PaginatedAuditLogList, Pagi
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/audit-logs/{log_id}/'.replaceAll('{' r'log_id' '}', logId.toString());
+    final _path = r'/api/v1/audit-logs/{log_id}/'.replaceAll('{' r'log_id' '}', encodeQueryParameter(_serializers, logId, const FullType(int)).toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -1222,14 +1184,6 @@ _responseData = rawData == null ? null : deserialize<PaginatedAuditLogList, Pagi
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -1248,8 +1202,12 @@ _responseData = rawData == null ? null : deserialize<PaginatedAuditLogList, Pagi
     AuditLog? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<AuditLog, AuditLog>(rawData, 'AuditLog', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(AuditLog),
+      ) as AuditLog;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1261,184 +1219,6 @@ _responseData = rawData == null ? null : deserialize<AuditLog, AuditLog>(rawData
     }
 
     return Response<AuditLog>(
-      data: _responseData,
-      headers: _response.headers,
-      isRedirect: _response.isRedirect,
-      requestOptions: _response.requestOptions,
-      redirects: _response.redirects,
-      statusCode: _response.statusCode,
-      statusMessage: _response.statusMessage,
-      extra: _response.extra,
-    );
-  }
-
-  /// apiV1AuthTokenCreate
-  /// Takes a set of user credentials and returns an access and refresh JSON web token pair to prove the authentication of those credentials.
-  ///
-  /// Parameters:
-  /// * [tokenObtainPair] 
-  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
-  /// * [headers] - Can be used to add additional headers to the request
-  /// * [extras] - Can be used to add flags to the request
-  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
-  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
-  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
-  ///
-  /// Returns a [Future] containing a [Response] with a [TokenObtainPair] as data
-  /// Throws [DioException] if API call or serialization fails
-  Future<Response<TokenObtainPair>> apiV1AuthTokenCreate({ 
-    required TokenObtainPair tokenObtainPair,
-    CancelToken? cancelToken,
-    Map<String, dynamic>? headers,
-    Map<String, dynamic>? extra,
-    ValidateStatus? validateStatus,
-    ProgressCallback? onSendProgress,
-    ProgressCallback? onReceiveProgress,
-  }) async {
-    final _path = r'/api/v1/auth/token/';
-    final _options = Options(
-      method: r'POST',
-      headers: <String, dynamic>{
-        ...?headers,
-      },
-      extra: <String, dynamic>{
-        'secure': <Map<String, String>>[],
-        ...?extra,
-      },
-      contentType: 'application/json',
-      validateStatus: validateStatus,
-    );
-
-    dynamic _bodyData;
-
-    try {
-_bodyData=jsonEncode(tokenObtainPair);
-    } catch(error, stackTrace) {
-      throw DioException(
-         requestOptions: _options.compose(
-          _dio.options,
-          _path,
-        ),
-        type: DioExceptionType.unknown,
-        error: error,
-        stackTrace: stackTrace,
-      );
-    }
-
-    final _response = await _dio.request<Object>(
-      _path,
-      data: _bodyData,
-      options: _options,
-      cancelToken: cancelToken,
-      onSendProgress: onSendProgress,
-      onReceiveProgress: onReceiveProgress,
-    );
-
-    TokenObtainPair? _responseData;
-
-    try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<TokenObtainPair, TokenObtainPair>(rawData, 'TokenObtainPair', growable: true);
-    } catch (error, stackTrace) {
-      throw DioException(
-        requestOptions: _response.requestOptions,
-        response: _response,
-        type: DioExceptionType.unknown,
-        error: error,
-        stackTrace: stackTrace,
-      );
-    }
-
-    return Response<TokenObtainPair>(
-      data: _responseData,
-      headers: _response.headers,
-      isRedirect: _response.isRedirect,
-      requestOptions: _response.requestOptions,
-      redirects: _response.redirects,
-      statusCode: _response.statusCode,
-      statusMessage: _response.statusMessage,
-      extra: _response.extra,
-    );
-  }
-
-  /// apiV1AuthTokenRefreshCreate
-  ///      Custom TokenRefreshView that supports both regular JWT and kiosk JWT tokens.      **Token Rotation Security:**     - Accepts: refresh token only     - Returns: NEW access token (15 min) + NEW refresh token (60 days)     - Old refresh token is immediately blacklisted (cannot be reused)     
-  ///
-  /// Parameters:
-  /// * [tokenRefreshRequest] 
-  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
-  /// * [headers] - Can be used to add additional headers to the request
-  /// * [extras] - Can be used to add flags to the request
-  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
-  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
-  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
-  ///
-  /// Returns a [Future] containing a [Response] with a [TokenRefreshResponse] as data
-  /// Throws [DioException] if API call or serialization fails
-  Future<Response<TokenRefreshResponse>> apiV1AuthTokenRefreshCreate({ 
-    required TokenRefreshRequest tokenRefreshRequest,
-    CancelToken? cancelToken,
-    Map<String, dynamic>? headers,
-    Map<String, dynamic>? extra,
-    ValidateStatus? validateStatus,
-    ProgressCallback? onSendProgress,
-    ProgressCallback? onReceiveProgress,
-  }) async {
-    final _path = r'/api/v1/auth/token/refresh/';
-    final _options = Options(
-      method: r'POST',
-      headers: <String, dynamic>{
-        ...?headers,
-      },
-      extra: <String, dynamic>{
-        'secure': <Map<String, String>>[],
-        ...?extra,
-      },
-      contentType: 'application/json',
-      validateStatus: validateStatus,
-    );
-
-    dynamic _bodyData;
-
-    try {
-_bodyData=jsonEncode(tokenRefreshRequest);
-    } catch(error, stackTrace) {
-      throw DioException(
-         requestOptions: _options.compose(
-          _dio.options,
-          _path,
-        ),
-        type: DioExceptionType.unknown,
-        error: error,
-        stackTrace: stackTrace,
-      );
-    }
-
-    final _response = await _dio.request<Object>(
-      _path,
-      data: _bodyData,
-      options: _options,
-      cancelToken: cancelToken,
-      onSendProgress: onSendProgress,
-      onReceiveProgress: onReceiveProgress,
-    );
-
-    TokenRefreshResponse? _responseData;
-
-    try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<TokenRefreshResponse, TokenRefreshResponse>(rawData, 'TokenRefreshResponse', growable: true);
-    } catch (error, stackTrace) {
-      throw DioException(
-        requestOptions: _response.requestOptions,
-        response: _response,
-        type: DioExceptionType.unknown,
-        error: error,
-        stackTrace: stackTrace,
-      );
-    }
-
-    return Response<TokenRefreshResponse>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -1480,13 +1260,7 @@ _responseData = rawData == null ? null : deserialize<TokenRefreshResponse, Token
         ...?headers,
       },
       extra: <String, dynamic>{
-        'secure': <Map<String, String>>[
-          {
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
-          },
-        ],
+        'secure': <Map<String, String>>[],
         ...?extra,
       },
       contentType: 'application/json',
@@ -1496,7 +1270,9 @@ _responseData = rawData == null ? null : deserialize<TokenRefreshResponse, Token
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(boardingEvent);
+      const _type = FullType(BoardingEvent);
+      _bodyData = _serializers.serialize(boardingEvent, specifiedType: _type);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -1521,8 +1297,12 @@ _bodyData=jsonEncode(boardingEvent);
     BoardingEvent? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<BoardingEvent, BoardingEvent>(rawData, 'BoardingEvent', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(BoardingEvent),
+      ) as BoardingEvent;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1575,13 +1355,7 @@ _responseData = rawData == null ? null : deserialize<BoardingEvent, BoardingEven
         ...?headers,
       },
       extra: <String, dynamic>{
-        'secure': <Map<String, String>>[
-          {
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
-          },
-        ],
+        'secure': <Map<String, String>>[],
         ...?extra,
       },
       contentType: 'application/json',
@@ -1591,7 +1365,9 @@ _responseData = rawData == null ? null : deserialize<BoardingEvent, BoardingEven
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(boardingEventCreate);
+      const _type = FullType(BoardingEventCreate);
+      _bodyData = _serializers.serialize(boardingEventCreate, specifiedType: _type);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -1616,8 +1392,12 @@ _bodyData=jsonEncode(boardingEventCreate);
     BoardingEventCreate? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<BoardingEventCreate, BoardingEventCreate>(rawData, 'BoardingEventCreate', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(BoardingEventCreate),
+      ) as BoardingEventCreate;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1663,20 +1443,14 @@ _responseData = rawData == null ? null : deserialize<BoardingEventCreate, Boardi
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/boarding-events/{event_id}/'.replaceAll('{' r'event_id' '}', eventId.toString());
+    final _path = r'/api/v1/boarding-events/{event_id}/'.replaceAll('{' r'event_id' '}', encodeQueryParameter(_serializers, eventId, const FullType(String)).toString());
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
         ...?headers,
       },
       extra: <String, dynamic>{
-        'secure': <Map<String, String>>[
-          {
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
-          },
-        ],
+        'secure': <Map<String, String>>[],
         ...?extra,
       },
       validateStatus: validateStatus,
@@ -1731,24 +1505,18 @@ _responseData = rawData == null ? null : deserialize<BoardingEventCreate, Boardi
         ...?headers,
       },
       extra: <String, dynamic>{
-        'secure': <Map<String, String>>[
-          {
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
-          },
-        ],
+        'secure': <Map<String, String>>[],
         ...?extra,
       },
       validateStatus: validateStatus,
     );
 
     final _queryParameters = <String, dynamic>{
-      if (busRoute != null) r'bus_route': busRoute,
-      if (kioskId != null) r'kiosk_id': kioskId,
-      if (page != null) r'page': page,
-      if (student != null) r'student': student,
-      if (timestamp != null) r'timestamp': timestamp,
+      if (busRoute != null) r'bus_route': encodeQueryParameter(_serializers, busRoute, const FullType(String)),
+      if (kioskId != null) r'kiosk_id': encodeQueryParameter(_serializers, kioskId, const FullType(String)),
+      if (page != null) r'page': encodeQueryParameter(_serializers, page, const FullType(int)),
+      if (student != null) r'student': encodeQueryParameter(_serializers, student, const FullType(String)),
+      if (timestamp != null) r'timestamp': encodeQueryParameter(_serializers, timestamp, const FullType(DateTime)),
     };
 
     final _response = await _dio.request<Object>(
@@ -1763,8 +1531,12 @@ _responseData = rawData == null ? null : deserialize<BoardingEventCreate, Boardi
     PaginatedBoardingEventList? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<PaginatedBoardingEventList, PaginatedBoardingEventList>(rawData, 'PaginatedBoardingEventList', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(PaginatedBoardingEventList),
+      ) as PaginatedBoardingEventList;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1812,20 +1584,14 @@ _responseData = rawData == null ? null : deserialize<PaginatedBoardingEventList,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/boarding-events/{event_id}/'.replaceAll('{' r'event_id' '}', eventId.toString());
+    final _path = r'/api/v1/boarding-events/{event_id}/'.replaceAll('{' r'event_id' '}', encodeQueryParameter(_serializers, eventId, const FullType(String)).toString());
     final _options = Options(
       method: r'PATCH',
       headers: <String, dynamic>{
         ...?headers,
       },
       extra: <String, dynamic>{
-        'secure': <Map<String, String>>[
-          {
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
-          },
-        ],
+        'secure': <Map<String, String>>[],
         ...?extra,
       },
       contentType: 'application/json',
@@ -1835,7 +1601,9 @@ _responseData = rawData == null ? null : deserialize<PaginatedBoardingEventList,
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(patchedBoardingEvent);
+      const _type = FullType(PatchedBoardingEvent);
+      _bodyData = patchedBoardingEvent == null ? null : _serializers.serialize(patchedBoardingEvent, specifiedType: _type);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -1860,8 +1628,12 @@ _bodyData=jsonEncode(patchedBoardingEvent);
     BoardingEvent? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<BoardingEvent, BoardingEvent>(rawData, 'BoardingEvent', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(BoardingEvent),
+      ) as BoardingEvent;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1912,13 +1684,7 @@ _responseData = rawData == null ? null : deserialize<BoardingEvent, BoardingEven
         ...?headers,
       },
       extra: <String, dynamic>{
-        'secure': <Map<String, String>>[
-          {
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
-          },
-        ],
+        'secure': <Map<String, String>>[],
         ...?extra,
       },
       validateStatus: validateStatus,
@@ -1935,8 +1701,12 @@ _responseData = rawData == null ? null : deserialize<BoardingEvent, BoardingEven
     BoardingEvent? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<BoardingEvent, BoardingEvent>(rawData, 'BoardingEvent', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(BoardingEvent),
+      ) as BoardingEvent;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1982,20 +1752,14 @@ _responseData = rawData == null ? null : deserialize<BoardingEvent, BoardingEven
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/boarding-events/{event_id}/'.replaceAll('{' r'event_id' '}', eventId.toString());
+    final _path = r'/api/v1/boarding-events/{event_id}/'.replaceAll('{' r'event_id' '}', encodeQueryParameter(_serializers, eventId, const FullType(String)).toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
         ...?headers,
       },
       extra: <String, dynamic>{
-        'secure': <Map<String, String>>[
-          {
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
-          },
-        ],
+        'secure': <Map<String, String>>[],
         ...?extra,
       },
       validateStatus: validateStatus,
@@ -2012,8 +1776,12 @@ _responseData = rawData == null ? null : deserialize<BoardingEvent, BoardingEven
     BoardingEvent? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<BoardingEvent, BoardingEvent>(rawData, 'BoardingEvent', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(BoardingEvent),
+      ) as BoardingEvent;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -2061,20 +1829,14 @@ _responseData = rawData == null ? null : deserialize<BoardingEvent, BoardingEven
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/boarding-events/{event_id}/'.replaceAll('{' r'event_id' '}', eventId.toString());
+    final _path = r'/api/v1/boarding-events/{event_id}/'.replaceAll('{' r'event_id' '}', encodeQueryParameter(_serializers, eventId, const FullType(String)).toString());
     final _options = Options(
       method: r'PUT',
       headers: <String, dynamic>{
         ...?headers,
       },
       extra: <String, dynamic>{
-        'secure': <Map<String, String>>[
-          {
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
-          },
-        ],
+        'secure': <Map<String, String>>[],
         ...?extra,
       },
       contentType: 'application/json',
@@ -2084,7 +1846,9 @@ _responseData = rawData == null ? null : deserialize<BoardingEvent, BoardingEven
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(boardingEvent);
+      const _type = FullType(BoardingEvent);
+      _bodyData = _serializers.serialize(boardingEvent, specifiedType: _type);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -2109,8 +1873,12 @@ _bodyData=jsonEncode(boardingEvent);
     BoardingEvent? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<BoardingEvent, BoardingEvent>(rawData, 'BoardingEvent', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(BoardingEvent),
+      ) as BoardingEvent;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -2169,14 +1937,6 @@ _responseData = rawData == null ? null : deserialize<BoardingEvent, BoardingEven
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -2188,7 +1948,9 @@ _responseData = rawData == null ? null : deserialize<BoardingEvent, BoardingEven
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(bus);
+      const _type = FullType(Bus);
+      _bodyData = _serializers.serialize(bus, specifiedType: _type);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -2213,8 +1975,12 @@ _bodyData=jsonEncode(bus);
     Bus? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(Bus),
+      ) as Bus;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -2273,14 +2039,6 @@ _responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', g
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -2292,7 +2050,9 @@ _responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', g
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(bus);
+      const _type = FullType(Bus);
+      _bodyData = _serializers.serialize(bus, specifiedType: _type);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -2317,8 +2077,12 @@ _bodyData=jsonEncode(bus);
     Bus? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(Bus),
+      ) as Bus;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -2364,7 +2128,7 @@ _responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', g
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/buses/{bus_id}/'.replaceAll('{' r'bus_id' '}', busId.toString());
+    final _path = r'/api/v1/buses/{bus_id}/'.replaceAll('{' r'bus_id' '}', encodeQueryParameter(_serializers, busId, const FullType(String)).toString());
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -2377,14 +2141,6 @@ _responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', g
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -2445,14 +2201,6 @@ _responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', g
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -2461,10 +2209,10 @@ _responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', g
     );
 
     final _queryParameters = <String, dynamic>{
-      if (deviceId != null) r'device_id': deviceId,
-      if (page != null) r'page': page,
-      if (route != null) r'route': route,
-      if (status != null) r'status': status,
+      if (deviceId != null) r'device_id': encodeQueryParameter(_serializers, deviceId, const FullType(String)),
+      if (page != null) r'page': encodeQueryParameter(_serializers, page, const FullType(int)),
+      if (route != null) r'route': encodeQueryParameter(_serializers, route, const FullType(String)),
+      if (status != null) r'status': encodeQueryParameter(_serializers, status, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
@@ -2479,8 +2227,12 @@ _responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', g
     PaginatedBusList? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<PaginatedBusList, PaginatedBusList>(rawData, 'PaginatedBusList', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(PaginatedBusList),
+      ) as PaginatedBusList;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -2528,7 +2280,7 @@ _responseData = rawData == null ? null : deserialize<PaginatedBusList, Paginated
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/buses/{bus_id}/'.replaceAll('{' r'bus_id' '}', busId.toString());
+    final _path = r'/api/v1/buses/{bus_id}/'.replaceAll('{' r'bus_id' '}', encodeQueryParameter(_serializers, busId, const FullType(String)).toString());
     final _options = Options(
       method: r'PATCH',
       headers: <String, dynamic>{
@@ -2541,14 +2293,6 @@ _responseData = rawData == null ? null : deserialize<PaginatedBusList, Paginated
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -2560,7 +2304,9 @@ _responseData = rawData == null ? null : deserialize<PaginatedBusList, Paginated
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(patchedBus);
+      const _type = FullType(PatchedBus);
+      _bodyData = patchedBus == null ? null : _serializers.serialize(patchedBus, specifiedType: _type);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -2585,8 +2331,12 @@ _bodyData=jsonEncode(patchedBus);
     Bus? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(Bus),
+      ) as Bus;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -2632,7 +2382,7 @@ _responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', g
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/buses/{bus_id}/'.replaceAll('{' r'bus_id' '}', busId.toString());
+    final _path = r'/api/v1/buses/{bus_id}/'.replaceAll('{' r'bus_id' '}', encodeQueryParameter(_serializers, busId, const FullType(String)).toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -2645,14 +2395,6 @@ _responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', g
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -2671,8 +2413,12 @@ _responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', g
     Bus? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(Bus),
+      ) as Bus;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -2718,7 +2464,7 @@ _responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', g
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/buses/{bus_id}/students/'.replaceAll('{' r'bus_id' '}', busId.toString());
+    final _path = r'/api/v1/buses/{bus_id}/students/'.replaceAll('{' r'bus_id' '}', encodeQueryParameter(_serializers, busId, const FullType(String)).toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -2731,14 +2477,6 @@ _responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', g
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -2757,8 +2495,12 @@ _responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', g
     Bus? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(Bus),
+      ) as Bus;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -2806,7 +2548,7 @@ _responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', g
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/buses/{bus_id}/'.replaceAll('{' r'bus_id' '}', busId.toString());
+    final _path = r'/api/v1/buses/{bus_id}/'.replaceAll('{' r'bus_id' '}', encodeQueryParameter(_serializers, busId, const FullType(String)).toString());
     final _options = Options(
       method: r'PUT',
       headers: <String, dynamic>{
@@ -2819,14 +2561,6 @@ _responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', g
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -2838,7 +2572,9 @@ _responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', g
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(bus);
+      const _type = FullType(Bus);
+      _bodyData = _serializers.serialize(bus, specifiedType: _type);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -2863,8 +2599,12 @@ _bodyData=jsonEncode(bus);
     Bus? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(Bus),
+      ) as Bus;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -2921,14 +2661,6 @@ _responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', g
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -2947,8 +2679,12 @@ _responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', g
     Bus? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(Bus),
+      ) as Bus;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -3005,14 +2741,6 @@ _responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', g
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -3031,8 +2759,12 @@ _responseData = rawData == null ? null : deserialize<Bus, Bus>(rawData, 'Bus', g
     DashboardStats? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<DashboardStats, DashboardStats>(rawData, 'DashboardStats', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(DashboardStats),
+      ) as DashboardStats;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -3093,14 +2825,6 @@ _responseData = rawData == null ? null : deserialize<DashboardStats, DashboardSt
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -3109,8 +2833,8 @@ _responseData = rawData == null ? null : deserialize<DashboardStats, DashboardSt
     );
 
     final _queryParameters = <String, dynamic>{
-      if (limit != null) r'limit': limit,
-      if (offset != null) r'offset': offset,
+      if (limit != null) r'limit': encodeQueryParameter(_serializers, limit, const FullType(int)),
+      if (offset != null) r'offset': encodeQueryParameter(_serializers, offset, const FullType(int)),
     };
 
     final _response = await _dio.request<Object>(
@@ -3125,8 +2849,12 @@ _responseData = rawData == null ? null : deserialize<DashboardStats, DashboardSt
     DashboardStudentsResponse? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<DashboardStudentsResponse, DashboardStudentsResponse>(rawData, 'DashboardStudentsResponse', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(DashboardStudentsResponse),
+      ) as DashboardStudentsResponse;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -3138,6 +2866,233 @@ _responseData = rawData == null ? null : deserialize<DashboardStudentsResponse, 
     }
 
     return Response<DashboardStudentsResponse>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      requestOptions: _response.requestOptions,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
+  }
+
+  /// apiV1GeocodeCreate
+  /// Geocode an address to coordinates.  POST /api/v1/geocode/ Body: {\&quot;address\&quot;: \&quot;Imperial College London\&quot;}  Returns: {     \&quot;latitude\&quot;: 51.4988,     \&quot;longitude\&quot;: -0.1749,     \&quot;formatted_address\&quot;: \&quot;Imperial College London, Exhibition Rd, London SW7 2AZ, UK\&quot; }
+  ///
+  /// Parameters:
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future]
+  /// Throws [DioException] if API call or serialization fails
+  Future<Response<void>> apiV1GeocodeCreate({ 
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    final _path = r'/api/v1/geocode/';
+    final _options = Options(
+      method: r'POST',
+      headers: <String, dynamic>{
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[
+          {
+            'type': 'apiKey',
+            'name': 'cookieAuth',
+            'keyName': 'sessionid',
+            'where': '',
+          },
+        ],
+        ...?extra,
+      },
+      validateStatus: validateStatus,
+    );
+
+    final _response = await _dio.request<Object>(
+      _path,
+      options: _options,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+
+    return _response;
+  }
+
+  /// apiV1GroupsList
+  /// API endpoint for Groups (Roles). Read-only following IAM principle - groups managed via seed_groups command. Groups represent user roles: school_admin, parent, driver.
+  ///
+  /// Parameters:
+  /// * [ordering] - Which field to use when ordering the results.
+  /// * [page] - A page number within the paginated result set.
+  /// * [search] - A search term.
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future] containing a [Response] with a [PaginatedGroupList] as data
+  /// Throws [DioException] if API call or serialization fails
+  Future<Response<PaginatedGroupList>> apiV1GroupsList({ 
+    String? ordering,
+    int? page,
+    String? search,
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    final _path = r'/api/v1/groups/';
+    final _options = Options(
+      method: r'GET',
+      headers: <String, dynamic>{
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[
+          {
+            'type': 'apiKey',
+            'name': 'cookieAuth',
+            'keyName': 'sessionid',
+            'where': '',
+          },
+        ],
+        ...?extra,
+      },
+      validateStatus: validateStatus,
+    );
+
+    final _queryParameters = <String, dynamic>{
+      if (ordering != null) r'ordering': encodeQueryParameter(_serializers, ordering, const FullType(String)),
+      if (page != null) r'page': encodeQueryParameter(_serializers, page, const FullType(int)),
+      if (search != null) r'search': encodeQueryParameter(_serializers, search, const FullType(String)),
+    };
+
+    final _response = await _dio.request<Object>(
+      _path,
+      options: _options,
+      queryParameters: _queryParameters,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+
+    PaginatedGroupList? _responseData;
+
+    try {
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(PaginatedGroupList),
+      ) as PaginatedGroupList;
+
+    } catch (error, stackTrace) {
+      throw DioException(
+        requestOptions: _response.requestOptions,
+        response: _response,
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    return Response<PaginatedGroupList>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      requestOptions: _response.requestOptions,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
+  }
+
+  /// apiV1GroupsRetrieve
+  /// API endpoint for Groups (Roles). Read-only following IAM principle - groups managed via seed_groups command. Groups represent user roles: school_admin, parent, driver.
+  ///
+  /// Parameters:
+  /// * [id] - A unique integer value identifying this group.
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future] containing a [Response] with a [Group] as data
+  /// Throws [DioException] if API call or serialization fails
+  Future<Response<Group>> apiV1GroupsRetrieve({ 
+    required int id,
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    final _path = r'/api/v1/groups/{id}/'.replaceAll('{' r'id' '}', encodeQueryParameter(_serializers, id, const FullType(int)).toString());
+    final _options = Options(
+      method: r'GET',
+      headers: <String, dynamic>{
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[
+          {
+            'type': 'apiKey',
+            'name': 'cookieAuth',
+            'keyName': 'sessionid',
+            'where': '',
+          },
+        ],
+        ...?extra,
+      },
+      validateStatus: validateStatus,
+    );
+
+    final _response = await _dio.request<Object>(
+      _path,
+      options: _options,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+
+    Group? _responseData;
+
+    try {
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(Group),
+      ) as Group;
+
+    } catch (error, stackTrace) {
+      throw DioException(
+        requestOptions: _response.requestOptions,
+        response: _response,
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    return Response<Group>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -3164,7 +3119,7 @@ _responseData = rawData == null ? null : deserialize<DashboardStudentsResponse, 
   /// Returns a [Future] containing a [Response] with a [ApiV1KioskBoardingCreate200Response] as data
   /// Throws [DioException] if API call or serialization fails
   Future<Response<ApiV1KioskBoardingCreate200Response>> apiV1KioskBoardingCreate({ 
-    Map<String, Object>? requestBody,
+    BuiltMap<String, JsonObject>? requestBody,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -3185,14 +3140,6 @@ _responseData = rawData == null ? null : deserialize<DashboardStudentsResponse, 
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -3204,7 +3151,9 @@ _responseData = rawData == null ? null : deserialize<DashboardStudentsResponse, 
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(requestBody);
+      const _type = FullType(BuiltMap, [FullType(String), FullType(JsonObject)]);
+      _bodyData = requestBody == null ? null : _serializers.serialize(requestBody, specifiedType: _type);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -3229,8 +3178,12 @@ _bodyData=jsonEncode(requestBody);
     ApiV1KioskBoardingCreate200Response? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<ApiV1KioskBoardingCreate200Response, ApiV1KioskBoardingCreate200Response>(rawData, 'ApiV1KioskBoardingCreate200Response', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(ApiV1KioskBoardingCreate200Response),
+      ) as ApiV1KioskBoardingCreate200Response;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -3242,6 +3195,855 @@ _responseData = rawData == null ? null : deserialize<ApiV1KioskBoardingCreate200
     }
 
     return Response<ApiV1KioskBoardingCreate200Response>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      requestOptions: _response.requestOptions,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
+  }
+
+  /// apiV1KiosksCreate
+  /// ViewSet for kiosk management (admin only)
+  ///
+  /// Parameters:
+  /// * [kiosk] 
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future] containing a [Response] with a [Kiosk] as data
+  /// Throws [DioException] if API call or serialization fails
+  Future<Response<Kiosk>> apiV1KiosksCreate({ 
+    Kiosk? kiosk,
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    final _path = r'/api/v1/kiosks/';
+    final _options = Options(
+      method: r'POST',
+      headers: <String, dynamic>{
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[
+          {
+            'type': 'apiKey',
+            'name': 'cookieAuth',
+            'keyName': 'sessionid',
+            'where': '',
+          },
+        ],
+        ...?extra,
+      },
+      contentType: 'application/json',
+      validateStatus: validateStatus,
+    );
+
+    dynamic _bodyData;
+
+    try {
+      const _type = FullType(Kiosk);
+      _bodyData = kiosk == null ? null : _serializers.serialize(kiosk, specifiedType: _type);
+
+    } catch(error, stackTrace) {
+      throw DioException(
+         requestOptions: _options.compose(
+          _dio.options,
+          _path,
+        ),
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    final _response = await _dio.request<Object>(
+      _path,
+      data: _bodyData,
+      options: _options,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+
+    Kiosk? _responseData;
+
+    try {
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(Kiosk),
+      ) as Kiosk;
+
+    } catch (error, stackTrace) {
+      throw DioException(
+        requestOptions: _response.requestOptions,
+        response: _response,
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    return Response<Kiosk>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      requestOptions: _response.requestOptions,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
+  }
+
+  /// apiV1KiosksDestroy
+  /// ViewSet for kiosk management (admin only)
+  ///
+  /// Parameters:
+  /// * [kioskId] 
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future]
+  /// Throws [DioException] if API call or serialization fails
+  Future<Response<void>> apiV1KiosksDestroy({ 
+    required String kioskId,
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    final _path = r'/api/v1/kiosks/{kiosk_id}/'.replaceAll('{' r'kiosk_id' '}', encodeQueryParameter(_serializers, kioskId, const FullType(String)).toString());
+    final _options = Options(
+      method: r'DELETE',
+      headers: <String, dynamic>{
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[
+          {
+            'type': 'apiKey',
+            'name': 'cookieAuth',
+            'keyName': 'sessionid',
+            'where': '',
+          },
+        ],
+        ...?extra,
+      },
+      validateStatus: validateStatus,
+    );
+
+    final _response = await _dio.request<Object>(
+      _path,
+      options: _options,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+
+    return _response;
+  }
+
+  /// apiV1KiosksList
+  /// ViewSet for kiosk management (admin only)
+  ///
+  /// Parameters:
+  /// * [ordering] - Which field to use when ordering the results.
+  /// * [page] - A page number within the paginated result set.
+  /// * [search] - A search term.
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future] containing a [Response] with a [PaginatedKioskList] as data
+  /// Throws [DioException] if API call or serialization fails
+  Future<Response<PaginatedKioskList>> apiV1KiosksList({ 
+    String? ordering,
+    int? page,
+    String? search,
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    final _path = r'/api/v1/kiosks/';
+    final _options = Options(
+      method: r'GET',
+      headers: <String, dynamic>{
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[
+          {
+            'type': 'apiKey',
+            'name': 'cookieAuth',
+            'keyName': 'sessionid',
+            'where': '',
+          },
+        ],
+        ...?extra,
+      },
+      validateStatus: validateStatus,
+    );
+
+    final _queryParameters = <String, dynamic>{
+      if (ordering != null) r'ordering': encodeQueryParameter(_serializers, ordering, const FullType(String)),
+      if (page != null) r'page': encodeQueryParameter(_serializers, page, const FullType(int)),
+      if (search != null) r'search': encodeQueryParameter(_serializers, search, const FullType(String)),
+    };
+
+    final _response = await _dio.request<Object>(
+      _path,
+      options: _options,
+      queryParameters: _queryParameters,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+
+    PaginatedKioskList? _responseData;
+
+    try {
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(PaginatedKioskList),
+      ) as PaginatedKioskList;
+
+    } catch (error, stackTrace) {
+      throw DioException(
+        requestOptions: _response.requestOptions,
+        response: _response,
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    return Response<PaginatedKioskList>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      requestOptions: _response.requestOptions,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
+  }
+
+  /// apiV1KiosksPartialUpdate
+  /// ViewSet for kiosk management (admin only)
+  ///
+  /// Parameters:
+  /// * [kioskId] 
+  /// * [patchedKiosk] 
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future] containing a [Response] with a [Kiosk] as data
+  /// Throws [DioException] if API call or serialization fails
+  Future<Response<Kiosk>> apiV1KiosksPartialUpdate({ 
+    required String kioskId,
+    PatchedKiosk? patchedKiosk,
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    final _path = r'/api/v1/kiosks/{kiosk_id}/'.replaceAll('{' r'kiosk_id' '}', encodeQueryParameter(_serializers, kioskId, const FullType(String)).toString());
+    final _options = Options(
+      method: r'PATCH',
+      headers: <String, dynamic>{
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[
+          {
+            'type': 'apiKey',
+            'name': 'cookieAuth',
+            'keyName': 'sessionid',
+            'where': '',
+          },
+        ],
+        ...?extra,
+      },
+      contentType: 'application/json',
+      validateStatus: validateStatus,
+    );
+
+    dynamic _bodyData;
+
+    try {
+      const _type = FullType(PatchedKiosk);
+      _bodyData = patchedKiosk == null ? null : _serializers.serialize(patchedKiosk, specifiedType: _type);
+
+    } catch(error, stackTrace) {
+      throw DioException(
+         requestOptions: _options.compose(
+          _dio.options,
+          _path,
+        ),
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    final _response = await _dio.request<Object>(
+      _path,
+      data: _bodyData,
+      options: _options,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+
+    Kiosk? _responseData;
+
+    try {
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(Kiosk),
+      ) as Kiosk;
+
+    } catch (error, stackTrace) {
+      throw DioException(
+        requestOptions: _response.requestOptions,
+        response: _response,
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    return Response<Kiosk>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      requestOptions: _response.requestOptions,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
+  }
+
+  /// apiV1KiosksRetrieve
+  /// ViewSet for kiosk management (admin only)
+  ///
+  /// Parameters:
+  /// * [kioskId] 
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future] containing a [Response] with a [Kiosk] as data
+  /// Throws [DioException] if API call or serialization fails
+  Future<Response<Kiosk>> apiV1KiosksRetrieve({ 
+    required String kioskId,
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    final _path = r'/api/v1/kiosks/{kiosk_id}/'.replaceAll('{' r'kiosk_id' '}', encodeQueryParameter(_serializers, kioskId, const FullType(String)).toString());
+    final _options = Options(
+      method: r'GET',
+      headers: <String, dynamic>{
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[
+          {
+            'type': 'apiKey',
+            'name': 'cookieAuth',
+            'keyName': 'sessionid',
+            'where': '',
+          },
+        ],
+        ...?extra,
+      },
+      validateStatus: validateStatus,
+    );
+
+    final _response = await _dio.request<Object>(
+      _path,
+      options: _options,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+
+    Kiosk? _responseData;
+
+    try {
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(Kiosk),
+      ) as Kiosk;
+
+    } catch (error, stackTrace) {
+      throw DioException(
+        requestOptions: _response.requestOptions,
+        response: _response,
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    return Response<Kiosk>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      requestOptions: _response.requestOptions,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
+  }
+
+  /// apiV1KiosksUpdate
+  /// ViewSet for kiosk management (admin only)
+  ///
+  /// Parameters:
+  /// * [kioskId] 
+  /// * [kiosk] 
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future] containing a [Response] with a [Kiosk] as data
+  /// Throws [DioException] if API call or serialization fails
+  Future<Response<Kiosk>> apiV1KiosksUpdate({ 
+    required String kioskId,
+    Kiosk? kiosk,
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    final _path = r'/api/v1/kiosks/{kiosk_id}/'.replaceAll('{' r'kiosk_id' '}', encodeQueryParameter(_serializers, kioskId, const FullType(String)).toString());
+    final _options = Options(
+      method: r'PUT',
+      headers: <String, dynamic>{
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[
+          {
+            'type': 'apiKey',
+            'name': 'cookieAuth',
+            'keyName': 'sessionid',
+            'where': '',
+          },
+        ],
+        ...?extra,
+      },
+      contentType: 'application/json',
+      validateStatus: validateStatus,
+    );
+
+    dynamic _bodyData;
+
+    try {
+      const _type = FullType(Kiosk);
+      _bodyData = kiosk == null ? null : _serializers.serialize(kiosk, specifiedType: _type);
+
+    } catch(error, stackTrace) {
+      throw DioException(
+         requestOptions: _options.compose(
+          _dio.options,
+          _path,
+        ),
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    final _response = await _dio.request<Object>(
+      _path,
+      data: _bodyData,
+      options: _options,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+
+    Kiosk? _responseData;
+
+    try {
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(Kiosk),
+      ) as Kiosk;
+
+    } catch (error, stackTrace) {
+      throw DioException(
+        requestOptions: _response.requestOptions,
+        response: _response,
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    return Response<Kiosk>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      requestOptions: _response.requestOptions,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
+  }
+
+  /// apiV1LocationsRetrieve
+  /// Bus locations API for school dashboard (any authenticated user).  Returns real-time bus locations for ALL buses in the fleet as GeoJSON. Accessible by any authenticated user.
+  ///
+  /// Parameters:
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future]
+  /// Throws [DioException] if API call or serialization fails
+  Future<Response<void>> apiV1LocationsRetrieve({ 
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    final _path = r'/api/v1/locations/';
+    final _options = Options(
+      method: r'GET',
+      headers: <String, dynamic>{
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[
+          {
+            'type': 'apiKey',
+            'name': 'cookieAuth',
+            'keyName': 'sessionid',
+            'where': '',
+          },
+        ],
+        ...?extra,
+      },
+      validateStatus: validateStatus,
+    );
+
+    final _response = await _dio.request<Object>(
+      _path,
+      options: _options,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+
+    return _response;
+  }
+
+  /// apiV1LogsList
+  /// Read-only ViewSet for device logs (any authenticated user)
+  ///
+  /// Parameters:
+  /// * [kiosk] - Unique kiosk device identifier (e.g., KIOSK001, BUS123-KIOSK)
+  /// * [logLevel] - Log level severity  * `DEBUG` - Debug * `INFO` - Info * `WARN` - Warning * `ERROR` - Error * `CRITICAL` - Critical
+  /// * [page] - A page number within the paginated result set.
+  /// * [timestamp] 
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future] containing a [Response] with a [PaginatedDeviceLogList] as data
+  /// Throws [DioException] if API call or serialization fails
+  Future<Response<PaginatedDeviceLogList>> apiV1LogsList({ 
+    String? kiosk,
+    String? logLevel,
+    int? page,
+    DateTime? timestamp,
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    final _path = r'/api/v1/logs/';
+    final _options = Options(
+      method: r'GET',
+      headers: <String, dynamic>{
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[
+          {
+            'type': 'apiKey',
+            'name': 'cookieAuth',
+            'keyName': 'sessionid',
+            'where': '',
+          },
+        ],
+        ...?extra,
+      },
+      validateStatus: validateStatus,
+    );
+
+    final _queryParameters = <String, dynamic>{
+      if (kiosk != null) r'kiosk': encodeQueryParameter(_serializers, kiosk, const FullType(String)),
+      if (logLevel != null) r'log_level': encodeQueryParameter(_serializers, logLevel, const FullType(String)),
+      if (page != null) r'page': encodeQueryParameter(_serializers, page, const FullType(int)),
+      if (timestamp != null) r'timestamp': encodeQueryParameter(_serializers, timestamp, const FullType(DateTime)),
+    };
+
+    final _response = await _dio.request<Object>(
+      _path,
+      options: _options,
+      queryParameters: _queryParameters,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+
+    PaginatedDeviceLogList? _responseData;
+
+    try {
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(PaginatedDeviceLogList),
+      ) as PaginatedDeviceLogList;
+
+    } catch (error, stackTrace) {
+      throw DioException(
+        requestOptions: _response.requestOptions,
+        response: _response,
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    return Response<PaginatedDeviceLogList>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      requestOptions: _response.requestOptions,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
+  }
+
+  /// apiV1LogsRetrieve
+  /// Read-only ViewSet for device logs (any authenticated user)
+  ///
+  /// Parameters:
+  /// * [logId] 
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future] containing a [Response] with a [DeviceLog] as data
+  /// Throws [DioException] if API call or serialization fails
+  Future<Response<DeviceLog>> apiV1LogsRetrieve({ 
+    required int logId,
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    final _path = r'/api/v1/logs/{log_id}/'.replaceAll('{' r'log_id' '}', encodeQueryParameter(_serializers, logId, const FullType(int)).toString());
+    final _options = Options(
+      method: r'GET',
+      headers: <String, dynamic>{
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[
+          {
+            'type': 'apiKey',
+            'name': 'cookieAuth',
+            'keyName': 'sessionid',
+            'where': '',
+          },
+        ],
+        ...?extra,
+      },
+      validateStatus: validateStatus,
+    );
+
+    final _response = await _dio.request<Object>(
+      _path,
+      options: _options,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+
+    DeviceLog? _responseData;
+
+    try {
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(DeviceLog),
+      ) as DeviceLog;
+
+    } catch (error, stackTrace) {
+      throw DioException(
+        requestOptions: _response.requestOptions,
+        response: _response,
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    return Response<DeviceLog>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      requestOptions: _response.requestOptions,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
+  }
+
+  /// apiV1LogsSummaryRetrieve
+  /// Get logs summary by level and time
+  ///
+  /// Parameters:
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future] containing a [Response] with a [DeviceLog] as data
+  /// Throws [DioException] if API call or serialization fails
+  Future<Response<DeviceLog>> apiV1LogsSummaryRetrieve({ 
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    final _path = r'/api/v1/logs/summary/';
+    final _options = Options(
+      method: r'GET',
+      headers: <String, dynamic>{
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[
+          {
+            'type': 'apiKey',
+            'name': 'cookieAuth',
+            'keyName': 'sessionid',
+            'where': '',
+          },
+        ],
+        ...?extra,
+      },
+      validateStatus: validateStatus,
+    );
+
+    final _response = await _dio.request<Object>(
+      _path,
+      options: _options,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+
+    DeviceLog? _responseData;
+
+    try {
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(DeviceLog),
+      ) as DeviceLog;
+
+    } catch (error, stackTrace) {
+      throw DioException(
+        requestOptions: _response.requestOptions,
+        response: _response,
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    return Response<DeviceLog>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -3289,14 +4091,6 @@ _responseData = rawData == null ? null : deserialize<ApiV1KioskBoardingCreate200
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -3308,7 +4102,9 @@ _responseData = rawData == null ? null : deserialize<ApiV1KioskBoardingCreate200
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(parent);
+      const _type = FullType(Parent);
+      _bodyData = _serializers.serialize(parent, specifiedType: _type);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -3333,8 +4129,12 @@ _bodyData=jsonEncode(parent);
     Parent? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<Parent, Parent>(rawData, 'Parent', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(Parent),
+      ) as Parent;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -3380,7 +4180,7 @@ _responseData = rawData == null ? null : deserialize<Parent, Parent>(rawData, 'P
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/parents/{parent_id}/'.replaceAll('{' r'parent_id' '}', parentId.toString());
+    final _path = r'/api/v1/parents/{parent_id}/'.replaceAll('{' r'parent_id' '}', encodeQueryParameter(_serializers, parentId, const FullType(String)).toString());
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -3393,14 +4193,6 @@ _responseData = rawData == null ? null : deserialize<Parent, Parent>(rawData, 'P
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -3459,14 +4251,6 @@ _responseData = rawData == null ? null : deserialize<Parent, Parent>(rawData, 'P
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -3475,9 +4259,9 @@ _responseData = rawData == null ? null : deserialize<Parent, Parent>(rawData, 'P
     );
 
     final _queryParameters = <String, dynamic>{
-      if (ordering != null) r'ordering': ordering,
-      if (page != null) r'page': page,
-      if (search != null) r'search': search,
+      if (ordering != null) r'ordering': encodeQueryParameter(_serializers, ordering, const FullType(String)),
+      if (page != null) r'page': encodeQueryParameter(_serializers, page, const FullType(int)),
+      if (search != null) r'search': encodeQueryParameter(_serializers, search, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
@@ -3492,8 +4276,12 @@ _responseData = rawData == null ? null : deserialize<Parent, Parent>(rawData, 'P
     PaginatedParentList? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<PaginatedParentList, PaginatedParentList>(rawData, 'PaginatedParentList', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(PaginatedParentList),
+      ) as PaginatedParentList;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -3541,7 +4329,7 @@ _responseData = rawData == null ? null : deserialize<PaginatedParentList, Pagina
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/parents/{parent_id}/'.replaceAll('{' r'parent_id' '}', parentId.toString());
+    final _path = r'/api/v1/parents/{parent_id}/'.replaceAll('{' r'parent_id' '}', encodeQueryParameter(_serializers, parentId, const FullType(String)).toString());
     final _options = Options(
       method: r'PATCH',
       headers: <String, dynamic>{
@@ -3554,14 +4342,6 @@ _responseData = rawData == null ? null : deserialize<PaginatedParentList, Pagina
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -3573,7 +4353,9 @@ _responseData = rawData == null ? null : deserialize<PaginatedParentList, Pagina
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(patchedParent);
+      const _type = FullType(PatchedParent);
+      _bodyData = patchedParent == null ? null : _serializers.serialize(patchedParent, specifiedType: _type);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -3598,8 +4380,12 @@ _bodyData=jsonEncode(patchedParent);
     Parent? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<Parent, Parent>(rawData, 'Parent', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(Parent),
+      ) as Parent;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -3645,7 +4431,7 @@ _responseData = rawData == null ? null : deserialize<Parent, Parent>(rawData, 'P
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/parents/{parent_id}/'.replaceAll('{' r'parent_id' '}', parentId.toString());
+    final _path = r'/api/v1/parents/{parent_id}/'.replaceAll('{' r'parent_id' '}', encodeQueryParameter(_serializers, parentId, const FullType(String)).toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -3658,14 +4444,6 @@ _responseData = rawData == null ? null : deserialize<Parent, Parent>(rawData, 'P
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -3684,8 +4462,12 @@ _responseData = rawData == null ? null : deserialize<Parent, Parent>(rawData, 'P
     Parent? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<Parent, Parent>(rawData, 'Parent', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(Parent),
+      ) as Parent;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -3731,7 +4513,7 @@ _responseData = rawData == null ? null : deserialize<Parent, Parent>(rawData, 'P
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/parents/{parent_id}/students/'.replaceAll('{' r'parent_id' '}', parentId.toString());
+    final _path = r'/api/v1/parents/{parent_id}/students/'.replaceAll('{' r'parent_id' '}', encodeQueryParameter(_serializers, parentId, const FullType(String)).toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -3744,14 +4526,6 @@ _responseData = rawData == null ? null : deserialize<Parent, Parent>(rawData, 'P
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -3770,8 +4544,12 @@ _responseData = rawData == null ? null : deserialize<Parent, Parent>(rawData, 'P
     Parent? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<Parent, Parent>(rawData, 'Parent', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(Parent),
+      ) as Parent;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -3819,7 +4597,7 @@ _responseData = rawData == null ? null : deserialize<Parent, Parent>(rawData, 'P
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/parents/{parent_id}/'.replaceAll('{' r'parent_id' '}', parentId.toString());
+    final _path = r'/api/v1/parents/{parent_id}/'.replaceAll('{' r'parent_id' '}', encodeQueryParameter(_serializers, parentId, const FullType(String)).toString());
     final _options = Options(
       method: r'PUT',
       headers: <String, dynamic>{
@@ -3832,14 +4610,6 @@ _responseData = rawData == null ? null : deserialize<Parent, Parent>(rawData, 'P
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -3851,7 +4621,9 @@ _responseData = rawData == null ? null : deserialize<Parent, Parent>(rawData, 'P
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(parent);
+      const _type = FullType(Parent);
+      _bodyData = _serializers.serialize(parent, specifiedType: _type);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -3876,8 +4648,12 @@ _bodyData=jsonEncode(parent);
     Parent? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<Parent, Parent>(rawData, 'Parent', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(Parent),
+      ) as Parent;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -3889,189 +4665,6 @@ _responseData = rawData == null ? null : deserialize<Parent, Parent>(rawData, 'P
     }
 
     return Response<Parent>(
-      data: _responseData,
-      headers: _response.headers,
-      isRedirect: _response.isRedirect,
-      requestOptions: _response.requestOptions,
-      redirects: _response.redirects,
-      statusCode: _response.statusCode,
-      statusMessage: _response.statusMessage,
-      extra: _response.extra,
-    );
-  }
-
-  /// apiV1RolesList
-  /// 
-  ///
-  /// Parameters:
-  /// * [ordering] - Which field to use when ordering the results.
-  /// * [page] - A page number within the paginated result set.
-  /// * [search] - A search term.
-  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
-  /// * [headers] - Can be used to add additional headers to the request
-  /// * [extras] - Can be used to add flags to the request
-  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
-  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
-  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
-  ///
-  /// Returns a [Future] containing a [Response] with a [PaginatedRoleList] as data
-  /// Throws [DioException] if API call or serialization fails
-  Future<Response<PaginatedRoleList>> apiV1RolesList({ 
-    String? ordering,
-    int? page,
-    String? search,
-    CancelToken? cancelToken,
-    Map<String, dynamic>? headers,
-    Map<String, dynamic>? extra,
-    ValidateStatus? validateStatus,
-    ProgressCallback? onSendProgress,
-    ProgressCallback? onReceiveProgress,
-  }) async {
-    final _path = r'/api/v1/roles/';
-    final _options = Options(
-      method: r'GET',
-      headers: <String, dynamic>{
-        ...?headers,
-      },
-      extra: <String, dynamic>{
-        'secure': <Map<String, String>>[
-          {
-            'type': 'apiKey',
-            'name': 'cookieAuth',
-            'keyName': 'sessionid',
-            'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
-          },
-        ],
-        ...?extra,
-      },
-      validateStatus: validateStatus,
-    );
-
-    final _queryParameters = <String, dynamic>{
-      if (ordering != null) r'ordering': ordering,
-      if (page != null) r'page': page,
-      if (search != null) r'search': search,
-    };
-
-    final _response = await _dio.request<Object>(
-      _path,
-      options: _options,
-      queryParameters: _queryParameters,
-      cancelToken: cancelToken,
-      onSendProgress: onSendProgress,
-      onReceiveProgress: onReceiveProgress,
-    );
-
-    PaginatedRoleList? _responseData;
-
-    try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<PaginatedRoleList, PaginatedRoleList>(rawData, 'PaginatedRoleList', growable: true);
-    } catch (error, stackTrace) {
-      throw DioException(
-        requestOptions: _response.requestOptions,
-        response: _response,
-        type: DioExceptionType.unknown,
-        error: error,
-        stackTrace: stackTrace,
-      );
-    }
-
-    return Response<PaginatedRoleList>(
-      data: _responseData,
-      headers: _response.headers,
-      isRedirect: _response.isRedirect,
-      requestOptions: _response.requestOptions,
-      redirects: _response.redirects,
-      statusCode: _response.statusCode,
-      statusMessage: _response.statusMessage,
-      extra: _response.extra,
-    );
-  }
-
-  /// apiV1RolesRetrieve
-  /// 
-  ///
-  /// Parameters:
-  /// * [roleId] - A UUID string identifying this role.
-  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
-  /// * [headers] - Can be used to add additional headers to the request
-  /// * [extras] - Can be used to add flags to the request
-  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
-  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
-  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
-  ///
-  /// Returns a [Future] containing a [Response] with a [Role] as data
-  /// Throws [DioException] if API call or serialization fails
-  Future<Response<Role>> apiV1RolesRetrieve({ 
-    required String roleId,
-    CancelToken? cancelToken,
-    Map<String, dynamic>? headers,
-    Map<String, dynamic>? extra,
-    ValidateStatus? validateStatus,
-    ProgressCallback? onSendProgress,
-    ProgressCallback? onReceiveProgress,
-  }) async {
-    final _path = r'/api/v1/roles/{role_id}/'.replaceAll('{' r'role_id' '}', roleId.toString());
-    final _options = Options(
-      method: r'GET',
-      headers: <String, dynamic>{
-        ...?headers,
-      },
-      extra: <String, dynamic>{
-        'secure': <Map<String, String>>[
-          {
-            'type': 'apiKey',
-            'name': 'cookieAuth',
-            'keyName': 'sessionid',
-            'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
-          },
-        ],
-        ...?extra,
-      },
-      validateStatus: validateStatus,
-    );
-
-    final _response = await _dio.request<Object>(
-      _path,
-      options: _options,
-      cancelToken: cancelToken,
-      onSendProgress: onSendProgress,
-      onReceiveProgress: onReceiveProgress,
-    );
-
-    Role? _responseData;
-
-    try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<Role, Role>(rawData, 'Role', growable: true);
-    } catch (error, stackTrace) {
-      throw DioException(
-        requestOptions: _response.requestOptions,
-        response: _response,
-        type: DioExceptionType.unknown,
-        error: error,
-        stackTrace: stackTrace,
-      );
-    }
-
-    return Response<Role>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -4106,7 +4699,7 @@ _responseData = rawData == null ? null : deserialize<Role, Role>(rawData, 'Role'
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/routes/{route_id}/buses/'.replaceAll('{' r'route_id' '}', routeId.toString());
+    final _path = r'/api/v1/routes/{route_id}/buses/'.replaceAll('{' r'route_id' '}', encodeQueryParameter(_serializers, routeId, const FullType(String)).toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -4119,14 +4712,6 @@ _responseData = rawData == null ? null : deserialize<Role, Role>(rawData, 'Role'
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -4145,8 +4730,12 @@ _responseData = rawData == null ? null : deserialize<Role, Role>(rawData, 'Role'
     Route? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Route', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(Route),
+      ) as Route;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -4205,14 +4794,6 @@ _responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Rou
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -4224,7 +4805,9 @@ _responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Rou
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(route);
+      const _type = FullType(Route);
+      _bodyData = _serializers.serialize(route, specifiedType: _type);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -4249,8 +4832,12 @@ _bodyData=jsonEncode(route);
     Route? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Route', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(Route),
+      ) as Route;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -4296,7 +4883,7 @@ _responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Rou
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/routes/{route_id}/'.replaceAll('{' r'route_id' '}', routeId.toString());
+    final _path = r'/api/v1/routes/{route_id}/'.replaceAll('{' r'route_id' '}', encodeQueryParameter(_serializers, routeId, const FullType(String)).toString());
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -4309,14 +4896,6 @@ _responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Rou
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -4373,14 +4952,6 @@ _responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Rou
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -4389,8 +4960,8 @@ _responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Rou
     );
 
     final _queryParameters = <String, dynamic>{
-      if (isActive != null) r'is_active': isActive,
-      if (page != null) r'page': page,
+      if (isActive != null) r'is_active': encodeQueryParameter(_serializers, isActive, const FullType(bool)),
+      if (page != null) r'page': encodeQueryParameter(_serializers, page, const FullType(int)),
     };
 
     final _response = await _dio.request<Object>(
@@ -4405,8 +4976,12 @@ _responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Rou
     PaginatedRouteList? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<PaginatedRouteList, PaginatedRouteList>(rawData, 'PaginatedRouteList', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(PaginatedRouteList),
+      ) as PaginatedRouteList;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -4454,7 +5029,7 @@ _responseData = rawData == null ? null : deserialize<PaginatedRouteList, Paginat
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/routes/{route_id}/'.replaceAll('{' r'route_id' '}', routeId.toString());
+    final _path = r'/api/v1/routes/{route_id}/'.replaceAll('{' r'route_id' '}', encodeQueryParameter(_serializers, routeId, const FullType(String)).toString());
     final _options = Options(
       method: r'PATCH',
       headers: <String, dynamic>{
@@ -4467,14 +5042,6 @@ _responseData = rawData == null ? null : deserialize<PaginatedRouteList, Paginat
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -4486,7 +5053,9 @@ _responseData = rawData == null ? null : deserialize<PaginatedRouteList, Paginat
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(patchedRoute);
+      const _type = FullType(PatchedRoute);
+      _bodyData = patchedRoute == null ? null : _serializers.serialize(patchedRoute, specifiedType: _type);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -4511,8 +5080,12 @@ _bodyData=jsonEncode(patchedRoute);
     Route? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Route', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(Route),
+      ) as Route;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -4558,7 +5131,7 @@ _responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Rou
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/routes/{route_id}/'.replaceAll('{' r'route_id' '}', routeId.toString());
+    final _path = r'/api/v1/routes/{route_id}/'.replaceAll('{' r'route_id' '}', encodeQueryParameter(_serializers, routeId, const FullType(String)).toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -4571,14 +5144,6 @@ _responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Rou
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -4597,8 +5162,12 @@ _responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Rou
     Route? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Route', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(Route),
+      ) as Route;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -4644,7 +5213,7 @@ _responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Rou
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/routes/{route_id}/students/'.replaceAll('{' r'route_id' '}', routeId.toString());
+    final _path = r'/api/v1/routes/{route_id}/students/'.replaceAll('{' r'route_id' '}', encodeQueryParameter(_serializers, routeId, const FullType(String)).toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -4657,14 +5226,6 @@ _responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Rou
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -4683,8 +5244,12 @@ _responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Rou
     Route? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Route', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(Route),
+      ) as Route;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -4732,7 +5297,7 @@ _responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Rou
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/routes/{route_id}/'.replaceAll('{' r'route_id' '}', routeId.toString());
+    final _path = r'/api/v1/routes/{route_id}/'.replaceAll('{' r'route_id' '}', encodeQueryParameter(_serializers, routeId, const FullType(String)).toString());
     final _options = Options(
       method: r'PUT',
       headers: <String, dynamic>{
@@ -4745,14 +5310,6 @@ _responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Rou
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -4764,7 +5321,9 @@ _responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Rou
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(route);
+      const _type = FullType(Route);
+      _bodyData = _serializers.serialize(route, specifiedType: _type);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -4789,8 +5348,12 @@ _bodyData=jsonEncode(route);
     Route? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Route', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(Route),
+      ) as Route;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -4811,6 +5374,58 @@ _responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Rou
       statusMessage: _response.statusMessage,
       extra: _response.extra,
     );
+  }
+
+  /// apiV1SchoolApiBusLocationsRetrieve
+  /// Bus locations API for school dashboard (any authenticated user).  Returns real-time bus locations for ALL buses in the fleet as GeoJSON. Accessible by any authenticated user.
+  ///
+  /// Parameters:
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future]
+  /// Throws [DioException] if API call or serialization fails
+  Future<Response<void>> apiV1SchoolApiBusLocationsRetrieve({ 
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    final _path = r'/api/v1/school/api/bus-locations/';
+    final _options = Options(
+      method: r'GET',
+      headers: <String, dynamic>{
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[
+          {
+            'type': 'apiKey',
+            'name': 'cookieAuth',
+            'keyName': 'sessionid',
+            'where': '',
+          },
+        ],
+        ...?extra,
+      },
+      validateStatus: validateStatus,
+    );
+
+    final _response = await _dio.request<Object>(
+      _path,
+      options: _options,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+
+    return _response;
   }
 
   /// apiV1SchoolsCreate
@@ -4849,14 +5464,6 @@ _responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Rou
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -4868,7 +5475,9 @@ _responseData = rawData == null ? null : deserialize<Route, Route>(rawData, 'Rou
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(school);
+      const _type = FullType(School);
+      _bodyData = _serializers.serialize(school, specifiedType: _type);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -4893,8 +5502,12 @@ _bodyData=jsonEncode(school);
     School? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<School, School>(rawData, 'School', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(School),
+      ) as School;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -4940,7 +5553,7 @@ _responseData = rawData == null ? null : deserialize<School, School>(rawData, 'S
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/schools/{school_id}/'.replaceAll('{' r'school_id' '}', schoolId.toString());
+    final _path = r'/api/v1/schools/{school_id}/'.replaceAll('{' r'school_id' '}', encodeQueryParameter(_serializers, schoolId, const FullType(String)).toString());
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -4953,14 +5566,6 @@ _responseData = rawData == null ? null : deserialize<School, School>(rawData, 'S
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -5019,14 +5624,6 @@ _responseData = rawData == null ? null : deserialize<School, School>(rawData, 'S
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -5035,9 +5632,9 @@ _responseData = rawData == null ? null : deserialize<School, School>(rawData, 'S
     );
 
     final _queryParameters = <String, dynamic>{
-      if (ordering != null) r'ordering': ordering,
-      if (page != null) r'page': page,
-      if (search != null) r'search': search,
+      if (ordering != null) r'ordering': encodeQueryParameter(_serializers, ordering, const FullType(String)),
+      if (page != null) r'page': encodeQueryParameter(_serializers, page, const FullType(int)),
+      if (search != null) r'search': encodeQueryParameter(_serializers, search, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
@@ -5052,8 +5649,12 @@ _responseData = rawData == null ? null : deserialize<School, School>(rawData, 'S
     PaginatedSchoolList? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<PaginatedSchoolList, PaginatedSchoolList>(rawData, 'PaginatedSchoolList', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(PaginatedSchoolList),
+      ) as PaginatedSchoolList;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -5101,7 +5702,7 @@ _responseData = rawData == null ? null : deserialize<PaginatedSchoolList, Pagina
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/schools/{school_id}/'.replaceAll('{' r'school_id' '}', schoolId.toString());
+    final _path = r'/api/v1/schools/{school_id}/'.replaceAll('{' r'school_id' '}', encodeQueryParameter(_serializers, schoolId, const FullType(String)).toString());
     final _options = Options(
       method: r'PATCH',
       headers: <String, dynamic>{
@@ -5114,14 +5715,6 @@ _responseData = rawData == null ? null : deserialize<PaginatedSchoolList, Pagina
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -5133,7 +5726,9 @@ _responseData = rawData == null ? null : deserialize<PaginatedSchoolList, Pagina
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(patchedSchool);
+      const _type = FullType(PatchedSchool);
+      _bodyData = patchedSchool == null ? null : _serializers.serialize(patchedSchool, specifiedType: _type);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -5158,8 +5753,12 @@ _bodyData=jsonEncode(patchedSchool);
     School? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<School, School>(rawData, 'School', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(School),
+      ) as School;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -5205,7 +5804,7 @@ _responseData = rawData == null ? null : deserialize<School, School>(rawData, 'S
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/schools/{school_id}/'.replaceAll('{' r'school_id' '}', schoolId.toString());
+    final _path = r'/api/v1/schools/{school_id}/'.replaceAll('{' r'school_id' '}', encodeQueryParameter(_serializers, schoolId, const FullType(String)).toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -5218,14 +5817,6 @@ _responseData = rawData == null ? null : deserialize<School, School>(rawData, 'S
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -5244,8 +5835,12 @@ _responseData = rawData == null ? null : deserialize<School, School>(rawData, 'S
     School? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<School, School>(rawData, 'School', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(School),
+      ) as School;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -5293,7 +5888,7 @@ _responseData = rawData == null ? null : deserialize<School, School>(rawData, 'S
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/schools/{school_id}/'.replaceAll('{' r'school_id' '}', schoolId.toString());
+    final _path = r'/api/v1/schools/{school_id}/'.replaceAll('{' r'school_id' '}', encodeQueryParameter(_serializers, schoolId, const FullType(String)).toString());
     final _options = Options(
       method: r'PUT',
       headers: <String, dynamic>{
@@ -5306,14 +5901,6 @@ _responseData = rawData == null ? null : deserialize<School, School>(rawData, 'S
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -5325,7 +5912,9 @@ _responseData = rawData == null ? null : deserialize<School, School>(rawData, 'S
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(school);
+      const _type = FullType(School);
+      _bodyData = _serializers.serialize(school, specifiedType: _type);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -5350,8 +5939,12 @@ _bodyData=jsonEncode(school);
     School? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<School, School>(rawData, 'School', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(School),
+      ) as School;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -5410,14 +6003,6 @@ _responseData = rawData == null ? null : deserialize<School, School>(rawData, 'S
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -5429,7 +6014,9 @@ _responseData = rawData == null ? null : deserialize<School, School>(rawData, 'S
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(studentParent);
+      const _type = FullType(StudentParent);
+      _bodyData = _serializers.serialize(studentParent, specifiedType: _type);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -5454,8 +6041,12 @@ _bodyData=jsonEncode(studentParent);
     StudentParent? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<StudentParent, StudentParent>(rawData, 'StudentParent', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(StudentParent),
+      ) as StudentParent;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -5501,7 +6092,7 @@ _responseData = rawData == null ? null : deserialize<StudentParent, StudentParen
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/student-parents/{id}/'.replaceAll('{' r'id' '}', id.toString());
+    final _path = r'/api/v1/student-parents/{id}/'.replaceAll('{' r'id' '}', encodeQueryParameter(_serializers, id, const FullType(int)).toString());
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -5514,14 +6105,6 @@ _responseData = rawData == null ? null : deserialize<StudentParent, StudentParen
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -5580,14 +6163,6 @@ _responseData = rawData == null ? null : deserialize<StudentParent, StudentParen
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -5596,9 +6171,9 @@ _responseData = rawData == null ? null : deserialize<StudentParent, StudentParen
     );
 
     final _queryParameters = <String, dynamic>{
-      if (ordering != null) r'ordering': ordering,
-      if (page != null) r'page': page,
-      if (search != null) r'search': search,
+      if (ordering != null) r'ordering': encodeQueryParameter(_serializers, ordering, const FullType(String)),
+      if (page != null) r'page': encodeQueryParameter(_serializers, page, const FullType(int)),
+      if (search != null) r'search': encodeQueryParameter(_serializers, search, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
@@ -5613,8 +6188,12 @@ _responseData = rawData == null ? null : deserialize<StudentParent, StudentParen
     PaginatedStudentParentList? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<PaginatedStudentParentList, PaginatedStudentParentList>(rawData, 'PaginatedStudentParentList', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(PaginatedStudentParentList),
+      ) as PaginatedStudentParentList;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -5662,7 +6241,7 @@ _responseData = rawData == null ? null : deserialize<PaginatedStudentParentList,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/student-parents/{id}/'.replaceAll('{' r'id' '}', id.toString());
+    final _path = r'/api/v1/student-parents/{id}/'.replaceAll('{' r'id' '}', encodeQueryParameter(_serializers, id, const FullType(int)).toString());
     final _options = Options(
       method: r'PATCH',
       headers: <String, dynamic>{
@@ -5675,14 +6254,6 @@ _responseData = rawData == null ? null : deserialize<PaginatedStudentParentList,
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -5694,7 +6265,9 @@ _responseData = rawData == null ? null : deserialize<PaginatedStudentParentList,
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(patchedStudentParent);
+      const _type = FullType(PatchedStudentParent);
+      _bodyData = patchedStudentParent == null ? null : _serializers.serialize(patchedStudentParent, specifiedType: _type);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -5719,8 +6292,12 @@ _bodyData=jsonEncode(patchedStudentParent);
     StudentParent? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<StudentParent, StudentParent>(rawData, 'StudentParent', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(StudentParent),
+      ) as StudentParent;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -5766,7 +6343,7 @@ _responseData = rawData == null ? null : deserialize<StudentParent, StudentParen
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/student-parents/{id}/'.replaceAll('{' r'id' '}', id.toString());
+    final _path = r'/api/v1/student-parents/{id}/'.replaceAll('{' r'id' '}', encodeQueryParameter(_serializers, id, const FullType(int)).toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -5779,14 +6356,6 @@ _responseData = rawData == null ? null : deserialize<StudentParent, StudentParen
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -5805,8 +6374,12 @@ _responseData = rawData == null ? null : deserialize<StudentParent, StudentParen
     StudentParent? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<StudentParent, StudentParent>(rawData, 'StudentParent', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(StudentParent),
+      ) as StudentParent;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -5854,7 +6427,7 @@ _responseData = rawData == null ? null : deserialize<StudentParent, StudentParen
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/student-parents/{id}/'.replaceAll('{' r'id' '}', id.toString());
+    final _path = r'/api/v1/student-parents/{id}/'.replaceAll('{' r'id' '}', encodeQueryParameter(_serializers, id, const FullType(int)).toString());
     final _options = Options(
       method: r'PUT',
       headers: <String, dynamic>{
@@ -5867,14 +6440,6 @@ _responseData = rawData == null ? null : deserialize<StudentParent, StudentParen
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -5886,7 +6451,9 @@ _responseData = rawData == null ? null : deserialize<StudentParent, StudentParen
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(studentParent);
+      const _type = FullType(StudentParent);
+      _bodyData = _serializers.serialize(studentParent, specifiedType: _type);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -5911,8 +6478,12 @@ _bodyData=jsonEncode(studentParent);
     StudentParent? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<StudentParent, StudentParent>(rawData, 'StudentParent', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(StudentParent),
+      ) as StudentParent;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -5971,14 +6542,6 @@ _responseData = rawData == null ? null : deserialize<StudentParent, StudentParen
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -5990,7 +6553,9 @@ _responseData = rawData == null ? null : deserialize<StudentParent, StudentParen
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(studentPhoto);
+      const _type = FullType(StudentPhoto);
+      _bodyData = _serializers.serialize(studentPhoto, specifiedType: _type);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -6015,8 +6580,12 @@ _bodyData=jsonEncode(studentPhoto);
     StudentPhoto? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<StudentPhoto, StudentPhoto>(rawData, 'StudentPhoto', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(StudentPhoto),
+      ) as StudentPhoto;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -6062,7 +6631,7 @@ _responseData = rawData == null ? null : deserialize<StudentPhoto, StudentPhoto>
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/student-photos/{photo_id}/'.replaceAll('{' r'photo_id' '}', photoId.toString());
+    final _path = r'/api/v1/student-photos/{photo_id}/'.replaceAll('{' r'photo_id' '}', encodeQueryParameter(_serializers, photoId, const FullType(String)).toString());
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -6075,14 +6644,6 @@ _responseData = rawData == null ? null : deserialize<StudentPhoto, StudentPhoto>
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -6141,14 +6702,6 @@ _responseData = rawData == null ? null : deserialize<StudentPhoto, StudentPhoto>
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -6157,9 +6710,9 @@ _responseData = rawData == null ? null : deserialize<StudentPhoto, StudentPhoto>
     );
 
     final _queryParameters = <String, dynamic>{
-      if (ordering != null) r'ordering': ordering,
-      if (page != null) r'page': page,
-      if (search != null) r'search': search,
+      if (ordering != null) r'ordering': encodeQueryParameter(_serializers, ordering, const FullType(String)),
+      if (page != null) r'page': encodeQueryParameter(_serializers, page, const FullType(int)),
+      if (search != null) r'search': encodeQueryParameter(_serializers, search, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
@@ -6174,8 +6727,12 @@ _responseData = rawData == null ? null : deserialize<StudentPhoto, StudentPhoto>
     PaginatedStudentPhotoList? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<PaginatedStudentPhotoList, PaginatedStudentPhotoList>(rawData, 'PaginatedStudentPhotoList', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(PaginatedStudentPhotoList),
+      ) as PaginatedStudentPhotoList;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -6223,7 +6780,7 @@ _responseData = rawData == null ? null : deserialize<PaginatedStudentPhotoList, 
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/student-photos/{photo_id}/'.replaceAll('{' r'photo_id' '}', photoId.toString());
+    final _path = r'/api/v1/student-photos/{photo_id}/'.replaceAll('{' r'photo_id' '}', encodeQueryParameter(_serializers, photoId, const FullType(String)).toString());
     final _options = Options(
       method: r'PATCH',
       headers: <String, dynamic>{
@@ -6236,14 +6793,6 @@ _responseData = rawData == null ? null : deserialize<PaginatedStudentPhotoList, 
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -6255,7 +6804,9 @@ _responseData = rawData == null ? null : deserialize<PaginatedStudentPhotoList, 
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(patchedStudentPhoto);
+      const _type = FullType(PatchedStudentPhoto);
+      _bodyData = patchedStudentPhoto == null ? null : _serializers.serialize(patchedStudentPhoto, specifiedType: _type);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -6280,8 +6831,12 @@ _bodyData=jsonEncode(patchedStudentPhoto);
     StudentPhoto? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<StudentPhoto, StudentPhoto>(rawData, 'StudentPhoto', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(StudentPhoto),
+      ) as StudentPhoto;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -6327,7 +6882,7 @@ _responseData = rawData == null ? null : deserialize<StudentPhoto, StudentPhoto>
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/student-photos/{photo_id}/'.replaceAll('{' r'photo_id' '}', photoId.toString());
+    final _path = r'/api/v1/student-photos/{photo_id}/'.replaceAll('{' r'photo_id' '}', encodeQueryParameter(_serializers, photoId, const FullType(String)).toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -6340,14 +6895,6 @@ _responseData = rawData == null ? null : deserialize<StudentPhoto, StudentPhoto>
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -6366,8 +6913,12 @@ _responseData = rawData == null ? null : deserialize<StudentPhoto, StudentPhoto>
     StudentPhoto? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<StudentPhoto, StudentPhoto>(rawData, 'StudentPhoto', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(StudentPhoto),
+      ) as StudentPhoto;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -6415,7 +6966,7 @@ _responseData = rawData == null ? null : deserialize<StudentPhoto, StudentPhoto>
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/student-photos/{photo_id}/set_primary/'.replaceAll('{' r'photo_id' '}', photoId.toString());
+    final _path = r'/api/v1/student-photos/{photo_id}/set_primary/'.replaceAll('{' r'photo_id' '}', encodeQueryParameter(_serializers, photoId, const FullType(String)).toString());
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
@@ -6428,14 +6979,6 @@ _responseData = rawData == null ? null : deserialize<StudentPhoto, StudentPhoto>
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -6447,7 +6990,9 @@ _responseData = rawData == null ? null : deserialize<StudentPhoto, StudentPhoto>
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(studentPhoto);
+      const _type = FullType(StudentPhoto);
+      _bodyData = _serializers.serialize(studentPhoto, specifiedType: _type);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -6472,8 +7017,12 @@ _bodyData=jsonEncode(studentPhoto);
     StudentPhoto? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<StudentPhoto, StudentPhoto>(rawData, 'StudentPhoto', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(StudentPhoto),
+      ) as StudentPhoto;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -6521,7 +7070,7 @@ _responseData = rawData == null ? null : deserialize<StudentPhoto, StudentPhoto>
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/student-photos/{photo_id}/'.replaceAll('{' r'photo_id' '}', photoId.toString());
+    final _path = r'/api/v1/student-photos/{photo_id}/'.replaceAll('{' r'photo_id' '}', encodeQueryParameter(_serializers, photoId, const FullType(String)).toString());
     final _options = Options(
       method: r'PUT',
       headers: <String, dynamic>{
@@ -6534,14 +7083,6 @@ _responseData = rawData == null ? null : deserialize<StudentPhoto, StudentPhoto>
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -6553,7 +7094,9 @@ _responseData = rawData == null ? null : deserialize<StudentPhoto, StudentPhoto>
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(studentPhoto);
+      const _type = FullType(StudentPhoto);
+      _bodyData = _serializers.serialize(studentPhoto, specifiedType: _type);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -6578,8 +7121,12 @@ _bodyData=jsonEncode(studentPhoto);
     StudentPhoto? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<StudentPhoto, StudentPhoto>(rawData, 'StudentPhoto', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(StudentPhoto),
+      ) as StudentPhoto;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -6627,7 +7174,7 @@ _responseData = rawData == null ? null : deserialize<StudentPhoto, StudentPhoto>
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/students/{student_id}/assign_bus/'.replaceAll('{' r'student_id' '}', studentId.toString());
+    final _path = r'/api/v1/students/{student_id}/assign_bus/'.replaceAll('{' r'student_id' '}', encodeQueryParameter(_serializers, studentId, const FullType(String)).toString());
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
@@ -6640,14 +7187,6 @@ _responseData = rawData == null ? null : deserialize<StudentPhoto, StudentPhoto>
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -6659,7 +7198,9 @@ _responseData = rawData == null ? null : deserialize<StudentPhoto, StudentPhoto>
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(student);
+      const _type = FullType(Student);
+      _bodyData = _serializers.serialize(student, specifiedType: _type);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -6684,8 +7225,12 @@ _bodyData=jsonEncode(student);
     Student? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 'Student', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(Student),
+      ) as Student;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -6744,14 +7289,6 @@ _responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -6763,7 +7300,9 @@ _responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(student);
+      const _type = FullType(Student);
+      _bodyData = _serializers.serialize(student, specifiedType: _type);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -6788,8 +7327,12 @@ _bodyData=jsonEncode(student);
     Student? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 'Student', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(Student),
+      ) as Student;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -6835,7 +7378,7 @@ _responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/students/{student_id}/'.replaceAll('{' r'student_id' '}', studentId.toString());
+    final _path = r'/api/v1/students/{student_id}/'.replaceAll('{' r'student_id' '}', encodeQueryParameter(_serializers, studentId, const FullType(String)).toString());
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -6848,14 +7391,6 @@ _responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -6914,14 +7449,6 @@ _responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -6930,9 +7457,9 @@ _responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 
     );
 
     final _queryParameters = <String, dynamic>{
-      if (ordering != null) r'ordering': ordering,
-      if (page != null) r'page': page,
-      if (search != null) r'search': search,
+      if (ordering != null) r'ordering': encodeQueryParameter(_serializers, ordering, const FullType(String)),
+      if (page != null) r'page': encodeQueryParameter(_serializers, page, const FullType(int)),
+      if (search != null) r'search': encodeQueryParameter(_serializers, search, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
@@ -6947,8 +7474,12 @@ _responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 
     PaginatedStudentList? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<PaginatedStudentList, PaginatedStudentList>(rawData, 'PaginatedStudentList', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(PaginatedStudentList),
+      ) as PaginatedStudentList;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -6994,7 +7525,7 @@ _responseData = rawData == null ? null : deserialize<PaginatedStudentList, Pagin
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/students/{student_id}/parents/'.replaceAll('{' r'student_id' '}', studentId.toString());
+    final _path = r'/api/v1/students/{student_id}/parents/'.replaceAll('{' r'student_id' '}', encodeQueryParameter(_serializers, studentId, const FullType(String)).toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -7007,14 +7538,6 @@ _responseData = rawData == null ? null : deserialize<PaginatedStudentList, Pagin
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -7033,8 +7556,12 @@ _responseData = rawData == null ? null : deserialize<PaginatedStudentList, Pagin
     Student? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 'Student', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(Student),
+      ) as Student;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -7082,7 +7609,7 @@ _responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/students/{student_id}/'.replaceAll('{' r'student_id' '}', studentId.toString());
+    final _path = r'/api/v1/students/{student_id}/'.replaceAll('{' r'student_id' '}', encodeQueryParameter(_serializers, studentId, const FullType(String)).toString());
     final _options = Options(
       method: r'PATCH',
       headers: <String, dynamic>{
@@ -7095,14 +7622,6 @@ _responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -7114,7 +7633,9 @@ _responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(patchedStudent);
+      const _type = FullType(PatchedStudent);
+      _bodyData = patchedStudent == null ? null : _serializers.serialize(patchedStudent, specifiedType: _type);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -7139,8 +7660,12 @@ _bodyData=jsonEncode(patchedStudent);
     Student? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 'Student', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(Student),
+      ) as Student;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -7186,7 +7711,7 @@ _responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/students/{student_id}/'.replaceAll('{' r'student_id' '}', studentId.toString());
+    final _path = r'/api/v1/students/{student_id}/'.replaceAll('{' r'student_id' '}', encodeQueryParameter(_serializers, studentId, const FullType(String)).toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -7199,14 +7724,6 @@ _responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -7225,8 +7742,12 @@ _responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 
     Student? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 'Student', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(Student),
+      ) as Student;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -7274,7 +7795,7 @@ _responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/students/{student_id}/'.replaceAll('{' r'student_id' '}', studentId.toString());
+    final _path = r'/api/v1/students/{student_id}/'.replaceAll('{' r'student_id' '}', encodeQueryParameter(_serializers, studentId, const FullType(String)).toString());
     final _options = Options(
       method: r'PUT',
       headers: <String, dynamic>{
@@ -7287,14 +7808,6 @@ _responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -7306,7 +7819,9 @@ _responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(student);
+      const _type = FullType(Student);
+      _bodyData = _serializers.serialize(student, specifiedType: _type);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -7331,8 +7846,12 @@ _bodyData=jsonEncode(student);
     Student? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 'Student', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(Student),
+      ) as Student;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -7359,7 +7878,7 @@ _responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 
   /// 
   ///
   /// Parameters:
-  /// * [userCreate] 
+  /// * [user] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -7367,10 +7886,10 @@ _responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [UserCreate] as data
+  /// Returns a [Future] containing a [Response] with a [User] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<UserCreate>> apiV1UsersCreate({ 
-    required UserCreate userCreate,
+  Future<Response<User>> apiV1UsersCreate({ 
+    required User user,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -7391,14 +7910,6 @@ _responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -7410,7 +7921,9 @@ _responseData = rawData == null ? null : deserialize<Student, Student>(rawData, 
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(userCreate);
+      const _type = FullType(User);
+      _bodyData = _serializers.serialize(user, specifiedType: _type);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -7432,11 +7945,15 @@ _bodyData=jsonEncode(userCreate);
       onReceiveProgress: onReceiveProgress,
     );
 
-    UserCreate? _responseData;
+    User? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<UserCreate, UserCreate>(rawData, 'UserCreate', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(User),
+      ) as User;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -7447,7 +7964,7 @@ _responseData = rawData == null ? null : deserialize<UserCreate, UserCreate>(raw
       );
     }
 
-    return Response<UserCreate>(
+    return Response<User>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -7482,7 +7999,7 @@ _responseData = rawData == null ? null : deserialize<UserCreate, UserCreate>(raw
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/users/{user_id}/'.replaceAll('{' r'user_id' '}', userId.toString());
+    final _path = r'/api/v1/users/{user_id}/'.replaceAll('{' r'user_id' '}', encodeQueryParameter(_serializers, userId, const FullType(String)).toString());
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -7495,14 +8012,6 @@ _responseData = rawData == null ? null : deserialize<UserCreate, UserCreate>(raw
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -7561,14 +8070,6 @@ _responseData = rawData == null ? null : deserialize<UserCreate, UserCreate>(raw
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -7577,9 +8078,9 @@ _responseData = rawData == null ? null : deserialize<UserCreate, UserCreate>(raw
     );
 
     final _queryParameters = <String, dynamic>{
-      if (ordering != null) r'ordering': ordering,
-      if (page != null) r'page': page,
-      if (search != null) r'search': search,
+      if (ordering != null) r'ordering': encodeQueryParameter(_serializers, ordering, const FullType(String)),
+      if (page != null) r'page': encodeQueryParameter(_serializers, page, const FullType(int)),
+      if (search != null) r'search': encodeQueryParameter(_serializers, search, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
@@ -7594,8 +8095,12 @@ _responseData = rawData == null ? null : deserialize<UserCreate, UserCreate>(raw
     PaginatedUserList? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<PaginatedUserList, PaginatedUserList>(rawData, 'PaginatedUserList', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(PaginatedUserList),
+      ) as PaginatedUserList;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -7607,214 +8112,6 @@ _responseData = rawData == null ? null : deserialize<PaginatedUserList, Paginate
     }
 
     return Response<PaginatedUserList>(
-      data: _responseData,
-      headers: _response.headers,
-      isRedirect: _response.isRedirect,
-      requestOptions: _response.requestOptions,
-      redirects: _response.redirects,
-      statusCode: _response.statusCode,
-      statusMessage: _response.statusMessage,
-      extra: _response.extra,
-    );
-  }
-
-  /// apiV1UsersLoginCreate
-  /// 
-  ///
-  /// Parameters:
-  /// * [user] 
-  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
-  /// * [headers] - Can be used to add additional headers to the request
-  /// * [extras] - Can be used to add flags to the request
-  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
-  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
-  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
-  ///
-  /// Returns a [Future] containing a [Response] with a [User] as data
-  /// Throws [DioException] if API call or serialization fails
-  Future<Response<User>> apiV1UsersLoginCreate({ 
-    required User user,
-    CancelToken? cancelToken,
-    Map<String, dynamic>? headers,
-    Map<String, dynamic>? extra,
-    ValidateStatus? validateStatus,
-    ProgressCallback? onSendProgress,
-    ProgressCallback? onReceiveProgress,
-  }) async {
-    final _path = r'/api/v1/users/login/';
-    final _options = Options(
-      method: r'POST',
-      headers: <String, dynamic>{
-        ...?headers,
-      },
-      extra: <String, dynamic>{
-        'secure': <Map<String, String>>[
-          {
-            'type': 'apiKey',
-            'name': 'cookieAuth',
-            'keyName': 'sessionid',
-            'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
-          },
-        ],
-        ...?extra,
-      },
-      contentType: 'application/json',
-      validateStatus: validateStatus,
-    );
-
-    dynamic _bodyData;
-
-    try {
-_bodyData=jsonEncode(user);
-    } catch(error, stackTrace) {
-      throw DioException(
-         requestOptions: _options.compose(
-          _dio.options,
-          _path,
-        ),
-        type: DioExceptionType.unknown,
-        error: error,
-        stackTrace: stackTrace,
-      );
-    }
-
-    final _response = await _dio.request<Object>(
-      _path,
-      data: _bodyData,
-      options: _options,
-      cancelToken: cancelToken,
-      onSendProgress: onSendProgress,
-      onReceiveProgress: onReceiveProgress,
-    );
-
-    User? _responseData;
-
-    try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<User, User>(rawData, 'User', growable: true);
-    } catch (error, stackTrace) {
-      throw DioException(
-        requestOptions: _response.requestOptions,
-        response: _response,
-        type: DioExceptionType.unknown,
-        error: error,
-        stackTrace: stackTrace,
-      );
-    }
-
-    return Response<User>(
-      data: _responseData,
-      headers: _response.headers,
-      isRedirect: _response.isRedirect,
-      requestOptions: _response.requestOptions,
-      redirects: _response.redirects,
-      statusCode: _response.statusCode,
-      statusMessage: _response.statusMessage,
-      extra: _response.extra,
-    );
-  }
-
-  /// apiV1UsersLogoutCreate
-  /// Logout endpoint - Blacklists refresh token (Fortune 500 standard)  Security: Prevents token reuse even if stolen  Request Body: { \&quot;refresh\&quot;: \&quot;...\&quot; } Returns: 200 { \&quot;message\&quot;: \&quot;Logout successful\&quot; }
-  ///
-  /// Parameters:
-  /// * [user] 
-  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
-  /// * [headers] - Can be used to add additional headers to the request
-  /// * [extras] - Can be used to add flags to the request
-  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
-  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
-  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
-  ///
-  /// Returns a [Future] containing a [Response] with a [User] as data
-  /// Throws [DioException] if API call or serialization fails
-  Future<Response<User>> apiV1UsersLogoutCreate({ 
-    required User user,
-    CancelToken? cancelToken,
-    Map<String, dynamic>? headers,
-    Map<String, dynamic>? extra,
-    ValidateStatus? validateStatus,
-    ProgressCallback? onSendProgress,
-    ProgressCallback? onReceiveProgress,
-  }) async {
-    final _path = r'/api/v1/users/logout/';
-    final _options = Options(
-      method: r'POST',
-      headers: <String, dynamic>{
-        ...?headers,
-      },
-      extra: <String, dynamic>{
-        'secure': <Map<String, String>>[
-          {
-            'type': 'apiKey',
-            'name': 'cookieAuth',
-            'keyName': 'sessionid',
-            'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
-          },
-        ],
-        ...?extra,
-      },
-      contentType: 'application/json',
-      validateStatus: validateStatus,
-    );
-
-    dynamic _bodyData;
-
-    try {
-_bodyData=jsonEncode(user);
-    } catch(error, stackTrace) {
-      throw DioException(
-         requestOptions: _options.compose(
-          _dio.options,
-          _path,
-        ),
-        type: DioExceptionType.unknown,
-        error: error,
-        stackTrace: stackTrace,
-      );
-    }
-
-    final _response = await _dio.request<Object>(
-      _path,
-      data: _bodyData,
-      options: _options,
-      cancelToken: cancelToken,
-      onSendProgress: onSendProgress,
-      onReceiveProgress: onReceiveProgress,
-    );
-
-    User? _responseData;
-
-    try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<User, User>(rawData, 'User', growable: true);
-    } catch (error, stackTrace) {
-      throw DioException(
-        requestOptions: _response.requestOptions,
-        response: _response,
-        type: DioExceptionType.unknown,
-        error: error,
-        stackTrace: stackTrace,
-      );
-    }
-
-    return Response<User>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -7860,14 +8157,6 @@ _responseData = rawData == null ? null : deserialize<User, User>(rawData, 'User'
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -7886,8 +8175,12 @@ _responseData = rawData == null ? null : deserialize<User, User>(rawData, 'User'
     User? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<User, User>(rawData, 'User', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(User),
+      ) as User;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -7935,7 +8228,7 @@ _responseData = rawData == null ? null : deserialize<User, User>(rawData, 'User'
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/users/{user_id}/'.replaceAll('{' r'user_id' '}', userId.toString());
+    final _path = r'/api/v1/users/{user_id}/'.replaceAll('{' r'user_id' '}', encodeQueryParameter(_serializers, userId, const FullType(String)).toString());
     final _options = Options(
       method: r'PATCH',
       headers: <String, dynamic>{
@@ -7948,14 +8241,6 @@ _responseData = rawData == null ? null : deserialize<User, User>(rawData, 'User'
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -7967,7 +8252,9 @@ _responseData = rawData == null ? null : deserialize<User, User>(rawData, 'User'
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(patchedUser);
+      const _type = FullType(PatchedUser);
+      _bodyData = patchedUser == null ? null : _serializers.serialize(patchedUser, specifiedType: _type);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -7992,8 +8279,12 @@ _bodyData=jsonEncode(patchedUser);
     User? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<User, User>(rawData, 'User', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(User),
+      ) as User;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -8039,7 +8330,7 @@ _responseData = rawData == null ? null : deserialize<User, User>(rawData, 'User'
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/users/{user_id}/'.replaceAll('{' r'user_id' '}', userId.toString());
+    final _path = r'/api/v1/users/{user_id}/'.replaceAll('{' r'user_id' '}', encodeQueryParameter(_serializers, userId, const FullType(String)).toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -8052,14 +8343,6 @@ _responseData = rawData == null ? null : deserialize<User, User>(rawData, 'User'
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -8078,8 +8361,12 @@ _responseData = rawData == null ? null : deserialize<User, User>(rawData, 'User'
     User? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<User, User>(rawData, 'User', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(User),
+      ) as User;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -8127,7 +8414,7 @@ _responseData = rawData == null ? null : deserialize<User, User>(rawData, 'User'
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/users/{user_id}/'.replaceAll('{' r'user_id' '}', userId.toString());
+    final _path = r'/api/v1/users/{user_id}/'.replaceAll('{' r'user_id' '}', encodeQueryParameter(_serializers, userId, const FullType(String)).toString());
     final _options = Options(
       method: r'PUT',
       headers: <String, dynamic>{
@@ -8140,14 +8427,6 @@ _responseData = rawData == null ? null : deserialize<User, User>(rawData, 'User'
             'name': 'cookieAuth',
             'keyName': 'sessionid',
             'where': '',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'jwtAuth',
-          },{
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
           },
         ],
         ...?extra,
@@ -8159,7 +8438,9 @@ _responseData = rawData == null ? null : deserialize<User, User>(rawData, 'User'
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(user);
+      const _type = FullType(User);
+      _bodyData = _serializers.serialize(user, specifiedType: _type);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -8184,8 +8465,12 @@ _bodyData=jsonEncode(user);
     User? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<User, User>(rawData, 'User', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(User),
+      ) as User;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -8233,27 +8518,21 @@ _responseData = rawData == null ? null : deserialize<User, User>(rawData, 'User'
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/kiosks/{kiosk_id}/check-updates/'.replaceAll('{' r'kiosk_id' '}', kioskId.toString());
+    final _path = r'/api/v1/kiosks/{kiosk_id}/check-updates/'.replaceAll('{' r'kiosk_id' '}', encodeQueryParameter(_serializers, kioskId, const FullType(String)).toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
         ...?headers,
       },
       extra: <String, dynamic>{
-        'secure': <Map<String, String>>[
-          {
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
-          },
-        ],
+        'secure': <Map<String, String>>[],
         ...?extra,
       },
       validateStatus: validateStatus,
     );
 
     final _queryParameters = <String, dynamic>{
-      if (lastSyncHash != null) r'last_sync_hash': lastSyncHash,
+      if (lastSyncHash != null) r'last_sync_hash': encodeQueryParameter(_serializers, lastSyncHash, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
@@ -8268,8 +8547,12 @@ _responseData = rawData == null ? null : deserialize<User, User>(rawData, 'User'
     CheckUpdatesResponse? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<CheckUpdatesResponse, CheckUpdatesResponse>(rawData, 'CheckUpdatesResponse', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(CheckUpdatesResponse),
+      ) as CheckUpdatesResponse;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -8304,9 +8587,9 @@ _responseData = rawData == null ? null : deserialize<CheckUpdatesResponse, Check
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [MultipartFile] as data
+  /// Returns a [Future] containing a [Response] with a [Uint8List] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<MultipartFile>> kioskDownloadSnapshot({ 
+  Future<Response<Uint8List>> kioskDownloadSnapshot({ 
     required String kioskId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -8315,7 +8598,7 @@ _responseData = rawData == null ? null : deserialize<CheckUpdatesResponse, Check
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/kiosks/{kiosk_id}/snapshot/'.replaceAll('{' r'kiosk_id' '}', kioskId.toString());
+    final _path = r'/api/v1/kiosks/{kiosk_id}/snapshot/'.replaceAll('{' r'kiosk_id' '}', encodeQueryParameter(_serializers, kioskId, const FullType(String)).toString());
     final _options = Options(
       method: r'GET',
       responseType: ResponseType.bytes,
@@ -8323,13 +8606,7 @@ _responseData = rawData == null ? null : deserialize<CheckUpdatesResponse, Check
         ...?headers,
       },
       extra: <String, dynamic>{
-        'secure': <Map<String, String>>[
-          {
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
-          },
-        ],
+        'secure': <Map<String, String>>[],
         ...?extra,
       },
       validateStatus: validateStatus,
@@ -8343,11 +8620,12 @@ _responseData = rawData == null ? null : deserialize<CheckUpdatesResponse, Check
       onReceiveProgress: onReceiveProgress,
     );
 
-    MultipartFile? _responseData;
+    Uint8List? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<MultipartFile, MultipartFile>(rawData, 'MultipartFile', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : rawResponse as Uint8List;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -8358,7 +8636,7 @@ _responseData = rawData == null ? null : deserialize<MultipartFile, MultipartFil
       );
     }
 
-    return Response<MultipartFile>(
+    return Response<Uint8List>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -8395,20 +8673,14 @@ _responseData = rawData == null ? null : deserialize<MultipartFile, MultipartFil
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/kiosks/{kiosk_id}/heartbeat/'.replaceAll('{' r'kiosk_id' '}', kioskId.toString());
+    final _path = r'/api/v1/kiosks/{kiosk_id}/heartbeat/'.replaceAll('{' r'kiosk_id' '}', encodeQueryParameter(_serializers, kioskId, const FullType(String)).toString());
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
         ...?headers,
       },
       extra: <String, dynamic>{
-        'secure': <Map<String, String>>[
-          {
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
-          },
-        ],
+        'secure': <Map<String, String>>[],
         ...?extra,
       },
       contentType: 'application/json',
@@ -8418,7 +8690,9 @@ _responseData = rawData == null ? null : deserialize<MultipartFile, MultipartFil
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(heartbeat);
+      const _type = FullType(Heartbeat);
+      _bodyData = _serializers.serialize(heartbeat, specifiedType: _type);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -8473,13 +8747,7 @@ _bodyData=jsonEncode(heartbeat);
         ...?headers,
       },
       extra: <String, dynamic>{
-        'secure': <Map<String, String>>[
-          {
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
-          },
-        ],
+        'secure': <Map<String, String>>[],
         ...?extra,
       },
       contentType: 'application/json',
@@ -8489,7 +8757,9 @@ _bodyData=jsonEncode(heartbeat);
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(deviceLog);
+      const _type = FullType(DeviceLog);
+      _bodyData = _serializers.serialize(deviceLog, specifiedType: _type);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -8514,8 +8784,12 @@ _bodyData=jsonEncode(deviceLog);
     KioskLog200Response? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<KioskLog200Response, KioskLog200Response>(rawData, 'KioskLog200Response', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(KioskLog200Response),
+      ) as KioskLog200Response;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -8563,20 +8837,14 @@ _responseData = rawData == null ? null : deserialize<KioskLog200Response, KioskL
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/kiosks/{kiosk_id}/location/'.replaceAll('{' r'kiosk_id' '}', kioskId.toString());
+    final _path = r'/api/v1/kiosks/{kiosk_id}/location/'.replaceAll('{' r'kiosk_id' '}', encodeQueryParameter(_serializers, kioskId, const FullType(String)).toString());
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
         ...?headers,
       },
       extra: <String, dynamic>{
-        'secure': <Map<String, String>>[
-          {
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'KioskJWTAuth',
-          },
-        ],
+        'secure': <Map<String, String>>[],
         ...?extra,
       },
       contentType: 'application/json',
@@ -8586,7 +8854,9 @@ _responseData = rawData == null ? null : deserialize<KioskLog200Response, KioskL
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(busLocation);
+      const _type = FullType(BusLocation);
+      _bodyData = _serializers.serialize(busLocation, specifiedType: _type);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -8611,8 +8881,12 @@ _bodyData=jsonEncode(busLocation);
     BusLocation? _responseData;
 
     try {
-final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<BusLocation, BusLocation>(rawData, 'BusLocation', growable: true);
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(BusLocation),
+      ) as BusLocation;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,

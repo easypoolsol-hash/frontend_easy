@@ -3,106 +3,156 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:json_annotation/json_annotation.dart';
+import 'package:built_value/built_value.dart';
+import 'package:built_value/serializer.dart';
 
 part 'boarding_event_nested.g.dart';
 
+/// Nested boarding event for student activity.
+///
+/// Properties:
+/// * [eventId] - Event ULID
+/// * [timestamp] - When event occurred
+/// * [kioskId] - Kiosk device ID
+/// * [eventType] - Event type (boarding/pickup/dropoff)
+@BuiltValue()
+abstract class BoardingEventNested implements Built<BoardingEventNested, BoardingEventNestedBuilder> {
+  /// Event ULID
+  @BuiltValueField(wireName: r'event_id')
+  String get eventId;
 
-@JsonSerializable(
-  checked: true,
-  createToJson: true,
-  disallowUnrecognizedKeys: false,
-  explicitToJson: true,
-)
-class BoardingEventNested {
-  /// Returns a new [BoardingEventNested] instance.
-  BoardingEventNested({
+  /// When event occurred
+  @BuiltValueField(wireName: r'timestamp')
+  DateTime get timestamp;
 
-    required  this.eventId,
+  /// Kiosk device ID
+  @BuiltValueField(wireName: r'kiosk_id')
+  String get kioskId;
 
-    required  this.timestamp,
+  /// Event type (boarding/pickup/dropoff)
+  @BuiltValueField(wireName: r'event_type')
+  String get eventType;
 
-    required  this.kioskId,
+  BoardingEventNested._();
 
-    required  this.eventType,
-  });
+  factory BoardingEventNested([void updates(BoardingEventNestedBuilder b)]) = _$BoardingEventNested;
 
-      /// Event ULID
-  @JsonKey(
-    
-    name: r'event_id',
-    required: true,
-    includeIfNull: false,
-  )
+  @BuiltValueHook(initializeBuilder: true)
+  static void _defaults(BoardingEventNestedBuilder b) => b;
 
+  @BuiltValueSerializer(custom: true)
+  static Serializer<BoardingEventNested> get serializer => _$BoardingEventNestedSerializer();
+}
 
-  final String eventId;
-
-
-
-      /// When event occurred
-  @JsonKey(
-    
-    name: r'timestamp',
-    required: true,
-    includeIfNull: false,
-  )
-
-
-  final DateTime timestamp;
-
-
-
-      /// Kiosk device ID
-  @JsonKey(
-    
-    name: r'kiosk_id',
-    required: true,
-    includeIfNull: false,
-  )
-
-
-  final String kioskId;
-
-
-
-      /// Event type (boarding/pickup/dropoff)
-  @JsonKey(
-    
-    name: r'event_type',
-    required: true,
-    includeIfNull: false,
-  )
-
-
-  final String eventType;
-
-
-
-
-
-    @override
-    bool operator ==(Object other) => identical(this, other) || other is BoardingEventNested &&
-      other.eventId == eventId &&
-      other.timestamp == timestamp &&
-      other.kioskId == kioskId &&
-      other.eventType == eventType;
-
-    @override
-    int get hashCode =>
-        eventId.hashCode +
-        timestamp.hashCode +
-        kioskId.hashCode +
-        eventType.hashCode;
-
-  factory BoardingEventNested.fromJson(Map<String, dynamic> json) => _$BoardingEventNestedFromJson(json);
-
-  Map<String, dynamic> toJson() => _$BoardingEventNestedToJson(this);
+class _$BoardingEventNestedSerializer implements PrimitiveSerializer<BoardingEventNested> {
+  @override
+  final Iterable<Type> types = const [BoardingEventNested, _$BoardingEventNested];
 
   @override
-  String toString() {
-    return toJson().toString();
+  final String wireName = r'BoardingEventNested';
+
+  Iterable<Object?> _serializeProperties(
+    Serializers serializers,
+    BoardingEventNested object, {
+    FullType specifiedType = FullType.unspecified,
+  }) sync* {
+    yield r'event_id';
+    yield serializers.serialize(
+      object.eventId,
+      specifiedType: const FullType(String),
+    );
+    yield r'timestamp';
+    yield serializers.serialize(
+      object.timestamp,
+      specifiedType: const FullType(DateTime),
+    );
+    yield r'kiosk_id';
+    yield serializers.serialize(
+      object.kioskId,
+      specifiedType: const FullType(String),
+    );
+    yield r'event_type';
+    yield serializers.serialize(
+      object.eventType,
+      specifiedType: const FullType(String),
+    );
   }
 
+  @override
+  Object serialize(
+    Serializers serializers,
+    BoardingEventNested object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+  }
+
+  void _deserializeProperties(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+    required List<Object?> serializedList,
+    required BoardingEventNestedBuilder result,
+    required List<Object?> unhandled,
+  }) {
+    for (var i = 0; i < serializedList.length; i += 2) {
+      final key = serializedList[i] as String;
+      final value = serializedList[i + 1];
+      switch (key) {
+        case r'event_id':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.eventId = valueDes;
+          break;
+        case r'timestamp':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(DateTime),
+          ) as DateTime;
+          result.timestamp = valueDes;
+          break;
+        case r'kiosk_id':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.kioskId = valueDes;
+          break;
+        case r'event_type':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.eventType = valueDes;
+          break;
+        default:
+          unhandled.add(key);
+          unhandled.add(value);
+          break;
+      }
+    }
+  }
+
+  @override
+  BoardingEventNested deserialize(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = BoardingEventNestedBuilder();
+    final serializedList = (serialized as Iterable<Object?>).toList();
+    final unhandled = <Object?>[];
+    _deserializeProperties(
+      serializers,
+      serialized,
+      specifiedType: specifiedType,
+      serializedList: serializedList,
+      unhandled: unhandled,
+      result: result,
+    );
+    return result.build();
+  }
 }
 

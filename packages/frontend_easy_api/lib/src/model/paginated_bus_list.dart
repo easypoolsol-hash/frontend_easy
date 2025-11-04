@@ -4,102 +4,159 @@
 
 // ignore_for_file: unused_element
 import 'package:frontend_easy_api/src/model/bus.dart';
-import 'package:json_annotation/json_annotation.dart';
+import 'package:built_collection/built_collection.dart';
+import 'package:built_value/built_value.dart';
+import 'package:built_value/serializer.dart';
 
 part 'paginated_bus_list.g.dart';
 
+/// PaginatedBusList
+///
+/// Properties:
+/// * [count] 
+/// * [next] 
+/// * [previous] 
+/// * [results] 
+@BuiltValue()
+abstract class PaginatedBusList implements Built<PaginatedBusList, PaginatedBusListBuilder> {
+  @BuiltValueField(wireName: r'count')
+  int get count;
 
-@JsonSerializable(
-  checked: true,
-  createToJson: true,
-  disallowUnrecognizedKeys: false,
-  explicitToJson: true,
-)
-class PaginatedBusList {
-  /// Returns a new [PaginatedBusList] instance.
-  PaginatedBusList({
+  @BuiltValueField(wireName: r'next')
+  String? get next;
 
-    required  this.count,
+  @BuiltValueField(wireName: r'previous')
+  String? get previous;
 
-     this.next,
+  @BuiltValueField(wireName: r'results')
+  BuiltList<Bus> get results;
 
-     this.previous,
+  PaginatedBusList._();
 
-    required  this.results,
-  });
+  factory PaginatedBusList([void updates(PaginatedBusListBuilder b)]) = _$PaginatedBusList;
 
-  @JsonKey(
-    
-    name: r'count',
-    required: true,
-    includeIfNull: false,
-  )
+  @BuiltValueHook(initializeBuilder: true)
+  static void _defaults(PaginatedBusListBuilder b) => b;
 
+  @BuiltValueSerializer(custom: true)
+  static Serializer<PaginatedBusList> get serializer => _$PaginatedBusListSerializer();
+}
 
-  final int count;
-
-
-
-  @JsonKey(
-    
-    name: r'next',
-    required: false,
-    includeIfNull: false,
-  )
-
-
-  final String? next;
-
-
-
-  @JsonKey(
-    
-    name: r'previous',
-    required: false,
-    includeIfNull: false,
-  )
-
-
-  final String? previous;
-
-
-
-  @JsonKey(
-    
-    name: r'results',
-    required: true,
-    includeIfNull: false,
-  )
-
-
-  final List<Bus> results;
-
-
-
-
-
-    @override
-    bool operator ==(Object other) => identical(this, other) || other is PaginatedBusList &&
-      other.count == count &&
-      other.next == next &&
-      other.previous == previous &&
-      other.results == results;
-
-    @override
-    int get hashCode =>
-        count.hashCode +
-        (next == null ? 0 : next.hashCode) +
-        (previous == null ? 0 : previous.hashCode) +
-        results.hashCode;
-
-  factory PaginatedBusList.fromJson(Map<String, dynamic> json) => _$PaginatedBusListFromJson(json);
-
-  Map<String, dynamic> toJson() => _$PaginatedBusListToJson(this);
+class _$PaginatedBusListSerializer implements PrimitiveSerializer<PaginatedBusList> {
+  @override
+  final Iterable<Type> types = const [PaginatedBusList, _$PaginatedBusList];
 
   @override
-  String toString() {
-    return toJson().toString();
+  final String wireName = r'PaginatedBusList';
+
+  Iterable<Object?> _serializeProperties(
+    Serializers serializers,
+    PaginatedBusList object, {
+    FullType specifiedType = FullType.unspecified,
+  }) sync* {
+    yield r'count';
+    yield serializers.serialize(
+      object.count,
+      specifiedType: const FullType(int),
+    );
+    if (object.next != null) {
+      yield r'next';
+      yield serializers.serialize(
+        object.next,
+        specifiedType: const FullType.nullable(String),
+      );
+    }
+    if (object.previous != null) {
+      yield r'previous';
+      yield serializers.serialize(
+        object.previous,
+        specifiedType: const FullType.nullable(String),
+      );
+    }
+    yield r'results';
+    yield serializers.serialize(
+      object.results,
+      specifiedType: const FullType(BuiltList, [FullType(Bus)]),
+    );
   }
 
+  @override
+  Object serialize(
+    Serializers serializers,
+    PaginatedBusList object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+  }
+
+  void _deserializeProperties(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+    required List<Object?> serializedList,
+    required PaginatedBusListBuilder result,
+    required List<Object?> unhandled,
+  }) {
+    for (var i = 0; i < serializedList.length; i += 2) {
+      final key = serializedList[i] as String;
+      final value = serializedList[i + 1];
+      switch (key) {
+        case r'count':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(int),
+          ) as int;
+          result.count = valueDes;
+          break;
+        case r'next':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
+          result.next = valueDes;
+          break;
+        case r'previous':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
+          result.previous = valueDes;
+          break;
+        case r'results':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(BuiltList, [FullType(Bus)]),
+          ) as BuiltList<Bus>;
+          result.results.replace(valueDes);
+          break;
+        default:
+          unhandled.add(key);
+          unhandled.add(value);
+          break;
+      }
+    }
+  }
+
+  @override
+  PaginatedBusList deserialize(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = PaginatedBusListBuilder();
+    final serializedList = (serialized as Iterable<Object?>).toList();
+    final unhandled = <Object?>[];
+    _deserializeProperties(
+      serializers,
+      serialized,
+      specifiedType: specifiedType,
+      serializedList: serializedList,
+      unhandled: unhandled,
+      result: result,
+    );
+    return result.build();
+  }
 }
 

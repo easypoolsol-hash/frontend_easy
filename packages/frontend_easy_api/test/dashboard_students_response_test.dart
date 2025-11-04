@@ -3,8 +3,8 @@ import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for DashboardStudentsResponse
 void main() {
-  final DashboardStudentsResponse? instance = /* DashboardStudentsResponse(...) */ null;
-  // TODO add properties to the entity
+  final instance = DashboardStudentsResponseBuilder();
+  // TODO add properties to the builder and call build()
 
   group(DashboardStudentsResponse, () {
     // Total number of students with events
@@ -26,7 +26,7 @@ void main() {
     });
 
     // List of students
-    // List<StudentActivity> results
+    // BuiltList<StudentActivity> results
     test('to test the property `results`', () async {
       // TODO
     });

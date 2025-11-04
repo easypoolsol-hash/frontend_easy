@@ -3,8 +3,8 @@ import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for BoardingEventNested
 void main() {
-  final BoardingEventNested? instance = /* BoardingEventNested(...) */ null;
-  // TODO add properties to the entity
+  final instance = BoardingEventNestedBuilder();
+  // TODO add properties to the builder and call build()
 
   group(BoardingEventNested, () {
     // Event ULID

@@ -3,73 +3,224 @@
 part of 'boarding_event_create.dart';
 
 // **************************************************************************
-// JsonSerializableGenerator
+// BuiltValueGenerator
 // **************************************************************************
 
-BoardingEventCreate _$BoardingEventCreateFromJson(Map<String, dynamic> json) =>
-    $checkedCreate(
-      'BoardingEventCreate',
-      json,
-      ($checkedConvert) {
-        $checkKeys(
-          json,
-          requiredKeys: const [
-            'event_id',
-            'student',
-            'kiosk_id',
-            'confidence_score',
-            'timestamp',
-            'gps_coords',
-            'model_version',
-          ],
-        );
-        final val = BoardingEventCreate(
-          eventId: $checkedConvert('event_id', (v) => v as String),
-          student: $checkedConvert('student', (v) => v as String),
-          kioskId: $checkedConvert('kiosk_id', (v) => v as String),
-          confidenceScore: $checkedConvert(
-            'confidence_score',
-            (v) => (v as num).toDouble(),
-          ),
-          timestamp: $checkedConvert(
-            'timestamp',
-            (v) => DateTime.parse(v as String),
-          ),
-          gpsCoords: $checkedConvert(
-            'gps_coords',
-            (v) => (v as List<dynamic>?)
-                ?.map((e) => (e as num).toDouble())
-                .toList(),
-          ),
-          busRoute: $checkedConvert('bus_route', (v) => v as String?),
-          faceImageUrl: $checkedConvert('face_image_url', (v) => v as String?),
-          modelVersion: $checkedConvert('model_version', (v) => v as String),
-          metadata: $checkedConvert('metadata', (v) => v),
-        );
-        return val;
-      },
-      fieldKeyMap: const {
-        'eventId': 'event_id',
-        'kioskId': 'kiosk_id',
-        'confidenceScore': 'confidence_score',
-        'gpsCoords': 'gps_coords',
-        'busRoute': 'bus_route',
-        'faceImageUrl': 'face_image_url',
-        'modelVersion': 'model_version',
-      },
-    );
+class _$BoardingEventCreate extends BoardingEventCreate {
+  @override
+  final String eventId;
+  @override
+  final String student;
+  @override
+  final String kioskId;
+  @override
+  final double confidenceScore;
+  @override
+  final DateTime timestamp;
+  @override
+  final BuiltList<double>? gpsCoords;
+  @override
+  final String? busRoute;
+  @override
+  final String? faceImageUrl;
+  @override
+  final String modelVersion;
+  @override
+  final JsonObject? metadata;
 
-Map<String, dynamic> _$BoardingEventCreateToJson(
-  BoardingEventCreate instance,
-) => <String, dynamic>{
-  'event_id': instance.eventId,
-  'student': instance.student,
-  'kiosk_id': instance.kioskId,
-  'confidence_score': instance.confidenceScore,
-  'timestamp': instance.timestamp.toIso8601String(),
-  'gps_coords': instance.gpsCoords,
-  if (instance.busRoute case final value?) 'bus_route': value,
-  if (instance.faceImageUrl case final value?) 'face_image_url': value,
-  'model_version': instance.modelVersion,
-  if (instance.metadata case final value?) 'metadata': value,
-};
+  factory _$BoardingEventCreate(
+          [void Function(BoardingEventCreateBuilder)? updates]) =>
+      (BoardingEventCreateBuilder()..update(updates))._build();
+
+  _$BoardingEventCreate._(
+      {required this.eventId,
+      required this.student,
+      required this.kioskId,
+      required this.confidenceScore,
+      required this.timestamp,
+      this.gpsCoords,
+      this.busRoute,
+      this.faceImageUrl,
+      required this.modelVersion,
+      this.metadata})
+      : super._();
+  @override
+  BoardingEventCreate rebuild(
+          void Function(BoardingEventCreateBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  BoardingEventCreateBuilder toBuilder() =>
+      BoardingEventCreateBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is BoardingEventCreate &&
+        eventId == other.eventId &&
+        student == other.student &&
+        kioskId == other.kioskId &&
+        confidenceScore == other.confidenceScore &&
+        timestamp == other.timestamp &&
+        gpsCoords == other.gpsCoords &&
+        busRoute == other.busRoute &&
+        faceImageUrl == other.faceImageUrl &&
+        modelVersion == other.modelVersion &&
+        metadata == other.metadata;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, eventId.hashCode);
+    _$hash = $jc(_$hash, student.hashCode);
+    _$hash = $jc(_$hash, kioskId.hashCode);
+    _$hash = $jc(_$hash, confidenceScore.hashCode);
+    _$hash = $jc(_$hash, timestamp.hashCode);
+    _$hash = $jc(_$hash, gpsCoords.hashCode);
+    _$hash = $jc(_$hash, busRoute.hashCode);
+    _$hash = $jc(_$hash, faceImageUrl.hashCode);
+    _$hash = $jc(_$hash, modelVersion.hashCode);
+    _$hash = $jc(_$hash, metadata.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'BoardingEventCreate')
+          ..add('eventId', eventId)
+          ..add('student', student)
+          ..add('kioskId', kioskId)
+          ..add('confidenceScore', confidenceScore)
+          ..add('timestamp', timestamp)
+          ..add('gpsCoords', gpsCoords)
+          ..add('busRoute', busRoute)
+          ..add('faceImageUrl', faceImageUrl)
+          ..add('modelVersion', modelVersion)
+          ..add('metadata', metadata))
+        .toString();
+  }
+}
+
+class BoardingEventCreateBuilder
+    implements Builder<BoardingEventCreate, BoardingEventCreateBuilder> {
+  _$BoardingEventCreate? _$v;
+
+  String? _eventId;
+  String? get eventId => _$this._eventId;
+  set eventId(String? eventId) => _$this._eventId = eventId;
+
+  String? _student;
+  String? get student => _$this._student;
+  set student(String? student) => _$this._student = student;
+
+  String? _kioskId;
+  String? get kioskId => _$this._kioskId;
+  set kioskId(String? kioskId) => _$this._kioskId = kioskId;
+
+  double? _confidenceScore;
+  double? get confidenceScore => _$this._confidenceScore;
+  set confidenceScore(double? confidenceScore) =>
+      _$this._confidenceScore = confidenceScore;
+
+  DateTime? _timestamp;
+  DateTime? get timestamp => _$this._timestamp;
+  set timestamp(DateTime? timestamp) => _$this._timestamp = timestamp;
+
+  ListBuilder<double>? _gpsCoords;
+  ListBuilder<double> get gpsCoords =>
+      _$this._gpsCoords ??= ListBuilder<double>();
+  set gpsCoords(ListBuilder<double>? gpsCoords) =>
+      _$this._gpsCoords = gpsCoords;
+
+  String? _busRoute;
+  String? get busRoute => _$this._busRoute;
+  set busRoute(String? busRoute) => _$this._busRoute = busRoute;
+
+  String? _faceImageUrl;
+  String? get faceImageUrl => _$this._faceImageUrl;
+  set faceImageUrl(String? faceImageUrl) => _$this._faceImageUrl = faceImageUrl;
+
+  String? _modelVersion;
+  String? get modelVersion => _$this._modelVersion;
+  set modelVersion(String? modelVersion) => _$this._modelVersion = modelVersion;
+
+  JsonObject? _metadata;
+  JsonObject? get metadata => _$this._metadata;
+  set metadata(JsonObject? metadata) => _$this._metadata = metadata;
+
+  BoardingEventCreateBuilder() {
+    BoardingEventCreate._defaults(this);
+  }
+
+  BoardingEventCreateBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _eventId = $v.eventId;
+      _student = $v.student;
+      _kioskId = $v.kioskId;
+      _confidenceScore = $v.confidenceScore;
+      _timestamp = $v.timestamp;
+      _gpsCoords = $v.gpsCoords?.toBuilder();
+      _busRoute = $v.busRoute;
+      _faceImageUrl = $v.faceImageUrl;
+      _modelVersion = $v.modelVersion;
+      _metadata = $v.metadata;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(BoardingEventCreate other) {
+    _$v = other as _$BoardingEventCreate;
+  }
+
+  @override
+  void update(void Function(BoardingEventCreateBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  BoardingEventCreate build() => _build();
+
+  _$BoardingEventCreate _build() {
+    _$BoardingEventCreate _$result;
+    try {
+      _$result = _$v ??
+          _$BoardingEventCreate._(
+            eventId: BuiltValueNullFieldError.checkNotNull(
+                eventId, r'BoardingEventCreate', 'eventId'),
+            student: BuiltValueNullFieldError.checkNotNull(
+                student, r'BoardingEventCreate', 'student'),
+            kioskId: BuiltValueNullFieldError.checkNotNull(
+                kioskId, r'BoardingEventCreate', 'kioskId'),
+            confidenceScore: BuiltValueNullFieldError.checkNotNull(
+                confidenceScore, r'BoardingEventCreate', 'confidenceScore'),
+            timestamp: BuiltValueNullFieldError.checkNotNull(
+                timestamp, r'BoardingEventCreate', 'timestamp'),
+            gpsCoords: _gpsCoords?.build(),
+            busRoute: busRoute,
+            faceImageUrl: faceImageUrl,
+            modelVersion: BuiltValueNullFieldError.checkNotNull(
+                modelVersion, r'BoardingEventCreate', 'modelVersion'),
+            metadata: metadata,
+          );
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'gpsCoords';
+        _gpsCoords?.build();
+      } catch (e) {
+        throw BuiltValueNestedFieldError(
+            r'BoardingEventCreate', _$failedField, e.toString());
+      }
+      rethrow;
+    }
+    replace(_$result);
+    return _$result;
+  }
+}
+
+// ignore_for_file: deprecated_member_use_from_same_package,type=lint

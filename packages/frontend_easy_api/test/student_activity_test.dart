@@ -3,13 +3,13 @@ import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for StudentActivity
 void main() {
-  final StudentActivity? instance = /* StudentActivity(...) */ null;
-  // TODO add properties to the entity
+  final instance = StudentActivityBuilder();
+  // TODO add properties to the builder and call build()
 
   group(StudentActivity, () {
-    // Student UUID
-    // String studentId
-    test('to test the property `studentId`', () async {
+    // School-provided student ID (e.g., STU-2024-001)
+    // String schoolStudentId
+    test('to test the property `schoolStudentId`', () async {
       // TODO
     });
 
@@ -38,7 +38,7 @@ void main() {
     });
 
     // All boarding events for this student today
-    // List<BoardingEventNested> events
+    // BuiltList<BoardingEventNested> events
     test('to test the property `events`', () async {
       // TODO
     });

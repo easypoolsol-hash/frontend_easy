@@ -1,11 +1,8 @@
-import 'dart:convert';
 import 'dart:ui' as ui;
 
 import 'package:frontend_easy_api/frontend_easy_api.dart' as api;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/svg.dart' as vg;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 
@@ -77,7 +74,7 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
     }
   }
 
-  /// Create colored bus marker from SVG - 2025 BEST PRACTICE: Dynamic coloring
+  /// Create colored bus marker - Simple Google Maps style dot
   /// Uses cached markers to avoid regenerating same color multiple times
   Future<BitmapDescriptor> _getColoredBusMarker(Color color) async {
     final colorKey = color.toARGB32().toString();
@@ -88,26 +85,21 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
     }
 
     try {
-      // Load SVG string from assets
-      final svgString = await rootBundle.loadString('assets/icons/bus.svg');
-
-      // Parse SVG using flutter_svg 2.2 API
-      final vg.PictureInfo pictureInfo = await vg.vg.loadPicture(
-        vg.SvgStringLoader(svgString),
-        null,
-      );
-
+      // Create a simple colored dot marker (Google Maps style)
       final recorder = ui.PictureRecorder();
       final canvas = Canvas(recorder);
-      final paint = Paint()..colorFilter = ColorFilter.mode(color, BlendMode.srcIn);
 
-      // Draw SVG scaled to 48x48 with color filter (smaller, comparable to default markers)
-      canvas.save();
-      canvas.scale(48.0 / pictureInfo.size.width);
-      canvas.saveLayer(null, paint);
-      canvas.drawPicture(pictureInfo.picture);
-      canvas.restore();
-      canvas.restore();
+      // Draw outer white circle (border)
+      final outerPaint = Paint()
+        ..color = Colors.white
+        ..style = PaintingStyle.fill;
+      canvas.drawCircle(const Offset(24, 24), 16, outerPaint);
+
+      // Draw inner colored circle
+      final innerPaint = Paint()
+        ..color = color
+        ..style = PaintingStyle.fill;
+      canvas.drawCircle(const Offset(24, 24), 12, innerPaint);
 
       final picture = recorder.endRecording();
       final image = await picture.toImage(48, 48);
@@ -118,13 +110,13 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
       // Cache for reuse
       _markerCache[colorKey] = descriptor;
 
-      pictureInfo.picture.dispose();
-
       return descriptor;
     } catch (e) {
       debugPrint('Failed to create colored bus marker: $e');
-      // Fallback to default marker
-      return BitmapDescriptor.defaultMarker;
+      // Fallback to default marker with hue based on color
+      return BitmapDescriptor.defaultMarkerWithHue(
+        HSVColor.fromColor(color).hue
+      );
     }
   }
 
@@ -262,12 +254,12 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
 
     // Always show bus stop markers
     for (final route in widget.routes) {
-      // Get bus stops from backend (JSON-encoded list)
-      final busStopsJson = (route as dynamic).busStops as String?;
-      if (busStopsJson == null || busStopsJson.isEmpty) continue;
+      // Get bus stops from backend (already a List of Maps)
+      final busStops = route.busStops;
+      if (busStops.isEmpty) continue;
 
       try {
-        final stops = jsonDecode(busStopsJson) as List;
+        final stops = busStops;
         final routeColor = _colorForRoute(route);
         final routeHue = _colorToHue(routeColor);
 
@@ -350,8 +342,7 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
 
     for (final route in widget.routes) {
       // Decode polyline from backend's encoded polyline
-      // Use dynamic access until IDE recognizes new fields
-      final encodedPolyline = (route as dynamic).encodedPolyline as String?;
+      final encodedPolyline = route.encodedPolyline;
       final points = _decodePolyline(encodedPolyline);
       if (points.length < 2) continue;
 

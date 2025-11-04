@@ -3,31 +3,141 @@
 part of 'paginated_api_key_list.dart';
 
 // **************************************************************************
-// JsonSerializableGenerator
+// BuiltValueGenerator
 // **************************************************************************
 
-PaginatedAPIKeyList _$PaginatedAPIKeyListFromJson(Map<String, dynamic> json) =>
-    $checkedCreate('PaginatedAPIKeyList', json, ($checkedConvert) {
-      $checkKeys(json, requiredKeys: const ['count', 'results']);
-      final val = PaginatedAPIKeyList(
-        count: $checkedConvert('count', (v) => (v as num).toInt()),
-        next: $checkedConvert('next', (v) => v as String?),
-        previous: $checkedConvert('previous', (v) => v as String?),
-        results: $checkedConvert(
-          'results',
-          (v) => (v as List<dynamic>)
-              .map((e) => APIKey.fromJson(e as Map<String, dynamic>))
-              .toList(),
-        ),
-      );
-      return val;
-    });
+class _$PaginatedAPIKeyList extends PaginatedAPIKeyList {
+  @override
+  final int count;
+  @override
+  final String? next;
+  @override
+  final String? previous;
+  @override
+  final BuiltList<APIKey> results;
 
-Map<String, dynamic> _$PaginatedAPIKeyListToJson(
-  PaginatedAPIKeyList instance,
-) => <String, dynamic>{
-  'count': instance.count,
-  if (instance.next case final value?) 'next': value,
-  if (instance.previous case final value?) 'previous': value,
-  'results': instance.results.map((e) => e.toJson()).toList(),
-};
+  factory _$PaginatedAPIKeyList(
+          [void Function(PaginatedAPIKeyListBuilder)? updates]) =>
+      (PaginatedAPIKeyListBuilder()..update(updates))._build();
+
+  _$PaginatedAPIKeyList._(
+      {required this.count, this.next, this.previous, required this.results})
+      : super._();
+  @override
+  PaginatedAPIKeyList rebuild(
+          void Function(PaginatedAPIKeyListBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  PaginatedAPIKeyListBuilder toBuilder() =>
+      PaginatedAPIKeyListBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is PaginatedAPIKeyList &&
+        count == other.count &&
+        next == other.next &&
+        previous == other.previous &&
+        results == other.results;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, count.hashCode);
+    _$hash = $jc(_$hash, next.hashCode);
+    _$hash = $jc(_$hash, previous.hashCode);
+    _$hash = $jc(_$hash, results.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'PaginatedAPIKeyList')
+          ..add('count', count)
+          ..add('next', next)
+          ..add('previous', previous)
+          ..add('results', results))
+        .toString();
+  }
+}
+
+class PaginatedAPIKeyListBuilder
+    implements Builder<PaginatedAPIKeyList, PaginatedAPIKeyListBuilder> {
+  _$PaginatedAPIKeyList? _$v;
+
+  int? _count;
+  int? get count => _$this._count;
+  set count(int? count) => _$this._count = count;
+
+  String? _next;
+  String? get next => _$this._next;
+  set next(String? next) => _$this._next = next;
+
+  String? _previous;
+  String? get previous => _$this._previous;
+  set previous(String? previous) => _$this._previous = previous;
+
+  ListBuilder<APIKey>? _results;
+  ListBuilder<APIKey> get results => _$this._results ??= ListBuilder<APIKey>();
+  set results(ListBuilder<APIKey>? results) => _$this._results = results;
+
+  PaginatedAPIKeyListBuilder() {
+    PaginatedAPIKeyList._defaults(this);
+  }
+
+  PaginatedAPIKeyListBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _count = $v.count;
+      _next = $v.next;
+      _previous = $v.previous;
+      _results = $v.results.toBuilder();
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(PaginatedAPIKeyList other) {
+    _$v = other as _$PaginatedAPIKeyList;
+  }
+
+  @override
+  void update(void Function(PaginatedAPIKeyListBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  PaginatedAPIKeyList build() => _build();
+
+  _$PaginatedAPIKeyList _build() {
+    _$PaginatedAPIKeyList _$result;
+    try {
+      _$result = _$v ??
+          _$PaginatedAPIKeyList._(
+            count: BuiltValueNullFieldError.checkNotNull(
+                count, r'PaginatedAPIKeyList', 'count'),
+            next: next,
+            previous: previous,
+            results: results.build(),
+          );
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'results';
+        results.build();
+      } catch (e) {
+        throw BuiltValueNestedFieldError(
+            r'PaginatedAPIKeyList', _$failedField, e.toString());
+      }
+      rethrow;
+    }
+    replace(_$result);
+    return _$result;
+  }
+}
+
+// ignore_for_file: deprecated_member_use_from_same_package,type=lint
