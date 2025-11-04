@@ -42,9 +42,6 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
         zoom: 12.0,
       );
 
-  // Cache for dynamically colored bus markers - 2025 BEST PRACTICE
-  // Map<Color, BitmapDescriptor> to cache markers by color
-  final Map<String, BitmapDescriptor> _markerCache = {};
 
   // Dark mode toggle - default to true (blue-tinted navigation mode)
   bool _isDarkMode = true;
@@ -94,24 +91,6 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
   ]
   ''';
 
-  /// Get standard Google Maps blue marker
-  BitmapDescriptor _getStandardBlueMarker() {
-    const cacheKey = 'standard_cyan_marker';
-
-    // Return cached marker if already created
-    if (_markerCache.containsKey(cacheKey)) {
-      return _markerCache[cacheKey]!;
-    }
-
-    // Use Google's standard marker with azure blue hue (210° = Azure/Light Blue)
-    // BitmapDescriptor constants:
-    // - hueRed = 0°, hueOrange = 30°, hueYellow = 60°, hueGreen = 120°
-    // - hueCyan = 180°, hueAzure = 210°, hueBlue = 240°, hueMagenta = 300°
-    // Using 210° (Azure) for a brighter, more visible blue marker
-    final marker = BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure);
-    _markerCache[cacheKey] = marker;
-    return marker;
-  }
 
   @override
   void didUpdateWidget(RouteMapWidget oldWidget) {
@@ -200,30 +179,6 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
 
     // Fallback to hash-based color
     return HSLColor.fromAHSL(1.0, (route.routeId.hashCode % 360).toDouble(), 0.7, 0.5).toColor();
-  }
-
-  // Helper: convert Color to HSL hue (0-360) for BitmapDescriptor
-  double _colorToHue(Color color) {
-    final r = ((color.r * 255.0).round() & 0xff) / 255.0;
-    final g = ((color.g * 255.0).round() & 0xff) / 255.0;
-    final b = ((color.b * 255.0).round() & 0xff) / 255.0;
-
-    final max = [r, g, b].reduce((a, b) => a > b ? a : b);
-    final min = [r, g, b].reduce((a, b) => a < b ? a : b);
-    final delta = max - min;
-
-    if (delta == 0) return 0;
-
-    double hue;
-    if (max == r) {
-      hue = 60 * (((g - b) / delta) % 6);
-    } else if (max == g) {
-      hue = 60 * (((b - r) / delta) + 2);
-    } else {
-      hue = 60 * (((r - g) / delta) + 4);
-    }
-
-    return hue < 0 ? hue + 360 : hue;
   }
 
 
@@ -454,35 +409,25 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
 
         debugPrint('[RouteMapWidget] Bus $busName ($busId): lat=$latitude, lon=$longitude, status=$status');
 
-      // Parse last location update timestamp
-      DateTime? lastLocationUpdate;
-      if (properties['last_location_update'] != null) {
-        try {
-          lastLocationUpdate = DateTime.parse(properties['last_location_update'] as String);
-        } catch (_) {
-          // If parsing fails, treat as null (no timestamp available)
-        }
-      }
-
       // Don't filter buses - show all markers always
       // Google standard: Always visible, no hiding on selection
 
-      // Use Google's standard blue marker
-      final icon = _getStandardBlueMarker();
-
       final position = LatLng(latitude, longitude);
 
-        // Add marker
-        markers.add(Marker(
-          markerId: MarkerId('bus_$busId'),
-          position: position,
-          icon: icon,
-          infoWindow: InfoWindow(
-            title: '$busNumber - $busName',
-            snippet: _buildBusSnippet(busId, lastLocationUpdate),
-          ),
+        // Replace pin marker with blue dot (Google Maps "my location" style)
+        // This avoids the red marker issue completely
+        // Center dot - solid blue
+        circles.add(Circle(
+          circleId: CircleId('bus_dot_$busId'),
+          center: position,
+          radius: 8, // Small solid blue dot
+          fillColor: const Color(0xFF1E88E5), // Solid Material Blue 600
+          strokeColor: Colors.white, // White border
+          strokeWidth: 2,
+          consumeTapEvents: true,
           onTap: () {
             widget.onBusTapped?.call(busId, latitude, longitude);
+            debugPrint('[RouteMapWidget] Tapped bus: $busNumber - $busName');
           },
         ));
 
@@ -518,26 +463,6 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
       'markers': markers,
       'circles': circles,
     };
-  }
-
-  /// Build snippet for bus marker info window
-  String _buildBusSnippet(String busId, DateTime? lastUpdate) {
-    if (widget.buses.isEmpty) return 'No info';
-    final bus = widget.buses.firstWhere((b) => b.busId == busId, orElse: () => widget.buses.first);
-    final route = bus.routeName.isNotEmpty ? bus.routeName : 'No route';
-    final timeAgo = lastUpdate != null ? _formatTimestamp(lastUpdate) : 'No update';
-    return '$route • Updated: $timeAgo';
-  }
-
-  /// Format timestamp as relative time
-  String _formatTimestamp(DateTime timestamp) {
-    final now = DateTime.now();
-    final diff = now.difference(timestamp);
-
-    if (diff.inSeconds < 60) return 'Just now';
-    if (diff.inMinutes < 60) return '${diff.inMinutes}m ago';
-    if (diff.inHours < 24) return '${diff.inHours}h ago';
-    return '${timestamp.month}/${timestamp.day}';
   }
 
   /// Focus camera on specific coordinates
