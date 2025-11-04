@@ -46,8 +46,8 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
   // Map<Color, BitmapDescriptor> to cache markers by color
   final Map<String, BitmapDescriptor> _markerCache = {};
 
-  // Dark mode toggle
-  bool _isDarkMode = false;
+  // Dark mode toggle - default to true (blue-tinted navigation mode)
+  bool _isDarkMode = true;
 
   @override
   void initState() {
