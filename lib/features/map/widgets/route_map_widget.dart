@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:frontend_easy_api/frontend_easy_api.dart' as api;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -42,14 +44,35 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
         zoom: 12.0,
       );
 
-
   // Dark mode toggle - default to true (blue-tinted navigation mode)
   bool _isDarkMode = true;
+
+  // Ripple animation state
+  Timer? _rippleTimer;
+  int _ripplePhase = 0; // 0-2 for three animation phases
 
   @override
   void initState() {
     super.initState();
-    // No preloading needed - markers created dynamically with bus numbers
+    // Start ripple animation timer
+    _startRippleAnimation();
+  }
+
+  @override
+  void dispose() {
+    _rippleTimer?.cancel();
+    super.dispose();
+  }
+
+  /// Start ripple animation timer (cycles every 600ms)
+  void _startRippleAnimation() {
+    _rippleTimer = Timer.periodic(const Duration(milliseconds: 600), (timer) {
+      if (mounted) {
+        setState(() {
+          _ripplePhase = (_ripplePhase + 1) % 3; // Cycle through 0, 1, 2
+        });
+      }
+    });
   }
 
   /// Toggle map style between normal and dark mode
@@ -431,24 +454,32 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
           },
         ));
 
-        // Add ripple effect circles (Google Maps navigation style - brighter blue)
-        // Outer circle - bright blue glow
+        // Add animated ripple effect circles (Google Maps navigation style)
+        // Animation cycles through 3 phases with varying sizes and opacity
+        final ripplePhase = _ripplePhase;
+
+        // Outer circle - animated pulse
+        final outerRadius = 100.0 + (ripplePhase * 15.0); // 100 → 115 → 130
+        final outerOpacity = 0.3 - (ripplePhase * 0.08); // 0.3 → 0.22 → 0.14
         circles.add(Circle(
           circleId: CircleId('bus_circle_outer_$busId'),
           center: position,
-          radius: 120, // 120 meters
-          fillColor: const Color(0x331E88E5), // Material Blue 600 with 20% opacity
-          strokeColor: const Color(0x661E88E5), // Material Blue 600 with 40% opacity
+          radius: outerRadius,
+          fillColor: Color.fromRGBO(30, 136, 229, outerOpacity), // Fading blue
+          strokeColor: Color.fromRGBO(30, 136, 229, outerOpacity * 1.5),
           strokeWidth: 2,
         ));
 
-        // Inner circle - brighter glow
+        // Inner circle - animated pulse (opposite phase for wave effect)
+        final innerPhase = (ripplePhase + 1) % 3; // Offset by 1 phase
+        final innerRadius = 50.0 + (innerPhase * 10.0); // 50 → 60 → 70
+        final innerOpacity = 0.4 - (innerPhase * 0.1); // 0.4 → 0.3 → 0.2
         circles.add(Circle(
           circleId: CircleId('bus_circle_inner_$busId'),
           center: position,
-          radius: 60, // 60 meters
-          fillColor: const Color(0x661E88E5), // Material Blue 600 with 40% opacity
-          strokeColor: const Color(0x991E88E5), // Material Blue 600 with 60% opacity
+          radius: innerRadius,
+          fillColor: Color.fromRGBO(30, 136, 229, innerOpacity),
+          strokeColor: Color.fromRGBO(30, 136, 229, innerOpacity * 1.5),
           strokeWidth: 2,
         ));
 
