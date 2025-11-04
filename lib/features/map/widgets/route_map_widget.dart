@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:frontend_easy_api/frontend_easy_api.dart' as api;
 import 'package:flutter/material.dart';
@@ -80,20 +81,22 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
 
   /// Calculate zoom-adjusted radius for circles
   /// At low zoom levels (zoomed out), circles need to be larger to remain visible
+  /// IMPORTANT: Circle radius is in METERS, not pixels!
+  /// Each zoom level change doubles/halves the visible area, so we need aggressive scaling
   double _getZoomAdjustedRadius(double baseRadius) {
     // Google Maps zoom levels: 1-20 (1=world, 20=buildings)
     // Reference zoom: 12 (city level) uses base radius
-    // Scale exponentially for smooth visibility at all zoom levels
-    // Formula: radius *= 2^((12 - currentZoom) / 2)
+    // Scale aggressively: radius needs to grow exponentially to maintain screen size
+    // Formula: radius *= 2^(12 - currentZoom)
     // Examples:
-    //   Zoom 12: scale = 1.0x (base radius)
-    //   Zoom 10: scale = 2.0x (zoomed out 2 levels)
-    //   Zoom 8:  scale = 4.0x (zoomed out 4 levels)
-    //   Zoom 14: scale = 0.7x (zoomed in 2 levels, slightly smaller)
+    //   Zoom 12: scale = 1.0x   (2^0 = 1)
+    //   Zoom 11: scale = 2.0x   (2^1 = 2) - viewing 2x more area
+    //   Zoom 10: scale = 4.0x   (2^2 = 4) - viewing 4x more area
+    //   Zoom 9:  scale = 8.0x   (2^3 = 8) - viewing 8x more area
+    //   Zoom 13: scale = 0.5x   (2^-1 = 0.5) - viewing 1/2 area
+    //   Zoom 14: scale = 0.25x  (2^-2 = 0.25) - viewing 1/4 area
     final zoomDifference = 12.0 - _currentZoom;
-    final scaleFactor = zoomDifference > 0
-        ? (1 << (zoomDifference ~/ 2)).toDouble()  // Exponential growth when zoomed out
-        : 1.0 / (1 << ((-zoomDifference) ~/ 3).toInt());  // Slight reduction when zoomed in
+    final scaleFactor = math.pow(2.0, zoomDifference).toDouble();
     return baseRadius * scaleFactor;
   }
 
