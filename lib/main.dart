@@ -7,6 +7,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend_easy/core/config/firebase_options.dart';
 import 'package:frontend_easy/core/routing/app_router.dart';
 import 'package:frontend_easy/core/theme/app_theme.dart';
+import 'package:frontend_easy/data/repositories/route_repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,6 +17,11 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  // Pre-initialize SharedPreferences to prevent provider race conditions
+  // This ensures synchronous access in all providers that depend on it
+  final prefs = await SharedPreferences.getInstance();
+  debugPrint('[Main] SharedPreferences pre-initialized successfully');
 
   // Configure Firebase Crashlytics for production error monitoring
   FlutterError.onError = (errorDetails) {
@@ -27,8 +34,13 @@ void main() async {
     return true;
   };
 
-  // API service initialized via provider (no manual init needed)
-  runApp(const ProviderScope(child: FrontendEasyApp()));
+  // Provide pre-initialized SharedPreferences to prevent async provider dependencies
+  runApp(ProviderScope(
+    overrides: [
+      sharedPreferencesProvider.overrideWithValue(prefs),
+    ],
+    child: const FrontendEasyApp(),
+  ));
 }
 
 class FrontendEasyApp extends ConsumerWidget {

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend_easy_api/frontend_easy_api.dart' as api;
@@ -31,6 +32,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   Widget build(BuildContext context) {
     // Watch routes and buses data
     final routesAsync = ref.watch(routesControllerProvider);
+    debugPrint('[MapScreen] routesAsync state: ${routesAsync}');
     final busesAsync = ref.watch(busesProvider);
 
     return Scaffold(
@@ -166,25 +168,28 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                   child: Stack(
                     children: [
                       routesAsync.when(
-                        data: (routes) => busesAsync.when(
-                          data: (buses) => RouteMapWidget(
-                            routes: routes,
-                            buses: buses,
-                            selectedBusIds: _selectedBusId != null ? [_selectedBusId!] : [],
-                            onBusTapped: (busId, lat, lon) {
-                              setState(() {
-                                _selectedBusId = busId;
-                              });
-                            },
-                          ),
-                          loading: () => _buildLoadingIndicator(),
-                          error: (error, stack) => RouteMapWidget(
-                            routes: routes,
-                            buses: const [], // Empty buses with routes still visible
-                            selectedBusIds: const [],
-                            onBusTapped: (busId, lat, lon) {},
-                          ),
-                        ),
+                        data: (routes) {
+                          debugPrint('[MapScreen] Received ${routes.length} routes from routesControllerProvider');
+                          return busesAsync.when(
+                            data: (buses) => RouteMapWidget(
+                              routes: routes,
+                              buses: buses,
+                              selectedBusIds: _selectedBusId != null ? [_selectedBusId!] : [],
+                              onBusTapped: (busId, lat, lon) {
+                                setState(() {
+                                  _selectedBusId = busId;
+                                });
+                              },
+                            ),
+                            loading: () => _buildLoadingIndicator(),
+                            error: (error, stack) => RouteMapWidget(
+                              routes: routes,
+                              buses: const [], // Empty buses with routes still visible
+                              selectedBusIds: const [],
+                              onBusTapped: (busId, lat, lon) {},
+                            ),
+                          );
+                        },
                         loading: () => _buildLoadingIndicator(),
                         error: (error, stack) => busesAsync.when(
                           data: (buses) => RouteMapWidget(

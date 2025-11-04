@@ -8,6 +8,7 @@
 import 'dart:convert';
 
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend_easy/shared/services/api_service.dart';
 import 'package:frontend_easy_api/frontend_easy_api.dart' as api;
@@ -49,8 +50,12 @@ class RouteRepositoryImpl implements RouteRepository {
 
   @override
   Future<List<api.Route>> getRoutes() async {
+    print('[RouteRepository] getRoutes() called');
+
     // 1. Try to return cached data immediately
     final cached = await _getCachedRoutes();
+    print('[RouteRepository] Cached routes: ${cached?.length ?? 0} items, stale: ${_isCacheStale()}');
+
     if (cached != null && !_isCacheStale()) {
       // Return cached data, refresh in background
       _refreshInBackground();
@@ -58,6 +63,7 @@ class RouteRepositoryImpl implements RouteRepository {
     }
 
     // 2. Cache is stale or empty, fetch from network
+    print('[RouteRepository] Fetching routes from network...');
     return await refreshRoutes();
   }
 
@@ -91,14 +97,22 @@ class RouteRepositoryImpl implements RouteRepository {
   @override
   Future<List<api.Route>> refreshRoutes() async {
     try {
+      print('[RouteRepository] Calling API: apiV1RoutesList(isActive: true)');
       final response = await _apiClient.apiV1RoutesList(isActive: true);
+      print('[RouteRepository] Response received: ${response}');
+      print('[RouteRepository] Response.data: ${response.data}');
+      print('[RouteRepository] Response.data.results: ${response.data?.results}');
+      print('[RouteRepository] Response.data.results length: ${response.data?.results.length}');
       final routes = response.data?.results.toList() ?? [];
+      print('[RouteRepository] API returned ${routes.length} routes');
 
       // Cache the fresh data
       await _cacheRoutes(routes);
 
       return routes;
     } catch (e, stackTrace) {
+      print('[RouteRepository] API error: $e');
+      print('[RouteRepository] Stack trace: $stackTrace');
       await FirebaseCrashlytics.instance.recordError(
         e,
         stackTrace,
@@ -108,6 +122,7 @@ class RouteRepositoryImpl implements RouteRepository {
 
       // Return cached data as fallback
       final cached = await _getCachedRoutes();
+      print('[RouteRepository] Returning cached fallback: ${cached?.length ?? 0} routes');
       return cached ?? [];
     }
   }
@@ -196,22 +211,23 @@ class RouteRepositoryImpl implements RouteRepository {
   }
 }
 
-/// Provider for RouteRepository instance
-/// Uses SharedPreferences for persistence
-final sharedPreferencesProvider = FutureProvider<SharedPreferences>((ref) async {
-  return await SharedPreferences.getInstance();
+/// Provider for SharedPreferences instance
+/// Pre-initialized in main() and overridden with actual instance to prevent race conditions
+final sharedPreferencesProvider = Provider<SharedPreferences>((ref) {
+  throw UnimplementedError(
+    'sharedPreferencesProvider must be overridden in main() with pre-initialized instance',
+  );
 });
 
+/// Provider for RouteRepository instance
+/// Uses pre-initialized SharedPreferences for persistence
 final routeRepositoryProvider = Provider<RouteRepository>((ref) {
   final apiClient = ref.watch(apiServiceProvider).api;
-  final prefsAsync = ref.watch(sharedPreferencesProvider);
+  final prefs = ref.watch(sharedPreferencesProvider);
 
-  return prefsAsync.when(
-    data: (prefs) => RouteRepositoryImpl(
-      apiClient: apiClient,
-      prefs: prefs,
-    ),
-    loading: () => throw StateError('SharedPreferences not yet initialized'),
-    error: (_, __) => throw StateError('Failed to initialize SharedPreferences'),
+  debugPrint('[RouteRepository] Creating RouteRepositoryImpl with pre-initialized SharedPreferences');
+  return RouteRepositoryImpl(
+    apiClient: apiClient,
+    prefs: prefs,
   );
 });

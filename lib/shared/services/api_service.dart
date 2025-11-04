@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend_easy/core/config/api_config.dart';
 import 'package:frontend_easy/core/services/token_manager.dart';
@@ -20,6 +21,26 @@ class ApiService {
   ApiService(this._tokenManager) {
     // Initialize API client with base URL
     _api = FrontendEasyApi(basePathOverride: ApiConfig.baseUrl);
+
+    // Add debug logging interceptor
+    _api.dio.interceptors.add(
+      InterceptorsWrapper(
+        onResponse: (response, handler) {
+          print('[API] Response from ${response.requestOptions.path}');
+          print('[API] Status code: ${response.statusCode}');
+          print('[API] Response data type: ${response.data?.runtimeType}');
+          if (response.requestOptions.path.contains('/routes/')) {
+            print('[API] Routes response data: ${response.data}');
+          }
+          handler.next(response);
+        },
+        onError: (error, handler) {
+          print('[API] Error from ${error.requestOptions.path}');
+          print('[API] Error: ${error.message}');
+          handler.next(error);
+        },
+      ),
+    );
 
     // Add centralized auth interceptor with injected TokenManager
     _api.dio.interceptors.add(AuthInterceptor(_tokenManager));

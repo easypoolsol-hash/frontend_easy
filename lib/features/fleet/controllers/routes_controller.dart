@@ -5,6 +5,7 @@
 ///
 /// Reference: https://docs.flutter.dev/data-and-backend/state-mgmt/options#asyncnotifier
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend_easy_api/frontend_easy_api.dart' as api;
 import 'package:frontend_easy/data/repositories/route_repository.dart';
@@ -14,11 +15,23 @@ import 'package:frontend_easy/data/repositories/route_repository.dart';
 class RoutesController extends AsyncNotifier<List<api.Route>> {
   @override
   Future<List<api.Route>> build() async {
-    // Get repository from provider
-    final repository = ref.read(routeRepositoryProvider);
+    debugPrint('[RoutesController] Building - fetching routes...');
 
-    // Fetch routes (uses cache-then-network pattern)
-    return await repository.getRoutes();
+    // Get repository from provider
+    try {
+      debugPrint('[RoutesController] Accessing routeRepositoryProvider...');
+      final repository = ref.read(routeRepositoryProvider);
+      debugPrint('[RoutesController] Repository obtained successfully');
+
+      // Fetch routes (uses cache-then-network pattern)
+      final routes = await repository.getRoutes();
+      debugPrint('[RoutesController] Successfully fetched ${routes.length} routes');
+      return routes;
+    } catch (e, stackTrace) {
+      debugPrint('[RoutesController] Error fetching routes: $e');
+      debugPrint('[RoutesController] Stack trace: $stackTrace');
+      rethrow;
+    }
   }
 
   /// Refresh routes from network
