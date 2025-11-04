@@ -240,7 +240,7 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
 
     // Build marker and polyline sets
     final routePolylines = <Polyline>{};
-    final stopMarkers = <Marker>{};
+    final stopCircles = <Circle>{}; // Bus stops as circles (Google Maps transit style)
     final busMarkers = <Marker>{};
     final busCircles = <Circle>{}; // Ripple effect circles
 
@@ -260,7 +260,6 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
       try {
         final stops = busStops;
         final routeColor = _colorForRoute(route);
-        final routeHue = _colorToHue(routeColor);
 
         for (int i = 0; i < stops.length; i++) {
           final stop = stops[i];
@@ -295,21 +294,26 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
           }
 
           final isEndpoint = (i == 0 || i == stops.length - 1);
-          stopMarkers.add(Marker(
-            markerId: MarkerId('stop_${route.routeId}_$i'),
-            position: LatLng(lat.toDouble(), lon.toDouble()),
-            icon: isEndpoint
-                ? BitmapDescriptor.defaultMarkerWithHue(routeHue)
-                : BitmapDescriptor.defaultMarker,
-            infoWindow: InfoWindow(
-              title: isEndpoint
-                ? (i == 0 ? 'Start: $stopName' : 'End: $stopName')
-                : stopName
-            ),
+          final position = LatLng(lat.toDouble(), lon.toDouble());
+
+          // Google Maps transit style: Small circles for stops
+          // Endpoints are larger, regular stops are smaller
+          stopCircles.add(Circle(
+            circleId: CircleId('stop_${route.routeId}_$i'),
+            center: position,
+            radius: isEndpoint ? 20 : 12, // Endpoints larger (20m), regular stops smaller (12m)
+            fillColor: routeColor, // Use route color for the stop
+            strokeColor: Colors.white, // White border for visibility
+            strokeWidth: 2,
+            consumeTapEvents: true,
+            onTap: () {
+              // Could show stop info in a snackbar or dialog
+              debugPrint('[RouteMapWidget] Tapped stop: $stopName');
+            },
           ));
         }
 
-        debugPrint('[RouteMapWidget] Route ${route.name}: Added ${stops.length} stop markers');
+        debugPrint('[RouteMapWidget] Route ${route.name}: Added ${stops.length} stop circles');
       } catch (e, stackTrace) {
         // Log error for debugging
         debugPrint('[RouteMapWidget] Error parsing bus stops for route ${route.routeId}: $e');
@@ -317,7 +321,7 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
       }
     }
 
-    debugPrint('[RouteMapWidget] Total stop markers: ${stopMarkers.length}');
+    debugPrint('[RouteMapWidget] Total stop circles: ${stopCircles.length}');
 
     // Always show buses with ripple circles
     busLocationsAsync.when(
@@ -346,9 +350,9 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
           onCameraMove: (position) {
             // Camera tracking not needed
           },
-          markers: {...stopMarkers, ...busMarkers},
+          markers: busMarkers,
           polylines: routePolylines,
-          circles: busCircles, // Ripple effect circles around buses
+          circles: {...stopCircles, ...busCircles}, // Stop circles + bus ripple circles
           myLocationEnabled: true,
           myLocationButtonEnabled: true,
           mapType: MapType.normal,
