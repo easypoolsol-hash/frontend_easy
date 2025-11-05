@@ -22,6 +22,7 @@ Serializers _$serializers = (Serializers().toBuilder()
       ..add(BusBasic.serializer)
       ..add(BusBasicStatusEnum.serializer)
       ..add(BusLocation.serializer)
+      ..add(BusLocationsResponse.serializer)
       ..add(BusStatusEnum.serializer)
       ..add(CheckUpdatesResponse.serializer)
       ..add(DashboardStats.serializer)
@@ -92,6 +93,14 @@ Serializers _$serializers = (Serializers().toBuilder()
           const FullType(
               BuiltList, const [const FullType(BoardingEventNested)]),
           () => ListBuilder<BoardingEventNested>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [
+            const FullType(BuiltMap, const [
+              const FullType(String),
+              const FullType.nullable(JsonObject)
+            ])
+          ]),
+          () => ListBuilder<BuiltMap<String, JsonObject?>>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [
             const FullType(BuiltMap, const [
