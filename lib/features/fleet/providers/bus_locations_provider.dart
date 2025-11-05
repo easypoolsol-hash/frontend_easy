@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend_easy/core/config/api_config.dart';
 import 'package:frontend_easy/core/services/token_manager.dart';
 import 'package:frontend_easy/features/fleet/services/bus_tracking_websocket_service.dart';
+import 'package:frontend_easy/shared/services/api_service.dart';
 
 /// WebSocket service provider (singleton)
 /// Uses centralized TokenManager for authentication (Google standard)
@@ -52,15 +53,29 @@ final busLocationsProvider = StreamProvider<List<Map<String, dynamic>>>((ref) as
 });
 
 /// REST API fallback for initial data load
-/// NOTE: OpenAPI schema incorrectly defines response as void, so we can't use the generated client
-/// We rely on WebSocket for actual data - this is just a placeholder
+/// Uses the properly typed BusesApi.busLocationsApi() endpoint
 final busLocationsRestProvider = FutureProvider<List<Map<String, dynamic>>>((ref) async {
   try {
-    // TODO: Fix OpenAPI schema to properly define GeoJSON response for /api/v1/school/api/bus-locations/
-    // For now, return empty list - WebSocket will provide the data
+    final apiService = ref.watch(apiServiceProvider);
+    final response = await apiService.buses.busLocationsApi();
+
+    // Convert GeoJSON FeatureCollection to list of features
+    if (response.data != null) {
+      final geoJson = response.data!;
+      // Convert BuiltList<BuiltMap> to List<Map<String, dynamic>>
+      // GeoJSON format: { "type": "FeatureCollection", "features": [...] }
+      return geoJson.features.map((builtMap) {
+        // Convert BuiltMap<String, JsonObject?> to Map<String, dynamic>
+        final map = <String, dynamic>{};
+        builtMap.forEach((key, value) {
+          map[key] = value?.value;
+        });
+        return map;
+      }).toList();
+    }
     return [];
   } catch (e) {
-    // Silently fail - user not authenticated yet
+    // Silently fail - user not authenticated yet or API error
     return [];
   }
 });

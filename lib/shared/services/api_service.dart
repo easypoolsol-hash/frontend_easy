@@ -50,6 +50,9 @@ class ApiService {
   /// Note: frontend_easy is school-only (no parent portal)
   ApiApi get api => _api.getApiApi();
 
+  /// Get Buses API endpoints (separate from main API)
+  BusesApi get buses => _api.getBusesApi();
+
   /// Get underlying HTTP client for custom requests
   FrontendEasyApi get client => _api;
 }
