@@ -51,7 +51,6 @@ Method | HTTP request | Description
 [**apiV1KiosksPartialUpdate**](ApiApi.md#apiv1kioskspartialupdate) | **PATCH** /api/v1/kiosks/{kiosk_id}/ | 
 [**apiV1KiosksRetrieve**](ApiApi.md#apiv1kiosksretrieve) | **GET** /api/v1/kiosks/{kiosk_id}/ | 
 [**apiV1KiosksUpdate**](ApiApi.md#apiv1kiosksupdate) | **PUT** /api/v1/kiosks/{kiosk_id}/ | 
-[**apiV1LocationsRetrieve**](ApiApi.md#apiv1locationsretrieve) | **GET** /api/v1/locations/ | 
 [**apiV1LogsList**](ApiApi.md#apiv1logslist) | **GET** /api/v1/logs/ | 
 [**apiV1LogsRetrieve**](ApiApi.md#apiv1logsretrieve) | **GET** /api/v1/logs/{log_id}/ | 
 [**apiV1LogsSummaryRetrieve**](ApiApi.md#apiv1logssummaryretrieve) | **GET** /api/v1/logs/summary/ | 
@@ -70,7 +69,6 @@ Method | HTTP request | Description
 [**apiV1RoutesRetrieve**](ApiApi.md#apiv1routesretrieve) | **GET** /api/v1/routes/{route_id}/ | 
 [**apiV1RoutesStudentsRetrieve**](ApiApi.md#apiv1routesstudentsretrieve) | **GET** /api/v1/routes/{route_id}/students/ | 
 [**apiV1RoutesUpdate**](ApiApi.md#apiv1routesupdate) | **PUT** /api/v1/routes/{route_id}/ | 
-[**apiV1SchoolApiBusLocationsRetrieve**](ApiApi.md#apiv1schoolapibuslocationsretrieve) | **GET** /api/v1/school/api/bus-locations/ | 
 [**apiV1SchoolsCreate**](ApiApi.md#apiv1schoolscreate) | **POST** /api/v1/schools/ | 
 [**apiV1SchoolsDestroy**](ApiApi.md#apiv1schoolsdestroy) | **DELETE** /api/v1/schools/{school_id}/ | 
 [**apiV1SchoolsList**](ApiApi.md#apiv1schoolslist) | **GET** /api/v1/schools/ | 
@@ -2067,48 +2065,6 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **apiV1LocationsRetrieve**
-> apiV1LocationsRetrieve()
-
-
-
-Bus locations API for school dashboard (any authenticated user).  Returns real-time bus locations for ALL buses in the fleet as GeoJSON. Accessible by any authenticated user.
-
-### Example
-```dart
-import 'package:frontend_easy_api/api.dart';
-// TODO Configure API key authorization: cookieAuth
-//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
-// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
-
-final api = FrontendEasyApi().getApiApi();
-
-try {
-    api.apiV1LocationsRetrieve();
-} catch on DioException (e) {
-    print('Exception when calling ApiApi->apiV1LocationsRetrieve: $e\n');
-}
-```
-
-### Parameters
-This endpoint does not need any parameter.
-
-### Return type
-
-void (empty response body)
-
-### Authorization
-
-[cookieAuth](../README.md#cookieAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: Not defined
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
 # **apiV1LogsList**
 > PaginatedDeviceLogList apiV1LogsList(kiosk, logLevel, page, timestamp)
 
@@ -2952,48 +2908,6 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: application/json, application/x-www-form-urlencoded, multipart/form-data
  - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **apiV1SchoolApiBusLocationsRetrieve**
-> apiV1SchoolApiBusLocationsRetrieve()
-
-
-
-Bus locations API for school dashboard (any authenticated user).  Returns real-time bus locations for ALL buses in the fleet as GeoJSON. Accessible by any authenticated user.
-
-### Example
-```dart
-import 'package:frontend_easy_api/api.dart';
-// TODO Configure API key authorization: cookieAuth
-//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
-// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
-
-final api = FrontendEasyApi().getApiApi();
-
-try {
-    api.apiV1SchoolApiBusLocationsRetrieve();
-} catch on DioException (e) {
-    print('Exception when calling ApiApi->apiV1SchoolApiBusLocationsRetrieve: $e\n');
-}
-```
-
-### Parameters
-This endpoint does not need any parameter.
-
-### Return type
-
-void (empty response body)
-
-### Authorization
-
-[cookieAuth](../README.md#cookieAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

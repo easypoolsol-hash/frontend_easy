@@ -107,7 +107,6 @@ Class | Method | HTTP request | Description
 [*ApiApi*](doc/ApiApi.md) | [**apiV1KiosksPartialUpdate**](doc/ApiApi.md#apiv1kioskspartialupdate) | **PATCH** /api/v1/kiosks/{kiosk_id}/ | 
 [*ApiApi*](doc/ApiApi.md) | [**apiV1KiosksRetrieve**](doc/ApiApi.md#apiv1kiosksretrieve) | **GET** /api/v1/kiosks/{kiosk_id}/ | 
 [*ApiApi*](doc/ApiApi.md) | [**apiV1KiosksUpdate**](doc/ApiApi.md#apiv1kiosksupdate) | **PUT** /api/v1/kiosks/{kiosk_id}/ | 
-[*ApiApi*](doc/ApiApi.md) | [**apiV1LocationsRetrieve**](doc/ApiApi.md#apiv1locationsretrieve) | **GET** /api/v1/locations/ | 
 [*ApiApi*](doc/ApiApi.md) | [**apiV1LogsList**](doc/ApiApi.md#apiv1logslist) | **GET** /api/v1/logs/ | 
 [*ApiApi*](doc/ApiApi.md) | [**apiV1LogsRetrieve**](doc/ApiApi.md#apiv1logsretrieve) | **GET** /api/v1/logs/{log_id}/ | 
 [*ApiApi*](doc/ApiApi.md) | [**apiV1LogsSummaryRetrieve**](doc/ApiApi.md#apiv1logssummaryretrieve) | **GET** /api/v1/logs/summary/ | 
@@ -126,7 +125,6 @@ Class | Method | HTTP request | Description
 [*ApiApi*](doc/ApiApi.md) | [**apiV1RoutesRetrieve**](doc/ApiApi.md#apiv1routesretrieve) | **GET** /api/v1/routes/{route_id}/ | 
 [*ApiApi*](doc/ApiApi.md) | [**apiV1RoutesStudentsRetrieve**](doc/ApiApi.md#apiv1routesstudentsretrieve) | **GET** /api/v1/routes/{route_id}/students/ | 
 [*ApiApi*](doc/ApiApi.md) | [**apiV1RoutesUpdate**](doc/ApiApi.md#apiv1routesupdate) | **PUT** /api/v1/routes/{route_id}/ | 
-[*ApiApi*](doc/ApiApi.md) | [**apiV1SchoolApiBusLocationsRetrieve**](doc/ApiApi.md#apiv1schoolapibuslocationsretrieve) | **GET** /api/v1/school/api/bus-locations/ | 
 [*ApiApi*](doc/ApiApi.md) | [**apiV1SchoolsCreate**](doc/ApiApi.md#apiv1schoolscreate) | **POST** /api/v1/schools/ | 
 [*ApiApi*](doc/ApiApi.md) | [**apiV1SchoolsDestroy**](doc/ApiApi.md#apiv1schoolsdestroy) | **DELETE** /api/v1/schools/{school_id}/ | 
 [*ApiApi*](doc/ApiApi.md) | [**apiV1SchoolsList**](doc/ApiApi.md#apiv1schoolslist) | **GET** /api/v1/schools/ | 
@@ -166,6 +164,8 @@ Class | Method | HTTP request | Description
 [*ApiApi*](doc/ApiApi.md) | [**kioskHeartbeat**](doc/ApiApi.md#kioskheartbeat) | **POST** /api/v1/kiosks/{kiosk_id}/heartbeat/ | 
 [*ApiApi*](doc/ApiApi.md) | [**kioskLog**](doc/ApiApi.md#kiosklog) | **POST** /api/v1/kiosks/logs/ | 
 [*ApiApi*](doc/ApiApi.md) | [**kioskUpdateLocation**](doc/ApiApi.md#kioskupdatelocation) | **POST** /api/v1/kiosks/{kiosk_id}/location/ | 
+[*BusesApi*](doc/BusesApi.md) | [**busLocationsApi**](doc/BusesApi.md#buslocationsapi) | **GET** /api/v1/locations/ | 
+[*BusesApi*](doc/BusesApi.md) | [**busLocationsApi2**](doc/BusesApi.md#buslocationsapi2) | **GET** /api/v1/school/api/bus-locations/ | 
 [*ParentsApi*](doc/ParentsApi.md) | [**parentBusLocations**](doc/ParentsApi.md#parentbuslocations) | **GET** /api/v1/parent/my-buses/ | 
 
 
@@ -182,6 +182,7 @@ Class | Method | HTTP request | Description
  - [Bus](doc/Bus.md)
  - [BusBasic](doc/BusBasic.md)
  - [BusLocation](doc/BusLocation.md)
+ - [BusLocationsResponse](doc/BusLocationsResponse.md)
  - [CheckUpdatesResponse](doc/CheckUpdatesResponse.md)
  - [DashboardStats](doc/DashboardStats.md)
  - [DashboardStudentsResponse](doc/DashboardStudentsResponse.md)

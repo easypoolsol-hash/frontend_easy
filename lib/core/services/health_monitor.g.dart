@@ -53,7 +53,7 @@ final class HealthMonitorProvider
   }
 }
 
-String _$healthMonitorHash() => r'a0b414974b642483ceb3c2c5c73e89c1fb95e406';
+String _$healthMonitorHash() => r'6919c688bec5fff541dc0b612a28f3ff1ff591b9';
 
 /// Health monitor - checks backend connectivity
 ///

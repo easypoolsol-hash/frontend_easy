@@ -25,6 +25,7 @@ import 'package:frontend_easy_api/src/model/boarding_event_nested.dart';
 import 'package:frontend_easy_api/src/model/bus.dart';
 import 'package:frontend_easy_api/src/model/bus_basic.dart';
 import 'package:frontend_easy_api/src/model/bus_location.dart';
+import 'package:frontend_easy_api/src/model/bus_locations_response.dart';
 import 'package:frontend_easy_api/src/model/check_updates_response.dart';
 import 'package:frontend_easy_api/src/model/dashboard_stats.dart';
 import 'package:frontend_easy_api/src/model/dashboard_students_response.dart';
@@ -85,6 +86,7 @@ part 'serializers.g.dart';
   Bus,
   BusBasic,
   BusLocation,
+  BusLocationsResponse,
   CheckUpdatesResponse,
   DashboardStats,
   DashboardStudentsResponse,

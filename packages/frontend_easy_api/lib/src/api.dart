@@ -10,6 +10,7 @@ import 'package:frontend_easy_api/src/auth/basic_auth.dart';
 import 'package:frontend_easy_api/src/auth/bearer_auth.dart';
 import 'package:frontend_easy_api/src/auth/oauth.dart';
 import 'package:frontend_easy_api/src/api/api_api.dart';
+import 'package:frontend_easy_api/src/api/buses_api.dart';
 import 'package:frontend_easy_api/src/api/parents_api.dart';
 
 class FrontendEasyApi {
@@ -70,6 +71,12 @@ class FrontendEasyApi {
   /// by doing that all interceptors will not be executed
   ApiApi getApiApi() {
     return ApiApi(dio, serializers);
+  }
+
+  /// Get BusesApi instance, base route and serializer can be overridden by a given but be careful,
+  /// by doing that all interceptors will not be executed
+  BusesApi getBusesApi() {
+    return BusesApi(dio, serializers);
   }
 
   /// Get ParentsApi instance, base route and serializer can be overridden by a given but be careful,
