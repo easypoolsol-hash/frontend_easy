@@ -11,6 +11,9 @@
         "stage": [
           "easypool-stage"
         ],
+        "staging": [
+          "easypool-staging"
+        ],
         "live": [
           "easypool-30af3"
         ],
