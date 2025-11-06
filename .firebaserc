@@ -8,9 +8,6 @@
         "develop": [
           "easypool-develop"
         ],
-        "stage": [
-          "easypool-stage"
-        ],
         "staging": [
           "easypool-staging"
         ],
