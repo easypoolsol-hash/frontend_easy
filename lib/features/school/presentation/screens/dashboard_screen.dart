@@ -375,8 +375,9 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   }
 
   Widget _buildEventTile(BoardingEventNested event) {
-    // Format timestamp
-    final time = '${event.timestamp.hour.toString().padLeft(2, '0')}:${event.timestamp.minute.toString().padLeft(2, '0')}';
+    // Format timestamp - Convert UTC to local time (IST)
+    final localTime = event.timestamp.toLocal();
+    final time = '${localTime.hour.toString().padLeft(2, '0')}:${localTime.minute.toString().padLeft(2, '0')}';
 
     // Get event icon and color based on event type
     IconData icon;
