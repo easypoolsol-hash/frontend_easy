@@ -50,11 +50,8 @@ class RouteRepositoryImpl implements RouteRepository {
 
   @override
   Future<List<api.Route>> getRoutes() async {
-    print('[RouteRepository] getRoutes() called');
-
     // 1. Try to return cached data immediately
     final cached = await _getCachedRoutes();
-    print('[RouteRepository] Cached routes: ${cached?.length ?? 0} items, stale: ${_isCacheStale()}');
 
     if (cached != null && !_isCacheStale()) {
       // Return cached data, refresh in background
@@ -63,7 +60,6 @@ class RouteRepositoryImpl implements RouteRepository {
     }
 
     // 2. Cache is stale or empty, fetch from network
-    print('[RouteRepository] Fetching routes from network...');
     return await refreshRoutes();
   }
 
@@ -97,22 +93,14 @@ class RouteRepositoryImpl implements RouteRepository {
   @override
   Future<List<api.Route>> refreshRoutes() async {
     try {
-      print('[RouteRepository] Calling API: apiV1RoutesList(isActive: true)');
       final response = await _apiClient.apiV1RoutesList(isActive: true);
-      print('[RouteRepository] Response received: ${response}');
-      print('[RouteRepository] Response.data: ${response.data}');
-      print('[RouteRepository] Response.data.results: ${response.data?.results}');
-      print('[RouteRepository] Response.data.results length: ${response.data?.results.length}');
       final routes = response.data?.results.toList() ?? [];
-      print('[RouteRepository] API returned ${routes.length} routes');
 
       // Cache the fresh data
       await _cacheRoutes(routes);
 
       return routes;
     } catch (e, stackTrace) {
-      print('[RouteRepository] API error: $e');
-      print('[RouteRepository] Stack trace: $stackTrace');
       await FirebaseCrashlytics.instance.recordError(
         e,
         stackTrace,
@@ -122,7 +110,6 @@ class RouteRepositoryImpl implements RouteRepository {
 
       // Return cached data as fallback
       final cached = await _getCachedRoutes();
-      print('[RouteRepository] Returning cached fallback: ${cached?.length ?? 0} routes');
       return cached ?? [];
     }
   }
@@ -225,7 +212,6 @@ final routeRepositoryProvider = Provider<RouteRepository>((ref) {
   final apiClient = ref.watch(apiServiceProvider).api;
   final prefs = ref.watch(sharedPreferencesProvider);
 
-  debugPrint('[RouteRepository] Creating RouteRepositoryImpl with pre-initialized SharedPreferences');
   return RouteRepositoryImpl(
     apiClient: apiClient,
     prefs: prefs,

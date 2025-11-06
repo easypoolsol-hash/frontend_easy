@@ -22,26 +22,6 @@ class ApiService {
     // Initialize API client with base URL
     _api = FrontendEasyApi(basePathOverride: ApiConfig.baseUrl);
 
-    // Add debug logging interceptor
-    _api.dio.interceptors.add(
-      InterceptorsWrapper(
-        onResponse: (response, handler) {
-          print('[API] Response from ${response.requestOptions.path}');
-          print('[API] Status code: ${response.statusCode}');
-          print('[API] Response data type: ${response.data?.runtimeType}');
-          if (response.requestOptions.path.contains('/routes/')) {
-            print('[API] Routes response data: ${response.data}');
-          }
-          handler.next(response);
-        },
-        onError: (error, handler) {
-          print('[API] Error from ${error.requestOptions.path}');
-          print('[API] Error: ${error.message}');
-          handler.next(error);
-        },
-      ),
-    );
-
     // Add centralized auth interceptor with injected TokenManager
     _api.dio.interceptors.add(AuthInterceptor(_tokenManager));
   }
