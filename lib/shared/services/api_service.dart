@@ -9,6 +9,7 @@ import 'package:frontend_easy_api/frontend_easy_api.dart';
 /// - Automatic token refresh on 401/403
 /// - Centralized token management via dependency injection
 /// - Environment-based configuration
+/// - Integrated with shared storage bucket for boarding images
 ///
 /// Fortune 500 Pattern: Provider-based dependency injection
 /// - Single TokenManager instance shared across entire app
