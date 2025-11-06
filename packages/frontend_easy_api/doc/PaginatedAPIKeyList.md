@@ -1,8 +1,8 @@
-# frontend_easy_api.model.PaginatedAPIKeyList
+# openapi.model.PaginatedAPIKeyList
 
 ## Load the model package
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 ```
 
 ## Properties
@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **count** | **int** |  | 
 **next** | **String** |  | [optional] 
 **previous** | **String** |  | [optional] 
-**results** | [**BuiltList&lt;APIKey&gt;**](APIKey.md) |  | 
+**results** | [**List<APIKey>**](APIKey.md) |  | [default to const []]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

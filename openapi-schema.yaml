@@ -1390,6 +1390,21 @@ paths:
                   status:
                     type: string
           description: ''
+  /api/v1/kiosks/me/:
+    get:
+      operationId: kiosk_get_me
+      description: Get current authenticated kiosk details including bus assignment
+      tags:
+      - api
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kiosk'
+          description: ''
   /api/v1/locations/:
     get:
       operationId: bus_locations_api
@@ -4465,18 +4480,31 @@ components:
         school:
           type: string
           format: uuid
+        school_student_id:
+          type: string
+          description: School-provided student ID (e.g., STU-2024-001)
+          maxLength: 50
         decrypted_name:
           type: string
           readOnly: true
-        name:
-          type: string
-          description: Encrypted at application layer
         grade:
           type: string
           maxLength: 10
         section:
           type: string
           maxLength: 10
+        address_latitude:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,7})?$
+          nullable: true
+          description: Student home address latitude
+        address_longitude:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,7})?$
+          nullable: true
+          description: Student home address longitude
         assigned_bus:
           type: string
           format: uuid
@@ -4496,6 +4524,8 @@ components:
         enrollment_date:
           type: string
           format: date
+          nullable: true
+          description: Date student enrolled in school
         school_details:
           allOf:
           - $ref: '#/components/schemas/School'
@@ -4757,18 +4787,31 @@ components:
         school:
           type: string
           format: uuid
+        school_student_id:
+          type: string
+          description: School-provided student ID (e.g., STU-2024-001)
+          maxLength: 50
         decrypted_name:
           type: string
           readOnly: true
-        name:
-          type: string
-          description: Encrypted at application layer
         grade:
           type: string
           maxLength: 10
         section:
           type: string
           maxLength: 10
+        address_latitude:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,7})?$
+          nullable: true
+          description: Student home address latitude
+        address_longitude:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,7})?$
+          nullable: true
+          description: Student home address longitude
         assigned_bus:
           type: string
           format: uuid
@@ -4788,6 +4831,8 @@ components:
         enrollment_date:
           type: string
           format: date
+          nullable: true
+          description: Date student enrolled in school
         school_details:
           allOf:
           - $ref: '#/components/schemas/School'
@@ -4818,13 +4863,12 @@ components:
       - bus_details
       - created_at
       - decrypted_name
-      - enrollment_date
       - grade
-      - name
       - parents
       - photos
       - school
       - school_details
+      - school_student_id
       - student_id
       - updated_at
     StudentActivity:

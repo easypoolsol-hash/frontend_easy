@@ -1,8 +1,8 @@
-# frontend_easy_api.api.BusesApi
+# openapi.api.BusesApi
 
 ## Load the API package
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 ```
 
 All URIs are relative to *http://localhost:8000*
@@ -22,18 +22,18 @@ Method | HTTP request | Description
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getBusesApi();
+final api_instance = BusesApi();
 
 try {
-    final response = api.busLocationsApi();
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.busLocationsApi();
+    print(result);
+} catch (e) {
     print('Exception when calling BusesApi->busLocationsApi: $e\n');
 }
 ```
@@ -65,18 +65,18 @@ This endpoint does not need any parameter.
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getBusesApi();
+final api_instance = BusesApi();
 
 try {
-    final response = api.busLocationsApi2();
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.busLocationsApi2();
+    print(result);
+} catch (e) {
     print('Exception when calling BusesApi->busLocationsApi2: $e\n');
 }
 ```
