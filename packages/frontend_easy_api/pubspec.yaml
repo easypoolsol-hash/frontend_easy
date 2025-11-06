@@ -2,10 +2,10 @@
 # AUTO-GENERATED FILE, DO NOT MODIFY!
 #
 
-name: 'openapi'
+name: frontend_easy_api
 version: '1.0.0'
-description: 'OpenAPI API client'
-homepage: 'homepage'
+description: 'Auto-generated API client for Frontend Easy'
+author: 'Imperial EasyPool Team'
 environment:
   sdk: '>=2.12.0 <4.0.0'
 dependencies:
