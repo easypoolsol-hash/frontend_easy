@@ -16,7 +16,7 @@
       ]
     },
     {
-      "target": "staging",
+      "target": "stage",
       "public": "build/web",
       "ignore": [
         "firebase.json",
@@ -31,7 +31,7 @@
       ]
     },
     {
-      "target": "app",
+      "target": "prod",
       "public": "build/web",
       "ignore": [
         "firebase.json",
