@@ -12,7 +12,7 @@
           "easypool-stage"
         ],
         "prod": [
-          "easypool-prod"
+          "easypool-30af3"
         ],
         "api-develop": [
           "easypool-api-dev"
