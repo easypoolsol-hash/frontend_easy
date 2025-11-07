@@ -93,16 +93,16 @@ jobs:
 
           # v* tag: deploy to production
           elif [[ "${{ github.ref }}" == refs/tags/v* ]]; then
-            PATH_INDICATOR="🔴 PRODUCTION → easypool.in"
+            PATH_INDICATOR="🔴 PRODUCTION → app.easypool.in"
             SHOULD_DEPLOY=true
             DEPLOY_PRODUCTION=true
             echo "# 🎯 CHOSEN PATH: PRODUCTION DEPLOYMENT" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
-            echo "## 🔴 PRODUCTION → easypool.in" >> $GITHUB_STEP_SUMMARY
+            echo "## 🔴 PRODUCTION → app.easypool.in" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
             echo "**Tag:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
             echo "**Target:** Production environment" >> $GITHUB_STEP_SUMMARY
-            echo "**URL:** https://easypool.in" >> $GITHUB_STEP_SUMMARY
+            echo "**URL:** https://app.easypool.in" >> $GITHUB_STEP_SUMMARY
           fi
 
           # Set outputs
@@ -267,7 +267,7 @@ jobs:
     if: needs.decide.outputs.deploy_production == 'true'
     environment:
       name: production
-      url: https://easypool.in
+      url: https://app.easypool.in
     permissions:
       contents: read
       id-token: write

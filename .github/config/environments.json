@@ -17,9 +17,9 @@
     "production": {
       "name": "Production",
       "backend_url": "https://easypool-backend-production-REPLACE-AFTER-FIRST-DEPLOY.asia-south1.run.app",
-      "frontend_url": "https://easypool.in",
-      "firebase_site": "easypool-30af3",
-      "firebase_target": "live"
+      "frontend_url": "https://app.easypool.in",
+      "firebase_site": "easypool-app",
+      "firebase_target": "app"
     }
   },
   "firebase_project_id": "easypool-30af3",

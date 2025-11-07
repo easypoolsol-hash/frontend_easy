@@ -14,6 +14,9 @@
         "live": [
           "easypool-30af3"
         ],
+        "app": [
+          "easypool-app"
+        ],
         "api-develop": [
           "easypool-api-dev"
         ],
