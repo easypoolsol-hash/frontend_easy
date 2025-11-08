@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:go_router/go_router.dart';
 
 /// Public landing page for EasyPool
 /// Provides information about the platform and access to school login
@@ -36,12 +36,9 @@ class LandingScreen extends StatelessWidget {
     );
   }
 
-  /// Opens the external school portal URL
-  Future<void> _launchSchoolPortal() async {
-    final Uri url = Uri.parse('https://school-portal-lilac.vercel.app/');
-    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
-      debugPrint('Could not launch $url');
-    }
+  /// Navigates to the login screen
+  void _navigateToLogin(BuildContext context) {
+    context.go('/login');
   }
 
   Widget _buildNavBar(BuildContext context, bool isMobile) {
@@ -92,9 +89,9 @@ class LandingScreen extends StatelessWidget {
             ],
           ),
 
-          // Login button - redirects to external school portal
+          // Login button - navigates to login screen
           ElevatedButton.icon(
-            onPressed: _launchSchoolPortal,
+            onPressed: () => _navigateToLogin(context),
             icon: const Icon(Icons.login, size: 20),
             label: Text(isMobile ? 'Login' : 'School Login'),
             style: ElevatedButton.styleFrom(
@@ -179,9 +176,9 @@ class LandingScreen extends StatelessWidget {
           ),
           SizedBox(height: isMobile ? 32 : 48),
 
-          // CTA button - redirects to external school portal
+          // CTA button - navigates to login screen
           ElevatedButton(
-            onPressed: _launchSchoolPortal,
+            onPressed: () => _navigateToLogin(context),
             style: ElevatedButton.styleFrom(
               backgroundColor: Theme.of(context).colorScheme.primary,
               foregroundColor: Theme.of(context).colorScheme.onPrimary,
