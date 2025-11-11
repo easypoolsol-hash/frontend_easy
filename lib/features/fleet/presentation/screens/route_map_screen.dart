@@ -36,7 +36,7 @@ class _RouteMapScreenState extends ConsumerState<RouteMapScreen> {
     return Scaffold(
       body: Column(
         children: [
-          const AppTopNavBar(currentIndex: 0),
+          const AppTopNavBar(currentIndex: 2),
           // Search bar with autocomplete (right-aligned, compact)
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),

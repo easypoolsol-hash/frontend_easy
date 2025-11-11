@@ -50,11 +50,9 @@ class AppTopNavBar extends ConsumerWidget {
             // Navigation buttons
             _buildNavButton(context, 'Map', Icons.map, 0),
             const SizedBox(width: 4),
-            _buildNavButton(context, 'Events', Icons.event, 1),
+            _buildNavButton(context, 'Attendance', Icons.people, 1),
             const SizedBox(width: 4),
-            _buildNavButton(context, 'Attendance', Icons.people, 2),
-            const SizedBox(width: 4),
-            _buildNavButton(context, 'Fleet', Icons.directions_bus, 3),
+            _buildNavButton(context, 'Fleet', Icons.directions_bus, 2),
             const SizedBox(width: 8),
             // Logout button
             IconButton(
@@ -105,12 +103,9 @@ class AppTopNavBar extends ConsumerWidget {
         context.go('/');
         break;
       case 1:
-        context.go('/boarding');
-        break;
-      case 2:
         context.go('/school');
         break;
-      case 3:
+      case 2:
         context.go('/fleet-status');
         break;
     }
