@@ -21,7 +21,7 @@ class _StudentsListScreenState extends ConsumerState<StudentsListScreen> {
   String _searchQuery = '';
   int _currentPage = 1;
   bool _isLoadingMore = false;
-  List<Student> _allStudents = [];
+  List<StudentActivity> _allStudents = [];
   int _totalCount = 0;
   bool _hasMore = true;
 
@@ -114,36 +114,18 @@ class _StudentsListScreenState extends ConsumerState<StudentsListScreen> {
                 children: [
                   // Title
                   const Text(
-                    'Registered Students',
+                    'Students Activity Today',
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Browse all students with pagination',
+                    'Students who boarded buses today',
                     style: TextStyle(color: Colors.grey[600], fontSize: 14),
                   ),
                   const SizedBox(height: 24),
 
-                  // Search Field
-                  TextField(
-                    controller: _searchController,
-                    decoration: InputDecoration(
-                      hintText: 'Search by name or student ID',
-                      prefixIcon: const Icon(Icons.search),
-                      border: const OutlineInputBorder(),
-                      suffixIcon: _searchController.text.isNotEmpty
-                          ? IconButton(
-                              icon: const Icon(Icons.clear),
-                              onPressed: () {
-                                _searchController.clear();
-                                _onSearchChanged('');
-                              },
-                            )
-                          : null,
-                    ),
-                    onChanged: _onSearchChanged,
-                  ),
-                  const SizedBox(height: 16),
+                  // Note: Search disabled - dashboard API shows today's boarders only
+                  const SizedBox(height: 8),
 
                   // Students List
                   Expanded(
@@ -238,7 +220,7 @@ class _StudentsListScreenState extends ConsumerState<StudentsListScreen> {
                                         ),
                                         DataColumn(
                                           label: Text(
-                                            'Status',
+                                            'Events Today',
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold),
                                           ),
@@ -287,13 +269,12 @@ class _StudentsListScreenState extends ConsumerState<StudentsListScreen> {
     );
   }
 
-  DataRow _buildStudentRow(Student student) {
-    final hasAssignedBus = student.assignedBus != null;
-    final statusText = student.status?.toString().split('.').last ?? 'active';
+  DataRow _buildStudentRow(StudentActivity student) {
+    final hasAssignedBus = student.busNumber != null && student.busNumber!.isNotEmpty;
 
     return DataRow(
       cells: [
-        DataCell(Text(student.studentId)),
+        DataCell(Text(student.schoolStudentId)),
         DataCell(
           Row(
             children: [
@@ -301,14 +282,14 @@ class _StudentsListScreenState extends ConsumerState<StudentsListScreen> {
                 radius: 16,
                 backgroundColor: Colors.blue,
                 child: Text(
-                  student.decryptedName.isNotEmpty
-                      ? student.decryptedName[0].toUpperCase()
+                  student.studentName.isNotEmpty
+                      ? student.studentName[0].toUpperCase()
                       : '?',
                   style: const TextStyle(color: Colors.white, fontSize: 14),
                 ),
               ),
               const SizedBox(width: 8),
-              Text(student.decryptedName),
+              Text(student.studentName),
             ],
           ),
         ),
@@ -323,7 +304,7 @@ class _StudentsListScreenState extends ConsumerState<StudentsListScreen> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
-                    student.busDetails?.licensePlate ?? 'N/A',
+                    student.busNumber!,
                     style: TextStyle(
                       color: Colors.blue.shade900,
                       fontWeight: FontWeight.bold,
@@ -336,17 +317,13 @@ class _StudentsListScreenState extends ConsumerState<StudentsListScreen> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
-              color: statusText == 'active'
-                  ? Colors.green.shade100
-                  : Colors.grey.shade100,
+              color: Colors.green.shade100,
               borderRadius: BorderRadius.circular(8),
             ),
             child: Text(
-              statusText.toUpperCase(),
+              '${student.eventCount} EVENTS',
               style: TextStyle(
-                color: statusText == 'active'
-                    ? Colors.green.shade900
-                    : Colors.grey.shade900,
+                color: Colors.green.shade900,
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
