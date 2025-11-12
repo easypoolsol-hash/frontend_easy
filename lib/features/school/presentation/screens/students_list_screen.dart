@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend_easy/features/school/providers/students_provider.dart';
 import 'package:frontend_easy/shared/utils/error_handler.dart';
 import 'package:frontend_easy/shared/widgets/app_top_nav_bar.dart';
-import 'package:frontend_easy_api/frontend_easy_api.dart';
+import 'package:frontend_easy_api/frontend_easy_api.dart' show PaginatedStudentList;
 
 /// Students List Screen
 /// Shows all registered students with their information
@@ -55,7 +55,7 @@ class _StudentsListScreenState extends ConsumerState<StudentsListScreen> {
                   TextField(
                     controller: _searchController,
                     decoration: InputDecoration(
-                      hintText: 'Search by name, student ID, or bus number',
+                      hintText: 'Search by name or student ID',
                       prefixIcon: const Icon(Icons.search),
                       border: const OutlineInputBorder(),
                       suffixIcon: _searchController.text.isNotEmpty
@@ -169,21 +169,14 @@ class _StudentsListScreenState extends ConsumerState<StudentsListScreen> {
                                         ),
                                         DataColumn(
                                           label: Text(
-                                            'Bus Number',
+                                            'Assigned Bus',
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold),
                                           ),
                                         ),
                                         DataColumn(
                                           label: Text(
-                                            'Route',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                        DataColumn(
-                                          label: Text(
-                                            'Smart Bus Stop',
+                                            'Status',
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold),
                                           ),
@@ -191,10 +184,15 @@ class _StudentsListScreenState extends ConsumerState<StudentsListScreen> {
                                       ],
                                       rows: students
                                           .map(
-                                            (student) => DataRow(
+                                            (student) {
+                                              // Check if student has assigned bus
+                                              final hasAssignedBus = student.assignedBus != null;
+                                              final statusText = student.status?.toString().split('.').last ?? 'active';
+
+                                              return DataRow(
                                               cells: [
                                                 DataCell(Text(
-                                                    student.schoolStudentId)),
+                                                    student.studentId)),
                                                 DataCell(
                                                   Row(
                                                     children: [
@@ -203,10 +201,10 @@ class _StudentsListScreenState extends ConsumerState<StudentsListScreen> {
                                                         backgroundColor:
                                                             Colors.blue,
                                                         child: Text(
-                                                          student.firstName
+                                                          student.decryptedName
                                                                   .isNotEmpty
                                                               ? student
-                                                                  .firstName[0]
+                                                                  .decryptedName[0]
                                                                   .toUpperCase()
                                                               : '?',
                                                           style:
@@ -217,16 +215,13 @@ class _StudentsListScreenState extends ConsumerState<StudentsListScreen> {
                                                         ),
                                                       ),
                                                       const SizedBox(width: 8),
-                                                      Text(
-                                                          '${student.firstName} ${student.lastName}'),
+                                                      Text(student.decryptedName),
                                                     ],
                                                   ),
                                                 ),
-                                                DataCell(Text(student.grade ??
-                                                    '--')),
+                                                DataCell(Text(student.grade)),
                                                 DataCell(
-                                                  student.assignedBusNumber !=
-                                                          null
+                                                  hasAssignedBus
                                                       ? Container(
                                                           padding:
                                                               const EdgeInsets
@@ -242,8 +237,7 @@ class _StudentsListScreenState extends ConsumerState<StudentsListScreen> {
                                                                     .circular(8),
                                                           ),
                                                           child: Text(
-                                                            student
-                                                                .assignedBusNumber!,
+                                                            student.busDetails?.licensePlate ?? 'N/A',
                                                             style: TextStyle(
                                                               color: Colors.blue
                                                                   .shade900,
@@ -253,16 +247,34 @@ class _StudentsListScreenState extends ConsumerState<StudentsListScreen> {
                                                             ),
                                                           ),
                                                         )
-                                                      : const Text('--'),
+                                                      : const Text('Not Assigned'),
                                                 ),
-                                                DataCell(Text(
-                                                    student.assignedRouteName ??
-                                                        '--')),
-                                                DataCell(Text(student
-                                                        .smartBusStop ??
-                                                    '--')),
+                                                DataCell(
+                                                  Container(
+                                                    padding: const EdgeInsets.symmetric(
+                                                        horizontal: 8, vertical: 4),
+                                                    decoration: BoxDecoration(
+                                                      color: statusText == 'active'
+                                                          ? Colors.green.shade100
+                                                          : Colors.grey.shade100,
+                                                      borderRadius:
+                                                          BorderRadius.circular(8),
+                                                    ),
+                                                    child: Text(
+                                                      statusText.toUpperCase(),
+                                                      style: TextStyle(
+                                                        color: statusText == 'active'
+                                                            ? Colors.green.shade900
+                                                            : Colors.grey.shade900,
+                                                        fontSize: 12,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
                                               ],
-                                            ),
+                                            );
+                                            },
                                           )
                                           .toList(),
                                     ),

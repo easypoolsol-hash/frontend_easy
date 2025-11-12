@@ -7,19 +7,18 @@ import 'package:frontend_easy_api/frontend_easy_api.dart';
 final studentsListProvider = FutureProvider.family<PaginatedStudentList, String>(
   (ref, searchQuery) async {
     final apiService = ref.watch(apiServiceProvider);
-    final api = apiService.getApi();
 
     try {
-      final result = await api.apiV1StudentsList(
+      final response = await apiService.api.apiV1StudentsList(
         search: searchQuery.isNotEmpty ? searchQuery : null,
         page: 1,
       );
 
-      if (result == null) {
+      if (response.data == null) {
         throw Exception('Failed to fetch students');
       }
 
-      return result;
+      return response.data!;
     } catch (e) {
       rethrow;
     }
