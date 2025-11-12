@@ -100,13 +100,13 @@ class AppTopNavBar extends ConsumerWidget {
   void _onItemTapped(BuildContext context, int index) {
     switch (index) {
       case 0:
-        context.go('/');
+        context.go('/home');
         break;
       case 1:
         context.go('/school');
         break;
       case 2:
-        context.go('/fleet-status');
+        context.go('/fleet');
         break;
     }
   }

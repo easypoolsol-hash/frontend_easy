@@ -378,6 +378,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     // Format timestamp - Convert UTC to local time (IST)
     final localTime = event.timestamp.toLocal();
     final time = '${localTime.hour.toString().padLeft(2, '0')}:${localTime.minute.toString().padLeft(2, '0')}';
+    final date = '${localTime.day.toString().padLeft(2, '0')}/${localTime.month.toString().padLeft(2, '0')}/${localTime.year}';
 
     // Get event icon and color based on event type
     IconData icon;
@@ -421,12 +422,24 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               ],
             ),
           ),
-          Text(
-            time,
-            style: TextStyle(
-              color: Colors.grey[600],
-              fontWeight: FontWeight.w500,
-            ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                time,
+                style: TextStyle(
+                  color: Colors.grey[600],
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              Text(
+                date,
+                style: TextStyle(
+                  fontSize: 11,
+                  color: Colors.grey[500],
+                ),
+              ),
+            ],
           ),
         ],
       ),

@@ -11,6 +11,7 @@ import 'package:frontend_easy/features/home/presentation/screens/boarding_events
 import 'package:frontend_easy/features/map/presentation/screens/map_screen.dart';
 import 'package:frontend_easy/features/fleet/presentation/screens/route_map_screen.dart';
 import 'package:frontend_easy/features/school/presentation/screens/dashboard_screen.dart';
+import 'package:frontend_easy/features/school/presentation/screens/students_list_screen.dart';
 
 /// Industry Standard: Stream to ChangeNotifier adapter for go_router
 /// This is the official pattern from go_router documentation
@@ -102,6 +103,13 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/fleet',
         name: 'fleet',
+        pageBuilder: (context, state) => const MaterialPage(
+          child: StudentsListScreen(),
+        ),
+      ),
+      GoRoute(
+        path: '/routes',
+        name: 'routes',
         pageBuilder: (context, state) => const MaterialPage(
           child: RouteMapScreen(),
         ),
