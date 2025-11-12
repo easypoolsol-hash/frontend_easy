@@ -1,26 +1,42 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:frontend_easy/shared/services/api_service.dart';
+import 'package:frontend_easy/data/repositories/student_repository.dart';
 import 'package:frontend_easy_api/frontend_easy_api.dart';
 
-/// Provider for fetching paginated students list
-/// Supports search functionality
-final studentsListProvider = FutureProvider.family<PaginatedStudentList, String>(
-  (ref, searchQuery) async {
-    final apiService = ref.watch(apiServiceProvider);
+/// Parameters for student list fetching
+class StudentListParams {
+  final int page;
+  final String? search;
+  final bool forceRefresh;
 
-    try {
-      final response = await apiService.api.apiV1StudentsList(
-        search: searchQuery.isNotEmpty ? searchQuery : null,
-        page: 1,
-      );
+  const StudentListParams({
+    this.page = 1,
+    this.search,
+    this.forceRefresh = false,
+  });
 
-      if (response.data == null) {
-        throw Exception('Failed to fetch students');
-      }
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is StudentListParams &&
+          page == other.page &&
+          search == other.search &&
+          forceRefresh == other.forceRefresh;
 
-      return response.data!;
-    } catch (e) {
-      rethrow;
-    }
+  @override
+  int get hashCode => Object.hash(page, search, forceRefresh);
+}
+
+/// Provider for fetching paginated students list with caching
+/// Google-style: Uses repository layer for data access
+final studentsListProvider =
+    FutureProvider.family<PaginatedStudentList, StudentListParams>(
+  (ref, params) async {
+    final repository = ref.watch(studentRepositoryProvider);
+
+    return await repository.getStudents(
+      page: params.page,
+      search: params.search,
+      forceRefresh: params.forceRefresh,
+    );
   },
 );

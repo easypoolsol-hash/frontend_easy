@@ -52,7 +52,7 @@ class AppTopNavBar extends ConsumerWidget {
             const SizedBox(width: 4),
             _buildNavButton(context, 'Attendance', Icons.people, 1),
             const SizedBox(width: 4),
-            _buildNavButton(context, 'Fleet', Icons.directions_bus, 2),
+            _buildNavButton(context, 'Students', Icons.school, 2),
             const SizedBox(width: 8),
             // Logout button
             IconButton(

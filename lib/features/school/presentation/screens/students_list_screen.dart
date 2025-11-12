@@ -3,10 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend_easy/features/school/providers/students_provider.dart';
 import 'package:frontend_easy/shared/utils/error_handler.dart';
 import 'package:frontend_easy/shared/widgets/app_top_nav_bar.dart';
-import 'package:frontend_easy_api/frontend_easy_api.dart' show PaginatedStudentList;
+import 'package:frontend_easy_api/frontend_easy_api.dart';
 
-/// Students List Screen
-/// Shows all registered students with their information
+/// Students List Screen - Google-style with pagination
+/// Shows all registered students with lazy loading
 class StudentsListScreen extends ConsumerStatefulWidget {
   const StudentsListScreen({super.key});
 
@@ -16,18 +16,91 @@ class StudentsListScreen extends ConsumerStatefulWidget {
 
 class _StudentsListScreenState extends ConsumerState<StudentsListScreen> {
   final _searchController = TextEditingController();
+  final _scrollController = ScrollController();
+
   String _searchQuery = '';
+  int _currentPage = 1;
+  bool _isLoadingMore = false;
+  List<Student> _allStudents = [];
+  int _totalCount = 0;
+  bool _hasMore = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
 
   @override
   void dispose() {
     _searchController.dispose();
+    _scrollController.dispose();
     super.dispose();
+  }
+
+  void _onScroll() {
+    if (_isLoadingMore || !_hasMore) return;
+
+    // Load more when scrolled to 80% of the list
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.position.pixels;
+    if (currentScroll >= maxScroll * 0.8) {
+      _loadNextPage();
+    }
+  }
+
+  Future<void> _loadNextPage() async {
+    if (_isLoadingMore || !_hasMore) return;
+
+    setState(() {
+      _isLoadingMore = true;
+    });
+
+    try {
+      final nextPage = _currentPage + 1;
+      final result = await ref.read(
+        studentsListProvider(StudentListParams(
+          page: nextPage,
+          search: _searchQuery.isEmpty ? null : _searchQuery,
+        )).future,
+      );
+
+      setState(() {
+        _allStudents.addAll(result.results);
+        _currentPage = nextPage;
+        _hasMore = result.next != null;
+        _isLoadingMore = false;
+      });
+    } catch (e) {
+      setState(() {
+        _isLoadingMore = false;
+      });
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to load more: ${e.toString()}')),
+        );
+      }
+    }
+  }
+
+  void _onSearchChanged(String value) {
+    setState(() {
+      _searchQuery = value;
+      _currentPage = 1;
+      _allStudents = [];
+      _hasMore = true;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    // Watch students data with search query
-    final studentsAsync = ref.watch(studentsListProvider(_searchQuery));
+    // Watch first page
+    final firstPageAsync = ref.watch(
+      studentsListProvider(StudentListParams(
+        page: 1,
+        search: _searchQuery.isEmpty ? null : _searchQuery,
+      )),
+    );
 
     return Scaffold(
       body: Column(
@@ -46,7 +119,7 @@ class _StudentsListScreenState extends ConsumerState<StudentsListScreen> {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'View all students registered in the system',
+                    'Browse all students with pagination',
                     style: TextStyle(color: Colors.grey[600], fontSize: 14),
                   ),
                   const SizedBox(height: 24),
@@ -63,51 +136,34 @@ class _StudentsListScreenState extends ConsumerState<StudentsListScreen> {
                               icon: const Icon(Icons.clear),
                               onPressed: () {
                                 _searchController.clear();
-                                setState(() {
-                                  _searchQuery = '';
-                                });
+                                _onSearchChanged('');
                               },
                             )
                           : null,
                     ),
-                    onChanged: (value) {
-                      setState(() {
-                        _searchQuery = value;
-                      });
-                    },
+                    onChanged: _onSearchChanged,
                   ),
                   const SizedBox(height: 16),
 
                   // Students List
                   Expanded(
-                    child: studentsAsync.when(
+                    child: firstPageAsync.when(
                       data: (paginatedList) {
-                        final students = paginatedList.results;
+                        // Initialize on first load
+                        if (_allStudents.isEmpty && _currentPage == 1) {
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            if (mounted) {
+                              setState(() {
+                                _allStudents = paginatedList.results.toList();
+                                _totalCount = paginatedList.count;
+                                _hasMore = paginatedList.next != null;
+                              });
+                            }
+                          });
+                        }
 
-                        if (students.isEmpty) {
-                          return Card(
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.all(32),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    const Icon(Icons.inbox,
-                                        size: 64, color: Colors.grey),
-                                    const SizedBox(height: 16),
-                                    Text(
-                                      _searchQuery.isEmpty
-                                          ? 'No students registered yet'
-                                          : 'No students found matching "$_searchQuery"',
-                                      style: const TextStyle(
-                                          fontSize: 16, color: Colors.grey),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          );
+                        if (_allStudents.isEmpty) {
+                          return _buildEmptyState();
                         }
 
                         return Column(
@@ -119,7 +175,7 @@ class _StudentsListScreenState extends ConsumerState<StudentsListScreen> {
                               child: Row(
                                 children: [
                                   Text(
-                                    '${paginatedList.count} student${paginatedList.count == 1 ? '' : 's'} found',
+                                    'Showing ${_allStudents.length} of $_totalCount students',
                                     style: TextStyle(
                                       fontSize: 14,
                                       color: Colors.grey[600],
@@ -130,6 +186,11 @@ class _StudentsListScreenState extends ConsumerState<StudentsListScreen> {
                                   IconButton(
                                     icon: const Icon(Icons.refresh),
                                     onPressed: () {
+                                      setState(() {
+                                        _currentPage = 1;
+                                        _allStudents = [];
+                                        _hasMore = true;
+                                      });
                                       ref.invalidate(studentsListProvider);
                                     },
                                     tooltip: 'Refresh',
@@ -138,10 +199,11 @@ class _StudentsListScreenState extends ConsumerState<StudentsListScreen> {
                               ),
                             ),
 
-                            // Students table
+                            // Students table with scroll
                             Expanded(
                               child: Card(
                                 child: SingleChildScrollView(
+                                  controller: _scrollController,
                                   child: SingleChildScrollView(
                                     scrollDirection: Axis.horizontal,
                                     child: DataTable(
@@ -182,101 +244,26 @@ class _StudentsListScreenState extends ConsumerState<StudentsListScreen> {
                                           ),
                                         ),
                                       ],
-                                      rows: students
-                                          .map(
-                                            (student) {
-                                              // Check if student has assigned bus
-                                              final hasAssignedBus = student.assignedBus != null;
-                                              final statusText = student.status?.toString().split('.').last ?? 'active';
-
-                                              return DataRow(
-                                              cells: [
-                                                DataCell(Text(
-                                                    student.studentId)),
-                                                DataCell(
-                                                  Row(
-                                                    children: [
-                                                      CircleAvatar(
-                                                        radius: 16,
-                                                        backgroundColor:
-                                                            Colors.blue,
-                                                        child: Text(
-                                                          student.decryptedName
-                                                                  .isNotEmpty
-                                                              ? student
-                                                                  .decryptedName[0]
-                                                                  .toUpperCase()
-                                                              : '?',
-                                                          style:
-                                                              const TextStyle(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontSize: 14),
-                                                        ),
-                                                      ),
-                                                      const SizedBox(width: 8),
-                                                      Text(student.decryptedName),
-                                                    ],
+                                      rows: [
+                                        ..._allStudents.map(_buildStudentRow),
+                                        if (_isLoadingMore)
+                                          DataRow(
+                                            cells: [
+                                              const DataCell(SizedBox()),
+                                              const DataCell(SizedBox()),
+                                              DataCell(
+                                                Center(
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.all(16),
+                                                    child: CircularProgressIndicator(),
                                                   ),
                                                 ),
-                                                DataCell(Text(student.grade)),
-                                                DataCell(
-                                                  hasAssignedBus
-                                                      ? Container(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .symmetric(
-                                                                  horizontal: 8,
-                                                                  vertical: 4),
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: Colors
-                                                                .blue.shade100,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(8),
-                                                          ),
-                                                          child: Text(
-                                                            student.busDetails?.licensePlate ?? 'N/A',
-                                                            style: TextStyle(
-                                                              color: Colors.blue
-                                                                  .shade900,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                            ),
-                                                          ),
-                                                        )
-                                                      : const Text('Not Assigned'),
-                                                ),
-                                                DataCell(
-                                                  Container(
-                                                    padding: const EdgeInsets.symmetric(
-                                                        horizontal: 8, vertical: 4),
-                                                    decoration: BoxDecoration(
-                                                      color: statusText == 'active'
-                                                          ? Colors.green.shade100
-                                                          : Colors.grey.shade100,
-                                                      borderRadius:
-                                                          BorderRadius.circular(8),
-                                                    ),
-                                                    child: Text(
-                                                      statusText.toUpperCase(),
-                                                      style: TextStyle(
-                                                        color: statusText == 'active'
-                                                            ? Colors.green.shade900
-                                                            : Colors.grey.shade900,
-                                                        fontSize: 12,
-                                                        fontWeight: FontWeight.bold,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            );
-                                            },
-                                          )
-                                          .toList(),
+                                              ),
+                                              const DataCell(SizedBox()),
+                                              const DataCell(SizedBox()),
+                                            ],
+                                          ),
+                                      ],
                                     ),
                                   ),
                                 ),
@@ -288,42 +275,7 @@ class _StudentsListScreenState extends ConsumerState<StudentsListScreen> {
                       loading: () => const Center(
                         child: CircularProgressIndicator(),
                       ),
-                      error: (error, stack) => Card(
-                        child: Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(24),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Icon(Icons.cloud_off_outlined,
-                                    size: 48, color: Colors.grey),
-                                const SizedBox(height: 12),
-                                const Text(
-                                  'Unable to load students',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  ErrorHandler.getUserFriendlyMessage(error),
-                                  style: const TextStyle(color: Colors.grey),
-                                  textAlign: TextAlign.center,
-                                ),
-                                const SizedBox(height: 16),
-                                ElevatedButton.icon(
-                                  onPressed: () {
-                                    ref.invalidate(studentsListProvider);
-                                  },
-                                  icon: const Icon(Icons.refresh),
-                                  label: const Text('Try Again'),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
+                      error: (error, stack) => _buildErrorState(error),
                     ),
                   ),
                 ],
@@ -331,6 +283,144 @@ class _StudentsListScreenState extends ConsumerState<StudentsListScreen> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  DataRow _buildStudentRow(Student student) {
+    final hasAssignedBus = student.assignedBus != null;
+    final statusText = student.status?.toString().split('.').last ?? 'active';
+
+    return DataRow(
+      cells: [
+        DataCell(Text(student.studentId)),
+        DataCell(
+          Row(
+            children: [
+              CircleAvatar(
+                radius: 16,
+                backgroundColor: Colors.blue,
+                child: Text(
+                  student.decryptedName.isNotEmpty
+                      ? student.decryptedName[0].toUpperCase()
+                      : '?',
+                  style: const TextStyle(color: Colors.white, fontSize: 14),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Text(student.decryptedName),
+            ],
+          ),
+        ),
+        DataCell(Text(student.grade)),
+        DataCell(
+          hasAssignedBus
+              ? Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.blue.shade100,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    student.busDetails?.licensePlate ?? 'N/A',
+                    style: TextStyle(
+                      color: Colors.blue.shade900,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                )
+              : const Text('Not Assigned'),
+        ),
+        DataCell(
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            decoration: BoxDecoration(
+              color: statusText == 'active'
+                  ? Colors.green.shade100
+                  : Colors.grey.shade100,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Text(
+              statusText.toUpperCase(),
+              style: TextStyle(
+                color: statusText == 'active'
+                    ? Colors.green.shade900
+                    : Colors.grey.shade900,
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildEmptyState() {
+    return Card(
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(32),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.inbox, size: 64, color: Colors.grey),
+              const SizedBox(height: 16),
+              Text(
+                _searchQuery.isEmpty
+                    ? 'No students registered yet'
+                    : 'No students found matching "$_searchQuery"',
+                style: const TextStyle(fontSize: 16, color: Colors.grey),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildErrorState(dynamic error) {
+    return Card(
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.cloud_off_outlined,
+                  size: 48, color: Colors.grey),
+              const SizedBox(height: 12),
+              const Text(
+                'Unable to load students',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                ErrorHandler.getUserFriendlyMessage(error),
+                style: const TextStyle(color: Colors.grey),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton.icon(
+                onPressed: () {
+                  setState(() {
+                    _currentPage = 1;
+                    _allStudents = [];
+                    _hasMore = true;
+                  });
+                  ref.invalidate(studentsListProvider);
+                },
+                icon: const Icon(Icons.refresh),
+                label: const Text('Try Again'),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
