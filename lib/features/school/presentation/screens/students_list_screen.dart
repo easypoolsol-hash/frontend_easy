@@ -382,6 +382,9 @@ class _StudentsListScreenState extends ConsumerState<StudentsListScreen> {
   }
 
   Widget _buildErrorState(dynamic error) {
+    // Print error to console for debugging
+    print('Students List Error: $error');
+
     return Card(
       child: Center(
         child: Padding(
@@ -403,6 +406,16 @@ class _StudentsListScreenState extends ConsumerState<StudentsListScreen> {
               Text(
                 ErrorHandler.getUserFriendlyMessage(error),
                 style: const TextStyle(color: Colors.grey),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 8),
+              // Show detailed error in debug mode
+              Text(
+                'Error: ${error.toString()}',
+                style: const TextStyle(
+                  color: Colors.red,
+                  fontSize: 12,
+                ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 16),

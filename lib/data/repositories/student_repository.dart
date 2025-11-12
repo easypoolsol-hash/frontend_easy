@@ -61,26 +61,32 @@ class StudentRepository {
     }
 
     // Fetch from API
-    final response = await _apiService.api.apiV1StudentsList(
-      page: page,
-      search: search?.isNotEmpty == true ? search : null,
-    );
+    try {
+      final response = await _apiService.api.apiV1StudentsList(
+        page: page,
+        search: search?.isNotEmpty == true ? search : null,
+      );
 
-    if (response.data == null) {
-      throw Exception('Failed to fetch students');
+      if (response.data == null) {
+        throw Exception('API returned null data for students list');
+      }
+
+      final data = response.data!;
+
+      // Update cache
+      _lastFetch = DateTime.now();
+      if (search != null && search.isNotEmpty) {
+        _searchCache.putIfAbsent(search, () => {})[page] = data;
+      } else {
+        _cache[page] = data;
+      }
+
+      return data;
+    } catch (e) {
+      // Log detailed error for debugging
+      print('StudentRepository Error: $e');
+      rethrow;
     }
-
-    final data = response.data!;
-
-    // Update cache
-    _lastFetch = DateTime.now();
-    if (search != null && search.isNotEmpty) {
-      _searchCache.putIfAbsent(search, () => {})[page] = data;
-    } else {
-      _cache[page] = data;
-    }
-
-    return data;
   }
 
   /// Clear all caches
