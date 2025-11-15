@@ -33,32 +33,40 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Listen to real-time WebSocket events
-    ref.listen(boardingEventsStreamProvider, (previous, next) {
-      next.whenData((event) {
-        // New boarding event received - refresh data
-        ref.invalidate(studentActivityFilteredProvider);
+    // ========================================================================
+    // DEPRECATED: WebSocket Real-Time Listeners (Commented Out for Future Use)
+    // ========================================================================
+    // WebSocket doesn't work reliably on Cloud Run (serverless architecture)
+    // Dashboard will still work - users can manually refresh to see new data
+    // WebSocket code preserved below for potential future activation
+    // ========================================================================
 
-        // Show snackbar notification (optional)
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('${event.studentName} just boarded!'),
-              duration: const Duration(seconds: 2),
-              behavior: SnackBarBehavior.floating,
-            ),
-          );
-        }
-      });
-    });
-
-    // Listen to real-time stats updates
-    ref.listen(statsUpdatesStreamProvider, (previous, next) {
-      next.whenData((stats) {
-        // Stats updated - refresh dashboard stats
-        ref.invalidate(dashboardStatsProvider);
-      });
-    });
+    // // Listen to real-time WebSocket events
+    // ref.listen(boardingEventsStreamProvider, (previous, next) {
+    //   next.whenData((event) {
+    //     // New boarding event received - refresh data
+    //     ref.invalidate(studentActivityFilteredProvider);
+    //
+    //     // Show snackbar notification (optional)
+    //     if (mounted) {
+    //       ScaffoldMessenger.of(context).showSnackBar(
+    //         SnackBar(
+    //           content: Text('${event.studentName} just boarded!'),
+    //           duration: const Duration(seconds: 2),
+    //           behavior: SnackBarBehavior.floating,
+    //         ),
+    //       );
+    //     }
+    //   });
+    // });
+    //
+    // // Listen to real-time stats updates
+    // ref.listen(statsUpdatesStreamProvider, (previous, next) {
+    //   next.whenData((stats) {
+    //     // Stats updated - refresh dashboard stats
+    //     ref.invalidate(dashboardStatsProvider);
+    //   });
+    // });
 
     final statsAsync = ref.watch(dashboardStatsProvider);
     final studentActivityAsync = ref.watch(
