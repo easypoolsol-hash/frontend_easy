@@ -29,13 +29,9 @@ class AppTopNavBar extends ConsumerWidget {
         child: Row(
           children: [
             // Logo
-            Container(
-              width: 32,
-              height: 32,
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primaryContainer,
-                borderRadius: BorderRadius.circular(6),
-              ),
+            SizedBox(
+              width: 48,
+              height: 48,
               child: const _LogoWidget(),
             ),
             const SizedBox(width: 12),
