@@ -63,14 +63,14 @@ class LoginNotifier extends _$LoginNotifier {
       final idToken = await userCredential.user?.getIdToken();
 
       if (idToken != null) {
-        // Store Firebase token securely for API requests (optional - backend integration)
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('firebase_id_token', idToken);
-
-        // AUTHORIZATION CHECK: Verify user is School Administrator
-        // Try to access school-admin-only API - if 403, user is not authorized
+        // AUTHORIZATION CHECK: Verify user is School Administrator FIRST
+        // Do this BEFORE storing token or updating state to prevent flicker
         try {
           final apiService = ref.read(apiServiceProvider);
+          // Temporarily set token for this API call
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('firebase_id_token', idToken);
+
           // Call any school-admin-only endpoint (routes list requires IsSchoolAdmin)
           await apiService.api.apiV1RoutesList();
 
@@ -80,11 +80,17 @@ class LoginNotifier extends _$LoginNotifier {
         } on DioException catch (e) {
           // Check if 403 Forbidden (user is authenticated but not School Admin)
           if (e.response?.statusCode == 403) {
-            // DENIED: User is not School Admin - logout and show error
-            await _authService.signOut();
+            // DENIED: User is not School Admin
+            // IMPORTANT: Logout happens BEFORE setting error state to prevent router redirect
+            final prefs = await SharedPreferences.getInstance();
             await prefs.remove('firebase_id_token');
+            await _authService.signOut(); // This triggers router refresh
+
+            // Small delay to ensure Firebase auth state updates before showing error
+            await Future.delayed(const Duration(milliseconds: 100));
+
             state = const AsyncValue.data(LoginState(
-              errorMessage: 'Access Denied: School Administrator access required',
+              errorMessage: 'Access Denied: Only School Administrators can access this portal',
             ));
           } else {
             // Other error (network, etc.) - allow login but may fail later
@@ -92,11 +98,13 @@ class LoginNotifier extends _$LoginNotifier {
           }
         }
       } else {
+        await _authService.signOut(); // Clean up Firebase auth
         state = const AsyncValue.data(LoginState(
           errorMessage: 'Failed to get authentication token',
         ));
       }
     } catch (e) {
+      await _authService.signOut(); // Clean up on error
       state = AsyncValue.data(LoginState(
         errorMessage: e.toString(),
       ));
