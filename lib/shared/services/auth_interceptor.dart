@@ -7,6 +7,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// Uses TokenManager for single source of truth
 /// Automatically attaches Firebase ID token to all API requests
 /// Benefits: No duplicate token requests, automatic refresh, industry standard
+///
+/// Error Handling:
+/// - 401 Unauthorized: Token expired/invalid → Refresh token, logout if refresh fails
+/// - 403 Forbidden: Authenticated but no permission → Keep logged in, let UI handle
 class AuthInterceptor extends Interceptor {
   final TokenManager _tokenManager;
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -27,8 +31,9 @@ class AuthInterceptor extends Interceptor {
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
-    // Handle 401/403 errors - token may be expired or invalid
-    if (err.response?.statusCode == 401 || err.response?.statusCode == 403) {
+    // Handle 401 errors ONLY - token expired or invalid
+    // 403 = Authenticated but no permission → Keep user logged in, let UI handle
+    if (err.response?.statusCode == 401) {
       // Try force refresh token once
       final newToken = await _tokenManager.forceRefreshToken();
 
@@ -42,16 +47,16 @@ class AuthInterceptor extends Interceptor {
           final response = await dio.fetch(opts);
           return handler.resolve(response);
         } catch (e) {
-          // Retry failed - sign out user
+          // Retry failed - sign out user (401 = not authenticated)
           await _firebaseAuth.signOut();
         }
       } else {
-        // Token refresh failed - sign out user
+        // Token refresh failed - sign out user (401 = not authenticated)
         await _firebaseAuth.signOut();
       }
     }
 
-    // Pass through all errors
+    // Pass through all errors (including 403 - user stays logged in)
     return handler.next(err);
   }
 }

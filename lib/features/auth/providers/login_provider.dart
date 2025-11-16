@@ -3,8 +3,10 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:dio/dio.dart';
 
 import 'package:frontend_easy/core/services/firebase_auth_service.dart';
+import 'package:frontend_easy/shared/services/api_service.dart';
 
 part 'login_provider.g.dart';
 
@@ -65,8 +67,30 @@ class LoginNotifier extends _$LoginNotifier {
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('firebase_id_token', idToken);
 
-        state = const AsyncValue.data(LoginState(isSuccess: true));
-        // Navigation is handled by router redirect logic
+        // AUTHORIZATION CHECK: Verify user is School Administrator
+        // Try to access school-admin-only API - if 403, user is not authorized
+        try {
+          final apiService = ref.read(apiServiceProvider);
+          // Call any school-admin-only endpoint (routes list requires IsSchoolAdmin)
+          await apiService.api.apiV1RoutesList();
+
+          // SUCCESS: User is School Admin - allow login
+          state = const AsyncValue.data(LoginState(isSuccess: true));
+          // Navigation is handled by router redirect logic
+        } on DioException catch (e) {
+          // Check if 403 Forbidden (user is authenticated but not School Admin)
+          if (e.response?.statusCode == 403) {
+            // DENIED: User is not School Admin - logout and show error
+            await _authService.signOut();
+            await prefs.remove('firebase_id_token');
+            state = const AsyncValue.data(LoginState(
+              errorMessage: 'Access Denied: School Administrator access required',
+            ));
+          } else {
+            // Other error (network, etc.) - allow login but may fail later
+            state = const AsyncValue.data(LoginState(isSuccess: true));
+          }
+        }
       } else {
         state = const AsyncValue.data(LoginState(
           errorMessage: 'Failed to get authentication token',
@@ -90,9 +114,28 @@ class LoginNotifier extends _$LoginNotifier {
         if (idToken != null) {
           final prefs = await SharedPreferences.getInstance();
           await prefs.setString('firebase_id_token', idToken);
-          state = const AsyncValue.data(LoginState(isSuccess: true));
-          // Navigation handled by router
-          return;
+
+          // AUTHORIZATION CHECK: Verify user is School Administrator
+          try {
+            final apiService = ref.read(apiServiceProvider);
+            await apiService.api.apiV1RoutesList();
+
+            // SUCCESS: User is School Admin
+            state = const AsyncValue.data(LoginState(isSuccess: true));
+            // Navigation handled by router
+            return;
+          } on DioException catch (e) {
+            if (e.response?.statusCode == 403) {
+              // DENIED: Not School Admin - logout
+              await _authService.signOut();
+              await prefs.remove('firebase_id_token');
+              state = const AsyncValue.data(LoginState());
+              return;
+            }
+            // Other errors - allow through (may be network issue)
+            state = const AsyncValue.data(LoginState(isSuccess: true));
+            return;
+          }
         }
       }
 
