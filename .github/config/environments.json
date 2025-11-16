@@ -9,14 +9,14 @@
     },
     "staging": {
       "name": "Staging",
-      "backend_url": "https://easypool-backend-staging-REPLACE-AFTER-FIRST-DEPLOY.asia-south1.run.app",
+      "backend_url": "https://easypool-backend-staging-781819882627.asia-south1.run.app",
       "frontend_url": "https://stage.easypool.in",
       "firebase_site": "easypool-stage",
       "firebase_target": "stage"
     },
     "production": {
       "name": "Production",
-      "backend_url": "https://easypool-backend-production-REPLACE-AFTER-FIRST-DEPLOY.asia-south1.run.app",
+      "backend_url": "https://easypool-backend-production-781819882627.asia-south1.run.app",
       "frontend_url": "https://app.easypool.in",
       "firebase_site": "easypool-30af3",
       "firebase_target": "prod"
