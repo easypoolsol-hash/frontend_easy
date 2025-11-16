@@ -544,17 +544,14 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
                 }
               }
 
-              // Build snippet with timestamp and route info
-              String snippet;
-              if (lastUpdateText != null && routeInfo != null) {
-                snippet = '$lastUpdateText\nRoute: $routeInfo';
-              } else if (lastUpdateText != null) {
-                snippet = lastUpdateText;
-              } else if (routeInfo != null) {
-                snippet = 'Route: $routeInfo';
-              } else {
-                snippet = busName;
+              // Build title with bus number and route
+              String title = busNumber;
+              if (routeInfo != null) {
+                title = '$busNumber • Route: $routeInfo';
               }
+
+              // Snippet shows only timestamp
+              String? snippet = lastUpdateText;
 
               busMarkers.add(Marker(
                 markerId: infoMarkerId,
@@ -562,8 +559,8 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
                 icon: BitmapDescriptor.defaultMarker,
                 alpha: 0.0, // Invisible marker
                 infoWindow: InfoWindow(
-                  title: busNumber, // School-assigned bus number (e.g., BUS-001)
-                  snippet: snippet,
+                  title: title,
+                  snippet: snippet ?? busName,
                   anchor: const Offset(0.5, 1.0),
                 ),
               ));
