@@ -80,6 +80,9 @@ dependencies:
   # Beautiful calendar with Material Design - Fortune 500 standard
   table_calendar: ^3.1.2
 
+  # Time ago formatting (e.g., "2 mins ago", "3 hours ago")
+  timeago: ^3.7.0
+
   # Multi-select dropdown with search - Modern Material Design
   dropdown_search: ^6.0.1
   google_fonts: ^6.3.2

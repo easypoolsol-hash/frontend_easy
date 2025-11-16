@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 import 'package:frontend_easy/features/map/widgets/maps_config.dart';
 import 'package:frontend_easy/features/fleet/providers/bus_locations_provider.dart';
@@ -462,6 +463,7 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
             final busNumber = properties['bus_number']?.toString() ?? 'BUS';
             final busName = properties['name']?.toString() ?? 'Bus';
             final routeId = properties['route_id']?.toString();
+            final lastUpdate = properties['last_update']?.toString();
 
             final position = LatLng(latitude, longitude);
 
@@ -529,6 +531,31 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
             // Add invisible marker to show info window when selected
             if (isSelected) {
               final infoMarkerId = MarkerId('bus_info_$busId');
+
+              // Format last update timestamp as "time ago" (e.g., "2 mins ago")
+              String? lastUpdateText;
+              if (lastUpdate != null) {
+                try {
+                  final updateTime = DateTime.parse(lastUpdate);
+                  lastUpdateText = 'Updated ${timeago.format(updateTime)}';
+                } catch (e) {
+                  // If parsing fails, don't show timestamp
+                  lastUpdateText = null;
+                }
+              }
+
+              // Build snippet with timestamp and route info
+              String snippet;
+              if (lastUpdateText != null && routeInfo != null) {
+                snippet = '$lastUpdateText\nRoute: $routeInfo';
+              } else if (lastUpdateText != null) {
+                snippet = lastUpdateText;
+              } else if (routeInfo != null) {
+                snippet = 'Route: $routeInfo';
+              } else {
+                snippet = busName;
+              }
+
               busMarkers.add(Marker(
                 markerId: infoMarkerId,
                 position: position,
@@ -536,7 +563,7 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
                 alpha: 0.0, // Invisible marker
                 infoWindow: InfoWindow(
                   title: busNumber, // School-assigned bus number (e.g., BUS-001)
-                  snippet: routeInfo != null ? 'Route: $routeInfo' : busName,
+                  snippet: snippet,
                   anchor: const Offset(0.5, 1.0),
                 ),
               ));
