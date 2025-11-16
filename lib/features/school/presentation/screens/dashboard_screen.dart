@@ -80,7 +80,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     return Scaffold(
       body: Column(
         children: [
-          const AppTopNavBar(currentIndex: 2), // School dashboard tab
+          const AppTopNavBar(currentIndex: 1), // School dashboard tab (Attendance)
           // System health status banner (shows when backend is down)
           const StatusBanner(),
           Expanded(
