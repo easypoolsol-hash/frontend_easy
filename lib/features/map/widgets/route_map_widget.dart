@@ -77,6 +77,9 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
   // Cache for custom bus marker icons by route color
   final Map<Color, BitmapDescriptor> _cachedBusMarkerIcons = {};
 
+  // Cache for historical bus marker (blue)
+  BitmapDescriptor? _cachedHistoricalBusMarker;
+
   @override
   void initState() {
     super.initState();
@@ -655,14 +658,28 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
       final lon = widget.historicalLocation!['longitude'] as double?;
 
       if (lat != null && lon != null) {
-        historicalMarkers.add(Marker(
-          markerId: const MarkerId('historical_bus'),
-          position: LatLng(lat, lon),
-          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
-          infoWindow: const InfoWindow(
-            title: 'Historical Position',
-          ),
-        ));
+        // Create blue bus marker if not cached
+        if (_cachedHistoricalBusMarker == null) {
+          _createBusMarker(const Color.fromRGBO(30, 136, 229, 1.0)).then((icon) {
+            if (mounted) {
+              setState(() {
+                _cachedHistoricalBusMarker = icon;
+              });
+            }
+          });
+        }
+
+        // Only add marker if icon is ready
+        if (_cachedHistoricalBusMarker != null) {
+          historicalMarkers.add(Marker(
+            markerId: const MarkerId('historical_bus'),
+            position: LatLng(lat, lon),
+            icon: _cachedHistoricalBusMarker!,
+            infoWindow: const InfoWindow(
+              title: 'Historical Position',
+            ),
+          ));
+        }
       }
     }
 

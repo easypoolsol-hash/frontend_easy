@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend_easy_api/frontend_easy_api.dart' as api;
@@ -25,6 +27,11 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   bool _isHistoryMode = false;
   DateTime? _selectedDate;
   String? _selectedHistoryBusId;
+
+  // Playback controls
+  bool _isPlaying = false;
+  double _playbackSpeed = 1.0; // 1x, 2x, 4x
+  Timer? _playbackTimer;
 
   void _selectBus(api.Bus? bus) {
     setState(() {
@@ -80,6 +87,49 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     if (bus != null && _selectedDate != null) {
       ref.read(busHistoryProvider.notifier).fetchHistory(bus.busId, _selectedDate!);
     }
+  }
+
+  void _togglePlayback() {
+    setState(() {
+      _isPlaying = !_isPlaying;
+    });
+
+    if (_isPlaying) {
+      _startPlayback();
+    } else {
+      _stopPlayback();
+    }
+  }
+
+  void _startPlayback() {
+    final historyState = ref.read(busHistoryProvider);
+    if (historyState.locations.isEmpty) return;
+
+    _playbackTimer = Timer.periodic(Duration(milliseconds: (1000 / _playbackSpeed).round()), (timer) {
+      final historyState = ref.read(busHistoryProvider);
+      final nextIndex = historyState.currentIndex + 1;
+
+      if (nextIndex >= historyState.locations.length) {
+        // Reached end, stop playback
+        _stopPlayback();
+        setState(() {
+          _isPlaying = false;
+        });
+      } else {
+        ref.read(busHistoryProvider.notifier).setIndex(nextIndex);
+      }
+    });
+  }
+
+  void _stopPlayback() {
+    _playbackTimer?.cancel();
+    _playbackTimer = null;
+  }
+
+  @override
+  void dispose() {
+    _stopPlayback();
+    super.dispose();
   }
 
   @override
@@ -422,6 +472,50 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                   style: Theme.of(context).textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
+                ),
+                const Spacer(),
+                // Playback controls
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // Speed control
+                    PopupMenuButton<double>(
+                      initialValue: _playbackSpeed,
+                      icon: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.speed, size: 16, color: Theme.of(context).colorScheme.onSurface),
+                          const SizedBox(width: 4),
+                          Text(
+                            '${_playbackSpeed.toStringAsFixed(1)}x',
+                            style: Theme.of(context).textTheme.labelSmall,
+                          ),
+                        ],
+                      ),
+                      onSelected: (speed) {
+                        setState(() {
+                          _playbackSpeed = speed;
+                        });
+                        if (_isPlaying) {
+                          _stopPlayback();
+                          _startPlayback();
+                        }
+                      },
+                      itemBuilder: (context) => [
+                        const PopupMenuItem(value: 0.5, child: Text('0.5x')),
+                        const PopupMenuItem(value: 1.0, child: Text('1x')),
+                        const PopupMenuItem(value: 2.0, child: Text('2x')),
+                        const PopupMenuItem(value: 4.0, child: Text('4x')),
+                      ],
+                    ),
+                    const SizedBox(width: 8),
+                    // Play/Pause button
+                    IconButton(
+                      onPressed: _togglePlayback,
+                      icon: Icon(_isPlaying ? Icons.pause : Icons.play_arrow),
+                      tooltip: _isPlaying ? 'Pause' : 'Play',
+                    ),
+                  ],
                 ),
               ],
             ),
