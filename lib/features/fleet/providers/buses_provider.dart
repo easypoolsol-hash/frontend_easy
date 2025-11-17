@@ -41,8 +41,8 @@ final busesProvider = FutureProvider<List<api.Bus>>((ref) async {
       print('[BusesProvider] ERROR fetching buses: $e');
       print('[BusesProvider] Stack trace: $stackTrace');
     }
-    // Return empty list on error to keep app functional
-    return [];
+    // Rethrow to let UI handle the error properly
+    rethrow;
   }
 });
 
