@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend_easy_api/frontend_easy_api.dart' as api;
 import 'package:intl/intl.dart';
-import 'package:dropdown_search/dropdown_search.dart';
 
 import 'package:frontend_easy/features/fleet/controllers/routes_controller.dart';
 import 'package:frontend_easy/features/fleet/providers/buses_provider.dart';
@@ -144,49 +143,41 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  // Bus selector dropdown with search
+                  // Bus selector dropdown
                   SizedBox(
                     width: 300,
                     child: busesAsync.when(
-                      data: (buses) => DropdownSearch<api.Bus>(
-                        selectedItem: _selectedHistoryBusId != null
-                            ? buses.firstWhere(
-                                (b) => b.busNumber == _selectedHistoryBusId,
-                                orElse: () => buses.first,
-                              )
-                            : null,
-                        items: (filter, infiniteScrollProps) => buses,
-                        itemAsString: (bus) => '${bus.busNumber} - ${bus.licensePlate}',
-                        onChanged: (bus) => _selectHistoryBus(bus?.busNumber),
-                        decoratorProps: const DropDownDecoratorProps(
-                          decoration: InputDecoration(
+                      data: (buses) {
+                        if (buses.isEmpty) {
+                          return const TextField(
+                            enabled: false,
+                            decoration: InputDecoration(
+                              labelText: 'No buses available',
+                              border: OutlineInputBorder(),
+                              isDense: true,
+                              prefixIcon: Icon(Icons.directions_bus, size: 20),
+                            ),
+                          );
+                        }
+
+                        return DropdownButtonFormField<String>(
+                          value: _selectedHistoryBusId,
+                          decoration: const InputDecoration(
                             labelText: 'Select Bus',
                             border: OutlineInputBorder(),
                             isDense: true,
                             contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                             prefixIcon: Icon(Icons.directions_bus, size: 20),
                           ),
-                        ),
-                        popupProps: PopupProps.menu(
-                          showSearchBox: true,
-                          searchFieldProps: const TextFieldProps(
-                            decoration: InputDecoration(
-                              hintText: 'Search bus...',
-                              prefixIcon: Icon(Icons.search),
-                              border: OutlineInputBorder(),
-                            ),
-                          ),
-                          itemBuilder: (context, bus, isDisabled, isSelected) {
-                            return ListTile(
-                              dense: true,
-                              leading: const Icon(Icons.directions_bus, size: 20),
-                              title: Text('Bus ${bus.busNumber}'),
-                              subtitle: Text('${bus.licensePlate} • Route: ${bus.routeName}'),
-                              selected: isSelected,
+                          items: buses.map((bus) {
+                            return DropdownMenuItem<String>(
+                              value: bus.busNumber,
+                              child: Text('${bus.busNumber} - ${bus.licensePlate}'),
                             );
-                          },
-                        ),
-                      ),
+                          }).toList(),
+                          onChanged: (busNumber) => _selectHistoryBus(busNumber),
+                        );
+                      },
                       loading: () => const TextField(
                         enabled: false,
                         decoration: InputDecoration(
@@ -195,11 +186,11 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                           isDense: true,
                         ),
                       ),
-                      error: (error, stack) => const TextField(
+                      error: (error, stack) => TextField(
                         enabled: false,
                         decoration: InputDecoration(
-                          labelText: 'Error loading',
-                          border: OutlineInputBorder(),
+                          labelText: 'Error: ${error.toString()}',
+                          border: const OutlineInputBorder(),
                           isDense: true,
                         ),
                       ),
