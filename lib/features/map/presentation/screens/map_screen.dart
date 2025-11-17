@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend_easy_api/frontend_easy_api.dart' as api;
 import 'package:intl/intl.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 
 import 'package:frontend_easy/features/fleet/controllers/routes_controller.dart';
 import 'package:frontend_easy/features/fleet/providers/buses_provider.dart';
@@ -41,6 +42,9 @@ class _MapScreenState extends ConsumerState<MapScreen> {
         ref.read(busHistoryProvider.notifier).clearHistory();
         _selectedDate = null;
         _selectedHistoryBusId = null;
+      } else {
+        // Set default date to today when entering history mode
+        _selectedDate = DateTime.now();
       }
     });
   }
@@ -127,25 +131,48 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                     label: Text(_selectedDate != null ? DateFormat('MMM dd, yyyy').format(_selectedDate!) : 'Select Date'),
                   ),
                   const SizedBox(width: 8),
-                  // Bus selector dropdown
+                  // Bus selector dropdown with search
                   SizedBox(
-                    width: 200,
+                    width: 300,
                     child: busesAsync.when(
-                      data: (buses) => DropdownButtonFormField<String>(
-                        value: _selectedHistoryBusId,
-                        decoration: const InputDecoration(
-                          labelText: 'Select Bus',
-                          border: OutlineInputBorder(),
-                          isDense: true,
-                          contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                      data: (buses) => DropdownSearch<api.Bus>(
+                        selectedItem: _selectedHistoryBusId != null
+                            ? buses.firstWhere(
+                                (b) => b.busNumber == _selectedHistoryBusId,
+                                orElse: () => buses.first,
+                              )
+                            : null,
+                        items: (filter, infiniteScrollProps) => buses,
+                        itemAsString: (bus) => '${bus.busNumber} - ${bus.licensePlate}',
+                        onChanged: (bus) => _selectHistoryBus(bus?.busNumber),
+                        decoratorProps: const DropDownDecoratorProps(
+                          decoration: InputDecoration(
+                            labelText: 'Select Bus',
+                            border: OutlineInputBorder(),
+                            isDense: true,
+                            contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                            prefixIcon: Icon(Icons.directions_bus, size: 20),
+                          ),
                         ),
-                        items: buses.map((bus) {
-                          return DropdownMenuItem<String>(
-                            value: bus.busNumber,
-                            child: Text('${bus.busNumber} - ${bus.licensePlate}'),
-                          );
-                        }).toList(),
-                        onChanged: _selectHistoryBus,
+                        popupProps: PopupProps.menu(
+                          showSearchBox: true,
+                          searchFieldProps: const TextFieldProps(
+                            decoration: InputDecoration(
+                              hintText: 'Search bus...',
+                              prefixIcon: Icon(Icons.search),
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
+                          itemBuilder: (context, bus, isDisabled, isSelected) {
+                            return ListTile(
+                              dense: true,
+                              leading: const Icon(Icons.directions_bus, size: 20),
+                              title: Text('Bus ${bus.busNumber}'),
+                              subtitle: Text('${bus.licensePlate} • Route: ${bus.routeName}'),
+                              selected: isSelected,
+                            );
+                          },
+                        ),
                       ),
                       loading: () => const TextField(
                         enabled: false,
@@ -460,19 +487,23 @@ class _MapScreenState extends ConsumerState<MapScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.location_on, size: 16, color: Theme.of(context).colorScheme.primary),
+              Icon(Icons.location_on, size: 16, color: Theme.of(context).colorScheme.onSurfaceVariant),
               const SizedBox(width: 4),
               Text(
                 'Point ${historyState.currentIndex + 1} of ${historyState.locations.length}',
-                style: Theme.of(context).textTheme.labelSmall,
+                style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
               ),
               if (historyState.currentLocation?['properties']?['speed'] != null) ...[
                 const SizedBox(width: 16),
-                Icon(Icons.speed, size: 16, color: Theme.of(context).colorScheme.secondary),
+                Icon(Icons.speed, size: 16, color: Theme.of(context).colorScheme.onSurfaceVariant),
                 const SizedBox(width: 4),
                 Text(
                   '${historyState.currentLocation!['properties']['speed']?.toStringAsFixed(1) ?? '0'} km/h',
-                  style: Theme.of(context).textTheme.labelSmall,
+                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
                 ),
               ],
             ],
