@@ -9,6 +9,7 @@ import 'package:frontend_easy/features/fleet/controllers/routes_controller.dart'
 import 'package:frontend_easy/features/fleet/providers/buses_provider.dart';
 import 'package:frontend_easy/features/fleet/providers/bus_history_provider.dart';
 import 'package:frontend_easy/features/map/widgets/route_map_widget.dart';
+import 'package:frontend_easy/features/map/widgets/timeline_slider_with_gaps.dart';
 import 'package:frontend_easy/shared/widgets/app_top_nav_bar.dart';
 import 'package:frontend_easy/shared/widgets/bus_selector_widget.dart';
 import 'package:frontend_easy/core/widgets/status_banner.dart';
@@ -26,7 +27,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   String? _selectedBusId;
   bool _isHistoryMode = false;
   DateTime? _selectedDate;
-  String? _selectedHistoryBusId;
+  List<String> _selectedHistoryBusIds = []; // Support multiple buses in history
 
   // Playback controls
   bool _isPlaying = false;
@@ -47,7 +48,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
         // Clear history when switching to live mode
         ref.read(busHistoryProvider.notifier).clearHistory();
         _selectedDate = null;
-        _selectedHistoryBusId = null;
+        _selectedHistoryBusIds = [];
       } else {
         // Set default date to today when entering history mode
         _selectedDate = DateTime.now();
@@ -72,21 +73,28 @@ class _MapScreenState extends ConsumerState<MapScreen> {
         _selectedDate = picked;
       });
 
-      // Auto-fetch history if bus is selected
-      if (_selectedHistoryBusId != null) {
-        ref.read(busHistoryProvider.notifier).fetchHistory(_selectedHistoryBusId!, picked);
+      // Auto-fetch history if buses are selected
+      if (_selectedHistoryBusIds.isNotEmpty) {
+        // For now, fetch first bus - TODO: support multiple
+        ref.read(busHistoryProvider.notifier).fetchHistory(_selectedHistoryBusIds.first, picked);
       }
     }
   }
 
-  void _selectHistoryBus(api.Bus? bus) {
+  void _toggleHistoryBus(api.Bus bus) {
     setState(() {
-      _selectedHistoryBusId = bus?.busId;
+      if (_selectedHistoryBusIds.contains(bus.busId)) {
+        _selectedHistoryBusIds.remove(bus.busId);
+      } else {
+        _selectedHistoryBusIds.add(bus.busId);
+      }
     });
 
-    // Auto-fetch history if date is selected
-    if (bus != null && _selectedDate != null) {
-      ref.read(busHistoryProvider.notifier).fetchHistory(bus.busId, _selectedDate!);
+    // Auto-fetch history for first selected bus if date is selected
+    if (_selectedHistoryBusIds.isNotEmpty && _selectedDate != null) {
+      ref.read(busHistoryProvider.notifier).fetchHistory(_selectedHistoryBusIds.first, _selectedDate!);
+    } else if (_selectedHistoryBusIds.isEmpty) {
+      ref.read(busHistoryProvider.notifier).clearHistory();
     }
   }
 
@@ -183,15 +191,26 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  // Bus selector for history mode
+                  // Multi-select bus selector for history mode
                   busesAsync.when(
-                    data: (buses) => BusSelectorWidget(
-                      buses: buses,
-                      onBusSelected: _selectHistoryBus,
-                      width: 300,
-                      labelText: 'Select Bus for History',
-                      hintText: 'Search by bus number, license plate, or route',
-                      showRouteInfo: true,
+                    data: (buses) => Row(
+                      children: [
+                        BusSelectorWidget(
+                          buses: buses,
+                          onBusSelected: (bus) {
+                            if (bus != null) _toggleHistoryBus(bus);
+                          },
+                          width: 300,
+                          labelText: 'Add Bus to History',
+                          hintText: 'Search by bus number, license plate, or route',
+                          showRouteInfo: true,
+                        ),
+                        if (_selectedHistoryBusIds.isNotEmpty) ...[
+                          const SizedBox(width: 8),
+                          Text('${_selectedHistoryBusIds.length} selected',
+                            style: Theme.of(context).textTheme.labelSmall),
+                        ],
+                      ],
                     ),
                     loading: () => const SizedBox(
                       width: 300,
@@ -232,6 +251,27 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                       ),
                     ),
                   ),
+                  const SizedBox(width: 8),
+                  // Show selected buses as chips
+                  if (_selectedHistoryBusIds.isNotEmpty)
+                    busesAsync.maybeWhen(
+                      data: (buses) => Expanded(
+                        child: Wrap(
+                          spacing: 4,
+                          runSpacing: 4,
+                          children: _selectedHistoryBusIds.map((busId) {
+                            final bus = buses.firstWhere((b) => b.busId == busId);
+                            return Chip(
+                              label: Text(bus.busNumber, style: const TextStyle(fontSize: 12)),
+                              deleteIcon: const Icon(Icons.close, size: 16),
+                              onDeleted: () => _toggleHistoryBus(bus),
+                              visualDensity: VisualDensity.compact,
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                      orElse: () => const SizedBox.shrink(),
+                    ),
                 ],
                 const Spacer(),
                 // Live mode bus selector (only show in live mode)
@@ -564,38 +604,18 @@ class _MapScreenState extends ConsumerState<MapScreen> {
             ),
             const SizedBox(height: 12),
           ],
-          // Time display
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                DateFormat('HH:mm:ss').format(timeRange.start),
-                style: Theme.of(context).textTheme.labelSmall,
-              ),
-              Text(
-                DateFormat('HH:mm:ss').format(currentTimestamp),
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Text(
-                DateFormat('HH:mm:ss').format(timeRange.end),
-                style: Theme.of(context).textTheme.labelSmall,
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          // Slider
-          Slider(
-            value: currentSeconds.clamp(0, totalSeconds),
-            min: 0,
-            max: totalSeconds > 0 ? totalSeconds : 1,
-            divisions: totalSeconds > 0 ? (totalSeconds / 30).ceil() : 1, // 30-second intervals
-            label: DateFormat('HH:mm:ss').format(currentTimestamp),
-            onChanged: (value) {
-              final newTimestamp = timeRange.start.add(Duration(seconds: value.toInt()));
-              ref.read(busHistoryProvider.notifier).setTimestamp(newTimestamp);
+          // Timeline slider with gap visualization
+          TimelineSliderWithGaps(
+            locations: historyState.locations,
+            startTime: timeRange.start,
+            endTime: timeRange.end,
+            currentTimestamp: currentTimestamp,
+            onChanged: (timestamp) {
+              ref.read(busHistoryProvider.notifier).setTimestamp(timestamp);
             },
+            dataColor: Theme.of(context).colorScheme.primary,
+            gapColor: Colors.grey.shade800,
+            minimumGapDuration: const Duration(minutes: 3),
           ),
           // Location info
           Row(
