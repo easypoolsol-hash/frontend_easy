@@ -11,6 +11,7 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import 'package:frontend_easy/features/map/widgets/maps_config.dart';
+import 'package:frontend_easy/features/map/widgets/location_trail_painter.dart';
 import 'package:frontend_easy/features/fleet/providers/bus_locations_provider.dart';
 
 /// Interactive map widget for route visualization
@@ -34,6 +35,12 @@ class RouteMapWidget extends ConsumerStatefulWidget {
   /// Historical bus location {latitude, longitude, busId} - for history playback
   final Map<String, dynamic>? historicalLocation;
 
+  /// All historical locations for trail drawing
+  final List<Map<String, dynamic>>? historicalLocations;
+
+  /// Current index in historical locations for progressive trail
+  final int? historicalCurrentIndex;
+
   /// Creates a route map widget
   const RouteMapWidget({
     required this.routes,
@@ -42,6 +49,8 @@ class RouteMapWidget extends ConsumerStatefulWidget {
     this.onBusTapped,
     this.historyMode = false,
     this.historicalLocation,
+    this.historicalLocations,
+    this.historicalCurrentIndex,
     super.key,
   });
 
@@ -384,6 +393,24 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
     // Always show routes
     final polylines = _buildRoutePolylines();
     routePolylines.addAll(polylines);
+
+    // Add historical trail if in history mode
+    if (widget.historyMode &&
+        widget.historicalLocations != null &&
+        widget.historicalLocations!.isNotEmpty &&
+        widget.historicalCurrentIndex != null) {
+      final trail = LocationTrailPainter.createProgressiveTrail(
+        locations: widget.historicalLocations!,
+        currentIndex: widget.historicalCurrentIndex!,
+        trailId: 'historical_trail',
+        color: Colors.orange.withValues(alpha: 0.8),
+        width: 5,
+      );
+
+      if (trail != null) {
+        routePolylines.add(trail);
+      }
+    }
 
     // Always show bus stop markers
     for (final route in widget.routes) {

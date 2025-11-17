@@ -30,8 +30,9 @@ class _MapScreenState extends ConsumerState<MapScreen> {
 
   // Playback controls
   bool _isPlaying = false;
-  double _playbackSpeed = 1.0; // 1x, 2x, 4x
+  double _playbackSpeed = 1.0; // 0.5x, 1x, 2x, 4x, 6x
   Timer? _playbackTimer;
+  bool _showTrail = true; // Trail enabled by default
 
   void _selectBus(api.Bus? bus) {
     setState(() {
@@ -305,6 +306,8 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                         selectedBusIds: _selectedBusId != null ? [_selectedBusId!] : [],
                         historyMode: _isHistoryMode,
                         historicalLocation: _isHistoryMode ? _getHistoricalBusLocation() : null,
+                        historicalLocations: _isHistoryMode && _showTrail ? ref.watch(busHistoryProvider).locations : null,
+                        historicalCurrentIndex: _isHistoryMode && _showTrail ? ref.watch(busHistoryProvider).currentIndex : null,
                         onBusTapped: (busId, lat, lon) {
                           setState(() {
                             _selectedBusId = busId;
@@ -514,7 +517,39 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                         const PopupMenuItem(value: 1.0, child: Text('1x')),
                         const PopupMenuItem(value: 2.0, child: Text('2x')),
                         const PopupMenuItem(value: 4.0, child: Text('4x')),
+                        const PopupMenuItem(value: 6.0, child: Text('6x')),
                       ],
+                    ),
+                    const SizedBox(width: 8),
+                    // Trail toggle
+                    Tooltip(
+                      message: 'Show trail',
+                      child: InkWell(
+                        onTap: () {
+                          setState(() {
+                            _showTrail = !_showTrail;
+                          });
+                        },
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Checkbox(
+                              value: _showTrail,
+                              onChanged: (value) {
+                                setState(() {
+                                  _showTrail = value ?? true;
+                                });
+                              },
+                              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              visualDensity: VisualDensity.compact,
+                            ),
+                            Text(
+                              'Trail',
+                              style: Theme.of(context).textTheme.labelSmall,
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                     const SizedBox(width: 8),
                     // Play/Pause button
