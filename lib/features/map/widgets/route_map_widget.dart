@@ -28,12 +28,16 @@ class RouteMapWidget extends ConsumerStatefulWidget {
   /// Callback when bus marker is tapped
   final void Function(String busId, double lat, double lon)? onBusTapped;
 
+  /// Whether the map is in history mode (disables live location fetching)
+  final bool historyMode;
+
   /// Creates a route map widget
   const RouteMapWidget({
     required this.routes,
     required this.buses,
     this.selectedBusIds = const [],
     this.onBusTapped,
+    this.historyMode = false,
     super.key,
   });
 
@@ -249,40 +253,42 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
   Future<void> _focusOnSelectedBus() async {
     if (_mapController == null || widget.selectedBusIds.isEmpty) return;
 
-    // Try to get bus locations
-    final busLocationsAsync = ref.read(busLocationsProvider);
-
     bool zoomedToLocation = false;
 
-    await busLocationsAsync.when(
-      data: (busLocations) async {
-        for (final busFeature in busLocations) {
-          final properties = busFeature['properties'] as Map<String, dynamic>;
-          final busId = properties['id']?.toString();
+    // Only try to get live bus locations if NOT in history mode
+    if (!widget.historyMode) {
+      final busLocationsAsync = ref.read(busLocationsProvider);
 
-          if (widget.selectedBusIds.contains(busId)) {
-            final geometry = busFeature['geometry'] as Map<String, dynamic>;
-            final coordinates = geometry['coordinates'] as List<dynamic>;
-            final lon = (coordinates[0] as num).toDouble();
-            final lat = (coordinates[1] as num).toDouble();
+      await busLocationsAsync.when(
+        data: (busLocations) async {
+          for (final busFeature in busLocations) {
+            final properties = busFeature['properties'] as Map<String, dynamic>;
+            final busId = properties['id']?.toString();
 
-            // Animate camera to bus location
-            await _mapController?.animateCamera(
-              CameraUpdate.newCameraPosition(
-                CameraPosition(
-                  target: LatLng(lat, lon),
-                  zoom: 15.0, // Zoom in closer for focused view
+            if (widget.selectedBusIds.contains(busId)) {
+              final geometry = busFeature['geometry'] as Map<String, dynamic>;
+              final coordinates = geometry['coordinates'] as List<dynamic>;
+              final lon = (coordinates[0] as num).toDouble();
+              final lat = (coordinates[1] as num).toDouble();
+
+              // Animate camera to bus location
+              await _mapController?.animateCamera(
+                CameraUpdate.newCameraPosition(
+                  CameraPosition(
+                    target: LatLng(lat, lon),
+                    zoom: 15.0, // Zoom in closer for focused view
+                  ),
                 ),
-              ),
-            );
-            zoomedToLocation = true;
-            break;
+              );
+              zoomedToLocation = true;
+              break;
+            }
           }
-        }
-      },
-      loading: () async {},
-      error: (_, __) async {},
-    );
+        },
+        loading: () async {},
+        error: (_, __) async {},
+      );
+    }
 
     // Fallback: If no live location found, try to zoom to bus's route
     if (!zoomedToLocation && widget.buses.isNotEmpty) {
@@ -352,8 +358,10 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
 
   @override
   Widget build(BuildContext context) {
-    // Watch bus locations data
-    final busLocationsAsync = ref.watch(busLocationsProvider);
+    // Watch bus locations data (only in live mode, not history mode)
+    final busLocationsAsync = widget.historyMode
+        ? const AsyncValue<List<Map<String, dynamic>>>.data([])
+        : ref.watch(busLocationsProvider);
 
     // NOTE: Google Maps API key is loaded via <script> tag in web/index.html
     // The google_maps_flutter widget reads it from the JavaScript API, not from Dart code

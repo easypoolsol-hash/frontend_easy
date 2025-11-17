@@ -6,6 +6,7 @@ import 'package:frontend_easy/features/fleet/controllers/routes_controller.dart'
 import 'package:frontend_easy/features/fleet/providers/buses_provider.dart';
 import 'package:frontend_easy/features/map/widgets/route_map_widget.dart';
 import 'package:frontend_easy/shared/widgets/app_top_nav_bar.dart';
+import 'package:frontend_easy/shared/widgets/bus_selector_widget.dart';
 import 'package:frontend_easy/shared/utils/error_handler.dart';
 
 /// Main screen for route and fleet visualization
@@ -52,101 +53,39 @@ class _RouteMapScreenState extends ConsumerState<RouteMapScreen> {
             child: Row(
               children: [
                 const Spacer(),
-                SizedBox(
-                  width: 350,
-                  child: busesAsync.when(
-              data: (buses) => Autocomplete<api.Bus>(
-                displayStringForOption: (bus) => '${bus.busNumber} - ${bus.licensePlate}',
-                optionsBuilder: (TextEditingValue textEditingValue) {
-                  if (textEditingValue.text.isEmpty) {
-                    return const Iterable<api.Bus>.empty();
-                  }
-                  final searchText = textEditingValue.text.toLowerCase();
-                  return buses.where((bus) {
-                    // Smart search: matches bus number, license plate, route name, or bus ID
-                    // Also shows all buses if searching by route name
-                    return bus.busNumber.toLowerCase().contains(searchText) ||
-                           bus.licensePlate.toLowerCase().contains(searchText) ||
-                           (bus.routeName?.toLowerCase().contains(searchText) ?? false) ||
-                           bus.busId.toLowerCase().contains(searchText) ||
-                           (bus.route?.toLowerCase().contains(searchText) ?? false);
-                  });
-                },
-                onSelected: (api.Bus bus) {
-                  _selectBus(bus);
-                },
-                fieldViewBuilder: (context, controller, focusNode, onFieldSubmitted) {
-                  return TextField(
-                    controller: controller,
-                    focusNode: focusNode,
-                    decoration: InputDecoration(
-                      hintText: 'Search bus...',
-                      prefixIcon: const Icon(Icons.search),
-                      suffixIcon: controller.text.isNotEmpty
-                          ? IconButton(
-                              icon: const Icon(Icons.clear),
-                              onPressed: () {
-                                controller.clear();
-                                _selectBus(null);
-                              },
-                            )
-                          : null,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      isDense: true,
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                    ),
-                  );
-                },
-                optionsViewBuilder: (context, onSelected, options) {
-                  return Align(
-                    alignment: Alignment.topLeft,
-                    child: Material(
-                      elevation: 4.0,
-                      child: ConstrainedBox(
-                        constraints: const BoxConstraints(maxHeight: 200, maxWidth: 300),
-                        child: ListView.builder(
-                          padding: EdgeInsets.zero,
-                          shrinkWrap: true,
-                          itemCount: options.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            final api.Bus bus = options.elementAt(index);
-                            return ListTile(
-                              dense: true,
-                              leading: const Icon(Icons.directions_bus, size: 20),
-                              title: Text('Bus ${bus.busNumber}', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
-                              subtitle: Text('${bus.licensePlate}${bus.routeName != null ? ' • Route: ${bus.routeName}' : ''}', style: const TextStyle(fontSize: 12)),
-                              onTap: () {
-                                onSelected(bus);
-                              },
-                            );
-                          },
-                        ),
+                busesAsync.when(
+                  data: (buses) => BusSelectorWidget(
+                    buses: buses,
+                    onBusSelected: _selectBus,
+                    width: 350,
+                    labelText: 'Search Bus',
+                    hintText: 'Search bus...',
+                    showRouteInfo: true,
+                  ),
+                  loading: () => const SizedBox(
+                    width: 350,
+                    child: TextField(
+                      enabled: false,
+                      decoration: InputDecoration(
+                        hintText: 'Loading buses...',
+                        prefixIcon: Icon(Icons.search),
+                        border: OutlineInputBorder(),
+                        isDense: true,
                       ),
                     ),
-                  );
-                },
-              ),
-              loading: () => const TextField(
-                enabled: false,
-                decoration: InputDecoration(
-                  hintText: 'Loading buses...',
-                  prefixIcon: Icon(Icons.search),
-                  border: OutlineInputBorder(),
-                  isDense: true,
-                ),
-              ),
-              error: (error, stack) => const TextField(
-                enabled: false,
-                decoration: InputDecoration(
-                  hintText: 'Error loading buses',
-                  prefixIcon: Icon(Icons.error),
-                  border: OutlineInputBorder(),
-                  isDense: true,
-                ),
-              ),
-            ),
+                  ),
+                  error: (error, stack) => const SizedBox(
+                    width: 350,
+                    child: TextField(
+                      enabled: false,
+                      decoration: InputDecoration(
+                        hintText: 'Error loading buses',
+                        prefixIcon: Icon(Icons.error),
+                        border: OutlineInputBorder(),
+                        isDense: true,
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),

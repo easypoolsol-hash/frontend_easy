@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend_easy_api/frontend_easy_api.dart' as api;
@@ -9,6 +8,7 @@ import 'package:frontend_easy/features/fleet/providers/buses_provider.dart';
 import 'package:frontend_easy/features/fleet/providers/bus_history_provider.dart';
 import 'package:frontend_easy/features/map/widgets/route_map_widget.dart';
 import 'package:frontend_easy/shared/widgets/app_top_nav_bar.dart';
+import 'package:frontend_easy/shared/widgets/bus_selector_widget.dart';
 import 'package:frontend_easy/shared/utils/error_handler.dart';
 import 'package:frontend_easy/core/widgets/status_banner.dart';
 
@@ -72,14 +72,14 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     }
   }
 
-  void _selectHistoryBus(String? busNumber) {
+  void _selectHistoryBus(api.Bus? bus) {
     setState(() {
-      _selectedHistoryBusId = busNumber;
+      _selectedHistoryBusId = bus?.busNumber;
     });
 
     // Auto-fetch history if date is selected
-    if (busNumber != null && _selectedDate != null) {
-      ref.read(busHistoryProvider.notifier).fetchHistory(busNumber, _selectedDate!);
+    if (bus != null && _selectedDate != null) {
+      ref.read(busHistoryProvider.notifier).fetchHistory(bus.busNumber, _selectedDate!);
     }
   }
 
@@ -88,16 +88,6 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     // Watch routes and buses data
     final routesAsync = ref.watch(routesControllerProvider);
     final busesAsync = ref.watch(busesProvider);
-
-    // Debug logging
-    if (kDebugMode) {
-      print('[MapScreen] Building widget, _isHistoryMode: $_isHistoryMode');
-      busesAsync.when(
-        data: (buses) => print('[MapScreen] busesAsync has ${buses.length} buses'),
-        loading: () => print('[MapScreen] busesAsync is loading...'),
-        error: (e, s) => print('[MapScreen] busesAsync error: $e'),
-      );
-    }
 
     return Scaffold(
       body: Column(
@@ -143,54 +133,19 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  // Bus selector dropdown
-                  SizedBox(
-                    width: 300,
-                    child: busesAsync.when(
-                      data: (buses) {
-                        if (kDebugMode) {
-                          print('[MapScreen] Dropdown rendering with ${buses.length} buses');
-                          print('[MapScreen] Selected bus: $_selectedHistoryBusId');
-                        }
-
-                        if (buses.isEmpty) {
-                          if (kDebugMode) {
-                            print('[MapScreen] Dropdown showing "No buses available"');
-                          }
-                          return const TextField(
-                            enabled: false,
-                            decoration: InputDecoration(
-                              labelText: 'No buses available',
-                              border: OutlineInputBorder(),
-                              isDense: true,
-                              prefixIcon: Icon(Icons.directions_bus, size: 20),
-                            ),
-                          );
-                        }
-
-                        if (kDebugMode) {
-                          print('[MapScreen] Dropdown showing ${buses.length} buses');
-                        }
-
-                        return DropdownButtonFormField<String>(
-                          value: _selectedHistoryBusId,
-                          decoration: const InputDecoration(
-                            labelText: 'Select Bus',
-                            border: OutlineInputBorder(),
-                            isDense: true,
-                            contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                            prefixIcon: Icon(Icons.directions_bus, size: 20),
-                          ),
-                          items: buses.map((bus) {
-                            return DropdownMenuItem<String>(
-                              value: bus.busNumber,
-                              child: Text('${bus.busNumber} - ${bus.licensePlate}'),
-                            );
-                          }).toList(),
-                          onChanged: (busNumber) => _selectHistoryBus(busNumber),
-                        );
-                      },
-                      loading: () => const TextField(
+                  // Bus selector for history mode
+                  busesAsync.when(
+                    data: (buses) => BusSelectorWidget(
+                      buses: buses,
+                      onBusSelected: _selectHistoryBus,
+                      width: 300,
+                      labelText: 'Select Bus for History',
+                      hintText: 'Search by bus number, license plate, or route',
+                      showRouteInfo: true,
+                    ),
+                    loading: () => const SizedBox(
+                      width: 300,
+                      child: TextField(
                         enabled: false,
                         decoration: InputDecoration(
                           labelText: 'Loading buses...',
@@ -198,27 +153,17 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                           isDense: true,
                         ),
                       ),
-                      error: (error, stack) => Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          TextField(
-                            enabled: false,
-                            decoration: InputDecoration(
-                              labelText: 'Error loading buses',
-                              border: const OutlineInputBorder(),
-                              isDense: true,
-                              errorText: error.toString(),
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            'API Error: ${error.toString()}',
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.error,
-                              fontSize: 12,
-                            ),
-                          ),
-                        ],
+                    ),
+                    error: (error, stack) => SizedBox(
+                      width: 300,
+                      child: TextField(
+                        enabled: false,
+                        decoration: InputDecoration(
+                          labelText: 'Error loading buses',
+                          border: const OutlineInputBorder(),
+                          isDense: true,
+                          errorText: error.toString(),
+                        ),
                       ),
                     ),
                   ),
@@ -226,103 +171,18 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                 const Spacer(),
                 // Live mode bus selector (only show in live mode)
                 if (!_isHistoryMode)
-                SizedBox(
-                  width: 300,
-                  child: busesAsync.when(
-                    data: (buses) {
-                      if (buses.isEmpty) {
-                        return const TextField(
-                          enabled: false,
-                          decoration: InputDecoration(
-                            labelText: 'No buses available',
-                            border: OutlineInputBorder(),
-                            isDense: true,
-                            prefixIcon: Icon(Icons.directions_bus, size: 20),
-                          ),
-                        );
-                      }
-
-                      return Autocomplete<api.Bus>(
-                        displayStringForOption: (bus) {
-                          final routeInfo = bus.routeName != null ? ' • ${bus.routeName}' : '';
-                          return '${bus.busNumber} - ${bus.licensePlate}$routeInfo';
-                        },
-                        optionsBuilder: (TextEditingValue textEditingValue) {
-                          if (textEditingValue.text.isEmpty) {
-                            return buses; // Show all buses when no search text
-                          }
-                          final searchText = textEditingValue.text.toLowerCase();
-                          return buses.where((bus) {
-                            // Search by bus number, license plate, or route name
-                            return bus.busNumber.toLowerCase().contains(searchText) ||
-                                   bus.licensePlate.toLowerCase().contains(searchText) ||
-                                   (bus.routeName?.toLowerCase().contains(searchText) ?? false);
-                          });
-                        },
-                        onSelected: (api.Bus bus) {
-                          _selectBus(bus);
-                        },
-                        fieldViewBuilder: (context, controller, focusNode, onFieldSubmitted) {
-                          return TextField(
-                            controller: controller,
-                            focusNode: focusNode,
-                            decoration: InputDecoration(
-                              labelText: 'Search Bus',
-                              hintText: 'Search by bus number, license plate, or route',
-                              prefixIcon: const Icon(Icons.search, size: 20),
-                              suffixIcon: controller.text.isNotEmpty
-                                  ? IconButton(
-                                      icon: const Icon(Icons.clear),
-                                      onPressed: () {
-                                        controller.clear();
-                                        _selectBus(null);
-                                      },
-                                    )
-                                  : null,
-                              border: const OutlineInputBorder(),
-                              isDense: true,
-                              contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                            ),
-                          );
-                        },
-                        optionsViewBuilder: (context, onSelected, options) {
-                          return Align(
-                            alignment: Alignment.topLeft,
-                            child: Material(
-                              elevation: 4.0,
-                              child: ConstrainedBox(
-                                constraints: const BoxConstraints(maxHeight: 300, maxWidth: 400),
-                                child: ListView.builder(
-                                  padding: EdgeInsets.zero,
-                                  shrinkWrap: true,
-                                  itemCount: options.length,
-                                  itemBuilder: (BuildContext context, int index) {
-                                    final api.Bus bus = options.elementAt(index);
-                                    final routeInfo = bus.routeName ?? 'No Route';
-                                    return ListTile(
-                                      dense: true,
-                                      leading: const Icon(Icons.directions_bus, size: 20),
-                                      title: Text(
-                                        'Bus ${bus.busNumber}',
-                                        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-                                      ),
-                                      subtitle: Text(
-                                        '${bus.licensePlate} • $routeInfo',
-                                        style: const TextStyle(fontSize: 12),
-                                      ),
-                                      onTap: () {
-                                        onSelected(bus);
-                                      },
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      );
-                    },
-                    loading: () => const TextField(
+                busesAsync.when(
+                  data: (buses) => BusSelectorWidget(
+                    buses: buses,
+                    onBusSelected: _selectBus,
+                    width: 300,
+                    labelText: 'Search Bus',
+                    hintText: 'Search by bus number, license plate, or route',
+                    showRouteInfo: true,
+                  ),
+                  loading: () => const SizedBox(
+                    width: 300,
+                    child: TextField(
                       enabled: false,
                       decoration: InputDecoration(
                         labelText: 'Loading buses...',
@@ -330,7 +190,10 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                         isDense: true,
                       ),
                     ),
-                    error: (error, stack) => const TextField(
+                  ),
+                  error: (error, stack) => const SizedBox(
+                    width: 300,
+                    child: TextField(
                       enabled: false,
                       decoration: InputDecoration(
                         labelText: 'Error loading buses',
@@ -357,6 +220,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                                     routes: routes,
                                     buses: buses,
                                     selectedBusIds: _selectedBusId != null ? [_selectedBusId!] : [],
+                                    historyMode: _isHistoryMode,
                                     onBusTapped: (busId, lat, lon) {
                                       setState(() {
                                         _selectedBusId = busId;
@@ -368,6 +232,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                                     routes: routes,
                                     buses: const [], // Empty buses with routes still visible
                                     selectedBusIds: const [],
+                                    historyMode: _isHistoryMode,
                                     onBusTapped: (busId, lat, lon) {},
                                   ),
                                 );
@@ -378,6 +243,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                                   routes: const [], // Empty routes with buses still visible
                                   buses: buses,
                                   selectedBusIds: const [],
+                                  historyMode: _isHistoryMode,
                                   onBusTapped: (busId, lat, lon) {},
                                 ),
                                 loading: () => _buildLoadingIndicator(),
@@ -385,6 +251,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                                   routes: const [], // Both empty - show empty map
                                   buses: const [],
                                   selectedBusIds: const [],
+                                  historyMode: _isHistoryMode,
                                   onBusTapped: (busId, lat, lon) {},
                                 ),
                               ),
