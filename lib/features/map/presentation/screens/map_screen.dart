@@ -612,17 +612,38 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                   color: Colors.white.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(4),
                 ),
-                child: Row(
+                child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.pin_drop, color: Colors.white, size: 16),
-                    const SizedBox(width: 4),
-                    Text(
-                      'Orange marker shows historical position',
-                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        color: Colors.white,
-                        fontSize: 11,
-                      ),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(Icons.info_outline, color: Colors.white, size: 14),
+                        const SizedBox(width: 4),
+                        Text(
+                          'Historical Position',
+                          style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                            color: Colors.white,
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 2),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(Icons.my_location, color: Colors.white70, size: 12),
+                        const SizedBox(width: 4),
+                        Text(
+                          'Lat: ${(coordinates[1] as num).toStringAsFixed(4)}, Lon: ${(coordinates[0] as num).toStringAsFixed(4)}',
+                          style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                            color: Colors.white70,
+                            fontSize: 10,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
