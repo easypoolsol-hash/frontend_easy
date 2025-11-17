@@ -242,35 +242,83 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                         );
                       }
 
-                      return DropdownButtonFormField<String>(
-                        initialValue: _selectedBusId,
-                        decoration: const InputDecoration(
-                          labelText: 'Select Bus',
-                          border: OutlineInputBorder(),
-                          isDense: true,
-                          contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                          prefixIcon: Icon(Icons.directions_bus, size: 20),
-                        ),
-                        isExpanded: true,
-                        items: [
-                          const DropdownMenuItem<String>(
-                            value: null,
-                            child: Text('-- Clear Selection --'),
-                          ),
-                          ...buses.map((bus) {
-                            return DropdownMenuItem<String>(
-                              value: bus.busId,
-                              child: Text('${bus.busNumber} - ${bus.licensePlate}'),
-                            );
-                          }),
-                        ],
-                        onChanged: (busId) {
-                          if (busId == null) {
-                            _selectBus(null);
-                          } else {
-                            final selectedBus = buses.firstWhere((b) => b.busId == busId);
-                            _selectBus(selectedBus);
+                      return Autocomplete<api.Bus>(
+                        displayStringForOption: (bus) {
+                          final routeInfo = bus.routeName != null ? ' • ${bus.routeName}' : '';
+                          return '${bus.busNumber} - ${bus.licensePlate}$routeInfo';
+                        },
+                        optionsBuilder: (TextEditingValue textEditingValue) {
+                          if (textEditingValue.text.isEmpty) {
+                            return buses; // Show all buses when no search text
                           }
+                          final searchText = textEditingValue.text.toLowerCase();
+                          return buses.where((bus) {
+                            // Search by bus number, license plate, or route name
+                            return bus.busNumber.toLowerCase().contains(searchText) ||
+                                   bus.licensePlate.toLowerCase().contains(searchText) ||
+                                   (bus.routeName?.toLowerCase().contains(searchText) ?? false);
+                          });
+                        },
+                        onSelected: (api.Bus bus) {
+                          _selectBus(bus);
+                        },
+                        fieldViewBuilder: (context, controller, focusNode, onFieldSubmitted) {
+                          return TextField(
+                            controller: controller,
+                            focusNode: focusNode,
+                            decoration: InputDecoration(
+                              labelText: 'Search Bus',
+                              hintText: 'Search by bus number, license plate, or route',
+                              prefixIcon: const Icon(Icons.search, size: 20),
+                              suffixIcon: controller.text.isNotEmpty
+                                  ? IconButton(
+                                      icon: const Icon(Icons.clear),
+                                      onPressed: () {
+                                        controller.clear();
+                                        _selectBus(null);
+                                      },
+                                    )
+                                  : null,
+                              border: const OutlineInputBorder(),
+                              isDense: true,
+                              contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                            ),
+                          );
+                        },
+                        optionsViewBuilder: (context, onSelected, options) {
+                          return Align(
+                            alignment: Alignment.topLeft,
+                            child: Material(
+                              elevation: 4.0,
+                              child: ConstrainedBox(
+                                constraints: const BoxConstraints(maxHeight: 300, maxWidth: 400),
+                                child: ListView.builder(
+                                  padding: EdgeInsets.zero,
+                                  shrinkWrap: true,
+                                  itemCount: options.length,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    final api.Bus bus = options.elementAt(index);
+                                    final routeInfo = bus.routeName ?? 'No Route';
+                                    return ListTile(
+                                      dense: true,
+                                      leading: const Icon(Icons.directions_bus, size: 20),
+                                      title: Text(
+                                        'Bus ${bus.busNumber}',
+                                        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                                      ),
+                                      subtitle: Text(
+                                        '${bus.licensePlate} • $routeInfo',
+                                        style: const TextStyle(fontSize: 12),
+                                      ),
+                                      onTap: () {
+                                        onSelected(bus);
+                                      },
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                          );
                         },
                       );
                     },
