@@ -2,9 +2,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend_easy_api/frontend_easy_api.dart' as api;
+import 'package:intl/intl.dart';
 
 import 'package:frontend_easy/features/fleet/controllers/routes_controller.dart';
 import 'package:frontend_easy/features/fleet/providers/buses_provider.dart';
+import 'package:frontend_easy/features/fleet/providers/bus_history_provider.dart';
 import 'package:frontend_easy/features/map/widgets/route_map_widget.dart';
 import 'package:frontend_easy/shared/widgets/app_top_nav_bar.dart';
 import 'package:frontend_easy/shared/utils/error_handler.dart';
@@ -21,11 +23,61 @@ class MapScreen extends ConsumerStatefulWidget {
 
 class _MapScreenState extends ConsumerState<MapScreen> {
   String? _selectedBusId;
+  bool _isHistoryMode = false;
+  DateTime? _selectedDate;
+  String? _selectedHistoryBusId;
 
   void _selectBus(api.Bus? bus) {
     setState(() {
       _selectedBusId = bus?.busId;
     });
+  }
+
+  void _toggleHistoryMode() {
+    setState(() {
+      _isHistoryMode = !_isHistoryMode;
+      if (!_isHistoryMode) {
+        // Clear history when switching to live mode
+        ref.read(busHistoryProvider.notifier).clearHistory();
+        _selectedDate = null;
+        _selectedHistoryBusId = null;
+      }
+    });
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final now = DateTime.now();
+    final firstDate = now.subtract(const Duration(days: 7));
+
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: _selectedDate ?? now,
+      firstDate: firstDate,
+      lastDate: now,
+      helpText: 'Select Date for History Playback',
+    );
+
+    if (picked != null) {
+      setState(() {
+        _selectedDate = picked;
+      });
+
+      // Auto-fetch history if bus is selected
+      if (_selectedHistoryBusId != null) {
+        ref.read(busHistoryProvider.notifier).fetchHistory(_selectedHistoryBusId!, picked);
+      }
+    }
+  }
+
+  void _selectHistoryBus(String? busNumber) {
+    setState(() {
+      _selectedHistoryBusId = busNumber;
+    });
+
+    // Auto-fetch history if date is selected
+    if (busNumber != null && _selectedDate != null) {
+      ref.read(busHistoryProvider.notifier).fetchHistory(busNumber, _selectedDate!);
+    }
   }
 
   @override
@@ -40,7 +92,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
           const AppTopNavBar(currentIndex: 0),
           // System health status banner (shows when backend is down)
           const StatusBanner(),
-          // Search bar with autocomplete (right-aligned, compact)
+          // Search bar with autocomplete and history mode toggle
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             decoration: BoxDecoration(
@@ -54,7 +106,69 @@ class _MapScreenState extends ConsumerState<MapScreen> {
             ),
             child: Row(
               children: [
+                // History mode toggle
+                SegmentedButton<bool>(
+                  segments: const [
+                    ButtonSegment(value: false, label: Text('Live'), icon: Icon(Icons.location_on, size: 16)),
+                    ButtonSegment(value: true, label: Text('History'), icon: Icon(Icons.history, size: 16)),
+                  ],
+                  selected: {_isHistoryMode},
+                  onSelectionChanged: (Set<bool> selected) {
+                    _toggleHistoryMode();
+                  },
+                ),
+                const SizedBox(width: 16),
+                // History mode controls
+                if (_isHistoryMode) ...[
+                  // Date picker button
+                  OutlinedButton.icon(
+                    onPressed: () => _selectDate(context),
+                    icon: const Icon(Icons.calendar_today, size: 16),
+                    label: Text(_selectedDate != null ? DateFormat('MMM dd, yyyy').format(_selectedDate!) : 'Select Date'),
+                  ),
+                  const SizedBox(width: 8),
+                  // Bus selector dropdown
+                  SizedBox(
+                    width: 200,
+                    child: busesAsync.when(
+                      data: (buses) => DropdownButtonFormField<String>(
+                        value: _selectedHistoryBusId,
+                        decoration: const InputDecoration(
+                          labelText: 'Select Bus',
+                          border: OutlineInputBorder(),
+                          isDense: true,
+                          contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                        ),
+                        items: buses.map((bus) {
+                          return DropdownMenuItem<String>(
+                            value: bus.busNumber,
+                            child: Text('${bus.busNumber} - ${bus.licensePlate}'),
+                          );
+                        }).toList(),
+                        onChanged: _selectHistoryBus,
+                      ),
+                      loading: () => const TextField(
+                        enabled: false,
+                        decoration: InputDecoration(
+                          labelText: 'Loading buses...',
+                          border: OutlineInputBorder(),
+                          isDense: true,
+                        ),
+                      ),
+                      error: (error, stack) => const TextField(
+                        enabled: false,
+                        decoration: InputDecoration(
+                          labelText: 'Error loading',
+                          border: OutlineInputBorder(),
+                          isDense: true,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
                 const Spacer(),
+                // Live mode search (only show in live mode)
+                if (!_isHistoryMode)
                 SizedBox(
                   width: 350,
                   child: busesAsync.when(
@@ -155,49 +269,213 @@ class _MapScreenState extends ConsumerState<MapScreen> {
             ),
           ),
           Expanded(
-            child: Stack(
+            child: Column(
               children: [
-                routesAsync.when(
-                        data: (routes) {
-                          return busesAsync.when(
-                            data: (buses) => RouteMapWidget(
-                              routes: routes,
-                              buses: buses,
-                              selectedBusIds: _selectedBusId != null ? [_selectedBusId!] : [],
-                              onBusTapped: (busId, lat, lon) {
-                                setState(() {
-                                  _selectedBusId = busId;
-                                });
+                Expanded(
+                  child: Stack(
+                    children: [
+                      routesAsync.when(
+                              data: (routes) {
+                                return busesAsync.when(
+                                  data: (buses) => RouteMapWidget(
+                                    routes: routes,
+                                    buses: buses,
+                                    selectedBusIds: _selectedBusId != null ? [_selectedBusId!] : [],
+                                    onBusTapped: (busId, lat, lon) {
+                                      setState(() {
+                                        _selectedBusId = busId;
+                                      });
+                                    },
+                                  ),
+                                  loading: () => _buildLoadingIndicator(),
+                                  error: (error, stack) => RouteMapWidget(
+                                    routes: routes,
+                                    buses: const [], // Empty buses with routes still visible
+                                    selectedBusIds: const [],
+                                    onBusTapped: (busId, lat, lon) {},
+                                  ),
+                                );
                               },
+                              loading: () => _buildLoadingIndicator(),
+                              error: (error, stack) => busesAsync.when(
+                                data: (buses) => RouteMapWidget(
+                                  routes: const [], // Empty routes with buses still visible
+                                  buses: buses,
+                                  selectedBusIds: const [],
+                                  onBusTapped: (busId, lat, lon) {},
+                                ),
+                                loading: () => _buildLoadingIndicator(),
+                                error: (error, stack) => RouteMapWidget(
+                                  routes: const [], // Both empty - show empty map
+                                  buses: const [],
+                                  selectedBusIds: const [],
+                                  onBusTapped: (busId, lat, lon) {},
+                                ),
+                              ),
                             ),
-                            loading: () => _buildLoadingIndicator(),
-                            error: (error, stack) => RouteMapWidget(
-                              routes: routes,
-                              buses: const [], // Empty buses with routes still visible
-                              selectedBusIds: const [],
-                              onBusTapped: (busId, lat, lon) {},
-                            ),
-                          );
-                        },
-                        loading: () => _buildLoadingIndicator(),
-                        error: (error, stack) => busesAsync.when(
-                          data: (buses) => RouteMapWidget(
-                            routes: const [], // Empty routes with buses still visible
-                            buses: buses,
-                            selectedBusIds: const [],
-                            onBusTapped: (busId, lat, lon) {},
-                          ),
-                          loading: () => _buildLoadingIndicator(),
-                          error: (error, stack) => RouteMapWidget(
-                            routes: const [], // Both empty - show empty map
-                            buses: const [],
-                            selectedBusIds: const [],
-                            onBusTapped: (busId, lat, lon) {},
-                          ),
-                        ),
-                      ),
+                    ],
+                  ),
+                ),
+                // History playback slider (only show in history mode)
+                if (_isHistoryMode) _buildHistorySlider(),
               ],
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHistorySlider() {
+    final historyState = ref.watch(busHistoryProvider);
+
+    if (historyState.isLoading) {
+      return Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surface,
+          border: Border(
+            top: BorderSide(
+              color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
+              width: 1,
+            ),
+          ),
+        ),
+        child: const Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
+    if (historyState.error != null) {
+      return Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.errorContainer,
+          border: Border(
+            top: BorderSide(
+              color: Theme.of(context).colorScheme.error,
+              width: 2,
+            ),
+          ),
+        ),
+        child: Row(
+          children: [
+            Icon(Icons.error_outline, color: Theme.of(context).colorScheme.error),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                'Error: ${historyState.error}',
+                style: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    if (historyState.locations.isEmpty) {
+      return Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surface,
+          border: Border(
+            top: BorderSide(
+              color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
+              width: 1,
+            ),
+          ),
+        ),
+        child: const Center(
+          child: Text('No location data available for selected bus and date'),
+        ),
+      );
+    }
+
+    // We have location data - show the slider
+    final timeRange = historyState.timeRange;
+    if (timeRange == null) {
+      return const SizedBox.shrink();
+    }
+
+    final currentTimestamp = historyState.currentTimestamp ?? timeRange.start;
+    final totalSeconds = timeRange.duration.inSeconds.toDouble();
+    final currentSeconds = currentTimestamp.difference(timeRange.start).inSeconds.toDouble();
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
+        border: Border(
+          top: BorderSide(
+            color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
+            width: 1,
+          ),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.1),
+            blurRadius: 4,
+            offset: const Offset(0, -2),
+          ),
+        ],
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Time display
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                DateFormat('HH:mm:ss').format(timeRange.start),
+                style: Theme.of(context).textTheme.labelSmall,
+              ),
+              Text(
+                DateFormat('HH:mm:ss').format(currentTimestamp),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                DateFormat('HH:mm:ss').format(timeRange.end),
+                style: Theme.of(context).textTheme.labelSmall,
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          // Slider
+          Slider(
+            value: currentSeconds.clamp(0, totalSeconds),
+            min: 0,
+            max: totalSeconds > 0 ? totalSeconds : 1,
+            divisions: totalSeconds > 0 ? (totalSeconds / 30).ceil() : 1, // 30-second intervals
+            label: DateFormat('HH:mm:ss').format(currentTimestamp),
+            onChanged: (value) {
+              final newTimestamp = timeRange.start.add(Duration(seconds: value.toInt()));
+              ref.read(busHistoryProvider.notifier).setTimestamp(newTimestamp);
+            },
+          ),
+          // Location info
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.location_on, size: 16, color: Theme.of(context).colorScheme.primary),
+              const SizedBox(width: 4),
+              Text(
+                'Point ${historyState.currentIndex + 1} of ${historyState.locations.length}',
+                style: Theme.of(context).textTheme.labelSmall,
+              ),
+              if (historyState.currentLocation?['properties']?['speed'] != null) ...[
+                const SizedBox(width: 16),
+                Icon(Icons.speed, size: 16, color: Theme.of(context).colorScheme.secondary),
+                const SizedBox(width: 4),
+                Text(
+                  '${historyState.currentLocation!['properties']['speed']?.toStringAsFixed(1) ?? '0'} km/h',
+                  style: Theme.of(context).textTheme.labelSmall,
+                ),
+              ],
+            ],
           ),
         ],
       ),
