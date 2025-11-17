@@ -224,103 +224,74 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                   ),
                 ],
                 const Spacer(),
-                // Live mode search (only show in live mode)
+                // Live mode bus selector (only show in live mode)
                 if (!_isHistoryMode)
                 SizedBox(
-                  width: 350,
+                  width: 300,
                   child: busesAsync.when(
-              data: (buses) => Autocomplete<api.Bus>(
-                displayStringForOption: (bus) => '${bus.busNumber} - ${bus.licensePlate}',
-                optionsBuilder: (TextEditingValue textEditingValue) {
-                  if (textEditingValue.text.isEmpty) {
-                    return const Iterable<api.Bus>.empty();
-                  }
-                  final searchText = textEditingValue.text.toLowerCase();
-                  return buses.where((bus) {
-                    // Smart search: matches bus number, license plate, route name, or bus ID
-                    // Also shows all buses if searching by route name
-                    return bus.busNumber.toLowerCase().contains(searchText) ||
-                           bus.licensePlate.toLowerCase().contains(searchText) ||
-                           (bus.routeName?.toLowerCase().contains(searchText) ?? false) ||
-                           bus.busId.toLowerCase().contains(searchText) ||
-                           (bus.route?.toLowerCase().contains(searchText) ?? false);
-                  });
-                },
-                onSelected: (api.Bus bus) {
-                  _selectBus(bus);
-                },
-                fieldViewBuilder: (context, controller, focusNode, onFieldSubmitted) {
-                  return TextField(
-                    controller: controller,
-                    focusNode: focusNode,
-                    decoration: InputDecoration(
-                      hintText: 'Search bus...',
-                      prefixIcon: const Icon(Icons.search),
-                      suffixIcon: controller.text.isNotEmpty
-                          ? IconButton(
-                              icon: const Icon(Icons.clear),
-                              onPressed: () {
-                                controller.clear();
-                                _selectBus(null);
-                              },
-                            )
-                          : null,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      isDense: true,
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                    ),
-                  );
-                },
-                optionsViewBuilder: (context, onSelected, options) {
-                  return Align(
-                    alignment: Alignment.topLeft,
-                    child: Material(
-                      elevation: 4.0,
-                      child: ConstrainedBox(
-                        constraints: const BoxConstraints(maxHeight: 200, maxWidth: 300),
-                        child: ListView.builder(
-                          padding: EdgeInsets.zero,
-                          shrinkWrap: true,
-                          itemCount: options.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            final api.Bus bus = options.elementAt(index);
-                            return ListTile(
-                              dense: true,
-                              leading: const Icon(Icons.directions_bus, size: 20),
-                              title: Text('Bus ${bus.busNumber}', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
-                              subtitle: Text('${bus.licensePlate}${bus.routeName != null ? ' • Route: ${bus.routeName}' : ''}', style: const TextStyle(fontSize: 12)),
-                              onTap: () {
-                                onSelected(bus);
-                              },
-                            );
-                          },
+                    data: (buses) {
+                      if (buses.isEmpty) {
+                        return const TextField(
+                          enabled: false,
+                          decoration: InputDecoration(
+                            labelText: 'No buses available',
+                            border: OutlineInputBorder(),
+                            isDense: true,
+                            prefixIcon: Icon(Icons.directions_bus, size: 20),
+                          ),
+                        );
+                      }
+
+                      return DropdownButtonFormField<String>(
+                        initialValue: _selectedBusId,
+                        decoration: const InputDecoration(
+                          labelText: 'Select Bus',
+                          border: OutlineInputBorder(),
+                          isDense: true,
+                          contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                          prefixIcon: Icon(Icons.directions_bus, size: 20),
                         ),
+                        isExpanded: true,
+                        items: [
+                          const DropdownMenuItem<String>(
+                            value: null,
+                            child: Text('-- Clear Selection --'),
+                          ),
+                          ...buses.map((bus) {
+                            return DropdownMenuItem<String>(
+                              value: bus.busId,
+                              child: Text('${bus.busNumber} - ${bus.licensePlate}'),
+                            );
+                          }),
+                        ],
+                        onChanged: (busId) {
+                          if (busId == null) {
+                            _selectBus(null);
+                          } else {
+                            final selectedBus = buses.firstWhere((b) => b.busId == busId);
+                            _selectBus(selectedBus);
+                          }
+                        },
+                      );
+                    },
+                    loading: () => const TextField(
+                      enabled: false,
+                      decoration: InputDecoration(
+                        labelText: 'Loading buses...',
+                        border: OutlineInputBorder(),
+                        isDense: true,
                       ),
                     ),
-                  );
-                },
-              ),
-              loading: () => const TextField(
-                enabled: false,
-                decoration: InputDecoration(
-                  hintText: 'Loading buses...',
-                  prefixIcon: Icon(Icons.search),
-                  border: OutlineInputBorder(),
-                  isDense: true,
-                ),
-              ),
-              error: (error, stack) => const TextField(
-                enabled: false,
-                decoration: InputDecoration(
-                  hintText: 'Error loading buses',
-                  prefixIcon: Icon(Icons.error),
-                  border: OutlineInputBorder(),
-                  isDense: true,
-                ),
-              ),
-            ),
+                    error: (error, stack) => const TextField(
+                      enabled: false,
+                      decoration: InputDecoration(
+                        labelText: 'Error loading buses',
+                        prefixIcon: Icon(Icons.error),
+                        border: OutlineInputBorder(),
+                        isDense: true,
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
