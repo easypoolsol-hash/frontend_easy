@@ -89,6 +89,16 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     final routesAsync = ref.watch(routesControllerProvider);
     final busesAsync = ref.watch(busesProvider);
 
+    // Debug logging
+    if (kDebugMode) {
+      print('[MapScreen] Building widget, _isHistoryMode: $_isHistoryMode');
+      busesAsync.when(
+        data: (buses) => print('[MapScreen] busesAsync has ${buses.length} buses'),
+        loading: () => print('[MapScreen] busesAsync is loading...'),
+        error: (e, s) => print('[MapScreen] busesAsync error: $e'),
+      );
+    }
+
     return Scaffold(
       body: Column(
         children: [
@@ -138,7 +148,15 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                     width: 300,
                     child: busesAsync.when(
                       data: (buses) {
+                        if (kDebugMode) {
+                          print('[MapScreen] Dropdown rendering with ${buses.length} buses');
+                          print('[MapScreen] Selected bus: $_selectedHistoryBusId');
+                        }
+
                         if (buses.isEmpty) {
+                          if (kDebugMode) {
+                            print('[MapScreen] Dropdown showing "No buses available"');
+                          }
                           return const TextField(
                             enabled: false,
                             decoration: InputDecoration(
@@ -148,6 +166,10 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                               prefixIcon: Icon(Icons.directions_bus, size: 20),
                             ),
                           );
+                        }
+
+                        if (kDebugMode) {
+                          print('[MapScreen] Dropdown showing ${buses.length} buses');
                         }
 
                         return DropdownButtonFormField<String>(
