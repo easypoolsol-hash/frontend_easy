@@ -134,7 +134,7 @@ class BusHistoryNotifier extends Notifier<BusHistoryState> {
       }
 
       final response = await _dio.get(
-        '/api/v1/buses/locations/history/',
+        '/api/v1/locations/history/',
         queryParameters: {
           'bus_id': busId,
           'date': dateStr,
