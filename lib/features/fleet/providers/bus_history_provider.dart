@@ -117,7 +117,7 @@ class BusHistoryNotifier extends StateNotifier<BusHistoryState> {
     );
 
     try {
-      final token = await _tokenManager.getValidAccessToken();
+      final token = await _tokenManager.getToken();
       if (token == null) {
         throw Exception('Not authenticated');
       }
