@@ -49,7 +49,7 @@ abstract class Bus implements Built<Bus, BusBuilder> {
   String? get route;
 
   @BuiltValueField(wireName: r'route_name')
-  String get routeName;
+  String? get routeName;
 
   /// Maximum number of passengers
   @BuiltValueField(wireName: r'capacity')
@@ -142,11 +142,13 @@ class _$BusSerializer implements PrimitiveSerializer<Bus> {
         specifiedType: const FullType.nullable(String),
       );
     }
-    yield r'route_name';
-    yield serializers.serialize(
-      object.routeName,
-      specifiedType: const FullType(String),
-    );
+    if (object.routeName != null) {
+      yield r'route_name';
+      yield serializers.serialize(
+        object.routeName,
+        specifiedType: const FullType.nullable(String),
+      );
+    }
     yield r'capacity';
     yield serializers.serialize(
       object.capacity,
@@ -274,8 +276,9 @@ class _$BusSerializer implements PrimitiveSerializer<Bus> {
         case r'route_name':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.routeName = valueDes;
           break;
         case r'capacity':

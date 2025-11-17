@@ -241,7 +241,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                     // Also shows all buses if searching by route name
                     return bus.busNumber.toLowerCase().contains(searchText) ||
                            bus.licensePlate.toLowerCase().contains(searchText) ||
-                           bus.routeName.toLowerCase().contains(searchText) ||
+                           (bus.routeName?.toLowerCase().contains(searchText) ?? false) ||
                            bus.busId.toLowerCase().contains(searchText) ||
                            (bus.route?.toLowerCase().contains(searchText) ?? false);
                   });
@@ -290,7 +290,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                               dense: true,
                               leading: const Icon(Icons.directions_bus, size: 20),
                               title: Text('Bus ${bus.busNumber}', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
-                              subtitle: Text('${bus.licensePlate} • Route: ${bus.routeName}', style: const TextStyle(fontSize: 12)),
+                              subtitle: Text('${bus.licensePlate}${bus.routeName != null ? ' • Route: ${bus.routeName}' : ''}', style: const TextStyle(fontSize: 12)),
                               onTap: () {
                                 onSelected(bus);
                               },
