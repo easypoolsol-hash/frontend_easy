@@ -8,7 +8,7 @@
 // ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
-part of frontend_easy_api;
+part of openapi.api;
 
 
 class BusesApi {
@@ -104,10 +104,18 @@ class BusesApi {
     return null;
   }
 
-  ///      Returns historical bus locations for a specific bus on a specific date as GeoJSON.      Accessible by school administrators only.      **Query Parameters:**     - bus_id: Bus number (required, e.g., \"BUS-001\")     - date: Date in YYYY-MM-DD format (required, max 7 days in the past)      **Response Format:**     GeoJSON FeatureCollection with Point geometries for each location record.      Each feature includes properties:     - id: Location record ID     - bus_number: Bus identifier     - bus_name: Bus license plate     - timestamp: When the location was recorded     - speed: Speed at that moment (km/h)     - heading: Direction heading (degrees)     - accuracy: GPS accuracy (meters)     
+  ///      Returns historical bus locations for a specific bus on a specific date as GeoJSON.      Accessible by school administrators only.      **Response Format:**     GeoJSON FeatureCollection with Point geometries for each location record.      Each feature includes properties:     - id: Location record ID     - bus_number: Bus identifier     - bus_name: Bus license plate     - timestamp: When the location was recorded     - speed: Speed at that moment (km/h)     - heading: Direction heading (degrees)     - accuracy: GPS accuracy (meters)     
   ///
   /// Note: This method returns the HTTP [Response].
-  Future<Response> busLocationsHistoryApiWithHttpInfo() async {
+  ///
+  /// Parameters:
+  ///
+  /// * [String] busUuid (required):
+  ///   Bus UUID (primary key)
+  ///
+  /// * [DateTime] date (required):
+  ///   Date in YYYY-MM-DD format (max 7 days in the past)
+  Future<Response> busLocationsHistoryApiWithHttpInfo(String busUuid, DateTime date,) async {
     // ignore: prefer_const_declarations
     final path = r'/api/v1/locations/history/';
 
@@ -117,6 +125,9 @@ class BusesApi {
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
+
+      queryParams.addAll(_queryParams('', 'bus_uuid', busUuid));
+      queryParams.addAll(_queryParams('', 'date', date));
 
     const contentTypes = <String>[];
 
@@ -132,9 +143,17 @@ class BusesApi {
     );
   }
 
-  ///      Returns historical bus locations for a specific bus on a specific date as GeoJSON.      Accessible by school administrators only.      **Query Parameters:**     - bus_id: Bus number (required, e.g., \"BUS-001\")     - date: Date in YYYY-MM-DD format (required, max 7 days in the past)      **Response Format:**     GeoJSON FeatureCollection with Point geometries for each location record.      Each feature includes properties:     - id: Location record ID     - bus_number: Bus identifier     - bus_name: Bus license plate     - timestamp: When the location was recorded     - speed: Speed at that moment (km/h)     - heading: Direction heading (degrees)     - accuracy: GPS accuracy (meters)     
-  Future<BusLocationHistoryResponse?> busLocationsHistoryApi() async {
-    final response = await busLocationsHistoryApiWithHttpInfo();
+  ///      Returns historical bus locations for a specific bus on a specific date as GeoJSON.      Accessible by school administrators only.      **Response Format:**     GeoJSON FeatureCollection with Point geometries for each location record.      Each feature includes properties:     - id: Location record ID     - bus_number: Bus identifier     - bus_name: Bus license plate     - timestamp: When the location was recorded     - speed: Speed at that moment (km/h)     - heading: Direction heading (degrees)     - accuracy: GPS accuracy (meters)     
+  ///
+  /// Parameters:
+  ///
+  /// * [String] busUuid (required):
+  ///   Bus UUID (primary key)
+  ///
+  /// * [DateTime] date (required):
+  ///   Date in YYYY-MM-DD format (max 7 days in the past)
+  Future<BusLocationHistoryResponse?> busLocationsHistoryApi(String busUuid, DateTime date,) async {
+    final response = await busLocationsHistoryApiWithHttpInfo(busUuid, date,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

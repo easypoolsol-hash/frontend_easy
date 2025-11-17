@@ -152,10 +152,3 @@ lib/model/student_list.dart
 lib/model/student_parent.dart
 lib/model/student_photo.dart
 lib/model/user.dart
-test/api_v1_parents_me_bus_locations_retrieve200_response_inner_test.dart
-test/api_v1_parents_me_buses_location_retrieve200_response_location_test.dart
-test/api_v1_parents_me_buses_location_retrieve200_response_test.dart
-test/api_v1_parents_me_buses_retrieve200_response_test.dart
-test/bus_location_history_response_test.dart
-test/operation_slot_test.dart
-test/operation_timing_test.dart

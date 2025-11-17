@@ -8,7 +8,7 @@
 // ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
-part of frontend_easy_api;
+part of openapi.api;
 
 class ApiClient {
   ApiClient({this.basePath = 'http://localhost:8000', this.authentication,});

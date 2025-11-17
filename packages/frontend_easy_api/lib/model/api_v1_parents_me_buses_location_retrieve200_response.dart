@@ -8,7 +8,7 @@
 // ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
-part of frontend_easy_api;
+part of openapi.api;
 
 class ApiV1ParentsMeBusesLocationRetrieve200Response {
   /// Returns a new [ApiV1ParentsMeBusesLocationRetrieve200Response] instance.

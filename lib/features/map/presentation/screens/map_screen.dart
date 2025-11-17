@@ -74,12 +74,12 @@ class _MapScreenState extends ConsumerState<MapScreen> {
 
   void _selectHistoryBus(api.Bus? bus) {
     setState(() {
-      _selectedHistoryBusId = bus?.busNumber;
+      _selectedHistoryBusId = bus?.busId;
     });
 
     // Auto-fetch history if date is selected
     if (bus != null && _selectedDate != null) {
-      ref.read(busHistoryProvider.notifier).fetchHistory(bus.busNumber, _selectedDate!);
+      ref.read(busHistoryProvider.notifier).fetchHistory(bus.busId, _selectedDate!);
     }
   }
 
