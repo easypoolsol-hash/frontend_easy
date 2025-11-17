@@ -198,13 +198,27 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                           isDense: true,
                         ),
                       ),
-                      error: (error, stack) => TextField(
-                        enabled: false,
-                        decoration: InputDecoration(
-                          labelText: 'Error: ${error.toString()}',
-                          border: const OutlineInputBorder(),
-                          isDense: true,
-                        ),
+                      error: (error, stack) => Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TextField(
+                            enabled: false,
+                            decoration: InputDecoration(
+                              labelText: 'Error loading buses',
+                              border: const OutlineInputBorder(),
+                              isDense: true,
+                              errorText: error.toString(),
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            'API Error: ${error.toString()}',
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.error,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
