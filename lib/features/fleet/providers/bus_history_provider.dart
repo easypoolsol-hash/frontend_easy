@@ -98,14 +98,17 @@ class DateTimeRange {
   Duration get duration => end.difference(start);
 }
 
-/// Bus history provider (state notifier)
-class BusHistoryNotifier extends StateNotifier<BusHistoryState> {
-  final TokenManager _tokenManager;
-  final Dio _dio;
+/// Bus history notifier using Riverpod 3.0 Notifier pattern
+class BusHistoryNotifier extends Notifier<BusHistoryState> {
+  late final TokenManager _tokenManager;
+  late final Dio _dio;
 
-  BusHistoryNotifier(this._tokenManager)
-      : _dio = Dio(BaseOptions(baseUrl: ApiConfig.baseUrl)),
-        super(BusHistoryState());
+  @override
+  BusHistoryState build() {
+    _tokenManager = ref.watch(tokenManagerProvider);
+    _dio = Dio(BaseOptions(baseUrl: ApiConfig.baseUrl));
+    return BusHistoryState();
+  }
 
   /// Fetch historical locations for a specific bus and date
   Future<void> fetchHistory(String busId, DateTime date) async {
@@ -172,7 +175,7 @@ class BusHistoryNotifier extends StateNotifier<BusHistoryState> {
   void setTimestamp(DateTime timestamp) {
     // Find the closest location to the given timestamp
     int closestIndex = 0;
-    Duration minDifference = Duration(days: 1);
+    Duration minDifference = const Duration(days: 1);
 
     for (int i = 0; i < state.locations.length; i++) {
       try {
@@ -203,8 +206,7 @@ class BusHistoryNotifier extends StateNotifier<BusHistoryState> {
   }
 }
 
-/// Bus history provider
-final busHistoryProvider = StateNotifierProvider<BusHistoryNotifier, BusHistoryState>((ref) {
-  final tokenManager = ref.watch(tokenManagerProvider);
-  return BusHistoryNotifier(tokenManager);
+/// Bus history provider using Riverpod 3.0 NotifierProvider
+final busHistoryProvider = NotifierProvider<BusHistoryNotifier, BusHistoryState>(() {
+  return BusHistoryNotifier();
 });
