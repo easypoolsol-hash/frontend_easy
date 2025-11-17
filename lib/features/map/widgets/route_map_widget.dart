@@ -249,8 +249,10 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
   Future<void> _focusOnSelectedBus() async {
     if (_mapController == null || widget.selectedBusIds.isEmpty) return;
 
-    // Get bus locations and find the selected bus
+    // Try to get bus locations
     final busLocationsAsync = ref.read(busLocationsProvider);
+
+    bool zoomedToLocation = false;
 
     await busLocationsAsync.when(
       data: (busLocations) async {
@@ -273,6 +275,7 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
                 ),
               ),
             );
+            zoomedToLocation = true;
             break;
           }
         }
@@ -280,6 +283,29 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
       loading: () async {},
       error: (_, __) async {},
     );
+
+    // Fallback: If no live location found, try to zoom to bus's route
+    if (!zoomedToLocation && widget.buses.isNotEmpty) {
+      final selectedBus = widget.buses.firstWhere(
+        (bus) => widget.selectedBusIds.contains(bus.busId),
+        orElse: () => widget.buses.first,
+      );
+
+      // Find route for this bus
+      final route = widget.routes.where((r) => r.routeId == selectedBus.route).firstOrNull;
+      if (route != null && route.routeStops.isNotEmpty) {
+        // Zoom to first stop of the route
+        final firstStop = route.routeStops.first;
+        await _mapController?.animateCamera(
+          CameraUpdate.newCameraPosition(
+            CameraPosition(
+              target: LatLng(firstStop.latitude, firstStop.longitude),
+              zoom: 14.0,
+            ),
+          ),
+        );
+      }
+    }
   }
 
   // Helper: decode encoded polyline from backend
