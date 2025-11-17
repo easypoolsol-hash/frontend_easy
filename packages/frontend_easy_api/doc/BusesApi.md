@@ -1,8 +1,8 @@
-# openapi.api.BusesApi
+# frontend_easy_api.api.BusesApi
 
 ## Load the API package
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 ```
 
 All URIs are relative to *http://localhost:8000*
@@ -11,6 +11,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**busLocationsApi**](BusesApi.md#buslocationsapi) | **GET** /api/v1/locations/ | 
 [**busLocationsApi2**](BusesApi.md#buslocationsapi2) | **GET** /api/v1/school/api/bus-locations/ | 
+[**busLocationsHistoryApi**](BusesApi.md#buslocationshistoryapi) | **GET** /api/v1/locations/history/ | 
 
 
 # **busLocationsApi**
@@ -22,7 +23,7 @@ Method | HTTP request | Description
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -65,7 +66,7 @@ This endpoint does not need any parameter.
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -87,6 +88,49 @@ This endpoint does not need any parameter.
 ### Return type
 
 [**BusLocationsResponse**](BusLocationsResponse.md)
+
+### Authorization
+
+[cookieAuth](../README.md#cookieAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **busLocationsHistoryApi**
+> BusLocationHistoryResponse busLocationsHistoryApi()
+
+
+
+     Returns historical bus locations for a specific bus on a specific date as GeoJSON.      Accessible by school administrators only.      **Query Parameters:**     - bus_id: Bus number (required, e.g., \"BUS-001\")     - date: Date in YYYY-MM-DD format (required, max 7 days in the past)      **Response Format:**     GeoJSON FeatureCollection with Point geometries for each location record.      Each feature includes properties:     - id: Location record ID     - bus_number: Bus identifier     - bus_name: Bus license plate     - timestamp: When the location was recorded     - speed: Speed at that moment (km/h)     - heading: Direction heading (degrees)     - accuracy: GPS accuracy (meters)     
+
+### Example
+```dart
+import 'package:frontend_easy_api/api.dart';
+// TODO Configure API key authorization: cookieAuth
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+
+final api_instance = BusesApi();
+
+try {
+    final result = api_instance.busLocationsHistoryApi();
+    print(result);
+} catch (e) {
+    print('Exception when calling BusesApi->busLocationsHistoryApi: $e\n');
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**BusLocationHistoryResponse**](BusLocationHistoryResponse.md)
 
 ### Authorization
 

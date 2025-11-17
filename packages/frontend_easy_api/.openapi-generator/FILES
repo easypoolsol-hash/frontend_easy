@@ -6,6 +6,10 @@ doc/APIKey.md
 doc/APIKeyCreate.md
 doc/ApiApi.md
 doc/ApiV1KioskBoardingCreate200Response.md
+doc/ApiV1ParentsMeBusLocationsRetrieve200ResponseInner.md
+doc/ApiV1ParentsMeBusesLocationRetrieve200Response.md
+doc/ApiV1ParentsMeBusesLocationRetrieve200ResponseLocation.md
+doc/ApiV1ParentsMeBusesRetrieve200Response.md
 doc/AttendanceRecord.md
 doc/AuditLog.md
 doc/BoardingEvent.md
@@ -14,6 +18,7 @@ doc/BoardingEventNested.md
 doc/Bus.md
 doc/BusBasic.md
 doc/BusLocation.md
+doc/BusLocationHistoryResponse.md
 doc/BusLocationsResponse.md
 doc/BusesApi.md
 doc/CheckUpdatesResponse.md
@@ -25,6 +30,8 @@ doc/HealthData.md
 doc/Heartbeat.md
 doc/Kiosk.md
 doc/KioskLog200Response.md
+doc/OperationSlot.md
+doc/OperationTiming.md
 doc/PaginatedAPIKeyList.md
 doc/PaginatedAttendanceRecordList.md
 doc/PaginatedAuditLogList.md
@@ -36,7 +43,7 @@ doc/PaginatedKioskList.md
 doc/PaginatedParentList.md
 doc/PaginatedRouteList.md
 doc/PaginatedSchoolList.md
-doc/PaginatedStudentList.md
+doc/PaginatedStudentListList.md
 doc/PaginatedStudentParentList.md
 doc/PaginatedStudentPhotoList.md
 doc/PaginatedUserList.md
@@ -56,9 +63,12 @@ doc/PatchedStudentPhoto.md
 doc/PatchedUser.md
 doc/Route.md
 doc/RouteStop.md
+doc/SOSAlert.md
+doc/SOSAlertCreate.md
 doc/School.md
 doc/Student.md
 doc/StudentActivity.md
+doc/StudentList.md
 doc/StudentParent.md
 doc/StudentPhoto.md
 doc/User.md
@@ -78,6 +88,10 @@ lib/auth/oauth.dart
 lib/model/api_key.dart
 lib/model/api_key_create.dart
 lib/model/api_v1_kiosk_boarding_create200_response.dart
+lib/model/api_v1_parents_me_bus_locations_retrieve200_response_inner.dart
+lib/model/api_v1_parents_me_buses_location_retrieve200_response.dart
+lib/model/api_v1_parents_me_buses_location_retrieve200_response_location.dart
+lib/model/api_v1_parents_me_buses_retrieve200_response.dart
 lib/model/attendance_record.dart
 lib/model/audit_log.dart
 lib/model/boarding_event.dart
@@ -86,6 +100,7 @@ lib/model/boarding_event_nested.dart
 lib/model/bus.dart
 lib/model/bus_basic.dart
 lib/model/bus_location.dart
+lib/model/bus_location_history_response.dart
 lib/model/bus_locations_response.dart
 lib/model/check_updates_response.dart
 lib/model/dashboard_stats.dart
@@ -96,6 +111,8 @@ lib/model/health_data.dart
 lib/model/heartbeat.dart
 lib/model/kiosk.dart
 lib/model/kiosk_log200_response.dart
+lib/model/operation_slot.dart
+lib/model/operation_timing.dart
 lib/model/paginated_api_key_list.dart
 lib/model/paginated_attendance_record_list.dart
 lib/model/paginated_audit_log_list.dart
@@ -107,7 +124,7 @@ lib/model/paginated_kiosk_list.dart
 lib/model/paginated_parent_list.dart
 lib/model/paginated_route_list.dart
 lib/model/paginated_school_list.dart
-lib/model/paginated_student_list.dart
+lib/model/paginated_student_list_list.dart
 lib/model/paginated_student_parent_list.dart
 lib/model/paginated_student_photo_list.dart
 lib/model/paginated_user_list.dart
@@ -127,9 +144,18 @@ lib/model/patched_user.dart
 lib/model/route.dart
 lib/model/route_stop.dart
 lib/model/school.dart
+lib/model/sos_alert.dart
+lib/model/sos_alert_create.dart
 lib/model/student.dart
 lib/model/student_activity.dart
+lib/model/student_list.dart
 lib/model/student_parent.dart
 lib/model/student_photo.dart
 lib/model/user.dart
-pubspec.yaml
+test/api_v1_parents_me_bus_locations_retrieve200_response_inner_test.dart
+test/api_v1_parents_me_buses_location_retrieve200_response_location_test.dart
+test/api_v1_parents_me_buses_location_retrieve200_response_test.dart
+test/api_v1_parents_me_buses_retrieve200_response_test.dart
+test/bus_location_history_response_test.dart
+test/operation_slot_test.dart
+test/operation_timing_test.dart

@@ -8,12 +8,13 @@
 // ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
-part of openapi.api;
+part of frontend_easy_api;
 
 class HealthData {
   /// Returns a new [HealthData] instance.
   HealthData({
     this.batteryLevel,
+    this.deviceTemperature,
     this.isCharging = false,
     this.storageAvailableMb,
     this.cameraActive = false,
@@ -27,6 +28,9 @@ class HealthData {
   /// Minimum value: 0
   /// Maximum value: 100
   int? batteryLevel;
+
+  /// Device temperature in deciselsius (Celsius * 10)
+  int? deviceTemperature;
 
   bool isCharging;
 
@@ -51,6 +55,7 @@ class HealthData {
   @override
   bool operator ==(Object other) => identical(this, other) || other is HealthData &&
     other.batteryLevel == batteryLevel &&
+    other.deviceTemperature == deviceTemperature &&
     other.isCharging == isCharging &&
     other.storageAvailableMb == storageAvailableMb &&
     other.cameraActive == cameraActive &&
@@ -64,6 +69,7 @@ class HealthData {
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (batteryLevel == null ? 0 : batteryLevel!.hashCode) +
+    (deviceTemperature == null ? 0 : deviceTemperature!.hashCode) +
     (isCharging.hashCode) +
     (storageAvailableMb == null ? 0 : storageAvailableMb!.hashCode) +
     (cameraActive.hashCode) +
@@ -74,7 +80,7 @@ class HealthData {
     (studentsIdentifiedToday.hashCode);
 
   @override
-  String toString() => 'HealthData[batteryLevel=$batteryLevel, isCharging=$isCharging, storageAvailableMb=$storageAvailableMb, cameraActive=$cameraActive, networkType=$networkType, appVersion=$appVersion, lastFaceDetectedAgoMin=$lastFaceDetectedAgoMin, facesDetectedToday=$facesDetectedToday, studentsIdentifiedToday=$studentsIdentifiedToday]';
+  String toString() => 'HealthData[batteryLevel=$batteryLevel, deviceTemperature=$deviceTemperature, isCharging=$isCharging, storageAvailableMb=$storageAvailableMb, cameraActive=$cameraActive, networkType=$networkType, appVersion=$appVersion, lastFaceDetectedAgoMin=$lastFaceDetectedAgoMin, facesDetectedToday=$facesDetectedToday, studentsIdentifiedToday=$studentsIdentifiedToday]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -82,6 +88,11 @@ class HealthData {
       json[r'battery_level'] = this.batteryLevel;
     } else {
       json[r'battery_level'] = null;
+    }
+    if (this.deviceTemperature != null) {
+      json[r'device_temperature'] = this.deviceTemperature;
+    } else {
+      json[r'device_temperature'] = null;
     }
       json[r'is_charging'] = this.isCharging;
     if (this.storageAvailableMb != null) {
@@ -130,6 +141,7 @@ class HealthData {
 
       return HealthData(
         batteryLevel: mapValueOfType<int>(json, r'battery_level'),
+        deviceTemperature: mapValueOfType<int>(json, r'device_temperature'),
         isCharging: mapValueOfType<bool>(json, r'is_charging') ?? false,
         storageAvailableMb: mapValueOfType<int>(json, r'storage_available_mb'),
         cameraActive: mapValueOfType<bool>(json, r'camera_active') ?? false,

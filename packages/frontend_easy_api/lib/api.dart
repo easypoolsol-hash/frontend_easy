@@ -8,7 +8,7 @@
 // ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
-library openapi.api;
+library frontend_easy_api;
 
 import 'dart:async';
 import 'dart:convert';
@@ -35,6 +35,10 @@ part 'api/parents_api.dart';
 part 'model/api_key.dart';
 part 'model/api_key_create.dart';
 part 'model/api_v1_kiosk_boarding_create200_response.dart';
+part 'model/api_v1_parents_me_bus_locations_retrieve200_response_inner.dart';
+part 'model/api_v1_parents_me_buses_location_retrieve200_response.dart';
+part 'model/api_v1_parents_me_buses_location_retrieve200_response_location.dart';
+part 'model/api_v1_parents_me_buses_retrieve200_response.dart';
 part 'model/attendance_record.dart';
 part 'model/audit_log.dart';
 part 'model/boarding_event.dart';
@@ -43,6 +47,7 @@ part 'model/boarding_event_nested.dart';
 part 'model/bus.dart';
 part 'model/bus_basic.dart';
 part 'model/bus_location.dart';
+part 'model/bus_location_history_response.dart';
 part 'model/bus_locations_response.dart';
 part 'model/check_updates_response.dart';
 part 'model/dashboard_stats.dart';
@@ -53,6 +58,8 @@ part 'model/health_data.dart';
 part 'model/heartbeat.dart';
 part 'model/kiosk.dart';
 part 'model/kiosk_log200_response.dart';
+part 'model/operation_slot.dart';
+part 'model/operation_timing.dart';
 part 'model/paginated_api_key_list.dart';
 part 'model/paginated_attendance_record_list.dart';
 part 'model/paginated_audit_log_list.dart';
@@ -64,7 +71,7 @@ part 'model/paginated_kiosk_list.dart';
 part 'model/paginated_parent_list.dart';
 part 'model/paginated_route_list.dart';
 part 'model/paginated_school_list.dart';
-part 'model/paginated_student_list.dart';
+part 'model/paginated_student_list_list.dart';
 part 'model/paginated_student_parent_list.dart';
 part 'model/paginated_student_photo_list.dart';
 part 'model/paginated_user_list.dart';
@@ -83,9 +90,12 @@ part 'model/patched_student_photo.dart';
 part 'model/patched_user.dart';
 part 'model/route.dart';
 part 'model/route_stop.dart';
+part 'model/sos_alert.dart';
+part 'model/sos_alert_create.dart';
 part 'model/school.dart';
 part 'model/student.dart';
 part 'model/student_activity.dart';
+part 'model/student_list.dart';
 part 'model/student_parent.dart';
 part 'model/student_photo.dart';
 part 'model/user.dart';

@@ -8,7 +8,7 @@
 // ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
-part of openapi.api;
+part of frontend_easy_api;
 
 class PatchedKiosk {
   /// Returns a new [PatchedKiosk] instance.
@@ -17,10 +17,12 @@ class PatchedKiosk {
     this.bus,
     this.busLicensePlate,
     this.firmwareVersion,
+    this.gitCommitSha,
     this.lastHeartbeat,
     this.isActive,
     this.batteryLevel,
     this.storageUsedMb,
+    this.operationTiming,
     this.statusDisplay,
     this.isOnline,
     this.createdAt,
@@ -61,6 +63,9 @@ class PatchedKiosk {
   ///
   String? firmwareVersion;
 
+  /// Git commit SHA of current kiosk app build
+  String? gitCommitSha;
+
   /// Timestamp of last heartbeat received from device
   DateTime? lastHeartbeat;
 
@@ -86,6 +91,14 @@ class PatchedKiosk {
   /// Minimum value: 0
   /// Maximum value: 9223372036854775807
   int? storageUsedMb;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  OperationTiming? operationTiming;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -127,10 +140,12 @@ class PatchedKiosk {
     other.bus == bus &&
     other.busLicensePlate == busLicensePlate &&
     other.firmwareVersion == firmwareVersion &&
+    other.gitCommitSha == gitCommitSha &&
     other.lastHeartbeat == lastHeartbeat &&
     other.isActive == isActive &&
     other.batteryLevel == batteryLevel &&
     other.storageUsedMb == storageUsedMb &&
+    other.operationTiming == operationTiming &&
     other.statusDisplay == statusDisplay &&
     other.isOnline == isOnline &&
     other.createdAt == createdAt &&
@@ -143,17 +158,19 @@ class PatchedKiosk {
     (bus == null ? 0 : bus!.hashCode) +
     (busLicensePlate == null ? 0 : busLicensePlate!.hashCode) +
     (firmwareVersion == null ? 0 : firmwareVersion!.hashCode) +
+    (gitCommitSha == null ? 0 : gitCommitSha!.hashCode) +
     (lastHeartbeat == null ? 0 : lastHeartbeat!.hashCode) +
     (isActive == null ? 0 : isActive!.hashCode) +
     (batteryLevel == null ? 0 : batteryLevel!.hashCode) +
     (storageUsedMb == null ? 0 : storageUsedMb!.hashCode) +
+    (operationTiming == null ? 0 : operationTiming!.hashCode) +
     (statusDisplay == null ? 0 : statusDisplay!.hashCode) +
     (isOnline == null ? 0 : isOnline!.hashCode) +
     (createdAt == null ? 0 : createdAt!.hashCode) +
     (updatedAt == null ? 0 : updatedAt!.hashCode);
 
   @override
-  String toString() => 'PatchedKiosk[kioskId=$kioskId, bus=$bus, busLicensePlate=$busLicensePlate, firmwareVersion=$firmwareVersion, lastHeartbeat=$lastHeartbeat, isActive=$isActive, batteryLevel=$batteryLevel, storageUsedMb=$storageUsedMb, statusDisplay=$statusDisplay, isOnline=$isOnline, createdAt=$createdAt, updatedAt=$updatedAt]';
+  String toString() => 'PatchedKiosk[kioskId=$kioskId, bus=$bus, busLicensePlate=$busLicensePlate, firmwareVersion=$firmwareVersion, gitCommitSha=$gitCommitSha, lastHeartbeat=$lastHeartbeat, isActive=$isActive, batteryLevel=$batteryLevel, storageUsedMb=$storageUsedMb, operationTiming=$operationTiming, statusDisplay=$statusDisplay, isOnline=$isOnline, createdAt=$createdAt, updatedAt=$updatedAt]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -177,6 +194,11 @@ class PatchedKiosk {
     } else {
       json[r'firmware_version'] = null;
     }
+    if (this.gitCommitSha != null) {
+      json[r'git_commit_sha'] = this.gitCommitSha;
+    } else {
+      json[r'git_commit_sha'] = null;
+    }
     if (this.lastHeartbeat != null) {
       json[r'last_heartbeat'] = this.lastHeartbeat!.toUtc().toIso8601String();
     } else {
@@ -196,6 +218,11 @@ class PatchedKiosk {
       json[r'storage_used_mb'] = this.storageUsedMb;
     } else {
       json[r'storage_used_mb'] = null;
+    }
+    if (this.operationTiming != null) {
+      json[r'operation_timing'] = this.operationTiming;
+    } else {
+      json[r'operation_timing'] = null;
     }
     if (this.statusDisplay != null) {
       json[r'status_display'] = this.statusDisplay;
@@ -243,10 +270,12 @@ class PatchedKiosk {
         bus: mapValueOfType<String>(json, r'bus'),
         busLicensePlate: mapValueOfType<String>(json, r'bus_license_plate'),
         firmwareVersion: mapValueOfType<String>(json, r'firmware_version'),
+        gitCommitSha: mapValueOfType<String>(json, r'git_commit_sha'),
         lastHeartbeat: mapDateTime(json, r'last_heartbeat', r''),
         isActive: mapValueOfType<bool>(json, r'is_active'),
         batteryLevel: mapValueOfType<double>(json, r'battery_level'),
         storageUsedMb: mapValueOfType<int>(json, r'storage_used_mb'),
+        operationTiming: OperationTiming.fromJson(json[r'operation_timing']),
         statusDisplay: mapValueOfType<String>(json, r'status_display'),
         isOnline: mapValueOfType<String>(json, r'is_online'),
         createdAt: mapDateTime(json, r'created_at', r''),

@@ -8,7 +8,7 @@
 // ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
-part of openapi.api;
+part of frontend_easy_api;
 
 class PatchedBus {
   /// Returns a new [PatchedBus] instance.
@@ -25,6 +25,13 @@ class PatchedBus {
     this.model,
     this.year,
     this.lastMaintenance,
+    this.driverName,
+    this.driverPhone,
+    this.driverAddress,
+    this.driverLicenseNumber,
+    this.conductorName,
+    this.conductorPhone,
+    this.conductorAddress,
     this.assignedStudentsCount,
     this.utilizationPercentage,
     this.isAvailable,
@@ -62,24 +69,12 @@ class PatchedBus {
   /// Route this bus is assigned to
   String? route;
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
   String? routeName;
 
   /// Maximum number of passengers
   ///
   /// Minimum value: 1
   /// Maximum value: 9223372036854775807
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
   int? capacity;
 
   /// Kiosk device identifier installed on this bus
@@ -114,6 +109,69 @@ class PatchedBus {
 
   /// Date of last maintenance
   DateTime? lastMaintenance;
+
+  /// Driver's full name
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? driverName;
+
+  /// Driver's contact number
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? driverPhone;
+
+  /// Driver's address
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? driverAddress;
+
+  /// Driver's license number
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? driverLicenseNumber;
+
+  /// Conductor's full name
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? conductorName;
+
+  /// Conductor's contact number
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? conductorPhone;
+
+  /// Conductor's address
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? conductorAddress;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -171,6 +229,13 @@ class PatchedBus {
     other.model == model &&
     other.year == year &&
     other.lastMaintenance == lastMaintenance &&
+    other.driverName == driverName &&
+    other.driverPhone == driverPhone &&
+    other.driverAddress == driverAddress &&
+    other.driverLicenseNumber == driverLicenseNumber &&
+    other.conductorName == conductorName &&
+    other.conductorPhone == conductorPhone &&
+    other.conductorAddress == conductorAddress &&
     other.assignedStudentsCount == assignedStudentsCount &&
     other.utilizationPercentage == utilizationPercentage &&
     other.isAvailable == isAvailable &&
@@ -192,6 +257,13 @@ class PatchedBus {
     (model == null ? 0 : model!.hashCode) +
     (year == null ? 0 : year!.hashCode) +
     (lastMaintenance == null ? 0 : lastMaintenance!.hashCode) +
+    (driverName == null ? 0 : driverName!.hashCode) +
+    (driverPhone == null ? 0 : driverPhone!.hashCode) +
+    (driverAddress == null ? 0 : driverAddress!.hashCode) +
+    (driverLicenseNumber == null ? 0 : driverLicenseNumber!.hashCode) +
+    (conductorName == null ? 0 : conductorName!.hashCode) +
+    (conductorPhone == null ? 0 : conductorPhone!.hashCode) +
+    (conductorAddress == null ? 0 : conductorAddress!.hashCode) +
     (assignedStudentsCount == null ? 0 : assignedStudentsCount!.hashCode) +
     (utilizationPercentage == null ? 0 : utilizationPercentage!.hashCode) +
     (isAvailable == null ? 0 : isAvailable!.hashCode) +
@@ -199,7 +271,7 @@ class PatchedBus {
     (updatedAt == null ? 0 : updatedAt!.hashCode);
 
   @override
-  String toString() => 'PatchedBus[busId=$busId, busNumber=$busNumber, licensePlate=$licensePlate, route=$route, routeName=$routeName, capacity=$capacity, deviceId=$deviceId, status=$status, manufacturer=$manufacturer, model=$model, year=$year, lastMaintenance=$lastMaintenance, assignedStudentsCount=$assignedStudentsCount, utilizationPercentage=$utilizationPercentage, isAvailable=$isAvailable, createdAt=$createdAt, updatedAt=$updatedAt]';
+  String toString() => 'PatchedBus[busId=$busId, busNumber=$busNumber, licensePlate=$licensePlate, route=$route, routeName=$routeName, capacity=$capacity, deviceId=$deviceId, status=$status, manufacturer=$manufacturer, model=$model, year=$year, lastMaintenance=$lastMaintenance, driverName=$driverName, driverPhone=$driverPhone, driverAddress=$driverAddress, driverLicenseNumber=$driverLicenseNumber, conductorName=$conductorName, conductorPhone=$conductorPhone, conductorAddress=$conductorAddress, assignedStudentsCount=$assignedStudentsCount, utilizationPercentage=$utilizationPercentage, isAvailable=$isAvailable, createdAt=$createdAt, updatedAt=$updatedAt]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -263,6 +335,41 @@ class PatchedBus {
     } else {
       json[r'last_maintenance'] = null;
     }
+    if (this.driverName != null) {
+      json[r'driver_name'] = this.driverName;
+    } else {
+      json[r'driver_name'] = null;
+    }
+    if (this.driverPhone != null) {
+      json[r'driver_phone'] = this.driverPhone;
+    } else {
+      json[r'driver_phone'] = null;
+    }
+    if (this.driverAddress != null) {
+      json[r'driver_address'] = this.driverAddress;
+    } else {
+      json[r'driver_address'] = null;
+    }
+    if (this.driverLicenseNumber != null) {
+      json[r'driver_license_number'] = this.driverLicenseNumber;
+    } else {
+      json[r'driver_license_number'] = null;
+    }
+    if (this.conductorName != null) {
+      json[r'conductor_name'] = this.conductorName;
+    } else {
+      json[r'conductor_name'] = null;
+    }
+    if (this.conductorPhone != null) {
+      json[r'conductor_phone'] = this.conductorPhone;
+    } else {
+      json[r'conductor_phone'] = null;
+    }
+    if (this.conductorAddress != null) {
+      json[r'conductor_address'] = this.conductorAddress;
+    } else {
+      json[r'conductor_address'] = null;
+    }
     if (this.assignedStudentsCount != null) {
       json[r'assigned_students_count'] = this.assignedStudentsCount;
     } else {
@@ -322,6 +429,13 @@ class PatchedBus {
         model: mapValueOfType<String>(json, r'model'),
         year: mapValueOfType<int>(json, r'year'),
         lastMaintenance: mapDateTime(json, r'last_maintenance', r''),
+        driverName: mapValueOfType<String>(json, r'driver_name'),
+        driverPhone: mapValueOfType<String>(json, r'driver_phone'),
+        driverAddress: mapValueOfType<String>(json, r'driver_address'),
+        driverLicenseNumber: mapValueOfType<String>(json, r'driver_license_number'),
+        conductorName: mapValueOfType<String>(json, r'conductor_name'),
+        conductorPhone: mapValueOfType<String>(json, r'conductor_phone'),
+        conductorAddress: mapValueOfType<String>(json, r'conductor_address'),
         assignedStudentsCount: mapValueOfType<int>(json, r'assigned_students_count'),
         utilizationPercentage: mapValueOfType<double>(json, r'utilization_percentage'),
         isAvailable: mapValueOfType<bool>(json, r'is_available'),

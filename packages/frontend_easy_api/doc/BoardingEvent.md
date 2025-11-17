@@ -1,15 +1,15 @@
-# openapi.model.BoardingEvent
+# frontend_easy_api.model.BoardingEvent
 
 ## Load the model package
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 ```
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **eventId** | **String** | ULID primary key for global uniqueness and time sorting | [readonly] 
-**student** | **String** | Student who boarded the bus | 
+**student** | **String** | Student who boarded the bus (null for unidentified faces) | [optional] 
 **kioskId** | **String** | Kiosk device identifier | 
 **confidenceScore** | **double** | Face recognition confidence score (0.0-1.0) | 
 **timestamp** | [**DateTime**](DateTime.md) | When the boarding event occurred | 
@@ -20,6 +20,8 @@ Name | Type | Description | Notes
 **modelVersion** | **String** | Face recognition model version used | 
 **metadata** | [**Object**](.md) | Additional metadata as JSON | [optional] 
 **createdAt** | [**DateTime**](DateTime.md) | When this record was created in database | [readonly] 
+**confirmationFaceUrls** | **String** |  | [readonly] 
+**isUnknownFace** | **String** |  | [readonly] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

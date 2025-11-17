@@ -1,8 +1,8 @@
-# openapi.model.Heartbeat
+# frontend_easy_api.model.Heartbeat
 
 ## Load the model package
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 ```
 
 ## Properties
@@ -13,6 +13,7 @@ Name | Type | Description | Notes
 **databaseHash** | **String** | Database content hash | [optional] 
 **studentCount** | **int** | Students in DB | 
 **embeddingCount** | **int** | Embeddings in DB | 
+**gitCommitSha** | **String** | Git commit SHA of the kiosk app build (40 chars). Null for dev builds. | [optional] 
 **health** | [**HealthData**](HealthData.md) |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

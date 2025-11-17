@@ -1,8 +1,8 @@
-# openapi.api.ApiApi
+# frontend_easy_api.api.ApiApi
 
 ## Load the API package
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 ```
 
 All URIs are relative to *http://localhost:8000*
@@ -57,7 +57,13 @@ Method | HTTP request | Description
 [**apiV1ParentsCreate**](ApiApi.md#apiv1parentscreate) | **POST** /api/v1/parents/ | 
 [**apiV1ParentsDestroy**](ApiApi.md#apiv1parentsdestroy) | **DELETE** /api/v1/parents/{parent_id}/ | 
 [**apiV1ParentsList**](ApiApi.md#apiv1parentslist) | **GET** /api/v1/parents/ | 
+[**apiV1ParentsMeBusLocationsRetrieve**](ApiApi.md#apiv1parentsmebuslocationsretrieve) | **GET** /api/v1/parents/me/bus-locations/ | 
+[**apiV1ParentsMeBusesLocationRetrieve**](ApiApi.md#apiv1parentsmebuseslocationretrieve) | **GET** /api/v1/parents/me/buses/{bus_id}/location/ | 
+[**apiV1ParentsMeBusesRetrieve**](ApiApi.md#apiv1parentsmebusesretrieve) | **GET** /api/v1/parents/me/buses/ | 
+[**apiV1ParentsMeChildrenList**](ApiApi.md#apiv1parentsmechildrenlist) | **GET** /api/v1/parents/me/children/ | 
+[**apiV1ParentsMeProfileRetrieve**](ApiApi.md#apiv1parentsmeprofileretrieve) | **GET** /api/v1/parents/me/profile/ | 
 [**apiV1ParentsPartialUpdate**](ApiApi.md#apiv1parentspartialupdate) | **PATCH** /api/v1/parents/{parent_id}/ | 
+[**apiV1ParentsRegisterCreate**](ApiApi.md#apiv1parentsregistercreate) | **POST** /api/v1/parents/register/ | 
 [**apiV1ParentsRetrieve**](ApiApi.md#apiv1parentsretrieve) | **GET** /api/v1/parents/{parent_id}/ | 
 [**apiV1ParentsStudentsRetrieve**](ApiApi.md#apiv1parentsstudentsretrieve) | **GET** /api/v1/parents/{parent_id}/students/ | 
 [**apiV1ParentsUpdate**](ApiApi.md#apiv1parentsupdate) | **PUT** /api/v1/parents/{parent_id}/ | 
@@ -108,6 +114,7 @@ Method | HTTP request | Description
 [**kioskGetMe**](ApiApi.md#kioskgetme) | **GET** /api/v1/kiosks/me/ | 
 [**kioskHeartbeat**](ApiApi.md#kioskheartbeat) | **POST** /api/v1/kiosks/{kiosk_id}/heartbeat/ | 
 [**kioskLog**](ApiApi.md#kiosklog) | **POST** /api/v1/kiosks/logs/ | 
+[**kioskTriggerSos**](ApiApi.md#kiosktriggersos) | **POST** /api/v1/kiosks/{kiosk_id}/sos/ | 
 [**kioskUpdateLocation**](ApiApi.md#kioskupdatelocation) | **POST** /api/v1/kiosks/{kiosk_id}/location/ | 
 
 
@@ -118,7 +125,7 @@ Method | HTTP request | Description
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -163,7 +170,7 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -207,7 +214,7 @@ void (empty response body)
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -256,7 +263,7 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -303,7 +310,7 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -348,7 +355,7 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -395,7 +402,7 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -444,7 +451,7 @@ Read-only ViewSet for attendance records  PERMISSION: IsSchoolAdmin (school admi
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -497,7 +504,7 @@ Read-only ViewSet for attendance records  PERMISSION: IsSchoolAdmin (school admi
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -544,7 +551,7 @@ Get attendance history for a specific student
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -591,7 +598,7 @@ Get attendance summary for date range
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -632,7 +639,7 @@ This endpoint does not need any parameter.
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -681,7 +688,7 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -728,7 +735,7 @@ Bulk create boarding events (for high-throughput kiosk operations)
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 
 final api_instance = ApiApi();
 final boardingEvent = BoardingEvent(); // BoardingEvent | 
@@ -771,7 +778,7 @@ ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices 
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 
 final api_instance = ApiApi();
 final boardingEventCreate = BoardingEventCreate(); // BoardingEventCreate | 
@@ -814,7 +821,7 @@ ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices 
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 
 final api_instance = ApiApi();
 final eventId = eventId_example; // String | 
@@ -856,7 +863,7 @@ ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices 
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 
 final api_instance = ApiApi();
 final busRoute = busRoute_example; // String | 
@@ -907,7 +914,7 @@ ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices 
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 
 final api_instance = ApiApi();
 final eventId = eventId_example; // String | 
@@ -952,7 +959,7 @@ Get recent boarding events for dashboard
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 
 final api_instance = ApiApi();
 
@@ -991,7 +998,7 @@ ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices 
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 
 final api_instance = ApiApi();
 final eventId = eventId_example; // String | 
@@ -1034,7 +1041,7 @@ ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices 
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 
 final api_instance = ApiApi();
 final eventId = eventId_example; // String | 
@@ -1079,7 +1086,7 @@ Bulk assign students to buses
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -1126,7 +1133,7 @@ ViewSet for buses
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -1173,7 +1180,7 @@ ViewSet for buses
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -1219,7 +1226,7 @@ ViewSet for buses
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -1272,7 +1279,7 @@ ViewSet for buses
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -1321,7 +1328,7 @@ ViewSet for buses
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -1368,7 +1375,7 @@ Get all students assigned to this bus
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -1415,7 +1422,7 @@ ViewSet for buses
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -1464,7 +1471,7 @@ Get fleet utilization report
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -1507,7 +1514,7 @@ Returns summary statistics for school dashboard (buses, students boarded) for TO
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -1550,7 +1557,7 @@ Returns paginated list of students who boarded TODAY with all their events
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -1599,7 +1606,7 @@ Geocode an address to coordinates.  POST /api/v1/geocode/ Body: {\"address\": \"
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -1641,7 +1648,7 @@ API endpoint for Groups (Roles). Read-only following IAM principle - groups mana
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -1692,7 +1699,7 @@ API endpoint for Groups (Roles). Read-only following IAM principle - groups mana
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -1739,7 +1746,7 @@ Student boarding endpoint - returns immediate approval and schedules background 
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -1786,7 +1793,7 @@ ViewSet for kiosk management (admin only)
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -1833,7 +1840,7 @@ ViewSet for kiosk management (admin only)
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -1879,7 +1886,7 @@ ViewSet for kiosk management (admin only)
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -1930,7 +1937,7 @@ ViewSet for kiosk management (admin only)
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -1979,7 +1986,7 @@ ViewSet for kiosk management (admin only)
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -2026,7 +2033,7 @@ ViewSet for kiosk management (admin only)
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -2075,7 +2082,7 @@ Read-only ViewSet for device logs (any authenticated user)
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -2128,7 +2135,7 @@ Read-only ViewSet for device logs (any authenticated user)
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -2175,7 +2182,7 @@ Get logs summary by level and time
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -2214,9 +2221,11 @@ This endpoint does not need any parameter.
 
 
 
+Admin-only parent management - NO row-level filtering (requires admin access)
+
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -2259,9 +2268,11 @@ Name | Type | Description  | Notes
 
 
 
+Admin-only parent management - NO row-level filtering (requires admin access)
+
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -2303,9 +2314,11 @@ void (empty response body)
 
 
 
+Admin-only parent management - NO row-level filtering (requires admin access)
+
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -2347,14 +2360,235 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **apiV1ParentsMeBusLocationsRetrieve**
+> List<ApiV1ParentsMeBusLocationsRetrieve200ResponseInner> apiV1ParentsMeBusLocationsRetrieve()
+
+
+
+Get real-time locations for all buses assigned to my children (row-level security enforced). Cached for 30 seconds.
+
+### Example
+```dart
+import 'package:frontend_easy_api/api.dart';
+// TODO Configure API key authorization: cookieAuth
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+
+final api_instance = ApiApi();
+
+try {
+    final result = api_instance.apiV1ParentsMeBusLocationsRetrieve();
+    print(result);
+} catch (e) {
+    print('Exception when calling ApiApi->apiV1ParentsMeBusLocationsRetrieve: $e\n');
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**List<ApiV1ParentsMeBusLocationsRetrieve200ResponseInner>**](ApiV1ParentsMeBusLocationsRetrieve200ResponseInner.md)
+
+### Authorization
+
+[cookieAuth](../README.md#cookieAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiV1ParentsMeBusesLocationRetrieve**
+> ApiV1ParentsMeBusesLocationRetrieve200Response apiV1ParentsMeBusesLocationRetrieve(busId)
+
+
+
+Get real-time location for a specific bus (only buses for my children). Cached for 30 seconds.
+
+### Example
+```dart
+import 'package:frontend_easy_api/api.dart';
+// TODO Configure API key authorization: cookieAuth
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+
+final api_instance = ApiApi();
+final busId = busId_example; // String | 
+
+try {
+    final result = api_instance.apiV1ParentsMeBusesLocationRetrieve(busId);
+    print(result);
+} catch (e) {
+    print('Exception when calling ApiApi->apiV1ParentsMeBusesLocationRetrieve: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **busId** | **String**|  | 
+
+### Return type
+
+[**ApiV1ParentsMeBusesLocationRetrieve200Response**](ApiV1ParentsMeBusesLocationRetrieve200Response.md)
+
+### Authorization
+
+[cookieAuth](../README.md#cookieAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiV1ParentsMeBusesRetrieve**
+> ApiV1ParentsMeBusesRetrieve200Response apiV1ParentsMeBusesRetrieve()
+
+
+
+Get all buses for my children
+
+### Example
+```dart
+import 'package:frontend_easy_api/api.dart';
+// TODO Configure API key authorization: cookieAuth
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+
+final api_instance = ApiApi();
+
+try {
+    final result = api_instance.apiV1ParentsMeBusesRetrieve();
+    print(result);
+} catch (e) {
+    print('Exception when calling ApiApi->apiV1ParentsMeBusesRetrieve: $e\n');
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**ApiV1ParentsMeBusesRetrieve200Response**](ApiV1ParentsMeBusesRetrieve200Response.md)
+
+### Authorization
+
+[cookieAuth](../README.md#cookieAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiV1ParentsMeChildrenList**
+> List<Student> apiV1ParentsMeChildrenList()
+
+
+
+Get my children
+
+### Example
+```dart
+import 'package:frontend_easy_api/api.dart';
+// TODO Configure API key authorization: cookieAuth
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+
+final api_instance = ApiApi();
+
+try {
+    final result = api_instance.apiV1ParentsMeChildrenList();
+    print(result);
+} catch (e) {
+    print('Exception when calling ApiApi->apiV1ParentsMeChildrenList: $e\n');
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**List<Student>**](Student.md)
+
+### Authorization
+
+[cookieAuth](../README.md#cookieAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiV1ParentsMeProfileRetrieve**
+> Parent apiV1ParentsMeProfileRetrieve()
+
+
+
+Get my parent profile
+
+### Example
+```dart
+import 'package:frontend_easy_api/api.dart';
+// TODO Configure API key authorization: cookieAuth
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+
+final api_instance = ApiApi();
+
+try {
+    final result = api_instance.apiV1ParentsMeProfileRetrieve();
+    print(result);
+} catch (e) {
+    print('Exception when calling ApiApi->apiV1ParentsMeProfileRetrieve: $e\n');
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**Parent**](Parent.md)
+
+### Authorization
+
+[cookieAuth](../README.md#cookieAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **apiV1ParentsPartialUpdate**
 > Parent apiV1ParentsPartialUpdate(parentId, patchedParent)
 
 
 
+Admin-only parent management - NO row-level filtering (requires admin access)
+
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -2394,14 +2628,59 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **apiV1ParentsRegisterCreate**
+> Parent apiV1ParentsRegisterCreate()
+
+
+
+Register as a parent (called from parent_easy app after Firebase login)
+
+### Example
+```dart
+import 'package:frontend_easy_api/api.dart';
+// TODO Configure API key authorization: cookieAuth
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
+
+final api_instance = ApiApi();
+
+try {
+    final result = api_instance.apiV1ParentsRegisterCreate();
+    print(result);
+} catch (e) {
+    print('Exception when calling ApiApi->apiV1ParentsRegisterCreate: $e\n');
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**Parent**](Parent.md)
+
+### Authorization
+
+[cookieAuth](../README.md#cookieAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **apiV1ParentsRetrieve**
 > Parent apiV1ParentsRetrieve(parentId)
 
 
 
+Admin-only parent management - NO row-level filtering (requires admin access)
+
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -2444,9 +2723,11 @@ Name | Type | Description  | Notes
 
 
 
+Admin-only parent management - NO row-level filtering (requires admin access)
+
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -2489,9 +2770,11 @@ Name | Type | Description  | Notes
 
 
 
+Admin-only parent management - NO row-level filtering (requires admin access)
+
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -2540,7 +2823,7 @@ Get all buses assigned to this route
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -2587,7 +2870,7 @@ ViewSet for bus routes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -2634,7 +2917,7 @@ ViewSet for bus routes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -2680,7 +2963,7 @@ ViewSet for bus routes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -2729,7 +3012,7 @@ ViewSet for bus routes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -2778,7 +3061,7 @@ ViewSet for bus routes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -2825,7 +3108,7 @@ Get all students assigned to buses on this route
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -2872,7 +3155,7 @@ ViewSet for bus routes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -2919,7 +3202,7 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -2964,7 +3247,7 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -3008,7 +3291,7 @@ void (empty response body)
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -3057,7 +3340,7 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -3104,7 +3387,7 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -3149,7 +3432,7 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -3196,7 +3479,7 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -3241,7 +3524,7 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -3285,7 +3568,7 @@ void (empty response body)
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -3334,7 +3617,7 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -3381,7 +3664,7 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -3426,7 +3709,7 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -3473,7 +3756,7 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -3518,7 +3801,7 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -3562,7 +3845,7 @@ void (empty response body)
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -3611,7 +3894,7 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -3658,7 +3941,7 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -3703,7 +3986,7 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -3750,7 +4033,7 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -3797,7 +4080,7 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -3844,7 +4127,7 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -3889,7 +4172,7 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -3927,13 +4210,13 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiV1StudentsList**
-> PaginatedStudentList apiV1StudentsList(ordering, page, search)
+> PaginatedStudentListList apiV1StudentsList(ordering, page, search)
 
 
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -3962,7 +4245,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**PaginatedStudentList**](PaginatedStudentList.md)
+[**PaginatedStudentListList**](PaginatedStudentListList.md)
 
 ### Authorization
 
@@ -3982,7 +4265,7 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -4027,7 +4310,7 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -4074,7 +4357,7 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -4119,7 +4402,7 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -4166,7 +4449,7 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -4211,7 +4494,7 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -4255,7 +4538,7 @@ void (empty response body)
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -4306,7 +4589,7 @@ Get current authenticated user information
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -4347,7 +4630,7 @@ This endpoint does not need any parameter.
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -4394,7 +4677,7 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -4439,7 +4722,7 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -4488,7 +4771,7 @@ Check if kiosk needs database update
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 
 final api_instance = ApiApi();
 final kioskId = kioskId_example; // String | 
@@ -4533,7 +4816,7 @@ Download kiosk database snapshot (binary SQLite file). Returns raw binary data w
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 
 final api_instance = ApiApi();
 final kioskId = kioskId_example; // String | 
@@ -4576,7 +4859,7 @@ Get current authenticated kiosk details including bus assignment
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 
 final api_instance = ApiApi();
 
@@ -4615,7 +4898,7 @@ Report kiosk health and sync status
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 
 final api_instance = ApiApi();
 final kioskId = kioskId_example; // String | 
@@ -4659,7 +4942,7 @@ Kiosk logging endpoint for device log submission
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 
 final api_instance = ApiApi();
 final deviceLog = DeviceLog(); // DeviceLog | 
@@ -4693,6 +4976,51 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **kioskTriggerSos**
+> SOSAlert kioskTriggerSos(kioskId, sOSAlertCreate)
+
+
+
+Trigger SOS emergency alert. Creates an active alert with optional location and message.
+
+### Example
+```dart
+import 'package:frontend_easy_api/api.dart';
+
+final api_instance = ApiApi();
+final kioskId = kioskId_example; // String | 
+final sOSAlertCreate = SOSAlertCreate(); // SOSAlertCreate | 
+
+try {
+    final result = api_instance.kioskTriggerSos(kioskId, sOSAlertCreate);
+    print(result);
+} catch (e) {
+    print('Exception when calling ApiApi->kioskTriggerSos: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **kioskId** | **String**|  | 
+ **sOSAlertCreate** | [**SOSAlertCreate**](SOSAlertCreate.md)|  | [optional] 
+
+### Return type
+
+[**SOSAlert**](SOSAlert.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json, application/x-www-form-urlencoded, multipart/form-data
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **kioskUpdateLocation**
 > BusLocation kioskUpdateLocation(kioskId, busLocation)
 
@@ -4702,7 +5030,7 @@ Update bus GPS location. Kiosk sends location when bus moves significantly or ev
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 
 final api_instance = ApiApi();
 final kioskId = kioskId_example; // String | 

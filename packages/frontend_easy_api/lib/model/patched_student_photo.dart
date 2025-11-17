@@ -8,14 +8,15 @@
 // ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
-part of openapi.api;
+part of frontend_easy_api;
 
 class PatchedStudentPhoto {
   /// Returns a new [PatchedStudentPhoto] instance.
   PatchedStudentPhoto({
     this.photoId,
     this.student,
-    this.photo,
+    this.photoUrl,
+    this.photoContentType,
     this.isPrimary,
     this.capturedAt,
     this.studentDetails,
@@ -38,8 +39,22 @@ class PatchedStudentPhoto {
   ///
   String? student;
 
-  /// Student photo file
-  String? photo;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? photoUrl;
+
+  /// MIME type (e.g., image/jpeg, image/png)
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? photoContentType;
 
   /// Primary photo for student
   ///
@@ -79,7 +94,8 @@ class PatchedStudentPhoto {
   bool operator ==(Object other) => identical(this, other) || other is PatchedStudentPhoto &&
     other.photoId == photoId &&
     other.student == student &&
-    other.photo == photo &&
+    other.photoUrl == photoUrl &&
+    other.photoContentType == photoContentType &&
     other.isPrimary == isPrimary &&
     other.capturedAt == capturedAt &&
     other.studentDetails == studentDetails &&
@@ -90,14 +106,15 @@ class PatchedStudentPhoto {
     // ignore: unnecessary_parenthesis
     (photoId == null ? 0 : photoId!.hashCode) +
     (student == null ? 0 : student!.hashCode) +
-    (photo == null ? 0 : photo!.hashCode) +
+    (photoUrl == null ? 0 : photoUrl!.hashCode) +
+    (photoContentType == null ? 0 : photoContentType!.hashCode) +
     (isPrimary == null ? 0 : isPrimary!.hashCode) +
     (capturedAt == null ? 0 : capturedAt!.hashCode) +
     (studentDetails == null ? 0 : studentDetails!.hashCode) +
     (createdAt == null ? 0 : createdAt!.hashCode);
 
   @override
-  String toString() => 'PatchedStudentPhoto[photoId=$photoId, student=$student, photo=$photo, isPrimary=$isPrimary, capturedAt=$capturedAt, studentDetails=$studentDetails, createdAt=$createdAt]';
+  String toString() => 'PatchedStudentPhoto[photoId=$photoId, student=$student, photoUrl=$photoUrl, photoContentType=$photoContentType, isPrimary=$isPrimary, capturedAt=$capturedAt, studentDetails=$studentDetails, createdAt=$createdAt]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -111,10 +128,15 @@ class PatchedStudentPhoto {
     } else {
       json[r'student'] = null;
     }
-    if (this.photo != null) {
-      json[r'photo'] = this.photo;
+    if (this.photoUrl != null) {
+      json[r'photo_url'] = this.photoUrl;
     } else {
-      json[r'photo'] = null;
+      json[r'photo_url'] = null;
+    }
+    if (this.photoContentType != null) {
+      json[r'photo_content_type'] = this.photoContentType;
+    } else {
+      json[r'photo_content_type'] = null;
     }
     if (this.isPrimary != null) {
       json[r'is_primary'] = this.isPrimary;
@@ -160,7 +182,8 @@ class PatchedStudentPhoto {
       return PatchedStudentPhoto(
         photoId: mapValueOfType<String>(json, r'photo_id'),
         student: mapValueOfType<String>(json, r'student'),
-        photo: mapValueOfType<String>(json, r'photo'),
+        photoUrl: mapValueOfType<String>(json, r'photo_url'),
+        photoContentType: mapValueOfType<String>(json, r'photo_content_type'),
         isPrimary: mapValueOfType<bool>(json, r'is_primary'),
         capturedAt: mapDateTime(json, r'captured_at', r''),
         studentDetails: mapValueOfType<String>(json, r'student_details'),

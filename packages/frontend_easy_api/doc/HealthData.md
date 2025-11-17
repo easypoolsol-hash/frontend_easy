@@ -1,14 +1,15 @@
-# openapi.model.HealthData
+# frontend_easy_api.model.HealthData
 
 ## Load the model package
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 ```
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **batteryLevel** | **int** |  | [optional] 
+**deviceTemperature** | **int** | Device temperature in deciselsius (Celsius * 10) | [optional] 
 **isCharging** | **bool** |  | [optional] [default to false]
 **storageAvailableMb** | **int** |  | [optional] 
 **cameraActive** | **bool** |  | [optional] [default to false]

@@ -8,7 +8,7 @@
 // ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
-part of openapi.api;
+part of frontend_easy_api;
 
 class ApiClient {
   ApiClient({this.basePath = 'http://localhost:8000', this.authentication,});
@@ -188,6 +188,14 @@ class ApiClient {
           return APIKeyCreate.fromJson(value);
         case 'ApiV1KioskBoardingCreate200Response':
           return ApiV1KioskBoardingCreate200Response.fromJson(value);
+        case 'ApiV1ParentsMeBusLocationsRetrieve200ResponseInner':
+          return ApiV1ParentsMeBusLocationsRetrieve200ResponseInner.fromJson(value);
+        case 'ApiV1ParentsMeBusesLocationRetrieve200Response':
+          return ApiV1ParentsMeBusesLocationRetrieve200Response.fromJson(value);
+        case 'ApiV1ParentsMeBusesLocationRetrieve200ResponseLocation':
+          return ApiV1ParentsMeBusesLocationRetrieve200ResponseLocation.fromJson(value);
+        case 'ApiV1ParentsMeBusesRetrieve200Response':
+          return ApiV1ParentsMeBusesRetrieve200Response.fromJson(value);
         case 'AttendanceRecord':
           return AttendanceRecord.fromJson(value);
         case 'AuditLog':
@@ -204,6 +212,8 @@ class ApiClient {
           return BusBasic.fromJson(value);
         case 'BusLocation':
           return BusLocation.fromJson(value);
+        case 'BusLocationHistoryResponse':
+          return BusLocationHistoryResponse.fromJson(value);
         case 'BusLocationsResponse':
           return BusLocationsResponse.fromJson(value);
         case 'CheckUpdatesResponse':
@@ -224,6 +234,10 @@ class ApiClient {
           return Kiosk.fromJson(value);
         case 'KioskLog200Response':
           return KioskLog200Response.fromJson(value);
+        case 'OperationSlot':
+          return OperationSlot.fromJson(value);
+        case 'OperationTiming':
+          return OperationTiming.fromJson(value);
         case 'PaginatedAPIKeyList':
           return PaginatedAPIKeyList.fromJson(value);
         case 'PaginatedAttendanceRecordList':
@@ -246,8 +260,8 @@ class ApiClient {
           return PaginatedRouteList.fromJson(value);
         case 'PaginatedSchoolList':
           return PaginatedSchoolList.fromJson(value);
-        case 'PaginatedStudentList':
-          return PaginatedStudentList.fromJson(value);
+        case 'PaginatedStudentListList':
+          return PaginatedStudentListList.fromJson(value);
         case 'PaginatedStudentParentList':
           return PaginatedStudentParentList.fromJson(value);
         case 'PaginatedStudentPhotoList':
@@ -284,12 +298,18 @@ class ApiClient {
           return Route.fromJson(value);
         case 'RouteStop':
           return RouteStop.fromJson(value);
+        case 'SOSAlert':
+          return SOSAlert.fromJson(value);
+        case 'SOSAlertCreate':
+          return SOSAlertCreate.fromJson(value);
         case 'School':
           return School.fromJson(value);
         case 'Student':
           return Student.fromJson(value);
         case 'StudentActivity':
           return StudentActivity.fromJson(value);
+        case 'StudentList':
+          return StudentList.fromJson(value);
         case 'StudentParent':
           return StudentParent.fromJson(value);
         case 'StudentPhoto':

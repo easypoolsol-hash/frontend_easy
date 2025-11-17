@@ -1,8 +1,8 @@
-# openapi.model.PatchedBus
+# frontend_easy_api.model.PatchedBus
 
 ## Load the model package
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 ```
 
 ## Properties
@@ -20,6 +20,13 @@ Name | Type | Description | Notes
 **model** | **String** | Bus model | [optional] 
 **year** | **int** | Manufacturing year | [optional] 
 **lastMaintenance** | [**DateTime**](DateTime.md) | Date of last maintenance | [optional] 
+**driverName** | **String** | Driver's full name | [optional] 
+**driverPhone** | **String** | Driver's contact number | [optional] 
+**driverAddress** | **String** | Driver's address | [optional] 
+**driverLicenseNumber** | **String** | Driver's license number | [optional] 
+**conductorName** | **String** | Conductor's full name | [optional] 
+**conductorPhone** | **String** | Conductor's contact number | [optional] 
+**conductorAddress** | **String** | Conductor's address | [optional] 
 **assignedStudentsCount** | **int** |  | [optional] [readonly] 
 **utilizationPercentage** | **double** |  | [optional] [readonly] 
 **isAvailable** | **bool** |  | [optional] [readonly] 

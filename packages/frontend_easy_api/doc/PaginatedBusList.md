@@ -1,8 +1,8 @@
-# openapi.model.PaginatedBusList
+# frontend_easy_api.model.PaginatedBusList
 
 ## Load the model package
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 ```
 
 ## Properties

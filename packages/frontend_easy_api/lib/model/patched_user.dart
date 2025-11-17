@@ -8,7 +8,7 @@
 // ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
-part of openapi.api;
+part of frontend_easy_api;
 
 class PatchedUser {
   /// Returns a new [PatchedUser] instance.
@@ -22,6 +22,7 @@ class PatchedUser {
     this.lastLogin,
     this.createdAt,
     this.updatedAt,
+    this.parentId,
   });
 
   ///
@@ -84,6 +85,8 @@ class PatchedUser {
   ///
   DateTime? updatedAt;
 
+  String? parentId;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is PatchedUser &&
     other.userId == userId &&
@@ -94,7 +97,8 @@ class PatchedUser {
     other.isActive == isActive &&
     other.lastLogin == lastLogin &&
     other.createdAt == createdAt &&
-    other.updatedAt == updatedAt;
+    other.updatedAt == updatedAt &&
+    other.parentId == parentId;
 
   @override
   int get hashCode =>
@@ -107,10 +111,11 @@ class PatchedUser {
     (isActive == null ? 0 : isActive!.hashCode) +
     (lastLogin == null ? 0 : lastLogin!.hashCode) +
     (createdAt == null ? 0 : createdAt!.hashCode) +
-    (updatedAt == null ? 0 : updatedAt!.hashCode);
+    (updatedAt == null ? 0 : updatedAt!.hashCode) +
+    (parentId == null ? 0 : parentId!.hashCode);
 
   @override
-  String toString() => 'PatchedUser[userId=$userId, username=$username, email=$email, groups=$groups, groupNames=$groupNames, isActive=$isActive, lastLogin=$lastLogin, createdAt=$createdAt, updatedAt=$updatedAt]';
+  String toString() => 'PatchedUser[userId=$userId, username=$username, email=$email, groups=$groups, groupNames=$groupNames, isActive=$isActive, lastLogin=$lastLogin, createdAt=$createdAt, updatedAt=$updatedAt, parentId=$parentId]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -155,6 +160,11 @@ class PatchedUser {
     } else {
       json[r'updated_at'] = null;
     }
+    if (this.parentId != null) {
+      json[r'parent_id'] = this.parentId;
+    } else {
+      json[r'parent_id'] = null;
+    }
     return json;
   }
 
@@ -188,6 +198,7 @@ class PatchedUser {
         lastLogin: mapDateTime(json, r'last_login', r''),
         createdAt: mapDateTime(json, r'created_at', r''),
         updatedAt: mapDateTime(json, r'updated_at', r''),
+        parentId: mapValueOfType<String>(json, r'parent_id'),
       );
     }
     return null;

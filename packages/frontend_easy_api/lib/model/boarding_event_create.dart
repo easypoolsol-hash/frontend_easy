@@ -8,13 +8,13 @@
 // ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
-part of openapi.api;
+part of frontend_easy_api;
 
 class BoardingEventCreate {
   /// Returns a new [BoardingEventCreate] instance.
   BoardingEventCreate({
     required this.eventId,
-    required this.student,
+    this.student,
     required this.kioskId,
     required this.confidenceScore,
     required this.timestamp,
@@ -23,13 +23,14 @@ class BoardingEventCreate {
     this.faceImageUrl,
     required this.modelVersion,
     this.metadata,
+    this.confirmationFacesBase64 = const [],
   });
 
   /// ULID primary key for global uniqueness and time sorting
   String eventId;
 
-  /// Student who boarded the bus
-  String student;
+  /// Student who boarded the bus (null for unidentified faces)
+  String? student;
 
   /// Kiosk device identifier
   String kioskId;
@@ -43,7 +44,7 @@ class BoardingEventCreate {
   /// When the boarding event occurred
   DateTime timestamp;
 
-  /// Return GPS coordinates as a tuple for compatibility
+  /// GPS coordinates as [latitude, longitude]. Optional - boarding events can be created without location.
   List<double>? gpsCoords;
 
   /// Bus route identifier
@@ -70,6 +71,9 @@ class BoardingEventCreate {
   /// Additional metadata as JSON
   Object? metadata;
 
+  /// Array of base64-encoded confirmation faces (112x112 JPEG). Send up to 3 consecutive frames.
+  List<String> confirmationFacesBase64;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is BoardingEventCreate &&
     other.eventId == eventId &&
@@ -81,13 +85,14 @@ class BoardingEventCreate {
     other.busRoute == busRoute &&
     other.faceImageUrl == faceImageUrl &&
     other.modelVersion == modelVersion &&
-    other.metadata == metadata;
+    other.metadata == metadata &&
+    _deepEquality.equals(other.confirmationFacesBase64, confirmationFacesBase64);
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (eventId.hashCode) +
-    (student.hashCode) +
+    (student == null ? 0 : student!.hashCode) +
     (kioskId.hashCode) +
     (confidenceScore.hashCode) +
     (timestamp.hashCode) +
@@ -95,15 +100,20 @@ class BoardingEventCreate {
     (busRoute == null ? 0 : busRoute!.hashCode) +
     (faceImageUrl == null ? 0 : faceImageUrl!.hashCode) +
     (modelVersion.hashCode) +
-    (metadata == null ? 0 : metadata!.hashCode);
+    (metadata == null ? 0 : metadata!.hashCode) +
+    (confirmationFacesBase64.hashCode);
 
   @override
-  String toString() => 'BoardingEventCreate[eventId=$eventId, student=$student, kioskId=$kioskId, confidenceScore=$confidenceScore, timestamp=$timestamp, gpsCoords=$gpsCoords, busRoute=$busRoute, faceImageUrl=$faceImageUrl, modelVersion=$modelVersion, metadata=$metadata]';
+  String toString() => 'BoardingEventCreate[eventId=$eventId, student=$student, kioskId=$kioskId, confidenceScore=$confidenceScore, timestamp=$timestamp, gpsCoords=$gpsCoords, busRoute=$busRoute, faceImageUrl=$faceImageUrl, modelVersion=$modelVersion, metadata=$metadata, confirmationFacesBase64=$confirmationFacesBase64]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
       json[r'event_id'] = this.eventId;
+    if (this.student != null) {
       json[r'student'] = this.student;
+    } else {
+      json[r'student'] = null;
+    }
       json[r'kiosk_id'] = this.kioskId;
       json[r'confidence_score'] = this.confidenceScore;
       json[r'timestamp'] = this.timestamp.toUtc().toIso8601String();
@@ -128,6 +138,7 @@ class BoardingEventCreate {
     } else {
       json[r'metadata'] = null;
     }
+      json[r'confirmation_faces_base64'] = this.confirmationFacesBase64;
     return json;
   }
 
@@ -151,7 +162,7 @@ class BoardingEventCreate {
 
       return BoardingEventCreate(
         eventId: mapValueOfType<String>(json, r'event_id')!,
-        student: mapValueOfType<String>(json, r'student')!,
+        student: mapValueOfType<String>(json, r'student'),
         kioskId: mapValueOfType<String>(json, r'kiosk_id')!,
         confidenceScore: mapValueOfType<double>(json, r'confidence_score')!,
         timestamp: mapDateTime(json, r'timestamp', r'')!,
@@ -162,6 +173,9 @@ class BoardingEventCreate {
         faceImageUrl: mapValueOfType<String>(json, r'face_image_url'),
         modelVersion: mapValueOfType<String>(json, r'model_version')!,
         metadata: mapValueOfType<Object>(json, r'metadata'),
+        confirmationFacesBase64: json[r'confirmation_faces_base64'] is Iterable
+            ? (json[r'confirmation_faces_base64'] as Iterable).cast<String>().toList(growable: false)
+            : const [],
       );
     }
     return null;
@@ -210,11 +224,9 @@ class BoardingEventCreate {
   /// The list of required keys that must be present in a JSON.
   static const requiredKeys = <String>{
     'event_id',
-    'student',
     'kiosk_id',
     'confidence_score',
     'timestamp',
-    'gps_coords',
     'model_version',
   };
 }

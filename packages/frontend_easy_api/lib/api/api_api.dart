@@ -8,7 +8,7 @@
 // ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
-part of openapi.api;
+part of frontend_easy_api;
 
 
 class ApiApi {
@@ -2540,7 +2540,10 @@ class ApiApi {
     return null;
   }
 
-  /// Performs an HTTP 'POST /api/v1/parents/' operation and returns the [Response].
+  /// Admin-only parent management - NO row-level filtering (requires admin access)
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
   /// Parameters:
   ///
   /// * [Parent] parent (required):
@@ -2569,6 +2572,8 @@ class ApiApi {
     );
   }
 
+  /// Admin-only parent management - NO row-level filtering (requires admin access)
+  ///
   /// Parameters:
   ///
   /// * [Parent] parent (required):
@@ -2587,7 +2592,10 @@ class ApiApi {
     return null;
   }
 
-  /// Performs an HTTP 'DELETE /api/v1/parents/{parent_id}/' operation and returns the [Response].
+  /// Admin-only parent management - NO row-level filtering (requires admin access)
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
   /// Parameters:
   ///
   /// * [String] parentId (required):
@@ -2618,6 +2626,8 @@ class ApiApi {
     );
   }
 
+  /// Admin-only parent management - NO row-level filtering (requires admin access)
+  ///
   /// Parameters:
   ///
   /// * [String] parentId (required):
@@ -2629,7 +2639,10 @@ class ApiApi {
     }
   }
 
-  /// Performs an HTTP 'GET /api/v1/parents/' operation and returns the [Response].
+  /// Admin-only parent management - NO row-level filtering (requires admin access)
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
   /// Parameters:
   ///
   /// * [String] ordering:
@@ -2675,6 +2688,8 @@ class ApiApi {
     );
   }
 
+  /// Admin-only parent management - NO row-level filtering (requires admin access)
+  ///
   /// Parameters:
   ///
   /// * [String] ordering:
@@ -2700,7 +2715,245 @@ class ApiApi {
     return null;
   }
 
-  /// Performs an HTTP 'PATCH /api/v1/parents/{parent_id}/' operation and returns the [Response].
+  /// Get real-time locations for all buses assigned to my children (row-level security enforced). Cached for 30 seconds.
+  ///
+  /// Note: This method returns the HTTP [Response].
+  Future<Response> apiV1ParentsMeBusLocationsRetrieveWithHttpInfo() async {
+    // ignore: prefer_const_declarations
+    final path = r'/api/v1/parents/me/bus-locations/';
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Get real-time locations for all buses assigned to my children (row-level security enforced). Cached for 30 seconds.
+  Future<List<ApiV1ParentsMeBusLocationsRetrieve200ResponseInner>?> apiV1ParentsMeBusLocationsRetrieve() async {
+    final response = await apiV1ParentsMeBusLocationsRetrieveWithHttpInfo();
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      final responseBody = await _decodeBodyBytes(response);
+      return (await apiClient.deserializeAsync(responseBody, 'List<ApiV1ParentsMeBusLocationsRetrieve200ResponseInner>') as List)
+        .cast<ApiV1ParentsMeBusLocationsRetrieve200ResponseInner>()
+        .toList(growable: false);
+
+    }
+    return null;
+  }
+
+  /// Get real-time location for a specific bus (only buses for my children). Cached for 30 seconds.
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [String] busId (required):
+  Future<Response> apiV1ParentsMeBusesLocationRetrieveWithHttpInfo(String busId,) async {
+    // ignore: prefer_const_declarations
+    final path = r'/api/v1/parents/me/buses/{bus_id}/location/'
+      .replaceAll('{bus_id}', busId);
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Get real-time location for a specific bus (only buses for my children). Cached for 30 seconds.
+  ///
+  /// Parameters:
+  ///
+  /// * [String] busId (required):
+  Future<ApiV1ParentsMeBusesLocationRetrieve200Response?> apiV1ParentsMeBusesLocationRetrieve(String busId,) async {
+    final response = await apiV1ParentsMeBusesLocationRetrieveWithHttpInfo(busId,);
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ApiV1ParentsMeBusesLocationRetrieve200Response',) as ApiV1ParentsMeBusesLocationRetrieve200Response;
+    
+    }
+    return null;
+  }
+
+  /// Get all buses for my children
+  ///
+  /// Note: This method returns the HTTP [Response].
+  Future<Response> apiV1ParentsMeBusesRetrieveWithHttpInfo() async {
+    // ignore: prefer_const_declarations
+    final path = r'/api/v1/parents/me/buses/';
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Get all buses for my children
+  Future<ApiV1ParentsMeBusesRetrieve200Response?> apiV1ParentsMeBusesRetrieve() async {
+    final response = await apiV1ParentsMeBusesRetrieveWithHttpInfo();
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ApiV1ParentsMeBusesRetrieve200Response',) as ApiV1ParentsMeBusesRetrieve200Response;
+    
+    }
+    return null;
+  }
+
+  /// Get my children
+  ///
+  /// Note: This method returns the HTTP [Response].
+  Future<Response> apiV1ParentsMeChildrenListWithHttpInfo() async {
+    // ignore: prefer_const_declarations
+    final path = r'/api/v1/parents/me/children/';
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Get my children
+  Future<List<Student>?> apiV1ParentsMeChildrenList() async {
+    final response = await apiV1ParentsMeChildrenListWithHttpInfo();
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      final responseBody = await _decodeBodyBytes(response);
+      return (await apiClient.deserializeAsync(responseBody, 'List<Student>') as List)
+        .cast<Student>()
+        .toList(growable: false);
+
+    }
+    return null;
+  }
+
+  /// Get my parent profile
+  ///
+  /// Note: This method returns the HTTP [Response].
+  Future<Response> apiV1ParentsMeProfileRetrieveWithHttpInfo() async {
+    // ignore: prefer_const_declarations
+    final path = r'/api/v1/parents/me/profile/';
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Get my parent profile
+  Future<Parent?> apiV1ParentsMeProfileRetrieve() async {
+    final response = await apiV1ParentsMeProfileRetrieveWithHttpInfo();
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Parent',) as Parent;
+    
+    }
+    return null;
+  }
+
+  /// Admin-only parent management - NO row-level filtering (requires admin access)
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
   /// Parameters:
   ///
   /// * [String] parentId (required):
@@ -2733,6 +2986,8 @@ class ApiApi {
     );
   }
 
+  /// Admin-only parent management - NO row-level filtering (requires admin access)
+  ///
   /// Parameters:
   ///
   /// * [String] parentId (required):
@@ -2754,7 +3009,54 @@ class ApiApi {
     return null;
   }
 
-  /// Performs an HTTP 'GET /api/v1/parents/{parent_id}/' operation and returns the [Response].
+  /// Register as a parent (called from parent_easy app after Firebase login)
+  ///
+  /// Note: This method returns the HTTP [Response].
+  Future<Response> apiV1ParentsRegisterCreateWithHttpInfo() async {
+    // ignore: prefer_const_declarations
+    final path = r'/api/v1/parents/register/';
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'POST',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Register as a parent (called from parent_easy app after Firebase login)
+  Future<Parent?> apiV1ParentsRegisterCreate() async {
+    final response = await apiV1ParentsRegisterCreateWithHttpInfo();
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Parent',) as Parent;
+    
+    }
+    return null;
+  }
+
+  /// Admin-only parent management - NO row-level filtering (requires admin access)
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
   /// Parameters:
   ///
   /// * [String] parentId (required):
@@ -2785,6 +3087,8 @@ class ApiApi {
     );
   }
 
+  /// Admin-only parent management - NO row-level filtering (requires admin access)
+  ///
   /// Parameters:
   ///
   /// * [String] parentId (required):
@@ -2804,7 +3108,10 @@ class ApiApi {
     return null;
   }
 
-  /// Performs an HTTP 'GET /api/v1/parents/{parent_id}/students/' operation and returns the [Response].
+  /// Admin-only parent management - NO row-level filtering (requires admin access)
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
   /// Parameters:
   ///
   /// * [String] parentId (required):
@@ -2835,6 +3142,8 @@ class ApiApi {
     );
   }
 
+  /// Admin-only parent management - NO row-level filtering (requires admin access)
+  ///
   /// Parameters:
   ///
   /// * [String] parentId (required):
@@ -2854,7 +3163,10 @@ class ApiApi {
     return null;
   }
 
-  /// Performs an HTTP 'PUT /api/v1/parents/{parent_id}/' operation and returns the [Response].
+  /// Admin-only parent management - NO row-level filtering (requires admin access)
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
   /// Parameters:
   ///
   /// * [String] parentId (required):
@@ -2887,6 +3199,8 @@ class ApiApi {
     );
   }
 
+  /// Admin-only parent management - NO row-level filtering (requires admin access)
+  ///
   /// Parameters:
   ///
   /// * [String] parentId (required):
@@ -4550,7 +4864,7 @@ class ApiApi {
   ///
   /// * [String] search:
   ///   A search term.
-  Future<PaginatedStudentList?> apiV1StudentsList({ String? ordering, int? page, String? search, }) async {
+  Future<PaginatedStudentListList?> apiV1StudentsList({ String? ordering, int? page, String? search, }) async {
     final response = await apiV1StudentsListWithHttpInfo( ordering: ordering, page: page, search: search, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -4559,7 +4873,7 @@ class ApiApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'PaginatedStudentList',) as PaginatedStudentList;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'PaginatedStudentListList',) as PaginatedStudentListList;
     
     }
     return null;
@@ -5391,6 +5705,63 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'KioskLog200Response',) as KioskLog200Response;
+    
+    }
+    return null;
+  }
+
+  /// Trigger SOS emergency alert. Creates an active alert with optional location and message.
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [String] kioskId (required):
+  ///
+  /// * [SOSAlertCreate] sOSAlertCreate:
+  Future<Response> kioskTriggerSosWithHttpInfo(String kioskId, { SOSAlertCreate? sOSAlertCreate, }) async {
+    // ignore: prefer_const_declarations
+    final path = r'/api/v1/kiosks/{kiosk_id}/sos/'
+      .replaceAll('{kiosk_id}', kioskId);
+
+    // ignore: prefer_final_locals
+    Object? postBody = sOSAlertCreate;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>['application/json', 'application/x-www-form-urlencoded', 'multipart/form-data'];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'POST',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Trigger SOS emergency alert. Creates an active alert with optional location and message.
+  ///
+  /// Parameters:
+  ///
+  /// * [String] kioskId (required):
+  ///
+  /// * [SOSAlertCreate] sOSAlertCreate:
+  Future<SOSAlert?> kioskTriggerSos(String kioskId, { SOSAlertCreate? sOSAlertCreate, }) async {
+    final response = await kioskTriggerSosWithHttpInfo(kioskId,  sOSAlertCreate: sOSAlertCreate, );
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'SOSAlert',) as SOSAlert;
     
     }
     return null;

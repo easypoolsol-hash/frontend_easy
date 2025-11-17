@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **count** | **int** |  | 
 **next** | **String** |  | [optional] 
 **previous** | **String** |  | [optional] 
-**results** | [**BuiltList&lt;StudentList&gt;**](StudentList.md) |  | 
+**results** | [**List<StudentList>**](StudentList.md) |  | [default to const []]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

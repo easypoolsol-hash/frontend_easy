@@ -8,7 +8,7 @@
 // ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
-part of openapi.api;
+part of frontend_easy_api;
 
 class User {
   /// Returns a new [User] instance.
@@ -22,6 +22,7 @@ class User {
     required this.lastLogin,
     required this.createdAt,
     required this.updatedAt,
+    required this.parentId,
   });
 
   String userId;
@@ -48,6 +49,8 @@ class User {
 
   DateTime updatedAt;
 
+  String? parentId;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is User &&
     other.userId == userId &&
@@ -58,7 +61,8 @@ class User {
     other.isActive == isActive &&
     other.lastLogin == lastLogin &&
     other.createdAt == createdAt &&
-    other.updatedAt == updatedAt;
+    other.updatedAt == updatedAt &&
+    other.parentId == parentId;
 
   @override
   int get hashCode =>
@@ -71,10 +75,11 @@ class User {
     (isActive == null ? 0 : isActive!.hashCode) +
     (lastLogin == null ? 0 : lastLogin!.hashCode) +
     (createdAt.hashCode) +
-    (updatedAt.hashCode);
+    (updatedAt.hashCode) +
+    (parentId == null ? 0 : parentId!.hashCode);
 
   @override
-  String toString() => 'User[userId=$userId, username=$username, email=$email, groups=$groups, groupNames=$groupNames, isActive=$isActive, lastLogin=$lastLogin, createdAt=$createdAt, updatedAt=$updatedAt]';
+  String toString() => 'User[userId=$userId, username=$username, email=$email, groups=$groups, groupNames=$groupNames, isActive=$isActive, lastLogin=$lastLogin, createdAt=$createdAt, updatedAt=$updatedAt, parentId=$parentId]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -95,6 +100,11 @@ class User {
     }
       json[r'created_at'] = this.createdAt.toUtc().toIso8601String();
       json[r'updated_at'] = this.updatedAt.toUtc().toIso8601String();
+    if (this.parentId != null) {
+      json[r'parent_id'] = this.parentId;
+    } else {
+      json[r'parent_id'] = null;
+    }
     return json;
   }
 
@@ -128,6 +138,7 @@ class User {
         lastLogin: mapDateTime(json, r'last_login', r''),
         createdAt: mapDateTime(json, r'created_at', r'')!,
         updatedAt: mapDateTime(json, r'updated_at', r'')!,
+        parentId: mapValueOfType<String>(json, r'parent_id'),
       );
     }
     return null;
@@ -183,6 +194,7 @@ class User {
     'last_login',
     'created_at',
     'updated_at',
+    'parent_id',
   };
 }
 

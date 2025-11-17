@@ -8,7 +8,7 @@
 // ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
-part of openapi.api;
+part of frontend_easy_api;
 
 class Heartbeat {
   /// Returns a new [Heartbeat] instance.
@@ -18,6 +18,7 @@ class Heartbeat {
     this.databaseHash,
     required this.studentCount,
     required this.embeddingCount,
+    this.gitCommitSha,
     this.health,
   });
 
@@ -46,6 +47,9 @@ class Heartbeat {
   /// Minimum value: 0
   int embeddingCount;
 
+  /// Git commit SHA of the kiosk app build (40 chars). Null for dev builds.
+  String? gitCommitSha;
+
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
   /// does not include a default value (using the "default:" property), however, the generated
@@ -61,6 +65,7 @@ class Heartbeat {
     other.databaseHash == databaseHash &&
     other.studentCount == studentCount &&
     other.embeddingCount == embeddingCount &&
+    other.gitCommitSha == gitCommitSha &&
     other.health == health;
 
   @override
@@ -71,10 +76,11 @@ class Heartbeat {
     (databaseHash == null ? 0 : databaseHash!.hashCode) +
     (studentCount.hashCode) +
     (embeddingCount.hashCode) +
+    (gitCommitSha == null ? 0 : gitCommitSha!.hashCode) +
     (health == null ? 0 : health!.hashCode);
 
   @override
-  String toString() => 'Heartbeat[timestamp=$timestamp, databaseVersion=$databaseVersion, databaseHash=$databaseHash, studentCount=$studentCount, embeddingCount=$embeddingCount, health=$health]';
+  String toString() => 'Heartbeat[timestamp=$timestamp, databaseVersion=$databaseVersion, databaseHash=$databaseHash, studentCount=$studentCount, embeddingCount=$embeddingCount, gitCommitSha=$gitCommitSha, health=$health]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -87,6 +93,11 @@ class Heartbeat {
     }
       json[r'student_count'] = this.studentCount;
       json[r'embedding_count'] = this.embeddingCount;
+    if (this.gitCommitSha != null) {
+      json[r'git_commit_sha'] = this.gitCommitSha;
+    } else {
+      json[r'git_commit_sha'] = null;
+    }
     if (this.health != null) {
       json[r'health'] = this.health;
     } else {
@@ -119,6 +130,7 @@ class Heartbeat {
         databaseHash: mapValueOfType<String>(json, r'database_hash'),
         studentCount: mapValueOfType<int>(json, r'student_count')!,
         embeddingCount: mapValueOfType<int>(json, r'embedding_count')!,
+        gitCommitSha: mapValueOfType<String>(json, r'git_commit_sha'),
         health: HealthData.fromJson(json[r'health']),
       );
     }

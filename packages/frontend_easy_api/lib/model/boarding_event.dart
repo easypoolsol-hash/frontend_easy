@@ -8,13 +8,13 @@
 // ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
-part of openapi.api;
+part of frontend_easy_api;
 
 class BoardingEvent {
   /// Returns a new [BoardingEvent] instance.
   BoardingEvent({
     required this.eventId,
-    required this.student,
+    this.student,
     required this.kioskId,
     required this.confidenceScore,
     required this.timestamp,
@@ -25,13 +25,15 @@ class BoardingEvent {
     required this.modelVersion,
     this.metadata,
     required this.createdAt,
+    required this.confirmationFaceUrls,
+    required this.isUnknownFace,
   });
 
   /// ULID primary key for global uniqueness and time sorting
   String eventId;
 
-  /// Student who boarded the bus
-  String student;
+  /// Student who boarded the bus (null for unidentified faces)
+  String? student;
 
   /// Kiosk device identifier
   String kioskId;
@@ -78,6 +80,10 @@ class BoardingEvent {
   /// When this record was created in database
   DateTime createdAt;
 
+  String confirmationFaceUrls;
+
+  String isUnknownFace;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is BoardingEvent &&
     other.eventId == eventId &&
@@ -91,13 +97,15 @@ class BoardingEvent {
     other.faceImageUrl == faceImageUrl &&
     other.modelVersion == modelVersion &&
     other.metadata == metadata &&
-    other.createdAt == createdAt;
+    other.createdAt == createdAt &&
+    other.confirmationFaceUrls == confirmationFaceUrls &&
+    other.isUnknownFace == isUnknownFace;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (eventId.hashCode) +
-    (student.hashCode) +
+    (student == null ? 0 : student!.hashCode) +
     (kioskId.hashCode) +
     (confidenceScore.hashCode) +
     (timestamp.hashCode) +
@@ -107,15 +115,21 @@ class BoardingEvent {
     (faceImageUrl == null ? 0 : faceImageUrl!.hashCode) +
     (modelVersion.hashCode) +
     (metadata == null ? 0 : metadata!.hashCode) +
-    (createdAt.hashCode);
+    (createdAt.hashCode) +
+    (confirmationFaceUrls.hashCode) +
+    (isUnknownFace.hashCode);
 
   @override
-  String toString() => 'BoardingEvent[eventId=$eventId, student=$student, kioskId=$kioskId, confidenceScore=$confidenceScore, timestamp=$timestamp, latitude=$latitude, longitude=$longitude, busRoute=$busRoute, faceImageUrl=$faceImageUrl, modelVersion=$modelVersion, metadata=$metadata, createdAt=$createdAt]';
+  String toString() => 'BoardingEvent[eventId=$eventId, student=$student, kioskId=$kioskId, confidenceScore=$confidenceScore, timestamp=$timestamp, latitude=$latitude, longitude=$longitude, busRoute=$busRoute, faceImageUrl=$faceImageUrl, modelVersion=$modelVersion, metadata=$metadata, createdAt=$createdAt, confirmationFaceUrls=$confirmationFaceUrls, isUnknownFace=$isUnknownFace]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
       json[r'event_id'] = this.eventId;
+    if (this.student != null) {
       json[r'student'] = this.student;
+    } else {
+      json[r'student'] = null;
+    }
       json[r'kiosk_id'] = this.kioskId;
       json[r'confidence_score'] = this.confidenceScore;
       json[r'timestamp'] = this.timestamp.toUtc().toIso8601String();
@@ -146,6 +160,8 @@ class BoardingEvent {
       json[r'metadata'] = null;
     }
       json[r'created_at'] = this.createdAt.toUtc().toIso8601String();
+      json[r'confirmation_face_urls'] = this.confirmationFaceUrls;
+      json[r'is_unknown_face'] = this.isUnknownFace;
     return json;
   }
 
@@ -169,7 +185,7 @@ class BoardingEvent {
 
       return BoardingEvent(
         eventId: mapValueOfType<String>(json, r'event_id')!,
-        student: mapValueOfType<String>(json, r'student')!,
+        student: mapValueOfType<String>(json, r'student'),
         kioskId: mapValueOfType<String>(json, r'kiosk_id')!,
         confidenceScore: mapValueOfType<double>(json, r'confidence_score')!,
         timestamp: mapDateTime(json, r'timestamp', r'')!,
@@ -180,6 +196,8 @@ class BoardingEvent {
         modelVersion: mapValueOfType<String>(json, r'model_version')!,
         metadata: mapValueOfType<Object>(json, r'metadata'),
         createdAt: mapDateTime(json, r'created_at', r'')!,
+        confirmationFaceUrls: mapValueOfType<String>(json, r'confirmation_face_urls')!,
+        isUnknownFace: mapValueOfType<String>(json, r'is_unknown_face')!,
       );
     }
     return null;
@@ -228,12 +246,13 @@ class BoardingEvent {
   /// The list of required keys that must be present in a JSON.
   static const requiredKeys = <String>{
     'event_id',
-    'student',
     'kiosk_id',
     'confidence_score',
     'timestamp',
     'model_version',
     'created_at',
+    'confirmation_face_urls',
+    'is_unknown_face',
   };
 }
 

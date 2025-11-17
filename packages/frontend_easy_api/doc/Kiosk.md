@@ -1,8 +1,8 @@
-# openapi.model.Kiosk
+# frontend_easy_api.model.Kiosk
 
 ## Load the model package
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 ```
 
 ## Properties
@@ -12,10 +12,12 @@ Name | Type | Description | Notes
 **bus** | **String** |  | [readonly] 
 **busLicensePlate** | **String** |  | [readonly] 
 **firmwareVersion** | **String** | Current firmware version installed on device | [optional] 
+**gitCommitSha** | **String** | Git commit SHA of current kiosk app build | [optional] 
 **lastHeartbeat** | [**DateTime**](DateTime.md) | Timestamp of last heartbeat received from device | [optional] 
 **isActive** | **bool** | Whether this kiosk is active and accepting requests | [optional] 
 **batteryLevel** | **double** |  | [optional] 
 **storageUsedMb** | **int** | Storage used in MB on the device | [optional] 
+**operationTiming** | [**OperationTiming**](OperationTiming.md) |  | [readonly] 
 **statusDisplay** | **String** |  | [readonly] 
 **isOnline** | **String** |  | [readonly] 
 **createdAt** | [**DateTime**](DateTime.md) | When this kiosk was registered | [readonly] 

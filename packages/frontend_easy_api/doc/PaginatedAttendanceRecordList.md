@@ -1,8 +1,8 @@
-# openapi.model.PaginatedAttendanceRecordList
+# frontend_easy_api.model.PaginatedAttendanceRecordList
 
 ## Load the model package
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 ```
 
 ## Properties

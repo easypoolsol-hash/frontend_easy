@@ -8,14 +8,14 @@
 // ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
-part of openapi.api;
+part of frontend_easy_api;
 
 class BusBasic {
   /// Returns a new [BusBasic] instance.
   BusBasic({
     required this.busId,
-    required this.licensePlate,
-    required this.capacity,
+    required this.busNumber,
+    this.capacity,
     this.status,
     required this.createdAt,
     required this.updatedAt,
@@ -24,14 +24,14 @@ class BusBasic {
   /// UUID primary key
   String busId;
 
-  /// Vehicle license plate number
-  String licensePlate;
+  /// School-assigned bus number (e.g., 'BUS-001', 'B-12')
+  String busNumber;
 
   /// Maximum number of passengers
   ///
   /// Minimum value: 1
   /// Maximum value: 9223372036854775807
-  int capacity;
+  int? capacity;
 
   /// Current operational status  * `active` - Active * `maintenance` - Under Maintenance * `retired` - Retired
   BusBasicStatusEnum? status;
@@ -45,7 +45,7 @@ class BusBasic {
   @override
   bool operator ==(Object other) => identical(this, other) || other is BusBasic &&
     other.busId == busId &&
-    other.licensePlate == licensePlate &&
+    other.busNumber == busNumber &&
     other.capacity == capacity &&
     other.status == status &&
     other.createdAt == createdAt &&
@@ -55,20 +55,24 @@ class BusBasic {
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (busId.hashCode) +
-    (licensePlate.hashCode) +
-    (capacity.hashCode) +
+    (busNumber.hashCode) +
+    (capacity == null ? 0 : capacity!.hashCode) +
     (status == null ? 0 : status!.hashCode) +
     (createdAt.hashCode) +
     (updatedAt.hashCode);
 
   @override
-  String toString() => 'BusBasic[busId=$busId, licensePlate=$licensePlate, capacity=$capacity, status=$status, createdAt=$createdAt, updatedAt=$updatedAt]';
+  String toString() => 'BusBasic[busId=$busId, busNumber=$busNumber, capacity=$capacity, status=$status, createdAt=$createdAt, updatedAt=$updatedAt]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
       json[r'bus_id'] = this.busId;
-      json[r'license_plate'] = this.licensePlate;
+      json[r'bus_number'] = this.busNumber;
+    if (this.capacity != null) {
       json[r'capacity'] = this.capacity;
+    } else {
+      json[r'capacity'] = null;
+    }
     if (this.status != null) {
       json[r'status'] = this.status;
     } else {
@@ -99,8 +103,8 @@ class BusBasic {
 
       return BusBasic(
         busId: mapValueOfType<String>(json, r'bus_id')!,
-        licensePlate: mapValueOfType<String>(json, r'license_plate')!,
-        capacity: mapValueOfType<int>(json, r'capacity')!,
+        busNumber: mapValueOfType<String>(json, r'bus_number')!,
+        capacity: mapValueOfType<int>(json, r'capacity'),
         status: BusBasicStatusEnum.fromJson(json[r'status']),
         createdAt: mapDateTime(json, r'created_at', r'')!,
         updatedAt: mapDateTime(json, r'updated_at', r'')!,
@@ -152,8 +156,7 @@ class BusBasic {
   /// The list of required keys that must be present in a JSON.
   static const requiredKeys = <String>{
     'bus_id',
-    'license_plate',
-    'capacity',
+    'bus_number',
     'created_at',
     'updated_at',
   };

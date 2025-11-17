@@ -8,7 +8,7 @@
 // ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
-part of openapi.api;
+part of frontend_easy_api;
 
 class BoardingEventNested {
   /// Returns a new [BoardingEventNested] instance.
@@ -17,6 +17,7 @@ class BoardingEventNested {
     required this.timestamp,
     required this.kioskId,
     required this.eventType,
+    this.confirmationFaceUrls = const [],
   });
 
   /// Event ULID
@@ -31,12 +32,16 @@ class BoardingEventNested {
   /// Event type (boarding/pickup/dropoff)
   String eventType;
 
+  /// List of signed URLs for confirmation faces (flexible - 1 to N photos)
+  List<String> confirmationFaceUrls;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is BoardingEventNested &&
     other.eventId == eventId &&
     other.timestamp == timestamp &&
     other.kioskId == kioskId &&
-    other.eventType == eventType;
+    other.eventType == eventType &&
+    _deepEquality.equals(other.confirmationFaceUrls, confirmationFaceUrls);
 
   @override
   int get hashCode =>
@@ -44,10 +49,11 @@ class BoardingEventNested {
     (eventId.hashCode) +
     (timestamp.hashCode) +
     (kioskId.hashCode) +
-    (eventType.hashCode);
+    (eventType.hashCode) +
+    (confirmationFaceUrls.hashCode);
 
   @override
-  String toString() => 'BoardingEventNested[eventId=$eventId, timestamp=$timestamp, kioskId=$kioskId, eventType=$eventType]';
+  String toString() => 'BoardingEventNested[eventId=$eventId, timestamp=$timestamp, kioskId=$kioskId, eventType=$eventType, confirmationFaceUrls=$confirmationFaceUrls]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -55,6 +61,7 @@ class BoardingEventNested {
       json[r'timestamp'] = this.timestamp.toUtc().toIso8601String();
       json[r'kiosk_id'] = this.kioskId;
       json[r'event_type'] = this.eventType;
+      json[r'confirmation_face_urls'] = this.confirmationFaceUrls;
     return json;
   }
 
@@ -81,6 +88,9 @@ class BoardingEventNested {
         timestamp: mapDateTime(json, r'timestamp', r'')!,
         kioskId: mapValueOfType<String>(json, r'kiosk_id')!,
         eventType: mapValueOfType<String>(json, r'event_type')!,
+        confirmationFaceUrls: json[r'confirmation_face_urls'] is Iterable
+            ? (json[r'confirmation_face_urls'] as Iterable).cast<String>().toList(growable: false)
+            : const [],
       );
     }
     return null;

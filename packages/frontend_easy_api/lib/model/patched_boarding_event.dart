@@ -8,7 +8,7 @@
 // ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
-part of openapi.api;
+part of frontend_easy_api;
 
 class PatchedBoardingEvent {
   /// Returns a new [PatchedBoardingEvent] instance.
@@ -25,6 +25,8 @@ class PatchedBoardingEvent {
     this.modelVersion,
     this.metadata,
     this.createdAt,
+    this.confirmationFaceUrls,
+    this.isUnknownFace,
   });
 
   /// ULID primary key for global uniqueness and time sorting
@@ -36,13 +38,7 @@ class PatchedBoardingEvent {
   ///
   String? eventId;
 
-  /// Student who boarded the bus
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
+  /// Student who boarded the bus (null for unidentified faces)
   String? student;
 
   /// Kiosk device identifier
@@ -120,6 +116,22 @@ class PatchedBoardingEvent {
   ///
   DateTime? createdAt;
 
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? confirmationFaceUrls;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? isUnknownFace;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is PatchedBoardingEvent &&
     other.eventId == eventId &&
@@ -133,7 +145,9 @@ class PatchedBoardingEvent {
     other.faceImageUrl == faceImageUrl &&
     other.modelVersion == modelVersion &&
     other.metadata == metadata &&
-    other.createdAt == createdAt;
+    other.createdAt == createdAt &&
+    other.confirmationFaceUrls == confirmationFaceUrls &&
+    other.isUnknownFace == isUnknownFace;
 
   @override
   int get hashCode =>
@@ -149,10 +163,12 @@ class PatchedBoardingEvent {
     (faceImageUrl == null ? 0 : faceImageUrl!.hashCode) +
     (modelVersion == null ? 0 : modelVersion!.hashCode) +
     (metadata == null ? 0 : metadata!.hashCode) +
-    (createdAt == null ? 0 : createdAt!.hashCode);
+    (createdAt == null ? 0 : createdAt!.hashCode) +
+    (confirmationFaceUrls == null ? 0 : confirmationFaceUrls!.hashCode) +
+    (isUnknownFace == null ? 0 : isUnknownFace!.hashCode);
 
   @override
-  String toString() => 'PatchedBoardingEvent[eventId=$eventId, student=$student, kioskId=$kioskId, confidenceScore=$confidenceScore, timestamp=$timestamp, latitude=$latitude, longitude=$longitude, busRoute=$busRoute, faceImageUrl=$faceImageUrl, modelVersion=$modelVersion, metadata=$metadata, createdAt=$createdAt]';
+  String toString() => 'PatchedBoardingEvent[eventId=$eventId, student=$student, kioskId=$kioskId, confidenceScore=$confidenceScore, timestamp=$timestamp, latitude=$latitude, longitude=$longitude, busRoute=$busRoute, faceImageUrl=$faceImageUrl, modelVersion=$modelVersion, metadata=$metadata, createdAt=$createdAt, confirmationFaceUrls=$confirmationFaceUrls, isUnknownFace=$isUnknownFace]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -216,6 +232,16 @@ class PatchedBoardingEvent {
     } else {
       json[r'created_at'] = null;
     }
+    if (this.confirmationFaceUrls != null) {
+      json[r'confirmation_face_urls'] = this.confirmationFaceUrls;
+    } else {
+      json[r'confirmation_face_urls'] = null;
+    }
+    if (this.isUnknownFace != null) {
+      json[r'is_unknown_face'] = this.isUnknownFace;
+    } else {
+      json[r'is_unknown_face'] = null;
+    }
     return json;
   }
 
@@ -250,6 +276,8 @@ class PatchedBoardingEvent {
         modelVersion: mapValueOfType<String>(json, r'model_version'),
         metadata: mapValueOfType<Object>(json, r'metadata'),
         createdAt: mapDateTime(json, r'created_at', r''),
+        confirmationFaceUrls: mapValueOfType<String>(json, r'confirmation_face_urls'),
+        isUnknownFace: mapValueOfType<String>(json, r'is_unknown_face'),
       );
     }
     return null;

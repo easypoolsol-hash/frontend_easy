@@ -8,7 +8,7 @@
 // ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
-part of openapi.api;
+part of frontend_easy_api;
 
 class Bus {
   /// Returns a new [Bus] instance.
@@ -18,13 +18,20 @@ class Bus {
     required this.licensePlate,
     this.route,
     required this.routeName,
-    required this.capacity,
+    this.capacity,
     this.deviceId,
     this.status,
     this.manufacturer,
     this.model,
     this.year,
     this.lastMaintenance,
+    this.driverName,
+    this.driverPhone,
+    this.driverAddress,
+    this.driverLicenseNumber,
+    this.conductorName,
+    this.conductorPhone,
+    this.conductorAddress,
     required this.assignedStudentsCount,
     required this.utilizationPercentage,
     required this.isAvailable,
@@ -44,13 +51,13 @@ class Bus {
   /// Route this bus is assigned to
   String? route;
 
-  String routeName;
+  String? routeName;
 
   /// Maximum number of passengers
   ///
   /// Minimum value: 1
   /// Maximum value: 9223372036854775807
-  int capacity;
+  int? capacity;
 
   /// Kiosk device identifier installed on this bus
   String? deviceId;
@@ -85,6 +92,69 @@ class Bus {
   /// Date of last maintenance
   DateTime? lastMaintenance;
 
+  /// Driver's full name
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? driverName;
+
+  /// Driver's contact number
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? driverPhone;
+
+  /// Driver's address
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? driverAddress;
+
+  /// Driver's license number
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? driverLicenseNumber;
+
+  /// Conductor's full name
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? conductorName;
+
+  /// Conductor's contact number
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? conductorPhone;
+
+  /// Conductor's address
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? conductorAddress;
+
   int assignedStudentsCount;
 
   double utilizationPercentage;
@@ -111,6 +181,13 @@ class Bus {
     other.model == model &&
     other.year == year &&
     other.lastMaintenance == lastMaintenance &&
+    other.driverName == driverName &&
+    other.driverPhone == driverPhone &&
+    other.driverAddress == driverAddress &&
+    other.driverLicenseNumber == driverLicenseNumber &&
+    other.conductorName == conductorName &&
+    other.conductorPhone == conductorPhone &&
+    other.conductorAddress == conductorAddress &&
     other.assignedStudentsCount == assignedStudentsCount &&
     other.utilizationPercentage == utilizationPercentage &&
     other.isAvailable == isAvailable &&
@@ -124,14 +201,21 @@ class Bus {
     (busNumber.hashCode) +
     (licensePlate.hashCode) +
     (route == null ? 0 : route!.hashCode) +
-    (routeName.hashCode) +
-    (capacity.hashCode) +
+    (routeName == null ? 0 : routeName!.hashCode) +
+    (capacity == null ? 0 : capacity!.hashCode) +
     (deviceId == null ? 0 : deviceId!.hashCode) +
     (status == null ? 0 : status!.hashCode) +
     (manufacturer == null ? 0 : manufacturer!.hashCode) +
     (model == null ? 0 : model!.hashCode) +
     (year == null ? 0 : year!.hashCode) +
     (lastMaintenance == null ? 0 : lastMaintenance!.hashCode) +
+    (driverName == null ? 0 : driverName!.hashCode) +
+    (driverPhone == null ? 0 : driverPhone!.hashCode) +
+    (driverAddress == null ? 0 : driverAddress!.hashCode) +
+    (driverLicenseNumber == null ? 0 : driverLicenseNumber!.hashCode) +
+    (conductorName == null ? 0 : conductorName!.hashCode) +
+    (conductorPhone == null ? 0 : conductorPhone!.hashCode) +
+    (conductorAddress == null ? 0 : conductorAddress!.hashCode) +
     (assignedStudentsCount.hashCode) +
     (utilizationPercentage.hashCode) +
     (isAvailable.hashCode) +
@@ -139,7 +223,7 @@ class Bus {
     (updatedAt.hashCode);
 
   @override
-  String toString() => 'Bus[busId=$busId, busNumber=$busNumber, licensePlate=$licensePlate, route=$route, routeName=$routeName, capacity=$capacity, deviceId=$deviceId, status=$status, manufacturer=$manufacturer, model=$model, year=$year, lastMaintenance=$lastMaintenance, assignedStudentsCount=$assignedStudentsCount, utilizationPercentage=$utilizationPercentage, isAvailable=$isAvailable, createdAt=$createdAt, updatedAt=$updatedAt]';
+  String toString() => 'Bus[busId=$busId, busNumber=$busNumber, licensePlate=$licensePlate, route=$route, routeName=$routeName, capacity=$capacity, deviceId=$deviceId, status=$status, manufacturer=$manufacturer, model=$model, year=$year, lastMaintenance=$lastMaintenance, driverName=$driverName, driverPhone=$driverPhone, driverAddress=$driverAddress, driverLicenseNumber=$driverLicenseNumber, conductorName=$conductorName, conductorPhone=$conductorPhone, conductorAddress=$conductorAddress, assignedStudentsCount=$assignedStudentsCount, utilizationPercentage=$utilizationPercentage, isAvailable=$isAvailable, createdAt=$createdAt, updatedAt=$updatedAt]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -151,8 +235,16 @@ class Bus {
     } else {
       json[r'route'] = null;
     }
+    if (this.routeName != null) {
       json[r'route_name'] = this.routeName;
+    } else {
+      json[r'route_name'] = null;
+    }
+    if (this.capacity != null) {
       json[r'capacity'] = this.capacity;
+    } else {
+      json[r'capacity'] = null;
+    }
     if (this.deviceId != null) {
       json[r'device_id'] = this.deviceId;
     } else {
@@ -182,6 +274,41 @@ class Bus {
       json[r'last_maintenance'] = _dateFormatter.format(this.lastMaintenance!.toUtc());
     } else {
       json[r'last_maintenance'] = null;
+    }
+    if (this.driverName != null) {
+      json[r'driver_name'] = this.driverName;
+    } else {
+      json[r'driver_name'] = null;
+    }
+    if (this.driverPhone != null) {
+      json[r'driver_phone'] = this.driverPhone;
+    } else {
+      json[r'driver_phone'] = null;
+    }
+    if (this.driverAddress != null) {
+      json[r'driver_address'] = this.driverAddress;
+    } else {
+      json[r'driver_address'] = null;
+    }
+    if (this.driverLicenseNumber != null) {
+      json[r'driver_license_number'] = this.driverLicenseNumber;
+    } else {
+      json[r'driver_license_number'] = null;
+    }
+    if (this.conductorName != null) {
+      json[r'conductor_name'] = this.conductorName;
+    } else {
+      json[r'conductor_name'] = null;
+    }
+    if (this.conductorPhone != null) {
+      json[r'conductor_phone'] = this.conductorPhone;
+    } else {
+      json[r'conductor_phone'] = null;
+    }
+    if (this.conductorAddress != null) {
+      json[r'conductor_address'] = this.conductorAddress;
+    } else {
+      json[r'conductor_address'] = null;
     }
       json[r'assigned_students_count'] = this.assignedStudentsCount;
       json[r'utilization_percentage'] = this.utilizationPercentage;
@@ -214,14 +341,21 @@ class Bus {
         busNumber: mapValueOfType<String>(json, r'bus_number')!,
         licensePlate: mapValueOfType<String>(json, r'license_plate')!,
         route: mapValueOfType<String>(json, r'route'),
-        routeName: mapValueOfType<String>(json, r'route_name')!,
-        capacity: mapValueOfType<int>(json, r'capacity')!,
+        routeName: mapValueOfType<String>(json, r'route_name'),
+        capacity: mapValueOfType<int>(json, r'capacity'),
         deviceId: mapValueOfType<String>(json, r'device_id'),
         status: BusStatusEnum.fromJson(json[r'status']),
         manufacturer: mapValueOfType<String>(json, r'manufacturer'),
         model: mapValueOfType<String>(json, r'model'),
         year: mapValueOfType<int>(json, r'year'),
         lastMaintenance: mapDateTime(json, r'last_maintenance', r''),
+        driverName: mapValueOfType<String>(json, r'driver_name'),
+        driverPhone: mapValueOfType<String>(json, r'driver_phone'),
+        driverAddress: mapValueOfType<String>(json, r'driver_address'),
+        driverLicenseNumber: mapValueOfType<String>(json, r'driver_license_number'),
+        conductorName: mapValueOfType<String>(json, r'conductor_name'),
+        conductorPhone: mapValueOfType<String>(json, r'conductor_phone'),
+        conductorAddress: mapValueOfType<String>(json, r'conductor_address'),
         assignedStudentsCount: mapValueOfType<int>(json, r'assigned_students_count')!,
         utilizationPercentage: mapValueOfType<double>(json, r'utilization_percentage')!,
         isAvailable: mapValueOfType<bool>(json, r'is_available')!,
@@ -278,7 +412,6 @@ class Bus {
     'bus_number',
     'license_plate',
     'route_name',
-    'capacity',
     'assigned_students_count',
     'utilization_percentage',
     'is_available',

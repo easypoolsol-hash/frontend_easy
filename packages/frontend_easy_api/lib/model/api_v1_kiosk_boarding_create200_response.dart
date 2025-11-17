@@ -8,7 +8,7 @@
 // ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
-part of openapi.api;
+part of frontend_easy_api;
 
 class ApiV1KioskBoardingCreate200Response {
   /// Returns a new [ApiV1KioskBoardingCreate200Response] instance.

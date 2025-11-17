@@ -1,8 +1,8 @@
-# openapi.model.DashboardStats
+# frontend_easy_api.model.DashboardStats
 
 ## Load the model package
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 ```
 
 ## Properties
