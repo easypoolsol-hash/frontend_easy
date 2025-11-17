@@ -45,6 +45,16 @@ class _MapScreenState extends ConsumerState<MapScreen> {
       } else {
         // Set default date to today when entering history mode
         _selectedDate = DateTime.now();
+
+        // Auto-select first bus if available
+        final busesAsync = ref.read(busesProvider);
+        busesAsync.whenData((buses) {
+          if (buses.isNotEmpty && _selectedHistoryBusId == null) {
+            Future.microtask(() {
+              _selectHistoryBus(buses.first.busNumber);
+            });
+          }
+        });
       }
     });
   }

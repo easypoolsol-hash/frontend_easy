@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend_easy/core/config/api_config.dart';
 import 'package:frontend_easy/core/services/token_manager.dart';
@@ -128,6 +129,10 @@ class BusHistoryNotifier extends Notifier<BusHistoryState> {
       // Format date as YYYY-MM-DD
       final dateStr = '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
 
+      if (kDebugMode) {
+        print('Fetching history for bus: $busId, date: $dateStr');
+      }
+
       final response = await _dio.get(
         '/api/v1/buses/locations/history/',
         queryParameters: {
@@ -141,12 +146,21 @@ class BusHistoryNotifier extends Notifier<BusHistoryState> {
         ),
       );
 
+      if (kDebugMode) {
+        print('History response status: ${response.statusCode}');
+        print('History response data: ${response.data}');
+      }
+
       if (response.statusCode == 200) {
         final geoJson = response.data as Map<String, dynamic>;
         final features = (geoJson['features'] as List<dynamic>?)
                 ?.map((e) => e as Map<String, dynamic>)
                 .toList() ??
             [];
+
+        if (kDebugMode) {
+          print('Fetched ${features.length} location points');
+        }
 
         state = state.copyWith(
           locations: features,
@@ -157,6 +171,9 @@ class BusHistoryNotifier extends Notifier<BusHistoryState> {
         throw Exception('Failed to fetch history: ${response.statusCode}');
       }
     } catch (e) {
+      if (kDebugMode) {
+        print('Error fetching history: $e');
+      }
       state = state.copyWith(
         isLoading: false,
         error: e.toString(),
