@@ -155,14 +155,29 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                     ),
                     error: (error, stack) => SizedBox(
                       width: 300,
-                      child: TextField(
-                        enabled: false,
-                        decoration: InputDecoration(
-                          labelText: 'Error loading buses',
-                          border: const OutlineInputBorder(),
-                          isDense: true,
-                          errorText: error.toString(),
-                        ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              enabled: false,
+                              decoration: InputDecoration(
+                                labelText: 'Error loading buses',
+                                prefixIcon: const Icon(Icons.error, color: Colors.red),
+                                border: const OutlineInputBorder(),
+                                isDense: true,
+                                errorText: error.toString().length > 50
+                                    ? '${error.toString().substring(0, 50)}...'
+                                    : error.toString(),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          IconButton(
+                            onPressed: () => ref.invalidate(busesProvider),
+                            icon: const Icon(Icons.refresh),
+                            tooltip: 'Retry',
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -190,16 +205,31 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                       ),
                     ),
                   ),
-                  error: (error, stack) => const SizedBox(
+                  error: (error, stack) => SizedBox(
                     width: 300,
-                    child: TextField(
-                      enabled: false,
-                      decoration: InputDecoration(
-                        labelText: 'Error loading buses',
-                        prefixIcon: Icon(Icons.error),
-                        border: OutlineInputBorder(),
-                        isDense: true,
-                      ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            enabled: false,
+                            decoration: InputDecoration(
+                              labelText: 'Error loading buses',
+                              prefixIcon: const Icon(Icons.error, color: Colors.red),
+                              border: const OutlineInputBorder(),
+                              isDense: true,
+                              errorText: error.toString().length > 50
+                                  ? '${error.toString().substring(0, 50)}...'
+                                  : error.toString(),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        IconButton(
+                          onPressed: () => ref.invalidate(busesProvider),
+                          icon: const Icon(Icons.refresh),
+                          tooltip: 'Retry',
+                        ),
+                      ],
                     ),
                   ),
                 ),
