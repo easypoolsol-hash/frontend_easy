@@ -254,6 +254,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                         ),
                         selectedBusIds: _selectedBusId != null ? [_selectedBusId!] : [],
                         historyMode: _isHistoryMode,
+                        historicalLocation: _isHistoryMode ? _getHistoricalBusLocation() : null,
                         onBusTapped: (busId, lat, lon) {
                           setState(() {
                             _selectedBusId = busId;
@@ -278,8 +279,6 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                             ),
                           ),
                         ),
-                      // Historical bus location overlay (only in history mode)
-                      if (_isHistoryMode) _buildHistoricalBusOverlay(),
                     ],
                   ),
                 ),
@@ -390,6 +389,44 @@ class _MapScreenState extends ConsumerState<MapScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          // Bus info header
+          if (historyState.currentLocation != null) ...[
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.orange,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.history, color: Colors.white, size: 14),
+                      const SizedBox(width: 4),
+                      Text(
+                        'HISTORY PLAYBACK',
+                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Icon(Icons.directions_bus, size: 18, color: Theme.of(context).colorScheme.primary),
+                const SizedBox(width: 4),
+                Text(
+                  '${historyState.currentLocation!['properties']?['bus_number'] ?? 'Bus'} - ${historyState.currentLocation!['properties']?['bus_name'] ?? ''}',
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+          ],
           // Time display
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -453,142 +490,26 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     );
   }
 
-  Widget _buildHistoricalBusOverlay() {
+  /// Get historical bus location for map marker
+  Map<String, dynamic>? _getHistoricalBusLocation() {
     final historyState = ref.watch(busHistoryProvider);
-
-    // Only show if we have a current location
     final currentLocation = historyState.currentLocation;
-    if (currentLocation == null) {
-      return const SizedBox.shrink();
-    }
 
-    // Extract coordinates from GeoJSON
+    if (currentLocation == null) return null;
+
     try {
       final geometry = currentLocation['geometry'] as Map<String, dynamic>?;
       final coordinates = geometry?['coordinates'] as List<dynamic>?;
-      final properties = currentLocation['properties'] as Map<String, dynamic>?;
 
-      if (coordinates == null || coordinates.length < 2) {
-        return const SizedBox.shrink();
-      }
+      if (coordinates == null || coordinates.length < 2) return null;
 
-      final busNumber = properties?['bus_number'] as String? ?? 'Bus';
-      final busName = properties?['bus_name'] as String? ?? '';
-      final speed = properties?['speed'] as num?;
-
-      return Center(
-        child: Container(
-          padding: const EdgeInsets.all(16),
-          margin: const EdgeInsets.only(bottom: 100),
-          decoration: BoxDecoration(
-            color: Colors.orange.withValues(alpha: 0.95),
-            borderRadius: BorderRadius.circular(12),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.3),
-                blurRadius: 8,
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(Icons.history, color: Colors.white, size: 24),
-                  const SizedBox(width: 8),
-                  Text(
-                    'HISTORY PLAYBACK',
-                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1.2,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(Icons.directions_bus, color: Colors.white, size: 20),
-                  const SizedBox(width: 8),
-                  Text(
-                    '$busNumber - $busName',
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-              if (speed != null) ...[
-                const SizedBox(height: 4),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(Icons.speed, color: Colors.white70, size: 16),
-                    const SizedBox(width: 4),
-                    Text(
-                      '${speed.toStringAsFixed(1)} km/h',
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Colors.white70,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-              const SizedBox(height: 8),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(Icons.info_outline, color: Colors.white, size: 14),
-                        const SizedBox(width: 4),
-                        Text(
-                          'Historical Position',
-                          style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                            color: Colors.white,
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 2),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(Icons.my_location, color: Colors.white70, size: 12),
-                        const SizedBox(width: 4),
-                        Text(
-                          'Lat: ${(coordinates[1] as num).toStringAsFixed(4)}, Lon: ${(coordinates[0] as num).toStringAsFixed(4)}',
-                          style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                            color: Colors.white70,
-                            fontSize: 10,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
+      return {
+        'latitude': coordinates[1] as double,
+        'longitude': coordinates[0] as double,
+        'busId': historyState.selectedBusId ?? '',
+      };
     } catch (e) {
-      return const SizedBox.shrink();
+      return null;
     }
   }
 }

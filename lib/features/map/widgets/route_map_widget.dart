@@ -31,6 +31,9 @@ class RouteMapWidget extends ConsumerStatefulWidget {
   /// Whether the map is in history mode (disables live location fetching)
   final bool historyMode;
 
+  /// Historical bus location {latitude, longitude, busId} - for history playback
+  final Map<String, dynamic>? historicalLocation;
+
   /// Creates a route map widget
   const RouteMapWidget({
     required this.routes,
@@ -38,6 +41,7 @@ class RouteMapWidget extends ConsumerStatefulWidget {
     this.selectedBusIds = const [],
     this.onBusTapped,
     this.historyMode = false,
+    this.historicalLocation,
     super.key,
   });
 
@@ -644,6 +648,24 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
       },
     );
 
+    // Add historical bus marker if in history mode
+    final Set<Marker> historicalMarkers = {};
+    if (widget.historyMode && widget.historicalLocation != null) {
+      final lat = widget.historicalLocation!['latitude'] as double?;
+      final lon = widget.historicalLocation!['longitude'] as double?;
+
+      if (lat != null && lon != null) {
+        historicalMarkers.add(Marker(
+          markerId: const MarkerId('historical_bus'),
+          position: LatLng(lat, lon),
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
+          infoWindow: const InfoWindow(
+            title: 'Historical Position',
+          ),
+        ));
+      }
+    }
+
     return Stack(
       children: [
         GoogleMap(
@@ -663,7 +685,7 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
               });
             }
           },
-          markers: {...stopMarkers, ...busMarkers},
+          markers: {...stopMarkers, ...busMarkers, ...historicalMarkers},
           polylines: routePolylines,
           circles: {...stopCircles, ...busCircles}, // Stop circles + bus ripple circles
           myLocationEnabled: true,
