@@ -9,7 +9,6 @@ import 'package:frontend_easy/features/fleet/providers/bus_history_provider.dart
 import 'package:frontend_easy/features/map/widgets/route_map_widget.dart';
 import 'package:frontend_easy/shared/widgets/app_top_nav_bar.dart';
 import 'package:frontend_easy/shared/widgets/bus_selector_widget.dart';
-import 'package:frontend_easy/shared/utils/error_handler.dart';
 import 'package:frontend_easy/core/widgets/status_banner.dart';
 
 /// Map screen - displays live bus tracking map with search functionality
@@ -213,49 +212,42 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                 Expanded(
                   child: Stack(
                     children: [
-                      routesAsync.when(
-                              data: (routes) {
-                                return busesAsync.when(
-                                  data: (buses) => RouteMapWidget(
-                                    routes: routes,
-                                    buses: buses,
-                                    selectedBusIds: _selectedBusId != null ? [_selectedBusId!] : [],
-                                    historyMode: _isHistoryMode,
-                                    onBusTapped: (busId, lat, lon) {
-                                      setState(() {
-                                        _selectedBusId = busId;
-                                      });
-                                    },
-                                  ),
-                                  loading: () => _buildLoadingIndicator(),
-                                  error: (error, stack) => RouteMapWidget(
-                                    routes: routes,
-                                    buses: const [], // Empty buses with routes still visible
-                                    selectedBusIds: const [],
-                                    historyMode: _isHistoryMode,
-                                    onBusTapped: (busId, lat, lon) {},
-                                  ),
-                                );
-                              },
-                              loading: () => _buildLoadingIndicator(),
-                              error: (error, stack) => busesAsync.when(
-                                data: (buses) => RouteMapWidget(
-                                  routes: const [], // Empty routes with buses still visible
-                                  buses: buses,
-                                  selectedBusIds: const [],
-                                  historyMode: _isHistoryMode,
-                                  onBusTapped: (busId, lat, lon) {},
+                      // Always show map immediately with whatever data is available
+                      RouteMapWidget(
+                        routes: routesAsync.maybeWhen(
+                          data: (routes) => routes,
+                          orElse: () => const [],
+                        ),
+                        buses: busesAsync.maybeWhen(
+                          data: (buses) => buses,
+                          orElse: () => const [],
+                        ),
+                        selectedBusIds: _selectedBusId != null ? [_selectedBusId!] : [],
+                        historyMode: _isHistoryMode,
+                        onBusTapped: (busId, lat, lon) {
+                          setState(() {
+                            _selectedBusId = busId;
+                          });
+                        },
+                      ),
+                      // Show loading indicator overlay only while initially loading
+                      if (routesAsync.isLoading && busesAsync.isLoading)
+                        Container(
+                          color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.8),
+                          child: Center(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const CircularProgressIndicator(),
+                                const SizedBox(height: 16),
+                                Text(
+                                  'Loading map...',
+                                  style: Theme.of(context).textTheme.bodyMedium,
                                 ),
-                                loading: () => _buildLoadingIndicator(),
-                                error: (error, stack) => RouteMapWidget(
-                                  routes: const [], // Both empty - show empty map
-                                  buses: const [],
-                                  selectedBusIds: const [],
-                                  historyMode: _isHistoryMode,
-                                  onBusTapped: (busId, lat, lon) {},
-                                ),
-                              ),
+                              ],
                             ),
+                          ),
+                        ),
                       // Historical bus location overlay (only in history mode)
                       if (_isHistoryMode) _buildHistoricalBusOverlay(),
                     ],
@@ -568,57 +560,5 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     } catch (e) {
       return const SizedBox.shrink();
     }
-  }
-
-  Widget _buildLoadingIndicator() {
-    return const Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CircularProgressIndicator(),
-          SizedBox(height: 16),
-          Text('Loading map data...'),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildError(dynamic error, String resourceName) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Icon(
-            Icons.cloud_off_outlined,
-            size: 64,
-            color: Colors.grey,
-          ),
-          const SizedBox(height: 16),
-          Text(
-            'Unable to load $resourceName',
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 8),
-          Text(
-            ErrorHandler.getUserFriendlyMessage(error),
-            style: const TextStyle(color: Colors.grey),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 24),
-          FilledButton.icon(
-            onPressed: () {
-              ref.invalidate(routesControllerProvider);
-              ref.invalidate(busesProvider);
-            },
-            icon: const Icon(Icons.refresh),
-            label: const Text('Try Again'),
-          ),
-        ],
-      ),
-    );
   }
 }
