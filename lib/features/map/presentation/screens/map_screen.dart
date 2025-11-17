@@ -467,10 +467,18 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                 const SizedBox(width: 12),
                 Icon(Icons.directions_bus, size: 18, color: Theme.of(context).colorScheme.primary),
                 const SizedBox(width: 4),
-                Text(
-                  '${historyState.currentLocation!['properties']?['bus_number'] ?? 'Bus'} - ${historyState.currentLocation!['properties']?['bus_name'] ?? ''}',
-                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
+                Flexible(
+                  child: Text(
+                    () {
+                      final properties = historyState.currentLocation!['properties'];
+                      final busNumber = properties?['bus_number'] ?? 'Bus';
+                      final routeName = properties?['route_name'];
+                      return routeName != null ? '$busNumber • $routeName' : busNumber;
+                    }(),
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
                 const Spacer(),
