@@ -128,7 +128,10 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                   OutlinedButton.icon(
                     onPressed: () => _selectDate(context),
                     icon: const Icon(Icons.calendar_today, size: 16),
-                    label: Text(_selectedDate != null ? DateFormat('MMM dd, yyyy').format(_selectedDate!) : 'Select Date'),
+                    label: Text(
+                      _selectedDate != null ? DateFormat('MMM dd, yyyy').format(_selectedDate!) : 'Select Date',
+                      style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+                    ),
                   ),
                   const SizedBox(width: 8),
                   // Bus selector dropdown with search
@@ -340,6 +343,8 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                                 ),
                               ),
                             ),
+                      // Historical bus location overlay (only in history mode)
+                      if (_isHistoryMode) _buildHistoricalBusOverlay(),
                     ],
                   ),
                 ),
@@ -511,6 +516,124 @@ class _MapScreenState extends ConsumerState<MapScreen> {
         ],
       ),
     );
+  }
+
+  Widget _buildHistoricalBusOverlay() {
+    final historyState = ref.watch(busHistoryProvider);
+
+    // Only show if we have a current location
+    final currentLocation = historyState.currentLocation;
+    if (currentLocation == null) {
+      return const SizedBox.shrink();
+    }
+
+    // Extract coordinates from GeoJSON
+    try {
+      final geometry = currentLocation['geometry'] as Map<String, dynamic>?;
+      final coordinates = geometry?['coordinates'] as List<dynamic>?;
+      final properties = currentLocation['properties'] as Map<String, dynamic>?;
+
+      if (coordinates == null || coordinates.length < 2) {
+        return const SizedBox.shrink();
+      }
+
+      final busNumber = properties?['bus_number'] as String? ?? 'Bus';
+      final busName = properties?['bus_name'] as String? ?? '';
+      final speed = properties?['speed'] as num?;
+
+      return Center(
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          margin: const EdgeInsets.only(bottom: 100),
+          decoration: BoxDecoration(
+            color: Colors.orange.withValues(alpha: 0.95),
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.3),
+                blurRadius: 8,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.history, color: Colors.white, size: 24),
+                  const SizedBox(width: 8),
+                  Text(
+                    'HISTORY PLAYBACK',
+                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.2,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.directions_bus, color: Colors.white, size: 20),
+                  const SizedBox(width: 8),
+                  Text(
+                    '$busNumber - $busName',
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+              if (speed != null) ...[
+                const SizedBox(height: 4),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.speed, color: Colors.white70, size: 16),
+                    const SizedBox(width: 4),
+                    Text(
+                      '${speed.toStringAsFixed(1)} km/h',
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Colors.white70,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+              const SizedBox(height: 8),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.2),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.pin_drop, color: Colors.white, size: 16),
+                    const SizedBox(width: 4),
+                    Text(
+                      'Orange marker shows historical position',
+                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                        color: Colors.white,
+                        fontSize: 11,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    } catch (e) {
+      return const SizedBox.shrink();
+    }
   }
 
   Widget _buildLoadingIndicator() {
