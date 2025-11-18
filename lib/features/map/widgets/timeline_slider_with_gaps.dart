@@ -114,16 +114,16 @@ class TimelineSliderWithGaps extends StatelessWidget {
           height: 8,
           child: Stack(
             children: [
-              // Background - assume all data exists
+              // Background - assume all data exists (solid blue)
               Container(
                 height: 8,
                 decoration: BoxDecoration(
-                  color: dataColor.withValues(alpha: 0.3),
+                  color: dataColor,
                   borderRadius: BorderRadius.circular(4),
                 ),
               ),
 
-              // Overlay gaps in gray/black
+              // Overlay gaps in light grey
               ...gaps.map((gap) {
                 final gapStart = gap['start'] as DateTime;
                 final gapEnd = gap['end'] as DateTime;
@@ -137,7 +137,7 @@ class TimelineSliderWithGaps extends StatelessWidget {
                   child: Container(
                     height: 8,
                     decoration: BoxDecoration(
-                      color: gapColor.withValues(alpha: 0.7),
+                      color: gapColor,
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
