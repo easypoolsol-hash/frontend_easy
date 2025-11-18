@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:frontend_easy/features/school/presentation/widgets/attendance_report_dialog.dart';
+import 'package:frontend_easy/features/school/presentation/widgets/registered_buses_detail.dart';
 import 'package:frontend_easy/features/school/providers/dashboard_stats_provider.dart';
 import 'package:frontend_easy/features/school/providers/dashboard_websocket_provider.dart';
 import 'package:frontend_easy/features/school/providers/student_activity_provider.dart';
@@ -131,6 +133,12 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   value: '${stats.activeBuses}/${stats.totalBuses}',
                   icon: Icons.directions_bus,
                   color: Colors.blue,
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => const RegisteredBusesDetail(),
+                    );
+                  },
                 ),
               ),
               const SizedBox(width: 16),
@@ -172,10 +180,10 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
             const SizedBox(height: 16),
             Row(
               children: [
-                // Today's Activity Label
-                const Text(
-                  "Today's Boarding Activity",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                // Date-based Activity Label
+                Text(
+                  "${DateFormat('MMMM d, yyyy').format(DateTime.now())} Boarding Activity",
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                 ),
                 const Spacer(),
                 // Download Report Button
@@ -236,11 +244,11 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
         // Apply client-side search filter
         final searchQuery = _searchController.text.toLowerCase();
         final filteredStudents = searchQuery.isEmpty
-            ? response.results.toList()
+            ? response.results.toList().reversed.toList()
             : response.results.where((student) {
                 return student.studentName.toLowerCase().contains(searchQuery) ||
                     student.schoolStudentId.toLowerCase().contains(searchQuery);
-              }).toList();
+              }).toList().reversed.toList();
 
         if (filteredStudents.isEmpty) {
           return const Card(
@@ -460,38 +468,54 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     required String value,
     required IconData icon,
     required Color color,
+    VoidCallback? onTap,
   }) {
-    return Card(
+    final card = Card(
       elevation: 2,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Icon(icon, color: color, size: 24),
-                const SizedBox(width: 8),
-                Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey[600],
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Icon(icon, color: color, size: 24),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      title,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey[600],
+                      ),
+                    ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            Text(
-              value,
-              style: const TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.bold),
-            ),
-          ],
+                  if (onTap != null)
+                    Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey[400]),
+                ],
+              ),
+              const SizedBox(height: 12),
+              Text(
+                value,
+                style: const TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
         ),
       ),
     );
+
+    return onTap != null
+        ? Tooltip(
+            message: 'Click to view details',
+            child: card,
+          )
+        : card;
   }
 
   /// Graceful degraded state when backend is unavailable
