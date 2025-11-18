@@ -1,7 +1,7 @@
 /// Map visualization modes for route management
 /// Following 2025 UX patterns: mode-based views instead of toggle overload
 enum MapMode {
-  /// Overview: All routes dimmed, clustered stops, active buses only
+  /// Overview: All routes dimmed, clustered stops, registered buses only
   overview,
 
   /// Route Focus: Single route highlighted, others faded, full stop detail
@@ -31,7 +31,7 @@ extension MapModeExtension on MapMode {
   String get description {
     switch (this) {
       case MapMode.overview:
-        return 'See all routes and active buses';
+        return 'See all routes and registered buses';
       case MapMode.routeFocus:
         return 'Focus on a single route';
       case MapMode.stopManagement:

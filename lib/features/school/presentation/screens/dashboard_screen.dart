@@ -127,7 +127,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               Expanded(
                 child: _buildStatCard(
                   context,
-                  title: 'Active Buses',
+                  title: 'Registered Buses',
                   value: '${stats.activeBuses}/${stats.totalBuses}',
                   icon: Icons.directions_bus,
                   color: Colors.blue,
@@ -137,7 +137,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               Expanded(
                 child: _buildStatCard(
                   context,
-                  title: 'Students Boarded',
+                  title: 'Registered Students',
                   value: '${stats.studentsBoardedToday}',
                   icon: Icons.people,
                   color: Colors.green,
@@ -509,7 +509,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               Expanded(
                 child: _buildStatCard(
                   context,
-                  title: 'Students Boarded',
+                  title: 'Registered Students',
                   value: '--',
                   icon: Icons.groups,
                   color: theme.colorScheme.primary,
@@ -519,7 +519,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               Expanded(
                 child: _buildStatCard(
                   context,
-                  title: 'Buses Active',
+                  title: 'Registered Buses',
                   value: '--',
                   icon: Icons.directions_bus,
                   color: theme.colorScheme.secondary,

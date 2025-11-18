@@ -40,7 +40,7 @@ class BusSelectorWidget extends ConsumerWidget {
             if (busLocations.isEmpty) {
               return const Padding(
                 padding: EdgeInsets.all(8.0),
-                child: Text('No active buses available'),
+                child: Text('No registered buses available'),
               );
             }
 
