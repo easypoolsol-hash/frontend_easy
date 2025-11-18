@@ -614,7 +614,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
               ref.read(busHistoryProvider.notifier).setTimestamp(timestamp);
             },
             dataColor: Theme.of(context).colorScheme.primary,
-            gapColor: Colors.grey.shade800,
+            gapColor: Colors.grey.shade200, // Light grey for gaps
             minimumGapDuration: const Duration(minutes: 3),
           ),
           // Location info
