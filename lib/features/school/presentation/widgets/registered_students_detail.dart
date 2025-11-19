@@ -384,11 +384,6 @@ class _RegisteredStudentsDetailState extends ConsumerState<RegisteredStudentsDet
                   _buildDetailRow(Icons.directions_bus, 'Bus Number', student.busNumber!),
                 if (student.routeName != null)
                   _buildDetailRow(Icons.route, 'Route Name', student.routeName!),
-                _buildDetailRow(
-                  Icons.event_available,
-                  'Boarding Events Today',
-                  '${student.eventCount} ${student.eventCount == 1 ? 'event' : 'events'}',
-                ),
               ],
             ),
           ),
