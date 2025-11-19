@@ -207,8 +207,10 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 IconButton(
                   icon: const Icon(Icons.refresh),
                   onPressed: () {
-                    ref.invalidate(studentActivityFilteredProvider);
-                    ref.invalidate(dashboardStatsProvider);
+                    ref.refresh(studentActivityFilteredProvider(
+                      const StudentActivityParams(limit: 100),
+                    ));
+                    ref.refresh(dashboardStatsProvider);
                   },
                   tooltip: 'Refresh data',
                 ),
@@ -318,7 +320,9 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               const SizedBox(height: 16),
               ElevatedButton.icon(
                 onPressed: () {
-                  ref.invalidate(studentActivityFilteredProvider);
+                  ref.refresh(studentActivityFilteredProvider(
+                    const StudentActivityParams(limit: 100),
+                  ));
                 },
                 icon: const Icon(Icons.refresh),
                 label: const Text('Try Again'),

@@ -57,7 +57,9 @@ class _RegisteredStudentsDetailState extends ConsumerState<RegisteredStudentsDet
                   IconButton(
                     icon: const Icon(Icons.refresh),
                     onPressed: () {
-                      ref.invalidate(studentActivityFilteredProvider);
+                      ref.refresh(studentActivityFilteredProvider(
+                        const StudentActivityParams(limit: 500),
+                      ));
                     },
                     tooltip: 'Refresh',
                   ),
@@ -430,7 +432,9 @@ class _RegisteredStudentsDetailState extends ConsumerState<RegisteredStudentsDet
             const SizedBox(height: 16),
             ElevatedButton.icon(
               onPressed: () {
-                ref.invalidate(studentActivityFilteredProvider);
+                ref.refresh(studentActivityFilteredProvider(
+                  const StudentActivityParams(limit: 500),
+                ));
               },
               icon: const Icon(Icons.refresh),
               label: const Text('Try Again'),

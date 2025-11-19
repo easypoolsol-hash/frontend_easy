@@ -58,8 +58,10 @@ class _RegisteredBusesDetailState extends ConsumerState<RegisteredBusesDetail> {
                   IconButton(
                     icon: const Icon(Icons.refresh),
                     onPressed: () {
-                      ref.invalidate(busesProvider);
-                      ref.invalidate(studentActivityFilteredProvider);
+                      ref.refresh(busesProvider);
+                      ref.refresh(studentActivityFilteredProvider(
+                        const StudentActivityParams(limit: 500),
+                      ));
                     },
                     tooltip: 'Refresh',
                   ),
@@ -441,8 +443,10 @@ class _RegisteredBusesDetailState extends ConsumerState<RegisteredBusesDetail> {
             const SizedBox(height: 16),
             ElevatedButton.icon(
               onPressed: () {
-                ref.invalidate(busesProvider);
-                ref.invalidate(studentActivityFilteredProvider);
+                ref.refresh(busesProvider);
+                ref.refresh(studentActivityFilteredProvider(
+                  const StudentActivityParams(limit: 500),
+                ));
               },
               icon: const Icon(Icons.refresh),
               label: const Text('Try Again'),
