@@ -347,21 +347,6 @@ class _RegisteredStudentsDetailState extends ConsumerState<RegisteredStudentsDet
             ],
           ],
         ),
-        trailing: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-          decoration: BoxDecoration(
-            color: student.eventCount > 0 ? Colors.green.shade100 : Colors.grey.shade100,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Text(
-            '${student.eventCount} ${student.eventCount == 1 ? 'event' : 'events'}',
-            style: TextStyle(
-              color: student.eventCount > 0 ? Colors.green.shade900 : Colors.grey.shade700,
-              fontWeight: FontWeight.bold,
-              fontSize: 12,
-            ),
-          ),
-        ),
         children: [
           Padding(
             padding: const EdgeInsets.all(16),
