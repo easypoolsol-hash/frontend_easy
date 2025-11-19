@@ -244,11 +244,11 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
         // Apply client-side search filter
         final searchQuery = _searchController.text.toLowerCase();
         final filteredStudents = searchQuery.isEmpty
-            ? response.results.toList()
+            ? response.results.toList().reversed.toList()
             : response.results.where((student) {
                 return student.studentName.toLowerCase().contains(searchQuery) ||
                     student.schoolStudentId.toLowerCase().contains(searchQuery);
-              }).toList();
+              }).toList().reversed.toList();
 
         if (filteredStudents.isEmpty) {
           return const Card(
