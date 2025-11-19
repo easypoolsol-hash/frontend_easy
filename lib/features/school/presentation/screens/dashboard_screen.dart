@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:frontend_easy/features/school/presentation/widgets/attendance_report_dialog.dart';
 import 'package:frontend_easy/features/school/presentation/widgets/registered_buses_detail.dart';
+import 'package:frontend_easy/features/school/presentation/widgets/registered_students_detail.dart';
 import 'package:frontend_easy/features/school/providers/dashboard_stats_provider.dart';
 import 'package:frontend_easy/features/school/providers/dashboard_websocket_provider.dart';
 import 'package:frontend_easy/features/school/providers/student_activity_provider.dart';
@@ -149,6 +150,12 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   value: '${stats.studentsBoardedToday}',
                   icon: Icons.people,
                   color: Colors.green,
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => const RegisteredStudentsDetail(),
+                    );
+                  },
                 ),
               ),
             ],
