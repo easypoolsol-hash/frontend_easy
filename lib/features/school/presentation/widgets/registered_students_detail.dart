@@ -363,88 +363,69 @@ class _RegisteredStudentsDetailState extends ConsumerState<RegisteredStudentsDet
           ),
         ),
         children: [
-          if (student.events.isEmpty)
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Center(
-                child: Text(
-                  'No boarding events on ${DateFormat('MMM d, yyyy').format(DateTime.now())}',
-                  style: const TextStyle(color: Colors.grey, fontSize: 14),
-                ),
-              ),
-            )
-          else
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Boarding Events on ${DateFormat('MMMM d, yyyy').format(DateTime.now())}',
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Student Details',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                    color: theme.colorScheme.primary,
                   ),
-                  const SizedBox(height: 12),
-                  ...student.events.reversed.map((event) => _buildEventItem(event)),
-                ],
-              ),
+                ),
+                const SizedBox(height: 16),
+                _buildDetailRow(Icons.person, 'Full Name', student.studentName),
+                _buildDetailRow(Icons.badge, 'Student ID', student.schoolStudentId),
+                _buildDetailRow(Icons.school, 'Grade/Class', 'Grade ${student.grade}'),
+                if (student.busNumber != null)
+                  _buildDetailRow(Icons.directions_bus, 'Bus Number', student.busNumber!),
+                if (student.routeName != null)
+                  _buildDetailRow(Icons.route, 'Route Name', student.routeName!),
+                _buildDetailRow(
+                  Icons.event_available,
+                  'Boarding Events Today',
+                  '${student.eventCount} ${student.eventCount == 1 ? 'event' : 'events'}',
+                ),
+              ],
             ),
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildEventItem(BoardingEventNested event) {
-    // Format timestamp - Convert UTC to local time
-    final localTime = event.timestamp.toLocal();
-    final time = '${localTime.hour.toString().padLeft(2, '0')}:${localTime.minute.toString().padLeft(2, '0')}';
-
-    // Get event icon and color
-    IconData icon;
-    Color color;
-    switch (event.eventType.toLowerCase()) {
-      case 'boarding':
-        icon = Icons.login;
-        color = Colors.green;
-        break;
-      case 'pickup':
-        icon = Icons.person_add;
-        color = Colors.blue;
-        break;
-      case 'dropoff':
-        icon = Icons.person_remove;
-        color = Colors.orange;
-        break;
-      default:
-        icon = Icons.event;
-        color = Colors.grey;
-    }
-
+  Widget _buildDetailRow(IconData icon, String label, String value) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.only(bottom: 12),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, color: color, size: 20),
+          Icon(icon, size: 20, color: Colors.grey[700]),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  event.eventType,
-                  style: const TextStyle(fontWeight: FontWeight.w500),
+                  label,
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey[600],
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
+                const SizedBox(height: 2),
                 Text(
-                  'Kiosk: ${event.kioskId}',
-                  style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                  value,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ],
-            ),
-          ),
-          Text(
-            time,
-            style: TextStyle(
-              color: Colors.grey[600],
-              fontWeight: FontWeight.w500,
             ),
           ),
         ],
