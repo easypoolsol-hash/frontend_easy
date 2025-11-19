@@ -381,7 +381,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   ),
                 ),
                 const SizedBox(height: 12),
-                ...student.events.map((event) => _buildEventTile(event)),
+                ...student.events.reversed.map((event) => _buildEventTile(event)),
               ],
             ),
           ),
