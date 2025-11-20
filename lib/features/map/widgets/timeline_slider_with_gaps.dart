@@ -61,19 +61,28 @@ class TimelineSliderWithGaps extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              showGpsPointsOnly ? 'Point 1' : DateFormat('HH:mm:ss').format(istStartTime),
+              DateFormat('HH:mm:ss').format(istStartTime),
               style: Theme.of(context).textTheme.labelSmall,
             ),
-            Text(
-              showGpsPointsOnly
-                ? 'Point ${_findCurrentPointIndex() + 1}'
-                : DateFormat('HH:mm:ss').format(istCurrentTime),
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
+            Column(
+              children: [
+                Text(
+                  DateFormat('HH:mm:ss').format(istCurrentTime),
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+                if (showGpsPointsOnly)
+                  Text(
+                    'Point ${_findCurrentPointIndex() + 1} of ${locations.length}',
+                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
                   ),
+              ],
             ),
             Text(
-              showGpsPointsOnly ? 'Point ${locations.length}' : DateFormat('HH:mm:ss').format(istEndTime),
+              DateFormat('HH:mm:ss').format(istEndTime),
               style: Theme.of(context).textTheme.labelSmall,
             ),
           ],

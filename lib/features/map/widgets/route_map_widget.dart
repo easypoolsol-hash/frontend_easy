@@ -700,12 +700,14 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
 
         // Only add marker if icon is ready
         if (_cachedHistoricalBusMarker != null) {
+          final currentIndex = widget.historicalCurrentIndex ?? 0;
+          final totalPoints = widget.historicalLocations?.length ?? 0;
           historicalMarkers.add(Marker(
             markerId: const MarkerId('historical_bus'),
             position: LatLng(lat, lon),
             icon: _cachedHistoricalBusMarker!,
-            infoWindow: const InfoWindow(
-              title: 'Historical Position',
+            infoWindow: InfoWindow(
+              title: 'Point ${currentIndex + 1}${totalPoints > 0 ? ' of $totalPoints' : ''}',
             ),
           ));
         }
