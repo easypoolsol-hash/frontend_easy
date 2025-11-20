@@ -34,6 +34,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   double _playbackSpeed = 1.0; // 0.5x, 1x, 2x, 4x, 6x
   Timer? _playbackTimer;
   bool _showTrail = true; // Trail enabled by default
+  bool _showGpsPointsOnly = false; // Toggle between timeline and GPS points only
 
   void _selectBus(api.Bus? bus) {
     setState(() {
@@ -116,7 +117,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
 
     _playbackTimer = Timer.periodic(Duration(milliseconds: (1000 / _playbackSpeed).round()), (timer) {
       final historyState = ref.read(busHistoryProvider);
-      final nextIndex = historyState.currentIndex + 1;
+      int nextIndex = historyState.currentIndex + 1;
 
       if (nextIndex >= historyState.locations.length) {
         // Reached end, stop playback
@@ -125,7 +126,15 @@ class _MapScreenState extends ConsumerState<MapScreen> {
           _isPlaying = false;
         });
       } else {
-        ref.read(busHistoryProvider.notifier).setIndex(nextIndex);
+        // If GPS points only mode, skip to next valid GPS point
+        if (_showGpsPointsOnly) {
+          // Simply advance to next point (all points in the data are GPS points)
+          // The slider will handle displaying only GPS-based timeline
+          ref.read(busHistoryProvider.notifier).setIndex(nextIndex);
+        } else {
+          // Normal mode - advance through all points
+          ref.read(busHistoryProvider.notifier).setIndex(nextIndex);
+        }
       }
     });
   }
@@ -592,6 +601,37 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                       ),
                     ),
                     const SizedBox(width: 8),
+                    // GPS points only toggle
+                    Tooltip(
+                      message: 'Show GPS points only (skip gaps)',
+                      child: InkWell(
+                        onTap: () {
+                          setState(() {
+                            _showGpsPointsOnly = !_showGpsPointsOnly;
+                          });
+                        },
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Checkbox(
+                              value: _showGpsPointsOnly,
+                              onChanged: (value) {
+                                setState(() {
+                                  _showGpsPointsOnly = value ?? false;
+                                });
+                              },
+                              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              visualDensity: VisualDensity.compact,
+                            ),
+                            Text(
+                              'Points Only',
+                              style: Theme.of(context).textTheme.labelSmall,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
                     // Play/Pause button
                     IconButton(
                       onPressed: _togglePlayback,
@@ -616,6 +656,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
             dataColor: Theme.of(context).colorScheme.primary,
             gapColor: Colors.grey.shade200, // Light grey for gaps
             minimumGapDuration: const Duration(minutes: 3),
+            showGpsPointsOnly: _showGpsPointsOnly,
           ),
           // Location info
           Row(

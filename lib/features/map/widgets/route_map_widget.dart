@@ -258,8 +258,9 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
   void didUpdateWidget(RouteMapWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    // Check if selected bus IDs changed
-    if (widget.selectedBusIds != oldWidget.selectedBusIds &&
+    // Check if selected bus IDs changed (but NOT in history mode to allow free camera movement)
+    if (!widget.historyMode &&
+        widget.selectedBusIds != oldWidget.selectedBusIds &&
         widget.selectedBusIds.isNotEmpty) {
       _focusOnSelectedBus();
     }
