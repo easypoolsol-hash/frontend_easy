@@ -9,7 +9,7 @@ import 'package:built_value/serializer.dart';
 
 part 'patched_user.g.dart';
 
-/// PatchedUser
+/// User serializer - Authentication layer only.  For parent approval status, see ParentSerializer (domain layer).
 ///
 /// Properties:
 /// * [userId] 
@@ -21,6 +21,7 @@ part 'patched_user.g.dart';
 /// * [lastLogin] 
 /// * [createdAt] 
 /// * [updatedAt] 
+/// * [parentId] 
 @BuiltValue()
 abstract class PatchedUser implements Built<PatchedUser, PatchedUserBuilder> {
   @BuiltValueField(wireName: r'user_id')
@@ -49,6 +50,9 @@ abstract class PatchedUser implements Built<PatchedUser, PatchedUserBuilder> {
 
   @BuiltValueField(wireName: r'updated_at')
   DateTime? get updatedAt;
+
+  @BuiltValueField(wireName: r'parent_id')
+  String? get parentId;
 
   PatchedUser._();
 
@@ -134,6 +138,13 @@ class _$PatchedUserSerializer implements PrimitiveSerializer<PatchedUser> {
       yield serializers.serialize(
         object.updatedAt,
         specifiedType: const FullType(DateTime),
+      );
+    }
+    if (object.parentId != null) {
+      yield r'parent_id';
+      yield serializers.serialize(
+        object.parentId,
+        specifiedType: const FullType.nullable(String),
       );
     }
   }
@@ -222,6 +233,14 @@ class _$PatchedUserSerializer implements PrimitiveSerializer<PatchedUser> {
             specifiedType: const FullType(DateTime),
           ) as DateTime;
           result.updatedAt = valueDes;
+          break;
+        case r'parent_id':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
+          result.parentId = valueDes;
           break;
         default:
           unhandled.add(key);

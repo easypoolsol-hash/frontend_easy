@@ -14,24 +14,25 @@ part 'boarding_event_create.g.dart';
 ///
 /// Properties:
 /// * [eventId] - ULID primary key for global uniqueness and time sorting
-/// * [student] - Student who boarded the bus
+/// * [student] - Student who boarded the bus (null for unidentified faces)
 /// * [kioskId] - Kiosk device identifier
 /// * [confidenceScore] - Face recognition confidence score (0.0-1.0)
 /// * [timestamp] - When the boarding event occurred
-/// * [gpsCoords] - Return GPS coordinates as a tuple for compatibility
+/// * [gpsCoords] - GPS coordinates as [latitude, longitude]. Optional - boarding events can be created without location.
 /// * [busRoute] - Bus route identifier
 /// * [faceImageUrl] - S3 URL to face image for verification (optional)
 /// * [modelVersion] - Face recognition model version used
 /// * [metadata] - Additional metadata as JSON
+/// * [confirmationFacesBase64] - Array of base64-encoded confirmation faces (112x112 JPEG). Send up to 3 consecutive frames.
 @BuiltValue()
 abstract class BoardingEventCreate implements Built<BoardingEventCreate, BoardingEventCreateBuilder> {
   /// ULID primary key for global uniqueness and time sorting
   @BuiltValueField(wireName: r'event_id')
   String get eventId;
 
-  /// Student who boarded the bus
+  /// Student who boarded the bus (null for unidentified faces)
   @BuiltValueField(wireName: r'student')
-  String get student;
+  String? get student;
 
   /// Kiosk device identifier
   @BuiltValueField(wireName: r'kiosk_id')
@@ -45,7 +46,7 @@ abstract class BoardingEventCreate implements Built<BoardingEventCreate, Boardin
   @BuiltValueField(wireName: r'timestamp')
   DateTime get timestamp;
 
-  /// Return GPS coordinates as a tuple for compatibility
+  /// GPS coordinates as [latitude, longitude]. Optional - boarding events can be created without location.
   @BuiltValueField(wireName: r'gps_coords')
   BuiltList<double>? get gpsCoords;
 
@@ -64,6 +65,10 @@ abstract class BoardingEventCreate implements Built<BoardingEventCreate, Boardin
   /// Additional metadata as JSON
   @BuiltValueField(wireName: r'metadata')
   JsonObject? get metadata;
+
+  /// Array of base64-encoded confirmation faces (112x112 JPEG). Send up to 3 consecutive frames.
+  @BuiltValueField(wireName: r'confirmation_faces_base64')
+  BuiltList<String>? get confirmationFacesBase64;
 
   BoardingEventCreate._();
 
@@ -93,11 +98,13 @@ class _$BoardingEventCreateSerializer implements PrimitiveSerializer<BoardingEve
       object.eventId,
       specifiedType: const FullType(String),
     );
-    yield r'student';
-    yield serializers.serialize(
-      object.student,
-      specifiedType: const FullType(String),
-    );
+    if (object.student != null) {
+      yield r'student';
+      yield serializers.serialize(
+        object.student,
+        specifiedType: const FullType.nullable(String),
+      );
+    }
     yield r'kiosk_id';
     yield serializers.serialize(
       object.kioskId,
@@ -113,11 +120,13 @@ class _$BoardingEventCreateSerializer implements PrimitiveSerializer<BoardingEve
       object.timestamp,
       specifiedType: const FullType(DateTime),
     );
-    yield r'gps_coords';
-    yield object.gpsCoords == null ? null : serializers.serialize(
-      object.gpsCoords,
-      specifiedType: const FullType.nullable(BuiltList, [FullType(double)]),
-    );
+    if (object.gpsCoords != null) {
+      yield r'gps_coords';
+      yield serializers.serialize(
+        object.gpsCoords,
+        specifiedType: const FullType.nullable(BuiltList, [FullType(double)]),
+      );
+    }
     if (object.busRoute != null) {
       yield r'bus_route';
       yield serializers.serialize(
@@ -142,6 +151,13 @@ class _$BoardingEventCreateSerializer implements PrimitiveSerializer<BoardingEve
       yield serializers.serialize(
         object.metadata,
         specifiedType: const FullType.nullable(JsonObject),
+      );
+    }
+    if (object.confirmationFacesBase64 != null) {
+      yield r'confirmation_faces_base64';
+      yield serializers.serialize(
+        object.confirmationFacesBase64,
+        specifiedType: const FullType(BuiltList, [FullType(String)]),
       );
     }
   }
@@ -177,8 +193,9 @@ class _$BoardingEventCreateSerializer implements PrimitiveSerializer<BoardingEve
         case r'student':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.student = valueDes;
           break;
         case r'kiosk_id':
@@ -238,6 +255,13 @@ class _$BoardingEventCreateSerializer implements PrimitiveSerializer<BoardingEve
           ) as JsonObject?;
           if (valueDes == null) continue;
           result.metadata = valueDes;
+          break;
+        case r'confirmation_faces_base64':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(BuiltList, [FullType(String)]),
+          ) as BuiltList<String>;
+          result.confirmationFacesBase64.replace(valueDes);
           break;
         default:
           unhandled.add(key);

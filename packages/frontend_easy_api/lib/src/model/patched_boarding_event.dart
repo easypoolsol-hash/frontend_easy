@@ -13,7 +13,7 @@ part 'patched_boarding_event.g.dart';
 ///
 /// Properties:
 /// * [eventId] - ULID primary key for global uniqueness and time sorting
-/// * [student] - Student who boarded the bus
+/// * [student] - Student who boarded the bus (null for unidentified faces)
 /// * [kioskId] - Kiosk device identifier
 /// * [confidenceScore] - Face recognition confidence score (0.0-1.0)
 /// * [timestamp] - When the boarding event occurred
@@ -24,13 +24,15 @@ part 'patched_boarding_event.g.dart';
 /// * [modelVersion] - Face recognition model version used
 /// * [metadata] - Additional metadata as JSON
 /// * [createdAt] - When this record was created in database
+/// * [confirmationFaceUrls] 
+/// * [isUnknownFace] 
 @BuiltValue()
 abstract class PatchedBoardingEvent implements Built<PatchedBoardingEvent, PatchedBoardingEventBuilder> {
   /// ULID primary key for global uniqueness and time sorting
   @BuiltValueField(wireName: r'event_id')
   String? get eventId;
 
-  /// Student who boarded the bus
+  /// Student who boarded the bus (null for unidentified faces)
   @BuiltValueField(wireName: r'student')
   String? get student;
 
@@ -74,6 +76,12 @@ abstract class PatchedBoardingEvent implements Built<PatchedBoardingEvent, Patch
   @BuiltValueField(wireName: r'created_at')
   DateTime? get createdAt;
 
+  @BuiltValueField(wireName: r'confirmation_face_urls')
+  String? get confirmationFaceUrls;
+
+  @BuiltValueField(wireName: r'is_unknown_face')
+  String? get isUnknownFace;
+
   PatchedBoardingEvent._();
 
   factory PatchedBoardingEvent([void updates(PatchedBoardingEventBuilder b)]) = _$PatchedBoardingEvent;
@@ -108,7 +116,7 @@ class _$PatchedBoardingEventSerializer implements PrimitiveSerializer<PatchedBoa
       yield r'student';
       yield serializers.serialize(
         object.student,
-        specifiedType: const FullType(String),
+        specifiedType: const FullType.nullable(String),
       );
     }
     if (object.kioskId != null) {
@@ -181,6 +189,20 @@ class _$PatchedBoardingEventSerializer implements PrimitiveSerializer<PatchedBoa
         specifiedType: const FullType(DateTime),
       );
     }
+    if (object.confirmationFaceUrls != null) {
+      yield r'confirmation_face_urls';
+      yield serializers.serialize(
+        object.confirmationFaceUrls,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.isUnknownFace != null) {
+      yield r'is_unknown_face';
+      yield serializers.serialize(
+        object.isUnknownFace,
+        specifiedType: const FullType(String),
+      );
+    }
   }
 
   @override
@@ -214,8 +236,9 @@ class _$PatchedBoardingEventSerializer implements PrimitiveSerializer<PatchedBoa
         case r'student':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.student = valueDes;
           break;
         case r'kiosk_id':
@@ -290,6 +313,20 @@ class _$PatchedBoardingEventSerializer implements PrimitiveSerializer<PatchedBoa
             specifiedType: const FullType(DateTime),
           ) as DateTime;
           result.createdAt = valueDes;
+          break;
+        case r'confirmation_face_urls':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.confirmationFaceUrls = valueDes;
+          break;
+        case r'is_unknown_face':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.isUnknownFace = valueDes;
           break;
         default:
           unhandled.add(key);

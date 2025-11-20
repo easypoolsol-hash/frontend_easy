@@ -1,8 +1,8 @@
-# openapi.api.ApiApi
+# frontend_easy_api.api.ApiApi
 
 ## Load the API package
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 ```
 
 All URIs are relative to *http://localhost:8000*
@@ -135,19 +135,19 @@ Method | HTTP request | Description
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final aPIKeyCreate = APIKeyCreate(); // APIKeyCreate | 
+final api = FrontendEasyApi().getApiApi();
+final APIKeyCreate aPIKeyCreate = ; // APIKeyCreate | 
 
 try {
-    final result = api_instance.apiV1ApiKeysCreate(aPIKeyCreate);
-    print(result);
-} catch (e) {
+    final response = api.apiV1ApiKeysCreate(aPIKeyCreate);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1ApiKeysCreate: $e\n');
 }
 ```
@@ -180,18 +180,18 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final keyId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this api key.
+final api = FrontendEasyApi().getApiApi();
+final String keyId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this api key.
 
 try {
-    api_instance.apiV1ApiKeysDestroy(keyId);
-} catch (e) {
+    api.apiV1ApiKeysDestroy(keyId);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1ApiKeysDestroy: $e\n');
 }
 ```
@@ -224,21 +224,21 @@ void (empty response body)
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final ordering = ordering_example; // String | Which field to use when ordering the results.
-final page = 56; // int | A page number within the paginated result set.
-final search = search_example; // String | A search term.
+final api = FrontendEasyApi().getApiApi();
+final String ordering = ordering_example; // String | Which field to use when ordering the results.
+final int page = 56; // int | A page number within the paginated result set.
+final String search = search_example; // String | A search term.
 
 try {
-    final result = api_instance.apiV1ApiKeysList(ordering, page, search);
-    print(result);
-} catch (e) {
+    final response = api.apiV1ApiKeysList(ordering, page, search);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1ApiKeysList: $e\n');
 }
 ```
@@ -273,20 +273,20 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final keyId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this api key.
-final patchedAPIKey = PatchedAPIKey(); // PatchedAPIKey | 
+final api = FrontendEasyApi().getApiApi();
+final String keyId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this api key.
+final PatchedAPIKey patchedAPIKey = ; // PatchedAPIKey | 
 
 try {
-    final result = api_instance.apiV1ApiKeysPartialUpdate(keyId, patchedAPIKey);
-    print(result);
-} catch (e) {
+    final response = api.apiV1ApiKeysPartialUpdate(keyId, patchedAPIKey);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1ApiKeysPartialUpdate: $e\n');
 }
 ```
@@ -320,19 +320,19 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final keyId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this api key.
+final api = FrontendEasyApi().getApiApi();
+final String keyId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this api key.
 
 try {
-    final result = api_instance.apiV1ApiKeysRetrieve(keyId);
-    print(result);
-} catch (e) {
+    final response = api.apiV1ApiKeysRetrieve(keyId);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1ApiKeysRetrieve: $e\n');
 }
 ```
@@ -365,20 +365,20 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final keyId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this api key.
-final aPIKey = APIKey(); // APIKey | 
+final api = FrontendEasyApi().getApiApi();
+final String keyId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this api key.
+final APIKey aPIKey = ; // APIKey | 
 
 try {
-    final result = api_instance.apiV1ApiKeysRevokeCreate(keyId, aPIKey);
-    print(result);
-} catch (e) {
+    final response = api.apiV1ApiKeysRevokeCreate(keyId, aPIKey);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1ApiKeysRevokeCreate: $e\n');
 }
 ```
@@ -412,20 +412,20 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final keyId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this api key.
-final aPIKey = APIKey(); // APIKey | 
+final api = FrontendEasyApi().getApiApi();
+final String keyId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this api key.
+final APIKey aPIKey = ; // APIKey | 
 
 try {
-    final result = api_instance.apiV1ApiKeysUpdate(keyId, aPIKey);
-    print(result);
-} catch (e) {
+    final response = api.apiV1ApiKeysUpdate(keyId, aPIKey);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1ApiKeysUpdate: $e\n');
 }
 ```
@@ -461,22 +461,22 @@ Read-only ViewSet for attendance records  PERMISSION: IsSchoolAdmin (school admi
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final date = 2013-10-20; // DateTime | 
-final page = 56; // int | A page number within the paginated result set.
-final status = status_example; // String | Overall attendance status  * `present` - Present * `absent` - Absent * `partial` - Partial
-final student = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final api = FrontendEasyApi().getApiApi();
+final Date date = 2013-10-20; // Date | 
+final int page = 56; // int | A page number within the paginated result set.
+final String status = status_example; // String | Overall attendance status  * `present` - Present * `absent` - Absent * `partial` - Partial
+final String student = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
 
 try {
-    final result = api_instance.apiV1AttendanceList(date, page, status, student);
-    print(result);
-} catch (e) {
+    final response = api.apiV1AttendanceList(date, page, status, student);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1AttendanceList: $e\n');
 }
 ```
@@ -485,7 +485,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **date** | **DateTime**|  | [optional] 
+ **date** | **Date**|  | [optional] 
  **page** | **int**| A page number within the paginated result set. | [optional] 
  **status** | **String**| Overall attendance status  * `present` - Present * `absent` - Absent * `partial` - Partial | [optional] 
  **student** | **String**|  | [optional] 
@@ -514,19 +514,19 @@ Read-only ViewSet for attendance records  PERMISSION: IsSchoolAdmin (school admi
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final recordId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final api = FrontendEasyApi().getApiApi();
+final String recordId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
 
 try {
-    final result = api_instance.apiV1AttendanceRetrieve(recordId);
-    print(result);
-} catch (e) {
+    final response = api.apiV1AttendanceRetrieve(recordId);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1AttendanceRetrieve: $e\n');
 }
 ```
@@ -561,19 +561,19 @@ Get attendance history for a specific student
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final api = FrontendEasyApi().getApiApi();
+final String studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
 
 try {
-    final result = api_instance.apiV1AttendanceStudentRetrieve(studentId);
-    print(result);
-} catch (e) {
+    final response = api.apiV1AttendanceStudentRetrieve(studentId);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1AttendanceStudentRetrieve: $e\n');
 }
 ```
@@ -608,18 +608,18 @@ Get attendance summary for date range
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
+final api = FrontendEasyApi().getApiApi();
 
 try {
-    final result = api_instance.apiV1AttendanceSummaryRetrieve();
-    print(result);
-} catch (e) {
+    final response = api.apiV1AttendanceSummaryRetrieve();
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1AttendanceSummaryRetrieve: $e\n');
 }
 ```
@@ -649,21 +649,21 @@ This endpoint does not need any parameter.
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final ordering = ordering_example; // String | Which field to use when ordering the results.
-final page = 56; // int | A page number within the paginated result set.
-final search = search_example; // String | A search term.
+final api = FrontendEasyApi().getApiApi();
+final String ordering = ordering_example; // String | Which field to use when ordering the results.
+final int page = 56; // int | A page number within the paginated result set.
+final String search = search_example; // String | A search term.
 
 try {
-    final result = api_instance.apiV1AuditLogsList(ordering, page, search);
-    print(result);
-} catch (e) {
+    final response = api.apiV1AuditLogsList(ordering, page, search);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1AuditLogsList: $e\n');
 }
 ```
@@ -698,19 +698,19 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final logId = 56; // int | A unique integer value identifying this audit log.
+final api = FrontendEasyApi().getApiApi();
+final int logId = 56; // int | A unique integer value identifying this audit log.
 
 try {
-    final result = api_instance.apiV1AuditLogsRetrieve(logId);
-    print(result);
-} catch (e) {
+    final response = api.apiV1AuditLogsRetrieve(logId);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1AuditLogsRetrieve: $e\n');
 }
 ```
@@ -745,15 +745,15 @@ Bulk create boarding events (for high-throughput kiosk operations)
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 
-final api_instance = ApiApi();
-final boardingEvent = BoardingEvent(); // BoardingEvent | 
+final api = FrontendEasyApi().getApiApi();
+final BoardingEvent boardingEvent = ; // BoardingEvent | 
 
 try {
-    final result = api_instance.apiV1BoardingEventsBulkCreate(boardingEvent);
-    print(result);
-} catch (e) {
+    final response = api.apiV1BoardingEventsBulkCreate(boardingEvent);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1BoardingEventsBulkCreate: $e\n');
 }
 ```
@@ -788,15 +788,15 @@ ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices 
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 
-final api_instance = ApiApi();
-final boardingEventCreate = BoardingEventCreate(); // BoardingEventCreate | 
+final api = FrontendEasyApi().getApiApi();
+final BoardingEventCreate boardingEventCreate = ; // BoardingEventCreate | 
 
 try {
-    final result = api_instance.apiV1BoardingEventsCreate(boardingEventCreate);
-    print(result);
-} catch (e) {
+    final response = api.apiV1BoardingEventsCreate(boardingEventCreate);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1BoardingEventsCreate: $e\n');
 }
 ```
@@ -831,14 +831,14 @@ ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices 
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 
-final api_instance = ApiApi();
-final eventId = eventId_example; // String | 
+final api = FrontendEasyApi().getApiApi();
+final String eventId = eventId_example; // String | 
 
 try {
-    api_instance.apiV1BoardingEventsDestroy(eventId);
-} catch (e) {
+    api.apiV1BoardingEventsDestroy(eventId);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1BoardingEventsDestroy: $e\n');
 }
 ```
@@ -873,19 +873,19 @@ ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices 
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 
-final api_instance = ApiApi();
-final busRoute = busRoute_example; // String | 
-final kioskId = kioskId_example; // String | 
-final page = 56; // int | A page number within the paginated result set.
-final student = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
-final timestamp = 2013-10-20T19:20:30+01:00; // DateTime | 
+final api = FrontendEasyApi().getApiApi();
+final String busRoute = busRoute_example; // String | 
+final String kioskId = kioskId_example; // String | 
+final int page = 56; // int | A page number within the paginated result set.
+final String student = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final DateTime timestamp = 2013-10-20T19:20:30+01:00; // DateTime | 
 
 try {
-    final result = api_instance.apiV1BoardingEventsList(busRoute, kioskId, page, student, timestamp);
-    print(result);
-} catch (e) {
+    final response = api.apiV1BoardingEventsList(busRoute, kioskId, page, student, timestamp);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1BoardingEventsList: $e\n');
 }
 ```
@@ -924,16 +924,16 @@ ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices 
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 
-final api_instance = ApiApi();
-final eventId = eventId_example; // String | 
-final patchedBoardingEvent = PatchedBoardingEvent(); // PatchedBoardingEvent | 
+final api = FrontendEasyApi().getApiApi();
+final String eventId = eventId_example; // String | 
+final PatchedBoardingEvent patchedBoardingEvent = ; // PatchedBoardingEvent | 
 
 try {
-    final result = api_instance.apiV1BoardingEventsPartialUpdate(eventId, patchedBoardingEvent);
-    print(result);
-} catch (e) {
+    final response = api.apiV1BoardingEventsPartialUpdate(eventId, patchedBoardingEvent);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1BoardingEventsPartialUpdate: $e\n');
 }
 ```
@@ -969,14 +969,14 @@ Get recent boarding events for dashboard
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 
-final api_instance = ApiApi();
+final api = FrontendEasyApi().getApiApi();
 
 try {
-    final result = api_instance.apiV1BoardingEventsRecentRetrieve();
-    print(result);
-} catch (e) {
+    final response = api.apiV1BoardingEventsRecentRetrieve();
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1BoardingEventsRecentRetrieve: $e\n');
 }
 ```
@@ -1008,15 +1008,15 @@ ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices 
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 
-final api_instance = ApiApi();
-final eventId = eventId_example; // String | 
+final api = FrontendEasyApi().getApiApi();
+final String eventId = eventId_example; // String | 
 
 try {
-    final result = api_instance.apiV1BoardingEventsRetrieve(eventId);
-    print(result);
-} catch (e) {
+    final response = api.apiV1BoardingEventsRetrieve(eventId);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1BoardingEventsRetrieve: $e\n');
 }
 ```
@@ -1051,16 +1051,16 @@ ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices 
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 
-final api_instance = ApiApi();
-final eventId = eventId_example; // String | 
-final boardingEvent = BoardingEvent(); // BoardingEvent | 
+final api = FrontendEasyApi().getApiApi();
+final String eventId = eventId_example; // String | 
+final BoardingEvent boardingEvent = ; // BoardingEvent | 
 
 try {
-    final result = api_instance.apiV1BoardingEventsUpdate(eventId, boardingEvent);
-    print(result);
-} catch (e) {
+    final response = api.apiV1BoardingEventsUpdate(eventId, boardingEvent);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1BoardingEventsUpdate: $e\n');
 }
 ```
@@ -1096,19 +1096,19 @@ Bulk assign students to buses
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final bus = Bus(); // Bus | 
+final api = FrontendEasyApi().getApiApi();
+final Bus bus = ; // Bus | 
 
 try {
-    final result = api_instance.apiV1BusesAssignStudentsCreate(bus);
-    print(result);
-} catch (e) {
+    final response = api.apiV1BusesAssignStudentsCreate(bus);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1BusesAssignStudentsCreate: $e\n');
 }
 ```
@@ -1143,19 +1143,19 @@ ViewSet for buses
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final bus = Bus(); // Bus | 
+final api = FrontendEasyApi().getApiApi();
+final Bus bus = ; // Bus | 
 
 try {
-    final result = api_instance.apiV1BusesCreate(bus);
-    print(result);
-} catch (e) {
+    final response = api.apiV1BusesCreate(bus);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1BusesCreate: $e\n');
 }
 ```
@@ -1190,18 +1190,18 @@ ViewSet for buses
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final busId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final api = FrontendEasyApi().getApiApi();
+final String busId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
 
 try {
-    api_instance.apiV1BusesDestroy(busId);
-} catch (e) {
+    api.apiV1BusesDestroy(busId);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1BusesDestroy: $e\n');
 }
 ```
@@ -1236,22 +1236,22 @@ ViewSet for buses
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final deviceId = deviceId_example; // String | 
-final page = 56; // int | A page number within the paginated result set.
-final route = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | UUID primary key
-final status = status_example; // String | Current operational status  * `active` - Active * `maintenance` - Under Maintenance * `retired` - Retired
+final api = FrontendEasyApi().getApiApi();
+final String deviceId = deviceId_example; // String | 
+final int page = 56; // int | A page number within the paginated result set.
+final String route = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | UUID primary key
+final String status = status_example; // String | Current operational status  * `active` - Active * `maintenance` - Under Maintenance * `retired` - Retired
 
 try {
-    final result = api_instance.apiV1BusesList(deviceId, page, route, status);
-    print(result);
-} catch (e) {
+    final response = api.apiV1BusesList(deviceId, page, route, status);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1BusesList: $e\n');
 }
 ```
@@ -1289,20 +1289,20 @@ ViewSet for buses
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final busId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
-final patchedBus = PatchedBus(); // PatchedBus | 
+final api = FrontendEasyApi().getApiApi();
+final String busId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final PatchedBus patchedBus = ; // PatchedBus | 
 
 try {
-    final result = api_instance.apiV1BusesPartialUpdate(busId, patchedBus);
-    print(result);
-} catch (e) {
+    final response = api.apiV1BusesPartialUpdate(busId, patchedBus);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1BusesPartialUpdate: $e\n');
 }
 ```
@@ -1338,19 +1338,19 @@ ViewSet for buses
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final busId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final api = FrontendEasyApi().getApiApi();
+final String busId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
 
 try {
-    final result = api_instance.apiV1BusesRetrieve(busId);
-    print(result);
-} catch (e) {
+    final response = api.apiV1BusesRetrieve(busId);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1BusesRetrieve: $e\n');
 }
 ```
@@ -1385,19 +1385,19 @@ Get all students assigned to this bus
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final busId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final api = FrontendEasyApi().getApiApi();
+final String busId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
 
 try {
-    final result = api_instance.apiV1BusesStudentsRetrieve(busId);
-    print(result);
-} catch (e) {
+    final response = api.apiV1BusesStudentsRetrieve(busId);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1BusesStudentsRetrieve: $e\n');
 }
 ```
@@ -1432,20 +1432,20 @@ ViewSet for buses
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final busId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
-final bus = Bus(); // Bus | 
+final api = FrontendEasyApi().getApiApi();
+final String busId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final Bus bus = ; // Bus | 
 
 try {
-    final result = api_instance.apiV1BusesUpdate(busId, bus);
-    print(result);
-} catch (e) {
+    final response = api.apiV1BusesUpdate(busId, bus);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1BusesUpdate: $e\n');
 }
 ```
@@ -1481,18 +1481,18 @@ Get fleet utilization report
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
+final api = FrontendEasyApi().getApiApi();
 
 try {
-    final result = api_instance.apiV1BusesUtilizationRetrieve();
-    print(result);
-} catch (e) {
+    final response = api.apiV1BusesUtilizationRetrieve();
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1BusesUtilizationRetrieve: $e\n');
 }
 ```
@@ -1524,18 +1524,18 @@ Returns summary statistics for school dashboard (buses, students boarded) for TO
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
+final api = FrontendEasyApi().getApiApi();
 
 try {
-    final result = api_instance.apiV1DashboardStatsRetrieve();
-    print(result);
-} catch (e) {
+    final response = api.apiV1DashboardStatsRetrieve();
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1DashboardStatsRetrieve: $e\n');
 }
 ```
@@ -1567,20 +1567,20 @@ Returns paginated list of students who boarded TODAY with all their events
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final limit = 56; // int | Number of students per page (default=50)
-final offset = 56; // int | Offset for pagination (default=0)
+final api = FrontendEasyApi().getApiApi();
+final int limit = 56; // int | Number of students per page (default=50)
+final int offset = 56; // int | Offset for pagination (default=0)
 
 try {
-    final result = api_instance.apiV1DashboardStudentsRetrieve(limit, offset);
-    print(result);
-} catch (e) {
+    final response = api.apiV1DashboardStudentsRetrieve(limit, offset);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1DashboardStudentsRetrieve: $e\n');
 }
 ```
@@ -1616,17 +1616,17 @@ Geocode an address to coordinates.  POST /api/v1/geocode/ Body: {\"address\": \"
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
+final api = FrontendEasyApi().getApiApi();
 
 try {
-    api_instance.apiV1GeocodeCreate();
-} catch (e) {
+    api.apiV1GeocodeCreate();
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1GeocodeCreate: $e\n');
 }
 ```
@@ -1658,21 +1658,21 @@ API endpoint for Groups (Roles). Read-only following IAM principle - groups mana
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final ordering = ordering_example; // String | Which field to use when ordering the results.
-final page = 56; // int | A page number within the paginated result set.
-final search = search_example; // String | A search term.
+final api = FrontendEasyApi().getApiApi();
+final String ordering = ordering_example; // String | Which field to use when ordering the results.
+final int page = 56; // int | A page number within the paginated result set.
+final String search = search_example; // String | A search term.
 
 try {
-    final result = api_instance.apiV1GroupsList(ordering, page, search);
-    print(result);
-} catch (e) {
+    final response = api.apiV1GroupsList(ordering, page, search);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1GroupsList: $e\n');
 }
 ```
@@ -1709,19 +1709,19 @@ API endpoint for Groups (Roles). Read-only following IAM principle - groups mana
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final id = 56; // int | A unique integer value identifying this group.
+final api = FrontendEasyApi().getApiApi();
+final int id = 56; // int | A unique integer value identifying this group.
 
 try {
-    final result = api_instance.apiV1GroupsRetrieve(id);
-    print(result);
-} catch (e) {
+    final response = api.apiV1GroupsRetrieve(id);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1GroupsRetrieve: $e\n');
 }
 ```
@@ -1756,19 +1756,19 @@ Student boarding endpoint - returns immediate approval and schedules background 
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final requestBody = Map<String, Object>(); // Map<String, Object> | 
+final api = FrontendEasyApi().getApiApi();
+final BuiltMap<String, JsonObject> requestBody = Object; // BuiltMap<String, JsonObject> | 
 
 try {
-    final result = api_instance.apiV1KioskBoardingCreate(requestBody);
-    print(result);
-} catch (e) {
+    final response = api.apiV1KioskBoardingCreate(requestBody);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1KioskBoardingCreate: $e\n');
 }
 ```
@@ -1777,7 +1777,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **requestBody** | [**Map<String, Object>**](Object.md)|  | [optional] 
+ **requestBody** | [**BuiltMap&lt;String, JsonObject&gt;**](JsonObject.md)|  | [optional] 
 
 ### Return type
 
@@ -1803,19 +1803,19 @@ ViewSet for kiosk management (admin only)
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final kiosk = Kiosk(); // Kiosk | 
+final api = FrontendEasyApi().getApiApi();
+final Kiosk kiosk = ; // Kiosk | 
 
 try {
-    final result = api_instance.apiV1KiosksCreate(kiosk);
-    print(result);
-} catch (e) {
+    final response = api.apiV1KiosksCreate(kiosk);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1KiosksCreate: $e\n');
 }
 ```
@@ -1850,18 +1850,18 @@ ViewSet for kiosk management (admin only)
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final kioskId = kioskId_example; // String | 
+final api = FrontendEasyApi().getApiApi();
+final String kioskId = kioskId_example; // String | 
 
 try {
-    api_instance.apiV1KiosksDestroy(kioskId);
-} catch (e) {
+    api.apiV1KiosksDestroy(kioskId);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1KiosksDestroy: $e\n');
 }
 ```
@@ -1896,21 +1896,21 @@ ViewSet for kiosk management (admin only)
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final ordering = ordering_example; // String | Which field to use when ordering the results.
-final page = 56; // int | A page number within the paginated result set.
-final search = search_example; // String | A search term.
+final api = FrontendEasyApi().getApiApi();
+final String ordering = ordering_example; // String | Which field to use when ordering the results.
+final int page = 56; // int | A page number within the paginated result set.
+final String search = search_example; // String | A search term.
 
 try {
-    final result = api_instance.apiV1KiosksList(ordering, page, search);
-    print(result);
-} catch (e) {
+    final response = api.apiV1KiosksList(ordering, page, search);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1KiosksList: $e\n');
 }
 ```
@@ -1947,20 +1947,20 @@ ViewSet for kiosk management (admin only)
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final kioskId = kioskId_example; // String | 
-final patchedKiosk = PatchedKiosk(); // PatchedKiosk | 
+final api = FrontendEasyApi().getApiApi();
+final String kioskId = kioskId_example; // String | 
+final PatchedKiosk patchedKiosk = ; // PatchedKiosk | 
 
 try {
-    final result = api_instance.apiV1KiosksPartialUpdate(kioskId, patchedKiosk);
-    print(result);
-} catch (e) {
+    final response = api.apiV1KiosksPartialUpdate(kioskId, patchedKiosk);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1KiosksPartialUpdate: $e\n');
 }
 ```
@@ -1996,19 +1996,19 @@ ViewSet for kiosk management (admin only)
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final kioskId = kioskId_example; // String | 
+final api = FrontendEasyApi().getApiApi();
+final String kioskId = kioskId_example; // String | 
 
 try {
-    final result = api_instance.apiV1KiosksRetrieve(kioskId);
-    print(result);
-} catch (e) {
+    final response = api.apiV1KiosksRetrieve(kioskId);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1KiosksRetrieve: $e\n');
 }
 ```
@@ -2043,20 +2043,20 @@ ViewSet for kiosk management (admin only)
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final kioskId = kioskId_example; // String | 
-final kiosk = Kiosk(); // Kiosk | 
+final api = FrontendEasyApi().getApiApi();
+final String kioskId = kioskId_example; // String | 
+final Kiosk kiosk = ; // Kiosk | 
 
 try {
-    final result = api_instance.apiV1KiosksUpdate(kioskId, kiosk);
-    print(result);
-} catch (e) {
+    final response = api.apiV1KiosksUpdate(kioskId, kiosk);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1KiosksUpdate: $e\n');
 }
 ```
@@ -2092,22 +2092,22 @@ Read-only ViewSet for device logs (any authenticated user)
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final kiosk = kiosk_example; // String | Unique kiosk device identifier (e.g., KIOSK001, BUS123-KIOSK)
-final logLevel = logLevel_example; // String | Log level severity  * `DEBUG` - Debug * `INFO` - Info * `WARN` - Warning * `ERROR` - Error * `CRITICAL` - Critical
-final page = 56; // int | A page number within the paginated result set.
-final timestamp = 2013-10-20T19:20:30+01:00; // DateTime | 
+final api = FrontendEasyApi().getApiApi();
+final String kiosk = kiosk_example; // String | Unique kiosk device identifier (e.g., KIOSK001, BUS123-KIOSK)
+final String logLevel = logLevel_example; // String | Log level severity  * `DEBUG` - Debug * `INFO` - Info * `WARN` - Warning * `ERROR` - Error * `CRITICAL` - Critical
+final int page = 56; // int | A page number within the paginated result set.
+final DateTime timestamp = 2013-10-20T19:20:30+01:00; // DateTime | 
 
 try {
-    final result = api_instance.apiV1LogsList(kiosk, logLevel, page, timestamp);
-    print(result);
-} catch (e) {
+    final response = api.apiV1LogsList(kiosk, logLevel, page, timestamp);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1LogsList: $e\n');
 }
 ```
@@ -2145,19 +2145,19 @@ Read-only ViewSet for device logs (any authenticated user)
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final logId = 56; // int | 
+final api = FrontendEasyApi().getApiApi();
+final int logId = 56; // int | 
 
 try {
-    final result = api_instance.apiV1LogsRetrieve(logId);
-    print(result);
-} catch (e) {
+    final response = api.apiV1LogsRetrieve(logId);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1LogsRetrieve: $e\n');
 }
 ```
@@ -2192,18 +2192,18 @@ Get logs summary by level and time
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
+final api = FrontendEasyApi().getApiApi();
 
 try {
-    final result = api_instance.apiV1LogsSummaryRetrieve();
-    print(result);
-} catch (e) {
+    final response = api.apiV1LogsSummaryRetrieve();
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1LogsSummaryRetrieve: $e\n');
 }
 ```
@@ -2235,13 +2235,13 @@ Process a queued notification. POST /api/v1/notifications/process/ Called by Clo
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 
-final api_instance = ApiApi();
+final api = FrontendEasyApi().getApiApi();
 
 try {
-    api_instance.apiV1NotificationsProcessCreate();
-} catch (e) {
+    api.apiV1NotificationsProcessCreate();
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1NotificationsProcessCreate: $e\n');
 }
 ```
@@ -2273,19 +2273,19 @@ Admin-only parent management - NO row-level filtering (requires admin access)
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final parent = Parent(); // Parent | 
+final api = FrontendEasyApi().getApiApi();
+final Parent parent = ; // Parent | 
 
 try {
-    final result = api_instance.apiV1ParentsCreate(parent);
-    print(result);
-} catch (e) {
+    final response = api.apiV1ParentsCreate(parent);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1ParentsCreate: $e\n');
 }
 ```
@@ -2320,18 +2320,18 @@ Admin-only parent management - NO row-level filtering (requires admin access)
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final parentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this parent.
+final api = FrontendEasyApi().getApiApi();
+final String parentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this parent.
 
 try {
-    api_instance.apiV1ParentsDestroy(parentId);
-} catch (e) {
+    api.apiV1ParentsDestroy(parentId);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1ParentsDestroy: $e\n');
 }
 ```
@@ -2366,21 +2366,21 @@ Admin-only parent management - NO row-level filtering (requires admin access)
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final ordering = ordering_example; // String | Which field to use when ordering the results.
-final page = 56; // int | A page number within the paginated result set.
-final search = search_example; // String | A search term.
+final api = FrontendEasyApi().getApiApi();
+final String ordering = ordering_example; // String | Which field to use when ordering the results.
+final int page = 56; // int | A page number within the paginated result set.
+final String search = search_example; // String | A search term.
 
 try {
-    final result = api_instance.apiV1ParentsList(ordering, page, search);
-    print(result);
-} catch (e) {
+    final response = api.apiV1ParentsList(ordering, page, search);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1ParentsList: $e\n');
 }
 ```
@@ -2409,7 +2409,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiV1ParentsMeBusLocationsRetrieve**
-> List<ApiV1ParentsMeBusLocationsRetrieve200ResponseInner> apiV1ParentsMeBusLocationsRetrieve()
+> BuiltList<ApiV1ParentsMeBusLocationsRetrieve200ResponseInner> apiV1ParentsMeBusLocationsRetrieve()
 
 
 
@@ -2417,18 +2417,18 @@ Get real-time locations for all buses assigned to my children (row-level securit
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
+final api = FrontendEasyApi().getApiApi();
 
 try {
-    final result = api_instance.apiV1ParentsMeBusLocationsRetrieve();
-    print(result);
-} catch (e) {
+    final response = api.apiV1ParentsMeBusLocationsRetrieve();
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1ParentsMeBusLocationsRetrieve: $e\n');
 }
 ```
@@ -2438,7 +2438,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**List<ApiV1ParentsMeBusLocationsRetrieve200ResponseInner>**](ApiV1ParentsMeBusLocationsRetrieve200ResponseInner.md)
+[**BuiltList&lt;ApiV1ParentsMeBusLocationsRetrieve200ResponseInner&gt;**](ApiV1ParentsMeBusLocationsRetrieve200ResponseInner.md)
 
 ### Authorization
 
@@ -2460,19 +2460,19 @@ Get real-time location for a specific bus (only buses for my children). Cached f
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final busId = busId_example; // String | 
+final api = FrontendEasyApi().getApiApi();
+final String busId = busId_example; // String | 
 
 try {
-    final result = api_instance.apiV1ParentsMeBusesLocationRetrieve(busId);
-    print(result);
-} catch (e) {
+    final response = api.apiV1ParentsMeBusesLocationRetrieve(busId);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1ParentsMeBusesLocationRetrieve: $e\n');
 }
 ```
@@ -2507,18 +2507,18 @@ Get all buses for my children
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
+final api = FrontendEasyApi().getApiApi();
 
 try {
-    final result = api_instance.apiV1ParentsMeBusesRetrieve();
-    print(result);
-} catch (e) {
+    final response = api.apiV1ParentsMeBusesRetrieve();
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1ParentsMeBusesRetrieve: $e\n');
 }
 ```
@@ -2542,7 +2542,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiV1ParentsMeChildrenList**
-> List<Student> apiV1ParentsMeChildrenList()
+> BuiltList<Student> apiV1ParentsMeChildrenList()
 
 
 
@@ -2550,18 +2550,18 @@ Get my children
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
+final api = FrontendEasyApi().getApiApi();
 
 try {
-    final result = api_instance.apiV1ParentsMeChildrenList();
-    print(result);
-} catch (e) {
+    final response = api.apiV1ParentsMeChildrenList();
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1ParentsMeChildrenList: $e\n');
 }
 ```
@@ -2571,7 +2571,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**List<Student>**](Student.md)
+[**BuiltList&lt;Student&gt;**](Student.md)
 
 ### Authorization
 
@@ -2593,19 +2593,19 @@ Check face enrollment status for child
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final id = id_example; // String | 
+final api = FrontendEasyApi().getApiApi();
+final String id = id_example; // String | 
 
 try {
-    final result = api_instance.apiV1ParentsMeFaceEnrollmentStatusRetrieve(id);
-    print(result);
-} catch (e) {
+    final response = api.apiV1ParentsMeFaceEnrollmentStatusRetrieve(id);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1ParentsMeFaceEnrollmentStatusRetrieve: $e\n');
 }
 ```
@@ -2640,20 +2640,20 @@ Submit face enrollment photos for child
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final id = id_example; // String | 
-final faceEnrollmentSubmission = FaceEnrollmentSubmission(); // FaceEnrollmentSubmission | 
+final api = FrontendEasyApi().getApiApi();
+final String id = id_example; // String | 
+final FaceEnrollmentSubmission faceEnrollmentSubmission = ; // FaceEnrollmentSubmission | 
 
 try {
-    final result = api_instance.apiV1ParentsMeFaceEnrollmentSubmitCreate(id, faceEnrollmentSubmission);
-    print(result);
-} catch (e) {
+    final response = api.apiV1ParentsMeFaceEnrollmentSubmitCreate(id, faceEnrollmentSubmission);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1ParentsMeFaceEnrollmentSubmitCreate: $e\n');
 }
 ```
@@ -2689,17 +2689,17 @@ Manage FCM tokens for push notifications. POST /api/v1/parents/me/fcm-tokens/ - 
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
+final api = FrontendEasyApi().getApiApi();
 
 try {
-    api_instance.apiV1ParentsMeFcmTokensCreate();
-} catch (e) {
+    api.apiV1ParentsMeFcmTokensCreate();
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1ParentsMeFcmTokensCreate: $e\n');
 }
 ```
@@ -2731,17 +2731,17 @@ Manage FCM tokens for push notifications. POST /api/v1/parents/me/fcm-tokens/ - 
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
+final api = FrontendEasyApi().getApiApi();
 
 try {
-    api_instance.apiV1ParentsMeFcmTokensDestroy();
-} catch (e) {
+    api.apiV1ParentsMeFcmTokensDestroy();
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1ParentsMeFcmTokensDestroy: $e\n');
 }
 ```
@@ -2773,17 +2773,17 @@ Get or update notification preferences. GET/PATCH /api/v1/parents/me/notificatio
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
+final api = FrontendEasyApi().getApiApi();
 
 try {
-    api_instance.apiV1ParentsMeNotificationPreferencesPartialUpdate();
-} catch (e) {
+    api.apiV1ParentsMeNotificationPreferencesPartialUpdate();
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1ParentsMeNotificationPreferencesPartialUpdate: $e\n');
 }
 ```
@@ -2815,17 +2815,17 @@ Get or update notification preferences. GET/PATCH /api/v1/parents/me/notificatio
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
+final api = FrontendEasyApi().getApiApi();
 
 try {
-    api_instance.apiV1ParentsMeNotificationPreferencesRetrieve();
-} catch (e) {
+    api.apiV1ParentsMeNotificationPreferencesRetrieve();
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1ParentsMeNotificationPreferencesRetrieve: $e\n');
 }
 ```
@@ -2857,17 +2857,17 @@ List all notifications for the parent. GET /api/v1/parents/me/notifications/
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
+final api = FrontendEasyApi().getApiApi();
 
 try {
-    api_instance.apiV1ParentsMeNotificationsRetrieve();
-} catch (e) {
+    api.apiV1ParentsMeNotificationsRetrieve();
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1ParentsMeNotificationsRetrieve: $e\n');
 }
 ```
@@ -2899,18 +2899,18 @@ Get my parent profile
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
+final api = FrontendEasyApi().getApiApi();
 
 try {
-    final result = api_instance.apiV1ParentsMeProfileRetrieve();
-    print(result);
-} catch (e) {
+    final response = api.apiV1ParentsMeProfileRetrieve();
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1ParentsMeProfileRetrieve: $e\n');
 }
 ```
@@ -2942,18 +2942,18 @@ Mark a notification as read. POST /api/v1/parents/me/notifications/{notification
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final id = id_example; // String | 
+final api = FrontendEasyApi().getApiApi();
+final String id = id_example; // String | 
 
 try {
-    api_instance.apiV1ParentsMeReadCreate(id);
-} catch (e) {
+    api.apiV1ParentsMeReadCreate(id);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1ParentsMeReadCreate: $e\n');
 }
 ```
@@ -2988,20 +2988,20 @@ Admin-only parent management - NO row-level filtering (requires admin access)
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final parentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this parent.
-final patchedParent = PatchedParent(); // PatchedParent | 
+final api = FrontendEasyApi().getApiApi();
+final String parentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this parent.
+final PatchedParent patchedParent = ; // PatchedParent | 
 
 try {
-    final result = api_instance.apiV1ParentsPartialUpdate(parentId, patchedParent);
-    print(result);
-} catch (e) {
+    final response = api.apiV1ParentsPartialUpdate(parentId, patchedParent);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1ParentsPartialUpdate: $e\n');
 }
 ```
@@ -3037,18 +3037,18 @@ Register as a parent (called from parent_easy app after Firebase login)
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
+final api = FrontendEasyApi().getApiApi();
 
 try {
-    final result = api_instance.apiV1ParentsRegisterCreate();
-    print(result);
-} catch (e) {
+    final response = api.apiV1ParentsRegisterCreate();
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1ParentsRegisterCreate: $e\n');
 }
 ```
@@ -3080,19 +3080,19 @@ Admin-only parent management - NO row-level filtering (requires admin access)
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final parentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this parent.
+final api = FrontendEasyApi().getApiApi();
+final String parentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this parent.
 
 try {
-    final result = api_instance.apiV1ParentsRetrieve(parentId);
-    print(result);
-} catch (e) {
+    final response = api.apiV1ParentsRetrieve(parentId);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1ParentsRetrieve: $e\n');
 }
 ```
@@ -3127,19 +3127,19 @@ Admin-only parent management - NO row-level filtering (requires admin access)
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final parentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this parent.
+final api = FrontendEasyApi().getApiApi();
+final String parentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this parent.
 
 try {
-    final result = api_instance.apiV1ParentsStudentsRetrieve(parentId);
-    print(result);
-} catch (e) {
+    final response = api.apiV1ParentsStudentsRetrieve(parentId);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1ParentsStudentsRetrieve: $e\n');
 }
 ```
@@ -3174,20 +3174,20 @@ Admin-only parent management - NO row-level filtering (requires admin access)
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final parentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this parent.
-final parent = Parent(); // Parent | 
+final api = FrontendEasyApi().getApiApi();
+final String parentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this parent.
+final Parent parent = ; // Parent | 
 
 try {
-    final result = api_instance.apiV1ParentsUpdate(parentId, parent);
-    print(result);
-} catch (e) {
+    final response = api.apiV1ParentsUpdate(parentId, parent);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1ParentsUpdate: $e\n');
 }
 ```
@@ -3223,19 +3223,19 @@ Get all buses assigned to this route
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final api = FrontendEasyApi().getApiApi();
+final String routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
 
 try {
-    final result = api_instance.apiV1RoutesBusesRetrieve(routeId);
-    print(result);
-} catch (e) {
+    final response = api.apiV1RoutesBusesRetrieve(routeId);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1RoutesBusesRetrieve: $e\n');
 }
 ```
@@ -3270,19 +3270,19 @@ ViewSet for bus routes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final route = Route(); // Route | 
+final api = FrontendEasyApi().getApiApi();
+final Route route = ; // Route | 
 
 try {
-    final result = api_instance.apiV1RoutesCreate(route);
-    print(result);
-} catch (e) {
+    final response = api.apiV1RoutesCreate(route);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1RoutesCreate: $e\n');
 }
 ```
@@ -3317,18 +3317,18 @@ ViewSet for bus routes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final api = FrontendEasyApi().getApiApi();
+final String routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
 
 try {
-    api_instance.apiV1RoutesDestroy(routeId);
-} catch (e) {
+    api.apiV1RoutesDestroy(routeId);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1RoutesDestroy: $e\n');
 }
 ```
@@ -3363,20 +3363,20 @@ ViewSet for bus routes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final isActive = true; // bool | 
-final page = 56; // int | A page number within the paginated result set.
+final api = FrontendEasyApi().getApiApi();
+final bool isActive = true; // bool | 
+final int page = 56; // int | A page number within the paginated result set.
 
 try {
-    final result = api_instance.apiV1RoutesList(isActive, page);
-    print(result);
-} catch (e) {
+    final response = api.apiV1RoutesList(isActive, page);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1RoutesList: $e\n');
 }
 ```
@@ -3412,20 +3412,20 @@ ViewSet for bus routes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
-final patchedRoute = PatchedRoute(); // PatchedRoute | 
+final api = FrontendEasyApi().getApiApi();
+final String routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final PatchedRoute patchedRoute = ; // PatchedRoute | 
 
 try {
-    final result = api_instance.apiV1RoutesPartialUpdate(routeId, patchedRoute);
-    print(result);
-} catch (e) {
+    final response = api.apiV1RoutesPartialUpdate(routeId, patchedRoute);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1RoutesPartialUpdate: $e\n');
 }
 ```
@@ -3461,19 +3461,19 @@ ViewSet for bus routes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final api = FrontendEasyApi().getApiApi();
+final String routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
 
 try {
-    final result = api_instance.apiV1RoutesRetrieve(routeId);
-    print(result);
-} catch (e) {
+    final response = api.apiV1RoutesRetrieve(routeId);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1RoutesRetrieve: $e\n');
 }
 ```
@@ -3508,19 +3508,19 @@ Get all students assigned to buses on this route
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final api = FrontendEasyApi().getApiApi();
+final String routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
 
 try {
-    final result = api_instance.apiV1RoutesStudentsRetrieve(routeId);
-    print(result);
-} catch (e) {
+    final response = api.apiV1RoutesStudentsRetrieve(routeId);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1RoutesStudentsRetrieve: $e\n');
 }
 ```
@@ -3555,20 +3555,20 @@ ViewSet for bus routes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
-final route = Route(); // Route | 
+final api = FrontendEasyApi().getApiApi();
+final String routeId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final Route route = ; // Route | 
 
 try {
-    final result = api_instance.apiV1RoutesUpdate(routeId, route);
-    print(result);
-} catch (e) {
+    final response = api.apiV1RoutesUpdate(routeId, route);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1RoutesUpdate: $e\n');
 }
 ```
@@ -3602,19 +3602,19 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final school = School(); // School | 
+final api = FrontendEasyApi().getApiApi();
+final School school = ; // School | 
 
 try {
-    final result = api_instance.apiV1SchoolsCreate(school);
-    print(result);
-} catch (e) {
+    final response = api.apiV1SchoolsCreate(school);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1SchoolsCreate: $e\n');
 }
 ```
@@ -3647,18 +3647,18 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final schoolId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this school.
+final api = FrontendEasyApi().getApiApi();
+final String schoolId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this school.
 
 try {
-    api_instance.apiV1SchoolsDestroy(schoolId);
-} catch (e) {
+    api.apiV1SchoolsDestroy(schoolId);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1SchoolsDestroy: $e\n');
 }
 ```
@@ -3691,21 +3691,21 @@ void (empty response body)
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final ordering = ordering_example; // String | Which field to use when ordering the results.
-final page = 56; // int | A page number within the paginated result set.
-final search = search_example; // String | A search term.
+final api = FrontendEasyApi().getApiApi();
+final String ordering = ordering_example; // String | Which field to use when ordering the results.
+final int page = 56; // int | A page number within the paginated result set.
+final String search = search_example; // String | A search term.
 
 try {
-    final result = api_instance.apiV1SchoolsList(ordering, page, search);
-    print(result);
-} catch (e) {
+    final response = api.apiV1SchoolsList(ordering, page, search);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1SchoolsList: $e\n');
 }
 ```
@@ -3740,20 +3740,20 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final schoolId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this school.
-final patchedSchool = PatchedSchool(); // PatchedSchool | 
+final api = FrontendEasyApi().getApiApi();
+final String schoolId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this school.
+final PatchedSchool patchedSchool = ; // PatchedSchool | 
 
 try {
-    final result = api_instance.apiV1SchoolsPartialUpdate(schoolId, patchedSchool);
-    print(result);
-} catch (e) {
+    final response = api.apiV1SchoolsPartialUpdate(schoolId, patchedSchool);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1SchoolsPartialUpdate: $e\n');
 }
 ```
@@ -3787,19 +3787,19 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final schoolId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this school.
+final api = FrontendEasyApi().getApiApi();
+final String schoolId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this school.
 
 try {
-    final result = api_instance.apiV1SchoolsRetrieve(schoolId);
-    print(result);
-} catch (e) {
+    final response = api.apiV1SchoolsRetrieve(schoolId);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1SchoolsRetrieve: $e\n');
 }
 ```
@@ -3832,20 +3832,20 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final schoolId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this school.
-final school = School(); // School | 
+final api = FrontendEasyApi().getApiApi();
+final String schoolId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this school.
+final School school = ; // School | 
 
 try {
-    final result = api_instance.apiV1SchoolsUpdate(schoolId, school);
-    print(result);
-} catch (e) {
+    final response = api.apiV1SchoolsUpdate(schoolId, school);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1SchoolsUpdate: $e\n');
 }
 ```
@@ -3879,19 +3879,19 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final studentParent = StudentParent(); // StudentParent | 
+final api = FrontendEasyApi().getApiApi();
+final StudentParent studentParent = ; // StudentParent | 
 
 try {
-    final result = api_instance.apiV1StudentParentsCreate(studentParent);
-    print(result);
-} catch (e) {
+    final response = api.apiV1StudentParentsCreate(studentParent);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1StudentParentsCreate: $e\n');
 }
 ```
@@ -3924,18 +3924,18 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final id = 56; // int | A unique integer value identifying this student parent.
+final api = FrontendEasyApi().getApiApi();
+final int id = 56; // int | A unique integer value identifying this student parent.
 
 try {
-    api_instance.apiV1StudentParentsDestroy(id);
-} catch (e) {
+    api.apiV1StudentParentsDestroy(id);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1StudentParentsDestroy: $e\n');
 }
 ```
@@ -3968,21 +3968,21 @@ void (empty response body)
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final ordering = ordering_example; // String | Which field to use when ordering the results.
-final page = 56; // int | A page number within the paginated result set.
-final search = search_example; // String | A search term.
+final api = FrontendEasyApi().getApiApi();
+final String ordering = ordering_example; // String | Which field to use when ordering the results.
+final int page = 56; // int | A page number within the paginated result set.
+final String search = search_example; // String | A search term.
 
 try {
-    final result = api_instance.apiV1StudentParentsList(ordering, page, search);
-    print(result);
-} catch (e) {
+    final response = api.apiV1StudentParentsList(ordering, page, search);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1StudentParentsList: $e\n');
 }
 ```
@@ -4017,20 +4017,20 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final id = 56; // int | A unique integer value identifying this student parent.
-final patchedStudentParent = PatchedStudentParent(); // PatchedStudentParent | 
+final api = FrontendEasyApi().getApiApi();
+final int id = 56; // int | A unique integer value identifying this student parent.
+final PatchedStudentParent patchedStudentParent = ; // PatchedStudentParent | 
 
 try {
-    final result = api_instance.apiV1StudentParentsPartialUpdate(id, patchedStudentParent);
-    print(result);
-} catch (e) {
+    final response = api.apiV1StudentParentsPartialUpdate(id, patchedStudentParent);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1StudentParentsPartialUpdate: $e\n');
 }
 ```
@@ -4064,19 +4064,19 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final id = 56; // int | A unique integer value identifying this student parent.
+final api = FrontendEasyApi().getApiApi();
+final int id = 56; // int | A unique integer value identifying this student parent.
 
 try {
-    final result = api_instance.apiV1StudentParentsRetrieve(id);
-    print(result);
-} catch (e) {
+    final response = api.apiV1StudentParentsRetrieve(id);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1StudentParentsRetrieve: $e\n');
 }
 ```
@@ -4109,20 +4109,20 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final id = 56; // int | A unique integer value identifying this student parent.
-final studentParent = StudentParent(); // StudentParent | 
+final api = FrontendEasyApi().getApiApi();
+final int id = 56; // int | A unique integer value identifying this student parent.
+final StudentParent studentParent = ; // StudentParent | 
 
 try {
-    final result = api_instance.apiV1StudentParentsUpdate(id, studentParent);
-    print(result);
-} catch (e) {
+    final response = api.apiV1StudentParentsUpdate(id, studentParent);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1StudentParentsUpdate: $e\n');
 }
 ```
@@ -4156,19 +4156,19 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final studentPhoto = StudentPhoto(); // StudentPhoto | 
+final api = FrontendEasyApi().getApiApi();
+final StudentPhoto studentPhoto = ; // StudentPhoto | 
 
 try {
-    final result = api_instance.apiV1StudentPhotosCreate(studentPhoto);
-    print(result);
-} catch (e) {
+    final response = api.apiV1StudentPhotosCreate(studentPhoto);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1StudentPhotosCreate: $e\n');
 }
 ```
@@ -4201,18 +4201,18 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final photoId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student photo.
+final api = FrontendEasyApi().getApiApi();
+final String photoId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student photo.
 
 try {
-    api_instance.apiV1StudentPhotosDestroy(photoId);
-} catch (e) {
+    api.apiV1StudentPhotosDestroy(photoId);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1StudentPhotosDestroy: $e\n');
 }
 ```
@@ -4245,21 +4245,21 @@ void (empty response body)
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final ordering = ordering_example; // String | Which field to use when ordering the results.
-final page = 56; // int | A page number within the paginated result set.
-final search = search_example; // String | A search term.
+final api = FrontendEasyApi().getApiApi();
+final String ordering = ordering_example; // String | Which field to use when ordering the results.
+final int page = 56; // int | A page number within the paginated result set.
+final String search = search_example; // String | A search term.
 
 try {
-    final result = api_instance.apiV1StudentPhotosList(ordering, page, search);
-    print(result);
-} catch (e) {
+    final response = api.apiV1StudentPhotosList(ordering, page, search);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1StudentPhotosList: $e\n');
 }
 ```
@@ -4294,20 +4294,20 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final photoId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student photo.
-final patchedStudentPhoto = PatchedStudentPhoto(); // PatchedStudentPhoto | 
+final api = FrontendEasyApi().getApiApi();
+final String photoId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student photo.
+final PatchedStudentPhoto patchedStudentPhoto = ; // PatchedStudentPhoto | 
 
 try {
-    final result = api_instance.apiV1StudentPhotosPartialUpdate(photoId, patchedStudentPhoto);
-    print(result);
-} catch (e) {
+    final response = api.apiV1StudentPhotosPartialUpdate(photoId, patchedStudentPhoto);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1StudentPhotosPartialUpdate: $e\n');
 }
 ```
@@ -4341,19 +4341,19 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final photoId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student photo.
+final api = FrontendEasyApi().getApiApi();
+final String photoId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student photo.
 
 try {
-    final result = api_instance.apiV1StudentPhotosRetrieve(photoId);
-    print(result);
-} catch (e) {
+    final response = api.apiV1StudentPhotosRetrieve(photoId);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1StudentPhotosRetrieve: $e\n');
 }
 ```
@@ -4386,20 +4386,20 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final photoId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student photo.
-final studentPhoto = StudentPhoto(); // StudentPhoto | 
+final api = FrontendEasyApi().getApiApi();
+final String photoId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student photo.
+final StudentPhoto studentPhoto = ; // StudentPhoto | 
 
 try {
-    final result = api_instance.apiV1StudentPhotosSetPrimaryCreate(photoId, studentPhoto);
-    print(result);
-} catch (e) {
+    final response = api.apiV1StudentPhotosSetPrimaryCreate(photoId, studentPhoto);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1StudentPhotosSetPrimaryCreate: $e\n');
 }
 ```
@@ -4433,20 +4433,20 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final photoId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student photo.
-final studentPhoto = StudentPhoto(); // StudentPhoto | 
+final api = FrontendEasyApi().getApiApi();
+final String photoId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student photo.
+final StudentPhoto studentPhoto = ; // StudentPhoto | 
 
 try {
-    final result = api_instance.apiV1StudentPhotosUpdate(photoId, studentPhoto);
-    print(result);
-} catch (e) {
+    final response = api.apiV1StudentPhotosUpdate(photoId, studentPhoto);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1StudentPhotosUpdate: $e\n');
 }
 ```
@@ -4482,21 +4482,21 @@ Returns paginated list of ALL registered students (not just students who boarded
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final limit = 56; // int | Number of students per page (default=50, max=100)
-final offset = 56; // int | Offset for pagination (default=0)
-final search = search_example; // String | Search by student name, school ID, or grade
+final api = FrontendEasyApi().getApiApi();
+final int limit = 56; // int | Number of students per page (default=50, max=100)
+final int offset = 56; // int | Offset for pagination (default=0)
+final String search = search_example; // String | Search by student name, school ID, or grade
 
 try {
-    final result = api_instance.apiV1StudentsAllRetrieve(limit, offset, search);
-    print(result);
-} catch (e) {
+    final response = api.apiV1StudentsAllRetrieve(limit, offset, search);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1StudentsAllRetrieve: $e\n');
 }
 ```
@@ -4531,20 +4531,20 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student.
-final student = Student(); // Student | 
+final api = FrontendEasyApi().getApiApi();
+final String studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student.
+final Student student = ; // Student | 
 
 try {
-    final result = api_instance.apiV1StudentsAssignBusCreate(studentId, student);
-    print(result);
-} catch (e) {
+    final response = api.apiV1StudentsAssignBusCreate(studentId, student);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1StudentsAssignBusCreate: $e\n');
 }
 ```
@@ -4578,19 +4578,19 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final student = Student(); // Student | 
+final api = FrontendEasyApi().getApiApi();
+final Student student = ; // Student | 
 
 try {
-    final result = api_instance.apiV1StudentsCreate(student);
-    print(result);
-} catch (e) {
+    final response = api.apiV1StudentsCreate(student);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1StudentsCreate: $e\n');
 }
 ```
@@ -4623,18 +4623,18 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student.
+final api = FrontendEasyApi().getApiApi();
+final String studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student.
 
 try {
-    api_instance.apiV1StudentsDestroy(studentId);
-} catch (e) {
+    api.apiV1StudentsDestroy(studentId);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1StudentsDestroy: $e\n');
 }
 ```
@@ -4667,21 +4667,21 @@ void (empty response body)
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final ordering = ordering_example; // String | Which field to use when ordering the results.
-final page = 56; // int | A page number within the paginated result set.
-final search = search_example; // String | A search term.
+final api = FrontendEasyApi().getApiApi();
+final String ordering = ordering_example; // String | Which field to use when ordering the results.
+final int page = 56; // int | A page number within the paginated result set.
+final String search = search_example; // String | A search term.
 
 try {
-    final result = api_instance.apiV1StudentsList(ordering, page, search);
-    print(result);
-} catch (e) {
+    final response = api.apiV1StudentsList(ordering, page, search);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1StudentsList: $e\n');
 }
 ```
@@ -4716,19 +4716,19 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student.
+final api = FrontendEasyApi().getApiApi();
+final String studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student.
 
 try {
-    final result = api_instance.apiV1StudentsParentsRetrieve(studentId);
-    print(result);
-} catch (e) {
+    final response = api.apiV1StudentsParentsRetrieve(studentId);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1StudentsParentsRetrieve: $e\n');
 }
 ```
@@ -4761,20 +4761,20 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student.
-final patchedStudent = PatchedStudent(); // PatchedStudent | 
+final api = FrontendEasyApi().getApiApi();
+final String studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student.
+final PatchedStudent patchedStudent = ; // PatchedStudent | 
 
 try {
-    final result = api_instance.apiV1StudentsPartialUpdate(studentId, patchedStudent);
-    print(result);
-} catch (e) {
+    final response = api.apiV1StudentsPartialUpdate(studentId, patchedStudent);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1StudentsPartialUpdate: $e\n');
 }
 ```
@@ -4808,19 +4808,19 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student.
+final api = FrontendEasyApi().getApiApi();
+final String studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student.
 
 try {
-    final result = api_instance.apiV1StudentsRetrieve(studentId);
-    print(result);
-} catch (e) {
+    final response = api.apiV1StudentsRetrieve(studentId);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1StudentsRetrieve: $e\n');
 }
 ```
@@ -4853,20 +4853,20 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student.
-final student = Student(); // Student | 
+final api = FrontendEasyApi().getApiApi();
+final String studentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this student.
+final Student student = ; // Student | 
 
 try {
-    final result = api_instance.apiV1StudentsUpdate(studentId, student);
-    print(result);
-} catch (e) {
+    final response = api.apiV1StudentsUpdate(studentId, student);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1StudentsUpdate: $e\n');
 }
 ```
@@ -4900,19 +4900,19 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final user = User(); // User | 
+final api = FrontendEasyApi().getApiApi();
+final User user = ; // User | 
 
 try {
-    final result = api_instance.apiV1UsersCreate(user);
-    print(result);
-} catch (e) {
+    final response = api.apiV1UsersCreate(user);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1UsersCreate: $e\n');
 }
 ```
@@ -4945,18 +4945,18 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final userId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this user.
+final api = FrontendEasyApi().getApiApi();
+final String userId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this user.
 
 try {
-    api_instance.apiV1UsersDestroy(userId);
-} catch (e) {
+    api.apiV1UsersDestroy(userId);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1UsersDestroy: $e\n');
 }
 ```
@@ -4989,21 +4989,21 @@ void (empty response body)
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final ordering = ordering_example; // String | Which field to use when ordering the results.
-final page = 56; // int | A page number within the paginated result set.
-final search = search_example; // String | A search term.
+final api = FrontendEasyApi().getApiApi();
+final String ordering = ordering_example; // String | Which field to use when ordering the results.
+final int page = 56; // int | A page number within the paginated result set.
+final String search = search_example; // String | A search term.
 
 try {
-    final result = api_instance.apiV1UsersList(ordering, page, search);
-    print(result);
-} catch (e) {
+    final response = api.apiV1UsersList(ordering, page, search);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1UsersList: $e\n');
 }
 ```
@@ -5040,18 +5040,18 @@ Get current authenticated user information
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
+final api = FrontendEasyApi().getApiApi();
 
 try {
-    final result = api_instance.apiV1UsersMeRetrieve();
-    print(result);
-} catch (e) {
+    final response = api.apiV1UsersMeRetrieve();
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1UsersMeRetrieve: $e\n');
 }
 ```
@@ -5081,20 +5081,20 @@ This endpoint does not need any parameter.
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final userId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this user.
-final patchedUser = PatchedUser(); // PatchedUser | 
+final api = FrontendEasyApi().getApiApi();
+final String userId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this user.
+final PatchedUser patchedUser = ; // PatchedUser | 
 
 try {
-    final result = api_instance.apiV1UsersPartialUpdate(userId, patchedUser);
-    print(result);
-} catch (e) {
+    final response = api.apiV1UsersPartialUpdate(userId, patchedUser);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1UsersPartialUpdate: $e\n');
 }
 ```
@@ -5128,19 +5128,19 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final userId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this user.
+final api = FrontendEasyApi().getApiApi();
+final String userId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this user.
 
 try {
-    final result = api_instance.apiV1UsersRetrieve(userId);
-    print(result);
-} catch (e) {
+    final response = api.apiV1UsersRetrieve(userId);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1UsersRetrieve: $e\n');
 }
 ```
@@ -5173,20 +5173,20 @@ Name | Type | Description  | Notes
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api_instance = ApiApi();
-final userId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this user.
-final user = User(); // User | 
+final api = FrontendEasyApi().getApiApi();
+final String userId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | A UUID string identifying this user.
+final User user = ; // User | 
 
 try {
-    final result = api_instance.apiV1UsersUpdate(userId, user);
-    print(result);
-} catch (e) {
+    final response = api.apiV1UsersUpdate(userId, user);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->apiV1UsersUpdate: $e\n');
 }
 ```
@@ -5222,16 +5222,16 @@ Check if kiosk needs database update
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 
-final api_instance = ApiApi();
-final kioskId = kioskId_example; // String | 
-final lastSyncHash = lastSyncHash_example; // String | Last content hash from kiosk
+final api = FrontendEasyApi().getApiApi();
+final String kioskId = kioskId_example; // String | 
+final String lastSyncHash = lastSyncHash_example; // String | Last content hash from kiosk
 
 try {
-    final result = api_instance.kioskCheckUpdates(kioskId, lastSyncHash);
-    print(result);
-} catch (e) {
+    final response = api.kioskCheckUpdates(kioskId, lastSyncHash);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->kioskCheckUpdates: $e\n');
 }
 ```
@@ -5259,7 +5259,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **kioskDownloadSnapshot**
-> MultipartFile kioskDownloadSnapshot(kioskId)
+> Uint8List kioskDownloadSnapshot(kioskId)
 
 
 
@@ -5267,15 +5267,15 @@ Download kiosk database snapshot (binary SQLite file). Returns raw binary data w
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 
-final api_instance = ApiApi();
-final kioskId = kioskId_example; // String | 
+final api = FrontendEasyApi().getApiApi();
+final String kioskId = kioskId_example; // String | 
 
 try {
-    final result = api_instance.kioskDownloadSnapshot(kioskId);
-    print(result);
-} catch (e) {
+    final response = api.kioskDownloadSnapshot(kioskId);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->kioskDownloadSnapshot: $e\n');
 }
 ```
@@ -5288,7 +5288,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**MultipartFile**](MultipartFile.md)
+[**Uint8List**](Uint8List.md)
 
 ### Authorization
 
@@ -5310,14 +5310,14 @@ Get current authenticated kiosk details including bus assignment
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 
-final api_instance = ApiApi();
+final api = FrontendEasyApi().getApiApi();
 
 try {
-    final result = api_instance.kioskGetMe();
-    print(result);
-} catch (e) {
+    final response = api.kioskGetMe();
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->kioskGetMe: $e\n');
 }
 ```
@@ -5349,15 +5349,15 @@ Report kiosk health and sync status
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 
-final api_instance = ApiApi();
-final kioskId = kioskId_example; // String | 
-final heartbeat = Heartbeat(); // Heartbeat | 
+final api = FrontendEasyApi().getApiApi();
+final String kioskId = kioskId_example; // String | 
+final Heartbeat heartbeat = ; // Heartbeat | 
 
 try {
-    api_instance.kioskHeartbeat(kioskId, heartbeat);
-} catch (e) {
+    api.kioskHeartbeat(kioskId, heartbeat);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->kioskHeartbeat: $e\n');
 }
 ```
@@ -5393,15 +5393,15 @@ Kiosk logging endpoint for device log submission
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 
-final api_instance = ApiApi();
-final deviceLog = DeviceLog(); // DeviceLog | 
+final api = FrontendEasyApi().getApiApi();
+final DeviceLog deviceLog = ; // DeviceLog | 
 
 try {
-    final result = api_instance.kioskLog(deviceLog);
-    print(result);
-} catch (e) {
+    final response = api.kioskLog(deviceLog);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->kioskLog: $e\n');
 }
 ```
@@ -5436,16 +5436,16 @@ Trigger SOS emergency alert. Creates an active alert with optional location and 
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 
-final api_instance = ApiApi();
-final kioskId = kioskId_example; // String | 
-final sOSAlertCreate = SOSAlertCreate(); // SOSAlertCreate | 
+final api = FrontendEasyApi().getApiApi();
+final String kioskId = kioskId_example; // String | 
+final SOSAlertCreate sOSAlertCreate = ; // SOSAlertCreate | 
 
 try {
-    final result = api_instance.kioskTriggerSos(kioskId, sOSAlertCreate);
-    print(result);
-} catch (e) {
+    final response = api.kioskTriggerSos(kioskId, sOSAlertCreate);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->kioskTriggerSos: $e\n');
 }
 ```
@@ -5481,16 +5481,16 @@ Update bus GPS location. Kiosk sends location when bus moves significantly or ev
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 
-final api_instance = ApiApi();
-final kioskId = kioskId_example; // String | 
-final busLocation = BusLocation(); // BusLocation | 
+final api = FrontendEasyApi().getApiApi();
+final String kioskId = kioskId_example; // String | 
+final BusLocation busLocation = ; // BusLocation | 
 
 try {
-    final result = api_instance.kioskUpdateLocation(kioskId, busLocation);
-    print(result);
-} catch (e) {
+    final response = api.kioskUpdateLocation(kioskId, busLocation);
+    print(response);
+} catch on DioException (e) {
     print('Exception when calling ApiApi->kioskUpdateLocation: $e\n');
 }
 ```

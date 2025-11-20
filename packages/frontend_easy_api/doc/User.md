@@ -1,23 +1,23 @@
-# openapi.model.User
+# frontend_easy_api.model.User
 
 ## Load the model package
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 ```
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**userId** | **String** |  | [readonly] 
+**userId** | **String** |  | 
 **username** | **String** |  | 
 **email** | **String** |  | 
-**groups** | **List<String>** |  | [readonly] [default to const []]
-**groupNames** | **String** |  | [readonly] 
+**groups** | **BuiltList&lt;String&gt;** |  | 
+**groupNames** | **String** |  | 
 **isActive** | **bool** |  | [optional] 
-**lastLogin** | [**DateTime**](DateTime.md) |  | [readonly] 
-**createdAt** | [**DateTime**](DateTime.md) |  | [readonly] 
-**updatedAt** | [**DateTime**](DateTime.md) |  | [readonly] 
-**parentId** | **String** |  | [readonly] 
+**lastLogin** | [**DateTime**](DateTime.md) |  | 
+**createdAt** | [**DateTime**](DateTime.md) |  | 
+**updatedAt** | [**DateTime**](DateTime.md) |  | 
+**parentId** | **String** |  | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -19,13 +19,15 @@ part 'student.g.dart';
 /// Properties:
 /// * [studentId] 
 /// * [school] 
+/// * [schoolStudentId] - School-provided student ID (e.g., STU-2024-001)
 /// * [decryptedName] 
-/// * [name] - Encrypted at application layer
 /// * [grade] 
 /// * [section] 
+/// * [addressLatitude] - Student home address latitude
+/// * [addressLongitude] - Student home address longitude
 /// * [assignedBus] - UUID primary key
 /// * [status] - * `active` - Active * `inactive` - Inactive * `suspended` - Suspended
-/// * [enrollmentDate] 
+/// * [enrollmentDate] - Date student enrolled in school
 /// * [schoolDetails] 
 /// * [busDetails] 
 /// * [parents] 
@@ -40,18 +42,26 @@ abstract class Student implements Built<Student, StudentBuilder> {
   @BuiltValueField(wireName: r'school')
   String get school;
 
+  /// School-provided student ID (e.g., STU-2024-001)
+  @BuiltValueField(wireName: r'school_student_id')
+  String get schoolStudentId;
+
   @BuiltValueField(wireName: r'decrypted_name')
   String get decryptedName;
-
-  /// Encrypted at application layer
-  @BuiltValueField(wireName: r'name')
-  String get name;
 
   @BuiltValueField(wireName: r'grade')
   String get grade;
 
   @BuiltValueField(wireName: r'section')
   String? get section;
+
+  /// Student home address latitude
+  @BuiltValueField(wireName: r'address_latitude')
+  double? get addressLatitude;
+
+  /// Student home address longitude
+  @BuiltValueField(wireName: r'address_longitude')
+  double? get addressLongitude;
 
   /// UUID primary key
   @BuiltValueField(wireName: r'assigned_bus')
@@ -62,20 +72,21 @@ abstract class Student implements Built<Student, StudentBuilder> {
   StudentStatusEnum? get status;
   // enum statusEnum {  active,  inactive,  suspended,  };
 
+  /// Date student enrolled in school
   @BuiltValueField(wireName: r'enrollment_date')
-  Date get enrollmentDate;
+  Date? get enrollmentDate;
 
   @BuiltValueField(wireName: r'school_details')
-  School get schoolDetails;
+  School? get schoolDetails;
 
   @BuiltValueField(wireName: r'bus_details')
-  BusBasic get busDetails;
+  BusBasic? get busDetails;
 
   @BuiltValueField(wireName: r'parents')
-  BuiltList<StudentParent> get parents;
+  BuiltList<StudentParent>? get parents;
 
   @BuiltValueField(wireName: r'photos')
-  BuiltList<StudentPhoto> get photos;
+  BuiltList<StudentPhoto>? get photos;
 
   @BuiltValueField(wireName: r'created_at')
   DateTime get createdAt;
@@ -116,14 +127,14 @@ class _$StudentSerializer implements PrimitiveSerializer<Student> {
       object.school,
       specifiedType: const FullType(String),
     );
+    yield r'school_student_id';
+    yield serializers.serialize(
+      object.schoolStudentId,
+      specifiedType: const FullType(String),
+    );
     yield r'decrypted_name';
     yield serializers.serialize(
       object.decryptedName,
-      specifiedType: const FullType(String),
-    );
-    yield r'name';
-    yield serializers.serialize(
-      object.name,
       specifiedType: const FullType(String),
     );
     yield r'grade';
@@ -136,6 +147,20 @@ class _$StudentSerializer implements PrimitiveSerializer<Student> {
       yield serializers.serialize(
         object.section,
         specifiedType: const FullType(String),
+      );
+    }
+    if (object.addressLatitude != null) {
+      yield r'address_latitude';
+      yield serializers.serialize(
+        object.addressLatitude,
+        specifiedType: const FullType.nullable(double),
+      );
+    }
+    if (object.addressLongitude != null) {
+      yield r'address_longitude';
+      yield serializers.serialize(
+        object.addressLongitude,
+        specifiedType: const FullType.nullable(double),
       );
     }
     if (object.assignedBus != null) {
@@ -152,30 +177,32 @@ class _$StudentSerializer implements PrimitiveSerializer<Student> {
         specifiedType: const FullType(StudentStatusEnum),
       );
     }
-    yield r'enrollment_date';
-    yield serializers.serialize(
-      object.enrollmentDate,
-      specifiedType: const FullType(Date),
-    );
+    if (object.enrollmentDate != null) {
+      yield r'enrollment_date';
+      yield serializers.serialize(
+        object.enrollmentDate,
+        specifiedType: const FullType.nullable(Date),
+      );
+    }
     yield r'school_details';
-    yield serializers.serialize(
+    yield object.schoolDetails == null ? null : serializers.serialize(
       object.schoolDetails,
-      specifiedType: const FullType(School),
+      specifiedType: const FullType.nullable(School),
     );
     yield r'bus_details';
-    yield serializers.serialize(
+    yield object.busDetails == null ? null : serializers.serialize(
       object.busDetails,
-      specifiedType: const FullType(BusBasic),
+      specifiedType: const FullType.nullable(BusBasic),
     );
     yield r'parents';
-    yield serializers.serialize(
+    yield object.parents == null ? null : serializers.serialize(
       object.parents,
-      specifiedType: const FullType(BuiltList, [FullType(StudentParent)]),
+      specifiedType: const FullType.nullable(BuiltList, [FullType(StudentParent)]),
     );
     yield r'photos';
-    yield serializers.serialize(
+    yield object.photos == null ? null : serializers.serialize(
       object.photos,
-      specifiedType: const FullType(BuiltList, [FullType(StudentPhoto)]),
+      specifiedType: const FullType.nullable(BuiltList, [FullType(StudentPhoto)]),
     );
     yield r'created_at';
     yield serializers.serialize(
@@ -224,19 +251,19 @@ class _$StudentSerializer implements PrimitiveSerializer<Student> {
           ) as String;
           result.school = valueDes;
           break;
+        case r'school_student_id':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.schoolStudentId = valueDes;
+          break;
         case r'decrypted_name':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(String),
           ) as String;
           result.decryptedName = valueDes;
-          break;
-        case r'name':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.name = valueDes;
           break;
         case r'grade':
           final valueDes = serializers.deserialize(
@@ -251,6 +278,22 @@ class _$StudentSerializer implements PrimitiveSerializer<Student> {
             specifiedType: const FullType(String),
           ) as String;
           result.section = valueDes;
+          break;
+        case r'address_latitude':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(double),
+          ) as double?;
+          if (valueDes == null) continue;
+          result.addressLatitude = valueDes;
+          break;
+        case r'address_longitude':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(double),
+          ) as double?;
+          if (valueDes == null) continue;
+          result.addressLongitude = valueDes;
           break;
         case r'assigned_bus':
           final valueDes = serializers.deserialize(
@@ -270,36 +313,41 @@ class _$StudentSerializer implements PrimitiveSerializer<Student> {
         case r'enrollment_date':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(Date),
-          ) as Date;
+            specifiedType: const FullType.nullable(Date),
+          ) as Date?;
+          if (valueDes == null) continue;
           result.enrollmentDate = valueDes;
           break;
         case r'school_details':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(School),
-          ) as School;
+            specifiedType: const FullType.nullable(School),
+          ) as School?;
+          if (valueDes == null) continue;
           result.schoolDetails.replace(valueDes);
           break;
         case r'bus_details':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BusBasic),
-          ) as BusBasic;
+            specifiedType: const FullType.nullable(BusBasic),
+          ) as BusBasic?;
+          if (valueDes == null) continue;
           result.busDetails.replace(valueDes);
           break;
         case r'parents':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltList, [FullType(StudentParent)]),
-          ) as BuiltList<StudentParent>;
+            specifiedType: const FullType.nullable(BuiltList, [FullType(StudentParent)]),
+          ) as BuiltList<StudentParent>?;
+          if (valueDes == null) continue;
           result.parents.replace(valueDes);
           break;
         case r'photos':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltList, [FullType(StudentPhoto)]),
-          ) as BuiltList<StudentPhoto>;
+            specifiedType: const FullType.nullable(BuiltList, [FullType(StudentPhoto)]),
+          ) as BuiltList<StudentPhoto>?;
+          if (valueDes == null) continue;
           result.photos.replace(valueDes);
           break;
         case r'created_at':

@@ -110,14 +110,14 @@ class _$PatchedParentSerializer implements PrimitiveSerializer<PatchedParent> {
       yield r'phone';
       yield serializers.serialize(
         object.phone,
-        specifiedType: const FullType(String),
+        specifiedType: const FullType.nullable(String),
       );
     }
     if (object.email != null) {
       yield r'email';
       yield serializers.serialize(
         object.email,
-        specifiedType: const FullType(String),
+        specifiedType: const FullType.nullable(String),
       );
     }
     if (object.createdAt != null) {
@@ -188,15 +188,17 @@ class _$PatchedParentSerializer implements PrimitiveSerializer<PatchedParent> {
         case r'phone':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.phone = valueDes;
           break;
         case r'email':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.email = valueDes;
           break;
         case r'created_at':

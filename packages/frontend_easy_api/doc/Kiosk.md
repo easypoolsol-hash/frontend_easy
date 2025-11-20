@@ -1,27 +1,27 @@
-# openapi.model.Kiosk
+# frontend_easy_api.model.Kiosk
 
 ## Load the model package
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 ```
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**kioskId** | **String** | Unique kiosk device identifier (e.g., KIOSK001, BUS123-KIOSK) | [readonly] 
-**bus** | **String** |  | [readonly] 
-**busLicensePlate** | **String** |  | [readonly] 
+**kioskId** | **String** | Unique kiosk device identifier (e.g., KIOSK001, BUS123-KIOSK) | 
+**bus** | **String** |  | 
+**busLicensePlate** | **String** |  | 
 **firmwareVersion** | **String** | Current firmware version installed on device | [optional] 
 **gitCommitSha** | **String** | Git commit SHA of current kiosk app build | [optional] 
 **lastHeartbeat** | [**DateTime**](DateTime.md) | Timestamp of last heartbeat received from device | [optional] 
 **isActive** | **bool** | Whether this kiosk is active and accepting requests | [optional] 
 **batteryLevel** | **double** |  | [optional] 
 **storageUsedMb** | **int** | Storage used in MB on the device | [optional] 
-**operationTiming** | [**OperationTiming**](OperationTiming.md) |  | [readonly] 
-**statusDisplay** | **String** |  | [readonly] 
-**isOnline** | **String** |  | [readonly] 
-**createdAt** | [**DateTime**](DateTime.md) | When this kiosk was registered | [readonly] 
-**updatedAt** | [**DateTime**](DateTime.md) | When this kiosk record was last updated | [readonly] 
+**operationTiming** | [**OperationTiming**](OperationTiming.md) |  | 
+**statusDisplay** | **String** |  | 
+**isOnline** | **String** |  | 
+**createdAt** | [**DateTime**](DateTime.md) | When this kiosk was registered | 
+**updatedAt** | [**DateTime**](DateTime.md) | When this kiosk record was last updated | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
