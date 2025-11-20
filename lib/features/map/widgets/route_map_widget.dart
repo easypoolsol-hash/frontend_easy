@@ -280,9 +280,10 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
         data: (busLocations) async {
           for (final busFeature in busLocations) {
             final properties = busFeature['properties'] as Map<String, dynamic>;
-            final busId = properties['id']?.toString();
+            // Use bus_id (UUID) instead of id for proper matching
+            final busId = properties['bus_id']?.toString() ?? properties['id']?.toString();
 
-            if (widget.selectedBusIds.contains(busId)) {
+            if (busId != null && widget.selectedBusIds.contains(busId)) {
               final geometry = busFeature['geometry'] as Map<String, dynamic>;
               final coordinates = geometry['coordinates'] as List<dynamic>;
               final lon = (coordinates[0] as num).toDouble();
