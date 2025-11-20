@@ -21,7 +21,7 @@ class _StudentsListScreenState extends ConsumerState<StudentsListScreen> {
   String _searchQuery = '';
   int _currentPage = 1;
   bool _isLoadingMore = false;
-  List<StudentActivity> _allStudents = [];
+  List<Student> _allStudents = [];
   int _totalCount = 0;
   bool _hasMore = true;
 
@@ -114,12 +114,12 @@ class _StudentsListScreenState extends ConsumerState<StudentsListScreen> {
                 children: [
                   // Title
                   const Text(
-                    'Students Activity Today',
+                    'All Registered Students',
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Students who boarded buses today',
+                    'Complete list of all students enrolled in the school',
                     style: TextStyle(color: Colors.grey[600], fontSize: 14),
                   ),
                   const SizedBox(height: 24),
@@ -269,12 +269,13 @@ class _StudentsListScreenState extends ConsumerState<StudentsListScreen> {
     );
   }
 
-  DataRow _buildStudentRow(StudentActivity student) {
-    final hasAssignedBus = student.busNumber != null && student.busNumber!.isNotEmpty;
+  DataRow _buildStudentRow(Student student) {
+    final hasAssignedBus = student.busDetails != null;
+    final busNumber = hasAssignedBus ? student.busDetails.busNumber : null;
 
     return DataRow(
       cells: [
-        DataCell(Text(student.schoolStudentId)),
+        DataCell(Text(student.studentId)),
         DataCell(
           Row(
             children: [
@@ -282,20 +283,20 @@ class _StudentsListScreenState extends ConsumerState<StudentsListScreen> {
                 radius: 16,
                 backgroundColor: Colors.blue,
                 child: Text(
-                  student.studentName.isNotEmpty
-                      ? student.studentName[0].toUpperCase()
+                  student.decryptedName.isNotEmpty
+                      ? student.decryptedName[0].toUpperCase()
                       : '?',
                   style: const TextStyle(color: Colors.white, fontSize: 14),
                 ),
               ),
               const SizedBox(width: 8),
-              Text(student.studentName),
+              Text(student.decryptedName),
             ],
           ),
         ),
         DataCell(Text(student.grade)),
         DataCell(
-          hasAssignedBus
+          hasAssignedBus && busNumber != null
               ? Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -304,7 +305,7 @@ class _StudentsListScreenState extends ConsumerState<StudentsListScreen> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
-                    student.busNumber!,
+                    busNumber,
                     style: TextStyle(
                       color: Colors.blue.shade900,
                       fontWeight: FontWeight.bold,
@@ -317,13 +318,13 @@ class _StudentsListScreenState extends ConsumerState<StudentsListScreen> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
-              color: Colors.green.shade100,
+              color: Colors.grey.shade200,
               borderRadius: BorderRadius.circular(8),
             ),
             child: Text(
-              '${student.eventCount} EVENTS',
+              student.status?.name.toUpperCase() ?? 'ACTIVE',
               style: TextStyle(
-                color: Colors.green.shade900,
+                color: Colors.grey.shade800,
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
