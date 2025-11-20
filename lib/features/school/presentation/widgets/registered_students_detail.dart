@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:frontend_easy/features/school/providers/student_activity_provider.dart';
+import 'package:frontend_easy/features/school/providers/students_provider.dart';
 import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 /// Registered Students Detail View
@@ -20,9 +20,9 @@ class _RegisteredStudentsDetailState extends ConsumerState<RegisteredStudentsDet
 
   @override
   Widget build(BuildContext context) {
-    final studentActivityAsync = ref.watch(
-      studentActivityFilteredProvider(
-        const StudentActivityParams(limit: 500),
+    final studentsAsync = ref.watch(
+      studentsListProvider(
+        const StudentListParams(page: 1),
       ),
     );
 
@@ -57,9 +57,7 @@ class _RegisteredStudentsDetailState extends ConsumerState<RegisteredStudentsDet
                   IconButton(
                     icon: const Icon(Icons.refresh),
                     onPressed: () {
-                      ref.refresh(studentActivityFilteredProvider(
-                        const StudentActivityParams(limit: 500),
-                      ));
+                      ref.invalidate(studentsListProvider);
                     },
                     tooltip: 'Refresh',
                   ),
@@ -74,10 +72,10 @@ class _RegisteredStudentsDetailState extends ConsumerState<RegisteredStudentsDet
 
             // Content
             Expanded(
-              child: studentActivityAsync.when(
-                data: (studentActivity) => _buildContent(
+              child: studentsAsync.when(
+                data: (paginatedStudents) => _buildContent(
                   context,
-                  studentActivity.results.toList(),
+                  paginatedStudents.results.toList(),
                 ),
                 loading: () => const Center(child: CircularProgressIndicator()),
                 error: (error, stack) => _buildError(context, 'Failed to load students'),
@@ -91,7 +89,7 @@ class _RegisteredStudentsDetailState extends ConsumerState<RegisteredStudentsDet
 
   Widget _buildContent(
     BuildContext context,
-    List<StudentActivity> students,
+    List<Student> students,
   ) {
     // Extract unique grades and buses
     final uniqueGrades = students
@@ -101,8 +99,8 @@ class _RegisteredStudentsDetailState extends ConsumerState<RegisteredStudentsDet
       ..sort();
 
     final uniqueBuses = students
-        .where((s) => s.busNumber != null)
-        .map((s) => s.busNumber!)
+        .where((s) => s.assignedBus != null)
+        .map((s) => s.busDetails.licensePlate)
         .toSet()
         .toList()
       ..sort();
@@ -115,15 +113,15 @@ class _RegisteredStudentsDetailState extends ConsumerState<RegisteredStudentsDet
       }
 
       // Bus filter
-      if (_selectedBus != null && student.busNumber != _selectedBus) {
+      if (_selectedBus != null && student.busDetails.licensePlate != _selectedBus) {
         return false;
       }
 
       // Search filter
       if (_searchQuery.isNotEmpty) {
         final query = _searchQuery.toLowerCase();
-        final matchesName = student.studentName.toLowerCase().contains(query);
-        final matchesId = student.schoolStudentId.toLowerCase().contains(query);
+        final matchesName = student.decryptedName.toLowerCase().contains(query);
+        final matchesId = student.studentId.toLowerCase().contains(query);
         if (!matchesName && !matchesId) {
           return false;
         }
@@ -291,8 +289,10 @@ class _RegisteredStudentsDetailState extends ConsumerState<RegisteredStudentsDet
     );
   }
 
-  Widget _buildStudentCard(BuildContext context, StudentActivity student) {
+  Widget _buildStudentCard(BuildContext context, Student student) {
     final theme = Theme.of(context);
+    final busLicensePlate = student.busDetails.licensePlate;
+    final hasAssignedBus = student.assignedBus != null;
 
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
@@ -301,7 +301,7 @@ class _RegisteredStudentsDetailState extends ConsumerState<RegisteredStudentsDet
           radius: 24,
           backgroundColor: theme.colorScheme.primaryContainer,
           child: Text(
-            student.studentName.isNotEmpty ? student.studentName[0].toUpperCase() : '?',
+            student.decryptedName.isNotEmpty ? student.decryptedName[0].toUpperCase() : '?',
             style: TextStyle(
               color: theme.colorScheme.onPrimaryContainer,
               fontSize: 20,
@@ -310,7 +310,7 @@ class _RegisteredStudentsDetailState extends ConsumerState<RegisteredStudentsDet
           ),
         ),
         title: Text(
-          student.studentName,
+          student.decryptedName,
           style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
         ),
         subtitle: Column(
@@ -322,7 +322,7 @@ class _RegisteredStudentsDetailState extends ConsumerState<RegisteredStudentsDet
                 Icon(Icons.badge, size: 14, color: Colors.grey[600]),
                 const SizedBox(width: 4),
                 Text(
-                  'ID: ${student.schoolStudentId}',
+                  'ID: ${student.studentId}',
                   style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                 ),
                 const SizedBox(width: 12),
@@ -334,14 +334,14 @@ class _RegisteredStudentsDetailState extends ConsumerState<RegisteredStudentsDet
                 ),
               ],
             ),
-            if (student.busNumber != null) ...[
+            if (hasAssignedBus) ...[
               const SizedBox(height: 2),
               Row(
                 children: [
                   Icon(Icons.directions_bus, size: 14, color: Colors.grey[600]),
                   const SizedBox(width: 4),
                   Text(
-                    'Bus ${student.busNumber}${student.routeName != null ? ' • ${student.routeName}' : ''}',
+                    'Bus $busLicensePlate',
                     style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                   ),
                 ],
@@ -364,13 +364,22 @@ class _RegisteredStudentsDetailState extends ConsumerState<RegisteredStudentsDet
                   ),
                 ),
                 const SizedBox(height: 16),
-                _buildDetailRow(Icons.person, 'Full Name', student.studentName),
-                _buildDetailRow(Icons.badge, 'Student ID', student.schoolStudentId),
+                _buildDetailRow(Icons.person, 'Full Name', student.decryptedName),
+                _buildDetailRow(Icons.badge, 'Student ID', student.studentId),
                 _buildDetailRow(Icons.school, 'Grade/Class', 'Grade ${student.grade}'),
-                if (student.busNumber != null)
-                  _buildDetailRow(Icons.directions_bus, 'Bus Number', student.busNumber!),
-                if (student.routeName != null)
-                  _buildDetailRow(Icons.route, 'Route Name', student.routeName!),
+                if (student.section != null)
+                  _buildDetailRow(Icons.class_, 'Section', student.section!),
+                if (hasAssignedBus)
+                  _buildDetailRow(Icons.directions_bus, 'Bus License Plate', busLicensePlate),
+                _buildDetailRow(
+                  Icons.calendar_today,
+                  'Enrollment Date',
+                  DateFormat('MMM dd, yyyy').format(DateTime(
+                    student.enrollmentDate.year,
+                    student.enrollmentDate.month,
+                    student.enrollmentDate.day,
+                  )),
+                ),
               ],
             ),
           ),
@@ -432,9 +441,7 @@ class _RegisteredStudentsDetailState extends ConsumerState<RegisteredStudentsDet
             const SizedBox(height: 16),
             ElevatedButton.icon(
               onPressed: () {
-                ref.refresh(studentActivityFilteredProvider(
-                  const StudentActivityParams(limit: 500),
-                ));
+                ref.invalidate(studentsListProvider);
               },
               icon: const Icon(Icons.refresh),
               label: const Text('Try Again'),
