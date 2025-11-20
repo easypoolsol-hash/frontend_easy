@@ -25,13 +25,6 @@ part 'bus.g.dart';
 /// * [model] - Bus model
 /// * [year] - Manufacturing year
 /// * [lastMaintenance] - Date of last maintenance
-/// * [driverName] - Driver's full name
-/// * [driverPhone] - Driver's contact number
-/// * [driverAddress] - Driver's address
-/// * [driverLicenseNumber] - Driver's license number
-/// * [conductorName] - Conductor's full name
-/// * [conductorPhone] - Conductor's contact number
-/// * [conductorAddress] - Conductor's address
 /// * [assignedStudentsCount] 
 /// * [utilizationPercentage] 
 /// * [isAvailable] 
@@ -60,7 +53,7 @@ abstract class Bus implements Built<Bus, BusBuilder> {
 
   /// Maximum number of passengers
   @BuiltValueField(wireName: r'capacity')
-  int? get capacity;
+  int get capacity;
 
   /// Kiosk device identifier installed on this bus
   @BuiltValueField(wireName: r'device_id')
@@ -86,34 +79,6 @@ abstract class Bus implements Built<Bus, BusBuilder> {
   /// Date of last maintenance
   @BuiltValueField(wireName: r'last_maintenance')
   Date? get lastMaintenance;
-
-  /// Driver's full name
-  @BuiltValueField(wireName: r'driver_name')
-  String? get driverName;
-
-  /// Driver's contact number
-  @BuiltValueField(wireName: r'driver_phone')
-  String? get driverPhone;
-
-  /// Driver's address
-  @BuiltValueField(wireName: r'driver_address')
-  String? get driverAddress;
-
-  /// Driver's license number
-  @BuiltValueField(wireName: r'driver_license_number')
-  String? get driverLicenseNumber;
-
-  /// Conductor's full name
-  @BuiltValueField(wireName: r'conductor_name')
-  String? get conductorName;
-
-  /// Conductor's contact number
-  @BuiltValueField(wireName: r'conductor_phone')
-  String? get conductorPhone;
-
-  /// Conductor's address
-  @BuiltValueField(wireName: r'conductor_address')
-  String? get conductorAddress;
 
   @BuiltValueField(wireName: r'assigned_students_count')
   int get assignedStudentsCount;
@@ -177,18 +142,18 @@ class _$BusSerializer implements PrimitiveSerializer<Bus> {
         specifiedType: const FullType.nullable(String),
       );
     }
-    yield r'route_name';
-    yield object.routeName == null ? null : serializers.serialize(
-      object.routeName,
-      specifiedType: const FullType.nullable(String),
-    );
-    if (object.capacity != null) {
-      yield r'capacity';
+    if (object.routeName != null) {
+      yield r'route_name';
       yield serializers.serialize(
-        object.capacity,
-        specifiedType: const FullType.nullable(int),
+        object.routeName,
+        specifiedType: const FullType.nullable(String),
       );
     }
+    yield r'capacity';
+    yield serializers.serialize(
+      object.capacity,
+      specifiedType: const FullType(int),
+    );
     if (object.deviceId != null) {
       yield r'device_id';
       yield serializers.serialize(
@@ -229,55 +194,6 @@ class _$BusSerializer implements PrimitiveSerializer<Bus> {
       yield serializers.serialize(
         object.lastMaintenance,
         specifiedType: const FullType.nullable(Date),
-      );
-    }
-    if (object.driverName != null) {
-      yield r'driver_name';
-      yield serializers.serialize(
-        object.driverName,
-        specifiedType: const FullType(String),
-      );
-    }
-    if (object.driverPhone != null) {
-      yield r'driver_phone';
-      yield serializers.serialize(
-        object.driverPhone,
-        specifiedType: const FullType(String),
-      );
-    }
-    if (object.driverAddress != null) {
-      yield r'driver_address';
-      yield serializers.serialize(
-        object.driverAddress,
-        specifiedType: const FullType(String),
-      );
-    }
-    if (object.driverLicenseNumber != null) {
-      yield r'driver_license_number';
-      yield serializers.serialize(
-        object.driverLicenseNumber,
-        specifiedType: const FullType(String),
-      );
-    }
-    if (object.conductorName != null) {
-      yield r'conductor_name';
-      yield serializers.serialize(
-        object.conductorName,
-        specifiedType: const FullType(String),
-      );
-    }
-    if (object.conductorPhone != null) {
-      yield r'conductor_phone';
-      yield serializers.serialize(
-        object.conductorPhone,
-        specifiedType: const FullType(String),
-      );
-    }
-    if (object.conductorAddress != null) {
-      yield r'conductor_address';
-      yield serializers.serialize(
-        object.conductorAddress,
-        specifiedType: const FullType(String),
       );
     }
     yield r'assigned_students_count';
@@ -368,9 +284,8 @@ class _$BusSerializer implements PrimitiveSerializer<Bus> {
         case r'capacity':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType.nullable(int),
-          ) as int?;
-          if (valueDes == null) continue;
+            specifiedType: const FullType(int),
+          ) as int;
           result.capacity = valueDes;
           break;
         case r'device_id':
@@ -417,55 +332,6 @@ class _$BusSerializer implements PrimitiveSerializer<Bus> {
           ) as Date?;
           if (valueDes == null) continue;
           result.lastMaintenance = valueDes;
-          break;
-        case r'driver_name':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.driverName = valueDes;
-          break;
-        case r'driver_phone':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.driverPhone = valueDes;
-          break;
-        case r'driver_address':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.driverAddress = valueDes;
-          break;
-        case r'driver_license_number':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.driverLicenseNumber = valueDes;
-          break;
-        case r'conductor_name':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.conductorName = valueDes;
-          break;
-        case r'conductor_phone':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.conductorPhone = valueDes;
-          break;
-        case r'conductor_address':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.conductorAddress = valueDes;
           break;
         case r'assigned_students_count':
           final valueDes = serializers.deserialize(

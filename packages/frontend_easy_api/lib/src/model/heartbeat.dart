@@ -17,7 +17,6 @@ part 'heartbeat.g.dart';
 /// * [databaseHash] - Database content hash
 /// * [studentCount] - Students in DB
 /// * [embeddingCount] - Embeddings in DB
-/// * [gitCommitSha] - Git commit SHA of the kiosk app build (40 chars). Null for dev builds.
 /// * [health] 
 @BuiltValue()
 abstract class Heartbeat implements Built<Heartbeat, HeartbeatBuilder> {
@@ -40,10 +39,6 @@ abstract class Heartbeat implements Built<Heartbeat, HeartbeatBuilder> {
   /// Embeddings in DB
   @BuiltValueField(wireName: r'embedding_count')
   int get embeddingCount;
-
-  /// Git commit SHA of the kiosk app build (40 chars). Null for dev builds.
-  @BuiltValueField(wireName: r'git_commit_sha')
-  String? get gitCommitSha;
 
   @BuiltValueField(wireName: r'health')
   HealthData? get health;
@@ -98,13 +93,6 @@ class _$HeartbeatSerializer implements PrimitiveSerializer<Heartbeat> {
       object.embeddingCount,
       specifiedType: const FullType(int),
     );
-    if (object.gitCommitSha != null) {
-      yield r'git_commit_sha';
-      yield serializers.serialize(
-        object.gitCommitSha,
-        specifiedType: const FullType.nullable(String),
-      );
-    }
     if (object.health != null) {
       yield r'health';
       yield serializers.serialize(
@@ -169,14 +157,6 @@ class _$HeartbeatSerializer implements PrimitiveSerializer<Heartbeat> {
             specifiedType: const FullType(int),
           ) as int;
           result.embeddingCount = valueDes;
-          break;
-        case r'git_commit_sha':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType.nullable(String),
-          ) as String?;
-          if (valueDes == null) continue;
-          result.gitCommitSha = valueDes;
           break;
         case r'health':
           final valueDes = serializers.deserialize(

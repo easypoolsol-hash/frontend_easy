@@ -14,7 +14,6 @@ part 'bus_basic.g.dart';
 /// Properties:
 /// * [busId] - UUID primary key
 /// * [licensePlate] - Vehicle license plate number
-/// * [busNumber] - School-assigned bus number (e.g., 'BUS-001', 'B-12')
 /// * [capacity] - Maximum number of passengers
 /// * [status] - Current operational status  * `active` - Active * `maintenance` - Under Maintenance * `retired` - Retired
 /// * [createdAt] - When this bus was added to the system
@@ -29,13 +28,9 @@ abstract class BusBasic implements Built<BusBasic, BusBasicBuilder> {
   @BuiltValueField(wireName: r'license_plate')
   String get licensePlate;
 
-  /// School-assigned bus number (e.g., 'BUS-001', 'B-12')
-  @BuiltValueField(wireName: r'bus_number')
-  String get busNumber;
-
   /// Maximum number of passengers
   @BuiltValueField(wireName: r'capacity')
-  int? get capacity;
+  int get capacity;
 
   /// Current operational status  * `active` - Active * `maintenance` - Under Maintenance * `retired` - Retired
   @BuiltValueField(wireName: r'status')
@@ -83,18 +78,11 @@ class _$BusBasicSerializer implements PrimitiveSerializer<BusBasic> {
       object.licensePlate,
       specifiedType: const FullType(String),
     );
-    yield r'bus_number';
+    yield r'capacity';
     yield serializers.serialize(
-      object.busNumber,
-      specifiedType: const FullType(String),
+      object.capacity,
+      specifiedType: const FullType(int),
     );
-    if (object.capacity != null) {
-      yield r'capacity';
-      yield serializers.serialize(
-        object.capacity,
-        specifiedType: const FullType.nullable(int),
-      );
-    }
     if (object.status != null) {
       yield r'status';
       yield serializers.serialize(
@@ -149,19 +137,11 @@ class _$BusBasicSerializer implements PrimitiveSerializer<BusBasic> {
           ) as String;
           result.licensePlate = valueDes;
           break;
-        case r'bus_number':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.busNumber = valueDes;
-          break;
         case r'capacity':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType.nullable(int),
-          ) as int?;
-          if (valueDes == null) continue;
+            specifiedType: const FullType(int),
+          ) as int;
           result.capacity = valueDes;
           break;
         case r'status':

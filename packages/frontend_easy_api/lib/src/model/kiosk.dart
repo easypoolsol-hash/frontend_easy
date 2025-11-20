@@ -3,7 +3,6 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:frontend_easy_api/src/model/operation_timing.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -16,12 +15,10 @@ part 'kiosk.g.dart';
 /// * [bus] 
 /// * [busLicensePlate] 
 /// * [firmwareVersion] - Current firmware version installed on device
-/// * [gitCommitSha] - Git commit SHA of current kiosk app build
 /// * [lastHeartbeat] - Timestamp of last heartbeat received from device
 /// * [isActive] - Whether this kiosk is active and accepting requests
 /// * [batteryLevel] 
 /// * [storageUsedMb] - Storage used in MB on the device
-/// * [operationTiming] 
 /// * [statusDisplay] 
 /// * [isOnline] 
 /// * [createdAt] - When this kiosk was registered
@@ -42,10 +39,6 @@ abstract class Kiosk implements Built<Kiosk, KioskBuilder> {
   @BuiltValueField(wireName: r'firmware_version')
   String? get firmwareVersion;
 
-  /// Git commit SHA of current kiosk app build
-  @BuiltValueField(wireName: r'git_commit_sha')
-  String? get gitCommitSha;
-
   /// Timestamp of last heartbeat received from device
   @BuiltValueField(wireName: r'last_heartbeat')
   DateTime? get lastHeartbeat;
@@ -60,9 +53,6 @@ abstract class Kiosk implements Built<Kiosk, KioskBuilder> {
   /// Storage used in MB on the device
   @BuiltValueField(wireName: r'storage_used_mb')
   int? get storageUsedMb;
-
-  @BuiltValueField(wireName: r'operation_timing')
-  OperationTiming get operationTiming;
 
   @BuiltValueField(wireName: r'status_display')
   String get statusDisplay;
@@ -123,13 +113,6 @@ class _$KioskSerializer implements PrimitiveSerializer<Kiosk> {
         specifiedType: const FullType(String),
       );
     }
-    if (object.gitCommitSha != null) {
-      yield r'git_commit_sha';
-      yield serializers.serialize(
-        object.gitCommitSha,
-        specifiedType: const FullType.nullable(String),
-      );
-    }
     if (object.lastHeartbeat != null) {
       yield r'last_heartbeat';
       yield serializers.serialize(
@@ -158,11 +141,6 @@ class _$KioskSerializer implements PrimitiveSerializer<Kiosk> {
         specifiedType: const FullType.nullable(int),
       );
     }
-    yield r'operation_timing';
-    yield serializers.serialize(
-      object.operationTiming,
-      specifiedType: const FullType(OperationTiming),
-    );
     yield r'status_display';
     yield serializers.serialize(
       object.statusDisplay,
@@ -234,14 +212,6 @@ class _$KioskSerializer implements PrimitiveSerializer<Kiosk> {
           ) as String;
           result.firmwareVersion = valueDes;
           break;
-        case r'git_commit_sha':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType.nullable(String),
-          ) as String?;
-          if (valueDes == null) continue;
-          result.gitCommitSha = valueDes;
-          break;
         case r'last_heartbeat':
           final valueDes = serializers.deserialize(
             value,
@@ -271,13 +241,6 @@ class _$KioskSerializer implements PrimitiveSerializer<Kiosk> {
           ) as int?;
           if (valueDes == null) continue;
           result.storageUsedMb = valueDes;
-          break;
-        case r'operation_timing':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(OperationTiming),
-          ) as OperationTiming;
-          result.operationTiming.replace(valueDes);
           break;
         case r'status_display':
           final valueDes = serializers.deserialize(

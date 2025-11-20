@@ -13,7 +13,7 @@ part 'boarding_event.g.dart';
 ///
 /// Properties:
 /// * [eventId] - ULID primary key for global uniqueness and time sorting
-/// * [student] - Student who boarded the bus (null for unidentified faces)
+/// * [student] - Student who boarded the bus
 /// * [kioskId] - Kiosk device identifier
 /// * [confidenceScore] - Face recognition confidence score (0.0-1.0)
 /// * [timestamp] - When the boarding event occurred
@@ -24,17 +24,15 @@ part 'boarding_event.g.dart';
 /// * [modelVersion] - Face recognition model version used
 /// * [metadata] - Additional metadata as JSON
 /// * [createdAt] - When this record was created in database
-/// * [confirmationFaceUrls] 
-/// * [isUnknownFace] 
 @BuiltValue()
 abstract class BoardingEvent implements Built<BoardingEvent, BoardingEventBuilder> {
   /// ULID primary key for global uniqueness and time sorting
   @BuiltValueField(wireName: r'event_id')
   String get eventId;
 
-  /// Student who boarded the bus (null for unidentified faces)
+  /// Student who boarded the bus
   @BuiltValueField(wireName: r'student')
-  String? get student;
+  String get student;
 
   /// Kiosk device identifier
   @BuiltValueField(wireName: r'kiosk_id')
@@ -76,12 +74,6 @@ abstract class BoardingEvent implements Built<BoardingEvent, BoardingEventBuilde
   @BuiltValueField(wireName: r'created_at')
   DateTime get createdAt;
 
-  @BuiltValueField(wireName: r'confirmation_face_urls')
-  String get confirmationFaceUrls;
-
-  @BuiltValueField(wireName: r'is_unknown_face')
-  String get isUnknownFace;
-
   BoardingEvent._();
 
   factory BoardingEvent([void updates(BoardingEventBuilder b)]) = _$BoardingEvent;
@@ -110,13 +102,11 @@ class _$BoardingEventSerializer implements PrimitiveSerializer<BoardingEvent> {
       object.eventId,
       specifiedType: const FullType(String),
     );
-    if (object.student != null) {
-      yield r'student';
-      yield serializers.serialize(
-        object.student,
-        specifiedType: const FullType.nullable(String),
-      );
-    }
+    yield r'student';
+    yield serializers.serialize(
+      object.student,
+      specifiedType: const FullType(String),
+    );
     yield r'kiosk_id';
     yield serializers.serialize(
       object.kioskId,
@@ -177,16 +167,6 @@ class _$BoardingEventSerializer implements PrimitiveSerializer<BoardingEvent> {
       object.createdAt,
       specifiedType: const FullType(DateTime),
     );
-    yield r'confirmation_face_urls';
-    yield serializers.serialize(
-      object.confirmationFaceUrls,
-      specifiedType: const FullType(String),
-    );
-    yield r'is_unknown_face';
-    yield serializers.serialize(
-      object.isUnknownFace,
-      specifiedType: const FullType(String),
-    );
   }
 
   @override
@@ -220,9 +200,8 @@ class _$BoardingEventSerializer implements PrimitiveSerializer<BoardingEvent> {
         case r'student':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType.nullable(String),
-          ) as String?;
-          if (valueDes == null) continue;
+            specifiedType: const FullType(String),
+          ) as String;
           result.student = valueDes;
           break;
         case r'kiosk_id':
@@ -297,20 +276,6 @@ class _$BoardingEventSerializer implements PrimitiveSerializer<BoardingEvent> {
             specifiedType: const FullType(DateTime),
           ) as DateTime;
           result.createdAt = valueDes;
-          break;
-        case r'confirmation_face_urls':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.confirmationFaceUrls = valueDes;
-          break;
-        case r'is_unknown_face':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.isUnknownFace = valueDes;
           break;
         default:
           unhandled.add(key);

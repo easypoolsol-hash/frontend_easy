@@ -1,14 +1,14 @@
-# frontend_easy_api.model.ApiV1ParentsMeBusesRetrieve200Response
+# openapi.model.ApiV1ParentsMeBusesRetrieve200Response
 
 ## Load the model package
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 ```
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**buses** | [**BuiltList&lt;JsonObject&gt;**](JsonObject.md) |  | [optional] 
+**buses** | [**List<Object>**](Object.md) |  | [optional] [default to const []]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

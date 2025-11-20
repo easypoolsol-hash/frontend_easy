@@ -1,14 +1,14 @@
-# frontend_easy_api.model.DashboardStats
+# openapi.model.DashboardStats
 
 ## Load the model package
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 ```
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**date** | [**Date**](Date.md) | Date for stats (YYYY-MM-DD) | 
+**date** | [**DateTime**](DateTime.md) | Date for stats (YYYY-MM-DD) | 
 **activeBuses** | **int** | Number of active buses | 
 **totalBuses** | **int** | Total buses in fleet | 
 **studentsBoardedToday** | **int** | Unique students who boarded today | 

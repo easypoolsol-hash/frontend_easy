@@ -1,8 +1,8 @@
-# frontend_easy_api.api.ParentsApi
+# openapi.api.ParentsApi
 
 ## Load the API package
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 ```
 
 All URIs are relative to *http://localhost:8000*
@@ -21,18 +21,18 @@ Method | HTTP request | Description
 
 ### Example
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 // TODO Configure API key authorization: cookieAuth
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('cookieAuth').apiKeyPrefix = 'Bearer';
 
-final api = FrontendEasyApi().getParentsApi();
+final api_instance = ParentsApi();
 
 try {
-    final response = api.parentBusLocations();
-    print(response);
-} catch on DioException (e) {
+    final result = api_instance.parentBusLocations();
+    print(result);
+} catch (e) {
     print('Exception when calling ParentsApi->parentBusLocations: $e\n');
 }
 ```

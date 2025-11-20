@@ -12,7 +12,6 @@ part 'health_data.g.dart';
 ///
 /// Properties:
 /// * [batteryLevel] 
-/// * [deviceTemperature] - Device temperature in deciselsius (Celsius * 10)
 /// * [isCharging] 
 /// * [storageAvailableMb] 
 /// * [cameraActive] 
@@ -25,10 +24,6 @@ part 'health_data.g.dart';
 abstract class HealthData implements Built<HealthData, HealthDataBuilder> {
   @BuiltValueField(wireName: r'battery_level')
   int? get batteryLevel;
-
-  /// Device temperature in deciselsius (Celsius * 10)
-  @BuiltValueField(wireName: r'device_temperature')
-  int? get deviceTemperature;
 
   @BuiltValueField(wireName: r'is_charging')
   bool? get isCharging;
@@ -85,13 +80,6 @@ class _$HealthDataSerializer implements PrimitiveSerializer<HealthData> {
       yield r'battery_level';
       yield serializers.serialize(
         object.batteryLevel,
-        specifiedType: const FullType.nullable(int),
-      );
-    }
-    if (object.deviceTemperature != null) {
-      yield r'device_temperature';
-      yield serializers.serialize(
-        object.deviceTemperature,
         specifiedType: const FullType.nullable(int),
       );
     }
@@ -181,14 +169,6 @@ class _$HealthDataSerializer implements PrimitiveSerializer<HealthData> {
           ) as int?;
           if (valueDes == null) continue;
           result.batteryLevel = valueDes;
-          break;
-        case r'device_temperature':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType.nullable(int),
-          ) as int?;
-          if (valueDes == null) continue;
-          result.deviceTemperature = valueDes;
           break;
         case r'is_charging':
           final valueDes = serializers.deserialize(

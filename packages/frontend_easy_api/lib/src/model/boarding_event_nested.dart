@@ -3,7 +3,6 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -16,7 +15,6 @@ part 'boarding_event_nested.g.dart';
 /// * [timestamp] - When event occurred
 /// * [kioskId] - Kiosk device ID
 /// * [eventType] - Event type (boarding/pickup/dropoff)
-/// * [confirmationFaceUrls] - List of signed URLs for confirmation faces (flexible - 1 to N photos)
 @BuiltValue()
 abstract class BoardingEventNested implements Built<BoardingEventNested, BoardingEventNestedBuilder> {
   /// Event ULID
@@ -34,10 +32,6 @@ abstract class BoardingEventNested implements Built<BoardingEventNested, Boardin
   /// Event type (boarding/pickup/dropoff)
   @BuiltValueField(wireName: r'event_type')
   String get eventType;
-
-  /// List of signed URLs for confirmation faces (flexible - 1 to N photos)
-  @BuiltValueField(wireName: r'confirmation_face_urls')
-  BuiltList<String>? get confirmationFaceUrls;
 
   BoardingEventNested._();
 
@@ -82,13 +76,6 @@ class _$BoardingEventNestedSerializer implements PrimitiveSerializer<BoardingEve
       object.eventType,
       specifiedType: const FullType(String),
     );
-    if (object.confirmationFaceUrls != null) {
-      yield r'confirmation_face_urls';
-      yield serializers.serialize(
-        object.confirmationFaceUrls,
-        specifiedType: const FullType(BuiltList, [FullType(String)]),
-      );
-    }
   }
 
   @override
@@ -139,13 +126,6 @@ class _$BoardingEventNestedSerializer implements PrimitiveSerializer<BoardingEve
             specifiedType: const FullType(String),
           ) as String;
           result.eventType = valueDes;
-          break;
-        case r'confirmation_face_urls':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(BuiltList, [FullType(String)]),
-          ) as BuiltList<String>;
-          result.confirmationFaceUrls.replace(valueDes);
           break;
         default:
           unhandled.add(key);
