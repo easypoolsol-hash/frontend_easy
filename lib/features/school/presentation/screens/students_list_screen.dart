@@ -271,7 +271,7 @@ class _StudentsListScreenState extends ConsumerState<StudentsListScreen> {
 
   DataRow _buildStudentRow(Student student) {
     final hasAssignedBus = student.busDetails != null;
-    final busNumber = hasAssignedBus ? student.busDetails.busNumber : null;
+    final busNumber = hasAssignedBus ? student.busDetails.licensePlate : null;
 
     return DataRow(
       cells: [
