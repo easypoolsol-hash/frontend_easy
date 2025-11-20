@@ -78,7 +78,12 @@ class _RegisteredStudentsDetailState extends ConsumerState<RegisteredStudentsDet
                   paginatedStudents.results.toList(),
                 ),
                 loading: () => const Center(child: CircularProgressIndicator()),
-                error: (error, stack) => _buildError(context, 'Failed to load students'),
+                error: (error, stack) {
+                  // Print error for debugging
+                  print('Error loading students: $error');
+                  print('Stack trace: $stack');
+                  return _buildError(context, 'Failed to load students: ${error.toString()}');
+                },
               ),
             ),
           ],
@@ -101,6 +106,7 @@ class _RegisteredStudentsDetailState extends ConsumerState<RegisteredStudentsDet
     final uniqueBuses = students
         .where((s) => s.assignedBus != null)
         .map((s) => s.busDetails.licensePlate)
+        .where((licensePlate) => licensePlate.isNotEmpty)
         .toSet()
         .toList()
       ..sort();

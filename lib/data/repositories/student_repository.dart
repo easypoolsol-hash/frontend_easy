@@ -85,9 +85,12 @@ class StudentRepository {
       }
 
       return data;
-    } catch (e) {
+    } catch (e, stackTrace) {
       // Log detailed error for debugging
-      print('StudentRepository Error: $e');
+      print('StudentRepository Error fetching students:');
+      print('Error: $e');
+      print('Stack trace: $stackTrace');
+      print('Page: $page, Search: $search');
       rethrow;
     }
   }

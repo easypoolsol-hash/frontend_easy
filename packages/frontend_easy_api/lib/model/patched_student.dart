@@ -104,17 +104,11 @@ class PatchedStudent {
   ///
   School? schoolDetails;
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
   BusBasic? busDetails;
 
-  List<StudentParent> parents;
+  List<StudentParent>? parents;
 
-  List<StudentPhoto> photos;
+  List<StudentPhoto>? photos;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -168,8 +162,8 @@ class PatchedStudent {
     (enrollmentDate == null ? 0 : enrollmentDate!.hashCode) +
     (schoolDetails == null ? 0 : schoolDetails!.hashCode) +
     (busDetails == null ? 0 : busDetails!.hashCode) +
-    (parents.hashCode) +
-    (photos.hashCode) +
+    (parents == null ? 0 : parents!.hashCode) +
+    (photos == null ? 0 : photos!.hashCode) +
     (createdAt == null ? 0 : createdAt!.hashCode) +
     (updatedAt == null ? 0 : updatedAt!.hashCode);
 
@@ -243,8 +237,16 @@ class PatchedStudent {
     } else {
       json[r'bus_details'] = null;
     }
+    if (this.parents != null) {
       json[r'parents'] = this.parents;
+    } else {
+      json[r'parents'] = null;
+    }
+    if (this.photos != null) {
       json[r'photos'] = this.photos;
+    } else {
+      json[r'photos'] = null;
+    }
     if (this.createdAt != null) {
       json[r'created_at'] = this.createdAt!.toUtc().toIso8601String();
     } else {

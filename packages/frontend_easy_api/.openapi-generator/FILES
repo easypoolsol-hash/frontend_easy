@@ -10,6 +10,8 @@ doc/ApiV1ParentsMeBusLocationsRetrieve200ResponseInner.md
 doc/ApiV1ParentsMeBusesLocationRetrieve200Response.md
 doc/ApiV1ParentsMeBusesLocationRetrieve200ResponseLocation.md
 doc/ApiV1ParentsMeBusesRetrieve200Response.md
+doc/ApiV1StudentsAllRetrieve200Response.md
+doc/ApiV1StudentsAllRetrieve200ResponseResultsInner.md
 doc/AttendanceRecord.md
 doc/AuditLog.md
 doc/BoardingEvent.md
@@ -25,6 +27,8 @@ doc/CheckUpdatesResponse.md
 doc/DashboardStats.md
 doc/DashboardStudentsResponse.md
 doc/DeviceLog.md
+doc/FaceEnrollmentStatus.md
+doc/FaceEnrollmentSubmission.md
 doc/Group.md
 doc/HealthData.md
 doc/Heartbeat.md
@@ -92,6 +96,8 @@ lib/model/api_v1_parents_me_bus_locations_retrieve200_response_inner.dart
 lib/model/api_v1_parents_me_buses_location_retrieve200_response.dart
 lib/model/api_v1_parents_me_buses_location_retrieve200_response_location.dart
 lib/model/api_v1_parents_me_buses_retrieve200_response.dart
+lib/model/api_v1_students_all_retrieve200_response.dart
+lib/model/api_v1_students_all_retrieve200_response_results_inner.dart
 lib/model/attendance_record.dart
 lib/model/audit_log.dart
 lib/model/boarding_event.dart
@@ -106,6 +112,8 @@ lib/model/check_updates_response.dart
 lib/model/dashboard_stats.dart
 lib/model/dashboard_students_response.dart
 lib/model/device_log.dart
+lib/model/face_enrollment_status.dart
+lib/model/face_enrollment_submission.dart
 lib/model/group.dart
 lib/model/health_data.dart
 lib/model/heartbeat.dart
@@ -152,3 +160,7 @@ lib/model/student_list.dart
 lib/model/student_parent.dart
 lib/model/student_photo.dart
 lib/model/user.dart
+test/api_v1_students_all_retrieve200_response_results_inner_test.dart
+test/api_v1_students_all_retrieve200_response_test.dart
+test/face_enrollment_status_test.dart
+test/face_enrollment_submission_test.dart

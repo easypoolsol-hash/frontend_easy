@@ -14,6 +14,7 @@ class BusBasic {
   /// Returns a new [BusBasic] instance.
   BusBasic({
     required this.busId,
+    required this.licensePlate,
     required this.busNumber,
     this.capacity,
     this.status,
@@ -23,6 +24,9 @@ class BusBasic {
 
   /// UUID primary key
   String busId;
+
+  /// Vehicle license plate number
+  String licensePlate;
 
   /// School-assigned bus number (e.g., 'BUS-001', 'B-12')
   String busNumber;
@@ -45,6 +49,7 @@ class BusBasic {
   @override
   bool operator ==(Object other) => identical(this, other) || other is BusBasic &&
     other.busId == busId &&
+    other.licensePlate == licensePlate &&
     other.busNumber == busNumber &&
     other.capacity == capacity &&
     other.status == status &&
@@ -55,6 +60,7 @@ class BusBasic {
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (busId.hashCode) +
+    (licensePlate.hashCode) +
     (busNumber.hashCode) +
     (capacity == null ? 0 : capacity!.hashCode) +
     (status == null ? 0 : status!.hashCode) +
@@ -62,11 +68,12 @@ class BusBasic {
     (updatedAt.hashCode);
 
   @override
-  String toString() => 'BusBasic[busId=$busId, busNumber=$busNumber, capacity=$capacity, status=$status, createdAt=$createdAt, updatedAt=$updatedAt]';
+  String toString() => 'BusBasic[busId=$busId, licensePlate=$licensePlate, busNumber=$busNumber, capacity=$capacity, status=$status, createdAt=$createdAt, updatedAt=$updatedAt]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
       json[r'bus_id'] = this.busId;
+      json[r'license_plate'] = this.licensePlate;
       json[r'bus_number'] = this.busNumber;
     if (this.capacity != null) {
       json[r'capacity'] = this.capacity;
@@ -103,6 +110,7 @@ class BusBasic {
 
       return BusBasic(
         busId: mapValueOfType<String>(json, r'bus_id')!,
+        licensePlate: mapValueOfType<String>(json, r'license_plate')!,
         busNumber: mapValueOfType<String>(json, r'bus_number')!,
         capacity: mapValueOfType<int>(json, r'capacity'),
         status: BusBasicStatusEnum.fromJson(json[r'status']),
@@ -156,6 +164,7 @@ class BusBasic {
   /// The list of required keys that must be present in a JSON.
   static const requiredKeys = <String>{
     'bus_id',
+    'license_plate',
     'bus_number',
     'created_at',
     'updated_at',
