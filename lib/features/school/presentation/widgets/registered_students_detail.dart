@@ -113,8 +113,13 @@ class _RegisteredStudentsDetailState extends ConsumerState<RegisteredStudentsDet
       }
 
       // Bus filter
-      if (_selectedBus != null && student.busDetails.licensePlate != _selectedBus) {
-        return false;
+      if (_selectedBus != null) {
+        if (student.assignedBus == null) {
+          return false;
+        }
+        if (student.busDetails.licensePlate != _selectedBus) {
+          return false;
+        }
       }
 
       // Search filter
