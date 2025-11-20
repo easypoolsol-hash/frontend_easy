@@ -160,7 +160,3 @@ lib/model/student_list.dart
 lib/model/student_parent.dart
 lib/model/student_photo.dart
 lib/model/user.dart
-test/api_v1_students_all_retrieve200_response_results_inner_test.dart
-test/api_v1_students_all_retrieve200_response_test.dart
-test/face_enrollment_status_test.dart
-test/face_enrollment_submission_test.dart
