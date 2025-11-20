@@ -104,8 +104,8 @@ class _RegisteredStudentsDetailState extends ConsumerState<RegisteredStudentsDet
       ..sort();
 
     final uniqueBuses = students
-        .where((s) => s.assignedBus != null)
-        .map((s) => s.busDetails.licensePlate)
+        .where((s) => s.assignedBus != null && s.busDetails != null)
+        .map((s) => s.busDetails!.licensePlate)
         .where((licensePlate) => licensePlate.isNotEmpty)
         .toSet()
         .toList()
@@ -120,10 +120,10 @@ class _RegisteredStudentsDetailState extends ConsumerState<RegisteredStudentsDet
 
       // Bus filter
       if (_selectedBus != null) {
-        if (student.assignedBus == null) {
+        if (student.assignedBus == null || student.busDetails == null) {
           return false;
         }
-        if (student.busDetails.licensePlate != _selectedBus) {
+        if (student.busDetails!.licensePlate != _selectedBus) {
           return false;
         }
       }
@@ -302,8 +302,8 @@ class _RegisteredStudentsDetailState extends ConsumerState<RegisteredStudentsDet
 
   Widget _buildStudentCard(BuildContext context, Student student) {
     final theme = Theme.of(context);
-    final busLicensePlate = student.busDetails.licensePlate;
-    final hasAssignedBus = student.assignedBus != null;
+    final busLicensePlate = student.busDetails?.licensePlate ?? '';
+    final hasAssignedBus = student.assignedBus != null && student.busDetails != null;
 
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
