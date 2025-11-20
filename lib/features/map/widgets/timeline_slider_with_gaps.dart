@@ -48,6 +48,11 @@ class TimelineSliderWithGaps extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Convert UTC times to IST for display
+    final istStartTime = startTime.toLocal();
+    final istCurrentTime = currentTimestamp.toLocal();
+    final istEndTime = endTime.toLocal();
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -56,19 +61,19 @@ class TimelineSliderWithGaps extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              showGpsPointsOnly ? 'Point 1' : DateFormat('HH:mm:ss').format(startTime),
+              showGpsPointsOnly ? 'Point 1' : DateFormat('HH:mm:ss').format(istStartTime),
               style: Theme.of(context).textTheme.labelSmall,
             ),
             Text(
               showGpsPointsOnly
                 ? 'Point ${_findCurrentPointIndex() + 1}'
-                : DateFormat('HH:mm:ss').format(currentTimestamp),
+                : DateFormat('HH:mm:ss').format(istCurrentTime),
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
             ),
             Text(
-              showGpsPointsOnly ? 'Point ${locations.length}' : DateFormat('HH:mm:ss').format(endTime),
+              showGpsPointsOnly ? 'Point ${locations.length}' : DateFormat('HH:mm:ss').format(istEndTime),
               style: Theme.of(context).textTheme.labelSmall,
             ),
           ],
@@ -273,13 +278,16 @@ class TimelineSliderWithGaps extends StatelessWidget {
   }
 
   /// Convert point index to slider value (0.0 to 1.0)
+  /// In points mode, slider represents point indices, not time
   double _pointIndexToSliderValue() {
     if (locations.isEmpty) return 0;
     final index = _findCurrentPointIndex();
-    return index / (locations.length - 1).clamp(1, locations.length);
+    final maxIndex = (locations.length - 1).clamp(1, locations.length);
+    return index / maxIndex;
   }
 
   /// Convert slider value to point index
+  /// In points mode, slider value directly maps to point index
   int _sliderValueToPointIndex(double value) {
     if (locations.isEmpty) return 0;
     final index = (value * (locations.length - 1)).round();

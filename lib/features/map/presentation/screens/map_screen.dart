@@ -603,7 +603,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                     const SizedBox(width: 8),
                     // GPS points only toggle
                     Tooltip(
-                      message: 'Show GPS points only (skip gaps)',
+                      message: 'Points Mode: Remove time gaps, show only GPS data points',
                       child: InkWell(
                         onTap: () {
                           setState(() {
@@ -624,7 +624,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                               visualDensity: VisualDensity.compact,
                             ),
                             Text(
-                              'Points Only',
+                              'Points Mode',
                               style: Theme.of(context).textTheme.labelSmall,
                             ),
                           ],
