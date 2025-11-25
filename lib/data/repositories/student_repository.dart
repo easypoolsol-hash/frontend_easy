@@ -16,10 +16,10 @@ class StudentRepository {
   final ApiService _apiService;
 
   /// Cache for paginated results (page number -> data)
-  final Map<int, DashboardStudentsResponse> _cache = {};
+  final Map<int, PaginatedStudentList> _cache = {};
 
   /// Cache for search results (search query -> data)
-  final Map<String, Map<int, DashboardStudentsResponse>> _searchCache = {};
+  final Map<String, Map<int, PaginatedStudentList>> _searchCache = {};
 
   /// Cache timestamp for invalidation (5 minutes TTL)
   DateTime? _lastFetch;
@@ -33,39 +33,64 @@ class StudentRepository {
     return DateTime.now().difference(_lastFetch!) < _cacheDuration;
   }
 
-  /// Fetch students with pagination and caching
+  /// Fetch ALL registered students with pagination and caching
   ///
-  /// Uses the dashboard students API which returns simple, clean data:
-  /// - school_student_id, student_name, grade, bus_number
+  /// Uses the students list API which returns ALL registered students:
+  /// - school_student_id, name, grade, assigned_bus, status
+  /// - NOT limited to students who boarded today
   ///
   /// Parameters:
-  /// - [page]: Page number (1-indexed, but API uses offset/limit)
-  /// - [search]: Optional search query (not supported by dashboard API)
-  /// - [forceRefresh]: Force refresh from API
-  Future<DashboardStudentsResponse> getStudents({
+  /// - [page]: Page number (1-indexed, directly passed to API)
+  /// - [search]: Optional search query (searches name, ID, grade)
+  /// - [forceRefresh]: Force refresh from API (bypasses cache)
+  Future<PaginatedStudentList> getStudents({
     int page = 1,
     String? search,
     bool forceRefresh = false,
   }) async {
-    // Calculate offset from page number (50 items per page)
-    const limit = 50;
-    final offset = (page - 1) * limit;
+    // Build cache key based on page and search
+    final cacheKey = search != null ? 'search_${search}_$page' : 'page_$page';
 
-    // Fetch from API - using dashboard students endpoint
+    // Check cache first (if not force refresh)
+    if (!forceRefresh) {
+      if (search != null) {
+        final searchCache = _searchCache[search];
+        if (searchCache != null && searchCache.containsKey(page) && _isCacheValid) {
+          return searchCache[page]!;
+        }
+      } else if (_cache.containsKey(page) && _isCacheValid) {
+        return _cache[page]!;
+      }
+    }
+
+    // Fetch from API - using ALL students endpoint
     try {
-      final response = await _apiService.api.apiV1DashboardStudentsRetrieve(
-        limit: limit,
-        offset: offset,
+      final response = await _apiService.api.apiV1StudentsList(
+        page: page,
+        search: search,
       );
 
       if (response.data == null) {
         throw Exception('API returned null data for students list');
       }
 
-      return response.data!;
-    } catch (e) {
+      final data = response.data!;
+
+      // Update cache
+      _lastFetch = DateTime.now();
+      if (search != null) {
+        _searchCache.putIfAbsent(search, () => {})[page] = data;
+      } else {
+        _cache[page] = data;
+      }
+
+      return data;
+    } catch (e, stackTrace) {
       // Log detailed error for debugging
-      print('StudentRepository Error: $e');
+      print('StudentRepository Error fetching students:');
+      print('Error: $e');
+      print('Stack trace: $stackTrace');
+      print('Page: $page, Search: $search');
       rethrow;
     }
   }

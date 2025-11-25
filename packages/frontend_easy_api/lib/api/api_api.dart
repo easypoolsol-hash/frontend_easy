@@ -2540,6 +2540,42 @@ class ApiApi {
     return null;
   }
 
+  /// Process a queued notification. POST /api/v1/notifications/process/ Called by Cloud Tasks.
+  ///
+  /// Note: This method returns the HTTP [Response].
+  Future<Response> apiV1NotificationsProcessCreateWithHttpInfo() async {
+    // ignore: prefer_const_declarations
+    final path = r'/api/v1/notifications/process/';
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'POST',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Process a queued notification. POST /api/v1/notifications/process/ Called by Cloud Tasks.
+  Future<void> apiV1NotificationsProcessCreate() async {
+    final response = await apiV1NotificationsProcessCreateWithHttpInfo();
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+  }
+
   /// Admin-only parent management - NO row-level filtering (requires admin access)
   ///
   /// Note: This method returns the HTTP [Response].
@@ -2906,6 +2942,296 @@ class ApiApi {
     return null;
   }
 
+  /// Check face enrollment status for child
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [String] id (required):
+  Future<Response> apiV1ParentsMeFaceEnrollmentStatusRetrieveWithHttpInfo(String id,) async {
+    // ignore: prefer_const_declarations
+    final path = r'/api/v1/parents/me/{id}/face-enrollment/status/'
+      .replaceAll('{id}', id);
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Check face enrollment status for child
+  ///
+  /// Parameters:
+  ///
+  /// * [String] id (required):
+  Future<FaceEnrollmentStatus?> apiV1ParentsMeFaceEnrollmentStatusRetrieve(String id,) async {
+    final response = await apiV1ParentsMeFaceEnrollmentStatusRetrieveWithHttpInfo(id,);
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'FaceEnrollmentStatus',) as FaceEnrollmentStatus;
+    
+    }
+    return null;
+  }
+
+  /// Submit face enrollment photos for child
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [String] id (required):
+  ///
+  /// * [FaceEnrollmentSubmission] faceEnrollmentSubmission (required):
+  Future<Response> apiV1ParentsMeFaceEnrollmentSubmitCreateWithHttpInfo(String id, FaceEnrollmentSubmission faceEnrollmentSubmission,) async {
+    // ignore: prefer_const_declarations
+    final path = r'/api/v1/parents/me/{id}/face-enrollment/submit/'
+      .replaceAll('{id}', id);
+
+    // ignore: prefer_final_locals
+    Object? postBody = faceEnrollmentSubmission;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>['application/json', 'application/x-www-form-urlencoded', 'multipart/form-data'];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'POST',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Submit face enrollment photos for child
+  ///
+  /// Parameters:
+  ///
+  /// * [String] id (required):
+  ///
+  /// * [FaceEnrollmentSubmission] faceEnrollmentSubmission (required):
+  Future<FaceEnrollmentStatus?> apiV1ParentsMeFaceEnrollmentSubmitCreate(String id, FaceEnrollmentSubmission faceEnrollmentSubmission,) async {
+    final response = await apiV1ParentsMeFaceEnrollmentSubmitCreateWithHttpInfo(id, faceEnrollmentSubmission,);
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'FaceEnrollmentStatus',) as FaceEnrollmentStatus;
+    
+    }
+    return null;
+  }
+
+  /// Manage FCM tokens for push notifications. POST /api/v1/parents/me/fcm-tokens/ - Register token DELETE /api/v1/parents/me/fcm-tokens/ - Delete token  Google Pattern: Infrastructure operation - works for authenticated users. Parent may have \"pending\" approval status - that's OK for device management.
+  ///
+  /// Note: This method returns the HTTP [Response].
+  Future<Response> apiV1ParentsMeFcmTokensCreateWithHttpInfo() async {
+    // ignore: prefer_const_declarations
+    final path = r'/api/v1/parents/me/fcm-tokens/';
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'POST',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Manage FCM tokens for push notifications. POST /api/v1/parents/me/fcm-tokens/ - Register token DELETE /api/v1/parents/me/fcm-tokens/ - Delete token  Google Pattern: Infrastructure operation - works for authenticated users. Parent may have \"pending\" approval status - that's OK for device management.
+  Future<void> apiV1ParentsMeFcmTokensCreate() async {
+    final response = await apiV1ParentsMeFcmTokensCreateWithHttpInfo();
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+  }
+
+  /// Manage FCM tokens for push notifications. POST /api/v1/parents/me/fcm-tokens/ - Register token DELETE /api/v1/parents/me/fcm-tokens/ - Delete token  Google Pattern: Infrastructure operation - works for authenticated users. Parent may have \"pending\" approval status - that's OK for device management.
+  ///
+  /// Note: This method returns the HTTP [Response].
+  Future<Response> apiV1ParentsMeFcmTokensDestroyWithHttpInfo() async {
+    // ignore: prefer_const_declarations
+    final path = r'/api/v1/parents/me/fcm-tokens/';
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'DELETE',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Manage FCM tokens for push notifications. POST /api/v1/parents/me/fcm-tokens/ - Register token DELETE /api/v1/parents/me/fcm-tokens/ - Delete token  Google Pattern: Infrastructure operation - works for authenticated users. Parent may have \"pending\" approval status - that's OK for device management.
+  Future<void> apiV1ParentsMeFcmTokensDestroy() async {
+    final response = await apiV1ParentsMeFcmTokensDestroyWithHttpInfo();
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+  }
+
+  /// Get or update notification preferences. GET/PATCH /api/v1/parents/me/notification-preferences/
+  ///
+  /// Note: This method returns the HTTP [Response].
+  Future<Response> apiV1ParentsMeNotificationPreferencesPartialUpdateWithHttpInfo() async {
+    // ignore: prefer_const_declarations
+    final path = r'/api/v1/parents/me/notification-preferences/';
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'PATCH',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Get or update notification preferences. GET/PATCH /api/v1/parents/me/notification-preferences/
+  Future<void> apiV1ParentsMeNotificationPreferencesPartialUpdate() async {
+    final response = await apiV1ParentsMeNotificationPreferencesPartialUpdateWithHttpInfo();
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+  }
+
+  /// Get or update notification preferences. GET/PATCH /api/v1/parents/me/notification-preferences/
+  ///
+  /// Note: This method returns the HTTP [Response].
+  Future<Response> apiV1ParentsMeNotificationPreferencesRetrieveWithHttpInfo() async {
+    // ignore: prefer_const_declarations
+    final path = r'/api/v1/parents/me/notification-preferences/';
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Get or update notification preferences. GET/PATCH /api/v1/parents/me/notification-preferences/
+  Future<void> apiV1ParentsMeNotificationPreferencesRetrieve() async {
+    final response = await apiV1ParentsMeNotificationPreferencesRetrieveWithHttpInfo();
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+  }
+
+  /// List all notifications for the parent. GET /api/v1/parents/me/notifications/
+  ///
+  /// Note: This method returns the HTTP [Response].
+  Future<Response> apiV1ParentsMeNotificationsRetrieveWithHttpInfo() async {
+    // ignore: prefer_const_declarations
+    final path = r'/api/v1/parents/me/notifications/';
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// List all notifications for the parent. GET /api/v1/parents/me/notifications/
+  Future<void> apiV1ParentsMeNotificationsRetrieve() async {
+    final response = await apiV1ParentsMeNotificationsRetrieveWithHttpInfo();
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+  }
+
   /// Get my parent profile
   ///
   /// Note: This method returns the HTTP [Response].
@@ -2948,6 +3274,51 @@ class ApiApi {
     
     }
     return null;
+  }
+
+  /// Mark a notification as read. POST /api/v1/parents/me/notifications/{notification_id}/read/
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [String] id (required):
+  Future<Response> apiV1ParentsMeReadCreateWithHttpInfo(String id,) async {
+    // ignore: prefer_const_declarations
+    final path = r'/api/v1/parents/me/{id}/read/'
+      .replaceAll('{id}', id);
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'POST',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Mark a notification as read. POST /api/v1/parents/me/notifications/{notification_id}/read/
+  ///
+  /// Parameters:
+  ///
+  /// * [String] id (required):
+  Future<void> apiV1ParentsMeReadCreate(String id,) async {
+    final response = await apiV1ParentsMeReadCreateWithHttpInfo(id,);
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
   }
 
   /// Admin-only parent management - NO row-level filtering (requires admin access)
@@ -4660,6 +5031,86 @@ class ApiApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'StudentPhoto',) as StudentPhoto;
+    
+    }
+    return null;
+  }
+
+  /// Get all registered students
+  ///
+  /// Returns paginated list of ALL registered students (not just students who boarded today). Cached for 5 minutes.
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [int] limit:
+  ///   Number of students per page (default=50, max=100)
+  ///
+  /// * [int] offset:
+  ///   Offset for pagination (default=0)
+  ///
+  /// * [String] search:
+  ///   Search by student name, school ID, or grade
+  Future<Response> apiV1StudentsAllRetrieveWithHttpInfo({ int? limit, int? offset, String? search, }) async {
+    // ignore: prefer_const_declarations
+    final path = r'/api/v1/students/all/';
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    if (limit != null) {
+      queryParams.addAll(_queryParams('', 'limit', limit));
+    }
+    if (offset != null) {
+      queryParams.addAll(_queryParams('', 'offset', offset));
+    }
+    if (search != null) {
+      queryParams.addAll(_queryParams('', 'search', search));
+    }
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Get all registered students
+  ///
+  /// Returns paginated list of ALL registered students (not just students who boarded today). Cached for 5 minutes.
+  ///
+  /// Parameters:
+  ///
+  /// * [int] limit:
+  ///   Number of students per page (default=50, max=100)
+  ///
+  /// * [int] offset:
+  ///   Offset for pagination (default=0)
+  ///
+  /// * [String] search:
+  ///   Search by student name, school ID, or grade
+  Future<ApiV1StudentsAllRetrieve200Response?> apiV1StudentsAllRetrieve({ int? limit, int? offset, String? search, }) async {
+    final response = await apiV1StudentsAllRetrieveWithHttpInfo( limit: limit, offset: offset, search: search, );
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ApiV1StudentsAllRetrieve200Response',) as ApiV1StudentsAllRetrieve200Response;
     
     }
     return null;

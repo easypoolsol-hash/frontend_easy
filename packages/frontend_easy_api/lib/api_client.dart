@@ -196,6 +196,10 @@ class ApiClient {
           return ApiV1ParentsMeBusesLocationRetrieve200ResponseLocation.fromJson(value);
         case 'ApiV1ParentsMeBusesRetrieve200Response':
           return ApiV1ParentsMeBusesRetrieve200Response.fromJson(value);
+        case 'ApiV1StudentsAllRetrieve200Response':
+          return ApiV1StudentsAllRetrieve200Response.fromJson(value);
+        case 'ApiV1StudentsAllRetrieve200ResponseResultsInner':
+          return ApiV1StudentsAllRetrieve200ResponseResultsInner.fromJson(value);
         case 'AttendanceRecord':
           return AttendanceRecord.fromJson(value);
         case 'AuditLog':
@@ -224,6 +228,10 @@ class ApiClient {
           return DashboardStudentsResponse.fromJson(value);
         case 'DeviceLog':
           return DeviceLog.fromJson(value);
+        case 'FaceEnrollmentStatus':
+          return FaceEnrollmentStatus.fromJson(value);
+        case 'FaceEnrollmentSubmission':
+          return FaceEnrollmentSubmission.fromJson(value);
         case 'Group':
           return Group.fromJson(value);
         case 'HealthData':

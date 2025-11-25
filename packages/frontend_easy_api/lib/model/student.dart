@@ -66,13 +66,13 @@ class Student {
   /// Date student enrolled in school
   DateTime? enrollmentDate;
 
-  School schoolDetails;
+  School? schoolDetails;
 
-  BusBasic busDetails;
+  BusBasic? busDetails;
 
-  List<StudentParent> parents;
+  List<StudentParent>? parents;
 
-  List<StudentPhoto> photos;
+  List<StudentPhoto>? photos;
 
   DateTime createdAt;
 
@@ -112,10 +112,10 @@ class Student {
     (assignedBus == null ? 0 : assignedBus!.hashCode) +
     (status == null ? 0 : status!.hashCode) +
     (enrollmentDate == null ? 0 : enrollmentDate!.hashCode) +
-    (schoolDetails.hashCode) +
-    (busDetails.hashCode) +
-    (parents.hashCode) +
-    (photos.hashCode) +
+    (schoolDetails == null ? 0 : schoolDetails!.hashCode) +
+    (busDetails == null ? 0 : busDetails!.hashCode) +
+    (parents == null ? 0 : parents!.hashCode) +
+    (photos == null ? 0 : photos!.hashCode) +
     (createdAt.hashCode) +
     (updatedAt.hashCode);
 
@@ -159,10 +159,26 @@ class Student {
     } else {
       json[r'enrollment_date'] = null;
     }
+    if (this.schoolDetails != null) {
       json[r'school_details'] = this.schoolDetails;
+    } else {
+      json[r'school_details'] = null;
+    }
+    if (this.busDetails != null) {
       json[r'bus_details'] = this.busDetails;
+    } else {
+      json[r'bus_details'] = null;
+    }
+    if (this.parents != null) {
       json[r'parents'] = this.parents;
+    } else {
+      json[r'parents'] = null;
+    }
+    if (this.photos != null) {
       json[r'photos'] = this.photos;
+    } else {
+      json[r'photos'] = null;
+    }
       json[r'created_at'] = this.createdAt.toUtc().toIso8601String();
       json[r'updated_at'] = this.updatedAt.toUtc().toIso8601String();
     return json;
@@ -198,8 +214,8 @@ class Student {
         assignedBus: mapValueOfType<String>(json, r'assigned_bus'),
         status: StudentStatusEnum.fromJson(json[r'status']),
         enrollmentDate: mapDateTime(json, r'enrollment_date', r''),
-        schoolDetails: School.fromJson(json[r'school_details'])!,
-        busDetails: BusBasic.fromJson(json[r'bus_details'])!,
+        schoolDetails: School.fromJson(json[r'school_details']),
+        busDetails: BusBasic.fromJson(json[r'bus_details']),
         parents: StudentParent.listFromJson(json[r'parents']),
         photos: StudentPhoto.listFromJson(json[r'photos']),
         createdAt: mapDateTime(json, r'created_at', r'')!,

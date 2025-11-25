@@ -1,8 +1,8 @@
-# frontend_easy_api.model.ApiV1ParentsMeBusesRetrieve200Response
+# openapi.model.ApiV1ParentsMeBusesRetrieve200Response
 
 ## Load the model package
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 ```
 
 ## Properties

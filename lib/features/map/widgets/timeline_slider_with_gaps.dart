@@ -30,6 +30,9 @@ class TimelineSliderWithGaps extends StatelessWidget {
   /// Minimum gap duration to show as a visual gap (default: 5 minutes)
   final Duration minimumGapDuration;
 
+  /// Show GPS points only mode (collapse gaps in timeline)
+  final bool showGpsPointsOnly;
+
   const TimelineSliderWithGaps({
     required this.locations,
     required this.startTime,
@@ -39,11 +42,17 @@ class TimelineSliderWithGaps extends StatelessWidget {
     this.dataColor = Colors.blue,
     this.gapColor = Colors.grey,
     this.minimumGapDuration = const Duration(minutes: 5),
+    this.showGpsPointsOnly = false,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
+    // Convert UTC times to IST for display
+    final istStartTime = startTime.toLocal();
+    final istCurrentTime = currentTimestamp.toLocal();
+    final istEndTime = endTime.toLocal();
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -52,17 +61,28 @@ class TimelineSliderWithGaps extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              DateFormat('HH:mm:ss').format(startTime),
+              DateFormat('HH:mm:ss').format(istStartTime),
               style: Theme.of(context).textTheme.labelSmall,
             ),
-            Text(
-              DateFormat('HH:mm:ss').format(currentTimestamp),
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
+            Column(
+              children: [
+                Text(
+                  DateFormat('HH:mm:ss').format(istCurrentTime),
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+                if (showGpsPointsOnly)
+                  Text(
+                    'Point ${_findCurrentPointIndex() + 1} of ${locations.length}',
+                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
                   ),
+              ],
             ),
             Text(
-              DateFormat('HH:mm:ss').format(endTime),
+              DateFormat('HH:mm:ss').format(istEndTime),
               style: Theme.of(context).textTheme.labelSmall,
             ),
           ],
@@ -72,8 +92,9 @@ class TimelineSliderWithGaps extends StatelessWidget {
         // Visual timeline with gaps
         Stack(
           children: [
-            // Background track showing gaps
-            _buildGapVisualization(context),
+            // Background track showing gaps (only in timeline mode)
+            if (!showGpsPointsOnly) _buildGapVisualization(context)
+            else _buildPointsOnlyTrack(context),
 
             // Slider on top
             SliderTheme(
@@ -86,12 +107,20 @@ class TimelineSliderWithGaps extends StatelessWidget {
                 thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
               ),
               child: Slider(
-                value: _timestampToSliderValue(currentTimestamp),
+                value: showGpsPointsOnly ? _pointIndexToSliderValue() : _timestampToSliderValue(currentTimestamp),
                 min: 0,
                 max: 1,
                 onChanged: (value) {
-                  final timestamp = _sliderValueToTimestamp(value);
-                  onChanged(timestamp);
+                  if (showGpsPointsOnly) {
+                    final pointIndex = _sliderValueToPointIndex(value);
+                    final timestamp = _pointIndexToTimestamp(pointIndex);
+                    if (timestamp != null) {
+                      onChanged(timestamp);
+                    }
+                  } else {
+                    final timestamp = _sliderValueToTimestamp(value);
+                    onChanged(timestamp);
+                  }
                 },
               ),
             ),
@@ -224,5 +253,68 @@ class TimelineSliderWithGaps extends StatelessWidget {
     final totalDuration = endTime.difference(startTime).inSeconds;
     final elapsed = (totalDuration * value).round();
     return startTime.add(Duration(seconds: elapsed));
+  }
+
+  /// Build solid track for GPS points only mode
+  Widget _buildPointsOnlyTrack(BuildContext context) {
+    return Container(
+      height: 8,
+      decoration: BoxDecoration(
+        color: dataColor,
+        borderRadius: BorderRadius.circular(4),
+      ),
+    );
+  }
+
+  /// Find current point index based on current timestamp
+  int _findCurrentPointIndex() {
+    for (int i = 0; i < locations.length; i++) {
+      try {
+        final properties = locations[i]['properties'] as Map<String, dynamic>?;
+        final timestampStr = properties?['timestamp'] as String?;
+        if (timestampStr != null) {
+          final timestamp = DateTime.parse(timestampStr);
+          if (timestamp.isAtSameMomentAs(currentTimestamp) ||
+              timestamp.isAfter(currentTimestamp)) {
+            return i;
+          }
+        }
+      } catch (e) {
+        continue;
+      }
+    }
+    return locations.isEmpty ? 0 : locations.length - 1;
+  }
+
+  /// Convert point index to slider value (0.0 to 1.0)
+  /// In points mode, slider represents point indices, not time
+  double _pointIndexToSliderValue() {
+    if (locations.isEmpty) return 0;
+    final index = _findCurrentPointIndex();
+    final maxIndex = (locations.length - 1).clamp(1, locations.length);
+    return index / maxIndex;
+  }
+
+  /// Convert slider value to point index
+  /// In points mode, slider value directly maps to point index
+  int _sliderValueToPointIndex(double value) {
+    if (locations.isEmpty) return 0;
+    final index = (value * (locations.length - 1)).round();
+    return index.clamp(0, locations.length - 1);
+  }
+
+  /// Get timestamp for a specific point index
+  DateTime? _pointIndexToTimestamp(int index) {
+    if (index < 0 || index >= locations.length) return null;
+    try {
+      final properties = locations[index]['properties'] as Map<String, dynamic>?;
+      final timestampStr = properties?['timestamp'] as String?;
+      if (timestampStr != null) {
+        return DateTime.parse(timestampStr);
+      }
+    } catch (e) {
+      // Invalid timestamp
+    }
+    return null;
   }
 }

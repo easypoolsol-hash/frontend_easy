@@ -65,21 +65,9 @@ class PatchedParent {
   String? name;
 
   /// Encrypted phone number (plaintext validated as +91XXXXXXXXXX)
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
   String? phone;
 
   /// Encrypted email address (plaintext validated per RFC 5321)
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
   String? email;
 
   ///

@@ -258,8 +258,9 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
   void didUpdateWidget(RouteMapWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    // Check if selected bus IDs changed
-    if (widget.selectedBusIds != oldWidget.selectedBusIds &&
+    // Check if selected bus IDs changed (but NOT in history mode to allow free camera movement)
+    if (!widget.historyMode &&
+        widget.selectedBusIds != oldWidget.selectedBusIds &&
         widget.selectedBusIds.isNotEmpty) {
       _focusOnSelectedBus();
     }
@@ -279,9 +280,10 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
         data: (busLocations) async {
           for (final busFeature in busLocations) {
             final properties = busFeature['properties'] as Map<String, dynamic>;
-            final busId = properties['id']?.toString();
+            // Use bus_id (UUID) instead of id for proper matching
+            final busId = properties['bus_id']?.toString() ?? properties['id']?.toString();
 
-            if (widget.selectedBusIds.contains(busId)) {
+            if (busId != null && widget.selectedBusIds.contains(busId)) {
               final geometry = busFeature['geometry'] as Map<String, dynamic>;
               final coordinates = geometry['coordinates'] as List<dynamic>;
               final lon = (coordinates[0] as num).toDouble();
@@ -698,12 +700,14 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
 
         // Only add marker if icon is ready
         if (_cachedHistoricalBusMarker != null) {
+          final currentIndex = widget.historicalCurrentIndex ?? 0;
+          final totalPoints = widget.historicalLocations?.length ?? 0;
           historicalMarkers.add(Marker(
             markerId: const MarkerId('historical_bus'),
             position: LatLng(lat, lon),
             icon: _cachedHistoricalBusMarker!,
-            infoWindow: const InfoWindow(
-              title: 'Historical Position',
+            infoWindow: InfoWindow(
+              title: 'Point ${currentIndex + 1}${totalPoints > 0 ? ' of $totalPoints' : ''}',
             ),
           ));
         }

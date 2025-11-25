@@ -18,8 +18,8 @@ class Parent {
     required this.decryptedPhone,
     required this.decryptedEmail,
     required this.name,
-    required this.phone,
-    required this.email,
+    this.phone,
+    this.email,
     required this.createdAt,
   });
 
@@ -35,10 +35,10 @@ class Parent {
   String name;
 
   /// Encrypted phone number (plaintext validated as +91XXXXXXXXXX)
-  String phone;
+  String? phone;
 
   /// Encrypted email address (plaintext validated per RFC 5321)
-  String email;
+  String? email;
 
   DateTime createdAt;
 
@@ -61,8 +61,8 @@ class Parent {
     (decryptedPhone.hashCode) +
     (decryptedEmail.hashCode) +
     (name.hashCode) +
-    (phone.hashCode) +
-    (email.hashCode) +
+    (phone == null ? 0 : phone!.hashCode) +
+    (email == null ? 0 : email!.hashCode) +
     (createdAt.hashCode);
 
   @override
@@ -75,8 +75,16 @@ class Parent {
       json[r'decrypted_phone'] = this.decryptedPhone;
       json[r'decrypted_email'] = this.decryptedEmail;
       json[r'name'] = this.name;
+    if (this.phone != null) {
       json[r'phone'] = this.phone;
+    } else {
+      json[r'phone'] = null;
+    }
+    if (this.email != null) {
       json[r'email'] = this.email;
+    } else {
+      json[r'email'] = null;
+    }
       json[r'created_at'] = this.createdAt.toUtc().toIso8601String();
     return json;
   }
@@ -105,8 +113,8 @@ class Parent {
         decryptedPhone: mapValueOfType<String>(json, r'decrypted_phone')!,
         decryptedEmail: mapValueOfType<String>(json, r'decrypted_email')!,
         name: mapValueOfType<String>(json, r'name')!,
-        phone: mapValueOfType<String>(json, r'phone')!,
-        email: mapValueOfType<String>(json, r'email')!,
+        phone: mapValueOfType<String>(json, r'phone'),
+        email: mapValueOfType<String>(json, r'email'),
         createdAt: mapDateTime(json, r'created_at', r'')!,
       );
     }
@@ -160,8 +168,6 @@ class Parent {
     'decrypted_phone',
     'decrypted_email',
     'name',
-    'phone',
-    'email',
     'created_at',
   };
 }

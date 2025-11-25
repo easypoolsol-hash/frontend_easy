@@ -1,8 +1,8 @@
-# frontend_easy_api.model.RouteStop
+# openapi.model.RouteStop
 
 ## Load the model package
 ```dart
-import 'package:frontend_easy_api/api.dart';
+import 'package:openapi/api.dart';
 ```
 
 ## Properties

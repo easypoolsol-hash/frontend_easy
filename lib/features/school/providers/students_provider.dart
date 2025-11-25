@@ -27,9 +27,9 @@ class StudentListParams {
 }
 
 /// Provider for fetching paginated students list with caching
-/// Uses the dashboard students API for simple, clean data
+/// Uses the ALL students API endpoint (not just today's boarders)
 final studentsListProvider =
-    FutureProvider.family<DashboardStudentsResponse, StudentListParams>(
+    FutureProvider.family<PaginatedStudentList, StudentListParams>(
   (ref, params) async {
     final repository = ref.watch(studentRepositoryProvider);
 
