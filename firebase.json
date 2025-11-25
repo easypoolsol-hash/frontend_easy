@@ -16,21 +16,6 @@
       ]
     },
     {
-      "target": "stage",
-      "public": "build/web",
-      "ignore": [
-        "firebase.json",
-        "**/.*",
-        "**/node_modules/**"
-      ],
-      "rewrites": [
-        {
-          "source": "**",
-          "destination": "/index.html"
-        }
-      ]
-    },
-    {
       "target": "prod",
       "public": "build/web",
       "ignore": [
@@ -47,17 +32,6 @@
     },
     {
       "target": "api-develop",
-      "public": "api-public",
-      "ignore": ["firebase.json", "**/.*"],
-      "rewrites": [
-        {
-          "source": "**",
-          "destination": "/index.html"
-        }
-      ]
-    },
-    {
-      "target": "api-stage",
       "public": "api-public",
       "ignore": ["firebase.json", "**/.*"],
       "rewrites": [
