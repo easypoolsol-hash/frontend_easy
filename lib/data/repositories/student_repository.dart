@@ -86,11 +86,18 @@ class StudentRepository {
 
       return data;
     } catch (e, stackTrace) {
-      // Log detailed error for debugging
-      print('StudentRepository Error fetching students:');
-      print('Error: $e');
-      print('Stack trace: $stackTrace');
-      print('Page: $page, Search: $search');
+      // Log detailed error for debugging (dev mode only)
+      assert(() {
+        // ignore: avoid_print
+        print('StudentRepository Error fetching students:');
+        // ignore: avoid_print
+        print('Error: $e');
+        // ignore: avoid_print
+        print('Stack trace: $stackTrace');
+        // ignore: avoid_print
+        print('Page: $page, Search: $search');
+        return true;
+      }());
       rethrow;
     }
   }

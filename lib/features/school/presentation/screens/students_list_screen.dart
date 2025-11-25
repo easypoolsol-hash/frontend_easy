@@ -360,8 +360,12 @@ class _StudentsListScreenState extends ConsumerState<StudentsListScreen> {
   }
 
   Widget _buildErrorState(dynamic error) {
-    // Print error to console for debugging
-    print('Students List Error: $error');
+    // Print error to console for debugging (dev mode only)
+    assert(() {
+      // ignore: avoid_print
+      print('Students List Error: $error');
+      return true;
+    }());
 
     return Card(
       child: Center(
