@@ -7,13 +7,6 @@
       "firebase_site": "easypool-develop",
       "firebase_target": "develop"
     },
-    "staging": {
-      "name": "Staging",
-      "backend_url": "https://easypool-backend-staging-781819882627.asia-south1.run.app",
-      "frontend_url": "https://stage.easypool.in",
-      "firebase_site": "easypool-stage",
-      "firebase_target": "stage"
-    },
     "production": {
       "name": "Production",
       "backend_url": "https://easypool-backend-production-781819882627.asia-south1.run.app",

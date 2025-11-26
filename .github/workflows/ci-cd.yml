@@ -39,7 +39,6 @@ jobs:
     outputs:
       should_deploy: ${{ steps.route.outputs.should_deploy }}
       deploy_develop: ${{ steps.route.outputs.deploy_develop }}
-      deploy_staging: ${{ steps.route.outputs.deploy_staging }}
       deploy_production: ${{ steps.route.outputs.deploy_production }}
       path_indicator: ${{ steps.route.outputs.path_indicator }}
     steps:
@@ -49,7 +48,6 @@ jobs:
           # Initialize
           SHOULD_DEPLOY=false
           DEPLOY_DEVELOP=false
-          DEPLOY_STAGING=false
           DEPLOY_PRODUCTION=false
           PATH_INDICATOR=""
 
@@ -60,7 +58,7 @@ jobs:
             echo "# 🎯 CHOSEN PATH: PR VALIDATION" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
             echo "## 🔍 PR VALIDATION" >> $GITHUB_STEP_SUMMARY
-            echo "Quality checks + build only, no deployment" >> $GITHUB_STEP_SUMMARY
+            echo "Quality checks only, no deployment" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
             echo "**Branch:** ${{ github.head_ref }}" >> $GITHUB_STEP_SUMMARY
             echo "**Action:** Validate only (no deployment)" >> $GITHUB_STEP_SUMMARY
@@ -78,18 +76,17 @@ jobs:
             echo "**Target:** Development environment" >> $GITHUB_STEP_SUMMARY
             echo "**URL:** https://dev.easypool.in" >> $GITHUB_STEP_SUMMARY
 
-          # master: deploy to staging site
+          # master (no tag): quality checks only, no deployment
           elif [[ "${{ github.ref }}" == "refs/heads/master" ]] || [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-            PATH_INDICATOR="🟠 STAGING → stage.easypool.in"
-            SHOULD_DEPLOY=true
-            DEPLOY_STAGING=true
-            echo "# 🎯 CHOSEN PATH: STAGING DEPLOYMENT" >> $GITHUB_STEP_SUMMARY
+            PATH_INDICATOR="⚪ MASTER → Quality Checks Only"
+            SHOULD_DEPLOY=false
+            echo "# 🎯 CHOSEN PATH: MASTER VALIDATION" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
-            echo "## 🟠 STAGING → stage.easypool.in" >> $GITHUB_STEP_SUMMARY
+            echo "## ⚪ MASTER → Quality Checks Only" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
             echo "**Branch:** master/main" >> $GITHUB_STEP_SUMMARY
-            echo "**Target:** Staging environment" >> $GITHUB_STEP_SUMMARY
-            echo "**URL:** https://stage.easypool.in" >> $GITHUB_STEP_SUMMARY
+            echo "**Action:** Validate only (no deployment)" >> $GITHUB_STEP_SUMMARY
+            echo "**Note:** Tag with v* to deploy to production" >> $GITHUB_STEP_SUMMARY
 
           # v* tag: deploy to production
           elif [[ "${{ github.ref }}" == refs/tags/v* ]]; then
@@ -108,7 +105,6 @@ jobs:
           # Set outputs
           echo "should_deploy=$SHOULD_DEPLOY" >> $GITHUB_OUTPUT
           echo "deploy_develop=$DEPLOY_DEVELOP" >> $GITHUB_OUTPUT
-          echo "deploy_staging=$DEPLOY_STAGING" >> $GITHUB_OUTPUT
           echo "deploy_production=$DEPLOY_PRODUCTION" >> $GITHUB_OUTPUT
           echo "path_indicator=$PATH_INDICATOR" >> $GITHUB_OUTPUT
 
@@ -119,28 +115,12 @@ jobs:
     name: ⚡ Quality
     runs-on: ubuntu-latest
     needs: [decide]
-    if: needs.decide.outputs.should_deploy == 'true' || github.event_name == 'pull_request'
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-flutter
       - uses: ./.github/actions/quality-check
         with:
           fail-on-warnings: 'false'
-
-  # ============================================================================
-  # BUILD: Single build job (PR validation only - uses localhost)
-  # ============================================================================
-  build:
-    name: 🏗️ Build
-    runs-on: ubuntu-latest
-    needs: [decide]
-    if: github.event_name == 'pull_request'
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-flutter
-      - uses: ./.github/actions/build-web
-        with:
-          api_base_url: 'http://localhost:8000'
 
   # ============================================================================
   # DEPLOY: Only the matching environment shows (others hidden)
@@ -200,63 +180,6 @@ jobs:
 
       - run: |
           echo "# 🟡 DEVELOP DEPLOYED" >> $GITHUB_STEP_SUMMARY
-          echo "**URL:** ${{ steps.config.outputs.frontend_url }}" >> $GITHUB_STEP_SUMMARY
-          echo "**Backend:** ${{ steps.config.outputs.backend_url }}" >> $GITHUB_STEP_SUMMARY
-
-  deploy-staging:
-    name: 🟠 Deploy to Staging
-    runs-on: ubuntu-latest
-    needs: [decide, quality]
-    if: needs.decide.outputs.deploy_staging == 'true'
-    environment:
-      name: staging
-      url: https://stage.easypool.in
-    permissions:
-      contents: read
-      id-token: write
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Load environment config
-        id: config
-        run: |
-          BACKEND_URL=$(jq -r '.environments.staging.backend_url' ${{ env.CONFIG_FILE }})
-          FRONTEND_URL=$(jq -r '.environments.staging.frontend_url' ${{ env.CONFIG_FILE }})
-          FIREBASE_SITE=$(jq -r '.environments.staging.firebase_site' ${{ env.CONFIG_FILE }})
-          FIREBASE_TARGET=$(jq -r '.environments.staging.firebase_target' ${{ env.CONFIG_FILE }})
-          FIREBASE_PROJECT_ID=$(jq -r '.firebase_project_id' ${{ env.CONFIG_FILE }})
-          WORKLOAD_IDENTITY=$(jq -r '.workload_identity_provider' ${{ env.CONFIG_FILE }})
-          SERVICE_ACCOUNT=$(jq -r '.service_account' ${{ env.CONFIG_FILE }})
-
-          echo "backend_url=$BACKEND_URL" >> $GITHUB_OUTPUT
-          echo "frontend_url=$FRONTEND_URL" >> $GITHUB_OUTPUT
-          echo "firebase_site=$FIREBASE_SITE" >> $GITHUB_OUTPUT
-          echo "firebase_target=$FIREBASE_TARGET" >> $GITHUB_OUTPUT
-          echo "firebase_project_id=$FIREBASE_PROJECT_ID" >> $GITHUB_OUTPUT
-          echo "workload_identity=$WORKLOAD_IDENTITY" >> $GITHUB_OUTPUT
-          echo "service_account=$SERVICE_ACCOUNT" >> $GITHUB_OUTPUT
-
-      - uses: ./.github/actions/setup-flutter
-
-      - name: Build with staging backend
-        uses: ./.github/actions/build-web
-        with:
-          api_base_url: ${{ steps.config.outputs.backend_url }}
-
-      - name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@v2
-        with:
-          workload_identity_provider: ${{ steps.config.outputs.workload_identity }}
-          service_account: ${{ steps.config.outputs.service_account }}
-
-      - uses: ./.github/actions/deploy-firebase
-        with:
-          site: ${{ steps.config.outputs.firebase_site }}
-          target: ${{ steps.config.outputs.firebase_target }}
-          project-id: ${{ steps.config.outputs.firebase_project_id }}
-
-      - run: |
-          echo "# 🟠 STAGING DEPLOYED" >> $GITHUB_STEP_SUMMARY
           echo "**URL:** ${{ steps.config.outputs.frontend_url }}" >> $GITHUB_STEP_SUMMARY
           echo "**Backend:** ${{ steps.config.outputs.backend_url }}" >> $GITHUB_STEP_SUMMARY
 
