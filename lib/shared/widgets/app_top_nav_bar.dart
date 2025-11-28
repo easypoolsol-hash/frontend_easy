@@ -121,14 +121,9 @@ class AppTopNavBar extends ConsumerWidget {
 
           // Only from last 7 days (if createdAt available)
           if (a.createdAt != null) {
-            try {
-              final createdDate = DateTime.parse(a.createdAt!);
-              return createdDate.isAfter(sevenDaysAgo);
-            } catch (_) {
-              return true; // If can't parse, include it
-            }
+            return a.createdAt!.isAfter(sevenDaysAgo);
           }
-          return true;
+          return true; // Include if no createdAt
         }).toList();
 
         final activeCount = recentActiveAlerts.length;
