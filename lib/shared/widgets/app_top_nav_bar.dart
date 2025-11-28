@@ -134,10 +134,11 @@ class AppTopNavBar extends ConsumerWidget {
           backgroundColor: Colors.red,
           child: IconButton(
             icon: Icon(
-              Icons.notifications,
+              activeCount > 0 ? Icons.notifications_active : Icons.notifications_outlined,
+              size: 28,
               color: activeCount > 0
                 ? Colors.red
-                : Theme.of(context).colorScheme.onSurfaceVariant,
+                : Colors.grey[600],
             ),
             tooltip: activeCount > 0
               ? '$activeCount active SOS'
@@ -149,11 +150,11 @@ class AppTopNavBar extends ConsumerWidget {
         );
       },
       loading: () => IconButton(
-        icon: const Icon(Icons.notifications_outlined),
+        icon: Icon(Icons.notifications_outlined, size: 28, color: Colors.grey[600]),
         onPressed: null,
       ),
       error: (_, __) => IconButton(
-        icon: const Icon(Icons.notifications_off_outlined),
+        icon: Icon(Icons.notifications_off_outlined, size: 28, color: Colors.grey[600]),
         tooltip: 'Unable to load SOS',
         onPressed: null,
       ),
@@ -168,36 +169,54 @@ class AppTopNavBar extends ConsumerWidget {
           children: [
             const Icon(Icons.warning_amber, color: Colors.red),
             const SizedBox(width: 8),
-            Text('Active SOS (${alerts.length})'),
+            Text('Active SOS Alerts (${alerts.length})'),
           ],
         ),
         content: SizedBox(
           width: 400,
-          child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: alerts.length,
-            itemBuilder: (context, index) {
-              final alert = alerts[index];
-              return ListTile(
-                leading: const Icon(Icons.emergency, color: Colors.red),
-                title: Text(alert.studentName ?? 'Unknown Student'),
-                subtitle: Text('Bus: ${alert.busLicensePlate ?? 'Unknown'}'),
-              );
-            },
-          ),
+          child: alerts.isEmpty
+              ? const Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Text('No active SOS alerts'),
+                )
+              : ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: alerts.length,
+                  itemBuilder: (context, index) {
+                    final alert = alerts[index];
+                    final busInfo = alert.busNumber ?? alert.busLicensePlate ?? 'Unknown Bus';
+                    final timestamp = alert.createdAt != null
+                        ? '${alert.createdAt.hour.toString().padLeft(2, '0')}:${alert.createdAt.minute.toString().padLeft(2, '0')}'
+                        : '';
+
+                    return Card(
+                      margin: const EdgeInsets.only(bottom: 8),
+                      child: ListTile(
+                        leading: const Icon(Icons.emergency, color: Colors.red, size: 32),
+                        title: Text(
+                          'Bus: $busInfo',
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            if (timestamp.isNotEmpty)
+                              Text('Time: $timestamp'),
+                            if (alert.message != null && alert.message.isNotEmpty)
+                              Text('Message: ${alert.message}'),
+                            Text('Kiosk: ${alert.kioskId}'),
+                          ],
+                        ),
+                        isThreeLine: true,
+                      ),
+                    );
+                  },
+                ),
         ),
         actions: [
-          TextButton(
+          FilledButton(
             onPressed: () => Navigator.of(context).pop(),
             child: const Text('Close'),
-          ),
-          FilledButton.icon(
-            onPressed: () {
-              Navigator.of(context).pop();
-              context.go('/home');
-            },
-            icon: const Icon(Icons.map),
-            label: const Text('View on Map'),
           ),
         ],
       ),
