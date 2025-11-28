@@ -56,9 +56,9 @@
 
 - OpenAPI Generator: 7.14.0
 - Dio: 5.7.0
-- built_value: 8.9.2
+- built_value: 8.10.1 (required by riverpod_generator ^3.0.0)
 - built_collection: 5.1.1
-- built_value_generator: 8.9.2
+- built_value_generator: 8.10.1
 - build_runner: 2.4.13
 
 **Update these only when necessary** (security fixes, critical bugs).
