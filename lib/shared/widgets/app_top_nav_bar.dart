@@ -111,7 +111,27 @@ class AppTopNavBar extends ConsumerWidget {
 
     return sosAlertsAsync.when(
       data: (alerts) {
-        final activeCount = alerts.where((a) => a.status?.name == 'active').length;
+        // Filter: only active alerts from last 7 days
+        final now = DateTime.now();
+        final sevenDaysAgo = now.subtract(const Duration(days: 7));
+
+        final recentActiveAlerts = alerts.where((a) {
+          // Only active status
+          if (a.status?.name != 'active') return false;
+
+          // Only from last 7 days (if createdAt available)
+          if (a.createdAt != null) {
+            try {
+              final createdDate = DateTime.parse(a.createdAt!);
+              return createdDate.isAfter(sevenDaysAgo);
+            } catch (_) {
+              return true; // If can't parse, include it
+            }
+          }
+          return true;
+        }).toList();
+
+        final activeCount = recentActiveAlerts.length;
 
         return Badge(
           isLabelVisible: activeCount > 0,
@@ -125,40 +145,35 @@ class AppTopNavBar extends ConsumerWidget {
                 : Theme.of(context).colorScheme.onSurfaceVariant,
             ),
             tooltip: activeCount > 0
-              ? '$activeCount active SOS alert${activeCount > 1 ? 's' : ''}'
-              : 'No active SOS alerts',
-            onPressed: () => _showSOSAlertsDialog(context, ref, alerts),
+              ? '$activeCount active SOS'
+              : 'No active SOS',
+            onPressed: activeCount > 0
+              ? () => _showSOSAlertsDialog(context, ref, recentActiveAlerts)
+              : null,
           ),
         );
       },
       loading: () => IconButton(
-        icon: Icon(Icons.notifications_outlined),
+        icon: const Icon(Icons.notifications_outlined),
         onPressed: null,
       ),
       error: (_, __) => IconButton(
-        icon: Icon(Icons.notifications_off_outlined),
-        tooltip: 'Unable to load SOS alerts',
+        icon: const Icon(Icons.notifications_off_outlined),
+        tooltip: 'Unable to load SOS',
         onPressed: null,
       ),
     );
   }
 
   Future<void> _showSOSAlertsDialog(BuildContext context, WidgetRef ref, List<dynamic> alerts) async {
-    if (alerts.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('No SOS alerts')),
-      );
-      return;
-    }
-
     await showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: Row(
           children: [
-            Icon(Icons.warning_amber, color: Colors.red),
+            const Icon(Icons.warning_amber, color: Colors.red),
             const SizedBox(width: 8),
-            Text('SOS Alerts (${alerts.length})'),
+            Text('Active SOS (${alerts.length})'),
           ],
         ),
         content: SizedBox(
@@ -169,16 +184,9 @@ class AppTopNavBar extends ConsumerWidget {
             itemBuilder: (context, index) {
               final alert = alerts[index];
               return ListTile(
-                leading: Icon(
-                  Icons.emergency,
-                  color: alert.status?.name == 'active' ? Colors.red : Colors.grey,
-                ),
-                title: Text('Student: ${alert.studentName ?? 'Unknown'}'),
-                subtitle: Text(
-                  'Bus: ${alert.busLicensePlate ?? 'Unknown'}\n'
-                  'Status: ${alert.status?.name.toUpperCase() ?? 'Unknown'}',
-                ),
-                isThreeLine: true,
+                leading: const Icon(Icons.emergency, color: Colors.red),
+                title: Text(alert.studentName ?? 'Unknown Student'),
+                subtitle: Text('Bus: ${alert.busLicensePlate ?? 'Unknown'}'),
               );
             },
           ),
@@ -188,15 +196,14 @@ class AppTopNavBar extends ConsumerWidget {
             onPressed: () => Navigator.of(context).pop(),
             child: const Text('Close'),
           ),
-          if (alerts.any((a) => a.status?.name == 'active'))
-            FilledButton.icon(
-              onPressed: () {
-                Navigator.of(context).pop();
-                context.go('/home'); // Navigate to map to handle SOS alerts
-              },
-              icon: const Icon(Icons.map),
-              label: const Text('View on Map'),
-            ),
+          FilledButton.icon(
+            onPressed: () {
+              Navigator.of(context).pop();
+              context.go('/home');
+            },
+            icon: const Icon(Icons.map),
+            label: const Text('View on Map'),
+          ),
         ],
       ),
     );
