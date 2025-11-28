@@ -25,6 +25,8 @@ class _$User extends User {
   final DateTime createdAt;
   @override
   final DateTime updatedAt;
+  @override
+  final String? parentId;
 
   factory _$User([void Function(UserBuilder)? updates]) =>
       (UserBuilder()..update(updates))._build();
@@ -38,7 +40,8 @@ class _$User extends User {
       this.isActive,
       this.lastLogin,
       required this.createdAt,
-      required this.updatedAt})
+      required this.updatedAt,
+      this.parentId})
       : super._();
   @override
   User rebuild(void Function(UserBuilder) updates) =>
@@ -59,7 +62,8 @@ class _$User extends User {
         isActive == other.isActive &&
         lastLogin == other.lastLogin &&
         createdAt == other.createdAt &&
-        updatedAt == other.updatedAt;
+        updatedAt == other.updatedAt &&
+        parentId == other.parentId;
   }
 
   @override
@@ -74,6 +78,7 @@ class _$User extends User {
     _$hash = $jc(_$hash, lastLogin.hashCode);
     _$hash = $jc(_$hash, createdAt.hashCode);
     _$hash = $jc(_$hash, updatedAt.hashCode);
+    _$hash = $jc(_$hash, parentId.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -89,7 +94,8 @@ class _$User extends User {
           ..add('isActive', isActive)
           ..add('lastLogin', lastLogin)
           ..add('createdAt', createdAt)
-          ..add('updatedAt', updatedAt))
+          ..add('updatedAt', updatedAt)
+          ..add('parentId', parentId))
         .toString();
   }
 }
@@ -133,6 +139,10 @@ class UserBuilder implements Builder<User, UserBuilder> {
   DateTime? get updatedAt => _$this._updatedAt;
   set updatedAt(DateTime? updatedAt) => _$this._updatedAt = updatedAt;
 
+  String? _parentId;
+  String? get parentId => _$this._parentId;
+  set parentId(String? parentId) => _$this._parentId = parentId;
+
   UserBuilder() {
     User._defaults(this);
   }
@@ -149,6 +159,7 @@ class UserBuilder implements Builder<User, UserBuilder> {
       _lastLogin = $v.lastLogin;
       _createdAt = $v.createdAt;
       _updatedAt = $v.updatedAt;
+      _parentId = $v.parentId;
       _$v = null;
     }
     return this;
@@ -187,6 +198,7 @@ class UserBuilder implements Builder<User, UserBuilder> {
                 createdAt, r'User', 'createdAt'),
             updatedAt: BuiltValueNullFieldError.checkNotNull(
                 updatedAt, r'User', 'updatedAt'),
+            parentId: parentId,
           );
     } catch (_) {
       late String _$failedField;

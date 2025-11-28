@@ -116,16 +116,20 @@ class _$SOSAlertSerializer implements PrimitiveSerializer<SOSAlert> {
       object.kioskId,
       specifiedType: const FullType(String),
     );
-    yield r'bus_license_plate';
-    yield object.busLicensePlate == null ? null : serializers.serialize(
-      object.busLicensePlate,
-      specifiedType: const FullType.nullable(String),
-    );
-    yield r'bus_number';
-    yield object.busNumber == null ? null : serializers.serialize(
-      object.busNumber,
-      specifiedType: const FullType.nullable(String),
-    );
+    if (object.busLicensePlate != null) {
+      yield r'bus_license_plate';
+      yield serializers.serialize(
+        object.busLicensePlate,
+        specifiedType: const FullType.nullable(String),
+      );
+    }
+    if (object.busNumber != null) {
+      yield r'bus_number';
+      yield serializers.serialize(
+        object.busNumber,
+        specifiedType: const FullType.nullable(String),
+      );
+    }
     if (object.latitude != null) {
       yield r'latitude';
       yield serializers.serialize(
@@ -166,16 +170,20 @@ class _$SOSAlertSerializer implements PrimitiveSerializer<SOSAlert> {
       object.createdAt,
       specifiedType: const FullType(DateTime),
     );
-    yield r'acknowledged_at';
-    yield object.acknowledgedAt == null ? null : serializers.serialize(
-      object.acknowledgedAt,
-      specifiedType: const FullType.nullable(DateTime),
-    );
-    yield r'resolved_at';
-    yield object.resolvedAt == null ? null : serializers.serialize(
-      object.resolvedAt,
-      specifiedType: const FullType.nullable(DateTime),
-    );
+    if (object.acknowledgedAt != null) {
+      yield r'acknowledged_at';
+      yield serializers.serialize(
+        object.acknowledgedAt,
+        specifiedType: const FullType.nullable(DateTime),
+      );
+    }
+    if (object.resolvedAt != null) {
+      yield r'resolved_at';
+      yield serializers.serialize(
+        object.resolvedAt,
+        specifiedType: const FullType.nullable(DateTime),
+      );
+    }
     if (object.acknowledgedBy != null) {
       yield r'acknowledged_by';
       yield serializers.serialize(

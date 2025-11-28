@@ -1,8 +1,8 @@
-# openapi.model.ApiV1ParentsMeBusesLocationRetrieve200ResponseLocation
+# frontend_easy_api.model.ApiV1ParentsMeBusesLocationRetrieve200ResponseLocation
 
 ## Load the model package
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 ```
 
 ## Properties

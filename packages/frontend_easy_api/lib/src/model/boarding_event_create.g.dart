@@ -10,15 +10,13 @@ class _$BoardingEventCreate extends BoardingEventCreate {
   @override
   final String eventId;
   @override
-  final String student;
+  final String? student;
   @override
   final String kioskId;
   @override
   final double confidenceScore;
   @override
   final DateTime timestamp;
-  @override
-  final BuiltList<double>? gpsCoords;
   @override
   final String? busRoute;
   @override
@@ -34,11 +32,10 @@ class _$BoardingEventCreate extends BoardingEventCreate {
 
   _$BoardingEventCreate._(
       {required this.eventId,
-      required this.student,
+      this.student,
       required this.kioskId,
       required this.confidenceScore,
       required this.timestamp,
-      this.gpsCoords,
       this.busRoute,
       this.faceImageUrl,
       required this.modelVersion,
@@ -62,7 +59,6 @@ class _$BoardingEventCreate extends BoardingEventCreate {
         kioskId == other.kioskId &&
         confidenceScore == other.confidenceScore &&
         timestamp == other.timestamp &&
-        gpsCoords == other.gpsCoords &&
         busRoute == other.busRoute &&
         faceImageUrl == other.faceImageUrl &&
         modelVersion == other.modelVersion &&
@@ -77,7 +73,6 @@ class _$BoardingEventCreate extends BoardingEventCreate {
     _$hash = $jc(_$hash, kioskId.hashCode);
     _$hash = $jc(_$hash, confidenceScore.hashCode);
     _$hash = $jc(_$hash, timestamp.hashCode);
-    _$hash = $jc(_$hash, gpsCoords.hashCode);
     _$hash = $jc(_$hash, busRoute.hashCode);
     _$hash = $jc(_$hash, faceImageUrl.hashCode);
     _$hash = $jc(_$hash, modelVersion.hashCode);
@@ -94,7 +89,6 @@ class _$BoardingEventCreate extends BoardingEventCreate {
           ..add('kioskId', kioskId)
           ..add('confidenceScore', confidenceScore)
           ..add('timestamp', timestamp)
-          ..add('gpsCoords', gpsCoords)
           ..add('busRoute', busRoute)
           ..add('faceImageUrl', faceImageUrl)
           ..add('modelVersion', modelVersion)
@@ -128,12 +122,6 @@ class BoardingEventCreateBuilder
   DateTime? get timestamp => _$this._timestamp;
   set timestamp(DateTime? timestamp) => _$this._timestamp = timestamp;
 
-  ListBuilder<double>? _gpsCoords;
-  ListBuilder<double> get gpsCoords =>
-      _$this._gpsCoords ??= ListBuilder<double>();
-  set gpsCoords(ListBuilder<double>? gpsCoords) =>
-      _$this._gpsCoords = gpsCoords;
-
   String? _busRoute;
   String? get busRoute => _$this._busRoute;
   set busRoute(String? busRoute) => _$this._busRoute = busRoute;
@@ -162,7 +150,6 @@ class BoardingEventCreateBuilder
       _kioskId = $v.kioskId;
       _confidenceScore = $v.confidenceScore;
       _timestamp = $v.timestamp;
-      _gpsCoords = $v.gpsCoords?.toBuilder();
       _busRoute = $v.busRoute;
       _faceImageUrl = $v.faceImageUrl;
       _modelVersion = $v.modelVersion;
@@ -186,38 +173,23 @@ class BoardingEventCreateBuilder
   BoardingEventCreate build() => _build();
 
   _$BoardingEventCreate _build() {
-    _$BoardingEventCreate _$result;
-    try {
-      _$result = _$v ??
-          _$BoardingEventCreate._(
-            eventId: BuiltValueNullFieldError.checkNotNull(
-                eventId, r'BoardingEventCreate', 'eventId'),
-            student: BuiltValueNullFieldError.checkNotNull(
-                student, r'BoardingEventCreate', 'student'),
-            kioskId: BuiltValueNullFieldError.checkNotNull(
-                kioskId, r'BoardingEventCreate', 'kioskId'),
-            confidenceScore: BuiltValueNullFieldError.checkNotNull(
-                confidenceScore, r'BoardingEventCreate', 'confidenceScore'),
-            timestamp: BuiltValueNullFieldError.checkNotNull(
-                timestamp, r'BoardingEventCreate', 'timestamp'),
-            gpsCoords: _gpsCoords?.build(),
-            busRoute: busRoute,
-            faceImageUrl: faceImageUrl,
-            modelVersion: BuiltValueNullFieldError.checkNotNull(
-                modelVersion, r'BoardingEventCreate', 'modelVersion'),
-            metadata: metadata,
-          );
-    } catch (_) {
-      late String _$failedField;
-      try {
-        _$failedField = 'gpsCoords';
-        _gpsCoords?.build();
-      } catch (e) {
-        throw BuiltValueNestedFieldError(
-            r'BoardingEventCreate', _$failedField, e.toString());
-      }
-      rethrow;
-    }
+    final _$result = _$v ??
+        _$BoardingEventCreate._(
+          eventId: BuiltValueNullFieldError.checkNotNull(
+              eventId, r'BoardingEventCreate', 'eventId'),
+          student: student,
+          kioskId: BuiltValueNullFieldError.checkNotNull(
+              kioskId, r'BoardingEventCreate', 'kioskId'),
+          confidenceScore: BuiltValueNullFieldError.checkNotNull(
+              confidenceScore, r'BoardingEventCreate', 'confidenceScore'),
+          timestamp: BuiltValueNullFieldError.checkNotNull(
+              timestamp, r'BoardingEventCreate', 'timestamp'),
+          busRoute: busRoute,
+          faceImageUrl: faceImageUrl,
+          modelVersion: BuiltValueNullFieldError.checkNotNull(
+              modelVersion, r'BoardingEventCreate', 'modelVersion'),
+          metadata: metadata,
+        );
     replace(_$result);
     return _$result;
   }

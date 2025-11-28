@@ -13,7 +13,8 @@ part 'student_photo.g.dart';
 /// Properties:
 /// * [photoId] 
 /// * [student] 
-/// * [photo] - Student photo file
+/// * [photoUrl] 
+/// * [photoContentType] - MIME type (e.g., image/jpeg, image/png)
 /// * [isPrimary] - Primary photo for student
 /// * [capturedAt] - When photo was taken
 /// * [studentDetails] 
@@ -26,9 +27,12 @@ abstract class StudentPhoto implements Built<StudentPhoto, StudentPhotoBuilder> 
   @BuiltValueField(wireName: r'student')
   String get student;
 
-  /// Student photo file
-  @BuiltValueField(wireName: r'photo')
-  String? get photo;
+  @BuiltValueField(wireName: r'photo_url')
+  String get photoUrl;
+
+  /// MIME type (e.g., image/jpeg, image/png)
+  @BuiltValueField(wireName: r'photo_content_type')
+  String? get photoContentType;
 
   /// Primary photo for student
   @BuiltValueField(wireName: r'is_primary')
@@ -77,11 +81,16 @@ class _$StudentPhotoSerializer implements PrimitiveSerializer<StudentPhoto> {
       object.student,
       specifiedType: const FullType(String),
     );
-    if (object.photo != null) {
-      yield r'photo';
+    yield r'photo_url';
+    yield serializers.serialize(
+      object.photoUrl,
+      specifiedType: const FullType(String),
+    );
+    if (object.photoContentType != null) {
+      yield r'photo_content_type';
       yield serializers.serialize(
-        object.photo,
-        specifiedType: const FullType.nullable(String),
+        object.photoContentType,
+        specifiedType: const FullType(String),
       );
     }
     if (object.isPrimary != null) {
@@ -145,13 +154,19 @@ class _$StudentPhotoSerializer implements PrimitiveSerializer<StudentPhoto> {
           ) as String;
           result.student = valueDes;
           break;
-        case r'photo':
+        case r'photo_url':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType.nullable(String),
-          ) as String?;
-          if (valueDes == null) continue;
-          result.photo = valueDes;
+            specifiedType: const FullType(String),
+          ) as String;
+          result.photoUrl = valueDes;
+          break;
+        case r'photo_content_type':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.photoContentType = valueDes;
           break;
         case r'is_primary':
           final valueDes = serializers.deserialize(

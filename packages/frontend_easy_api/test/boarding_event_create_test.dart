@@ -13,7 +13,7 @@ void main() {
       // TODO
     });
 
-    // Student who boarded the bus
+    // Student who boarded the bus (null for unidentified faces)
     // String student
     test('to test the property `student`', () async {
       // TODO
@@ -34,12 +34,6 @@ void main() {
     // When the boarding event occurred
     // DateTime timestamp
     test('to test the property `timestamp`', () async {
-      // TODO
-    });
-
-    // Return GPS coordinates as a tuple for compatibility
-    // BuiltList<double> gpsCoords
-    test('to test the property `gpsCoords`', () async {
       // TODO
     });
 

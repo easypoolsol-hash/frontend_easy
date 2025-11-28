@@ -21,5 +21,12 @@ void main() {
       // TODO
     });
 
+    //      Returns historical bus locations for a specific bus on a specific date as GeoJSON.      Accessible by school administrators only.      **Response Format:**     GeoJSON FeatureCollection with Point geometries for each location record.      Each feature includes properties:     - id: Location record ID     - bus_number: Bus identifier     - bus_name: Bus license plate     - timestamp: When the location was recorded     - speed: Speed at that moment (km/h)     - heading: Direction heading (degrees)     - accuracy: GPS accuracy (meters)     
+    //
+    //Future<BusLocationHistoryResponse> busLocationsHistoryApi(String busUuid, Date date) async
+    test('test busLocationsHistoryApi', () async {
+      // TODO
+    });
+
   });
 }

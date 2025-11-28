@@ -110,11 +110,13 @@ class _$APIKeySerializer implements PrimitiveSerializer<APIKey> {
         specifiedType: const FullType.nullable(DateTime),
       );
     }
-    yield r'last_used';
-    yield object.lastUsed == null ? null : serializers.serialize(
-      object.lastUsed,
-      specifiedType: const FullType.nullable(DateTime),
-    );
+    if (object.lastUsed != null) {
+      yield r'last_used';
+      yield serializers.serialize(
+        object.lastUsed,
+        specifiedType: const FullType.nullable(DateTime),
+      );
+    }
     yield r'created_at';
     yield serializers.serialize(
       object.createdAt,

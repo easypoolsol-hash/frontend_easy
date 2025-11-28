@@ -72,7 +72,9 @@ class _$BusBasic extends BusBasic {
   @override
   final String licensePlate;
   @override
-  final int capacity;
+  final String busNumber;
+  @override
+  final int? capacity;
   @override
   final BusBasicStatusEnum? status;
   @override
@@ -86,7 +88,8 @@ class _$BusBasic extends BusBasic {
   _$BusBasic._(
       {required this.busId,
       required this.licensePlate,
-      required this.capacity,
+      required this.busNumber,
+      this.capacity,
       this.status,
       required this.createdAt,
       required this.updatedAt})
@@ -104,6 +107,7 @@ class _$BusBasic extends BusBasic {
     return other is BusBasic &&
         busId == other.busId &&
         licensePlate == other.licensePlate &&
+        busNumber == other.busNumber &&
         capacity == other.capacity &&
         status == other.status &&
         createdAt == other.createdAt &&
@@ -115,6 +119,7 @@ class _$BusBasic extends BusBasic {
     var _$hash = 0;
     _$hash = $jc(_$hash, busId.hashCode);
     _$hash = $jc(_$hash, licensePlate.hashCode);
+    _$hash = $jc(_$hash, busNumber.hashCode);
     _$hash = $jc(_$hash, capacity.hashCode);
     _$hash = $jc(_$hash, status.hashCode);
     _$hash = $jc(_$hash, createdAt.hashCode);
@@ -128,6 +133,7 @@ class _$BusBasic extends BusBasic {
     return (newBuiltValueToStringHelper(r'BusBasic')
           ..add('busId', busId)
           ..add('licensePlate', licensePlate)
+          ..add('busNumber', busNumber)
           ..add('capacity', capacity)
           ..add('status', status)
           ..add('createdAt', createdAt)
@@ -146,6 +152,10 @@ class BusBasicBuilder implements Builder<BusBasic, BusBasicBuilder> {
   String? _licensePlate;
   String? get licensePlate => _$this._licensePlate;
   set licensePlate(String? licensePlate) => _$this._licensePlate = licensePlate;
+
+  String? _busNumber;
+  String? get busNumber => _$this._busNumber;
+  set busNumber(String? busNumber) => _$this._busNumber = busNumber;
 
   int? _capacity;
   int? get capacity => _$this._capacity;
@@ -172,6 +182,7 @@ class BusBasicBuilder implements Builder<BusBasic, BusBasicBuilder> {
     if ($v != null) {
       _busId = $v.busId;
       _licensePlate = $v.licensePlate;
+      _busNumber = $v.busNumber;
       _capacity = $v.capacity;
       _status = $v.status;
       _createdAt = $v.createdAt;
@@ -201,8 +212,9 @@ class BusBasicBuilder implements Builder<BusBasic, BusBasicBuilder> {
               busId, r'BusBasic', 'busId'),
           licensePlate: BuiltValueNullFieldError.checkNotNull(
               licensePlate, r'BusBasic', 'licensePlate'),
-          capacity: BuiltValueNullFieldError.checkNotNull(
-              capacity, r'BusBasic', 'capacity'),
+          busNumber: BuiltValueNullFieldError.checkNotNull(
+              busNumber, r'BusBasic', 'busNumber'),
+          capacity: capacity,
           status: status,
           createdAt: BuiltValueNullFieldError.checkNotNull(
               createdAt, r'BusBasic', 'createdAt'),

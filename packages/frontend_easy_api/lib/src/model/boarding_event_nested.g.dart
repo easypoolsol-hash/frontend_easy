@@ -15,6 +15,8 @@ class _$BoardingEventNested extends BoardingEventNested {
   final String kioskId;
   @override
   final String eventType;
+  @override
+  final BuiltList<String>? confirmationFaceUrls;
 
   factory _$BoardingEventNested(
           [void Function(BoardingEventNestedBuilder)? updates]) =>
@@ -24,7 +26,8 @@ class _$BoardingEventNested extends BoardingEventNested {
       {required this.eventId,
       required this.timestamp,
       required this.kioskId,
-      required this.eventType})
+      required this.eventType,
+      this.confirmationFaceUrls})
       : super._();
   @override
   BoardingEventNested rebuild(
@@ -42,7 +45,8 @@ class _$BoardingEventNested extends BoardingEventNested {
         eventId == other.eventId &&
         timestamp == other.timestamp &&
         kioskId == other.kioskId &&
-        eventType == other.eventType;
+        eventType == other.eventType &&
+        confirmationFaceUrls == other.confirmationFaceUrls;
   }
 
   @override
@@ -52,6 +56,7 @@ class _$BoardingEventNested extends BoardingEventNested {
     _$hash = $jc(_$hash, timestamp.hashCode);
     _$hash = $jc(_$hash, kioskId.hashCode);
     _$hash = $jc(_$hash, eventType.hashCode);
+    _$hash = $jc(_$hash, confirmationFaceUrls.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -62,7 +67,8 @@ class _$BoardingEventNested extends BoardingEventNested {
           ..add('eventId', eventId)
           ..add('timestamp', timestamp)
           ..add('kioskId', kioskId)
-          ..add('eventType', eventType))
+          ..add('eventType', eventType)
+          ..add('confirmationFaceUrls', confirmationFaceUrls))
         .toString();
   }
 }
@@ -87,6 +93,12 @@ class BoardingEventNestedBuilder
   String? get eventType => _$this._eventType;
   set eventType(String? eventType) => _$this._eventType = eventType;
 
+  ListBuilder<String>? _confirmationFaceUrls;
+  ListBuilder<String> get confirmationFaceUrls =>
+      _$this._confirmationFaceUrls ??= ListBuilder<String>();
+  set confirmationFaceUrls(ListBuilder<String>? confirmationFaceUrls) =>
+      _$this._confirmationFaceUrls = confirmationFaceUrls;
+
   BoardingEventNestedBuilder() {
     BoardingEventNested._defaults(this);
   }
@@ -98,6 +110,7 @@ class BoardingEventNestedBuilder
       _timestamp = $v.timestamp;
       _kioskId = $v.kioskId;
       _eventType = $v.eventType;
+      _confirmationFaceUrls = $v.confirmationFaceUrls?.toBuilder();
       _$v = null;
     }
     return this;
@@ -117,17 +130,31 @@ class BoardingEventNestedBuilder
   BoardingEventNested build() => _build();
 
   _$BoardingEventNested _build() {
-    final _$result = _$v ??
-        _$BoardingEventNested._(
-          eventId: BuiltValueNullFieldError.checkNotNull(
-              eventId, r'BoardingEventNested', 'eventId'),
-          timestamp: BuiltValueNullFieldError.checkNotNull(
-              timestamp, r'BoardingEventNested', 'timestamp'),
-          kioskId: BuiltValueNullFieldError.checkNotNull(
-              kioskId, r'BoardingEventNested', 'kioskId'),
-          eventType: BuiltValueNullFieldError.checkNotNull(
-              eventType, r'BoardingEventNested', 'eventType'),
-        );
+    _$BoardingEventNested _$result;
+    try {
+      _$result = _$v ??
+          _$BoardingEventNested._(
+            eventId: BuiltValueNullFieldError.checkNotNull(
+                eventId, r'BoardingEventNested', 'eventId'),
+            timestamp: BuiltValueNullFieldError.checkNotNull(
+                timestamp, r'BoardingEventNested', 'timestamp'),
+            kioskId: BuiltValueNullFieldError.checkNotNull(
+                kioskId, r'BoardingEventNested', 'kioskId'),
+            eventType: BuiltValueNullFieldError.checkNotNull(
+                eventType, r'BoardingEventNested', 'eventType'),
+            confirmationFaceUrls: _confirmationFaceUrls?.build(),
+          );
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'confirmationFaceUrls';
+        _confirmationFaceUrls?.build();
+      } catch (e) {
+        throw BuiltValueNestedFieldError(
+            r'BoardingEventNested', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

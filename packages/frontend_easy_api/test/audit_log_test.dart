@@ -27,7 +27,7 @@ void main() {
       // TODO
     });
 
-    // * `CREATE` - Create * `UPDATE` - Update * `DELETE` - Delete * `LOGIN` - Login * `LOGOUT` - Logout * `API_ACCESS` - API Access
+    // * `CREATE` - Create * `UPDATE` - Update * `DELETE` - Delete * `LOGIN` - Login * `LOGIN_FAILED` - Login Failed * `LOGOUT` - Logout * `API_ACCESS` - API Access
     // String action
     test('to test the property `action`', () async {
       // TODO

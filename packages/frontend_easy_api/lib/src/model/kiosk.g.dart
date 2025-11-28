@@ -16,6 +16,8 @@ class _$Kiosk extends Kiosk {
   @override
   final String? firmwareVersion;
   @override
+  final String? gitCommitSha;
+  @override
   final DateTime? lastHeartbeat;
   @override
   final bool? isActive;
@@ -23,6 +25,8 @@ class _$Kiosk extends Kiosk {
   final double? batteryLevel;
   @override
   final int? storageUsedMb;
+  @override
+  final OperationTiming operationTiming;
   @override
   final String statusDisplay;
   @override
@@ -40,10 +44,12 @@ class _$Kiosk extends Kiosk {
       required this.bus,
       required this.busLicensePlate,
       this.firmwareVersion,
+      this.gitCommitSha,
       this.lastHeartbeat,
       this.isActive,
       this.batteryLevel,
       this.storageUsedMb,
+      required this.operationTiming,
       required this.statusDisplay,
       required this.isOnline,
       required this.createdAt,
@@ -64,10 +70,12 @@ class _$Kiosk extends Kiosk {
         bus == other.bus &&
         busLicensePlate == other.busLicensePlate &&
         firmwareVersion == other.firmwareVersion &&
+        gitCommitSha == other.gitCommitSha &&
         lastHeartbeat == other.lastHeartbeat &&
         isActive == other.isActive &&
         batteryLevel == other.batteryLevel &&
         storageUsedMb == other.storageUsedMb &&
+        operationTiming == other.operationTiming &&
         statusDisplay == other.statusDisplay &&
         isOnline == other.isOnline &&
         createdAt == other.createdAt &&
@@ -81,10 +89,12 @@ class _$Kiosk extends Kiosk {
     _$hash = $jc(_$hash, bus.hashCode);
     _$hash = $jc(_$hash, busLicensePlate.hashCode);
     _$hash = $jc(_$hash, firmwareVersion.hashCode);
+    _$hash = $jc(_$hash, gitCommitSha.hashCode);
     _$hash = $jc(_$hash, lastHeartbeat.hashCode);
     _$hash = $jc(_$hash, isActive.hashCode);
     _$hash = $jc(_$hash, batteryLevel.hashCode);
     _$hash = $jc(_$hash, storageUsedMb.hashCode);
+    _$hash = $jc(_$hash, operationTiming.hashCode);
     _$hash = $jc(_$hash, statusDisplay.hashCode);
     _$hash = $jc(_$hash, isOnline.hashCode);
     _$hash = $jc(_$hash, createdAt.hashCode);
@@ -100,10 +110,12 @@ class _$Kiosk extends Kiosk {
           ..add('bus', bus)
           ..add('busLicensePlate', busLicensePlate)
           ..add('firmwareVersion', firmwareVersion)
+          ..add('gitCommitSha', gitCommitSha)
           ..add('lastHeartbeat', lastHeartbeat)
           ..add('isActive', isActive)
           ..add('batteryLevel', batteryLevel)
           ..add('storageUsedMb', storageUsedMb)
+          ..add('operationTiming', operationTiming)
           ..add('statusDisplay', statusDisplay)
           ..add('isOnline', isOnline)
           ..add('createdAt', createdAt)
@@ -133,6 +145,10 @@ class KioskBuilder implements Builder<Kiosk, KioskBuilder> {
   set firmwareVersion(String? firmwareVersion) =>
       _$this._firmwareVersion = firmwareVersion;
 
+  String? _gitCommitSha;
+  String? get gitCommitSha => _$this._gitCommitSha;
+  set gitCommitSha(String? gitCommitSha) => _$this._gitCommitSha = gitCommitSha;
+
   DateTime? _lastHeartbeat;
   DateTime? get lastHeartbeat => _$this._lastHeartbeat;
   set lastHeartbeat(DateTime? lastHeartbeat) =>
@@ -150,6 +166,12 @@ class KioskBuilder implements Builder<Kiosk, KioskBuilder> {
   int? get storageUsedMb => _$this._storageUsedMb;
   set storageUsedMb(int? storageUsedMb) =>
       _$this._storageUsedMb = storageUsedMb;
+
+  OperationTimingBuilder? _operationTiming;
+  OperationTimingBuilder get operationTiming =>
+      _$this._operationTiming ??= OperationTimingBuilder();
+  set operationTiming(OperationTimingBuilder? operationTiming) =>
+      _$this._operationTiming = operationTiming;
 
   String? _statusDisplay;
   String? get statusDisplay => _$this._statusDisplay;
@@ -179,10 +201,12 @@ class KioskBuilder implements Builder<Kiosk, KioskBuilder> {
       _bus = $v.bus;
       _busLicensePlate = $v.busLicensePlate;
       _firmwareVersion = $v.firmwareVersion;
+      _gitCommitSha = $v.gitCommitSha;
       _lastHeartbeat = $v.lastHeartbeat;
       _isActive = $v.isActive;
       _batteryLevel = $v.batteryLevel;
       _storageUsedMb = $v.storageUsedMb;
+      _operationTiming = $v.operationTiming.toBuilder();
       _statusDisplay = $v.statusDisplay;
       _isOnline = $v.isOnline;
       _createdAt = $v.createdAt;
@@ -206,27 +230,41 @@ class KioskBuilder implements Builder<Kiosk, KioskBuilder> {
   Kiosk build() => _build();
 
   _$Kiosk _build() {
-    final _$result = _$v ??
-        _$Kiosk._(
-          kioskId: BuiltValueNullFieldError.checkNotNull(
-              kioskId, r'Kiosk', 'kioskId'),
-          bus: BuiltValueNullFieldError.checkNotNull(bus, r'Kiosk', 'bus'),
-          busLicensePlate: BuiltValueNullFieldError.checkNotNull(
-              busLicensePlate, r'Kiosk', 'busLicensePlate'),
-          firmwareVersion: firmwareVersion,
-          lastHeartbeat: lastHeartbeat,
-          isActive: isActive,
-          batteryLevel: batteryLevel,
-          storageUsedMb: storageUsedMb,
-          statusDisplay: BuiltValueNullFieldError.checkNotNull(
-              statusDisplay, r'Kiosk', 'statusDisplay'),
-          isOnline: BuiltValueNullFieldError.checkNotNull(
-              isOnline, r'Kiosk', 'isOnline'),
-          createdAt: BuiltValueNullFieldError.checkNotNull(
-              createdAt, r'Kiosk', 'createdAt'),
-          updatedAt: BuiltValueNullFieldError.checkNotNull(
-              updatedAt, r'Kiosk', 'updatedAt'),
-        );
+    _$Kiosk _$result;
+    try {
+      _$result = _$v ??
+          _$Kiosk._(
+            kioskId: BuiltValueNullFieldError.checkNotNull(
+                kioskId, r'Kiosk', 'kioskId'),
+            bus: BuiltValueNullFieldError.checkNotNull(bus, r'Kiosk', 'bus'),
+            busLicensePlate: BuiltValueNullFieldError.checkNotNull(
+                busLicensePlate, r'Kiosk', 'busLicensePlate'),
+            firmwareVersion: firmwareVersion,
+            gitCommitSha: gitCommitSha,
+            lastHeartbeat: lastHeartbeat,
+            isActive: isActive,
+            batteryLevel: batteryLevel,
+            storageUsedMb: storageUsedMb,
+            operationTiming: operationTiming.build(),
+            statusDisplay: BuiltValueNullFieldError.checkNotNull(
+                statusDisplay, r'Kiosk', 'statusDisplay'),
+            isOnline: BuiltValueNullFieldError.checkNotNull(
+                isOnline, r'Kiosk', 'isOnline'),
+            createdAt: BuiltValueNullFieldError.checkNotNull(
+                createdAt, r'Kiosk', 'createdAt'),
+            updatedAt: BuiltValueNullFieldError.checkNotNull(
+                updatedAt, r'Kiosk', 'updatedAt'),
+          );
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'operationTiming';
+        operationTiming.build();
+      } catch (e) {
+        throw BuiltValueNestedFieldError(r'Kiosk', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

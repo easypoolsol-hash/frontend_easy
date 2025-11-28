@@ -12,7 +12,9 @@ class _$StudentPhoto extends StudentPhoto {
   @override
   final String student;
   @override
-  final String? photo;
+  final String photoUrl;
+  @override
+  final String? photoContentType;
   @override
   final bool? isPrimary;
   @override
@@ -28,7 +30,8 @@ class _$StudentPhoto extends StudentPhoto {
   _$StudentPhoto._(
       {required this.photoId,
       required this.student,
-      this.photo,
+      required this.photoUrl,
+      this.photoContentType,
       this.isPrimary,
       this.capturedAt,
       required this.studentDetails,
@@ -47,7 +50,8 @@ class _$StudentPhoto extends StudentPhoto {
     return other is StudentPhoto &&
         photoId == other.photoId &&
         student == other.student &&
-        photo == other.photo &&
+        photoUrl == other.photoUrl &&
+        photoContentType == other.photoContentType &&
         isPrimary == other.isPrimary &&
         capturedAt == other.capturedAt &&
         studentDetails == other.studentDetails &&
@@ -59,7 +63,8 @@ class _$StudentPhoto extends StudentPhoto {
     var _$hash = 0;
     _$hash = $jc(_$hash, photoId.hashCode);
     _$hash = $jc(_$hash, student.hashCode);
-    _$hash = $jc(_$hash, photo.hashCode);
+    _$hash = $jc(_$hash, photoUrl.hashCode);
+    _$hash = $jc(_$hash, photoContentType.hashCode);
     _$hash = $jc(_$hash, isPrimary.hashCode);
     _$hash = $jc(_$hash, capturedAt.hashCode);
     _$hash = $jc(_$hash, studentDetails.hashCode);
@@ -73,7 +78,8 @@ class _$StudentPhoto extends StudentPhoto {
     return (newBuiltValueToStringHelper(r'StudentPhoto')
           ..add('photoId', photoId)
           ..add('student', student)
-          ..add('photo', photo)
+          ..add('photoUrl', photoUrl)
+          ..add('photoContentType', photoContentType)
           ..add('isPrimary', isPrimary)
           ..add('capturedAt', capturedAt)
           ..add('studentDetails', studentDetails)
@@ -94,9 +100,14 @@ class StudentPhotoBuilder
   String? get student => _$this._student;
   set student(String? student) => _$this._student = student;
 
-  String? _photo;
-  String? get photo => _$this._photo;
-  set photo(String? photo) => _$this._photo = photo;
+  String? _photoUrl;
+  String? get photoUrl => _$this._photoUrl;
+  set photoUrl(String? photoUrl) => _$this._photoUrl = photoUrl;
+
+  String? _photoContentType;
+  String? get photoContentType => _$this._photoContentType;
+  set photoContentType(String? photoContentType) =>
+      _$this._photoContentType = photoContentType;
 
   bool? _isPrimary;
   bool? get isPrimary => _$this._isPrimary;
@@ -124,7 +135,8 @@ class StudentPhotoBuilder
     if ($v != null) {
       _photoId = $v.photoId;
       _student = $v.student;
-      _photo = $v.photo;
+      _photoUrl = $v.photoUrl;
+      _photoContentType = $v.photoContentType;
       _isPrimary = $v.isPrimary;
       _capturedAt = $v.capturedAt;
       _studentDetails = $v.studentDetails;
@@ -154,7 +166,9 @@ class StudentPhotoBuilder
               photoId, r'StudentPhoto', 'photoId'),
           student: BuiltValueNullFieldError.checkNotNull(
               student, r'StudentPhoto', 'student'),
-          photo: photo,
+          photoUrl: BuiltValueNullFieldError.checkNotNull(
+              photoUrl, r'StudentPhoto', 'photoUrl'),
+          photoContentType: photoContentType,
           isPrimary: isPrimary,
           capturedAt: capturedAt,
           studentDetails: BuiltValueNullFieldError.checkNotNull(

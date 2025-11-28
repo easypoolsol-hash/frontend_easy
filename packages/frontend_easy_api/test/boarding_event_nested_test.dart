@@ -31,5 +31,11 @@ void main() {
       // TODO
     });
 
+    // List of signed URLs for confirmation faces (flexible - 1 to N photos)
+    // BuiltList<String> confirmationFaceUrls
+    test('to test the property `confirmationFaceUrls`', () async {
+      // TODO
+    });
+
   });
 }

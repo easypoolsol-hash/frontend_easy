@@ -9,7 +9,7 @@ import 'package:built_value/serializer.dart';
 
 part 'user.g.dart';
 
-/// User
+/// User serializer - Authentication layer only.  For parent approval status, see ParentSerializer (domain layer).
 ///
 /// Properties:
 /// * [userId] 
@@ -21,6 +21,7 @@ part 'user.g.dart';
 /// * [lastLogin] 
 /// * [createdAt] 
 /// * [updatedAt] 
+/// * [parentId] 
 @BuiltValue()
 abstract class User implements Built<User, UserBuilder> {
   @BuiltValueField(wireName: r'user_id')
@@ -49,6 +50,9 @@ abstract class User implements Built<User, UserBuilder> {
 
   @BuiltValueField(wireName: r'updated_at')
   DateTime get updatedAt;
+
+  @BuiltValueField(wireName: r'parent_id')
+  String? get parentId;
 
   User._();
 
@@ -105,11 +109,13 @@ class _$UserSerializer implements PrimitiveSerializer<User> {
         specifiedType: const FullType(bool),
       );
     }
-    yield r'last_login';
-    yield object.lastLogin == null ? null : serializers.serialize(
-      object.lastLogin,
-      specifiedType: const FullType.nullable(DateTime),
-    );
+    if (object.lastLogin != null) {
+      yield r'last_login';
+      yield serializers.serialize(
+        object.lastLogin,
+        specifiedType: const FullType.nullable(DateTime),
+      );
+    }
     yield r'created_at';
     yield serializers.serialize(
       object.createdAt,
@@ -120,6 +126,13 @@ class _$UserSerializer implements PrimitiveSerializer<User> {
       object.updatedAt,
       specifiedType: const FullType(DateTime),
     );
+    if (object.parentId != null) {
+      yield r'parent_id';
+      yield serializers.serialize(
+        object.parentId,
+        specifiedType: const FullType.nullable(String),
+      );
+    }
   }
 
   @override
@@ -206,6 +219,14 @@ class _$UserSerializer implements PrimitiveSerializer<User> {
             specifiedType: const FullType(DateTime),
           ) as DateTime;
           result.updatedAt = valueDes;
+          break;
+        case r'parent_id':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
+          result.parentId = valueDes;
           break;
         default:
           unhandled.add(key);

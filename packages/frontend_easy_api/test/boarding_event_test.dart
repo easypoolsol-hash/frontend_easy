@@ -13,7 +13,7 @@ void main() {
       // TODO
     });
 
-    // Student who boarded the bus
+    // Student who boarded the bus (null for unidentified faces)
     // String student
     test('to test the property `student`', () async {
       // TODO
@@ -76,6 +76,16 @@ void main() {
     // When this record was created in database
     // DateTime createdAt
     test('to test the property `createdAt`', () async {
+      // TODO
+    });
+
+    // String confirmationFaceUrls
+    test('to test the property `confirmationFaceUrls`', () async {
+      // TODO
+    });
+
+    // String isUnknownFace
+    test('to test the property `isUnknownFace`', () async {
       // TODO
     });
 

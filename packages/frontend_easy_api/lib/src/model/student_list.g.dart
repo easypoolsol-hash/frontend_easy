@@ -1,182 +1,255 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'parent.dart';
+part of 'student_list.dart';
 
 // **************************************************************************
 // BuiltValueGenerator
 // **************************************************************************
 
-class _$Parent extends Parent {
+const StudentListStatusEnum _$studentListStatusEnum_active =
+    const StudentListStatusEnum._('active');
+const StudentListStatusEnum _$studentListStatusEnum_inactive =
+    const StudentListStatusEnum._('inactive');
+const StudentListStatusEnum _$studentListStatusEnum_suspended =
+    const StudentListStatusEnum._('suspended');
+
+StudentListStatusEnum _$studentListStatusEnumValueOf(String name) {
+  switch (name) {
+    case 'active':
+      return _$studentListStatusEnum_active;
+    case 'inactive':
+      return _$studentListStatusEnum_inactive;
+    case 'suspended':
+      return _$studentListStatusEnum_suspended;
+    default:
+      throw ArgumentError(name);
+  }
+}
+
+final BuiltSet<StudentListStatusEnum> _$studentListStatusEnumValues =
+    BuiltSet<StudentListStatusEnum>(const <StudentListStatusEnum>[
+  _$studentListStatusEnum_active,
+  _$studentListStatusEnum_inactive,
+  _$studentListStatusEnum_suspended,
+]);
+
+Serializer<StudentListStatusEnum> _$studentListStatusEnumSerializer =
+    _$StudentListStatusEnumSerializer();
+
+class _$StudentListStatusEnumSerializer
+    implements PrimitiveSerializer<StudentListStatusEnum> {
+  static const Map<String, Object> _toWire = const <String, Object>{
+    'active': 'active',
+    'inactive': 'inactive',
+    'suspended': 'suspended',
+  };
+  static const Map<Object, String> _fromWire = const <Object, String>{
+    'active': 'active',
+    'inactive': 'inactive',
+    'suspended': 'suspended',
+  };
+
   @override
-  final String parentId;
+  final Iterable<Type> types = const <Type>[StudentListStatusEnum];
+  @override
+  final String wireName = 'StudentListStatusEnum';
+
+  @override
+  Object serialize(Serializers serializers, StudentListStatusEnum object,
+          {FullType specifiedType = FullType.unspecified}) =>
+      _toWire[object.name] ?? object.name;
+
+  @override
+  StudentListStatusEnum deserialize(Serializers serializers, Object serialized,
+          {FullType specifiedType = FullType.unspecified}) =>
+      StudentListStatusEnum.valueOf(
+          _fromWire[serialized] ?? (serialized is String ? serialized : ''));
+}
+
+class _$StudentList extends StudentList {
+  @override
+  final String studentId;
+  @override
+  final String schoolStudentId;
   @override
   final String decryptedName;
   @override
-  final String decryptedPhone;
+  final String grade;
   @override
-  final String decryptedEmail;
+  final String? section;
   @override
-  final String name;
+  final String primaryParentName;
   @override
-  final String phone;
+  final String primaryParentPhone;
   @override
-  final String email;
+  final String busNumber;
   @override
-  final DateTime createdAt;
+  final StudentListStatusEnum? status;
 
-  factory _$Parent([void Function(ParentBuilder)? updates]) =>
-      (ParentBuilder()..update(updates))._build();
+  factory _$StudentList([void Function(StudentListBuilder)? updates]) =>
+      (StudentListBuilder()..update(updates))._build();
 
-  _$Parent._(
-      {required this.parentId,
+  _$StudentList._(
+      {required this.studentId,
+      required this.schoolStudentId,
       required this.decryptedName,
-      required this.decryptedPhone,
-      required this.decryptedEmail,
-      required this.name,
-      required this.phone,
-      required this.email,
-      required this.createdAt})
+      required this.grade,
+      this.section,
+      required this.primaryParentName,
+      required this.primaryParentPhone,
+      required this.busNumber,
+      this.status})
       : super._();
   @override
-  Parent rebuild(void Function(ParentBuilder) updates) =>
+  StudentList rebuild(void Function(StudentListBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  ParentBuilder toBuilder() => ParentBuilder()..replace(this);
+  StudentListBuilder toBuilder() => StudentListBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is Parent &&
-        parentId == other.parentId &&
+    return other is StudentList &&
+        studentId == other.studentId &&
+        schoolStudentId == other.schoolStudentId &&
         decryptedName == other.decryptedName &&
-        decryptedPhone == other.decryptedPhone &&
-        decryptedEmail == other.decryptedEmail &&
-        name == other.name &&
-        phone == other.phone &&
-        email == other.email &&
-        createdAt == other.createdAt;
+        grade == other.grade &&
+        section == other.section &&
+        primaryParentName == other.primaryParentName &&
+        primaryParentPhone == other.primaryParentPhone &&
+        busNumber == other.busNumber &&
+        status == other.status;
   }
 
   @override
   int get hashCode {
     var _$hash = 0;
-    _$hash = $jc(_$hash, parentId.hashCode);
+    _$hash = $jc(_$hash, studentId.hashCode);
+    _$hash = $jc(_$hash, schoolStudentId.hashCode);
     _$hash = $jc(_$hash, decryptedName.hashCode);
-    _$hash = $jc(_$hash, decryptedPhone.hashCode);
-    _$hash = $jc(_$hash, decryptedEmail.hashCode);
-    _$hash = $jc(_$hash, name.hashCode);
-    _$hash = $jc(_$hash, phone.hashCode);
-    _$hash = $jc(_$hash, email.hashCode);
-    _$hash = $jc(_$hash, createdAt.hashCode);
+    _$hash = $jc(_$hash, grade.hashCode);
+    _$hash = $jc(_$hash, section.hashCode);
+    _$hash = $jc(_$hash, primaryParentName.hashCode);
+    _$hash = $jc(_$hash, primaryParentPhone.hashCode);
+    _$hash = $jc(_$hash, busNumber.hashCode);
+    _$hash = $jc(_$hash, status.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'Parent')
-          ..add('parentId', parentId)
+    return (newBuiltValueToStringHelper(r'StudentList')
+          ..add('studentId', studentId)
+          ..add('schoolStudentId', schoolStudentId)
           ..add('decryptedName', decryptedName)
-          ..add('decryptedPhone', decryptedPhone)
-          ..add('decryptedEmail', decryptedEmail)
-          ..add('name', name)
-          ..add('phone', phone)
-          ..add('email', email)
-          ..add('createdAt', createdAt))
+          ..add('grade', grade)
+          ..add('section', section)
+          ..add('primaryParentName', primaryParentName)
+          ..add('primaryParentPhone', primaryParentPhone)
+          ..add('busNumber', busNumber)
+          ..add('status', status))
         .toString();
   }
 }
 
-class ParentBuilder implements Builder<Parent, ParentBuilder> {
-  _$Parent? _$v;
+class StudentListBuilder implements Builder<StudentList, StudentListBuilder> {
+  _$StudentList? _$v;
 
-  String? _parentId;
-  String? get parentId => _$this._parentId;
-  set parentId(String? parentId) => _$this._parentId = parentId;
+  String? _studentId;
+  String? get studentId => _$this._studentId;
+  set studentId(String? studentId) => _$this._studentId = studentId;
+
+  String? _schoolStudentId;
+  String? get schoolStudentId => _$this._schoolStudentId;
+  set schoolStudentId(String? schoolStudentId) =>
+      _$this._schoolStudentId = schoolStudentId;
 
   String? _decryptedName;
   String? get decryptedName => _$this._decryptedName;
   set decryptedName(String? decryptedName) =>
       _$this._decryptedName = decryptedName;
 
-  String? _decryptedPhone;
-  String? get decryptedPhone => _$this._decryptedPhone;
-  set decryptedPhone(String? decryptedPhone) =>
-      _$this._decryptedPhone = decryptedPhone;
+  String? _grade;
+  String? get grade => _$this._grade;
+  set grade(String? grade) => _$this._grade = grade;
 
-  String? _decryptedEmail;
-  String? get decryptedEmail => _$this._decryptedEmail;
-  set decryptedEmail(String? decryptedEmail) =>
-      _$this._decryptedEmail = decryptedEmail;
+  String? _section;
+  String? get section => _$this._section;
+  set section(String? section) => _$this._section = section;
 
-  String? _name;
-  String? get name => _$this._name;
-  set name(String? name) => _$this._name = name;
+  String? _primaryParentName;
+  String? get primaryParentName => _$this._primaryParentName;
+  set primaryParentName(String? primaryParentName) =>
+      _$this._primaryParentName = primaryParentName;
 
-  String? _phone;
-  String? get phone => _$this._phone;
-  set phone(String? phone) => _$this._phone = phone;
+  String? _primaryParentPhone;
+  String? get primaryParentPhone => _$this._primaryParentPhone;
+  set primaryParentPhone(String? primaryParentPhone) =>
+      _$this._primaryParentPhone = primaryParentPhone;
 
-  String? _email;
-  String? get email => _$this._email;
-  set email(String? email) => _$this._email = email;
+  String? _busNumber;
+  String? get busNumber => _$this._busNumber;
+  set busNumber(String? busNumber) => _$this._busNumber = busNumber;
 
-  DateTime? _createdAt;
-  DateTime? get createdAt => _$this._createdAt;
-  set createdAt(DateTime? createdAt) => _$this._createdAt = createdAt;
+  StudentListStatusEnum? _status;
+  StudentListStatusEnum? get status => _$this._status;
+  set status(StudentListStatusEnum? status) => _$this._status = status;
 
-  ParentBuilder() {
-    Parent._defaults(this);
+  StudentListBuilder() {
+    StudentList._defaults(this);
   }
 
-  ParentBuilder get _$this {
+  StudentListBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _parentId = $v.parentId;
+      _studentId = $v.studentId;
+      _schoolStudentId = $v.schoolStudentId;
       _decryptedName = $v.decryptedName;
-      _decryptedPhone = $v.decryptedPhone;
-      _decryptedEmail = $v.decryptedEmail;
-      _name = $v.name;
-      _phone = $v.phone;
-      _email = $v.email;
-      _createdAt = $v.createdAt;
+      _grade = $v.grade;
+      _section = $v.section;
+      _primaryParentName = $v.primaryParentName;
+      _primaryParentPhone = $v.primaryParentPhone;
+      _busNumber = $v.busNumber;
+      _status = $v.status;
       _$v = null;
     }
     return this;
   }
 
   @override
-  void replace(Parent other) {
-    _$v = other as _$Parent;
+  void replace(StudentList other) {
+    _$v = other as _$StudentList;
   }
 
   @override
-  void update(void Function(ParentBuilder)? updates) {
+  void update(void Function(StudentListBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
   @override
-  Parent build() => _build();
+  StudentList build() => _build();
 
-  _$Parent _build() {
+  _$StudentList _build() {
     final _$result = _$v ??
-        _$Parent._(
-          parentId: BuiltValueNullFieldError.checkNotNull(
-              parentId, r'Parent', 'parentId'),
+        _$StudentList._(
+          studentId: BuiltValueNullFieldError.checkNotNull(
+              studentId, r'StudentList', 'studentId'),
+          schoolStudentId: BuiltValueNullFieldError.checkNotNull(
+              schoolStudentId, r'StudentList', 'schoolStudentId'),
           decryptedName: BuiltValueNullFieldError.checkNotNull(
-              decryptedName, r'Parent', 'decryptedName'),
-          decryptedPhone: BuiltValueNullFieldError.checkNotNull(
-              decryptedPhone, r'Parent', 'decryptedPhone'),
-          decryptedEmail: BuiltValueNullFieldError.checkNotNull(
-              decryptedEmail, r'Parent', 'decryptedEmail'),
-          name: BuiltValueNullFieldError.checkNotNull(name, r'Parent', 'name'),
-          phone:
-              BuiltValueNullFieldError.checkNotNull(phone, r'Parent', 'phone'),
-          email:
-              BuiltValueNullFieldError.checkNotNull(email, r'Parent', 'email'),
-          createdAt: BuiltValueNullFieldError.checkNotNull(
-              createdAt, r'Parent', 'createdAt'),
+              decryptedName, r'StudentList', 'decryptedName'),
+          grade: BuiltValueNullFieldError.checkNotNull(
+              grade, r'StudentList', 'grade'),
+          section: section,
+          primaryParentName: BuiltValueNullFieldError.checkNotNull(
+              primaryParentName, r'StudentList', 'primaryParentName'),
+          primaryParentPhone: BuiltValueNullFieldError.checkNotNull(
+              primaryParentPhone, r'StudentList', 'primaryParentPhone'),
+          busNumber: BuiltValueNullFieldError.checkNotNull(
+              busNumber, r'StudentList', 'busNumber'),
+          status: status,
         );
     replace(_$result);
     return _$result;

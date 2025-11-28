@@ -3,7 +3,6 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:built_collection/built_collection.dart';
 import 'package:built_value/json_object.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
@@ -14,11 +13,10 @@ part 'boarding_event_create.g.dart';
 ///
 /// Properties:
 /// * [eventId] - ULID primary key for global uniqueness and time sorting
-/// * [student] - Student who boarded the bus
+/// * [student] - Student who boarded the bus (null for unidentified faces)
 /// * [kioskId] - Kiosk device identifier
 /// * [confidenceScore] - Face recognition confidence score (0.0-1.0)
 /// * [timestamp] - When the boarding event occurred
-/// * [gpsCoords] - Return GPS coordinates as a tuple for compatibility
 /// * [busRoute] - Bus route identifier
 /// * [faceImageUrl] - S3 URL to face image for verification (optional)
 /// * [modelVersion] - Face recognition model version used
@@ -29,9 +27,9 @@ abstract class BoardingEventCreate implements Built<BoardingEventCreate, Boardin
   @BuiltValueField(wireName: r'event_id')
   String get eventId;
 
-  /// Student who boarded the bus
+  /// Student who boarded the bus (null for unidentified faces)
   @BuiltValueField(wireName: r'student')
-  String get student;
+  String? get student;
 
   /// Kiosk device identifier
   @BuiltValueField(wireName: r'kiosk_id')
@@ -44,10 +42,6 @@ abstract class BoardingEventCreate implements Built<BoardingEventCreate, Boardin
   /// When the boarding event occurred
   @BuiltValueField(wireName: r'timestamp')
   DateTime get timestamp;
-
-  /// Return GPS coordinates as a tuple for compatibility
-  @BuiltValueField(wireName: r'gps_coords')
-  BuiltList<double>? get gpsCoords;
 
   /// Bus route identifier
   @BuiltValueField(wireName: r'bus_route')
@@ -93,11 +87,13 @@ class _$BoardingEventCreateSerializer implements PrimitiveSerializer<BoardingEve
       object.eventId,
       specifiedType: const FullType(String),
     );
-    yield r'student';
-    yield serializers.serialize(
-      object.student,
-      specifiedType: const FullType(String),
-    );
+    if (object.student != null) {
+      yield r'student';
+      yield serializers.serialize(
+        object.student,
+        specifiedType: const FullType.nullable(String),
+      );
+    }
     yield r'kiosk_id';
     yield serializers.serialize(
       object.kioskId,
@@ -112,11 +108,6 @@ class _$BoardingEventCreateSerializer implements PrimitiveSerializer<BoardingEve
     yield serializers.serialize(
       object.timestamp,
       specifiedType: const FullType(DateTime),
-    );
-    yield r'gps_coords';
-    yield object.gpsCoords == null ? null : serializers.serialize(
-      object.gpsCoords,
-      specifiedType: const FullType.nullable(BuiltList, [FullType(double)]),
     );
     if (object.busRoute != null) {
       yield r'bus_route';
@@ -177,8 +168,9 @@ class _$BoardingEventCreateSerializer implements PrimitiveSerializer<BoardingEve
         case r'student':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.student = valueDes;
           break;
         case r'kiosk_id':
@@ -201,14 +193,6 @@ class _$BoardingEventCreateSerializer implements PrimitiveSerializer<BoardingEve
             specifiedType: const FullType(DateTime),
           ) as DateTime;
           result.timestamp = valueDes;
-          break;
-        case r'gps_coords':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType.nullable(BuiltList, [FullType(double)]),
-          ) as BuiltList<double>?;
-          if (valueDes == null) continue;
-          result.gpsCoords.replace(valueDes);
           break;
         case r'bus_route':
           final valueDes = serializers.deserialize(

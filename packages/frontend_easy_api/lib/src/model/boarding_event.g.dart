@@ -10,7 +10,7 @@ class _$BoardingEvent extends BoardingEvent {
   @override
   final String eventId;
   @override
-  final String student;
+  final String? student;
   @override
   final String kioskId;
   @override
@@ -31,13 +31,17 @@ class _$BoardingEvent extends BoardingEvent {
   final JsonObject? metadata;
   @override
   final DateTime createdAt;
+  @override
+  final String confirmationFaceUrls;
+  @override
+  final String isUnknownFace;
 
   factory _$BoardingEvent([void Function(BoardingEventBuilder)? updates]) =>
       (BoardingEventBuilder()..update(updates))._build();
 
   _$BoardingEvent._(
       {required this.eventId,
-      required this.student,
+      this.student,
       required this.kioskId,
       required this.confidenceScore,
       required this.timestamp,
@@ -47,7 +51,9 @@ class _$BoardingEvent extends BoardingEvent {
       this.faceImageUrl,
       required this.modelVersion,
       this.metadata,
-      required this.createdAt})
+      required this.createdAt,
+      required this.confirmationFaceUrls,
+      required this.isUnknownFace})
       : super._();
   @override
   BoardingEvent rebuild(void Function(BoardingEventBuilder) updates) =>
@@ -71,7 +77,9 @@ class _$BoardingEvent extends BoardingEvent {
         faceImageUrl == other.faceImageUrl &&
         modelVersion == other.modelVersion &&
         metadata == other.metadata &&
-        createdAt == other.createdAt;
+        createdAt == other.createdAt &&
+        confirmationFaceUrls == other.confirmationFaceUrls &&
+        isUnknownFace == other.isUnknownFace;
   }
 
   @override
@@ -89,6 +97,8 @@ class _$BoardingEvent extends BoardingEvent {
     _$hash = $jc(_$hash, modelVersion.hashCode);
     _$hash = $jc(_$hash, metadata.hashCode);
     _$hash = $jc(_$hash, createdAt.hashCode);
+    _$hash = $jc(_$hash, confirmationFaceUrls.hashCode);
+    _$hash = $jc(_$hash, isUnknownFace.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -107,7 +117,9 @@ class _$BoardingEvent extends BoardingEvent {
           ..add('faceImageUrl', faceImageUrl)
           ..add('modelVersion', modelVersion)
           ..add('metadata', metadata)
-          ..add('createdAt', createdAt))
+          ..add('createdAt', createdAt)
+          ..add('confirmationFaceUrls', confirmationFaceUrls)
+          ..add('isUnknownFace', isUnknownFace))
         .toString();
   }
 }
@@ -165,6 +177,16 @@ class BoardingEventBuilder
   DateTime? get createdAt => _$this._createdAt;
   set createdAt(DateTime? createdAt) => _$this._createdAt = createdAt;
 
+  String? _confirmationFaceUrls;
+  String? get confirmationFaceUrls => _$this._confirmationFaceUrls;
+  set confirmationFaceUrls(String? confirmationFaceUrls) =>
+      _$this._confirmationFaceUrls = confirmationFaceUrls;
+
+  String? _isUnknownFace;
+  String? get isUnknownFace => _$this._isUnknownFace;
+  set isUnknownFace(String? isUnknownFace) =>
+      _$this._isUnknownFace = isUnknownFace;
+
   BoardingEventBuilder() {
     BoardingEvent._defaults(this);
   }
@@ -184,6 +206,8 @@ class BoardingEventBuilder
       _modelVersion = $v.modelVersion;
       _metadata = $v.metadata;
       _createdAt = $v.createdAt;
+      _confirmationFaceUrls = $v.confirmationFaceUrls;
+      _isUnknownFace = $v.isUnknownFace;
       _$v = null;
     }
     return this;
@@ -207,8 +231,7 @@ class BoardingEventBuilder
         _$BoardingEvent._(
           eventId: BuiltValueNullFieldError.checkNotNull(
               eventId, r'BoardingEvent', 'eventId'),
-          student: BuiltValueNullFieldError.checkNotNull(
-              student, r'BoardingEvent', 'student'),
+          student: student,
           kioskId: BuiltValueNullFieldError.checkNotNull(
               kioskId, r'BoardingEvent', 'kioskId'),
           confidenceScore: BuiltValueNullFieldError.checkNotNull(
@@ -224,6 +247,10 @@ class BoardingEventBuilder
           metadata: metadata,
           createdAt: BuiltValueNullFieldError.checkNotNull(
               createdAt, r'BoardingEvent', 'createdAt'),
+          confirmationFaceUrls: BuiltValueNullFieldError.checkNotNull(
+              confirmationFaceUrls, r'BoardingEvent', 'confirmationFaceUrls'),
+          isUnknownFace: BuiltValueNullFieldError.checkNotNull(
+              isUnknownFace, r'BoardingEvent', 'isUnknownFace'),
         );
     replace(_$result);
     return _$result;

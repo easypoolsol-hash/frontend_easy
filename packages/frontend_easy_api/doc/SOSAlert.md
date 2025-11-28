@@ -1,25 +1,25 @@
-# openapi.model.SOSAlert
+# frontend_easy_api.model.SOSAlert
 
 ## Load the model package
 ```dart
-import 'package:openapi/api.dart';
+import 'package:frontend_easy_api/api.dart';
 ```
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**alertId** | **int** | Auto-incrementing alert ID | [readonly] 
-**kioskId** | **String** |  | [readonly] 
-**busLicensePlate** | **String** |  | [readonly] 
-**busNumber** | **String** |  | [readonly] 
+**alertId** | **int** | Auto-incrementing alert ID | 
+**kioskId** | **String** |  | 
+**busLicensePlate** | **String** |  | [optional] 
+**busNumber** | **String** |  | [optional] 
 **latitude** | **double** | GPS latitude at time of alert | [optional] 
 **longitude** | **double** | GPS longitude at time of alert | [optional] 
 **status** | **String** | Current status of the alert  * `active` - Active * `acknowledged` - Acknowledged * `resolved` - Resolved * `false_alarm` - False Alarm | [optional] 
 **message** | **String** | Optional message/notes from the kiosk operator | [optional] 
-**metadata** | [**Object**](.md) | Additional data (battery level, network status, etc.) | [optional] 
-**createdAt** | [**DateTime**](DateTime.md) | When the alert was created | [readonly] 
-**acknowledgedAt** | [**DateTime**](DateTime.md) | When the alert was first acknowledged by staff | [readonly] 
-**resolvedAt** | [**DateTime**](DateTime.md) | When the alert was resolved | [readonly] 
+**metadata** | [**JsonObject**](.md) | Additional data (battery level, network status, etc.) | [optional] 
+**createdAt** | [**DateTime**](DateTime.md) | When the alert was created | 
+**acknowledgedAt** | [**DateTime**](DateTime.md) | When the alert was first acknowledged by staff | [optional] 
+**resolvedAt** | [**DateTime**](DateTime.md) | When the alert was resolved | [optional] 
 **acknowledgedBy** | **String** | Name/ID of person who acknowledged the alert | [optional] 
 **resolvedBy** | **String** | Name/ID of person who resolved the alert | [optional] 
 

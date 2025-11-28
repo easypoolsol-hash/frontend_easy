@@ -39,11 +39,11 @@ abstract class Parent implements Built<Parent, ParentBuilder> {
 
   /// Encrypted phone number (plaintext validated as +91XXXXXXXXXX)
   @BuiltValueField(wireName: r'phone')
-  String get phone;
+  String? get phone;
 
   /// Encrypted email address (plaintext validated per RFC 5321)
   @BuiltValueField(wireName: r'email')
-  String get email;
+  String? get email;
 
   @BuiltValueField(wireName: r'created_at')
   DateTime get createdAt;
@@ -96,16 +96,20 @@ class _$ParentSerializer implements PrimitiveSerializer<Parent> {
       object.name,
       specifiedType: const FullType(String),
     );
-    yield r'phone';
-    yield serializers.serialize(
-      object.phone,
-      specifiedType: const FullType(String),
-    );
-    yield r'email';
-    yield serializers.serialize(
-      object.email,
-      specifiedType: const FullType(String),
-    );
+    if (object.phone != null) {
+      yield r'phone';
+      yield serializers.serialize(
+        object.phone,
+        specifiedType: const FullType.nullable(String),
+      );
+    }
+    if (object.email != null) {
+      yield r'email';
+      yield serializers.serialize(
+        object.email,
+        specifiedType: const FullType.nullable(String),
+      );
+    }
     yield r'created_at';
     yield serializers.serialize(
       object.createdAt,
@@ -172,15 +176,17 @@ class _$ParentSerializer implements PrimitiveSerializer<Parent> {
         case r'phone':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.phone = valueDes;
           break;
         case r'email':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.email = valueDes;
           break;
         case r'created_at':

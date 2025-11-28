@@ -17,9 +17,14 @@ void main() {
       // TODO
     });
 
-    // Student photo file
-    // String photo
-    test('to test the property `photo`', () async {
+    // String photoUrl
+    test('to test the property `photoUrl`', () async {
+      // TODO
+    });
+
+    // MIME type (e.g., image/jpeg, image/png)
+    // String photoContentType
+    test('to test the property `photoContentType`', () async {
       // TODO
     });
 

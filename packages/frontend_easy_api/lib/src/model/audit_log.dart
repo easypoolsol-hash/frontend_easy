@@ -17,7 +17,7 @@ part 'audit_log.g.dart';
 /// * [user] 
 /// * [userUsername] 
 /// * [userEmail] 
-/// * [action] - * `CREATE` - Create * `UPDATE` - Update * `DELETE` - Delete * `LOGIN` - Login * `LOGOUT` - Logout * `API_ACCESS` - API Access
+/// * [action] - * `CREATE` - Create * `UPDATE` - Update * `DELETE` - Delete * `LOGIN` - Login * `LOGIN_FAILED` - Login Failed * `LOGOUT` - Logout * `API_ACCESS` - API Access
 /// * [resourceType] - * `user` - User * `student` - Student * `bus` - Bus * `kiosk` - Kiosk * `event` - Boarding Event * `notification` - Notification
 /// * [resourceId] 
 /// * [changes] - JSON object of changes made
@@ -38,10 +38,10 @@ abstract class AuditLog implements Built<AuditLog, AuditLogBuilder> {
   @BuiltValueField(wireName: r'user_email')
   String get userEmail;
 
-  /// * `CREATE` - Create * `UPDATE` - Update * `DELETE` - Delete * `LOGIN` - Login * `LOGOUT` - Logout * `API_ACCESS` - API Access
+  /// * `CREATE` - Create * `UPDATE` - Update * `DELETE` - Delete * `LOGIN` - Login * `LOGIN_FAILED` - Login Failed * `LOGOUT` - Logout * `API_ACCESS` - API Access
   @BuiltValueField(wireName: r'action')
   AuditLogActionEnum get action;
-  // enum actionEnum {  CREATE,  UPDATE,  DELETE,  LOGIN,  LOGOUT,  API_ACCESS,  };
+  // enum actionEnum {  CREATE,  UPDATE,  DELETE,  LOGIN,  LOGIN_FAILED,  LOGOUT,  API_ACCESS,  };
 
   /// * `user` - User * `student` - Student * `bus` - Bus * `kiosk` - Kiosk * `event` - Boarding Event * `notification` - Notification
   @BuiltValueField(wireName: r'resource_type')
@@ -286,22 +286,25 @@ class _$AuditLogSerializer implements PrimitiveSerializer<AuditLog> {
 
 class AuditLogActionEnum extends EnumClass {
 
-  /// * `CREATE` - Create * `UPDATE` - Update * `DELETE` - Delete * `LOGIN` - Login * `LOGOUT` - Logout * `API_ACCESS` - API Access
+  /// * `CREATE` - Create * `UPDATE` - Update * `DELETE` - Delete * `LOGIN` - Login * `LOGIN_FAILED` - Login Failed * `LOGOUT` - Logout * `API_ACCESS` - API Access
   @BuiltValueEnumConst(wireName: r'CREATE')
   static const AuditLogActionEnum CREATE = _$auditLogActionEnum_CREATE;
-  /// * `CREATE` - Create * `UPDATE` - Update * `DELETE` - Delete * `LOGIN` - Login * `LOGOUT` - Logout * `API_ACCESS` - API Access
+  /// * `CREATE` - Create * `UPDATE` - Update * `DELETE` - Delete * `LOGIN` - Login * `LOGIN_FAILED` - Login Failed * `LOGOUT` - Logout * `API_ACCESS` - API Access
   @BuiltValueEnumConst(wireName: r'UPDATE')
   static const AuditLogActionEnum UPDATE = _$auditLogActionEnum_UPDATE;
-  /// * `CREATE` - Create * `UPDATE` - Update * `DELETE` - Delete * `LOGIN` - Login * `LOGOUT` - Logout * `API_ACCESS` - API Access
+  /// * `CREATE` - Create * `UPDATE` - Update * `DELETE` - Delete * `LOGIN` - Login * `LOGIN_FAILED` - Login Failed * `LOGOUT` - Logout * `API_ACCESS` - API Access
   @BuiltValueEnumConst(wireName: r'DELETE')
   static const AuditLogActionEnum DELETE = _$auditLogActionEnum_DELETE;
-  /// * `CREATE` - Create * `UPDATE` - Update * `DELETE` - Delete * `LOGIN` - Login * `LOGOUT` - Logout * `API_ACCESS` - API Access
+  /// * `CREATE` - Create * `UPDATE` - Update * `DELETE` - Delete * `LOGIN` - Login * `LOGIN_FAILED` - Login Failed * `LOGOUT` - Logout * `API_ACCESS` - API Access
   @BuiltValueEnumConst(wireName: r'LOGIN')
   static const AuditLogActionEnum LOGIN = _$auditLogActionEnum_LOGIN;
-  /// * `CREATE` - Create * `UPDATE` - Update * `DELETE` - Delete * `LOGIN` - Login * `LOGOUT` - Logout * `API_ACCESS` - API Access
+  /// * `CREATE` - Create * `UPDATE` - Update * `DELETE` - Delete * `LOGIN` - Login * `LOGIN_FAILED` - Login Failed * `LOGOUT` - Logout * `API_ACCESS` - API Access
+  @BuiltValueEnumConst(wireName: r'LOGIN_FAILED')
+  static const AuditLogActionEnum LOGIN_FAILED = _$auditLogActionEnum_LOGIN_FAILED;
+  /// * `CREATE` - Create * `UPDATE` - Update * `DELETE` - Delete * `LOGIN` - Login * `LOGIN_FAILED` - Login Failed * `LOGOUT` - Logout * `API_ACCESS` - API Access
   @BuiltValueEnumConst(wireName: r'LOGOUT')
   static const AuditLogActionEnum LOGOUT = _$auditLogActionEnum_LOGOUT;
-  /// * `CREATE` - Create * `UPDATE` - Update * `DELETE` - Delete * `LOGIN` - Login * `LOGOUT` - Logout * `API_ACCESS` - API Access
+  /// * `CREATE` - Create * `UPDATE` - Update * `DELETE` - Delete * `LOGIN` - Login * `LOGIN_FAILED` - Login Failed * `LOGOUT` - Logout * `API_ACCESS` - API Access
   @BuiltValueEnumConst(wireName: r'API_ACCESS')
   static const AuditLogActionEnum API_ACCESS = _$auditLogActionEnum_API_ACCESS;
 

@@ -18,9 +18,9 @@ class _$Parent extends Parent {
   @override
   final String name;
   @override
-  final String phone;
+  final String? phone;
   @override
-  final String email;
+  final String? email;
   @override
   final DateTime createdAt;
 
@@ -33,8 +33,8 @@ class _$Parent extends Parent {
       required this.decryptedPhone,
       required this.decryptedEmail,
       required this.name,
-      required this.phone,
-      required this.email,
+      this.phone,
+      this.email,
       required this.createdAt})
       : super._();
   @override
@@ -171,10 +171,8 @@ class ParentBuilder implements Builder<Parent, ParentBuilder> {
           decryptedEmail: BuiltValueNullFieldError.checkNotNull(
               decryptedEmail, r'Parent', 'decryptedEmail'),
           name: BuiltValueNullFieldError.checkNotNull(name, r'Parent', 'name'),
-          phone:
-              BuiltValueNullFieldError.checkNotNull(phone, r'Parent', 'phone'),
-          email:
-              BuiltValueNullFieldError.checkNotNull(email, r'Parent', 'email'),
+          phone: phone,
+          email: email,
           createdAt: BuiltValueNullFieldError.checkNotNull(
               createdAt, r'Parent', 'createdAt'),
         );

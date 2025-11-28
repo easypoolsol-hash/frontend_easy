@@ -14,6 +14,8 @@ const AuditLogActionEnum _$auditLogActionEnum_DELETE =
     const AuditLogActionEnum._('DELETE');
 const AuditLogActionEnum _$auditLogActionEnum_LOGIN =
     const AuditLogActionEnum._('LOGIN');
+const AuditLogActionEnum _$auditLogActionEnum_LOGIN_FAILED =
+    const AuditLogActionEnum._('LOGIN_FAILED');
 const AuditLogActionEnum _$auditLogActionEnum_LOGOUT =
     const AuditLogActionEnum._('LOGOUT');
 const AuditLogActionEnum _$auditLogActionEnum_API_ACCESS =
@@ -29,6 +31,8 @@ AuditLogActionEnum _$auditLogActionEnumValueOf(String name) {
       return _$auditLogActionEnum_DELETE;
     case 'LOGIN':
       return _$auditLogActionEnum_LOGIN;
+    case 'LOGIN_FAILED':
+      return _$auditLogActionEnum_LOGIN_FAILED;
     case 'LOGOUT':
       return _$auditLogActionEnum_LOGOUT;
     case 'API_ACCESS':
@@ -44,6 +48,7 @@ final BuiltSet<AuditLogActionEnum> _$auditLogActionEnumValues =
   _$auditLogActionEnum_UPDATE,
   _$auditLogActionEnum_DELETE,
   _$auditLogActionEnum_LOGIN,
+  _$auditLogActionEnum_LOGIN_FAILED,
   _$auditLogActionEnum_LOGOUT,
   _$auditLogActionEnum_API_ACCESS,
 ]);
@@ -102,6 +107,7 @@ class _$AuditLogActionEnumSerializer
     'UPDATE': 'UPDATE',
     'DELETE': 'DELETE',
     'LOGIN': 'LOGIN',
+    'LOGIN_FAILED': 'LOGIN_FAILED',
     'LOGOUT': 'LOGOUT',
     'API_ACCESS': 'API_ACCESS',
   };
@@ -110,6 +116,7 @@ class _$AuditLogActionEnumSerializer
     'UPDATE': 'UPDATE',
     'DELETE': 'DELETE',
     'LOGIN': 'LOGIN',
+    'LOGIN_FAILED': 'LOGIN_FAILED',
     'LOGOUT': 'LOGOUT',
     'API_ACCESS': 'API_ACCESS',
   };

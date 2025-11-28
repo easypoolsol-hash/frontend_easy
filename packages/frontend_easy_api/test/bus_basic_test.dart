@@ -19,6 +19,12 @@ void main() {
       // TODO
     });
 
+    // School-assigned bus number (e.g., 'BUS-001', 'B-12')
+    // String busNumber
+    test('to test the property `busNumber`', () async {
+      // TODO
+    });
+
     // Maximum number of passengers
     // int capacity
     test('to test the property `capacity`', () async {

@@ -78,6 +78,48 @@ void main() {
       // TODO
     });
 
+    // Driver's full name
+    // String driverName
+    test('to test the property `driverName`', () async {
+      // TODO
+    });
+
+    // Driver's contact number
+    // String driverPhone
+    test('to test the property `driverPhone`', () async {
+      // TODO
+    });
+
+    // Driver's address
+    // String driverAddress
+    test('to test the property `driverAddress`', () async {
+      // TODO
+    });
+
+    // Driver's license number
+    // String driverLicenseNumber
+    test('to test the property `driverLicenseNumber`', () async {
+      // TODO
+    });
+
+    // Conductor's full name
+    // String conductorName
+    test('to test the property `conductorName`', () async {
+      // TODO
+    });
+
+    // Conductor's contact number
+    // String conductorPhone
+    test('to test the property `conductorPhone`', () async {
+      // TODO
+    });
+
+    // Conductor's address
+    // String conductorAddress
+    test('to test the property `conductorAddress`', () async {
+      // TODO
+    });
+
     // int assignedStudentsCount
     test('to test the property `assignedStudentsCount`', () async {
       // TODO

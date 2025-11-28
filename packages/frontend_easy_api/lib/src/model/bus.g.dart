@@ -73,9 +73,9 @@ class _$Bus extends Bus {
   @override
   final String? route;
   @override
-  final String routeName;
+  final String? routeName;
   @override
-  final int capacity;
+  final int? capacity;
   @override
   final String? deviceId;
   @override
@@ -88,6 +88,20 @@ class _$Bus extends Bus {
   final int? year;
   @override
   final Date? lastMaintenance;
+  @override
+  final String? driverName;
+  @override
+  final String? driverPhone;
+  @override
+  final String? driverAddress;
+  @override
+  final String? driverLicenseNumber;
+  @override
+  final String? conductorName;
+  @override
+  final String? conductorPhone;
+  @override
+  final String? conductorAddress;
   @override
   final int assignedStudentsCount;
   @override
@@ -107,14 +121,21 @@ class _$Bus extends Bus {
       required this.busNumber,
       required this.licensePlate,
       this.route,
-      required this.routeName,
-      required this.capacity,
+      this.routeName,
+      this.capacity,
       this.deviceId,
       this.status,
       this.manufacturer,
       this.model,
       this.year,
       this.lastMaintenance,
+      this.driverName,
+      this.driverPhone,
+      this.driverAddress,
+      this.driverLicenseNumber,
+      this.conductorName,
+      this.conductorPhone,
+      this.conductorAddress,
       required this.assignedStudentsCount,
       required this.utilizationPercentage,
       required this.isAvailable,
@@ -144,6 +165,13 @@ class _$Bus extends Bus {
         model == other.model &&
         year == other.year &&
         lastMaintenance == other.lastMaintenance &&
+        driverName == other.driverName &&
+        driverPhone == other.driverPhone &&
+        driverAddress == other.driverAddress &&
+        driverLicenseNumber == other.driverLicenseNumber &&
+        conductorName == other.conductorName &&
+        conductorPhone == other.conductorPhone &&
+        conductorAddress == other.conductorAddress &&
         assignedStudentsCount == other.assignedStudentsCount &&
         utilizationPercentage == other.utilizationPercentage &&
         isAvailable == other.isAvailable &&
@@ -166,6 +194,13 @@ class _$Bus extends Bus {
     _$hash = $jc(_$hash, model.hashCode);
     _$hash = $jc(_$hash, year.hashCode);
     _$hash = $jc(_$hash, lastMaintenance.hashCode);
+    _$hash = $jc(_$hash, driverName.hashCode);
+    _$hash = $jc(_$hash, driverPhone.hashCode);
+    _$hash = $jc(_$hash, driverAddress.hashCode);
+    _$hash = $jc(_$hash, driverLicenseNumber.hashCode);
+    _$hash = $jc(_$hash, conductorName.hashCode);
+    _$hash = $jc(_$hash, conductorPhone.hashCode);
+    _$hash = $jc(_$hash, conductorAddress.hashCode);
     _$hash = $jc(_$hash, assignedStudentsCount.hashCode);
     _$hash = $jc(_$hash, utilizationPercentage.hashCode);
     _$hash = $jc(_$hash, isAvailable.hashCode);
@@ -190,6 +225,13 @@ class _$Bus extends Bus {
           ..add('model', model)
           ..add('year', year)
           ..add('lastMaintenance', lastMaintenance)
+          ..add('driverName', driverName)
+          ..add('driverPhone', driverPhone)
+          ..add('driverAddress', driverAddress)
+          ..add('driverLicenseNumber', driverLicenseNumber)
+          ..add('conductorName', conductorName)
+          ..add('conductorPhone', conductorPhone)
+          ..add('conductorAddress', conductorAddress)
           ..add('assignedStudentsCount', assignedStudentsCount)
           ..add('utilizationPercentage', utilizationPercentage)
           ..add('isAvailable', isAvailable)
@@ -251,6 +293,39 @@ class BusBuilder implements Builder<Bus, BusBuilder> {
   set lastMaintenance(Date? lastMaintenance) =>
       _$this._lastMaintenance = lastMaintenance;
 
+  String? _driverName;
+  String? get driverName => _$this._driverName;
+  set driverName(String? driverName) => _$this._driverName = driverName;
+
+  String? _driverPhone;
+  String? get driverPhone => _$this._driverPhone;
+  set driverPhone(String? driverPhone) => _$this._driverPhone = driverPhone;
+
+  String? _driverAddress;
+  String? get driverAddress => _$this._driverAddress;
+  set driverAddress(String? driverAddress) =>
+      _$this._driverAddress = driverAddress;
+
+  String? _driverLicenseNumber;
+  String? get driverLicenseNumber => _$this._driverLicenseNumber;
+  set driverLicenseNumber(String? driverLicenseNumber) =>
+      _$this._driverLicenseNumber = driverLicenseNumber;
+
+  String? _conductorName;
+  String? get conductorName => _$this._conductorName;
+  set conductorName(String? conductorName) =>
+      _$this._conductorName = conductorName;
+
+  String? _conductorPhone;
+  String? get conductorPhone => _$this._conductorPhone;
+  set conductorPhone(String? conductorPhone) =>
+      _$this._conductorPhone = conductorPhone;
+
+  String? _conductorAddress;
+  String? get conductorAddress => _$this._conductorAddress;
+  set conductorAddress(String? conductorAddress) =>
+      _$this._conductorAddress = conductorAddress;
+
   int? _assignedStudentsCount;
   int? get assignedStudentsCount => _$this._assignedStudentsCount;
   set assignedStudentsCount(int? assignedStudentsCount) =>
@@ -292,6 +367,13 @@ class BusBuilder implements Builder<Bus, BusBuilder> {
       _model = $v.model;
       _year = $v.year;
       _lastMaintenance = $v.lastMaintenance;
+      _driverName = $v.driverName;
+      _driverPhone = $v.driverPhone;
+      _driverAddress = $v.driverAddress;
+      _driverLicenseNumber = $v.driverLicenseNumber;
+      _conductorName = $v.conductorName;
+      _conductorPhone = $v.conductorPhone;
+      _conductorAddress = $v.conductorAddress;
       _assignedStudentsCount = $v.assignedStudentsCount;
       _utilizationPercentage = $v.utilizationPercentage;
       _isAvailable = $v.isAvailable;
@@ -324,16 +406,21 @@ class BusBuilder implements Builder<Bus, BusBuilder> {
           licensePlate: BuiltValueNullFieldError.checkNotNull(
               licensePlate, r'Bus', 'licensePlate'),
           route: route,
-          routeName: BuiltValueNullFieldError.checkNotNull(
-              routeName, r'Bus', 'routeName'),
-          capacity: BuiltValueNullFieldError.checkNotNull(
-              capacity, r'Bus', 'capacity'),
+          routeName: routeName,
+          capacity: capacity,
           deviceId: deviceId,
           status: status,
           manufacturer: manufacturer,
           model: model,
           year: year,
           lastMaintenance: lastMaintenance,
+          driverName: driverName,
+          driverPhone: driverPhone,
+          driverAddress: driverAddress,
+          driverLicenseNumber: driverLicenseNumber,
+          conductorName: conductorName,
+          conductorPhone: conductorPhone,
+          conductorAddress: conductorAddress,
           assignedStudentsCount: BuiltValueNullFieldError.checkNotNull(
               assignedStudentsCount, r'Bus', 'assignedStudentsCount'),
           utilizationPercentage: BuiltValueNullFieldError.checkNotNull(

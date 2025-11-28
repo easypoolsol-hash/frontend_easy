@@ -9,7 +9,15 @@ part of 'serializers.dart';
 Serializers _$serializers = (Serializers().toBuilder()
       ..add(APIKey.serializer)
       ..add(APIKeyCreate.serializer)
+      ..add(APIKeyCreateRequest.serializer)
+      ..add(APIKeyRequest.serializer)
       ..add(ApiV1KioskBoardingCreate200Response.serializer)
+      ..add(ApiV1ParentsMeBusLocationsRetrieve200ResponseInner.serializer)
+      ..add(ApiV1ParentsMeBusesLocationRetrieve200Response.serializer)
+      ..add(ApiV1ParentsMeBusesLocationRetrieve200ResponseLocation.serializer)
+      ..add(ApiV1ParentsMeBusesRetrieve200Response.serializer)
+      ..add(ApiV1StudentsAllRetrieve200Response.serializer)
+      ..add(ApiV1StudentsAllRetrieve200ResponseResultsInner.serializer)
       ..add(AttendanceRecord.serializer)
       ..add(AttendanceRecordStatusEnum.serializer)
       ..add(AuditLog.serializer)
@@ -17,23 +25,41 @@ Serializers _$serializers = (Serializers().toBuilder()
       ..add(AuditLogResourceTypeEnum.serializer)
       ..add(BoardingEvent.serializer)
       ..add(BoardingEventCreate.serializer)
+      ..add(BoardingEventCreateRequest.serializer)
       ..add(BoardingEventNested.serializer)
+      ..add(BoardingEventRequest.serializer)
       ..add(Bus.serializer)
       ..add(BusBasic.serializer)
+      ..add(BusBasicRequest.serializer)
+      ..add(BusBasicRequestStatusEnum.serializer)
       ..add(BusBasicStatusEnum.serializer)
       ..add(BusLocation.serializer)
+      ..add(BusLocationHistoryResponse.serializer)
+      ..add(BusLocationRequest.serializer)
       ..add(BusLocationsResponse.serializer)
+      ..add(BusRequest.serializer)
+      ..add(BusRequestStatusEnum.serializer)
       ..add(BusStatusEnum.serializer)
       ..add(CheckUpdatesResponse.serializer)
       ..add(DashboardStats.serializer)
       ..add(DashboardStudentsResponse.serializer)
       ..add(DeviceLog.serializer)
       ..add(DeviceLogLogLevelEnum.serializer)
+      ..add(DeviceLogRequest.serializer)
+      ..add(DeviceLogRequestLogLevelEnum.serializer)
+      ..add(FaceEnrollmentStatus.serializer)
+      ..add(FaceEnrollmentStatusStatusEnum.serializer)
+      ..add(FaceEnrollmentSubmissionRequest.serializer)
       ..add(Group.serializer)
-      ..add(HealthData.serializer)
-      ..add(Heartbeat.serializer)
+      ..add(HealthDataRequest.serializer)
+      ..add(HeartbeatRequest.serializer)
       ..add(Kiosk.serializer)
       ..add(KioskLog200Response.serializer)
+      ..add(KioskRequest.serializer)
+      ..add(OperationSlot.serializer)
+      ..add(OperationSlotRequest.serializer)
+      ..add(OperationTiming.serializer)
+      ..add(OperationTimingRequest.serializer)
       ..add(PaginatedAPIKeyList.serializer)
       ..add(PaginatedAttendanceRecordList.serializer)
       ..add(PaginatedAuditLogList.serializer)
@@ -45,41 +71,62 @@ Serializers _$serializers = (Serializers().toBuilder()
       ..add(PaginatedParentList.serializer)
       ..add(PaginatedRouteList.serializer)
       ..add(PaginatedSchoolList.serializer)
-      ..add(PaginatedStudentList.serializer)
+      ..add(PaginatedStudentListList.serializer)
       ..add(PaginatedStudentParentList.serializer)
       ..add(PaginatedStudentPhotoList.serializer)
       ..add(PaginatedUserList.serializer)
       ..add(Parent.serializer)
       ..add(ParentBusLocationsResponse.serializer)
-      ..add(PatchedAPIKey.serializer)
-      ..add(PatchedBoardingEvent.serializer)
-      ..add(PatchedBus.serializer)
-      ..add(PatchedBusStatusEnum.serializer)
-      ..add(PatchedKiosk.serializer)
-      ..add(PatchedParent.serializer)
-      ..add(PatchedRoute.serializer)
-      ..add(PatchedRouteLinePatternEnum.serializer)
-      ..add(PatchedSchool.serializer)
-      ..add(PatchedStudent.serializer)
-      ..add(PatchedStudentParent.serializer)
-      ..add(PatchedStudentParentRelationshipEnum.serializer)
-      ..add(PatchedStudentPhoto.serializer)
-      ..add(PatchedStudentStatusEnum.serializer)
-      ..add(PatchedUser.serializer)
+      ..add(ParentRequest.serializer)
+      ..add(PatchedAPIKeyRequest.serializer)
+      ..add(PatchedBoardingEventRequest.serializer)
+      ..add(PatchedBusRequest.serializer)
+      ..add(PatchedBusRequestStatusEnum.serializer)
+      ..add(PatchedKioskRequest.serializer)
+      ..add(PatchedParentRequest.serializer)
+      ..add(PatchedRouteRequest.serializer)
+      ..add(PatchedRouteRequestLinePatternEnum.serializer)
+      ..add(PatchedSchoolRequest.serializer)
+      ..add(PatchedStudentParentRequest.serializer)
+      ..add(PatchedStudentParentRequestRelationshipEnum.serializer)
+      ..add(PatchedStudentPhotoRequest.serializer)
+      ..add(PatchedStudentRequest.serializer)
+      ..add(PatchedStudentRequestStatusEnum.serializer)
+      ..add(PatchedUserRequest.serializer)
       ..add(Route.serializer)
       ..add(RouteLinePatternEnum.serializer)
+      ..add(RouteRequest.serializer)
+      ..add(RouteRequestLinePatternEnum.serializer)
       ..add(RouteStop.serializer)
+      ..add(RouteStopRequest.serializer)
+      ..add(SOSAlert.serializer)
+      ..add(SOSAlertCreateRequest.serializer)
+      ..add(SOSAlertStatusEnum.serializer)
       ..add(School.serializer)
+      ..add(SchoolRequest.serializer)
       ..add(Student.serializer)
       ..add(StudentActivity.serializer)
+      ..add(StudentList.serializer)
+      ..add(StudentListStatusEnum.serializer)
       ..add(StudentParent.serializer)
       ..add(StudentParentRelationshipEnum.serializer)
+      ..add(StudentParentRequest.serializer)
+      ..add(StudentParentRequestRelationshipEnum.serializer)
       ..add(StudentPhoto.serializer)
+      ..add(StudentPhotoRequest.serializer)
+      ..add(StudentRequest.serializer)
+      ..add(StudentRequestStatusEnum.serializer)
       ..add(StudentStatusEnum.serializer)
       ..add(User.serializer)
+      ..add(UserRequest.serializer)
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(APIKey)]),
           () => ListBuilder<APIKey>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [
+            const FullType(ApiV1StudentsAllRetrieve200ResponseResultsInner)
+          ]),
+          () => ListBuilder<ApiV1StudentsAllRetrieve200ResponseResultsInner>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(AttendanceRecord)]),
           () => ListBuilder<AttendanceRecord>())
@@ -110,6 +157,14 @@ Serializers _$serializers = (Serializers().toBuilder()
           ]),
           () => ListBuilder<BuiltMap<String, JsonObject?>>())
       ..addBuilderFactory(
+          const FullType(BuiltList, const [
+            const FullType(BuiltMap, const [
+              const FullType(String),
+              const FullType.nullable(JsonObject)
+            ])
+          ]),
+          () => ListBuilder<BuiltMap<String, JsonObject?>>())
+      ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Bus)]),
           () => ListBuilder<Bus>())
       ..addBuilderFactory(
@@ -119,25 +174,20 @@ Serializers _$serializers = (Serializers().toBuilder()
           const FullType(BuiltList, const [const FullType(Group)]),
           () => ListBuilder<Group>())
       ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(JsonObject)]),
+          () => ListBuilder<JsonObject>())
+      ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Kiosk)]),
           () => ListBuilder<Kiosk>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(OperationSlot)]),
+          () => ListBuilder<OperationSlot>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Parent)]),
           () => ListBuilder<Parent>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Route)]),
           () => ListBuilder<Route>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(RouteStop)]),
-          () => ListBuilder<RouteStop>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [
-            const FullType(BuiltMap, const [
-              const FullType(String),
-              const FullType.nullable(JsonObject)
-            ])
-          ]),
-          () => ListBuilder<BuiltMap<String, JsonObject?>>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(RouteStop)]),
           () => ListBuilder<RouteStop>())
@@ -159,20 +209,17 @@ Serializers _$serializers = (Serializers().toBuilder()
           const FullType(BuiltList, const [const FullType(String)]),
           () => ListBuilder<String>())
       ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(Student)]),
-          () => ListBuilder<Student>())
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(StudentActivity)]),
           () => ListBuilder<StudentActivity>())
       ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(StudentParent)]),
-          () => ListBuilder<StudentParent>())
+          const FullType(BuiltList, const [const FullType(StudentList)]),
+          () => ListBuilder<StudentList>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(StudentParent)]),
           () => ListBuilder<StudentParent>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(StudentPhoto)]),
-          () => ListBuilder<StudentPhoto>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(StudentParent)]),
           () => ListBuilder<StudentParent>())
@@ -187,7 +234,10 @@ Serializers _$serializers = (Serializers().toBuilder()
           () => ListBuilder<User>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(double)]),
-          () => ListBuilder<double>()))
+          () => ListBuilder<double>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => ListBuilder<String>()))
     .build();
 
 // ignore_for_file: deprecated_member_use_from_same_package,type=lint

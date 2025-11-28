@@ -7,7 +7,14 @@ void main() {
   final instance = FrontendEasyApi().getApiApi();
 
   group(ApiApi, () {
-    //Future<APIKeyCreate> apiV1ApiKeysCreate(APIKeyCreate aPIKeyCreate) async
+    // Acknowledge an SOS alert (school admins only)
+    //
+    //Future<SOSAlert> acknowledgeSosAlert(int alertId) async
+    test('test acknowledgeSosAlert', () async {
+      // TODO
+    });
+
+    //Future<APIKeyCreate> apiV1ApiKeysCreate(APIKeyCreateRequest aPIKeyCreateRequest) async
     test('test apiV1ApiKeysCreate', () async {
       // TODO
     });
@@ -22,7 +29,7 @@ void main() {
       // TODO
     });
 
-    //Future<APIKey> apiV1ApiKeysPartialUpdate(String keyId, { PatchedAPIKey patchedAPIKey }) async
+    //Future<APIKey> apiV1ApiKeysPartialUpdate(String keyId, { PatchedAPIKeyRequest patchedAPIKeyRequest }) async
     test('test apiV1ApiKeysPartialUpdate', () async {
       // TODO
     });
@@ -32,12 +39,12 @@ void main() {
       // TODO
     });
 
-    //Future<APIKey> apiV1ApiKeysRevokeCreate(String keyId, APIKey aPIKey) async
+    //Future<APIKey> apiV1ApiKeysRevokeCreate(String keyId, APIKeyRequest aPIKeyRequest) async
     test('test apiV1ApiKeysRevokeCreate', () async {
       // TODO
     });
 
-    //Future<APIKey> apiV1ApiKeysUpdate(String keyId, APIKey aPIKey) async
+    //Future<APIKey> apiV1ApiKeysUpdate(String keyId, APIKeyRequest aPIKeyRequest) async
     test('test apiV1ApiKeysUpdate', () async {
       // TODO
     });
@@ -82,14 +89,14 @@ void main() {
 
     // Bulk create boarding events (for high-throughput kiosk operations)
     //
-    //Future<BoardingEvent> apiV1BoardingEventsBulkCreate(BoardingEvent boardingEvent) async
+    //Future<BoardingEvent> apiV1BoardingEventsBulkCreate(BoardingEventRequest boardingEventRequest) async
     test('test apiV1BoardingEventsBulkCreate', () async {
       // TODO
     });
 
     // ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices only) - LIST/RETRIEVE/UPDATE/DELETE: IsSchoolAdmin (school admins only) - RECENT: IsSchoolAdmin (school admins only)  NOTE: Old permission was IsAuthenticated (too permissive!) Now using AWS-style deny-by-default with explicit permissions.
     //
-    //Future<BoardingEventCreate> apiV1BoardingEventsCreate(BoardingEventCreate boardingEventCreate) async
+    //Future<BoardingEventCreate> apiV1BoardingEventsCreate(BoardingEventCreateRequest boardingEventCreateRequest) async
     test('test apiV1BoardingEventsCreate', () async {
       // TODO
     });
@@ -110,8 +117,15 @@ void main() {
 
     // ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices only) - LIST/RETRIEVE/UPDATE/DELETE: IsSchoolAdmin (school admins only) - RECENT: IsSchoolAdmin (school admins only)  NOTE: Old permission was IsAuthenticated (too permissive!) Now using AWS-style deny-by-default with explicit permissions.
     //
-    //Future<BoardingEvent> apiV1BoardingEventsPartialUpdate(String eventId, { PatchedBoardingEvent patchedBoardingEvent }) async
+    //Future<BoardingEvent> apiV1BoardingEventsPartialUpdate(String eventId, { PatchedBoardingEventRequest patchedBoardingEventRequest }) async
     test('test apiV1BoardingEventsPartialUpdate', () async {
+      // TODO
+    });
+
+    // Get confirmation face photos for a boarding event.  Separate endpoint for loading photos independently from page load. This allows the frontend to: 1. Load page fast without photos 2. Lazy load photos when visible/needed 3. Parallel load photos for multiple events  Returns:     {         \"event_id\": \"01HQXYZ123\",         \"confirmation_face_urls\": [url1, url2, url3]     }
+    //
+    //Future<BoardingEvent> apiV1BoardingEventsPhotosRetrieve(String eventId) async
+    test('test apiV1BoardingEventsPhotosRetrieve', () async {
       // TODO
     });
 
@@ -131,21 +145,21 @@ void main() {
 
     // ViewSet for boarding events  PERMISSIONS: - CREATE/BULK: IsKiosk (kiosk devices only) - LIST/RETRIEVE/UPDATE/DELETE: IsSchoolAdmin (school admins only) - RECENT: IsSchoolAdmin (school admins only)  NOTE: Old permission was IsAuthenticated (too permissive!) Now using AWS-style deny-by-default with explicit permissions.
     //
-    //Future<BoardingEvent> apiV1BoardingEventsUpdate(String eventId, BoardingEvent boardingEvent) async
+    //Future<BoardingEvent> apiV1BoardingEventsUpdate(String eventId, BoardingEventRequest boardingEventRequest) async
     test('test apiV1BoardingEventsUpdate', () async {
       // TODO
     });
 
     // Bulk assign students to buses
     //
-    //Future<Bus> apiV1BusesAssignStudentsCreate(Bus bus) async
+    //Future<Bus> apiV1BusesAssignStudentsCreate(BusRequest busRequest) async
     test('test apiV1BusesAssignStudentsCreate', () async {
       // TODO
     });
 
     // ViewSet for buses
     //
-    //Future<Bus> apiV1BusesCreate(Bus bus) async
+    //Future<Bus> apiV1BusesCreate(BusRequest busRequest) async
     test('test apiV1BusesCreate', () async {
       // TODO
     });
@@ -166,7 +180,7 @@ void main() {
 
     // ViewSet for buses
     //
-    //Future<Bus> apiV1BusesPartialUpdate(String busId, { PatchedBus patchedBus }) async
+    //Future<Bus> apiV1BusesPartialUpdate(String busId, { PatchedBusRequest patchedBusRequest }) async
     test('test apiV1BusesPartialUpdate', () async {
       // TODO
     });
@@ -187,7 +201,7 @@ void main() {
 
     // ViewSet for buses
     //
-    //Future<Bus> apiV1BusesUpdate(String busId, Bus bus) async
+    //Future<Bus> apiV1BusesUpdate(String busId, BusRequest busRequest) async
     test('test apiV1BusesUpdate', () async {
       // TODO
     });
@@ -214,6 +228,20 @@ void main() {
     //
     //Future<DashboardStudentsResponse> apiV1DashboardStudentsRetrieve({ int limit, int offset }) async
     test('test apiV1DashboardStudentsRetrieve', () async {
+      // TODO
+    });
+
+    // Get verification status for a boarding event  GET /api/v1/face-verification/events/{event_id}/  Response:     {         \"event_id\": \"...\",         \"backend_verification_status\": \"verified\",         \"backend_verification_confidence\": \"high\",         \"backend_student_id\": 123,         \"kiosk_student_id\": 123,         \"has_mismatch\": false,         \"needs_manual_review\": false,         \"backend_verified_at\": \"2025-01-15T10:30:00Z\",         \"model_consensus_data\": {             \"mobilefacenet\": {...},             \"arcface\": {...},             \"adaface\": {...}         }     }
+    //
+    //Future apiV1FaceVerificationEventsRetrieve(String eventId) async
+    test('test apiV1FaceVerificationEventsRetrieve', () async {
+      // TODO
+    });
+
+    // Cloud Tasks handler for async boarding event verification  This endpoint is called by Cloud Tasks to verify boarding events using multi-model consensus.  Authentication: CloudTasksAuthentication (validates Cloud Tasks headers)  Request Body:     {         \"event_id\": \"01ARZ3NDEKTSV4RRFFQ69G5FAV\"  # ULID     }  Response:     {         \"status\": \"success\",         \"event_id\": \"...\",         \"verification_status\": \"verified\",         \"confidence_level\": \"high\",         \"student_id\": 123,         \"kiosk_student_id\": 123,         \"is_mismatch\": false     }
+    //
+    //Future apiV1FaceVerificationVerifyCreate() async
+    test('test apiV1FaceVerificationVerifyCreate', () async {
       // TODO
     });
 
@@ -247,7 +275,7 @@ void main() {
 
     // ViewSet for kiosk management (admin only)
     //
-    //Future<Kiosk> apiV1KiosksCreate({ Kiosk kiosk }) async
+    //Future<Kiosk> apiV1KiosksCreate({ KioskRequest kioskRequest }) async
     test('test apiV1KiosksCreate', () async {
       // TODO
     });
@@ -268,7 +296,7 @@ void main() {
 
     // ViewSet for kiosk management (admin only)
     //
-    //Future<Kiosk> apiV1KiosksPartialUpdate(String kioskId, { PatchedKiosk patchedKiosk }) async
+    //Future<Kiosk> apiV1KiosksPartialUpdate(String kioskId, { PatchedKioskRequest patchedKioskRequest }) async
     test('test apiV1KiosksPartialUpdate', () async {
       // TODO
     });
@@ -282,15 +310,8 @@ void main() {
 
     // ViewSet for kiosk management (admin only)
     //
-    //Future<Kiosk> apiV1KiosksUpdate(String kioskId, { Kiosk kiosk }) async
+    //Future<Kiosk> apiV1KiosksUpdate(String kioskId, { KioskRequest kioskRequest }) async
     test('test apiV1KiosksUpdate', () async {
-      // TODO
-    });
-
-    // Bus locations API for school dashboard (any authenticated user).  Returns real-time bus locations for ALL buses in the fleet as GeoJSON. Accessible by any authenticated user.
-    //
-    //Future apiV1LocationsRetrieve() async
-    test('test apiV1LocationsRetrieve', () async {
       // TODO
     });
 
@@ -315,38 +336,115 @@ void main() {
       // TODO
     });
 
-    //Future<Parent> apiV1ParentsCreate(Parent parent) async
+    // Admin-only parent management - NO row-level filtering (requires admin access)
+    //
+    //Future<Parent> apiV1ParentsCreate(ParentRequest parentRequest) async
     test('test apiV1ParentsCreate', () async {
       // TODO
     });
 
+    // Admin-only parent management - NO row-level filtering (requires admin access)
+    //
     //Future apiV1ParentsDestroy(String parentId) async
     test('test apiV1ParentsDestroy', () async {
       // TODO
     });
 
+    // Admin-only parent management - NO row-level filtering (requires admin access)
+    //
     //Future<PaginatedParentList> apiV1ParentsList({ String ordering, int page, String search }) async
     test('test apiV1ParentsList', () async {
       // TODO
     });
 
-    //Future<Parent> apiV1ParentsPartialUpdate(String parentId, { PatchedParent patchedParent }) async
+    // Get real-time locations for all buses assigned to my children (row-level security enforced). Cached for 30 seconds.
+    //
+    //Future<BuiltList<ApiV1ParentsMeBusLocationsRetrieve200ResponseInner>> apiV1ParentsMeBusLocationsRetrieve() async
+    test('test apiV1ParentsMeBusLocationsRetrieve', () async {
+      // TODO
+    });
+
+    // Get real-time location for a specific bus (only buses for my children). Cached for 30 seconds.
+    //
+    //Future<ApiV1ParentsMeBusesLocationRetrieve200Response> apiV1ParentsMeBusesLocationRetrieve(String busId) async
+    test('test apiV1ParentsMeBusesLocationRetrieve', () async {
+      // TODO
+    });
+
+    // Get all buses for my children
+    //
+    //Future<ApiV1ParentsMeBusesRetrieve200Response> apiV1ParentsMeBusesRetrieve() async
+    test('test apiV1ParentsMeBusesRetrieve', () async {
+      // TODO
+    });
+
+    // Get my children
+    //
+    //Future<BuiltList<Student>> apiV1ParentsMeChildrenList() async
+    test('test apiV1ParentsMeChildrenList', () async {
+      // TODO
+    });
+
+    // Check face enrollment status for child
+    //
+    //Future<FaceEnrollmentStatus> apiV1ParentsMeFaceEnrollmentStatusRetrieve(String id) async
+    test('test apiV1ParentsMeFaceEnrollmentStatusRetrieve', () async {
+      // TODO
+    });
+
+    // Submit face enrollment photos for child
+    //
+    //Future<FaceEnrollmentStatus> apiV1ParentsMeFaceEnrollmentSubmitCreate(String id, FaceEnrollmentSubmissionRequest faceEnrollmentSubmissionRequest) async
+    test('test apiV1ParentsMeFaceEnrollmentSubmitCreate', () async {
+      // TODO
+    });
+
+    // Get my parent profile
+    //
+    //Future<Parent> apiV1ParentsMeProfileRetrieve() async
+    test('test apiV1ParentsMeProfileRetrieve', () async {
+      // TODO
+    });
+
+    // Admin-only parent management - NO row-level filtering (requires admin access)
+    //
+    //Future<Parent> apiV1ParentsPartialUpdate(String parentId, { PatchedParentRequest patchedParentRequest }) async
     test('test apiV1ParentsPartialUpdate', () async {
       // TODO
     });
 
+    // Register as a parent (called from parent_easy app after Firebase login)
+    //
+    //Future<Parent> apiV1ParentsRegisterCreate() async
+    test('test apiV1ParentsRegisterCreate', () async {
+      // TODO
+    });
+
+    // Admin-only parent management - NO row-level filtering (requires admin access)
+    //
     //Future<Parent> apiV1ParentsRetrieve(String parentId) async
     test('test apiV1ParentsRetrieve', () async {
       // TODO
     });
 
+    // Admin-only parent management - NO row-level filtering (requires admin access)
+    //
     //Future<Parent> apiV1ParentsStudentsRetrieve(String parentId) async
     test('test apiV1ParentsStudentsRetrieve', () async {
       // TODO
     });
 
-    //Future<Parent> apiV1ParentsUpdate(String parentId, Parent parent) async
+    // Admin-only parent management - NO row-level filtering (requires admin access)
+    //
+    //Future<Parent> apiV1ParentsUpdate(String parentId, ParentRequest parentRequest) async
     test('test apiV1ParentsUpdate', () async {
+      // TODO
+    });
+
+    // POST /api/v1/students/regenerate-embedding/
+    //
+    //Future apiV1RegenerateEmbeddingCreate() async
+    test('test apiV1RegenerateEmbeddingCreate', () async {
       // TODO
     });
 
@@ -359,7 +457,7 @@ void main() {
 
     // ViewSet for bus routes
     //
-    //Future<Route> apiV1RoutesCreate(Route route) async
+    //Future<Route> apiV1RoutesCreate(RouteRequest routeRequest) async
     test('test apiV1RoutesCreate', () async {
       // TODO
     });
@@ -380,7 +478,7 @@ void main() {
 
     // ViewSet for bus routes
     //
-    //Future<Route> apiV1RoutesPartialUpdate(String routeId, { PatchedRoute patchedRoute }) async
+    //Future<Route> apiV1RoutesPartialUpdate(String routeId, { PatchedRouteRequest patchedRouteRequest }) async
     test('test apiV1RoutesPartialUpdate', () async {
       // TODO
     });
@@ -401,19 +499,12 @@ void main() {
 
     // ViewSet for bus routes
     //
-    //Future<Route> apiV1RoutesUpdate(String routeId, Route route) async
+    //Future<Route> apiV1RoutesUpdate(String routeId, RouteRequest routeRequest) async
     test('test apiV1RoutesUpdate', () async {
       // TODO
     });
 
-    // Bus locations API for school dashboard (any authenticated user).  Returns real-time bus locations for ALL buses in the fleet as GeoJSON. Accessible by any authenticated user.
-    //
-    //Future apiV1SchoolApiBusLocationsRetrieve() async
-    test('test apiV1SchoolApiBusLocationsRetrieve', () async {
-      // TODO
-    });
-
-    //Future<School> apiV1SchoolsCreate(School school) async
+    //Future<School> apiV1SchoolsCreate(SchoolRequest schoolRequest) async
     test('test apiV1SchoolsCreate', () async {
       // TODO
     });
@@ -428,7 +519,7 @@ void main() {
       // TODO
     });
 
-    //Future<School> apiV1SchoolsPartialUpdate(String schoolId, { PatchedSchool patchedSchool }) async
+    //Future<School> apiV1SchoolsPartialUpdate(String schoolId, { PatchedSchoolRequest patchedSchoolRequest }) async
     test('test apiV1SchoolsPartialUpdate', () async {
       // TODO
     });
@@ -438,12 +529,12 @@ void main() {
       // TODO
     });
 
-    //Future<School> apiV1SchoolsUpdate(String schoolId, School school) async
+    //Future<School> apiV1SchoolsUpdate(String schoolId, SchoolRequest schoolRequest) async
     test('test apiV1SchoolsUpdate', () async {
       // TODO
     });
 
-    //Future<StudentParent> apiV1StudentParentsCreate(StudentParent studentParent) async
+    //Future<StudentParent> apiV1StudentParentsCreate(StudentParentRequest studentParentRequest) async
     test('test apiV1StudentParentsCreate', () async {
       // TODO
     });
@@ -458,7 +549,7 @@ void main() {
       // TODO
     });
 
-    //Future<StudentParent> apiV1StudentParentsPartialUpdate(int id, { PatchedStudentParent patchedStudentParent }) async
+    //Future<StudentParent> apiV1StudentParentsPartialUpdate(int id, { PatchedStudentParentRequest patchedStudentParentRequest }) async
     test('test apiV1StudentParentsPartialUpdate', () async {
       // TODO
     });
@@ -468,12 +559,12 @@ void main() {
       // TODO
     });
 
-    //Future<StudentParent> apiV1StudentParentsUpdate(int id, StudentParent studentParent) async
+    //Future<StudentParent> apiV1StudentParentsUpdate(int id, StudentParentRequest studentParentRequest) async
     test('test apiV1StudentParentsUpdate', () async {
       // TODO
     });
 
-    //Future<StudentPhoto> apiV1StudentPhotosCreate(StudentPhoto studentPhoto) async
+    //Future<StudentPhoto> apiV1StudentPhotosCreate(StudentPhotoRequest studentPhotoRequest) async
     test('test apiV1StudentPhotosCreate', () async {
       // TODO
     });
@@ -488,7 +579,7 @@ void main() {
       // TODO
     });
 
-    //Future<StudentPhoto> apiV1StudentPhotosPartialUpdate(String photoId, { PatchedStudentPhoto patchedStudentPhoto }) async
+    //Future<StudentPhoto> apiV1StudentPhotosPartialUpdate(String photoId, { PatchedStudentPhotoRequest patchedStudentPhotoRequest }) async
     test('test apiV1StudentPhotosPartialUpdate', () async {
       // TODO
     });
@@ -498,22 +589,31 @@ void main() {
       // TODO
     });
 
-    //Future<StudentPhoto> apiV1StudentPhotosSetPrimaryCreate(String photoId, StudentPhoto studentPhoto) async
+    //Future<StudentPhoto> apiV1StudentPhotosSetPrimaryCreate(String photoId, StudentPhotoRequest studentPhotoRequest) async
     test('test apiV1StudentPhotosSetPrimaryCreate', () async {
       // TODO
     });
 
-    //Future<StudentPhoto> apiV1StudentPhotosUpdate(String photoId, StudentPhoto studentPhoto) async
+    //Future<StudentPhoto> apiV1StudentPhotosUpdate(String photoId, StudentPhotoRequest studentPhotoRequest) async
     test('test apiV1StudentPhotosUpdate', () async {
       // TODO
     });
 
-    //Future<Student> apiV1StudentsAssignBusCreate(String studentId, Student student) async
+    // Get all registered students
+    //
+    // Returns paginated list of ALL registered students (not just students who boarded today). Cached for 5 minutes.
+    //
+    //Future<ApiV1StudentsAllRetrieve200Response> apiV1StudentsAllRetrieve({ int limit, int offset, String search }) async
+    test('test apiV1StudentsAllRetrieve', () async {
+      // TODO
+    });
+
+    //Future<Student> apiV1StudentsAssignBusCreate(String studentId, StudentRequest studentRequest) async
     test('test apiV1StudentsAssignBusCreate', () async {
       // TODO
     });
 
-    //Future<Student> apiV1StudentsCreate(Student student) async
+    //Future<Student> apiV1StudentsCreate(StudentRequest studentRequest) async
     test('test apiV1StudentsCreate', () async {
       // TODO
     });
@@ -523,7 +623,7 @@ void main() {
       // TODO
     });
 
-    //Future<PaginatedStudentList> apiV1StudentsList({ String ordering, int page, String search }) async
+    //Future<PaginatedStudentListList> apiV1StudentsList({ String ordering, int page, String search }) async
     test('test apiV1StudentsList', () async {
       // TODO
     });
@@ -533,7 +633,7 @@ void main() {
       // TODO
     });
 
-    //Future<Student> apiV1StudentsPartialUpdate(String studentId, { PatchedStudent patchedStudent }) async
+    //Future<Student> apiV1StudentsPartialUpdate(String studentId, { PatchedStudentRequest patchedStudentRequest }) async
     test('test apiV1StudentsPartialUpdate', () async {
       // TODO
     });
@@ -543,12 +643,12 @@ void main() {
       // TODO
     });
 
-    //Future<Student> apiV1StudentsUpdate(String studentId, Student student) async
+    //Future<Student> apiV1StudentsUpdate(String studentId, StudentRequest studentRequest) async
     test('test apiV1StudentsUpdate', () async {
       // TODO
     });
 
-    //Future<User> apiV1UsersCreate(User user) async
+    //Future<User> apiV1UsersCreate(UserRequest userRequest) async
     test('test apiV1UsersCreate', () async {
       // TODO
     });
@@ -570,7 +670,7 @@ void main() {
       // TODO
     });
 
-    //Future<User> apiV1UsersPartialUpdate(String userId, { PatchedUser patchedUser }) async
+    //Future<User> apiV1UsersPartialUpdate(String userId, { PatchedUserRequest patchedUserRequest }) async
     test('test apiV1UsersPartialUpdate', () async {
       // TODO
     });
@@ -580,7 +680,7 @@ void main() {
       // TODO
     });
 
-    //Future<User> apiV1UsersUpdate(String userId, User user) async
+    //Future<User> apiV1UsersUpdate(String userId, UserRequest userRequest) async
     test('test apiV1UsersUpdate', () async {
       // TODO
     });
@@ -599,24 +699,52 @@ void main() {
       // TODO
     });
 
+    // Get current authenticated kiosk details including bus assignment
+    //
+    //Future<Kiosk> kioskGetMe() async
+    test('test kioskGetMe', () async {
+      // TODO
+    });
+
     // Report kiosk health and sync status
     //
-    //Future kioskHeartbeat(String kioskId, Heartbeat heartbeat) async
+    //Future kioskHeartbeat(String kioskId, HeartbeatRequest heartbeatRequest) async
     test('test kioskHeartbeat', () async {
       // TODO
     });
 
     // Kiosk logging endpoint for device log submission
     //
-    //Future<KioskLog200Response> kioskLog(DeviceLog deviceLog) async
+    //Future<KioskLog200Response> kioskLog(DeviceLogRequest deviceLogRequest) async
     test('test kioskLog', () async {
+      // TODO
+    });
+
+    // Trigger SOS emergency alert. Creates an active alert with optional location and message.
+    //
+    //Future<SOSAlert> kioskTriggerSos(String kioskId, { SOSAlertCreateRequest sOSAlertCreateRequest }) async
+    test('test kioskTriggerSos', () async {
       // TODO
     });
 
     // Update bus GPS location. Kiosk sends location when bus moves significantly or every 2 minutes.
     //
-    //Future<BusLocation> kioskUpdateLocation(String kioskId, BusLocation busLocation) async
+    //Future<BusLocation> kioskUpdateLocation(String kioskId, BusLocationRequest busLocationRequest) async
     test('test kioskUpdateLocation', () async {
+      // TODO
+    });
+
+    // List all active SOS alerts (school admins and super admins only)
+    //
+    //Future<BuiltList<SOSAlert>> listActiveSosAlerts() async
+    test('test listActiveSosAlerts', () async {
+      // TODO
+    });
+
+    // Resolve an SOS alert (school admins only)
+    //
+    //Future<SOSAlert> resolveSosAlert(int alertId) async
+    test('test resolveSosAlert', () async {
       // TODO
     });
 

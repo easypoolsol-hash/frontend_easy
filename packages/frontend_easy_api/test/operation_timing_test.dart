@@ -1,21 +1,12 @@
-//
-// AUTO-GENERATED FILE, DO NOT MODIFY!
-//
-// @dart=2.18
-
-// ignore_for_file: unused_element, unused_import
-// ignore_for_file: always_put_required_named_parameters_first
-// ignore_for_file: constant_identifier_names
-// ignore_for_file: lines_longer_than_80_chars
-
-import 'package:frontend_easy_api/api.dart';
 import 'package:test/test.dart';
+import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 // tests for OperationTiming
 void main() {
-  // final instance = OperationTiming();
+  final instance = OperationTimingBuilder();
+  // TODO add properties to the builder and call build()
 
-  group('test OperationTiming', () {
+  group(OperationTiming, () {
     // Schedule name (e.g., 'Morning Shift', 'Full Day')
     // String name
     test('to test the property `name`', () async {
@@ -34,12 +25,10 @@ void main() {
       // TODO
     });
 
-    // List<OperationSlot> slots (default value: const [])
+    // BuiltList<OperationSlot> slots
     test('to test the property `slots`', () async {
       // TODO
     });
 
-
   });
-
 }

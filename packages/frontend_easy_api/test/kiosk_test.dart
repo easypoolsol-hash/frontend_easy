@@ -29,6 +29,12 @@ void main() {
       // TODO
     });
 
+    // Git commit SHA of current kiosk app build
+    // String gitCommitSha
+    test('to test the property `gitCommitSha`', () async {
+      // TODO
+    });
+
     // Timestamp of last heartbeat received from device
     // DateTime lastHeartbeat
     test('to test the property `lastHeartbeat`', () async {
@@ -49,6 +55,11 @@ void main() {
     // Storage used in MB on the device
     // int storageUsedMb
     test('to test the property `storageUsedMb`', () async {
+      // TODO
+    });
+
+    // OperationTiming operationTiming
+    test('to test the property `operationTiming`', () async {
       // TODO
     });
 

@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'paginated_parent_list.dart';
+part of 'paginated_student_list_list.dart';
 
 // **************************************************************************
 // BuiltValueGenerator
 // **************************************************************************
 
-class _$PaginatedParentList extends PaginatedParentList {
+class _$PaginatedStudentListList extends PaginatedStudentListList {
   @override
   final int count;
   @override
@@ -14,28 +14,28 @@ class _$PaginatedParentList extends PaginatedParentList {
   @override
   final String? previous;
   @override
-  final BuiltList<Parent> results;
+  final BuiltList<StudentList> results;
 
-  factory _$PaginatedParentList(
-          [void Function(PaginatedParentListBuilder)? updates]) =>
-      (PaginatedParentListBuilder()..update(updates))._build();
+  factory _$PaginatedStudentListList(
+          [void Function(PaginatedStudentListListBuilder)? updates]) =>
+      (PaginatedStudentListListBuilder()..update(updates))._build();
 
-  _$PaginatedParentList._(
+  _$PaginatedStudentListList._(
       {required this.count, this.next, this.previous, required this.results})
       : super._();
   @override
-  PaginatedParentList rebuild(
-          void Function(PaginatedParentListBuilder) updates) =>
+  PaginatedStudentListList rebuild(
+          void Function(PaginatedStudentListListBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  PaginatedParentListBuilder toBuilder() =>
-      PaginatedParentListBuilder()..replace(this);
+  PaginatedStudentListListBuilder toBuilder() =>
+      PaginatedStudentListListBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is PaginatedParentList &&
+    return other is PaginatedStudentListList &&
         count == other.count &&
         next == other.next &&
         previous == other.previous &&
@@ -55,7 +55,7 @@ class _$PaginatedParentList extends PaginatedParentList {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'PaginatedParentList')
+    return (newBuiltValueToStringHelper(r'PaginatedStudentListList')
           ..add('count', count)
           ..add('next', next)
           ..add('previous', previous)
@@ -64,9 +64,10 @@ class _$PaginatedParentList extends PaginatedParentList {
   }
 }
 
-class PaginatedParentListBuilder
-    implements Builder<PaginatedParentList, PaginatedParentListBuilder> {
-  _$PaginatedParentList? _$v;
+class PaginatedStudentListListBuilder
+    implements
+        Builder<PaginatedStudentListList, PaginatedStudentListListBuilder> {
+  _$PaginatedStudentListList? _$v;
 
   int? _count;
   int? get count => _$this._count;
@@ -80,15 +81,16 @@ class PaginatedParentListBuilder
   String? get previous => _$this._previous;
   set previous(String? previous) => _$this._previous = previous;
 
-  ListBuilder<Parent>? _results;
-  ListBuilder<Parent> get results => _$this._results ??= ListBuilder<Parent>();
-  set results(ListBuilder<Parent>? results) => _$this._results = results;
+  ListBuilder<StudentList>? _results;
+  ListBuilder<StudentList> get results =>
+      _$this._results ??= ListBuilder<StudentList>();
+  set results(ListBuilder<StudentList>? results) => _$this._results = results;
 
-  PaginatedParentListBuilder() {
-    PaginatedParentList._defaults(this);
+  PaginatedStudentListListBuilder() {
+    PaginatedStudentListList._defaults(this);
   }
 
-  PaginatedParentListBuilder get _$this {
+  PaginatedStudentListListBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
       _count = $v.count;
@@ -101,25 +103,25 @@ class PaginatedParentListBuilder
   }
 
   @override
-  void replace(PaginatedParentList other) {
-    _$v = other as _$PaginatedParentList;
+  void replace(PaginatedStudentListList other) {
+    _$v = other as _$PaginatedStudentListList;
   }
 
   @override
-  void update(void Function(PaginatedParentListBuilder)? updates) {
+  void update(void Function(PaginatedStudentListListBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
   @override
-  PaginatedParentList build() => _build();
+  PaginatedStudentListList build() => _build();
 
-  _$PaginatedParentList _build() {
-    _$PaginatedParentList _$result;
+  _$PaginatedStudentListList _build() {
+    _$PaginatedStudentListList _$result;
     try {
       _$result = _$v ??
-          _$PaginatedParentList._(
+          _$PaginatedStudentListList._(
             count: BuiltValueNullFieldError.checkNotNull(
-                count, r'PaginatedParentList', 'count'),
+                count, r'PaginatedStudentListList', 'count'),
             next: next,
             previous: previous,
             results: results.build(),
@@ -131,7 +133,7 @@ class PaginatedParentListBuilder
         results.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-            r'PaginatedParentList', _$failedField, e.toString());
+            r'PaginatedStudentListList', _$failedField, e.toString());
       }
       rethrow;
     }

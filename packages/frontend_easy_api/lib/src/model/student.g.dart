@@ -72,19 +72,23 @@ class _$Student extends Student {
   @override
   final String school;
   @override
-  final String decryptedName;
+  final String schoolStudentId;
   @override
-  final String name;
+  final String decryptedName;
   @override
   final String grade;
   @override
   final String? section;
   @override
+  final double? addressLatitude;
+  @override
+  final double? addressLongitude;
+  @override
   final String? assignedBus;
   @override
   final StudentStatusEnum? status;
   @override
-  final Date enrollmentDate;
+  final Date? enrollmentDate;
   @override
   final School schoolDetails;
   @override
@@ -104,13 +108,15 @@ class _$Student extends Student {
   _$Student._(
       {required this.studentId,
       required this.school,
+      required this.schoolStudentId,
       required this.decryptedName,
-      required this.name,
       required this.grade,
       this.section,
+      this.addressLatitude,
+      this.addressLongitude,
       this.assignedBus,
       this.status,
-      required this.enrollmentDate,
+      this.enrollmentDate,
       required this.schoolDetails,
       required this.busDetails,
       required this.parents,
@@ -131,10 +137,12 @@ class _$Student extends Student {
     return other is Student &&
         studentId == other.studentId &&
         school == other.school &&
+        schoolStudentId == other.schoolStudentId &&
         decryptedName == other.decryptedName &&
-        name == other.name &&
         grade == other.grade &&
         section == other.section &&
+        addressLatitude == other.addressLatitude &&
+        addressLongitude == other.addressLongitude &&
         assignedBus == other.assignedBus &&
         status == other.status &&
         enrollmentDate == other.enrollmentDate &&
@@ -151,10 +159,12 @@ class _$Student extends Student {
     var _$hash = 0;
     _$hash = $jc(_$hash, studentId.hashCode);
     _$hash = $jc(_$hash, school.hashCode);
+    _$hash = $jc(_$hash, schoolStudentId.hashCode);
     _$hash = $jc(_$hash, decryptedName.hashCode);
-    _$hash = $jc(_$hash, name.hashCode);
     _$hash = $jc(_$hash, grade.hashCode);
     _$hash = $jc(_$hash, section.hashCode);
+    _$hash = $jc(_$hash, addressLatitude.hashCode);
+    _$hash = $jc(_$hash, addressLongitude.hashCode);
     _$hash = $jc(_$hash, assignedBus.hashCode);
     _$hash = $jc(_$hash, status.hashCode);
     _$hash = $jc(_$hash, enrollmentDate.hashCode);
@@ -173,10 +183,12 @@ class _$Student extends Student {
     return (newBuiltValueToStringHelper(r'Student')
           ..add('studentId', studentId)
           ..add('school', school)
+          ..add('schoolStudentId', schoolStudentId)
           ..add('decryptedName', decryptedName)
-          ..add('name', name)
           ..add('grade', grade)
           ..add('section', section)
+          ..add('addressLatitude', addressLatitude)
+          ..add('addressLongitude', addressLongitude)
           ..add('assignedBus', assignedBus)
           ..add('status', status)
           ..add('enrollmentDate', enrollmentDate)
@@ -201,14 +213,15 @@ class StudentBuilder implements Builder<Student, StudentBuilder> {
   String? get school => _$this._school;
   set school(String? school) => _$this._school = school;
 
+  String? _schoolStudentId;
+  String? get schoolStudentId => _$this._schoolStudentId;
+  set schoolStudentId(String? schoolStudentId) =>
+      _$this._schoolStudentId = schoolStudentId;
+
   String? _decryptedName;
   String? get decryptedName => _$this._decryptedName;
   set decryptedName(String? decryptedName) =>
       _$this._decryptedName = decryptedName;
-
-  String? _name;
-  String? get name => _$this._name;
-  set name(String? name) => _$this._name = name;
 
   String? _grade;
   String? get grade => _$this._grade;
@@ -217,6 +230,16 @@ class StudentBuilder implements Builder<Student, StudentBuilder> {
   String? _section;
   String? get section => _$this._section;
   set section(String? section) => _$this._section = section;
+
+  double? _addressLatitude;
+  double? get addressLatitude => _$this._addressLatitude;
+  set addressLatitude(double? addressLatitude) =>
+      _$this._addressLatitude = addressLatitude;
+
+  double? _addressLongitude;
+  double? get addressLongitude => _$this._addressLongitude;
+  set addressLongitude(double? addressLongitude) =>
+      _$this._addressLongitude = addressLongitude;
 
   String? _assignedBus;
   String? get assignedBus => _$this._assignedBus;
@@ -268,10 +291,12 @@ class StudentBuilder implements Builder<Student, StudentBuilder> {
     if ($v != null) {
       _studentId = $v.studentId;
       _school = $v.school;
+      _schoolStudentId = $v.schoolStudentId;
       _decryptedName = $v.decryptedName;
-      _name = $v.name;
       _grade = $v.grade;
       _section = $v.section;
+      _addressLatitude = $v.addressLatitude;
+      _addressLongitude = $v.addressLongitude;
       _assignedBus = $v.assignedBus;
       _status = $v.status;
       _enrollmentDate = $v.enrollmentDate;
@@ -308,17 +333,18 @@ class StudentBuilder implements Builder<Student, StudentBuilder> {
                 studentId, r'Student', 'studentId'),
             school: BuiltValueNullFieldError.checkNotNull(
                 school, r'Student', 'school'),
+            schoolStudentId: BuiltValueNullFieldError.checkNotNull(
+                schoolStudentId, r'Student', 'schoolStudentId'),
             decryptedName: BuiltValueNullFieldError.checkNotNull(
                 decryptedName, r'Student', 'decryptedName'),
-            name:
-                BuiltValueNullFieldError.checkNotNull(name, r'Student', 'name'),
             grade: BuiltValueNullFieldError.checkNotNull(
                 grade, r'Student', 'grade'),
             section: section,
+            addressLatitude: addressLatitude,
+            addressLongitude: addressLongitude,
             assignedBus: assignedBus,
             status: status,
-            enrollmentDate: BuiltValueNullFieldError.checkNotNull(
-                enrollmentDate, r'Student', 'enrollmentDate'),
+            enrollmentDate: enrollmentDate,
             schoolDetails: schoolDetails.build(),
             busDetails: busDetails.build(),
             parents: parents.build(),
