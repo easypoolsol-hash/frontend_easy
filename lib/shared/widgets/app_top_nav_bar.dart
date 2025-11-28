@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:frontend_easy/shared/services/auth_service.dart';
+import 'package:frontend_easy/features/fleet/providers/sos_alerts_provider.dart';
 
 /// Reusable top navigation bar
 class AppTopNavBar extends ConsumerWidget {
@@ -47,6 +48,9 @@ class AppTopNavBar extends ConsumerWidget {
             _buildNavButton(context, 'Map', Icons.map, 0),
             const SizedBox(width: 4),
             _buildNavButton(context, 'Attendance', Icons.people, 1),
+            const SizedBox(width: 12),
+            // SOS Notification Bell
+            _buildSOSNotificationBell(context, ref),
             const SizedBox(width: 8),
             // Logout button
             IconButton(
@@ -100,6 +104,102 @@ class AppTopNavBar extends ConsumerWidget {
         context.go('/school');
         break;
     }
+  }
+
+  Widget _buildSOSNotificationBell(BuildContext context, WidgetRef ref) {
+    final sosAlertsAsync = ref.watch(sosAlertsRestProvider);
+
+    return sosAlertsAsync.when(
+      data: (alerts) {
+        final activeCount = alerts.where((a) => a.status?.name == 'active').length;
+
+        return Badge(
+          isLabelVisible: activeCount > 0,
+          label: Text(activeCount.toString()),
+          backgroundColor: Colors.red,
+          child: IconButton(
+            icon: Icon(
+              Icons.notifications,
+              color: activeCount > 0
+                ? Colors.red
+                : Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
+            tooltip: activeCount > 0
+              ? '$activeCount active SOS alert${activeCount > 1 ? 's' : ''}'
+              : 'No active SOS alerts',
+            onPressed: () => _showSOSAlertsDialog(context, ref, alerts),
+          ),
+        );
+      },
+      loading: () => IconButton(
+        icon: Icon(Icons.notifications_outlined),
+        onPressed: null,
+      ),
+      error: (_, __) => IconButton(
+        icon: Icon(Icons.notifications_off_outlined),
+        tooltip: 'Unable to load SOS alerts',
+        onPressed: null,
+      ),
+    );
+  }
+
+  Future<void> _showSOSAlertsDialog(BuildContext context, WidgetRef ref, List<dynamic> alerts) async {
+    if (alerts.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('No SOS alerts')),
+      );
+      return;
+    }
+
+    await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Row(
+          children: [
+            Icon(Icons.warning_amber, color: Colors.red),
+            const SizedBox(width: 8),
+            Text('SOS Alerts (${alerts.length})'),
+          ],
+        ),
+        content: SizedBox(
+          width: 400,
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: alerts.length,
+            itemBuilder: (context, index) {
+              final alert = alerts[index];
+              return ListTile(
+                leading: Icon(
+                  Icons.emergency,
+                  color: alert.status?.name == 'active' ? Colors.red : Colors.grey,
+                ),
+                title: Text('Student: ${alert.studentName ?? 'Unknown'}'),
+                subtitle: Text(
+                  'Bus: ${alert.busLicensePlate ?? 'Unknown'}\n'
+                  'Status: ${alert.status?.name.toUpperCase() ?? 'Unknown'}',
+                ),
+                isThreeLine: true,
+              );
+            },
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Close'),
+          ),
+          if (alerts.any((a) => a.status?.name == 'active'))
+            FilledButton.icon(
+              onPressed: () {
+                Navigator.of(context).pop();
+                context.go('/home'); // Navigate to map to handle SOS alerts
+              },
+              icon: const Icon(Icons.map),
+              label: const Text('View on Map'),
+            ),
+        ],
+      ),
+    );
   }
 
   Future<void> _showLogoutDialog(BuildContext context, WidgetRef ref) async {
