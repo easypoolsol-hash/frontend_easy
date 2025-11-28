@@ -13,6 +13,7 @@ import 'package:timeago/timeago.dart' as timeago;
 import 'package:frontend_easy/features/map/widgets/maps_config.dart';
 import 'package:frontend_easy/features/map/widgets/location_trail_painter.dart';
 import 'package:frontend_easy/features/fleet/providers/bus_locations_provider.dart';
+import 'package:frontend_easy/features/fleet/providers/live_trail_provider.dart';
 
 /// Interactive map widget for route visualization
 /// Renders routes, stops, and buses
@@ -414,6 +415,49 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
       }
     }
 
+    // Add live trails if NOT in history mode
+    if (!widget.historyMode) {
+      final liveTrailState = ref.watch(liveTrailProvider);
+
+      if (liveTrailState.isTrailEnabled && liveTrailState.trailsByBusId.isNotEmpty) {
+        // Render fading trail for each bus
+        liveTrailState.trailsByBusId.forEach((busId, trailLocations) {
+          if (trailLocations.isNotEmpty) {
+            // Find the bus route color
+            Color trailColor = const Color(0xFF1976D2); // Default blue
+
+            // Try to find route color from buses
+            for (final bus in widget.buses) {
+              if (bus.busId == busId && bus.route != null) {
+                try {
+                  final busRoute = widget.routes.firstWhere(
+                    (r) => r.routeId == bus.route,
+                  );
+                  trailColor = _colorForRoute(busRoute);
+                  break;
+                } catch (e) {
+                  // Route not found, use default color
+                }
+              }
+            }
+
+            // Create fading trail with multiple segments
+            final trailSegments = LocationTrailPainter.createFadingTrail(
+              locations: trailLocations,
+              currentIndex: trailLocations.length - 1,
+              trailId: 'live_trail_$busId',
+              baseColor: trailColor,
+              width: 4,
+              segmentCount: 5,
+              pointsPerSegment: 10,
+            );
+
+            routePolylines.addAll(trailSegments);
+          }
+        });
+      }
+    }
+
     // Always show bus stop markers
     for (final route in widget.routes) {
       // Get bus stops from backend (built_value BuiltList of BuiltMap with JsonObject values)
@@ -758,6 +802,36 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
             ),
           ),
         ),
+
+        // Live trail toggle button (only in live mode)
+        if (!widget.historyMode) ...[
+          Positioned(
+            top: 60,
+            right: 10,
+            child: Consumer(
+              builder: (context, ref, child) {
+                final liveTrailState = ref.watch(liveTrailProvider);
+                final isTrailEnabled = liveTrailState.isTrailEnabled;
+
+                return FloatingActionButton.small(
+                  backgroundColor: Colors.white,
+                  foregroundColor: isTrailEnabled
+                      ? Theme.of(context).colorScheme.primary
+                      : Colors.grey[700],
+                  elevation: 4,
+                  onPressed: () {
+                    ref.read(liveTrailProvider.notifier).toggleTrailVisibility();
+                  },
+                  tooltip: isTrailEnabled ? 'Hide trails' : 'Show trails',
+                  child: Icon(
+                    isTrailEnabled ? Icons.timeline : Icons.timeline_outlined,
+                    size: 20,
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
 
         // Home button (bottom-right)
         Positioned(
