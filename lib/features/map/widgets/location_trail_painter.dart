@@ -67,6 +67,102 @@ class LocationTrailPainter {
     );
   }
 
+  /// Detect data gaps in location history
+  /// Returns list of indices where gaps start (i.e., points after gaps)
+  static List<int> _detectDataGaps(
+    List<Map<String, dynamic>> locations,
+    Duration gapThreshold,
+  ) {
+    final gapIndices = <int>[];
+
+    for (int i = 1; i < locations.length; i++) {
+      try {
+        // Extract timestamps from GeoJSON properties
+        final prevProps = locations[i - 1]['properties'] as Map<String, dynamic>?;
+        final currProps = locations[i]['properties'] as Map<String, dynamic>?;
+
+        final prevTimeStr = prevProps?['timestamp'] as String?;
+        final currTimeStr = currProps?['timestamp'] as String?;
+
+        if (prevTimeStr != null && currTimeStr != null) {
+          final prevTime = DateTime.parse(prevTimeStr);
+          final currTime = DateTime.parse(currTimeStr);
+
+          // Check if gap exceeds threshold
+          if (currTime.difference(prevTime) > gapThreshold) {
+            gapIndices.add(i); // Mark start of new segment after gap
+          }
+        }
+      } catch (e) {
+        // Skip invalid timestamps
+        continue;
+      }
+    }
+
+    return gapIndices;
+  }
+
+  /// Create progressive trail with gap detection
+  /// Breaks trail into segments at data gaps (>5 minutes by default)
+  static List<Polyline> createProgressiveTrailWithGaps({
+    required List<Map<String, dynamic>> locations,
+    required int currentIndex,
+    required String trailId,
+    Color color = Colors.orange,
+    int width = 4,
+    Duration gapThreshold = const Duration(minutes: 5),
+  }) {
+    if (locations.isEmpty || currentIndex < 0) {
+      return [];
+    }
+
+    // Only consider locations up to current index
+    final visibleLocations = locations.sublist(0, currentIndex + 1);
+
+    // Detect gaps in the visible data
+    final gapIndices = _detectDataGaps(visibleLocations, gapThreshold);
+
+    // Create polylines, breaking at gaps
+    final polylines = <Polyline>[];
+    int segmentStart = 0;
+
+    for (final gapIndex in gapIndices) {
+      // Create polyline up to gap (if segment has points)
+      if (gapIndex > segmentStart) {
+        final segment = createTrailFromGeoJson(
+          locations: locations,
+          trailId: '${trailId}_segment_$segmentStart',
+          color: color,
+          width: width,
+          startIndex: segmentStart,
+          endIndex: gapIndex,
+        );
+        if (segment != null) {
+          polylines.add(segment);
+        }
+      }
+      // Next segment starts at the gap point
+      segmentStart = gapIndex;
+    }
+
+    // Create final segment from last gap to current index
+    if (segmentStart <= currentIndex) {
+      final segment = createTrailFromGeoJson(
+        locations: locations,
+        trailId: '${trailId}_segment_$segmentStart',
+        color: color,
+        width: width,
+        startIndex: segmentStart,
+        endIndex: currentIndex + 1,
+      );
+      if (segment != null) {
+        polylines.add(segment);
+      }
+    }
+
+    return polylines;
+  }
+
   /// Create a progressive trail that reveals up to current position
   ///
   /// Useful for history playback where trail builds up as playback progresses

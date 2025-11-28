@@ -653,6 +653,9 @@ class _MapScreenState extends ConsumerState<MapScreen> {
             onChanged: (timestamp) {
               ref.read(busHistoryProvider.notifier).setTimestamp(timestamp);
             },
+            onCurrentIndexChanged: (index) {
+              ref.read(busHistoryProvider.notifier).seekToIndex(index);
+            },
             dataColor: Theme.of(context).colorScheme.primary,
             gapColor: Colors.grey.shade200, // Light grey for gaps
             minimumGapDuration: const Duration(minutes: 3),

@@ -402,17 +402,15 @@ class _RouteMapWidgetState extends ConsumerState<RouteMapWidget> {
         widget.historicalLocations != null &&
         widget.historicalLocations!.isNotEmpty &&
         widget.historicalCurrentIndex != null) {
-      final trail = LocationTrailPainter.createProgressiveTrail(
+      final trailSegments = LocationTrailPainter.createProgressiveTrailWithGaps(
         locations: widget.historicalLocations!,
         currentIndex: widget.historicalCurrentIndex!,
         trailId: 'historical_trail',
         color: Colors.orange.withValues(alpha: 0.8),
         width: 5,
+        gapThreshold: const Duration(minutes: 5),
       );
-
-      if (trail != null) {
-        routePolylines.add(trail);
-      }
+      routePolylines.addAll(trailSegments);
     }
 
     // Add live trails if NOT in history mode

@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -291,7 +293,7 @@ class TimelineSliderWithGaps extends StatelessWidget {
   double _pointIndexToSliderValue() {
     if (locations.isEmpty) return 0;
     final index = _findCurrentPointIndex();
-    final maxIndex = (locations.length - 1).clamp(1, locations.length);
+    final maxIndex = math.max(1, locations.length - 1);
     return index / maxIndex;
   }
 

@@ -217,6 +217,14 @@ class BusHistoryNotifier extends Notifier<BusHistoryState> {
     state = state.copyWith(currentIndex: closestIndex);
   }
 
+  /// Set playback position manually (for slider interaction)
+  /// Allows users to scrub backward/forward through history
+  void seekToIndex(int index) {
+    if (index >= 0 && index < state.locations.length) {
+      state = state.copyWith(currentIndex: index);
+    }
+  }
+
   /// Clear history data
   void clearHistory() {
     state = BusHistoryState();
