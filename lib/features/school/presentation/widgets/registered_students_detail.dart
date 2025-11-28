@@ -94,7 +94,7 @@ class _RegisteredStudentsDetailState extends ConsumerState<RegisteredStudentsDet
 
   Widget _buildContent(
     BuildContext context,
-    List<Student> students,
+    List<StudentList> students, // Using StudentList (lightweight) not Student
   ) {
     // Extract unique grades and buses
     final uniqueGrades = students
@@ -104,9 +104,8 @@ class _RegisteredStudentsDetailState extends ConsumerState<RegisteredStudentsDet
       ..sort();
 
     final uniqueBuses = students
-        .where((s) => s.assignedBus != null && s.busDetails != null)
-        .map((s) => s.busDetails!.licensePlate)
-        .where((licensePlate) => licensePlate.isNotEmpty)
+        .map((s) => s.busNumber)
+        .where((busNumber) => busNumber.isNotEmpty)
         .toSet()
         .toList()
       ..sort();
@@ -119,13 +118,8 @@ class _RegisteredStudentsDetailState extends ConsumerState<RegisteredStudentsDet
       }
 
       // Bus filter
-      if (_selectedBus != null) {
-        if (student.assignedBus == null || student.busDetails == null) {
-          return false;
-        }
-        if (student.busDetails!.licensePlate != _selectedBus) {
-          return false;
-        }
+      if (_selectedBus != null && student.busNumber != _selectedBus) {
+        return false;
       }
 
       // Search filter
@@ -300,10 +294,10 @@ class _RegisteredStudentsDetailState extends ConsumerState<RegisteredStudentsDet
     );
   }
 
-  Widget _buildStudentCard(BuildContext context, Student student) {
+  Widget _buildStudentCard(BuildContext context, StudentList student) {
     final theme = Theme.of(context);
-    final busLicensePlate = student.busDetails?.licensePlate ?? '';
-    final hasAssignedBus = student.assignedBus != null && student.busDetails != null;
+    final busNumber = student.busNumber;
+    final hasAssignedBus = busNumber.isNotEmpty;
 
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
@@ -352,7 +346,7 @@ class _RegisteredStudentsDetailState extends ConsumerState<RegisteredStudentsDet
                   Icon(Icons.directions_bus, size: 14, color: Colors.grey[600]),
                   const SizedBox(width: 4),
                   Text(
-                    'Bus $busLicensePlate',
+                    'Bus $busNumber',
                     style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                   ),
                 ],
@@ -381,16 +375,8 @@ class _RegisteredStudentsDetailState extends ConsumerState<RegisteredStudentsDet
                 if (student.section != null)
                   _buildDetailRow(Icons.class_, 'Section', student.section!),
                 if (hasAssignedBus)
-                  _buildDetailRow(Icons.directions_bus, 'Bus License Plate', busLicensePlate),
-                _buildDetailRow(
-                  Icons.calendar_today,
-                  'Enrollment Date',
-                  DateFormat('MMM dd, yyyy').format(DateTime(
-                    student.enrollmentDate.year,
-                    student.enrollmentDate.month,
-                    student.enrollmentDate.day,
-                  )),
-                ),
+                  _buildDetailRow(Icons.directions_bus, 'Bus License Plate', busNumber),
+                // Note: StudentList doesn't include enrollmentDate (lightweight model)
               ],
             ),
           ),

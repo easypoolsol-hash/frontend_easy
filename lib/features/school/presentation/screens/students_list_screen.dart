@@ -21,7 +21,7 @@ class _StudentsListScreenState extends ConsumerState<StudentsListScreen> {
   String _searchQuery = '';
   int _currentPage = 1;
   bool _isLoadingMore = false;
-  List<Student> _allStudents = [];
+  List<StudentList> _allStudents = []; // Using StudentList (lightweight) not Student
   int _totalCount = 0;
   bool _hasMore = true;
 
@@ -269,9 +269,8 @@ class _StudentsListScreenState extends ConsumerState<StudentsListScreen> {
     );
   }
 
-  DataRow _buildStudentRow(Student student) {
-    final hasAssignedBus = student.assignedBus != null;
-    final busNumber = hasAssignedBus ? student.busDetails.licensePlate : null;
+  DataRow _buildStudentRow(StudentList student) {
+    final busNumber = student.busNumber;
 
     return DataRow(
       cells: [
@@ -296,7 +295,7 @@ class _StudentsListScreenState extends ConsumerState<StudentsListScreen> {
         ),
         DataCell(Text(student.grade)),
         DataCell(
-          hasAssignedBus && busNumber != null
+          busNumber.isNotEmpty
               ? Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
