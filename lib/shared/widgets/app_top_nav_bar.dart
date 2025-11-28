@@ -130,31 +130,46 @@ class AppTopNavBar extends ConsumerWidget {
 
         return Badge(
           isLabelVisible: activeCount > 0,
-          label: Text(activeCount.toString()),
-          backgroundColor: Colors.red,
-          child: IconButton(
-            icon: Icon(
-              activeCount > 0 ? Icons.notifications_active : Icons.notifications_outlined,
-              size: 28,
-              color: activeCount > 0
-                ? Colors.red
-                : Colors.grey[600],
+          label: Text(
+            activeCount.toString(),
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 12,
             ),
-            tooltip: activeCount > 0
-              ? '$activeCount active SOS'
-              : 'No active SOS',
-            onPressed: activeCount > 0
-              ? () => _showSOSAlertsDialog(context, ref, recentActiveAlerts)
-              : null,
+          ),
+          backgroundColor: Colors.red,
+          child: Container(
+            decoration: BoxDecoration(
+              color: activeCount > 0
+                ? Colors.red.withOpacity(0.1)
+                : Colors.transparent,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: IconButton(
+              icon: Icon(
+                activeCount > 0 ? Icons.notifications_active : Icons.notifications,
+                size: 32,
+                color: activeCount > 0
+                  ? Colors.red.shade700
+                  : Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
+              tooltip: activeCount > 0
+                ? '$activeCount active SOS alert${activeCount > 1 ? 's' : ''}'
+                : 'No active SOS alerts',
+              onPressed: activeCount > 0
+                ? () => _showSOSAlertsDialog(context, ref, recentActiveAlerts)
+                : null,
+            ),
           ),
         );
       },
       loading: () => IconButton(
-        icon: Icon(Icons.notifications_outlined, size: 28, color: Colors.grey[600]),
+        icon: Icon(Icons.notifications_outlined, size: 32, color: Colors.grey[600]),
         onPressed: null,
       ),
       error: (_, __) => IconButton(
-        icon: Icon(Icons.notifications_off_outlined, size: 28, color: Colors.grey[600]),
+        icon: Icon(Icons.notifications_off_outlined, size: 32, color: Colors.grey[600]),
         tooltip: 'Unable to load SOS',
         onPressed: null,
       ),
