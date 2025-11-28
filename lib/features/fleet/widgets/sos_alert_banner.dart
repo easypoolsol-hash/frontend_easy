@@ -281,7 +281,7 @@ class _SosAlertBannerState extends ConsumerState<SosAlertBanner>
                 _detailRow('Message', alert.message!),
               const SizedBox(height: 16),
               Text(
-                'Status: ${alert.status?.value.toUpperCase() ?? "UNKNOWN"}',
+                'Status: ${alert.status?.name.toUpperCase() ?? "UNKNOWN"}',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.red.shade700,

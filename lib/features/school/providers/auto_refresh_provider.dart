@@ -1,16 +1,26 @@
 import 'dart:async';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-/// Auto-refresh notifier for dashboard
+part 'auto_refresh_provider.g.dart';
+
+/// Auto-refresh provider for dashboard
 /// Triggers refresh every 10 seconds (matches backend cache TTL)
-class AutoRefreshNotifier extends StateNotifier<DateTime> {
+@riverpod
+class AutoRefresh extends _$AutoRefresh {
   Timer? _timer;
-  final Duration refreshInterval;
+  static const refreshInterval = Duration(seconds: 10);
 
-  AutoRefreshNotifier({
-    this.refreshInterval = const Duration(seconds: 10),
-  }) : super(DateTime.now()) {
+  @override
+  DateTime build() {
+    // Cleanup timer on dispose
+    ref.onDispose(() {
+      _timer?.cancel();
+    });
+
+    // Start periodic refresh
     _startTimer();
+
+    return DateTime.now();
   }
 
   void _startTimer() {
@@ -23,15 +33,4 @@ class AutoRefreshNotifier extends StateNotifier<DateTime> {
   void forceRefresh() {
     state = DateTime.now();
   }
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
-  }
 }
-
-/// Provider for auto-refresh functionality
-final autoRefreshProvider = StateNotifierProvider<AutoRefreshNotifier, DateTime>((ref) {
-  return AutoRefreshNotifier();
-});

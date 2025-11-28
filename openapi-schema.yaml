@@ -46,13 +46,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/APIKeyCreate'
+              $ref: '#/components/schemas/APIKeyCreateRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/APIKeyCreate'
+              $ref: '#/components/schemas/APIKeyCreateRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/APIKeyCreate'
+              $ref: '#/components/schemas/APIKeyCreateRequest'
         required: true
       security:
       - cookieAuth: []
@@ -103,13 +103,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/APIKey'
+              $ref: '#/components/schemas/APIKeyRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/APIKey'
+              $ref: '#/components/schemas/APIKeyRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/APIKey'
+              $ref: '#/components/schemas/APIKeyRequest'
         required: true
       security:
       - cookieAuth: []
@@ -137,13 +137,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedAPIKey'
+              $ref: '#/components/schemas/PatchedAPIKeyRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedAPIKey'
+              $ref: '#/components/schemas/PatchedAPIKeyRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PatchedAPIKey'
+              $ref: '#/components/schemas/PatchedAPIKeyRequest'
       security:
       - cookieAuth: []
       - Bearer: []
@@ -189,13 +189,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/APIKey'
+              $ref: '#/components/schemas/APIKeyRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/APIKey'
+              $ref: '#/components/schemas/APIKeyRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/APIKey'
+              $ref: '#/components/schemas/APIKeyRequest'
         required: true
       security:
       - cookieAuth: []
@@ -454,13 +454,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/BoardingEventCreate'
+              $ref: '#/components/schemas/BoardingEventCreateRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/BoardingEventCreate'
+              $ref: '#/components/schemas/BoardingEventCreateRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/BoardingEventCreate'
+              $ref: '#/components/schemas/BoardingEventCreateRequest'
         required: true
       security:
       - Bearer: []
@@ -527,13 +527,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/BoardingEvent'
+              $ref: '#/components/schemas/BoardingEventRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/BoardingEvent'
+              $ref: '#/components/schemas/BoardingEventRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/BoardingEvent'
+              $ref: '#/components/schemas/BoardingEventRequest'
         required: true
       security:
       - Bearer: []
@@ -569,13 +569,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedBoardingEvent'
+              $ref: '#/components/schemas/PatchedBoardingEventRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedBoardingEvent'
+              $ref: '#/components/schemas/PatchedBoardingEventRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PatchedBoardingEvent'
+              $ref: '#/components/schemas/PatchedBoardingEventRequest'
       security:
       - Bearer: []
       responses:
@@ -611,6 +611,41 @@ paths:
       responses:
         '204':
           description: No response body
+  /api/v1/boarding-events/{event_id}/photos/:
+    get:
+      operationId: api_v1_boarding_events_photos_retrieve
+      description: |-
+        Get confirmation face photos for a boarding event.
+
+        Separate endpoint for loading photos independently from page load.
+        This allows the frontend to:
+        1. Load page fast without photos
+        2. Lazy load photos when visible/needed
+        3. Parallel load photos for multiple events
+
+        Returns:
+            {
+                "event_id": "01HQXYZ123",
+                "confirmation_face_urls": [url1, url2, url3]
+            }
+      parameters:
+      - in: path
+        name: event_id
+        schema:
+          type: string
+          description: ULID primary key for global uniqueness and time sorting
+        required: true
+      tags:
+      - api
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BoardingEvent'
+          description: ''
   /api/v1/boarding-events/bulk/:
     post:
       operationId: api_v1_boarding_events_bulk_create
@@ -621,13 +656,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/BoardingEvent'
+              $ref: '#/components/schemas/BoardingEventRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/BoardingEvent'
+              $ref: '#/components/schemas/BoardingEventRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/BoardingEvent'
+              $ref: '#/components/schemas/BoardingEventRequest'
         required: true
       security:
       - Bearer: []
@@ -710,13 +745,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Bus'
+              $ref: '#/components/schemas/BusRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Bus'
+              $ref: '#/components/schemas/BusRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Bus'
+              $ref: '#/components/schemas/BusRequest'
         required: true
       security:
       - cookieAuth: []
@@ -769,13 +804,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Bus'
+              $ref: '#/components/schemas/BusRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Bus'
+              $ref: '#/components/schemas/BusRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Bus'
+              $ref: '#/components/schemas/BusRequest'
         required: true
       security:
       - cookieAuth: []
@@ -804,13 +839,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedBus'
+              $ref: '#/components/schemas/PatchedBusRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedBus'
+              $ref: '#/components/schemas/PatchedBusRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PatchedBus'
+              $ref: '#/components/schemas/PatchedBusRequest'
       security:
       - cookieAuth: []
       - Bearer: []
@@ -874,13 +909,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Bus'
+              $ref: '#/components/schemas/BusRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Bus'
+              $ref: '#/components/schemas/BusRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Bus'
+              $ref: '#/components/schemas/BusRequest'
         required: true
       security:
       - cookieAuth: []
@@ -955,6 +990,78 @@ paths:
               schema:
                 $ref: '#/components/schemas/DashboardStudentsResponse'
           description: ''
+  /api/v1/face-verification/events/{event_id}/:
+    get:
+      operationId: api_v1_face_verification_events_retrieve
+      description: |-
+        Get verification status for a boarding event
+
+        GET /api/v1/face-verification/events/{event_id}/
+
+        Response:
+            {
+                "event_id": "...",
+                "backend_verification_status": "verified",
+                "backend_verification_confidence": "high",
+                "backend_student_id": 123,
+                "kiosk_student_id": 123,
+                "has_mismatch": false,
+                "needs_manual_review": false,
+                "backend_verified_at": "2025-01-15T10:30:00Z",
+                "model_consensus_data": {
+                    "mobilefacenet": {...},
+                    "arcface": {...},
+                    "adaface": {...}
+                }
+            }
+      parameters:
+      - in: path
+        name: event_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - Bearer: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/face-verification/verify/:
+    post:
+      operationId: api_v1_face_verification_verify_create
+      description: |-
+        Cloud Tasks handler for async boarding event verification
+
+        This endpoint is called by Cloud Tasks to verify boarding events
+        using multi-model consensus.
+
+        Authentication: CloudTasksAuthentication (validates Cloud Tasks headers)
+
+        Request Body:
+            {
+                "event_id": "01ARZ3NDEKTSV4RRFFQ69G5FAV"  # ULID
+            }
+
+        Response:
+            {
+                "status": "success",
+                "event_id": "...",
+                "verification_status": "verified",
+                "confidence_level": "high",
+                "student_id": 123,
+                "kiosk_student_id": 123,
+                "is_mismatch": false
+            }
+      tags:
+      - api
+      security:
+      - Bearer: []
+      - {}
+      responses:
+        '200':
+          description: No response body
   /api/v1/geocode/:
     post:
       operationId: api_v1_geocode_create
@@ -1124,13 +1231,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Kiosk'
+              $ref: '#/components/schemas/KioskRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Kiosk'
+              $ref: '#/components/schemas/KioskRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Kiosk'
+              $ref: '#/components/schemas/KioskRequest'
       security:
       - cookieAuth: []
       - Bearer: []
@@ -1183,13 +1290,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Heartbeat'
+              $ref: '#/components/schemas/HeartbeatRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Heartbeat'
+              $ref: '#/components/schemas/HeartbeatRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Heartbeat'
+              $ref: '#/components/schemas/HeartbeatRequest'
         required: true
       security:
       - Bearer: []
@@ -1213,13 +1320,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/BusLocation'
+              $ref: '#/components/schemas/BusLocationRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/BusLocation'
+              $ref: '#/components/schemas/BusLocationRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/BusLocation'
+              $ref: '#/components/schemas/BusLocationRequest'
         required: true
       security:
       - Bearer: []
@@ -1252,6 +1359,39 @@ paths:
               schema:
                 type: string
                 format: binary
+          description: ''
+  /api/v1/kiosks/{kiosk_id}/sos/:
+    post:
+      operationId: kiosk_trigger_sos
+      description: Trigger SOS emergency alert. Creates an active alert with optional
+        location and message.
+      parameters:
+      - in: path
+        name: kiosk_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SOSAlertCreateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SOSAlertCreateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SOSAlertCreateRequest'
+      security:
+      - Bearer: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SOSAlert'
           description: ''
   /api/v1/kiosks/{kiosk_id}/:
     get:
@@ -1292,13 +1432,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Kiosk'
+              $ref: '#/components/schemas/KioskRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Kiosk'
+              $ref: '#/components/schemas/KioskRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Kiosk'
+              $ref: '#/components/schemas/KioskRequest'
       security:
       - cookieAuth: []
       - Bearer: []
@@ -1325,13 +1465,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedKiosk'
+              $ref: '#/components/schemas/PatchedKioskRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedKiosk'
+              $ref: '#/components/schemas/PatchedKioskRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PatchedKiosk'
+              $ref: '#/components/schemas/PatchedKioskRequest'
       security:
       - cookieAuth: []
       - Bearer: []
@@ -1370,13 +1510,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/DeviceLog'
+              $ref: '#/components/schemas/DeviceLogRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/DeviceLog'
+              $ref: '#/components/schemas/DeviceLogRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/DeviceLog'
+              $ref: '#/components/schemas/DeviceLogRequest'
         required: true
       security:
       - Bearer: []
@@ -1427,6 +1567,44 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BusLocationsResponse'
+          description: ''
+  /api/v1/locations/history/:
+    get:
+      operationId: bus_locations_history_api
+      description: "\n    Returns historical bus locations for a specific bus on a\
+        \ specific date as GeoJSON.\n\n    Accessible by school administrators only.\n\
+        \n    **Response Format:**\n    GeoJSON FeatureCollection with Point geometries\
+        \ for each location record.\n\n    Each feature includes properties:\n   \
+        \ - id: Location record ID\n    - bus_number: Bus identifier\n    - bus_name:\
+        \ Bus license plate\n    - timestamp: When the location was recorded\n   \
+        \ - speed: Speed at that moment (km/h)\n    - heading: Direction heading (degrees)\n\
+        \    - accuracy: GPS accuracy (meters)\n    "
+      parameters:
+      - in: query
+        name: bus_uuid
+        schema:
+          type: string
+          format: uuid
+        description: Bus UUID (primary key)
+        required: true
+      - in: query
+        name: date
+        schema:
+          type: string
+          format: date
+        description: Date in YYYY-MM-DD format (max 7 days in the past)
+        required: true
+      tags:
+      - Buses
+      security:
+      - cookieAuth: []
+      - Bearer: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BusLocationHistoryResponse'
           description: ''
   /api/v1/logs/:
     get:
@@ -1549,6 +1727,8 @@ paths:
   /api/v1/parents/:
     get:
       operationId: api_v1_parents_list
+      description: Admin-only parent management - NO row-level filtering (requires
+        admin access)
       parameters:
       - name: ordering
         required: false
@@ -1582,19 +1762,21 @@ paths:
           description: ''
     post:
       operationId: api_v1_parents_create
+      description: Admin-only parent management - NO row-level filtering (requires
+        admin access)
       tags:
       - api
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Parent'
+              $ref: '#/components/schemas/ParentRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Parent'
+              $ref: '#/components/schemas/ParentRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Parent'
+              $ref: '#/components/schemas/ParentRequest'
         required: true
       security:
       - cookieAuth: []
@@ -1609,6 +1791,8 @@ paths:
   /api/v1/parents/{parent_id}/:
     get:
       operationId: api_v1_parents_retrieve
+      description: Admin-only parent management - NO row-level filtering (requires
+        admin access)
       parameters:
       - in: path
         name: parent_id
@@ -1631,6 +1815,8 @@ paths:
           description: ''
     put:
       operationId: api_v1_parents_update
+      description: Admin-only parent management - NO row-level filtering (requires
+        admin access)
       parameters:
       - in: path
         name: parent_id
@@ -1645,13 +1831,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Parent'
+              $ref: '#/components/schemas/ParentRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Parent'
+              $ref: '#/components/schemas/ParentRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Parent'
+              $ref: '#/components/schemas/ParentRequest'
         required: true
       security:
       - cookieAuth: []
@@ -1665,6 +1851,8 @@ paths:
           description: ''
     patch:
       operationId: api_v1_parents_partial_update
+      description: Admin-only parent management - NO row-level filtering (requires
+        admin access)
       parameters:
       - in: path
         name: parent_id
@@ -1679,13 +1867,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedParent'
+              $ref: '#/components/schemas/PatchedParentRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedParent'
+              $ref: '#/components/schemas/PatchedParentRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PatchedParent'
+              $ref: '#/components/schemas/PatchedParentRequest'
       security:
       - cookieAuth: []
       - Bearer: []
@@ -1698,6 +1886,8 @@ paths:
           description: ''
     delete:
       operationId: api_v1_parents_destroy
+      description: Admin-only parent management - NO row-level filtering (requires
+        admin access)
       parameters:
       - in: path
         name: parent_id
@@ -1717,6 +1907,8 @@ paths:
   /api/v1/parents/{parent_id}/students/:
     get:
       operationId: api_v1_parents_students_retrieve
+      description: Admin-only parent management - NO row-level filtering (requires
+        admin access)
       parameters:
       - in: path
         name: parent_id
@@ -1737,6 +1929,223 @@ paths:
               schema:
                 $ref: '#/components/schemas/Parent'
           description: ''
+  /api/v1/parents/me/{id}/face-enrollment/status/:
+    get:
+      operationId: api_v1_parents_me_face_enrollment_status_retrieve
+      description: Check face enrollment status for child
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - Bearer: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FaceEnrollmentStatus'
+          description: ''
+  /api/v1/parents/me/{id}/face-enrollment/submit/:
+    post:
+      operationId: api_v1_parents_me_face_enrollment_submit_create
+      description: Submit face enrollment photos for child
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FaceEnrollmentSubmissionRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FaceEnrollmentSubmissionRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FaceEnrollmentSubmissionRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - Bearer: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FaceEnrollmentStatus'
+          description: ''
+  /api/v1/parents/me/bus-locations/:
+    get:
+      operationId: api_v1_parents_me_bus_locations_retrieve
+      description: Get real-time locations for all buses assigned to my children (row-level
+        security enforced). Cached for 30 seconds.
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - Bearer: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    bus_id:
+                      type: string
+                    bus_number:
+                      type: string
+                    latitude:
+                      type: number
+                    longitude:
+                      type: number
+                    speed:
+                      type: number
+                    heading:
+                      type: number
+                    last_updated:
+                      type: string
+          description: ''
+  /api/v1/parents/me/buses/:
+    get:
+      operationId: api_v1_parents_me_buses_retrieve
+      description: Get all buses for my children
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - Bearer: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  buses:
+                    type: array
+                    items:
+                      type: object
+          description: ''
+  /api/v1/parents/me/buses/{bus_id}/location/:
+    get:
+      operationId: api_v1_parents_me_buses_location_retrieve
+      description: Get real-time location for a specific bus (only buses for my children).
+        Cached for 30 seconds.
+      parameters:
+      - in: path
+        name: bus_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - Bearer: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  bus_id:
+                    type: string
+                  license_plate:
+                    type: string
+                  location:
+                    type: object
+                    properties:
+                      latitude:
+                        type: number
+                      longitude:
+                        type: number
+                      last_updated:
+                        type: string
+          description: ''
+  /api/v1/parents/me/children/:
+    get:
+      operationId: api_v1_parents_me_children_list
+      description: Get my children
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - Bearer: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Student'
+          description: ''
+  /api/v1/parents/me/profile/:
+    get:
+      operationId: api_v1_parents_me_profile_retrieve
+      description: Get my parent profile
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - Bearer: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Parent'
+          description: ''
+  /api/v1/parents/register/:
+    post:
+      operationId: api_v1_parents_register_create
+      description: Register as a parent (called from parent_easy app after Firebase
+        login)
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - Bearer: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Parent'
+          description: ''
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Parent'
+          description: ''
+  /api/v1/regenerate-embedding/:
+    post:
+      operationId: api_v1_regenerate_embedding_create
+      description: POST /api/v1/students/regenerate-embedding/
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - Bearer: []
+      responses:
+        '200':
+          description: No response body
   /api/v1/routes/:
     get:
       operationId: api_v1_routes_list
@@ -1773,13 +2182,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Route'
+              $ref: '#/components/schemas/RouteRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Route'
+              $ref: '#/components/schemas/RouteRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Route'
+              $ref: '#/components/schemas/RouteRequest'
         required: true
       security:
       - cookieAuth: []
@@ -1832,13 +2241,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Route'
+              $ref: '#/components/schemas/RouteRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Route'
+              $ref: '#/components/schemas/RouteRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Route'
+              $ref: '#/components/schemas/RouteRequest'
         required: true
       security:
       - cookieAuth: []
@@ -1867,13 +2276,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedRoute'
+              $ref: '#/components/schemas/PatchedRouteRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedRoute'
+              $ref: '#/components/schemas/PatchedRouteRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PatchedRoute'
+              $ref: '#/components/schemas/PatchedRouteRequest'
       security:
       - cookieAuth: []
       - Bearer: []
@@ -2016,13 +2425,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/School'
+              $ref: '#/components/schemas/SchoolRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/School'
+              $ref: '#/components/schemas/SchoolRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/School'
+              $ref: '#/components/schemas/SchoolRequest'
         required: true
       security:
       - cookieAuth: []
@@ -2073,13 +2482,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/School'
+              $ref: '#/components/schemas/SchoolRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/School'
+              $ref: '#/components/schemas/SchoolRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/School'
+              $ref: '#/components/schemas/SchoolRequest'
         required: true
       security:
       - cookieAuth: []
@@ -2107,13 +2516,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedSchool'
+              $ref: '#/components/schemas/PatchedSchoolRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedSchool'
+              $ref: '#/components/schemas/PatchedSchoolRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PatchedSchool'
+              $ref: '#/components/schemas/PatchedSchoolRequest'
       security:
       - cookieAuth: []
       - Bearer: []
@@ -2142,6 +2551,65 @@ paths:
       responses:
         '204':
           description: No response body
+  /api/v1/sos/alerts/{alert_id}/acknowledge/:
+    patch:
+      operationId: acknowledge_sos_alert
+      description: Acknowledge an SOS alert (school admins only)
+      parameters:
+      - in: path
+        name: alert_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SOSAlert'
+          description: ''
+  /api/v1/sos/alerts/{alert_id}/resolve/:
+    patch:
+      operationId: resolve_sos_alert
+      description: Resolve an SOS alert (school admins only)
+      parameters:
+      - in: path
+        name: alert_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SOSAlert'
+          description: ''
+  /api/v1/sos/alerts/active/:
+    get:
+      operationId: list_active_sos_alerts
+      description: List all active SOS alerts (school admins and super admins only)
+      tags:
+      - api
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SOSAlert'
+          description: ''
   /api/v1/student-parents/:
     get:
       operationId: api_v1_student_parents_list
@@ -2184,13 +2652,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/StudentParent'
+              $ref: '#/components/schemas/StudentParentRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/StudentParent'
+              $ref: '#/components/schemas/StudentParentRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/StudentParent'
+              $ref: '#/components/schemas/StudentParentRequest'
         required: true
       security:
       - cookieAuth: []
@@ -2239,13 +2707,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/StudentParent'
+              $ref: '#/components/schemas/StudentParentRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/StudentParent'
+              $ref: '#/components/schemas/StudentParentRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/StudentParent'
+              $ref: '#/components/schemas/StudentParentRequest'
         required: true
       security:
       - cookieAuth: []
@@ -2272,13 +2740,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedStudentParent'
+              $ref: '#/components/schemas/PatchedStudentParentRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedStudentParent'
+              $ref: '#/components/schemas/PatchedStudentParentRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PatchedStudentParent'
+              $ref: '#/components/schemas/PatchedStudentParentRequest'
       security:
       - cookieAuth: []
       - Bearer: []
@@ -2348,13 +2816,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/StudentPhoto'
+              $ref: '#/components/schemas/StudentPhotoRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/StudentPhoto'
+              $ref: '#/components/schemas/StudentPhotoRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/StudentPhoto'
+              $ref: '#/components/schemas/StudentPhotoRequest'
         required: true
       security:
       - cookieAuth: []
@@ -2405,13 +2873,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/StudentPhoto'
+              $ref: '#/components/schemas/StudentPhotoRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/StudentPhoto'
+              $ref: '#/components/schemas/StudentPhotoRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/StudentPhoto'
+              $ref: '#/components/schemas/StudentPhotoRequest'
         required: true
       security:
       - cookieAuth: []
@@ -2439,13 +2907,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedStudentPhoto'
+              $ref: '#/components/schemas/PatchedStudentPhotoRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedStudentPhoto'
+              $ref: '#/components/schemas/PatchedStudentPhotoRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PatchedStudentPhoto'
+              $ref: '#/components/schemas/PatchedStudentPhotoRequest'
       security:
       - cookieAuth: []
       - Bearer: []
@@ -2491,13 +2959,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/StudentPhoto'
+              $ref: '#/components/schemas/StudentPhotoRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/StudentPhoto'
+              $ref: '#/components/schemas/StudentPhotoRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/StudentPhoto'
+              $ref: '#/components/schemas/StudentPhotoRequest'
         required: true
       security:
       - cookieAuth: []
@@ -2541,7 +3009,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PaginatedStudentList'
+                $ref: '#/components/schemas/PaginatedStudentListList'
           description: ''
     post:
       operationId: api_v1_students_create
@@ -2551,13 +3019,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Student'
+              $ref: '#/components/schemas/StudentRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Student'
+              $ref: '#/components/schemas/StudentRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Student'
+              $ref: '#/components/schemas/StudentRequest'
         required: true
       security:
       - cookieAuth: []
@@ -2608,13 +3076,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Student'
+              $ref: '#/components/schemas/StudentRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Student'
+              $ref: '#/components/schemas/StudentRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Student'
+              $ref: '#/components/schemas/StudentRequest'
         required: true
       security:
       - cookieAuth: []
@@ -2642,13 +3110,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedStudent'
+              $ref: '#/components/schemas/PatchedStudentRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedStudent'
+              $ref: '#/components/schemas/PatchedStudentRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PatchedStudent'
+              $ref: '#/components/schemas/PatchedStudentRequest'
       security:
       - cookieAuth: []
       - Bearer: []
@@ -2694,13 +3162,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Student'
+              $ref: '#/components/schemas/StudentRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Student'
+              $ref: '#/components/schemas/StudentRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Student'
+              $ref: '#/components/schemas/StudentRequest'
         required: true
       security:
       - cookieAuth: []
@@ -2734,6 +3202,66 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Student'
+          description: ''
+  /api/v1/students/all/:
+    get:
+      operationId: api_v1_students_all_retrieve
+      description: Returns paginated list of ALL registered students (not just students
+        who boarded today). Cached for 5 minutes.
+      summary: Get all registered students
+      parameters:
+      - in: query
+        name: limit
+        schema:
+          type: integer
+        description: Number of students per page (default=50, max=100)
+      - in: query
+        name: offset
+        schema:
+          type: integer
+        description: Offset for pagination (default=0)
+      - in: query
+        name: search
+        schema:
+          type: string
+        description: Search by student name, school ID, or grade
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - Bearer: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: boolean
+                  previous:
+                    type: boolean
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        school_student_id:
+                          type: string
+                        student_name:
+                          type: string
+                        grade:
+                          type: string
+                        bus_number:
+                          type: string
+                          nullable: true
+                        route_name:
+                          type: string
+                          nullable: true
+                        status:
+                          type: string
           description: ''
   /api/v1/users/:
     get:
@@ -2777,13 +3305,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: '#/components/schemas/UserRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: '#/components/schemas/UserRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: '#/components/schemas/UserRequest'
         required: true
       security:
       - cookieAuth: []
@@ -2834,13 +3362,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: '#/components/schemas/UserRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: '#/components/schemas/UserRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: '#/components/schemas/UserRequest'
         required: true
       security:
       - cookieAuth: []
@@ -2868,13 +3396,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedUser'
+              $ref: '#/components/schemas/PatchedUserRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedUser'
+              $ref: '#/components/schemas/PatchedUserRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PatchedUser'
+              $ref: '#/components/schemas/PatchedUserRequest'
       security:
       - cookieAuth: []
       - Bearer: []
@@ -2957,7 +3485,6 @@ components:
       - created_at
       - key_id
       - kiosk_id
-      - last_used
     APIKeyCreate:
       type: object
       properties:
@@ -2981,6 +3508,48 @@ components:
       required:
       - kiosk_id
       - raw_key
+    APIKeyCreateRequest:
+      type: object
+      properties:
+        kiosk_id:
+          type: string
+          minLength: 1
+          description: Reference to kiosk device
+          maxLength: 100
+        name:
+          type: string
+          description: Human-readable name for the key
+          maxLength: 100
+        permissions:
+          description: JSON object defining scoped permissions
+        expires_at:
+          type: string
+          format: date-time
+          nullable: true
+      required:
+      - kiosk_id
+    APIKeyRequest:
+      type: object
+      properties:
+        kiosk_id:
+          type: string
+          minLength: 1
+          description: Reference to kiosk device
+          maxLength: 100
+        name:
+          type: string
+          description: Human-readable name for the key
+          maxLength: 100
+        permissions:
+          description: JSON object defining scoped permissions
+        is_active:
+          type: boolean
+        expires_at:
+          type: string
+          format: date-time
+          nullable: true
+      required:
+      - kiosk_id
     AttendanceRecord:
       type: object
       description: Serializer for attendance records
@@ -3069,6 +3638,7 @@ components:
           - UPDATE
           - DELETE
           - LOGIN
+          - LOGIN_FAILED
           - LOGOUT
           - API_ACCESS
           type: string
@@ -3077,9 +3647,10 @@ components:
             * `UPDATE` - Update
             * `DELETE` - Delete
             * `LOGIN` - Login
+            * `LOGIN_FAILED` - Login Failed
             * `LOGOUT` - Logout
             * `API_ACCESS` - API Access
-          x-spec-enum-id: b2327df74eb7fd10
+          x-spec-enum-id: c11843b6ad2ac987
         resource_type:
           enum:
           - user
@@ -3130,7 +3701,8 @@ components:
         student:
           type: string
           format: uuid
-          description: Student who boarded the bus
+          nullable: true
+          description: Student who boarded the bus (null for unidentified faces)
         kiosk_id:
           type: string
           description: Kiosk device identifier
@@ -3173,13 +3745,20 @@ components:
           format: date-time
           readOnly: true
           description: When this record was created in database
+        confirmation_face_urls:
+          type: string
+          readOnly: true
+        is_unknown_face:
+          type: string
+          readOnly: true
       required:
       - confidence_score
+      - confirmation_face_urls
       - created_at
       - event_id
+      - is_unknown_face
       - kiosk_id
       - model_version
-      - student
       - timestamp
     BoardingEventCreate:
       type: object
@@ -3192,9 +3771,53 @@ components:
         student:
           type: string
           format: uuid
-          description: Student who boarded the bus
+          nullable: true
+          description: Student who boarded the bus (null for unidentified faces)
         kiosk_id:
           type: string
+          description: Kiosk device identifier
+          maxLength: 100
+        confidence_score:
+          type: number
+          format: double
+          maximum: 1.0
+          minimum: 0.0
+          description: Face recognition confidence score (0.0-1.0)
+        timestamp:
+          type: string
+          format: date-time
+          description: When the boarding event occurred
+        bus_route:
+          type: string
+          description: Bus route identifier
+          maxLength: 100
+        face_image_url:
+          type: string
+          description: S3 URL to face image for verification (optional)
+        model_version:
+          type: string
+          description: Face recognition model version used
+          maxLength: 50
+        metadata:
+          description: Additional metadata as JSON
+      required:
+      - confidence_score
+      - event_id
+      - kiosk_id
+      - model_version
+      - timestamp
+    BoardingEventCreateRequest:
+      type: object
+      description: Serializer for creating boarding events (kiosk-facing)
+      properties:
+        student:
+          type: string
+          format: uuid
+          nullable: true
+          description: Student who boarded the bus (null for unidentified faces)
+        kiosk_id:
+          type: string
+          minLength: 1
           description: Kiosk device identifier
           maxLength: 100
         confidence_score:
@@ -3212,11 +3835,12 @@ components:
           items:
             type: number
             format: double
-          minLength: 2
-          maxLength: 2
+          writeOnly: true
           nullable: true
-          description: Return GPS coordinates as a tuple for compatibility
-          readOnly: true
+          description: GPS coordinates as [latitude, longitude]. Optional - boarding
+            events can be created without location.
+          maxItems: 2
+          minItems: 2
         bus_route:
           type: string
           description: Bus route identifier
@@ -3226,17 +3850,24 @@ components:
           description: S3 URL to face image for verification (optional)
         model_version:
           type: string
+          minLength: 1
           description: Face recognition model version used
           maxLength: 50
         metadata:
           description: Additional metadata as JSON
+        confirmation_faces_base64:
+          type: array
+          items:
+            type: string
+            minLength: 1
+          writeOnly: true
+          description: Array of base64-encoded confirmation faces (112x112 JPEG).
+            Send up to 3 consecutive frames.
+          maxItems: 3
       required:
       - confidence_score
-      - event_id
-      - gps_coords
       - kiosk_id
       - model_version
-      - student
       - timestamp
     BoardingEventNested:
       type: object
@@ -3255,10 +3886,69 @@ components:
         event_type:
           type: string
           description: Event type (boarding/pickup/dropoff)
+        confirmation_face_urls:
+          type: array
+          items:
+            type: string
+          description: List of signed URLs for confirmation faces (flexible - 1 to
+            N photos)
       required:
       - event_id
       - event_type
       - kiosk_id
+      - timestamp
+    BoardingEventRequest:
+      type: object
+      description: Serializer for boarding events
+      properties:
+        student:
+          type: string
+          format: uuid
+          nullable: true
+          description: Student who boarded the bus (null for unidentified faces)
+        kiosk_id:
+          type: string
+          minLength: 1
+          description: Kiosk device identifier
+          maxLength: 100
+        confidence_score:
+          type: number
+          format: double
+          maximum: 1.0
+          minimum: 0.0
+          description: Face recognition confidence score (0.0-1.0)
+        timestamp:
+          type: string
+          format: date-time
+          description: When the boarding event occurred
+        latitude:
+          type: number
+          format: double
+          nullable: true
+          description: GPS latitude coordinate
+        longitude:
+          type: number
+          format: double
+          nullable: true
+          description: GPS longitude coordinate
+        bus_route:
+          type: string
+          description: Bus route identifier
+          maxLength: 100
+        face_image_url:
+          type: string
+          description: S3 URL to face image for verification (optional)
+        model_version:
+          type: string
+          minLength: 1
+          description: Face recognition model version used
+          maxLength: 50
+        metadata:
+          description: Additional metadata as JSON
+      required:
+      - confidence_score
+      - kiosk_id
+      - model_version
       - timestamp
     Bus:
       type: object
@@ -3285,11 +3975,13 @@ components:
         route_name:
           type: string
           readOnly: true
+          nullable: true
         capacity:
           type: integer
           maximum: 9223372036854775807
           minimum: 1
           format: int64
+          nullable: true
           description: Maximum number of passengers
         device_id:
           type: string
@@ -3329,6 +4021,32 @@ components:
           format: date
           nullable: true
           description: Date of last maintenance
+        driver_name:
+          type: string
+          description: Driver's full name
+          maxLength: 200
+        driver_phone:
+          type: string
+          description: Driver's contact number
+          maxLength: 20
+        driver_address:
+          type: string
+          description: Driver's address
+        driver_license_number:
+          type: string
+          description: Driver's license number
+          maxLength: 50
+        conductor_name:
+          type: string
+          description: Conductor's full name
+          maxLength: 200
+        conductor_phone:
+          type: string
+          description: Conductor's contact number
+          maxLength: 20
+        conductor_address:
+          type: string
+          description: Conductor's address
         assigned_students_count:
           type: integer
           readOnly: true
@@ -3353,11 +4071,9 @@ components:
       - assigned_students_count
       - bus_id
       - bus_number
-      - capacity
       - created_at
       - is_available
       - license_plate
-      - route_name
       - updated_at
       - utilization_percentage
     BusBasic:
@@ -3373,11 +4089,16 @@ components:
           type: string
           description: Vehicle license plate number
           maxLength: 20
+        bus_number:
+          type: string
+          description: School-assigned bus number (e.g., 'BUS-001', 'B-12')
+          maxLength: 20
         capacity:
           type: integer
           maximum: 9223372036854775807
           minimum: 1
           format: int64
+          nullable: true
           description: Maximum number of passengers
         status:
           enum:
@@ -3404,10 +4125,47 @@ components:
           description: When this bus record was last updated
       required:
       - bus_id
-      - capacity
+      - bus_number
       - created_at
       - license_plate
       - updated_at
+    BusBasicRequest:
+      type: object
+      description: Basic bus serializer for nested use in student views
+      properties:
+        license_plate:
+          type: string
+          minLength: 1
+          description: Vehicle license plate number
+          maxLength: 20
+        bus_number:
+          type: string
+          minLength: 1
+          description: School-assigned bus number (e.g., 'BUS-001', 'B-12')
+          maxLength: 20
+        capacity:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 1
+          format: int64
+          nullable: true
+          description: Maximum number of passengers
+        status:
+          enum:
+          - active
+          - maintenance
+          - retired
+          type: string
+          x-spec-enum-id: 7cfb8829cc47c499
+          description: |-
+            Current operational status
+
+            * `active` - Active
+            * `maintenance` - Under Maintenance
+            * `retired` - Retired
+      required:
+      - bus_number
+      - license_plate
     BusLocation:
       type: object
       description: Serializer for GPS location updates from kiosk
@@ -3448,6 +4206,55 @@ components:
       - location_id
       - longitude
       - timestamp
+    BusLocationHistoryResponse:
+      type: object
+      properties:
+        type:
+          type: string
+          default: FeatureCollection
+        features:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+          description: Array of GeoJSON Feature objects with historical bus locations
+      required:
+      - features
+    BusLocationRequest:
+      type: object
+      description: Serializer for GPS location updates from kiosk
+      properties:
+        latitude:
+          type: number
+          format: double
+          description: GPS latitude coordinate
+        longitude:
+          type: number
+          format: double
+          description: GPS longitude coordinate
+        accuracy:
+          type: number
+          format: double
+          nullable: true
+          description: GPS accuracy in meters
+        speed:
+          type: number
+          format: double
+          nullable: true
+          description: Speed in km/h
+        heading:
+          type: number
+          format: double
+          nullable: true
+          description: Heading/bearing in degrees (0-360)
+        timestamp:
+          type: string
+          format: date-time
+          description: When this location was recorded by the kiosk
+      required:
+      - latitude
+      - longitude
+      - timestamp
     BusLocationsResponse:
       type: object
       properties:
@@ -3462,6 +4269,99 @@ components:
           description: Array of GeoJSON Feature objects with bus locations
       required:
       - features
+    BusRequest:
+      type: object
+      description: Serializer for buses
+      properties:
+        bus_number:
+          type: string
+          minLength: 1
+          description: School-assigned bus number (e.g., 'BUS-001', 'B-12')
+          maxLength: 20
+        license_plate:
+          type: string
+          minLength: 1
+          description: Vehicle license plate number
+          maxLength: 20
+        route:
+          type: string
+          format: uuid
+          description: Route this bus is assigned to
+          nullable: true
+        capacity:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 1
+          format: int64
+          nullable: true
+          description: Maximum number of passengers
+        device_id:
+          type: string
+          nullable: true
+          description: Kiosk device identifier installed on this bus
+          maxLength: 100
+        status:
+          enum:
+          - active
+          - maintenance
+          - retired
+          type: string
+          x-spec-enum-id: 7cfb8829cc47c499
+          description: |-
+            Current operational status
+
+            * `active` - Active
+            * `maintenance` - Under Maintenance
+            * `retired` - Retired
+        manufacturer:
+          type: string
+          description: Bus manufacturer
+          maxLength: 100
+        model:
+          type: string
+          description: Bus model
+          maxLength: 100
+        year:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          nullable: true
+          description: Manufacturing year
+        last_maintenance:
+          type: string
+          format: date
+          nullable: true
+          description: Date of last maintenance
+        driver_name:
+          type: string
+          description: Driver's full name
+          maxLength: 200
+        driver_phone:
+          type: string
+          description: Driver's contact number
+          maxLength: 20
+        driver_address:
+          type: string
+          description: Driver's address
+        driver_license_number:
+          type: string
+          description: Driver's license number
+          maxLength: 50
+        conductor_name:
+          type: string
+          description: Conductor's full name
+          maxLength: 200
+        conductor_phone:
+          type: string
+          description: Conductor's contact number
+          maxLength: 20
+        conductor_address:
+          type: string
+          description: Conductor's address
+      required:
+      - bus_number
+      - license_plate
     CheckUpdatesResponse:
       type: object
       description: Serializer for check updates response
@@ -3589,6 +4489,102 @@ components:
       - log_level
       - message
       - timestamp
+    DeviceLogRequest:
+      type: object
+      description: Serializer for device logs
+      properties:
+        kiosk:
+          type: string
+          minLength: 1
+          description: Kiosk that generated this log entry
+        log_level:
+          enum:
+          - DEBUG
+          - INFO
+          - WARN
+          - ERROR
+          - CRITICAL
+          type: string
+          x-spec-enum-id: 7b1a6f8785c20640
+          description: |-
+            Log level severity
+
+            * `DEBUG` - Debug
+            * `INFO` - Info
+            * `WARN` - Warning
+            * `ERROR` - Error
+            * `CRITICAL` - Critical
+        message:
+          type: string
+          minLength: 1
+          description: Log message content
+        metadata:
+          description: Additional structured data as JSON
+      required:
+      - kiosk
+      - log_level
+      - message
+    FaceEnrollmentStatus:
+      type: object
+      description: Serializer for checking enrollment status
+      properties:
+        enrollment_id:
+          type: string
+          format: uuid
+          readOnly: true
+        status:
+          enum:
+          - pending_approval
+          - approved
+          - rejected
+          type: string
+          x-spec-enum-id: 85cd7db90e71a6ab
+          readOnly: true
+          description: |-
+            Approval status
+
+            * `pending_approval` - Pending Approval
+            * `approved` - Approved
+            * `rejected` - Rejected
+        photo_count:
+          type: integer
+          readOnly: true
+          description: Number of photos in this enrollment
+        submitted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: When parent submitted enrollment
+        reviewed_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+          description: When enrollment was reviewed
+      required:
+      - enrollment_id
+      - photo_count
+      - status
+      - submitted_at
+    FaceEnrollmentSubmissionRequest:
+      type: object
+      description: |-
+        Serializer for parent face enrollment photo submission.
+
+        Parent app auto-captures 3-5 photos and submits as base64-encoded images.
+        This serializer validates the submission and creates a FaceEnrollment record.
+      properties:
+        photos:
+          type: array
+          items:
+            type: string
+            minLength: 1
+          description: Array of base64-encoded photos from auto-capture
+          minItems: 1
+        device_info:
+          description: Device metadata (model, OS, app version, etc.)
+      required:
+      - photos
     Group:
       type: object
       description: |-
@@ -3608,7 +4604,7 @@ components:
       - id
       - name
       - permissions_count
-    HealthData:
+    HealthDataRequest:
       type: object
       description: Serializer for health metrics
       properties:
@@ -3617,6 +4613,10 @@ components:
           maximum: 100
           minimum: 0
           nullable: true
+        device_temperature:
+          type: integer
+          nullable: true
+          description: Device temperature in deciselsius (Celsius * 10)
         is_charging:
           type: boolean
           default: false
@@ -3630,10 +4630,12 @@ components:
         network_type:
           type: string
           nullable: true
+          minLength: 1
           maxLength: 20
         app_version:
           type: string
           nullable: true
+          minLength: 1
           maxLength: 20
         last_face_detected_ago_min:
           type: integer
@@ -3647,7 +4649,7 @@ components:
           type: integer
           minimum: 0
           default: 0
-    Heartbeat:
+    HeartbeatRequest:
       type: object
       description: Serializer for kiosk heartbeat
       properties:
@@ -3657,6 +4659,7 @@ components:
           description: Heartbeat timestamp
         database_version:
           type: string
+          minLength: 1
           description: Current database version on kiosk
           maxLength: 50
         database_hash:
@@ -3671,8 +4674,15 @@ components:
           type: integer
           minimum: 0
           description: Embeddings in DB
+        git_commit_sha:
+          type: string
+          nullable: true
+          minLength: 1
+          description: Git commit SHA of the kiosk app build (40 chars). Null for
+            dev builds.
+          maxLength: 40
         health:
-          $ref: '#/components/schemas/HealthData'
+          $ref: '#/components/schemas/HealthDataRequest'
       required:
       - database_version
       - embedding_count
@@ -3696,6 +4706,11 @@ components:
           type: string
           description: Current firmware version installed on device
           maxLength: 50
+        git_commit_sha:
+          type: string
+          nullable: true
+          description: Git commit SHA of current kiosk app build
+          maxLength: 40
         last_heartbeat:
           type: string
           format: date-time
@@ -3714,6 +4729,10 @@ components:
           format: int64
           nullable: true
           description: Storage used in MB on the device
+        operation_timing:
+          allOf:
+          - $ref: '#/components/schemas/OperationTiming'
+          readOnly: true
         status_display:
           type: string
           readOnly: true
@@ -3736,8 +4755,121 @@ components:
       - created_at
       - is_online
       - kiosk_id
+      - operation_timing
       - status_display
       - updated_at
+    KioskRequest:
+      type: object
+      description: Serializer for kiosks
+      properties:
+        firmware_version:
+          type: string
+          description: Current firmware version installed on device
+          maxLength: 50
+        git_commit_sha:
+          type: string
+          nullable: true
+          description: Git commit SHA of current kiosk app build
+          maxLength: 40
+        last_heartbeat:
+          type: string
+          format: date-time
+          nullable: true
+          description: Timestamp of last heartbeat received from device
+        is_active:
+          type: boolean
+          description: Whether this kiosk is active and accepting requests
+        battery_level:
+          type: number
+          format: double
+        storage_used_mb:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          nullable: true
+          description: Storage used in MB on the device
+    OperationSlot:
+      type: object
+      description: Serializer for operation time slots
+      properties:
+        start_time:
+          type: string
+          format: time
+          description: Start time (e.g., 08:00)
+        end_time:
+          type: string
+          format: time
+          description: End time (e.g., 10:00)
+        order:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+          description: Display order (0 = first slot)
+      required:
+      - end_time
+      - start_time
+    OperationSlotRequest:
+      type: object
+      description: Serializer for operation time slots
+      properties:
+        start_time:
+          type: string
+          format: time
+          description: Start time (e.g., 08:00)
+        end_time:
+          type: string
+          format: time
+          description: End time (e.g., 10:00)
+        order:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+          description: Display order (0 = first slot)
+      required:
+      - end_time
+      - start_time
+    OperationTiming:
+      type: object
+      description: Serializer for operation timing with slots
+      properties:
+        name:
+          type: string
+          description: Schedule name (e.g., 'Morning Shift', 'Full Day')
+          maxLength: 100
+        description:
+          type: string
+          description: Optional description of this schedule
+        is_active:
+          type: boolean
+          description: Whether this schedule is available for selection
+        slots:
+          type: array
+          items:
+            $ref: '#/components/schemas/OperationSlot'
+          readOnly: true
+      required:
+      - name
+      - slots
+    OperationTimingRequest:
+      type: object
+      description: Serializer for operation timing with slots
+      properties:
+        name:
+          type: string
+          minLength: 1
+          description: Schedule name (e.g., 'Morning Shift', 'Full Day')
+          maxLength: 100
+        description:
+          type: string
+          description: Optional description of this schedule
+        is_active:
+          type: boolean
+          description: Whether this schedule is available for selection
+      required:
+      - name
     PaginatedAPIKeyList:
       type: object
       required:
@@ -3991,7 +5123,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/School'
-    PaginatedStudentList:
+    PaginatedStudentListList:
       type: object
       required:
       - count
@@ -4013,7 +5145,7 @@ components:
         results:
           type: array
           items:
-            $ref: '#/components/schemas/Student'
+            $ref: '#/components/schemas/StudentList'
     PaginatedStudentParentList:
       type: object
       required:
@@ -4104,9 +5236,11 @@ components:
           description: Encrypted name (plaintext validated max 100 chars)
         phone:
           type: string
+          nullable: true
           description: Encrypted phone number (plaintext validated as +91XXXXXXXXXX)
         email:
           type: string
+          nullable: true
           description: Encrypted email address (plaintext validated per RFC 5321)
         created_at:
           type: string
@@ -4117,10 +5251,8 @@ components:
       - decrypted_email
       - decrypted_name
       - decrypted_phone
-      - email
       - name
       - parent_id
-      - phone
     ParentBusLocationsResponse:
       type: object
       properties:
@@ -4135,15 +5267,29 @@ components:
           description: GeoJSON features array
       required:
       - features
-    PatchedAPIKey:
+    ParentRequest:
       type: object
       properties:
-        key_id:
+        name:
           type: string
-          format: uuid
-          readOnly: true
+          minLength: 1
+          description: Encrypted name (plaintext validated max 100 chars)
+        phone:
+          type: string
+          nullable: true
+          description: Encrypted phone number (plaintext validated as +91XXXXXXXXXX)
+        email:
+          type: string
+          nullable: true
+          description: Encrypted email address (plaintext validated per RFC 5321)
+      required:
+      - name
+    PatchedAPIKeyRequest:
+      type: object
+      properties:
         kiosk_id:
           type: string
+          minLength: 1
           description: Reference to kiosk device
           maxLength: 100
         name:
@@ -4158,29 +5304,18 @@ components:
           type: string
           format: date-time
           nullable: true
-        last_used:
-          type: string
-          format: date-time
-          readOnly: true
-          nullable: true
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-    PatchedBoardingEvent:
+    PatchedBoardingEventRequest:
       type: object
       description: Serializer for boarding events
       properties:
-        event_id:
-          type: string
-          readOnly: true
-          description: ULID primary key for global uniqueness and time sorting
         student:
           type: string
           format: uuid
-          description: Student who boarded the bus
+          nullable: true
+          description: Student who boarded the bus (null for unidentified faces)
         kiosk_id:
           type: string
+          minLength: 1
           description: Kiosk device identifier
           maxLength: 100
         confidence_score:
@@ -4212,30 +5347,23 @@ components:
           description: S3 URL to face image for verification (optional)
         model_version:
           type: string
+          minLength: 1
           description: Face recognition model version used
           maxLength: 50
         metadata:
           description: Additional metadata as JSON
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-          description: When this record was created in database
-    PatchedBus:
+    PatchedBusRequest:
       type: object
       description: Serializer for buses
       properties:
-        bus_id:
-          type: string
-          format: uuid
-          readOnly: true
-          description: UUID primary key
         bus_number:
           type: string
+          minLength: 1
           description: School-assigned bus number (e.g., 'BUS-001', 'B-12')
           maxLength: 20
         license_plate:
           type: string
+          minLength: 1
           description: Vehicle license plate number
           maxLength: 20
         route:
@@ -4243,14 +5371,12 @@ components:
           format: uuid
           description: Route this bus is assigned to
           nullable: true
-        route_name:
-          type: string
-          readOnly: true
         capacity:
           type: integer
           maximum: 9223372036854775807
           minimum: 1
           format: int64
+          nullable: true
           description: Maximum number of passengers
         device_id:
           type: string
@@ -4290,44 +5416,45 @@ components:
           format: date
           nullable: true
           description: Date of last maintenance
-        assigned_students_count:
-          type: integer
-          readOnly: true
-        utilization_percentage:
-          type: number
-          format: double
-          readOnly: true
-        is_available:
-          type: boolean
-          readOnly: true
-        created_at:
+        driver_name:
           type: string
-          format: date-time
-          readOnly: true
-          description: When this bus was added to the system
-        updated_at:
+          description: Driver's full name
+          maxLength: 200
+        driver_phone:
           type: string
-          format: date-time
-          readOnly: true
-          description: When this bus record was last updated
-    PatchedKiosk:
+          description: Driver's contact number
+          maxLength: 20
+        driver_address:
+          type: string
+          description: Driver's address
+        driver_license_number:
+          type: string
+          description: Driver's license number
+          maxLength: 50
+        conductor_name:
+          type: string
+          description: Conductor's full name
+          maxLength: 200
+        conductor_phone:
+          type: string
+          description: Conductor's contact number
+          maxLength: 20
+        conductor_address:
+          type: string
+          description: Conductor's address
+    PatchedKioskRequest:
       type: object
       description: Serializer for kiosks
       properties:
-        kiosk_id:
-          type: string
-          readOnly: true
-          description: Unique kiosk device identifier (e.g., KIOSK001, BUS123-KIOSK)
-        bus:
-          type: string
-          readOnly: true
-        bus_license_plate:
-          type: string
-          readOnly: true
         firmware_version:
           type: string
           description: Current firmware version installed on device
           maxLength: 50
+        git_commit_sha:
+          type: string
+          nullable: true
+          description: Git commit SHA of current kiosk app build
+          maxLength: 40
         last_heartbeat:
           type: string
           format: date-time
@@ -4346,62 +5473,28 @@ components:
           format: int64
           nullable: true
           description: Storage used in MB on the device
-        status_display:
-          type: string
-          readOnly: true
-        is_online:
-          type: string
-          readOnly: true
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-          description: When this kiosk was registered
-        updated_at:
-          type: string
-          format: date-time
-          readOnly: true
-          description: When this kiosk record was last updated
-    PatchedParent:
+    PatchedParentRequest:
       type: object
       properties:
-        parent_id:
-          type: string
-          format: uuid
-          readOnly: true
-        decrypted_name:
-          type: string
-          readOnly: true
-        decrypted_phone:
-          type: string
-          readOnly: true
-        decrypted_email:
-          type: string
-          readOnly: true
         name:
           type: string
+          minLength: 1
           description: Encrypted name (plaintext validated max 100 chars)
         phone:
           type: string
+          nullable: true
           description: Encrypted phone number (plaintext validated as +91XXXXXXXXXX)
         email:
           type: string
+          nullable: true
           description: Encrypted email address (plaintext validated per RFC 5321)
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-    PatchedRoute:
+    PatchedRouteRequest:
       type: object
       description: Serializer for bus routes with polyline support
       properties:
-        route_id:
-          type: string
-          format: uuid
-          readOnly: true
-          description: UUID primary key
         name:
           type: string
+          minLength: 1
           description: Route name (e.g., 'Route A', 'North Loop')
           maxLength: 100
         description:
@@ -4409,6 +5502,7 @@ components:
           description: Detailed description of the route
         color_code:
           type: string
+          minLength: 1
           description: 'Hex color for map display (e.g., #FF5733)'
           maxLength: 7
         line_pattern:
@@ -4425,70 +5519,71 @@ components:
         is_active:
           type: boolean
           description: Whether this route is currently active
-        stop_count:
-          type: integer
-          readOnly: true
-        total_students:
-          type: integer
-          readOnly: true
-        route_stops:
-          type: array
-          items:
-            $ref: '#/components/schemas/RouteStop'
-          readOnly: true
-        encoded_polyline:
-          type: string
-          readOnly: true
-        bus_stops:
-          type: array
-          items:
-            type: object
-            additionalProperties: {}
-          readOnly: true
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-          description: When this route was created
-        updated_at:
-          type: string
-          format: date-time
-          readOnly: true
-          description: When this route was last updated
-    PatchedSchool:
+    PatchedSchoolRequest:
       type: object
       properties:
-        school_id:
-          type: string
-          format: uuid
-          readOnly: true
         name:
           type: string
+          minLength: 1
           maxLength: 255
-        created_at:
+    PatchedStudentParentRequest:
+      type: object
+      properties:
+        student:
+          type: string
+          format: uuid
+        parent:
+          type: string
+          format: uuid
+        relationship:
+          enum:
+          - mother
+          - father
+          - guardian
+          - grandparent
+          - other
+          type: string
+          description: |-
+            * `mother` - Mother
+            * `father` - Father
+            * `guardian` - Guardian
+            * `grandparent` - Grandparent
+            * `other` - Other
+          x-spec-enum-id: b3cc345f241d9470
+        is_primary:
+          type: boolean
+    PatchedStudentPhotoRequest:
+      type: object
+      properties:
+        student:
+          type: string
+          format: uuid
+        photo_content_type:
+          type: string
+          description: MIME type (e.g., image/jpeg, image/png)
+          maxLength: 50
+        is_primary:
+          type: boolean
+          description: Primary photo for student
+        captured_at:
           type: string
           format: date-time
-          readOnly: true
-    PatchedStudent:
+          description: When photo was taken
+    PatchedStudentRequest:
       type: object
       description: Full serializer for detail view - includes all nested data
       properties:
-        student_id:
-          type: string
-          format: uuid
-          readOnly: true
         school:
           type: string
           format: uuid
         school_student_id:
           type: string
+          minLength: 1
           description: School-provided student ID (e.g., STU-2024-001)
           maxLength: 50
-        decrypted_name:
-          type: string
-          readOnly: true
         grade:
           type: string
+          minLength: 1
           maxLength: 10
         section:
           type: string
@@ -4526,131 +5621,24 @@ components:
           format: date
           nullable: true
           description: Date student enrolled in school
-        school_details:
-          allOf:
-          - $ref: '#/components/schemas/School'
-          readOnly: true
-        bus_details:
-          allOf:
-          - $ref: '#/components/schemas/BusBasic'
-          readOnly: true
-        parents:
-          type: array
-          items:
-            $ref: '#/components/schemas/StudentParent'
-          readOnly: true
-        photos:
-          type: array
-          items:
-            $ref: '#/components/schemas/StudentPhoto'
-          readOnly: true
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        updated_at:
-          type: string
-          format: date-time
-          readOnly: true
-    PatchedStudentParent:
+    PatchedUserRequest:
       type: object
+      description: |-
+        User serializer - Authentication layer only.
+
+        For parent approval status, see ParentSerializer (domain layer).
       properties:
-        student:
-          type: string
-          format: uuid
-        parent:
-          type: string
-          format: uuid
-        relationship:
-          enum:
-          - mother
-          - father
-          - guardian
-          - grandparent
-          - other
-          type: string
-          description: |-
-            * `mother` - Mother
-            * `father` - Father
-            * `guardian` - Guardian
-            * `grandparent` - Grandparent
-            * `other` - Other
-          x-spec-enum-id: b3cc345f241d9470
-        is_primary:
-          type: boolean
-        parent_details:
-          allOf:
-          - $ref: '#/components/schemas/Parent'
-          readOnly: true
-        student_details:
-          type: string
-          readOnly: true
-    PatchedStudentPhoto:
-      type: object
-      properties:
-        photo_id:
-          type: string
-          format: uuid
-          readOnly: true
-        student:
-          type: string
-          format: uuid
-        photo:
-          type: string
-          format: uri
-          nullable: true
-          description: Student photo file
-        is_primary:
-          type: boolean
-          description: Primary photo for student
-        captured_at:
-          type: string
-          format: date-time
-          description: When photo was taken
-        student_details:
-          type: string
-          readOnly: true
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-    PatchedUser:
-      type: object
-      properties:
-        user_id:
-          type: string
-          format: uuid
-          readOnly: true
         username:
           type: string
+          minLength: 1
           maxLength: 150
         email:
           type: string
           format: email
+          minLength: 1
           maxLength: 254
-        groups:
-          type: array
-          items:
-            type: string
-          readOnly: true
-        group_names:
-          type: string
-          readOnly: true
         is_active:
           type: boolean
-        last_login:
-          type: string
-          format: date-time
-          readOnly: true
-          nullable: true
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        updated_at:
-          type: string
-          format: date-time
-          readOnly: true
     Route:
       type: object
       description: Serializer for bus routes with polyline support
@@ -4725,6 +5713,39 @@ components:
       - stop_count
       - total_students
       - updated_at
+    RouteRequest:
+      type: object
+      description: Serializer for bus routes with polyline support
+      properties:
+        name:
+          type: string
+          minLength: 1
+          description: Route name (e.g., 'Route A', 'North Loop')
+          maxLength: 100
+        description:
+          type: string
+          description: Detailed description of the route
+        color_code:
+          type: string
+          minLength: 1
+          description: 'Hex color for map display (e.g., #FF5733)'
+          maxLength: 7
+        line_pattern:
+          enum:
+          - solid
+          - dashed
+          type: string
+          x-spec-enum-id: 45d895aa6835744a
+          description: |-
+            Line pattern for map visualization
+
+            * `solid` - Solid Line
+            * `dashed` - Dashed Line
+        is_active:
+          type: boolean
+          description: Whether this route is currently active
+      required:
+      - name
     RouteStop:
       type: object
       description: Serializer for route stops with nested bus stop info
@@ -4758,6 +5779,122 @@ components:
       - latitude
       - longitude
       - sequence
+    RouteStopRequest:
+      type: object
+      description: Serializer for route stops with nested bus stop info
+      properties:
+        bus_stop:
+          type: string
+          format: uuid
+          description: Bus stop on this route
+        sequence:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          description: Order of this stop in the route (1-based)
+        waypoints:
+          description: 'Path coordinates to NEXT stop: [{lat, lon}, ...]'
+      required:
+      - bus_stop
+      - sequence
+    SOSAlert:
+      type: object
+      description: Serializer for SOS emergency alerts
+      properties:
+        alert_id:
+          type: integer
+          readOnly: true
+          description: Auto-incrementing alert ID
+        kiosk_id:
+          type: string
+          readOnly: true
+        bus_license_plate:
+          type: string
+          readOnly: true
+          nullable: true
+        bus_number:
+          type: string
+          readOnly: true
+          nullable: true
+        latitude:
+          type: number
+          format: double
+          nullable: true
+          description: GPS latitude at time of alert
+        longitude:
+          type: number
+          format: double
+          nullable: true
+          description: GPS longitude at time of alert
+        status:
+          enum:
+          - active
+          - acknowledged
+          - resolved
+          - false_alarm
+          type: string
+          x-spec-enum-id: 807151cfe11df5c3
+          description: |-
+            Current status of the alert
+
+            * `active` - Active
+            * `acknowledged` - Acknowledged
+            * `resolved` - Resolved
+            * `false_alarm` - False Alarm
+        message:
+          type: string
+          description: Optional message/notes from the kiosk operator
+        metadata:
+          description: Additional data (battery level, network status, etc.)
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: When the alert was created
+        acknowledged_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+          description: When the alert was first acknowledged by staff
+        resolved_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+          description: When the alert was resolved
+        acknowledged_by:
+          type: string
+          description: Name/ID of person who acknowledged the alert
+          maxLength: 255
+        resolved_by:
+          type: string
+          description: Name/ID of person who resolved the alert
+          maxLength: 255
+      required:
+      - alert_id
+      - created_at
+      - kiosk_id
+    SOSAlertCreateRequest:
+      type: object
+      description: Serializer for creating SOS alerts from kiosk
+      properties:
+        latitude:
+          type: number
+          format: double
+          nullable: true
+          description: GPS latitude at time of alert
+        longitude:
+          type: number
+          format: double
+          nullable: true
+          description: GPS longitude at time of alert
+        message:
+          type: string
+          description: Optional message from operator
+        metadata:
+          description: Additional context data
     School:
       type: object
       properties:
@@ -4776,6 +5913,15 @@ components:
       - created_at
       - name
       - school_id
+    SchoolRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 255
+      required:
+      - name
     Student:
       type: object
       description: Full serializer for detail view - includes all nested data
@@ -4910,6 +6056,55 @@ components:
       - grade
       - school_student_id
       - student_name
+    StudentList:
+      type: object
+      description: Lightweight serializer for list view - only essential fields
+      properties:
+        student_id:
+          type: string
+          format: uuid
+          readOnly: true
+        school_student_id:
+          type: string
+          description: School-provided student ID (e.g., STU-2024-001)
+          maxLength: 50
+        decrypted_name:
+          type: string
+          readOnly: true
+        grade:
+          type: string
+          maxLength: 10
+        section:
+          type: string
+          maxLength: 10
+        primary_parent_name:
+          type: string
+          readOnly: true
+        primary_parent_phone:
+          type: string
+          readOnly: true
+        bus_number:
+          type: string
+          readOnly: true
+        status:
+          enum:
+          - active
+          - inactive
+          - suspended
+          type: string
+          description: |-
+            * `active` - Active
+            * `inactive` - Inactive
+            * `suspended` - Suspended
+          x-spec-enum-id: b5ba39b211d43b5e
+      required:
+      - bus_number
+      - decrypted_name
+      - grade
+      - primary_parent_name
+      - primary_parent_phone
+      - school_student_id
+      - student_id
     StudentParent:
       type: object
       properties:
@@ -4949,6 +6144,36 @@ components:
       - relationship
       - student
       - student_details
+    StudentParentRequest:
+      type: object
+      properties:
+        student:
+          type: string
+          format: uuid
+        parent:
+          type: string
+          format: uuid
+        relationship:
+          enum:
+          - mother
+          - father
+          - guardian
+          - grandparent
+          - other
+          type: string
+          description: |-
+            * `mother` - Mother
+            * `father` - Father
+            * `guardian` - Guardian
+            * `grandparent` - Grandparent
+            * `other` - Other
+          x-spec-enum-id: b3cc345f241d9470
+        is_primary:
+          type: boolean
+      required:
+      - parent
+      - relationship
+      - student
     StudentPhoto:
       type: object
       properties:
@@ -4959,11 +6184,13 @@ components:
         student:
           type: string
           format: uuid
-        photo:
+        photo_url:
           type: string
-          format: uri
-          nullable: true
-          description: Student photo file
+          readOnly: true
+        photo_content_type:
+          type: string
+          description: MIME type (e.g., image/jpeg, image/png)
+          maxLength: 50
         is_primary:
           type: boolean
           description: Primary photo for student
@@ -4981,10 +6208,90 @@ components:
       required:
       - created_at
       - photo_id
+      - photo_url
       - student
       - student_details
+    StudentPhotoRequest:
+      type: object
+      properties:
+        student:
+          type: string
+          format: uuid
+        photo_content_type:
+          type: string
+          description: MIME type (e.g., image/jpeg, image/png)
+          maxLength: 50
+        is_primary:
+          type: boolean
+          description: Primary photo for student
+        captured_at:
+          type: string
+          format: date-time
+          description: When photo was taken
+      required:
+      - student
+    StudentRequest:
+      type: object
+      description: Full serializer for detail view - includes all nested data
+      properties:
+        school:
+          type: string
+          format: uuid
+        school_student_id:
+          type: string
+          minLength: 1
+          description: School-provided student ID (e.g., STU-2024-001)
+          maxLength: 50
+        grade:
+          type: string
+          minLength: 1
+          maxLength: 10
+        section:
+          type: string
+          maxLength: 10
+        address_latitude:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,7})?$
+          nullable: true
+          description: Student home address latitude
+        address_longitude:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,7})?$
+          nullable: true
+          description: Student home address longitude
+        assigned_bus:
+          type: string
+          format: uuid
+          description: UUID primary key
+          nullable: true
+        status:
+          enum:
+          - active
+          - inactive
+          - suspended
+          type: string
+          description: |-
+            * `active` - Active
+            * `inactive` - Inactive
+            * `suspended` - Suspended
+          x-spec-enum-id: b5ba39b211d43b5e
+        enrollment_date:
+          type: string
+          format: date
+          nullable: true
+          description: Date student enrolled in school
+      required:
+      - grade
+      - school
+      - school_student_id
     User:
       type: object
+      description: |-
+        User serializer - Authentication layer only.
+
+        For parent approval status, see ParentSerializer (domain layer).
       properties:
         user_id:
           type: string
@@ -5020,14 +6327,39 @@ components:
           type: string
           format: date-time
           readOnly: true
+        parent_id:
+          type: string
+          format: uuid
+          readOnly: true
+          nullable: true
       required:
       - created_at
       - email
       - group_names
       - groups
-      - last_login
       - updated_at
       - user_id
+      - username
+    UserRequest:
+      type: object
+      description: |-
+        User serializer - Authentication layer only.
+
+        For parent approval status, see ParentSerializer (domain layer).
+      properties:
+        username:
+          type: string
+          minLength: 1
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          minLength: 1
+          maxLength: 254
+        is_active:
+          type: boolean
+      required:
+      - email
       - username
   securitySchemes:
     cookieAuth:

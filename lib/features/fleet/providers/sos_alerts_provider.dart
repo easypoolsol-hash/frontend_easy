@@ -51,8 +51,8 @@ final sosAlertsRestProvider = FutureProvider<List<api.SOSAlert>>((ref) async {
     // Call the real backend endpoint
     final response = await apiService.api.listActiveSosAlerts();
 
-    // Response is already a List<SOSAlert> from the generated API client
-    return response.data ?? [];
+    // Response is BuiltList<SOSAlert> from the generated API client - convert to List
+    return response.data?.toList() ?? [];
   } catch (e) {
     // API error - return empty list
     // This prevents errors from breaking the UI
@@ -67,8 +67,8 @@ final acknowledgeSosAlertProvider = FutureProvider.family<bool, int>((ref, alert
   try {
     final apiService = ref.watch(apiServiceProvider);
 
-    // Call the real backend endpoint
-    await apiService.api.acknowledgeSosAlert(alertId);
+    // Call the real backend endpoint (alertId is now a named parameter)
+    await apiService.api.acknowledgeSosAlert(alertId: alertId);
 
     // After acknowledging, refresh the alerts list
     ref.invalidate(sosAlertsRestProvider);
@@ -86,8 +86,8 @@ final resolveSosAlertProvider = FutureProvider.family<bool, int>((ref, alertId) 
   try {
     final apiService = ref.watch(apiServiceProvider);
 
-    // Call the real backend endpoint
-    await apiService.api.resolveSosAlert(alertId);
+    // Call the real backend endpoint (alertId is now a named parameter)
+    await apiService.api.resolveSosAlert(alertId: alertId);
 
     // After resolving, refresh the alerts list
     ref.invalidate(sosAlertsRestProvider);

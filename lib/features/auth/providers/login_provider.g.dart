@@ -44,7 +44,7 @@ final class LoginNotifierProvider
   }
 }
 
-String _$loginNotifierHash() => r'a57ec5b8ed44a933e03016146c360976fae9b2c7';
+String _$loginNotifierHash() => r'6f83412325c3c2206c4e909a8687fe28b9cd1482';
 
 /// Login notifier using Firebase Auth (industry standard, 100% secure)
 

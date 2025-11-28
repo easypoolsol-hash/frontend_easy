@@ -16,10 +16,10 @@ class StudentRepository {
   final ApiService _apiService;
 
   /// Cache for paginated results (page number -> data)
-  final Map<int, PaginatedStudentList> _cache = {};
+  final Map<int, PaginatedStudentListList> _cache = {};
 
   /// Cache for search results (search query -> data)
-  final Map<String, Map<int, PaginatedStudentList>> _searchCache = {};
+  final Map<String, Map<int, PaginatedStudentListList>> _searchCache = {};
 
   /// Cache timestamp for invalidation (5 minutes TTL)
   DateTime? _lastFetch;
@@ -43,7 +43,7 @@ class StudentRepository {
   /// - [page]: Page number (1-indexed, directly passed to API)
   /// - [search]: Optional search query (searches name, ID, grade)
   /// - [forceRefresh]: Force refresh from API (bypasses cache)
-  Future<PaginatedStudentList> getStudents({
+  Future<PaginatedStudentListList> getStudents({
     int page = 1,
     String? search,
     bool forceRefresh = false,
