@@ -43,39 +43,32 @@ final sosAlertsProvider = StreamProvider.autoDispose<List<api.SOSAlert>>((ref) a
 });
 
 /// REST API provider for fetching active SOS alerts
-/// TODO: Backend needs to implement GET /api/v1/sos/alerts/active endpoint
-/// Expected response: List of SOSAlert objects with status='active'
+/// Calls GET /api/v1/sos/alerts/active/
 final sosAlertsRestProvider = FutureProvider<List<api.SOSAlert>>((ref) async {
   try {
     final apiService = ref.watch(apiServiceProvider);
 
-    // TODO: Replace with actual endpoint when backend implements it
-    // For now, this will return empty list until endpoint is available
-    // Expected endpoint: GET /api/v1/sos/alerts/active
-    // Should return: { "alerts": [ ...SOSAlert objects... ] }
+    // Call the real backend endpoint
+    final response = await apiService.api.listActiveSosAlerts();
 
-    // Placeholder - replace when endpoint is ready:
-    // final response = await apiService.api.getSosAlertsActive();
-    // return response.data?.alerts ?? [];
-
-    return [];
+    // Response is already a List<SOSAlert> from the generated API client
+    return response.data ?? [];
   } catch (e) {
     // API error - return empty list
+    // This prevents errors from breaking the UI
     return [];
   }
 });
 
 /// Provider to acknowledge an SOS alert
 /// Updates alert status to 'acknowledged'
+/// Calls PATCH /api/v1/sos/alerts/{alert_id}/acknowledge/
 final acknowledgeSosAlertProvider = FutureProvider.family<bool, int>((ref, alertId) async {
   try {
     final apiService = ref.watch(apiServiceProvider);
 
-    // TODO: Backend needs to implement PATCH /api/v1/sos/alerts/{alert_id}/acknowledge
-    // For now, this is a placeholder
-
-    // Placeholder - replace when endpoint is ready:
-    // await apiService.api.acknowledgeSosAlert(alertId);
+    // Call the real backend endpoint
+    await apiService.api.acknowledgeSosAlert(alertId);
 
     // After acknowledging, refresh the alerts list
     ref.invalidate(sosAlertsRestProvider);
@@ -88,15 +81,13 @@ final acknowledgeSosAlertProvider = FutureProvider.family<bool, int>((ref, alert
 
 /// Provider to resolve an SOS alert
 /// Updates alert status to 'resolved'
+/// Calls PATCH /api/v1/sos/alerts/{alert_id}/resolve/
 final resolveSosAlertProvider = FutureProvider.family<bool, int>((ref, alertId) async {
   try {
     final apiService = ref.watch(apiServiceProvider);
 
-    // TODO: Backend needs to implement PATCH /api/v1/sos/alerts/{alert_id}/resolve
-    // For now, this is a placeholder
-
-    // Placeholder - replace when endpoint is ready:
-    // await apiService.api.resolveSosAlert(alertId);
+    // Call the real backend endpoint
+    await apiService.api.resolveSosAlert(alertId);
 
     // After resolving, refresh the alerts list
     ref.invalidate(sosAlertsRestProvider);
