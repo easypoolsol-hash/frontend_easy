@@ -68,6 +68,10 @@ import 'package:frontend_easy/shared/services/api_service.dart';
 /// Uses 30-second polling to protect database from overload
 /// Backend has 30-second cache, so polling aligns with cache refresh
 final busLocationsProvider = StreamProvider.autoDispose<List<Map<String, dynamic>>>((ref) async* {
+  // Keep provider alive to persist cached data when user navigates away
+  // This prevents buses from vanishing when switching tabs
+  ref.keepAlive();
+
   // Polling interval: 30 seconds (matches backend cache duration)
   const pollingInterval = Duration(seconds: 30);
 
