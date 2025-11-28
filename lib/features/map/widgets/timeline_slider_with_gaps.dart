@@ -23,6 +23,9 @@ class TimelineSliderWithGaps extends StatelessWidget {
   /// Callback when user changes slider position
   final void Function(DateTime timestamp) onChanged;
 
+  /// Callback when user changes slider position by index (optional)
+  final void Function(int index)? onCurrentIndexChanged;
+
   /// Color for segments with data (default: blue)
   final Color dataColor;
 
@@ -41,6 +44,7 @@ class TimelineSliderWithGaps extends StatelessWidget {
     required this.endTime,
     required this.currentTimestamp,
     required this.onChanged,
+    this.onCurrentIndexChanged,
     this.dataColor = Colors.blue,
     this.gapColor = Colors.grey,
     this.minimumGapDuration = const Duration(minutes: 5),
@@ -118,10 +122,14 @@ class TimelineSliderWithGaps extends StatelessWidget {
                     final timestamp = _pointIndexToTimestamp(pointIndex);
                     if (timestamp != null) {
                       onChanged(timestamp);
+                      onCurrentIndexChanged?.call(pointIndex);
                     }
                   } else {
                     final timestamp = _sliderValueToTimestamp(value);
                     onChanged(timestamp);
+                    // Find index for timestamp and notify
+                    final pointIndex = _findIndexForTimestamp(timestamp);
+                    onCurrentIndexChanged?.call(pointIndex);
                   }
                 },
               ),
@@ -318,5 +326,32 @@ class TimelineSliderWithGaps extends StatelessWidget {
       // Invalid timestamp
     }
     return null;
+  }
+
+  /// Find the closest index for a given timestamp
+  int _findIndexForTimestamp(DateTime timestamp) {
+    if (locations.isEmpty) return 0;
+
+    int closestIndex = 0;
+    Duration minDifference = const Duration(days: 1);
+
+    for (int i = 0; i < locations.length; i++) {
+      try {
+        final properties = locations[i]['properties'] as Map<String, dynamic>?;
+        final timestampStr = properties?['timestamp'] as String?;
+        if (timestampStr != null) {
+          final locationTime = DateTime.parse(timestampStr);
+          final difference = (locationTime.difference(timestamp)).abs();
+          if (difference < minDifference) {
+            minDifference = difference;
+            closestIndex = i;
+          }
+        }
+      } catch (e) {
+        continue;
+      }
+    }
+
+    return closestIndex;
   }
 }
