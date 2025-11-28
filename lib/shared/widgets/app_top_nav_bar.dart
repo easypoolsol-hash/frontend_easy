@@ -135,24 +135,30 @@ class AppTopNavBar extends ConsumerWidget {
             style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
-              fontSize: 12,
+              fontSize: 13,
             ),
           ),
-          backgroundColor: Colors.red,
+          backgroundColor: Colors.red.shade600,
           child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 4),
             decoration: BoxDecoration(
               color: activeCount > 0
-                ? Colors.red.withOpacity(0.1)
-                : Colors.transparent,
-              borderRadius: BorderRadius.circular(8),
+                ? Colors.red.shade50
+                : Colors.grey.shade200,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: activeCount > 0 ? Colors.red.shade300 : Colors.grey.shade300,
+                width: 2,
+              ),
             ),
             child: IconButton(
+              iconSize: 36,
+              padding: const EdgeInsets.all(10),
               icon: Icon(
                 activeCount > 0 ? Icons.notifications_active : Icons.notifications,
-                size: 32,
                 color: activeCount > 0
                   ? Colors.red.shade700
-                  : Theme.of(context).colorScheme.onSurfaceVariant,
+                  : Colors.grey.shade700,
               ),
               tooltip: activeCount > 0
                 ? '$activeCount active SOS alert${activeCount > 1 ? 's' : ''}'
