@@ -1,6 +1,7 @@
 # OpenAPI Generator Configuration for Frontend Easy
-# 2025 BEST PRACTICE: 'dart' generator with json_serializable
-# MATCHES bus_kiosk_easy pattern exactly for consistency
+# 2025 BEST PRACTICE: 'dart-dio' generator with built_value
+# NOTE: Makefile uses -g dart-dio which ALWAYS uses built_value
+#       The serializationLibrary setting below is IGNORED by dart-dio generator
 generatorName: dart
 inputSpec: openapi-schema.yaml
 outputDir: packages/frontend_easy_api
@@ -14,7 +15,8 @@ additional-properties:
   nullableFields: true
   dateLibrary: core
   legacyDiscriminatorBehavior: false
-  serializationLibrary: json_serializable
+  # NOTE: dart-dio generator ignores this setting - it always uses built_value
+  serializationLibrary: built_value
   wrapper: dio
   supportDart3: true
   minSdkVersion: "3.9.0"
