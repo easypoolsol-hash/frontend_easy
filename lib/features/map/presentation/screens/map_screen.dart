@@ -12,7 +12,6 @@ import 'package:frontend_easy/features/map/widgets/route_map_widget.dart';
 import 'package:frontend_easy/features/map/widgets/timeline_slider_with_gaps.dart';
 import 'package:frontend_easy/shared/widgets/app_top_nav_bar.dart';
 import 'package:frontend_easy/shared/widgets/bus_selector_widget.dart';
-import 'package:frontend_easy/core/widgets/status_banner.dart';
 
 /// Map screen - displays live bus tracking map with search functionality
 /// Real-time WebSocket updates for bus locations
@@ -160,8 +159,6 @@ class _MapScreenState extends ConsumerState<MapScreen> {
       body: Column(
         children: [
           const AppTopNavBar(currentIndex: 0),
-          // System health status banner (shows when backend is down)
-          const StatusBanner(),
           // Search bar with autocomplete and history mode toggle
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),

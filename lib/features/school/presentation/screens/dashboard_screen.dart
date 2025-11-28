@@ -9,7 +9,6 @@ import 'package:frontend_easy/features/school/providers/dashboard_websocket_prov
 import 'package:frontend_easy/features/school/providers/student_activity_provider.dart';
 import 'package:frontend_easy/shared/utils/error_handler.dart';
 import 'package:frontend_easy/shared/widgets/app_top_nav_bar.dart';
-import 'package:frontend_easy/core/widgets/status_banner.dart';
 import 'package:frontend_easy_api/frontend_easy_api.dart';
 
 /// School Dashboard Screen
@@ -84,8 +83,6 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       body: Column(
         children: [
           const AppTopNavBar(currentIndex: 1), // School dashboard tab (Attendance)
-          // System health status banner (shows when backend is down)
-          const StatusBanner(),
           Expanded(
             child: statsAsync.when(
               data: (stats) => _buildDashboardContent(
