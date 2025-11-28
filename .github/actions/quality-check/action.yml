@@ -14,6 +14,9 @@ outputs:
   format-result:
     description: Format check result (passed/failed)
     value: ${{ steps.format.outcome }}
+  openapi-result:
+    description: OpenAPI validation result (passed/failed)
+    value: ${{ steps.openapi.outcome }}
 
 runs:
   using: composite
@@ -54,6 +57,56 @@ runs:
 
         exit $FORMAT_EXIT
 
+    - name: Validate OpenAPI
+      id: openapi
+      shell: bash
+      continue-on-error: false
+      run: |
+        echo "🔌 Validating OpenAPI schema..."
+
+        # Check if schema file exists
+        if [ ! -f "openapi-schema.yaml" ]; then
+          echo "❌ ERROR: openapi-schema.yaml not found"
+          exit 1
+        fi
+
+        # Validate YAML syntax
+        echo "📋 Checking YAML syntax..."
+        if ! python3 -c "import yaml; yaml.safe_load(open('openapi-schema.yaml'))" 2>/dev/null; then
+          echo "❌ ERROR: Invalid YAML syntax in openapi-schema.yaml"
+          exit 1
+        fi
+        echo "✅ YAML syntax valid"
+
+        # Check for ListList naming issues
+        echo "🔎 Checking for ListList naming issues..."
+        if grep -r "ListList" packages/frontend_easy_api/lib/src/model/ 2>/dev/null; then
+          echo "❌ ERROR: Found 'ListList' in generated models - schema hook not applied!"
+          echo "This indicates the OpenAPI schema needs regeneration with proper hooks."
+          exit 1
+        fi
+        echo "✅ No ListList naming issues found"
+
+        # Verify critical generated files exist
+        echo "📦 Verifying generated API files..."
+        REQUIRED_FILES=(
+          "packages/frontend_easy_api/lib/src/api/api_api.dart"
+          "packages/frontend_easy_api/lib/src/serializers.dart"
+          "packages/frontend_easy_api/lib/frontend_easy_api.dart"
+        )
+
+        for file in "${REQUIRED_FILES[@]}"; do
+          if [ ! -f "$file" ]; then
+            echo "❌ ERROR: Required file missing: $file"
+            echo "Run 'make generate' to regenerate API code"
+            exit 1
+          fi
+        done
+        echo "✅ All required API files present"
+
+        echo ""
+        echo "✅ OpenAPI validation passed"
+
     - name: Quality summary
       shell: bash
       if: always()
@@ -71,6 +124,12 @@ runs:
           echo "- ✅ **Format**: Passed" >> $GITHUB_STEP_SUMMARY
         else
           echo "- ⚠️ **Format**: Failed (run \`dart format .\`)" >> $GITHUB_STEP_SUMMARY
+        fi
+
+        if [[ "${{ steps.openapi.outcome }}" == "success" ]]; then
+          echo "- ✅ **OpenAPI**: Valid schema and generated code" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "- ❌ **OpenAPI**: Validation failed (see [OPENAPI_WORKFLOW.md](../OPENAPI_WORKFLOW.md))" >> $GITHUB_STEP_SUMMARY
         fi
 
         echo "" >> $GITHUB_STEP_SUMMARY

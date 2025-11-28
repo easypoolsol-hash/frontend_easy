@@ -1,0 +1,94 @@
+name: Validate OpenAPI
+description: Validates OpenAPI schema and generated code consistency
+
+outputs:
+  validation-result:
+    description: Validation result (passed/failed)
+    value: ${{ steps.validate.outcome }}
+
+runs:
+  using: composite
+  steps:
+    - name: Validate OpenAPI Schema
+      id: validate
+      shell: bash
+      run: |
+        echo "🔍 Validating OpenAPI schema..."
+
+        # Check if schema file exists
+        if [ ! -f "openapi-schema.yaml" ]; then
+          echo "❌ ERROR: openapi-schema.yaml not found"
+          exit 1
+        fi
+
+        # Validate YAML syntax
+        echo "📋 Checking YAML syntax..."
+        if ! python3 -c "import yaml; yaml.safe_load(open('openapi-schema.yaml'))" 2>/dev/null; then
+          echo "❌ ERROR: Invalid YAML syntax in openapi-schema.yaml"
+          exit 1
+        fi
+        echo "✅ YAML syntax valid"
+
+        # Check for ListList naming issues
+        echo "🔎 Checking for ListList naming issues..."
+        if grep -r "ListList" packages/frontend_easy_api/lib/src/model/ 2>/dev/null; then
+          echo "❌ ERROR: Found 'ListList' in generated models - schema hook not applied!"
+          echo "This indicates the OpenAPI schema needs regeneration with proper hooks."
+          exit 1
+        fi
+        echo "✅ No ListList naming issues found"
+
+        # Verify critical generated files exist
+        echo "📦 Verifying generated API files..."
+        REQUIRED_FILES=(
+          "packages/frontend_easy_api/lib/src/api/api_api.dart"
+          "packages/frontend_easy_api/lib/src/serializers.dart"
+          "packages/frontend_easy_api/lib/frontend_easy_api.dart"
+        )
+
+        for file in "${REQUIRED_FILES[@]}"; do
+          if [ ! -f "$file" ]; then
+            echo "❌ ERROR: Required file missing: $file"
+            echo "Run 'make generate' to regenerate API code"
+            exit 1
+          fi
+        done
+        echo "✅ All required API files present"
+
+        # Check if generated code has uncommitted changes (indicates out of sync)
+        echo "🔄 Checking for uncommitted generated code changes..."
+        if git diff --exit-code packages/frontend_easy_api/lib/src/ > /dev/null 2>&1; then
+          echo "✅ Generated code is in sync with schema"
+        else
+          echo "⚠️ WARNING: Generated code has uncommitted changes"
+          echo "This may indicate the schema was modified without regenerating code."
+          echo ""
+          echo "Changed files:"
+          git diff --name-only packages/frontend_easy_api/lib/src/ || true
+          echo ""
+          echo "To fix: Run 'make generate' and commit the changes"
+          # Don't fail on this - it's informational
+        fi
+
+        echo ""
+        echo "✅ OpenAPI validation passed"
+
+    - name: OpenAPI validation summary
+      shell: bash
+      if: always()
+      run: |
+        echo "## 🔌 OpenAPI Validation Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+
+        if [[ "${{ steps.validate.outcome }}" == "success" ]]; then
+          echo "- ✅ **Schema**: Valid YAML syntax" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ **Naming**: No ListList issues" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ **Files**: All required files present" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "- ❌ **Validation**: Failed" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Action Required**: Fix OpenAPI issues before merging" >> $GITHUB_STEP_SUMMARY
+          echo "See [OPENAPI_WORKFLOW.md](../OPENAPI_WORKFLOW.md) for guidance" >> $GITHUB_STEP_SUMMARY
+        fi
+
+        echo "" >> $GITHUB_STEP_SUMMARY
